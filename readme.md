@@ -32,8 +32,14 @@
 
 <img src="./md_assets/readme/image-20240113140736488.png" alt="image-20240113140736488" style="zoom:50%;" />
 
-
-
 <img src="./md_assets/readme/image-20240113121213939.png" alt="image-20240113121213939" style="zoom:50%;" />
 
 软件还在开发中，尚不稳定，暂时闭源，欢迎提出issues和pr!
+
+软件原理:见[ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)以及[config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
+
+## 版本日志
+
+v0.1.a 加入了蓝牙写频和便捷的信道更改
+
+TU 73
