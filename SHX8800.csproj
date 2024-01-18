@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+        <AssemblyName>SHX8800</AssemblyName>
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+        <OutputType>WinExe</OutputType>
+        <UseWindowsForms>True</UseWindowsForms>
+        <TargetFramework>net4.6.1</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup>
+        <LangVersion>11.0</LangVersion>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ApplicationIcon>app.ico</ApplicationIcon>
+        <RootNamespace/>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="DevComponents.DotNetBar2">
+            <HintPath>.\DevComponents.DotNetBar2.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Windows.Forms"/>
+        <Reference Include="Windows">
+            <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="SQ5R.View\FormConnBluetooth.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="SQ5R.View\FormConnStat.cs">
+            <SubType>Form</SubType>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="InTheHand.BluetoothLE" Version="4.0.35"/>
+    </ItemGroup>
+</Project>

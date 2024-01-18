@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+        <AssemblyName>SHX8800</AssemblyName>
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+        <OutputType>WinExe</OutputType>
+        <UseWindowsForms>True</UseWindowsForms>
+        <TargetFramework>net20</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup>
+        <LangVersion>11.0</LangVersion>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ApplicationIcon>app.ico</ApplicationIcon>
+        <RootNamespace/>
+    </PropertyGroup>
+    <ItemGroup/>
+    <ItemGroup>
+        <Reference Include="DevComponents.DotNetBar2">
+            <HintPath>.\DevComponents.DotNetBar2.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Windows.Forms"/>
+    </ItemGroup>
+</Project>
