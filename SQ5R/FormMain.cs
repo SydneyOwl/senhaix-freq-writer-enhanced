@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
+using BF_H802_Import_Picture_tools;
 using SQ5R.Properties;
 using SQ5R.View;
 using WF_FRAM_KDH.View;
@@ -49,6 +50,14 @@ public class FormMain : Form
     private ToolStripMenuItem mS_File;
 
     private ToolStripMenuItem mS_Help;
+
+    // plugins
+
+    private ToolStripMenuItem mS_Tools;
+
+    private ToolStripMenuItem mS_BootImage;
+
+    // EOP
 
     private ToolStripMenuItem mS_Program;
 
@@ -274,13 +283,13 @@ public class FormMain : Form
             if (bleCore.CurrentDevice == null)
             {
 #endif
-            if (string.IsNullOrEmpty(portName))
-            {
-                MessageBox.Show("请选择端口号！");
-                return;
-            }
+                if (string.IsNullOrEmpty(portName))
+                {
+                    MessageBox.Show("请选择端口号！");
+                    return;
+                }
 
-            instance.portName = portName;
+                instance.portName = portName;
 #if NET461
             }
 #endif
@@ -326,13 +335,13 @@ public class FormMain : Form
             if (bleCore.CurrentDevice == null)
             {
 #endif
-            if (string.IsNullOrEmpty(portName))
-            {
-                MessageBox.Show("请选择端口号！");
-                return;
-            }
+                if (string.IsNullOrEmpty(portName))
+                {
+                    MessageBox.Show("请选择端口号！");
+                    return;
+                }
 
-            instance.portName = portName;
+                instance.portName = portName;
 #if NET461
             }
 #endif
@@ -462,6 +471,15 @@ public class FormMain : Form
         if (instanceFormCHImfo.dGV.CurrentCell != null) instanceFormCHImfo.dGV.CurrentCell = null;
     }
 
+    private void mS_BootImage_Click(object sender, EventArgs e)
+    {
+        var isBLE = false;
+#if NET461
+        isBLE = bleCore.CurrentDevice != null;
+#endif
+        new FormIPT(isBLE ? "蓝牙" : portName).ShowDialog();
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (disposing && components != null) components.Dispose();
@@ -496,6 +514,15 @@ public class FormMain : Form
         mSSL_Chinese = new ToolStripMenuItem();
         mSSL_English = new ToolStripMenuItem();
         mS_Help = new ToolStripMenuItem();
+
+        mS_Tools = new ToolStripMenuItem();
+        mS_Tools.Text = "工具(T)";
+        mS_BootImage = new ToolStripMenuItem();
+        mS_BootImage.Text = "修改开机画面(实验性)";
+
+        mS_BootImage.Click += mS_BootImage_Click;
+        mS_Tools.DropDownItems.AddRange(new ToolStripItem[] { mS_BootImage });
+
         mSH_About = new ToolStripMenuItem();
         toolStrip = new ToolStrip();
         tS_New = new ToolStripButton();
@@ -526,8 +553,8 @@ public class FormMain : Form
         panel3.SuspendLayout();
         SuspendLayout();
         menuStrip.ImageScalingSize = new Size(20, 20);
-        menuStrip.Items.AddRange(new ToolStripItem[5]
-            { mS_File, mS_Edit, mS_Program, mS_Setting, mS_Help });
+        menuStrip.Items.AddRange(new ToolStripItem[]
+            { mS_File, mS_Edit, mS_Program, mS_Setting, mS_Tools, mS_Help });
         resources.ApplyResources(menuStrip, "menuStrip");
         menuStrip.Name = "menuStrip";
         menuStrip.Click += menuStrip_Click;

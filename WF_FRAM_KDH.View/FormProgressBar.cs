@@ -66,13 +66,13 @@ public class FormProgressBar : Form
         sP.StopBits = StopBits.One;
         sP.WriteBufferSize = 1024;
         sP.ReadBufferSize = 1024;
-        sP.Open();
+        sP.OpenSerial();
     }
 
     private void CloseComPort(MySerialPort sP)
     {
 #if NET461
-        if (BleCore.BleInstance().CurrentDevice != null) return;
+        if (BleCore.BleInstance().CurrentDevice != null) BleCore.BleInstance().Dispose();
 #endif
         if (sP.IsOpen) sP.CloseSerial();
     }

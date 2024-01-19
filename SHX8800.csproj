@@ -34,4 +34,7 @@
     <ItemGroup>
         <PackageReference Include="InTheHand.BluetoothLE" Version="4.0.35"/>
     </ItemGroup>
+    <ItemGroup>
+        <Folder Include="plugins\"/>
+    </ItemGroup>
 </Project>

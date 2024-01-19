@@ -272,7 +272,7 @@ public class FormOther : Form
         sP.RtsEnable = true;
         try
         {
-            sP.Open();
+            sP.OpenSerial();
         }
         catch
         {
