@@ -32,7 +32,8 @@ public partial class FormConnBluetooth : Form
     {
         foreach (var allNetworkInterface in NetworkInterface.GetAllNetworkInterfaces())
             if (allNetworkInterface.Description.Contains("Bluetooth") ||
-                allNetworkInterface.Description.Contains("bluetooth")) //)
+                allNetworkInterface.Description.Contains("bluetooth") ||
+                allNetworkInterface.Description.Contains("蓝牙")) //)
                 return true;
 
         return false;
