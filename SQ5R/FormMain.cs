@@ -283,13 +283,13 @@ public class FormMain : Form
             if (bleCore.CurrentDevice == null)
             {
 #endif
-                if (string.IsNullOrEmpty(portName))
-                {
-                    MessageBox.Show("请选择端口号！");
-                    return;
-                }
+            if (string.IsNullOrEmpty(portName))
+            {
+                MessageBox.Show("请选择端口号！");
+                return;
+            }
 
-                instance.portName = portName;
+            instance.portName = portName;
 #if NET461
             }
 #endif
@@ -335,13 +335,13 @@ public class FormMain : Form
             if (bleCore.CurrentDevice == null)
             {
 #endif
-                if (string.IsNullOrEmpty(portName))
-                {
-                    MessageBox.Show("请选择端口号！");
-                    return;
-                }
+            if (string.IsNullOrEmpty(portName))
+            {
+                MessageBox.Show("请选择端口号！");
+                return;
+            }
 
-                instance.portName = portName;
+            instance.portName = portName;
 #if NET461
             }
 #endif
@@ -477,6 +477,10 @@ public class FormMain : Form
 #if NET461
         isBLE = bleCore.CurrentDevice != null;
 #endif
+        if (isBLE)
+        {
+            MessageBox.Show("注意，此为实验性功能，有可能会造成写入图片不完整，遇到此情况使用写频线重写即可");
+        }
         new FormIPT(isBLE ? "蓝牙" : portName).ShowDialog();
     }
 

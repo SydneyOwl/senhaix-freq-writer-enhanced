@@ -72,7 +72,7 @@ public class FormProgressBar : Form
     private void CloseComPort(MySerialPort sP)
     {
 #if NET461
-        if (BleCore.BleInstance().CurrentDevice != null) BleCore.BleInstance().Dispose();
+        if (BleCore.BleInstance().CurrentDevice != null) return;
 #endif
         if (sP.IsOpen) sP.CloseSerial();
     }
