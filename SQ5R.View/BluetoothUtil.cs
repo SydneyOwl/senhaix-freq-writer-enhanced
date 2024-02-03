@@ -51,6 +51,8 @@ public class BleCore
 
     private DataGridViewX dgvx;
 
+    private ToolStripMenuItem meg;
+
     private CheckBox disableSSIDFilter;
 
     private CheckBox disableWeakSignalFilter;
@@ -189,6 +191,10 @@ public class BleCore
         DeviceMacList = new List<string>();
         DeviceList = new List<BluetoothLEDevice>();
         Console.WriteLine("主动断开连接");
+        if (meg != null)
+        {
+            meg.Text = "蓝牙（未连接）";
+        }
     }
 
     /// <summary>
@@ -376,7 +382,8 @@ public class BleCore
             if (!asyncLock)
             {
                 asyncLock = true;
-                MessageBox.Show("设备已断开！");
+                MessageBox.Show("设备已断开！另外，受限于平台，如果需要继续写频，您可能需要重启软件重新连接手台...");
+                meg.Text = "蓝牙（未连接）";
                 Dispose();
             }
         }
@@ -386,6 +393,7 @@ public class BleCore
             {
                 asyncLock = true;
                 Console.WriteLine("设备已连接");
+                meg.Text = "蓝牙（已连接）";
             }
         }
     }
@@ -478,10 +486,12 @@ public class BleCore
             Console.WriteLine("fail");
             connStep = BTConsts.STATUS_CONN_FAILED; //);
             Dispose();
+            meg.Text = "蓝牙（未连接）";
             return;
         }
 
         Console.WriteLine("success");
+        meg.Text = "蓝牙（已连接）";
         connStep = BTConsts.STATUS_CONN_SUCCESS;
     }
 
@@ -504,6 +514,10 @@ public class BleCore
         characteristics.Add(gatt);
     }
 
+    public void registerLabel(ToolStripMenuItem meg)
+    {
+        this.meg = meg;
+    }
 
     public void ConnectDevice(BluetoothLEDevice Device)
     {

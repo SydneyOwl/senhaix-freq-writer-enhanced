@@ -618,7 +618,8 @@ public class FormMain : Form
         mSS_Bluetooth.Text = "（该版本无蓝牙）";
 #if NET461
         mSS_Bluetooth.Click += mSS_bt_Click;
-        mSS_Bluetooth.Text = "蓝牙";
+        mSS_Bluetooth.Text = "蓝牙（未连接）";
+        bleCore.registerLabel(mSS_Bluetooth);
 #endif
         mS_Setting.DropDownItems.AddRange(new ToolStripItem[2]
             { mSS_Port, mSS_Bluetooth });

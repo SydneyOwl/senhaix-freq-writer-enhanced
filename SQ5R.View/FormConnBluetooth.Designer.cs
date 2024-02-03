@@ -55,7 +55,7 @@ partial class FormConnBluetooth
         this.label1.Name = "label1";
         this.label1.Size = new System.Drawing.Size(315, 24);
         this.label1.TabIndex = 0;
-        this.label1.Text = "扫描结束后 双击目标设备进行连接";
+        this.label1.Text = "扫描结束后 双击目标设备或点击连接按钮进行连接";
         // 
         // dataGridViewX1
         // 
