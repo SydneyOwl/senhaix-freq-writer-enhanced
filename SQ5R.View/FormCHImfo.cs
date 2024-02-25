@@ -463,6 +463,7 @@ public class FormCHImfo : Form
 
     private void updateFormByChanData()
     {
+        int firstDisplayedRow = dGV.FirstDisplayedScrollingRowIndex;
         dGV.Rows.Clear();
         for (var i = 0; i < 128; i++)
         {
@@ -473,6 +474,8 @@ public class FormCHImfo : Form
                 dGV.Rows[i].Cells[2].ReadOnly = false;
             }
         }
+
+        dGV.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
     }
 
     private void updateChannelIndex()
