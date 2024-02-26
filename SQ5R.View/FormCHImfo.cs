@@ -152,6 +152,7 @@ public class FormCHImfo : Form
             "ON", "1", "", "OFF"
         };
         // recordStep();
+        updateFormByChanData();
     }
 
     // now support drag
