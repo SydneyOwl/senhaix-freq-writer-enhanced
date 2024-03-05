@@ -481,6 +481,12 @@ public class FormMain : Form
         {
             MessageBox.Show("注意，此为实验性功能，有可能会造成写入图片不完整，遇到此情况使用写频线重写即可");
         }
+        
+        if (string.IsNullOrEmpty(portName))
+        {
+            MessageBox.Show("请先选择端口！");
+            return;
+        }
         new FormIPT(isBLE ? "蓝牙" : portName).ShowDialog();
     }
 

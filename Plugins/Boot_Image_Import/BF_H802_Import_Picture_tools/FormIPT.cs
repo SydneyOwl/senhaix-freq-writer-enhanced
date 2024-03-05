@@ -41,12 +41,6 @@ public class FormIPT : Form
     public FormIPT(string port)
     {
         portName = port;
-        if (string.IsNullOrEmpty(port))
-        {
-            MessageBox.Show("请先选择端口！");
-            return;
-        }
-
         InitializeComponent();
     }
 
