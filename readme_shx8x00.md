@@ -4,9 +4,9 @@
 
 该软件在原官方写频软件的基础上简化了对信道的操作，同时增加了蓝牙写频功能。只要打开手台蓝牙功能，不需写频线即可写频。
 
-<img src="C:\Users\SydneyMrCat\Desktop\combined\md_assets\readme_shx8x00\image-20240118150904988.png" alt="image-20240118150904988" style="zoom: 67%;" />
+<img src="./md_assets/readme_shx8x00/image-20240118150904988.png" alt="image-20240118150904988" style="zoom: 67%;" />
 
-<img src="C:\Users\SydneyMrCat\Desktop\combined\md_assets\readme_shx8x00\image-20240113121213939.png" alt="image-20240113121213939" style="zoom:50%;" />
+<img src="./md_assets/readme_shx8x00/image-20240113121213939.png" alt="image-20240113121213939" style="zoom:50%;" />
 
 ## 功能
 
