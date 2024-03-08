@@ -209,7 +209,9 @@ public class FormChannelList : Form
     private void ctx_removeCurrent_Click(object sender, EventArgs e)
     {
         var current_row = dGV_ChannelList.CurrentCell.RowIndex;
-        for (var i = current_row; i < 31; i++) channelList[curPage][i] = channelList[curPage][i + 1];
+        dGV_ChannelList.CurrentCell.ReadOnly = true;
+        for (var i = current_row ; i < 31; i++)
+            channelList[curPage][i] = (Channel)channelList[curPage][i + 1].Clone();
         channelList[curPage][31] = new Channel();
         updateCurrentPageChannelIndex(curPage);
         UpdateDataGridView(curPage);
@@ -1030,7 +1032,7 @@ public class FormChannelList : Form
         Name = "FormChannelList";
         StartPosition = FormStartPosition.CenterParent;
         Text = "信道列表";
-        
+
         //
         dGV_ChannelList.AllowDrop = true;
         dGV_ChannelList.MouseDown += dataGridView_MouseDown;
