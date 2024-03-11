@@ -4,7 +4,8 @@
         <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
         <OutputType>WinExe</OutputType>
         <UseWindowsForms>True</UseWindowsForms>
-        <TargetFramework>net4.6.1</TargetFramework>
+        <TargetFramework>net462</TargetFramework>
+        <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     </PropertyGroup>
     <PropertyGroup>
         <LangVersion>11.0</LangVersion>
@@ -20,7 +21,7 @@
         </Reference>
         <Reference Include="System.Windows.Forms"/>
         <Reference Include="Windows">
-            <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
+            <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -32,9 +33,9 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="InTheHand.BluetoothLE" Version="4.0.35"/>
+        <Folder Include="plugins\"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="plugins\"/>
+      <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
     </ItemGroup>
 </Project>
