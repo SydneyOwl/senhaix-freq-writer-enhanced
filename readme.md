@@ -4,6 +4,10 @@
 [![downloads@latest](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/latest/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases/latest?style=for-the-badge)
 ![](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
 
+![](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/gt12.yml/badge.svg)
+![](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00_nobt.yml/badge.svg)
+![](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00.yml/badge.svg)
+
 ## 简介
 
 森海克斯8800/8600：[森海克斯8800/8600写频软件简介](./readme_shx8x00.md)
