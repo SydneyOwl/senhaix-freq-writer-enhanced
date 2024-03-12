@@ -16,7 +16,7 @@ namespace SQ5R;
 
 public class FormMain : Form
 {
-#if NET461
+#if NET462
     private BleCore bleCore = BleCore.BleInstance();
 #endif
 
@@ -269,7 +269,7 @@ public class FormMain : Form
     private void mSP_Read_Click(object sender, EventArgs e)
     {
         var breaker = false;
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null) breaker = true;
 #endif
         if (!string.IsNullOrEmpty(portName) || breaker)
@@ -279,7 +279,7 @@ public class FormMain : Form
                 instance.Text = "读频";
             else
                 instance.Text = "Read";
-#if NET461
+#if NET462
             if (bleCore.CurrentDevice == null)
             {
 #endif
@@ -290,7 +290,7 @@ public class FormMain : Form
             }
 
             instance.portName = portName;
-#if NET461
+#if NET462
             }
 #endif
             if (DialogResult.OK != instance.ShowDialog()) return;
@@ -320,7 +320,7 @@ public class FormMain : Form
     private void mSP_Write_Click(object sender, EventArgs e)
     {
         var breaker = false;
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null) breaker = true;
 #endif
         if (!string.IsNullOrEmpty(portName) || breaker)
@@ -331,7 +331,7 @@ public class FormMain : Form
             else
                 instance.Text = "Write";
 
-#if NET461
+#if NET462
             if (bleCore.CurrentDevice == null)
             {
 #endif
@@ -342,7 +342,7 @@ public class FormMain : Form
             }
 
             instance.portName = portName;
-#if NET461
+#if NET462
             }
 #endif
             instance.ShowDialog();
@@ -367,7 +367,7 @@ public class FormMain : Form
             label_staPort.Text = portName;
         }
     }
-#if NET461
+#if NET462
     private void mSS_bt_Click(object sender, EventArgs e)
     {
         var fb = new FormConnBluetooth();
@@ -474,7 +474,7 @@ public class FormMain : Form
     private void mS_BootImage_Click(object sender, EventArgs e)
     {
         var isBLE = false;
-#if NET461
+#if NET462
         isBLE = bleCore.CurrentDevice != null;
 #endif
         if (isBLE)
@@ -622,7 +622,7 @@ public class FormMain : Form
         resources.ApplyResources(mSS_Port, "mSS_Port");
         mSS_Port.Click += mSS_Port_Click;
         mSS_Bluetooth.Text = "（该版本无蓝牙）";
-#if NET461
+#if NET462
         mSS_Bluetooth.Click += mSS_bt_Click;
         mSS_Bluetooth.Text = "蓝牙（未连接）";
         bleCore.registerLabel(mSS_Bluetooth);

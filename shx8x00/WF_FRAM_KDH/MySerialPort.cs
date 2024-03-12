@@ -1,5 +1,5 @@
 using System.IO.Ports;
-#if NET461
+#if NET462
 using System;
 using System.Linq;
 using SQ5R.View;
@@ -9,13 +9,13 @@ namespace WF_FRAM_KDH;
 
 internal class MySerialPort : SerialPort
 {
-#if NET461
+#if NET462
     private readonly BleCore bleCore = BleCore.BleInstance();
 #endif
 
     public void OpenSerial()
     {
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null) return;
 #endif
         Open();
@@ -26,7 +26,7 @@ internal class MySerialPort : SerialPort
     {
         get
         {
-#if NET461
+#if NET462
             if (bleCore.CurrentDevice != null) return bleCore.rxData.Count;
 #endif
             return BytesToRead;
@@ -35,7 +35,7 @@ internal class MySerialPort : SerialPort
 
     public void CloseSerial()
     {
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null)
         {
             return;
@@ -47,7 +47,7 @@ internal class MySerialPort : SerialPort
 
     public void WriteByte(byte dat)
     {
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null)
         {
             bleCore.Write(new byte[1] { dat });
@@ -59,7 +59,7 @@ internal class MySerialPort : SerialPort
 
     public void WriteByte(byte[] dat, int offset, int count)
     {
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null)
         {
             var tobeWrite = dat.Skip(offset).Take(count).ToArray();
@@ -72,7 +72,7 @@ internal class MySerialPort : SerialPort
 
     public void ReadByte(byte[] buffer, int offset, int count)
     {
-#if NET461
+#if NET462
         if (bleCore.CurrentDevice != null)
         {
             var tmp = new byte[count];

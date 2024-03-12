@@ -33,7 +33,7 @@ public class FormAbout : Form
             label_MsgLine1.Text = "SHX8800 编程软件(修改版)";
             label_MsgLine2.Text = "版本 v0.1";
             label_MsgLine3.Text = "无蓝牙支持";
-#if NET461
+#if NET462
             label_MsgLine3.Text = "蓝牙支持";
 #endif
             label_MsgLine4.Text = "de SydneyOwl tu 73";
@@ -43,7 +43,7 @@ public class FormAbout : Form
             label_MsgLine1.Text = "SHX8800 Program Software";
             label_MsgLine2.Text = "Version v2.4";
             label_MsgLine3.Text = "No Bluetooth plugin";
-#if NET461
+#if NET462
             label_MsgLine3.Text = "Bluetooth plugin";
 #endif
             label_MsgLine4.Text = "de SydneyOwl tu 73";

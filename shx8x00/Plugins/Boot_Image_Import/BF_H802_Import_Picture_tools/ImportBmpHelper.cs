@@ -68,7 +68,7 @@ public class ImportBmpHelper
     public int LinkDevice(string portName)
     {
         port = new MySerialPort();
-#if NET461
+#if NET462
         if (BleCore.BleInstance().CurrentDevice == null)
         {
 #endif
@@ -81,7 +81,7 @@ public class ImportBmpHelper
             port.WriteBufferSize = 10240;
             port.DtrEnable = true;
             port.RtsEnable = true;
-#if NET461
+#if NET462
         }
 #endif
         try

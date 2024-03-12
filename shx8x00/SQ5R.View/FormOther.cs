@@ -258,7 +258,7 @@ public class FormOther : Form
 
     private void ConfigComPort(MySerialPort sP)
     {
-#if NET461
+#if NET462
         if (BleCore.BleInstance().CurrentDevice != null) return;
 #endif
         sP.PortName = ((FormMain)MdiParent).portName;

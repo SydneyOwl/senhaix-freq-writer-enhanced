@@ -1,4 +1,4 @@
-﻿#if NET461
+﻿#if NET462
 using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;

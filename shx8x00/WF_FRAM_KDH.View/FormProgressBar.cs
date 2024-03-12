@@ -56,7 +56,7 @@ public class FormProgressBar : Form
 
     private void ConfigComPort(MySerialPort sP)
     {
-#if NET461
+#if NET462
         if (BleCore.BleInstance().CurrentDevice != null) return;
 #endif
         sP.PortName = portName;
@@ -71,7 +71,7 @@ public class FormProgressBar : Form
 
     private void CloseComPort(MySerialPort sP)
     {
-#if NET461
+#if NET462
         if (BleCore.BleInstance().CurrentDevice != null) return;
 #endif
         if (sP.IsOpen) sP.CloseSerial();
