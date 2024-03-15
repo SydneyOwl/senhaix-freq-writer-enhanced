@@ -16,15 +16,15 @@
 
 ## 编译指引
 
-如果需要自行编译，只需要分别对`SHX8800`和`SHX8800_nobt`进行编译即可。
+如果需要自行编译，只需要分别对 `SHX8800` 和 `SHX8800_nobt` 进行编译即可。
 
-`SHX8800`编译环境要求：.net4.6.1，win10+
+`SHX8800` 编译环境要求：.net4.6.2，win10+
 
-`SHX8800_nobt`编译要求：.net2.0
+`SHX8800_nobt` 编译要求：.net2.0
 
-`gt12编译要求`： .net4.6.1, win8+
+`gt12` 编译要求：.net4.6.2, win8+
 
-## 其他...
+## 其他
 
 软件还在开发中，尚不稳定，欢迎提出issues和pr!
 
@@ -51,7 +51,7 @@ v0.1.4 优化UI，加入GT12写频软件
 
 ## 许可证
 
-```
+```markdown
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
@@ -77,4 +77,3 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <https://unlicense.org>
 ```
-
