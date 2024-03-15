@@ -2,11 +2,11 @@
 
 [![downloads](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases?style=for-the-badge)
 [![downloads@latest](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/latest/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases/latest?style=for-the-badge)
-![](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
+![version](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
 
-![](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/gt12.yml/badge.svg)
-![](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00_nobt.yml/badge.svg)
-![](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00.yml/badge.svg)
+![gt12](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/gt12.yml/badge.svg)
+![shx8x00_nobt](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00_nobt.yml/badge.svg)
+![shx8x00](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00.yml/badge.svg)
 
 ## 简介
 
@@ -18,17 +18,17 @@
 
 如果需要自行编译，只需要分别对 `SHX8800` 和 `SHX8800_nobt` 进行编译即可。
 
-`SHX8800` 编译环境要求：.net4.6.2，win10+
-
-`SHX8800_nobt` 编译要求：.net2.0
-
-`gt12` 编译要求：.net4.6.2, win8+
+|型号|编译要求|
+|---|---|
+|`SHX8800`|.net4.6.2，win10+|
+|`SHX8800_nobt`|.net2.0|
+|`gt12`|.net4.6.2, win8+|
 
 ## 其他
 
-软件还在开发中，尚不稳定，欢迎提出issues和pr!
+软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
-shx8x00软件原理:见[ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)以及[config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
+shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector) 以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
 
 ## 免责声明
 
@@ -37,17 +37,17 @@ shx8x00软件原理:见[ble-connector](https://github.com/SydneyOwl/shx8800-ble-
 
 ## 版本日志
 
-v0.1.a 加入了蓝牙写频和便捷的信道更改
+`v0.1.a` 加入了蓝牙写频和便捷的信道更改
 
-v0.1.0 修复了即使蓝牙已连接也可能提示串口未连接的问题；修正了删除或清空信道时单元格未清空的问题。
+`v0.1.0` 修复了即使蓝牙已连接也可能提示串口未连接的问题；修正了删除或清空信道时单元格未清空的问题。
 
-v0.1.1 修复了DataGridViewX报错问题以及集成（实验性）开机画面修改
+`v0.1.1` 修复了 DataGridViewX 报错问题以及集成（实验性）开机画面修改
 
-v0.1.2 增加操作指引以及蓝牙连接状态指示;
+`v0.1.2` 增加操作指引以及蓝牙连接状态指示;
 
-v0.1.3 修复了信道操作后，会自动跳回 0 信道，还得拖动滚动条下去继续操作的问题
+`v0.1.3` 修复了信道操作后，会自动跳回 0 信道，还得拖动滚动条下去继续操作的问题
 
-v0.1.4 优化UI，加入GT12写频软件
+`v0.1.4` 优化 UI，加入 GT12写频软件
 
 ## 许可证
 
