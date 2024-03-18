@@ -49,6 +49,8 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.1.4` 优化 UI，加入 GT12写频软件。
 
+`v0.2.0` 修复蓝牙写频结束设备断开后，重新连接设备时搜索不到设备的问题/升级dotnet版本到4.6.2 LTS/更新所用依赖版本
+
 ## 许可证
 
 ```markdown
