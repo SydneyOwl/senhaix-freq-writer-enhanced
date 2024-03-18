@@ -83,9 +83,9 @@ public partial class FormConnBluetooth : Form
             bleCore.ConnectDevice(targetDev);
             int timeCount = 0;
             // 连接中... 成功！ 失败！
-            while (bleCore.connStep == BTConsts.STATUS_READY && timeCount++<1000)
+            while (bleCore.connStep == BTConsts.STATUS_READY && timeCount++<200)
             {
-                Thread.Sleep(10);
+                Thread.Sleep(50);
             }
 
             if (bleCore.connStep == BTConsts.STATUS_CONN_FAILED)

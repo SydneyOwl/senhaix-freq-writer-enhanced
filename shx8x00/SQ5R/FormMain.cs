@@ -128,7 +128,7 @@ public class FormMain : Form
     private ToolStripButton tS_Save;
 
     private ToolStripButton tS_Write;
-
+    
     public FormMain()
     {
         InitializeComponent();
@@ -473,7 +473,11 @@ public class FormMain : Form
 
     private void timer1_Tick(object sender, EventArgs e)
     {
+#if NET462
+         label_Date.Text = BleCore.BleInstance().CurrentDevice==null?"蓝牙未连接":"蓝牙已连接";
+#else
         label_Date.Text = DateTime.Now.ToString();
+#endif
     }
 
     private void menuStrip_Click(object sender, EventArgs e)
@@ -634,7 +638,7 @@ public class FormMain : Form
         mSS_Bluetooth.Text = "（该版本无蓝牙）";
 #if NET462
         mSS_Bluetooth.Click += mSS_bt_Click;
-        mSS_Bluetooth.Text = "蓝牙（未连接）";
+        mSS_Bluetooth.Text = "蓝牙";
         bleCore.registerLabel(mSS_Bluetooth);
 #endif
         mS_Setting.DropDownItems.AddRange(new ToolStripItem[2]

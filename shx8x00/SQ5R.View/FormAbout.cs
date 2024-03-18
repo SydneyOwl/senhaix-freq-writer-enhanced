@@ -31,7 +31,7 @@ public class FormAbout : Form
         if (language == "中文")
         {
             label_MsgLine1.Text = "SHX8800 编程软件(修改版)";
-            label_MsgLine2.Text = "版本 v0.1";
+            label_MsgLine2.Text = "版本 v0.2";
             label_MsgLine3.Text = "无蓝牙支持";
 #if NET462
             label_MsgLine3.Text = "蓝牙支持";
