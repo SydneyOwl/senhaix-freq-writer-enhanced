@@ -30,16 +30,16 @@ public class FormAbout : Form
         if (lang == "中文")
         {
             label_MsgLine1.Text = "GT12 编程软件修改版";
-            label_MsgLine2.Text = "版本 v0.1";
-            label_MsgLine3.Text = "73 de SydneyOwl";
+            label_MsgLine2.Text = "版本 v0.2";
+            label_MsgLine3.Text = "73 de sydneyowl";
             label_MsgLine4.Text = "";
         }
         else
         {
-            label_MsgLine1.Text = "GT12 Program Software";
-            label_MsgLine2.Text = "Version v1.0.9";
-            label_MsgLine3.Text = "Date: 1/16/2023    Copyright(C) 2023";
-            label_MsgLine4.Text = "GT12 Corporation all rights reserved";
+            label_MsgLine1.Text = "GT12 Program Software Enhanced";
+            label_MsgLine2.Text = "Version v0.2";
+            label_MsgLine3.Text = "73 de sydneyowl";
+            label_MsgLine4.Text = "";
         }
     }
 
