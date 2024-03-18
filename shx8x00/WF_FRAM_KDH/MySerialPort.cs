@@ -10,12 +10,13 @@ namespace WF_FRAM_KDH;
 internal class MySerialPort : SerialPort
 {
 #if NET462
-    private readonly BleCore bleCore = BleCore.BleInstance();
+    private BleCore bleCore = BleCore.BleInstance();
 #endif
 
     public void OpenSerial()
     {
 #if NET462
+        bleCore = BleCore.BleInstance();
         if (bleCore.CurrentDevice != null) return;
 #endif
         Open();

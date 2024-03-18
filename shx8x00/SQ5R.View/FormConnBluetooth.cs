@@ -81,8 +81,12 @@ public partial class FormConnBluetooth : Form
             }
 
             bleCore.ConnectDevice(targetDev);
+            int timeCount = 0;
             // 连接中... 成功！ 失败！
-            while (bleCore.connStep == BTConsts.STATUS_READY) Thread.Sleep(10);
+            while (bleCore.connStep == BTConsts.STATUS_READY && timeCount++<1000)
+            {
+                Thread.Sleep(10);
+            }
 
             if (bleCore.connStep == BTConsts.STATUS_CONN_FAILED)
             {
@@ -127,8 +131,8 @@ public partial class FormConnBluetooth : Form
 
         dataGridViewX1.Rows.Clear();
         ButtonConnectDevice.Enabled = false;
+        BleCore.ForceNewBleInstance();
         bleCore = BleCore.BleInstance();
-        bleCore.Dispose();
         bleCore.setView(dataGridViewX1);
         bleCore.setCheckbox(checkBoxDisableSSIDFilter, checkboxDisableWeakSignal);
         checkBoxDisableSSIDFilter.Enabled = false;

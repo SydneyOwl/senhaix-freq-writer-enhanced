@@ -270,6 +270,7 @@ public class FormMain : Form
     {
         var breaker = false;
 #if NET462
+        bleCore = BleCore.BleInstance();
         if (bleCore.CurrentDevice != null) breaker = true;
 #endif
         if (!string.IsNullOrEmpty(portName) || breaker)
@@ -321,6 +322,7 @@ public class FormMain : Form
     {
         var breaker = false;
 #if NET462
+        bleCore = BleCore.BleInstance();
         if (bleCore.CurrentDevice != null) breaker = true;
 #endif
         if (!string.IsNullOrEmpty(portName) || breaker)
@@ -363,6 +365,13 @@ public class FormMain : Form
         formSerialPort.portName = portName;
         if (DialogResult.OK == formSerialPort.ShowDialog())
         {
+#if NET462
+            if (BleCore.BleInstance().CurrentDevice != null)
+            {
+                MessageBox.Show("您选择了串口写频，蓝牙已断开","注意");
+                BleCore.BleInstance().Dispose();
+            }
+#endif
             portName = formSerialPort.portName;
             label_staPort.Text = portName;
         }
@@ -371,7 +380,8 @@ public class FormMain : Form
     private void mSS_bt_Click(object sender, EventArgs e)
     {
         var fb = new FormConnBluetooth();
-        if (DialogResult.OK == fb.ShowDialog()) bleCore = fb.bleCore;
+        fb.ShowDialog();
+        // if (DialogResult.OK == fb.ShowDialog()) bleCore = fb.bleCore;
     }
 #endif
     private void mSSL_Chinese_Click(object sender, EventArgs e)
