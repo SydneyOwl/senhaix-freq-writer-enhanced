@@ -1,12 +1,12 @@
 # Shx8x00写频软件 简介
 
-**注意：该简介仅适用于森海克斯8600/8800; GT12见 [GT12写频简介](./readme_gt12.md)**
+**注意：该简介仅适用于森海克斯8600/8800; GT12见 [GT12写频简介](../GT12/readme.md)**
 
 该软件在原官方写频软件的基础上简化了对信道的操作，同时增加了蓝牙写频功能。只要打开手台蓝牙功能，不需写频线即可写频。
 
-<img src="./md_assets/readme_shx8x00/image-20240118150904988.png" alt="image-20240118150904988" style="zoom: 67%;" />
+<img src="./readme_shx8x00/image-20240118150904988.png" alt="image-20240118150904988" style="zoom: 67%;" />
 
-<img src="./md_assets/readme_shx8x00/image-20240113121213939.png" alt="image-20240113121213939" style="zoom:50%;" />
+<img src="./readme_shx8x00/image-20240113121213939.png" alt="image-20240113121213939" style="zoom:50%;" />
 
 ## 功能
 
@@ -42,4 +42,4 @@
 
 release中带有 `bluetooth` 字样的软件带有蓝牙写频功能，由于在 .net461基础上开发且使用了 BLE，**故该版本至少在 windows10及以上系统，且具备蓝牙硬件的电脑上方可使用**。
 
- 没有 `bluetooth` 字样的版本使用 .net20开发，不具备蓝牙功能，**在 windows7 及以上系统即可运行**。
+没有 `bluetooth` 字样的版本使用 .net20开发，不具备蓝牙功能，**在 windows7 及以上系统即可运行**。

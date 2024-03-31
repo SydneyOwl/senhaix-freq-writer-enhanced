@@ -1,8 +1,8 @@
 # GT12写频软件 简介
 
-**注意：该简介仅适用于森海克斯GT12; 8800/8600见 [8x00写频简介](./readme_shx8x00.md)**
+**注意：该简介仅适用于森海克斯GT12; 8800/8600见 [8x00写频简介](../shx8x00/readme.md)**
 
-<img src="./md_assets/readme_gt12/image-20240308153257117.png" alt="image-20240308153257117" style="zoom:50%;" />
+<img src="./readme_gt12/image-20240308153257117.png" alt="image-20240308153257117" style="zoom:50%;" />
 
 ## 功能
 
