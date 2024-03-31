@@ -37,6 +37,7 @@
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="InTheHand.BluetoothLE" Version="4.0.36" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
     </ItemGroup>
 </Project>

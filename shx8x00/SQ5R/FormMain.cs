@@ -57,6 +57,8 @@ public class FormMain : Form
 
     private ToolStripMenuItem mS_BootImage;
 
+    private ToolStripMenuItem mS_FMSat;
+
     // EOP
 
     private ToolStripMenuItem mS_Program;
@@ -485,6 +487,10 @@ public class FormMain : Form
         if (instanceFormCHImfo.dGV.CurrentCell != null) instanceFormCHImfo.dGV.CurrentCell = null;
     }
 
+    private void ms_FMSat_Click(object sender, EventArgs e)
+    {
+        new FromSatelliteHelper().ShowDialog();
+    }
     private void mS_BootImage_Click(object sender, EventArgs e)
     {
         var isBLE = false;
@@ -544,8 +550,13 @@ public class FormMain : Form
         mS_BootImage = new ToolStripMenuItem();
         mS_BootImage.Text = "修改开机画面(实验性)";
 
+        mS_FMSat = new ToolStripMenuItem();
+        mS_FMSat.Text = "打星助手";
+
         mS_BootImage.Click += mS_BootImage_Click;
+        mS_FMSat.Click += ms_FMSat_Click;
         mS_Tools.DropDownItems.AddRange(new ToolStripItem[] { mS_BootImage });
+        mS_Tools.DropDownItems.AddRange(new ToolStripItem[] { mS_FMSat });
 
         mSH_About = new ToolStripMenuItem();
         toolStrip = new ToolStrip();

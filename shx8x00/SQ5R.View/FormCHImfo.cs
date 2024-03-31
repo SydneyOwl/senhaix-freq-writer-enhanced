@@ -98,6 +98,8 @@ public class FormCHImfo : Form
 
     private short theMinFreqForVHF = 100;
 
+    private static FormCHImfo instance;
+
     // DSEOF
 
     public FormCHImfo(string[][] data)
@@ -239,7 +241,13 @@ public class FormCHImfo : Form
     {
         var formCHImfo = new FormCHImfo(data);
         formCHImfo.MdiParent = father;
+        instance = formCHImfo;
         return formCHImfo;
+    }
+
+    public static FormCHImfo getInstance()
+    {
+        return instance;
     }
 
     private void FormCHImfo_Load(object sender, EventArgs e)
@@ -338,6 +346,15 @@ public class FormCHImfo : Form
         recordStep();
     }
 
+    public int findLastEmpty()
+    {
+        // find last empty index
+        var lastEmp = 0;
+        for (var i = 0; i < 127; i++)
+            if (!isEmpty(i))
+                lastEmp = i;
+        return lastEmp;
+    }
     private void btn_insertEmptyChannel_Click(object sender, EventArgs e)
     {
         var current_row = dGV.CurrentCell.RowIndex;
@@ -347,17 +364,20 @@ public class FormCHImfo : Form
             return;
         }
 
-        // find last empty index
-        var lastEmp = 0;
-        for (var i = 0; i < 127; i++)
-            if (!isEmpty(i))
-                lastEmp = i;
+        int lastEmp = findLastEmpty();
 
         for (var i = lastEmp; i > current_row; i--) channelData[i + 1] = channelData[i];
 
         channelData[current_row + 1] = new string[14];
         updateChannelIndex();
 
+        updateFormByChanData();
+        recordStep();
+    }
+    public void insertChannelAfter(string[] chan, int index)
+    {
+        chan.CopyTo(channelData[index], 0);
+        updateChannelIndex();
         updateFormByChanData();
         recordStep();
     }
@@ -462,7 +482,7 @@ public class FormCHImfo : Form
         dataHistory.Push(owlcache);
     }
 
-    private void updateFormByChanData()
+    public void updateFormByChanData()
     {
         int firstDisplayedRow = dGV.FirstDisplayedScrollingRowIndex;
         dGV.Rows.Clear();
