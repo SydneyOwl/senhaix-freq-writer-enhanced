@@ -3,6 +3,7 @@
 **注意：该简介仅适用于森海克斯GT12; 8800/8600见 [8x00写频简介](../shx8x00/readme.md)**
 
 <img src="./readme_gt12/image-20240308153257117.png" alt="image-20240308153257117" style="zoom:50%;" />
+<img src="./readme_gt12/sat.png" alt="sat" style="zoom:75%;" />
 
 ## 功能
 

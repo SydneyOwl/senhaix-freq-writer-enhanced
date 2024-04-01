@@ -8,6 +8,8 @@
 
 <img src="./readme_shx8x00/image-20240113121213939.png" alt="image-20240113121213939" style="zoom:50%;" />
 
+<img src="./readme_shx8x00/SAT.png" alt="SAT" style="zoom:75%;" />
+
 ## 功能
 
 **使用视频：[软件使用示范](https://www.bilibili.com/video/BV1Et4y1R7ax/)**
