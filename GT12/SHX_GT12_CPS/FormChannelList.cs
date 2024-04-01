@@ -128,6 +128,17 @@ public class FormChannelList : Form
         "D754I"
     };
 
+    private static FormChannelList instance;
+
+    public static FormChannelList getInstance()
+    {
+        return instance;
+    }
+    public static FormChannelList getNewInstance(Form parent)
+    {
+        instance = new FormChannelList(parent);
+        return instance;
+    }
     public FormChannelList(Form parent)
     {
         InitializeComponent();
@@ -175,6 +186,35 @@ public class FormChannelList : Form
         return string.IsNullOrEmpty(channelList[page][channelRowIndex].RxFreq);
     }
 
+    public int findLastEmpty()
+    {
+        var lastEmp = -1;
+        for (var i = 31; i >=0; i--)
+            if (isEmpty(curPage, i))
+            {
+                lastEmp = i;
+            }
+            else
+            {
+                break;
+            }
+        return lastEmp;
+    }
+
+    public void insertChannelAfter(string[] channel, int index)
+    {
+        // channelList[curPage][i].TxPower %= Column_TxPower.Items.Count;
+        // channelList[curPage][i].Bandwide %= Column_Bandwide.Items.Count;
+        // channelList[curPage][i].ScanAdd %= Column_ScanAdd.Items.Count;
+        // channelList[curPage][i].SignalSystem %= Column_SignalSystem.Items.Count;
+        // channelList[curPage][i].SqMode %= Column_SQMode.Items.Count;
+        // channelList[curPage][i].Pttid %= Column_PTTID.Items.Count;
+        // channelList[curPage][i].SignalGroup %= Column_SignalGroup.Items.Count;
+        var chan = new Channel(Int32.Parse(channel[0]),channel[1],
+            channel[2],channel[3],channel[4],0,0,0,0,0,0,channel[12]);
+        channelList[curPage][index] = chan;
+        UpdateDataGridView(curPage);
+    }
     private void ctx_copy_click(object sender, EventArgs e)
     {
         var current_row = dGV_ChannelList.CurrentCell.RowIndex;

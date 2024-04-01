@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SQ5R.View;
+namespace SHX_GT12_CPS;
 
 partial class FromSatelliteHelper
 {

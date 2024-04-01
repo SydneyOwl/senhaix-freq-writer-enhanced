@@ -14,17 +14,17 @@ public class FormMain : Form
 
     public delegate void PushReceiveDataDele(byte[] datas);
 
+    private readonly IContainer components = null;
+
     private readonly ushort PID = 650;
 
     private readonly ushort VID = 10473;
 
     private AppData appData;
 
-    private readonly IContainer components = null;
+    private connectStatusStruct connectStatus;
 
-    private connectStatusStruct connectStatus = default;
-
-    private HIDInterface.HidDevice device = default;
+    private HIDInterface.HidDevice device;
 
     private string filePath = "";
 
@@ -58,6 +58,8 @@ public class FormMain : Form
 
     private ToolStripMenuItem menuItem_H_About;
 
+    private ToolStripMenuItem menuItem_H_SatlliteHelper;
+
     private ToolStripMenuItem menuItem_Help;
 
     private ToolStripMenuItem menuItem_P_Read;
@@ -65,6 +67,8 @@ public class FormMain : Form
     private ToolStripMenuItem menuItem_P_Write;
 
     private ToolStripMenuItem menuItem_Program;
+
+    private ToolStripMenuItem menuItem_Tools;
 
     private ToolStripMenuItem menuItem_W_ChannelList;
 
@@ -119,7 +123,7 @@ public class FormMain : Form
     {
         LANG = Settings.Default.LANG;
         appData = new AppData(LANG);
-        wChannelList = new FormChannelList(this);
+        wChannelList = FormChannelList.getNewInstance(this);
         wChannelList.LoadData(appData);
         wChannelList.Show();
         hid = new HIDInterface();
@@ -212,7 +216,7 @@ public class FormMain : Form
     {
         if (wChannelList == null)
         {
-            wChannelList = new FormChannelList(this);
+            wChannelList = FormChannelList.getNewInstance(this);
             wChannelList.Show();
         }
         else
@@ -339,6 +343,11 @@ public class FormMain : Form
         formProgress.ShowDialog();
     }
 
+    private void menuItem_H_SatlliteHelper_Click(object sender, EventArgs e)
+    {
+        new FromSatelliteHelper().ShowDialog();
+    }
+
     private void menuItem_H_About_Click(object sender, EventArgs e)
     {
         var formAbout = new FormAbout();
@@ -455,6 +464,8 @@ public class FormMain : Form
             new ComponentResourceManager(typeof(FormMain));
         menuStrip1 = new MenuStrip();
         menuItem_File = new ToolStripMenuItem();
+        menuItem_Tools = new ToolStripMenuItem();
+        menuItem_H_SatlliteHelper = new ToolStripMenuItem();
         menuItem_F_New = new ToolStripMenuItem();
         menuItem_F_Open = new ToolStripMenuItem();
         menuItem_F_Save = new ToolStripMenuItem();
@@ -486,9 +497,9 @@ public class FormMain : Form
         toolStrip1.SuspendLayout();
         SuspendLayout();
         menuStrip1.ImageScalingSize = new Size(20, 20);
-        menuStrip1.Items.AddRange(new ToolStripItem[5]
+        menuStrip1.Items.AddRange(new ToolStripItem[6]
         {
-            menuItem_File, menuItem_Windows, menuItem_Program, menuItem_Connect, menuItem_Help
+            menuItem_File, menuItem_Windows, menuItem_Program, menuItem_Connect, menuItem_Tools, menuItem_Help
         });
         menuStrip1.Location = new Point(0, 0);
         menuStrip1.Name = "menuStrip1";
@@ -603,6 +614,16 @@ public class FormMain : Form
         menuItem_H_About.Size = new Size(189, 26);
         menuItem_H_About.Text = "关于...";
         menuItem_H_About.Click += menuItem_H_About_Click;
+
+        menuItem_Tools.Name = "menuItem_Tools";
+        menuItem_Tools.Size = new Size(73, 24);
+        menuItem_Tools.Text = "工具(&T)";
+        menuItem_Tools.DropDownItems.AddRange(new ToolStripItem[] { menuItem_H_SatlliteHelper });
+        menuItem_H_SatlliteHelper.Name = "menuItem_H_SatlliteHelper";
+        menuItem_H_SatlliteHelper.Size = new Size(189, 26);
+        menuItem_H_SatlliteHelper.Text = "打星助手";
+        menuItem_H_SatlliteHelper.Click += menuItem_H_SatlliteHelper_Click;
+
         toolStrip1.ImageScalingSize = new Size(20, 20);
         toolStrip1.Items.AddRange(new ToolStripItem[5]
             { tsBtn_New, tsBtn_Open, tsBtn_Save, tsBtn_Read, tsBtn_Write });

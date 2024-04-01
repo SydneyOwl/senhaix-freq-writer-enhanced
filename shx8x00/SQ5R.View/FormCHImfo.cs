@@ -349,10 +349,16 @@ public class FormCHImfo : Form
     public int findLastEmpty()
     {
         // find last empty index
-        var lastEmp = 0;
-        for (var i = 0; i < 127; i++)
-            if (!isEmpty(i))
+        var lastEmp = -1;
+        for (var i = 127; i >=0; i--)
+            if (isEmpty(i))
+            {
                 lastEmp = i;
+            }
+            else
+            {
+                break;
+            }
         return lastEmp;
     }
     private void btn_insertEmptyChannel_Click(object sender, EventArgs e)
@@ -364,7 +370,10 @@ public class FormCHImfo : Form
             return;
         }
 
-        int lastEmp = findLastEmpty();
+        var lastEmp = 0;
+        for (var i = 0; i < 127; i++)
+            if (!isEmpty(i))
+                lastEmp = i;
 
         for (var i = lastEmp; i > current_row; i--) channelData[i + 1] = channelData[i];
 

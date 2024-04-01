@@ -489,7 +489,7 @@ public class FormMain : Form
 
     private void ms_FMSat_Click(object sender, EventArgs e)
     {
-        new FromSatelliteHelper().ShowDialog();
+        new FormSatelliteHelper().ShowDialog();
     }
     private void mS_BootImage_Click(object sender, EventArgs e)
     {
