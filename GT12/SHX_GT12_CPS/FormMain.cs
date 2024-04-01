@@ -345,7 +345,7 @@ public class FormMain : Form
 
     private void menuItem_H_SatlliteHelper_Click(object sender, EventArgs e)
     {
-        new FromSatelliteHelper().ShowDialog();
+        new FormSatelliteHelper().ShowDialog();
     }
 
     private void menuItem_H_About_Click(object sender, EventArgs e)

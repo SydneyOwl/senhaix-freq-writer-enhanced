@@ -9,14 +9,14 @@ using Newtonsoft.Json.Linq;
 
 namespace SHX_GT12_CPS;
 
-public partial class FromSatelliteHelper : Form
+public partial class FormSatelliteHelper : Form
 {
     private List<string> namelist = new();
     private JArray satelliteJson = new();
 
     private string[] currentChannel = new string[12];
 
-    public FromSatelliteHelper()
+    public FormSatelliteHelper()
     {
         InitializeComponent();
         button2.Hide();

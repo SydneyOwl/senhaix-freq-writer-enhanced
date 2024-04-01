@@ -2,7 +2,7 @@
 
 namespace SHX_GT12_CPS;
 
-partial class FromSatelliteHelper
+partial class FormSatelliteHelper
 {
     /// <summary>
     /// Required designer variable.
@@ -242,7 +242,7 @@ partial class FromSatelliteHelper
         this.Controls.Add(this.button1);
         this.Location = new System.Drawing.Point(15, 15);
         this.Margin = new System.Windows.Forms.Padding(2);
-        this.Name = "FromSatelliteHelper";
+        this.Name = "FormSatelliteHelper";
         this.Text = "打星助手";
         this.Load += new System.EventHandler(this.FromSatelliteHelper_Load);
         this.ResumeLayout(false);

@@ -4,9 +4,7 @@
 [![downloads@latest](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/latest/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases/latest?style=for-the-badge)
 ![version](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
 
-![gt12](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/gt12.yml/badge.svg)
-![shx8x00_nobt](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00_nobt.yml/badge.svg)
-![shx8x00](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/shx8x00.yml/badge.svg)
+![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build.yml/badge.svg)
 
 ## 简介
 
@@ -24,7 +22,9 @@
 |`SHX8800_nobt`|.net2.0|
 |`gt12`|.net4.6.2, win8+|
 
-如果您需要同时克隆卫星数据，请使用`git clone --recursive`。
+您也可以参考`.github/workflows/build.yml`进行编译。
+
+如果您需要同时克隆卫星数据，请使用`--recursive`。
 
 ## 其他
 

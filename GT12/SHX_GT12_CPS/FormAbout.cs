@@ -1,113 +1,29 @@
-using System;
-using System.ComponentModel;
-using System.Drawing;
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
+using HID;
 
 namespace SHX_GT12_CPS;
 
-public class FormAbout : Form
+public partial class FormAbout : Form
 {
-    private readonly IContainer components = null;
-
-    private Label label_MsgLine1;
-
-    private Label label_MsgLine2;
-
-    private Label label_MsgLine3;
-
-    private Label label_MsgLine4;
-    private readonly string lang = "中文";
-
-    private PictureBox pictureBox1;
-
     public FormAbout()
     {
         InitializeComponent();
+        
+        ver.Text = VERSION.Version;
+        commit.Text = VERSION.GitCommitHash;
+        ctime.Text = VERSION.BuildTime;
     }
 
-    private void FormAbout_Load(object sender, EventArgs e)
+    private void label6_Click(object sender, EventArgs e)
     {
-        if (lang == "中文")
-        {
-            label_MsgLine1.Text = "GT12 编程软件修改版";
-            label_MsgLine2.Text = "版本 v0.2";
-            label_MsgLine3.Text = "73 de sydneyowl";
-            label_MsgLine4.Text = "";
-        }
-        else
-        {
-            label_MsgLine1.Text = "GT12 Program Software Enhanced";
-            label_MsgLine2.Text = "Version v0.2";
-            label_MsgLine3.Text = "73 de sydneyowl";
-            label_MsgLine4.Text = "";
-        }
+        // throw new System.NotImplementedException();
     }
 
-    protected override void Dispose(bool disposing)
+    private void label6_Click_1(object sender, EventArgs e)
     {
-        if (disposing && components != null) components.Dispose();
-
-        base.Dispose(disposing);
-    }
-
-    private void InitializeComponent()
-    {
-        var resources =
-            new ComponentResourceManager(typeof(FormAbout));
-        label_MsgLine1 = new Label();
-        label_MsgLine2 = new Label();
-        label_MsgLine3 = new Label();
-        label_MsgLine4 = new Label();
-        pictureBox1 = new PictureBox();
-        ((ISupportInitialize)pictureBox1).BeginInit();
-        SuspendLayout();
-        label_MsgLine1.AutoSize = true;
-        label_MsgLine1.Location = new Point(132, 35);
-        label_MsgLine1.Name = "label_MsgLine1";
-        label_MsgLine1.Size = new Size(55, 15);
-        label_MsgLine1.TabIndex = 0;
-        label_MsgLine1.Text = "label1";
-        label_MsgLine2.AutoSize = true;
-        label_MsgLine2.Location = new Point(132, 66);
-        label_MsgLine2.Name = "label_MsgLine2";
-        label_MsgLine2.Size = new Size(55, 15);
-        label_MsgLine2.TabIndex = 1;
-        label_MsgLine2.Text = "label2";
-        label_MsgLine3.AutoSize = true;
-        label_MsgLine3.Location = new Point(132, 100);
-        label_MsgLine3.Name = "label_MsgLine3";
-        label_MsgLine3.Size = new Size(55, 15);
-        label_MsgLine3.TabIndex = 2;
-        label_MsgLine3.Text = "label3";
-        label_MsgLine4.AutoSize = true;
-        label_MsgLine4.Location = new Point(132, 132);
-        label_MsgLine4.Name = "label_MsgLine4";
-        label_MsgLine4.Size = new Size(55, 15);
-        label_MsgLine4.TabIndex = 3;
-        label_MsgLine4.Text = "label4";
-        pictureBox1.BackgroundImageLayout = ImageLayout.Center;
-        pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-        pictureBox1.Location = new Point(46, 65);
-        pictureBox1.Name = "pictureBox1";
-        pictureBox1.Size = new Size(50, 50);
-        pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-        pictureBox1.TabIndex = 4;
-        pictureBox1.TabStop = false;
-        AutoScaleDimensions = new SizeF(8f, 15f);
-        AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(529, 183);
-        Controls.Add(pictureBox1);
-        Controls.Add(label_MsgLine4);
-        Controls.Add(label_MsgLine3);
-        Controls.Add(label_MsgLine2);
-        Controls.Add(label_MsgLine1);
-        Icon = (Icon)resources.GetObject("$this.Icon");
-        Name = "FormAbout";
-        StartPosition = FormStartPosition.CenterParent;
-        Text = "GT12";
-        Load += FormAbout_Load;
-        ((ISupportInitialize)pictureBox1).EndInit();
-        ResumeLayout(false);
-        PerformLayout();
+        // throw new System.NotImplementedException();
     }
 }

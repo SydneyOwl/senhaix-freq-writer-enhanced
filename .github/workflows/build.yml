@@ -1,0 +1,101 @@
+name: Senhaix Build
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [ "master" ]
+    tags: [ "*" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Build the application
+      shell: pwsh
+      run: |
+        mkdir tmp
+        Set-TimeZone -Name "China Standard Time"
+        $commitHash = git rev-parse --short HEAD
+        $buildTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $tagName = git describe --tags --abbrev=0 --always || ""
+        cd GT12\HID
+        $sourceFile = "./VERSION.cs"
+        (Get-Content $sourceFile) `
+          -replace '@COMMIT_HASH@', $commitHash `
+          -replace '@BUILD_TIME@', $buildTime `
+          -replace '@TAG_NAME@', $tagName `
+          | Set-Content $sourceFile
+        cd ..
+        msbuild /t:Restore
+        msbuild
+        cd bin\Debug\net462
+        mkdir -Force lib
+        mkdir GT12-Freq-Writer
+        mv *.dll lib
+        mv lib GT12-Freq-Writer
+        mv *.exe GT12-Freq-Writer
+        mv *.config GT12-Freq-Writer
+        mv *.pdb GT12-Freq-Writer
+        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json GT12-Freq-Writer
+        Compress-Archive -Path .\GT12-Freq-Writer -DestinationPath ..\..\..\..\tmp\GT12-Freq-Writer-${tagName}.zip
+        cd ..\..\..\..\shx8x00\SQ5R.Properties
+        $sourceFile = "./VERSION.cs"
+        (Get-Content $sourceFile) `
+          -replace '@COMMIT_HASH@', $commitHash `
+          -replace '@BUILD_TIME@', $buildTime `
+          -replace '@TAG_NAME@', $tagName `
+          | Set-Content $sourceFile
+        cd ..
+        msbuild SHX8800.csproj /t:Restore
+        msbuild SHX8800.csproj
+        msbuild SHX8800_nobt.csproj /t:Restore
+        msbuild SHX8800_nobt.csproj
+        cd bin\Debug\net462
+        mkdir -Force lib
+        mkdir Shx8x00-Freq-Writer-With-Bluetooth
+        mv *.dll lib
+        mv lib Shx8x00-Freq-Writer-With-Bluetooth
+        mv *.exe Shx8x00-Freq-Writer-With-Bluetooth
+        mv *.config Shx8x00-Freq-Writer-With-Bluetooth
+        mv *.pdb Shx8x00-Freq-Writer-With-Bluetooth
+        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer-With-Bluetooth
+        Compress-Archive -Path .\Shx8x00-Freq-Writer-With-Bluetooth -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-With-Bluetooth-${tagName}.zip
+        cd ..\net20
+        mkdir -Force lib
+        mkdir Shx8x00-Freq-Writer
+        mv *.dll lib
+        mv lib Shx8x00-Freq-Writer
+        mv *.exe Shx8x00-Freq-Writer
+        mv *.config Shx8x00-Freq-Writer
+        mv *.pdb Shx8x00-Freq-Writer
+        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer
+        Compress-Archive -Path .\Shx8x00-Freq-Writer -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-${tagName}.zip
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: entire-folder-artifact
+        path: ./tmp  # 替换为你要上传的文件夹路径
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: ./tmp/*
