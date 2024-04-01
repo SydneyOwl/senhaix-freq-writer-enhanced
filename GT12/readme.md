@@ -19,3 +19,7 @@
 | 剪切（右键）                 | :white_check_mark: |
 | 粘贴（右键）                 | :white_check_mark: |
 | 以及所有原有的功能           | :white_check_mark: |
+
+| 其他功能         |          Supported           |
+|--------------| :--------------------------: |
+| 打星助手         | :white_check_mark: |
