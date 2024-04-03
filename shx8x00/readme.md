@@ -35,11 +35,15 @@
   | 不过滤 `rssi < -80` 的信号                    | :white_check_mark: |
   | 连接森海克斯8800或后续成功加入蓝牙芯片的 8600 | :white_check_mark: |
   | 所有写频线写频支持的功能                      | :white_check_mark: |
-  
+
   | 其他功能         |          Supported           |
   |--------------| :--------------------------: |
   | 蓝牙或写频线修改开机画面 | `Experimental` :interrobang: |
   | 打星助手         | :white_check_mark: |
+
+> [!CAUTION]
+>
+> 使用蓝牙修改开机画面可能造成写入失败，或写入画面不完整。遇到此情况请使用写频线重写。
 
 ## 注意事项
 

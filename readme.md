@@ -5,6 +5,10 @@
 ![version](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
 ![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build.yml/badge.svg)
 
+> [!important]
+>
+> 如有必要，请在任何操作前首先进行备份操作！
+
 ## 简介
 
 森海克斯8800/8600：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
@@ -21,13 +25,16 @@
 |`SHX8800_nobt`|.net2.0|
 |`gt12`|.net4.6.2, win8+|
 
-您也可以参考`.github/workflows/build.yml`进行编译。
+> [!TIP]
+> 您也可以参考`.github/workflows/build.yml`进行编译。
 
 如果您需要同时克隆卫星数据，请使用`--recursive`。
 
 ## 其他
 
-软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
+
+> [!WARNING]  
+> 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
 卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。另外，请注意以下几点：
 
