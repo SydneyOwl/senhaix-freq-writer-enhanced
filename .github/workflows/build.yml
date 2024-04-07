@@ -63,10 +63,10 @@ jobs:
           -replace '@TAG_NAME@', $tagName `
           | Set-Content $sourceFile
         cd ..
-        msbuild SHX8800.csproj /t:Restore
-        msbuild SHX8800.csproj
-        msbuild SHX8800_nobt.csproj /t:Restore
-        msbuild SHX8800_nobt.csproj
+        msbuild SHX8X00.csproj /t:Restore
+        msbuild SHX8X00.csproj
+        msbuild SHX8X00_nobt.csproj /t:Restore
+        msbuild SHX8X00_nobt.csproj
         cd bin\Debug\net462
         mkdir -Force lib
         mkdir Shx8x00-Freq-Writer-With-Bluetooth

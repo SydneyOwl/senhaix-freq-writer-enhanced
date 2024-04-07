@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
     <PropertyGroup>
-        <AssemblyName>SHX8800</AssemblyName>
+        <AssemblyName>SHX8X00</AssemblyName>
         <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
         <OutputType>WinExe</OutputType>
         <UseWindowsForms>True</UseWindowsForms>

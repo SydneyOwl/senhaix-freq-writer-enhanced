@@ -17,18 +17,25 @@
 
 ## 编译指引
 
-如果需要自行编译，只需要分别对 `SHX8800` 和 `SHX8800_nobt` 进行编译即可。
+如果需要自行编译，只需要使用`Makefiile`进行编译即可。克隆仓库时请使用`--recursive`参数！
 
-|型号|编译要求|
-|---|---|
-|`SHX8800`|.net4.6.2, win10+|
-|`SHX8800_nobt`|.net2.0|
-|`gt12`|.net4.6.2, win8+|
+windows环境下，您可以在安装`mingw`后使用mingw32-make进行编译：
+
+```powershell
+mingw32-make #全部编译
+mingw32-make gt12 #只编译GT12
+mingw32-make shx8x00 #只编译支持蓝牙的shx8x00
+mingw32-make shx8x00_nobt #只编译不支持蓝牙的shx8x00
+```
+
+|型号|编译要求|运行环境|
+|---|---|---|
+|`SHX8800`|.net4.6.2, win10+|win10+|
+|`SHX8800_nobt`|.net2.0|winxp+|
+|`gt12`|.net4.6.2, win8+|win10+|
 
 > [!TIP]
 > 您也可以参考`.github/workflows/build.yml`进行编译。
-
-如果您需要同时克隆卫星数据，请使用`--recursive`。
 
 ## 其他
 
