@@ -1,43 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-    <PropertyGroup>
-        <AssemblyName>SHX8X00</AssemblyName>
-        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-        <OutputType>WinExe</OutputType>
-        <UseWindowsForms>True</UseWindowsForms>
-        <TargetFramework>net462</TargetFramework>
-        <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-    </PropertyGroup>
-    <PropertyGroup>
-        <LangVersion>11.0</LangVersion>
-        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    </PropertyGroup>
-    <PropertyGroup>
-        <ApplicationIcon>app.ico</ApplicationIcon>
-        <RootNamespace/>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="DevComponents.DotNetBar2">
-            <HintPath>.\DevComponents.DotNetBar2.dll</HintPath>
-        </Reference>
-        <Reference Include="System.Windows.Forms"/>
-        <Reference Include="Windows">
-            <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Update="SQ5R.View\FormConnBluetooth.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Update="SQ5R.View\FormConnStat.cs">
-            <SubType>Form</SubType>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="plugins\"/>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="InTheHand.BluetoothLE" Version="4.0.36"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-        <PackageReference Include="System.Resources.Extensions" Version="8.0.0"/>
-    </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Asset\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MainWindow.axaml.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>
