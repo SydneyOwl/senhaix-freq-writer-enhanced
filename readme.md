@@ -6,8 +6,10 @@
 ![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build.yml/badge.svg)
 
 > [!important]
->
 > 如有必要，请在任何操作前首先进行备份操作！
+
+> [!NOTE]  
+> 为使软件实现跨平台（在Mac/Linux端可用），目前正在尝试使用`Avalonia`重构UI，您可以在`dev`分支上查看进度。重构完成后将放弃对win8及以下平台的支持。
 
 ## 简介
 
