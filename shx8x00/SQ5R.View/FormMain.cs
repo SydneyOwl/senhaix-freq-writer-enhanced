@@ -8,11 +8,10 @@ using System.Threading;
 using System.Windows.Forms;
 using BF_H802_Import_Picture_tools;
 using SQ5R.Properties;
-using SQ5R.View;
 using WF_FRAM_KDH.View;
 using Timer = System.Windows.Forms.Timer;
 
-namespace SQ5R;
+namespace SQ5R.View;
 
 public class FormMain : Form
 {
@@ -45,25 +44,25 @@ public class FormMain : Form
 
     private MenuStrip menuStrip;
 
+    private ToolStripMenuItem mS_BootImage;
+
     private ToolStripMenuItem mS_Edit;
 
     private ToolStripMenuItem mS_File;
 
-    private ToolStripMenuItem mS_Help;
-
-    // plugins
-
-    private ToolStripMenuItem mS_Tools;
-
-    private ToolStripMenuItem mS_BootImage;
-
     private ToolStripMenuItem mS_FMSat;
+
+    private ToolStripMenuItem mS_Help;
 
     // EOP
 
     private ToolStripMenuItem mS_Program;
 
     private ToolStripMenuItem mS_Setting;
+
+    // plugins
+
+    private ToolStripMenuItem mS_Tools;
 
     private ToolStripMenuItem mSE_CHImfo;
 
@@ -130,7 +129,7 @@ public class FormMain : Form
     private ToolStripButton tS_Save;
 
     private ToolStripButton tS_Write;
-    
+
     public FormMain()
     {
         InitializeComponent();
@@ -155,7 +154,6 @@ public class FormMain : Form
         instanceFormCHImfo = FormCHImfo.getInstance(this, theRadioData.ChannelData);
         instanceFormCHImfo.Show();
         instanceFormFunCFG = FormFunConfig.getInstance(this, theRadioData.funCfgData);
-        instanceFormFunCFG.ChangeCHCounts = instanceFormCHImfo.changeTheCountsOfCH;
         instanceFormDTMF = FormDTMF.getInstance(this, theRadioData.dtmfData);
         instanceFormOther = FormOther.getInstance(this, theRadioData.otherImfData);
         language = Settings.Default.language;
@@ -286,13 +284,13 @@ public class FormMain : Form
             if (bleCore.CurrentDevice == null)
             {
 #endif
-            if (string.IsNullOrEmpty(portName))
-            {
-                MessageBox.Show("请选择端口号！");
-                return;
-            }
+                if (string.IsNullOrEmpty(portName))
+                {
+                    MessageBox.Show("请选择端口号！");
+                    return;
+                }
 
-            instance.portName = portName;
+                instance.portName = portName;
 #if NET462
             }
 #endif
@@ -339,13 +337,13 @@ public class FormMain : Form
             if (bleCore.CurrentDevice == null)
             {
 #endif
-            if (string.IsNullOrEmpty(portName))
-            {
-                MessageBox.Show("请选择端口号！");
-                return;
-            }
+                if (string.IsNullOrEmpty(portName))
+                {
+                    MessageBox.Show("请选择端口号！");
+                    return;
+                }
 
-            instance.portName = portName;
+                instance.portName = portName;
 #if NET462
             }
 #endif
@@ -370,7 +368,7 @@ public class FormMain : Form
 #if NET462
             if (BleCore.BleInstance().CurrentDevice != null)
             {
-                MessageBox.Show("您选择了串口写频，蓝牙已断开","注意");
+                MessageBox.Show("您选择了串口写频，蓝牙已断开", "注意");
                 BleCore.BleInstance().Dispose();
             }
 #endif
@@ -476,7 +474,7 @@ public class FormMain : Form
     private void timer1_Tick(object sender, EventArgs e)
     {
 #if NET462
-         label_Date.Text = BleCore.BleInstance().CurrentDevice==null?"蓝牙未连接":"蓝牙已连接";
+        label_Date.Text = BleCore.BleInstance().CurrentDevice == null ? "蓝牙未连接" : "蓝牙已连接";
 #else
         label_Date.Text = DateTime.Now.ToString();
 #endif
@@ -491,22 +489,21 @@ public class FormMain : Form
     {
         new FormSatelliteHelper().ShowDialog();
     }
+
     private void mS_BootImage_Click(object sender, EventArgs e)
     {
         var isBLE = false;
 #if NET462
         isBLE = bleCore.CurrentDevice != null;
 #endif
-        if (isBLE)
-        {
-            MessageBox.Show("注意，此为实验性功能，有可能会造成写入图片不完整，遇到此情况使用写频线重写即可");
-        }
-        
+        if (isBLE) MessageBox.Show("注意，此为实验性功能，有可能会造成写入图片不完整，遇到此情况使用写频线重写即可");
+
         if (string.IsNullOrEmpty(portName))
         {
             MessageBox.Show("请先选择端口！");
             return;
         }
+
         new FormIPT(isBLE ? "蓝牙" : portName).ShowDialog();
     }
 

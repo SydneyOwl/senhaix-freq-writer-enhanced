@@ -3,7 +3,7 @@ using System;
 namespace SQ5R;
 
 [Serializable]
-public class FormFunCFGData
+public class FunCFGData
 {
     private bool cB_AlarmSound = true;
 

@@ -11,6 +11,7 @@ namespace SQ5R.View;
 
 public class FormCHImfo : Form
 {
+    private static FormCHImfo instance;
     private readonly string[][] clearChData = new string[128][];
 
     private readonly IContainer components = null;
@@ -97,8 +98,6 @@ public class FormCHImfo : Form
     private short theMinFreqForUHF = 100;
 
     private short theMinFreqForVHF = 100;
-
-    private static FormCHImfo instance;
 
     // DSEOF
 
@@ -350,17 +349,14 @@ public class FormCHImfo : Form
     {
         // find last empty index
         var lastEmp = -1;
-        for (var i = 127; i >=0; i--)
+        for (var i = 127; i >= 0; i--)
             if (isEmpty(i))
-            {
                 lastEmp = i;
-            }
             else
-            {
                 break;
-            }
         return lastEmp;
     }
+
     private void btn_insertEmptyChannel_Click(object sender, EventArgs e)
     {
         var current_row = dGV.CurrentCell.RowIndex;
@@ -383,6 +379,7 @@ public class FormCHImfo : Form
         updateFormByChanData();
         recordStep();
     }
+
     public void insertChannelAfter(string[] chan, int index)
     {
         chan.CopyTo(channelData[index], 0);
@@ -493,7 +490,7 @@ public class FormCHImfo : Form
 
     public void updateFormByChanData()
     {
-        int firstDisplayedRow = dGV.FirstDisplayedScrollingRowIndex;
+        var firstDisplayedRow = dGV.FirstDisplayedScrollingRowIndex;
         dGV.Rows.Clear();
         for (var i = 0; i < 128; i++)
         {

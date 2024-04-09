@@ -9,7 +9,7 @@ public partial class FormAbout : Form
     public FormAbout()
     {
         InitializeComponent();
-        
+
         ver.Text = VERSION.Version;
         commit.Text = VERSION.GitCommitHash;
         ctime.Text = VERSION.BuildTime;

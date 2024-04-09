@@ -2,9 +2,9 @@
 
 public class ClassSatelliteData
 {
-    private string satelliteName = "";
-    private string upLink = "";
+    private bool active = true;
     private string downLink = "";
     private string modeDetail = "";
-    private bool active = true;
+    private string satelliteName = "";
+    private string upLink = "";
 }

@@ -1,6 +1,5 @@
 using System.IO.Ports;
 #if NET462
-using System;
 using System.Linq;
 using SQ5R.View;
 #endif
@@ -13,16 +12,7 @@ internal class MySerialPort : SerialPort
     private BleCore bleCore = BleCore.BleInstance();
 #endif
 
-    public void OpenSerial()
-    {
-#if NET462
-        bleCore = BleCore.BleInstance();
-        if (bleCore.CurrentDevice != null) return;
-#endif
-        Open();
-    }
-    
-    
+
     public int BytesToReadFromCache
     {
         get
@@ -34,14 +24,20 @@ internal class MySerialPort : SerialPort
         }
     }
 
+    public void OpenSerial()
+    {
+#if NET462
+        bleCore = BleCore.BleInstance();
+        if (bleCore.CurrentDevice != null) return;
+#endif
+        Open();
+    }
+
     public void CloseSerial()
     {
 #if NET462
-        if (bleCore.CurrentDevice != null)
-        {
-            return;
-            // bleCore.Dispose();
-        }
+        if (bleCore.CurrentDevice != null) return;
+        // bleCore.Dispose();
 #endif
         Close();
     }

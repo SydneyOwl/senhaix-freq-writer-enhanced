@@ -126,7 +126,7 @@ public class BleCore
 
         return instance;
     }
-    
+
     public static void ForceNewBleInstance()
     {
         instance = null;
