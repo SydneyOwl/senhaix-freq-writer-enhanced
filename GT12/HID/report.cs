@@ -4,9 +4,8 @@ namespace HID;
 
 public class report : EventArgs
 {
-    public readonly byte reportID;
-
     public readonly byte[] reportBuff;
+    public readonly byte reportID;
 
     public report(byte id, byte[] arrayBuff)
     {

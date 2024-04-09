@@ -14,8 +14,6 @@ internal class Resources
 {
     private static ResourceManager resourceMan;
 
-    private static CultureInfo resourceCulture;
-
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     internal static ResourceManager ResourceManager
     {
@@ -23,7 +21,7 @@ internal class Resources
         {
             if (resourceMan == null)
             {
-                ResourceManager resourceManager =
+                var resourceManager =
                     new ResourceManager("SHX_GT12_CPS.Properties.Resources", typeof(Resources).Assembly);
                 resourceMan = resourceManager;
             }
@@ -33,13 +31,5 @@ internal class Resources
     }
 
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    internal static CultureInfo Culture
-    {
-        get { return resourceCulture; }
-        set { resourceCulture = value; }
-    }
-
-    internal Resources()
-    {
-    }
+    internal static CultureInfo Culture { get; set; }
 }

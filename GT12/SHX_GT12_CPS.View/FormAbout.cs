@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Reflection;
 using System.Windows.Forms;
 using HID;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public partial class FormAbout : Form
 {
     public FormAbout()
     {
         InitializeComponent();
-        
+
         ver.Text = VERSION.Version;
         commit.Text = VERSION.GitCommitHash;
         ctime.Text = VERSION.BuildTime;

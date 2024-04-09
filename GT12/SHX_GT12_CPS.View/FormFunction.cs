@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormFunction : Form
 {
+    private readonly IContainer components = null;
     private ComboBox cbB_A_DisType;
 
     private ComboBox cbB_A_Workmode;
@@ -78,8 +79,6 @@ public class FormFunction : Form
     private ComboBox cbB_VoxSw;
 
     private ComboBox cbBBluetoothAudioGain;
-
-    private readonly IContainer components = null;
     private Function funs;
 
     private Label label_A_DisType;

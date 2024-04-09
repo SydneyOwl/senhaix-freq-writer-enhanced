@@ -4,10 +4,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormDTMF : Form
 {
+    private readonly IContainer components = null;
     private ComboBox cbB_IdleTime;
 
     private ComboBox cbB_WordTime;
@@ -23,8 +24,6 @@ public class FormDTMF : Form
     private DataGridViewTextBoxColumn Column_Word_1;
 
     private DataGridViewTextBoxColumn Column_Word_2;
-
-    private readonly IContainer components = null;
 
     private DataGridView dGV_DTMF;
     private DTMF dtmfs;

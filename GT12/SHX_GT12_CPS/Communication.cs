@@ -10,27 +10,11 @@ namespace SHX_GT12_CPS;
 
 public class Communication
 {
-    public AppData appData;
-
-    private bool flagReceiveData;
-
-    private bool flagRetry;
-
-    private bool flagTransmitting;
-
     private readonly DataHelper helper;
 
     private readonly HIDInterface hid;
 
     private readonly OP_TYPE opType;
-
-    private string progressCont = "";
-
-    private int progressVal;
-
-    private byte[] rxBuffer = new byte[64];
-
-    private STEP step;
 
     private readonly string[] tblCTSDCS = new string[210]
     {
@@ -56,6 +40,22 @@ public class Communication
         "D546I", "D565I", "D606I", "D612I", "D624I", "D627I", "D631I", "D632I", "D645I", "D654I",
         "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I", "D754I"
     };
+
+    public AppData appData;
+
+    private bool flagReceiveData;
+
+    private bool flagRetry;
+
+    private bool flagTransmitting;
+
+    private string progressCont = "";
+
+    private int progressVal;
+
+    private byte[] rxBuffer = new byte[64];
+
+    private STEP step;
 
     private Timer timer;
 

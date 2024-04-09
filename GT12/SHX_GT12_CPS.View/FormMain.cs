@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using HID;
 using SHX_GT12_CPS.Properties;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormMain : Form
 {

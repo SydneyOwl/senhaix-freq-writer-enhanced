@@ -1,8 +1,5 @@
-using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 
 [assembly: AssemblyTitle("SHX-GT12 CPS")]
 [assembly: AssemblyProduct("SHX-GT12 CPS")]

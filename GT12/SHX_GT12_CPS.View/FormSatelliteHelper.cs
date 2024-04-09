@@ -7,14 +7,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public partial class FormSatelliteHelper : Form
 {
+    private string[] currentChannel = new string[12];
     private List<string> namelist = new();
     private JArray satelliteJson = new();
-
-    private string[] currentChannel = new string[12];
 
     public FormSatelliteHelper()
     {
@@ -27,21 +26,16 @@ public partial class FormSatelliteHelper : Form
 
     private string matchTone(string mode)
     {
-        string pattern = @"(?i)\b(?:tone|ctcss)\s+(\d+(?:\.\d+)?)?(?=hz\b)";
+        var pattern = @"(?i)\b(?:tone|ctcss)\s+(\d+(?:\.\d+)?)?(?=hz\b)";
 
-        Regex regex = new Regex(pattern);
+        var regex = new Regex(pattern);
 
-        Match match = regex.Match(mode);
+        var match = regex.Match(mode);
 
         if (match.Success)
-        {
             // 返回匹配的浮点数部分
             return match.Groups[1].Value;
-        }
-        else
-        {
-            return "";
-        }
+        return "";
     }
 
     private void loadLB()
@@ -190,11 +184,11 @@ public partial class FormSatelliteHelper : Form
         var satnogId = query.First()["satnogs_id"];
         var tone = matchTone(checker(query.First()["mode"]));
         richTextBox1.Text = string.Format("上行频率:{0}\n下行频率：{1}\n亚音：{2}\n呼号：{3}\n状态：{4}\nid:{5}", checker(uplink),
-            checker(downlink),tone,checker(callsign),checker(status), checker(satnogId));
+            checker(downlink), tone, checker(callsign), checker(status), checker(satnogId));
         currentChannel = new string[13]
         {
             "", checker(downlink), "OFF", checker(uplink), tone, "高", "宽", "删除", "OFF",
-            "QT/DQT", "无","1", checker(sat)
+            "QT/DQT", "无", "1", checker(sat)
         };
     }
 
@@ -218,63 +212,50 @@ public partial class FormSatelliteHelper : Form
         listBox2_SelectedIndexChanged(null, null);
         // throw new System.NotImplementedException();
         // et laess. channel
-        int lastEmpty = FormChannelList.getInstance().findLastEmpty();
+        var lastEmpty = FormChannelList.getInstance().findLastEmpty();
         if (lastEmpty == -1)
         {
             MessageBox.Show("当前区域已满或最后一条信道不为空，无法插入！");
             return;
         }
+
         // "", checker(downlink), "OFF", checker(uplink), tone, "高", "宽", "删除", "OFF",
         // "QT/DQT", "无","1", checker(sat)
         if (currentChannel[1] == "")
-        {
             if (checkIsFloatOrNumber(currentChannel[3]))
-            {
                 currentChannel[1] = currentChannel[3];
-            }
-        }
         if (currentChannel[3] == "")
-        {
             if (checkIsFloatOrNumber(currentChannel[1]))
-            {
                 currentChannel[3] = currentChannel[1];
-            }
-        }
 
-        if (currentChannel[4] == "")
-        {
-            currentChannel[4] = "OFF";
-        }
-            
-        if (int.TryParse(currentChannel[4], out int number))
-        {
-            currentChannel[4] = number + ".0";
-        }
-        
-        
+        if (currentChannel[4] == "") currentChannel[4] = "OFF";
+
+        if (int.TryParse(currentChannel[4], out var number)) currentChannel[4] = number + ".0";
+
+
         if (!(checkIsFloatOrNumber(currentChannel[1]) &&
               checkIsFloatOrNumber(currentChannel[3]) && CheckTones(currentChannel[4])))
         {
             MessageBox.Show("不支持插入当前卫星");
             return;
-        } 
-        
-        
+        }
+
+
         // NOT ELEGANT!
         double kk;
-        Double.TryParse(currentChannel[1], out kk);
-        currentChannel[1]= kk.ToString("0.00000");
-        
-        Double.TryParse(currentChannel[3], out kk);
-        currentChannel[3]= kk.ToString("0.00000");
-        
+        double.TryParse(currentChannel[1], out kk);
+        currentChannel[1] = kk.ToString("0.00000");
+
+        double.TryParse(currentChannel[3], out kk);
+        currentChannel[3] = kk.ToString("0.00000");
+
 
         if (!checkBox1.Checked)
         {
             // "", checker(downlink), "OFF", checker(uplink), tone, "高", "宽", "删除", "OFF",
             // "QT/DQT", "无","1", checker(sat)
-            currentChannel[0] = (lastEmpty+1).ToString();
-            FormChannelList.getInstance().insertChannelAfter(currentChannel,lastEmpty);
+            currentChannel[0] = (lastEmpty + 1).ToString();
+            FormChannelList.getInstance().insertChannelAfter(currentChannel, lastEmpty);
             MessageBox.Show("成功！");
         }
         else
@@ -285,11 +266,11 @@ public partial class FormSatelliteHelper : Form
                 return;
             }
 
-            string uChg = richTextBox3.Text;
-            string vChg = richTextBox4.Text;
+            var uChg = richTextBox3.Text;
+            var vChg = richTextBox4.Text;
             int parsedVnumber, parsedUnumber;
-            bool a = Int32.TryParse(vChg, out parsedVnumber);
-            bool b = Int32.TryParse(uChg, out parsedUnumber);
+            var a = int.TryParse(vChg, out parsedVnumber);
+            var b = int.TryParse(uChg, out parsedUnumber);
             if (!(a && b))
             {
                 MessageBox.Show("多普勒步进有误！");
@@ -299,33 +280,43 @@ public partial class FormSatelliteHelper : Form
             var tmp = (string[])currentChannel.Clone();
             // Dont want to use loopssssss.......................
             currentChannel[0] = (lastEmpty + 1).ToString();
-            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, -2,1).ToString("0.00000");
-            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, -2,0).ToString("0.00000");
+            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, -2, 1)
+                .ToString("0.00000");
+            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, -2, 0)
+                .ToString("0.00000");
             currentChannel[12] += "-A1";
-            FormChannelList.getInstance().insertChannelAfter(currentChannel,lastEmpty);
+            FormChannelList.getInstance().insertChannelAfter(currentChannel, lastEmpty);
             currentChannel = (string[])tmp.Clone();
             currentChannel[0] = (lastEmpty + 2).ToString();
-            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, -1,1).ToString("0.00000");
-            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, -1,0).ToString("0.00000");
+            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, -1, 1)
+                .ToString("0.00000");
+            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, -1, 0)
+                .ToString("0.00000");
             currentChannel[12] += "-A2";
-            FormChannelList.getInstance().insertChannelAfter(currentChannel,lastEmpty + 1);
+            FormChannelList.getInstance().insertChannelAfter(currentChannel, lastEmpty + 1);
             currentChannel = (string[])tmp.Clone();
             currentChannel[0] = (lastEmpty + 3).ToString();
-            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, 0,1).ToString("0.00000");
-            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, 0,0).ToString("0.00000");
-            FormChannelList.getInstance().insertChannelAfter(currentChannel,lastEmpty + 2);
+            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, 0, 1)
+                .ToString("0.00000");
+            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, 0, 0)
+                .ToString("0.00000");
+            FormChannelList.getInstance().insertChannelAfter(currentChannel, lastEmpty + 2);
             currentChannel = (string[])tmp.Clone();
             currentChannel[0] = (lastEmpty + 4).ToString();
-            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, 1,1).ToString("0.00000");
-            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, 1,0).ToString("0.00000");
+            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, 1, 1)
+                .ToString("0.00000");
+            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, 1, 0)
+                .ToString("0.00000");
             currentChannel[12] += "-L1";
-            FormChannelList.getInstance().insertChannelAfter(currentChannel,lastEmpty + 3);
+            FormChannelList.getInstance().insertChannelAfter(currentChannel, lastEmpty + 3);
             currentChannel = (string[])tmp.Clone();
             currentChannel[0] = (lastEmpty + 5).ToString();
-            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, 2,1).ToString("0.00000");
-            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, 2,0).ToString("0.00000");
+            currentChannel[1] = calcDop(double.Parse(currentChannel[1]), parsedUnumber, parsedVnumber, 2, 1)
+                .ToString("0.00000");
+            currentChannel[3] = calcDop(double.Parse(currentChannel[3]), parsedUnumber, parsedVnumber, 2, 0)
+                .ToString("0.00000");
             currentChannel[12] += "-L2";
-            FormChannelList.getInstance().insertChannelAfter(currentChannel,lastEmpty + 4);
+            FormChannelList.getInstance().insertChannelAfter(currentChannel, lastEmpty + 4);
             MessageBox.Show("成功！");
         }
     }
@@ -339,26 +330,13 @@ public partial class FormSatelliteHelper : Form
         {
             // V band
             if (direction == 1)
-            {
-                return band - 0.0005 * V_step*level;
-            }
-            else
-            {
-                return band + 0.0005 * V_step*level;
-            }
-        }
-        else
-        {
-            if (direction == 1)
-            {
-                return band - 0.0005 * U_step*level;
-            }
-            else
-            {
-                return band + 0.0005 * U_step*level;
-            }
+                return band - 0.0005 * V_step * level;
+            return band + 0.0005 * V_step * level;
         }
 
+        if (direction == 1)
+            return band - 0.0005 * U_step * level;
+        return band + 0.0005 * U_step * level;
     }
 
     private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -378,17 +356,11 @@ public partial class FormSatelliteHelper : Form
     private bool checkIsFloatOrNumber(string value)
     {
         int tempInt;
-        if (Int32.TryParse(value, out tempInt))
-        {
-            return true;
-        }
+        if (int.TryParse(value, out tempInt)) return true;
 
         // 浮点数验证
         double tempDouble;
-        if (Double.TryParse(value, out tempDouble))
-        {
-            return true;
-        }
+        if (double.TryParse(value, out tempDouble)) return true;
 
         // 如果既不是整数也不是浮点数，则返回false
         return false;
@@ -396,7 +368,7 @@ public partial class FormSatelliteHelper : Form
 
     private bool CheckTones(string value)
     {
-        var ctcss = new string[]
+        var ctcss = new[]
         {
             "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
             "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",
