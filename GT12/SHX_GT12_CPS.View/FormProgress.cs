@@ -5,10 +5,11 @@ using System.Threading;
 using System.Windows.Forms;
 using HID;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormProgress : Form
 {
+    private readonly IContainer components = null;
     private AppData appData;
 
     private Button btn_Cancel;
@@ -16,8 +17,6 @@ public class FormProgress : Form
     private Button btn_Start;
 
     private Communication com;
-
-    private readonly IContainer components = null;
 
     private HIDInterface hid;
 

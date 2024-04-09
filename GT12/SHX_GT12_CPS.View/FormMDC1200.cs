@@ -3,13 +3,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormMDC1200 : Form
 {
-    private BackgroundWorker backgroundWorker1;
-
     private readonly IContainer components = null;
+    private BackgroundWorker backgroundWorker1;
 
     private Label label_LocalID;
 

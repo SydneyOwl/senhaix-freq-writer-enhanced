@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using SHX_GT12_CPS.View;
 
 namespace SHX_GT12_CPS;
 

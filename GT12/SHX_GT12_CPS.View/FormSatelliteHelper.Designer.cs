@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 partial class FormSatelliteHelper
 {

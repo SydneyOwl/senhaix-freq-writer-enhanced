@@ -7,10 +7,65 @@ using System.Windows.Forms;
 using DevComponents.DotNetBar.Controls;
 using SHX_GT12_CPS.Properties;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormChannelList : Form
 {
+    private static FormChannelList instance;
+
+    private readonly IContainer components = null;
+
+    private readonly string LANG = "Chinese";
+
+    private readonly int maxFreq = 520;
+
+    private readonly int minFreq = 100;
+
+    private readonly string[] strAreaCN = new string[30]
+    {
+        "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八", "区域九", "区域十",
+        "区域十一", "区域十二", "区域十三", "区域十四", "区域十五", "区域十六", "区域十七", "区域十八", "区域十九", "区域二十",
+        "区域二十一", "区域二十二", "区域二十三", "区域二十四", "区域二十五", "区域二十六", "区域二十七", "区域二十八", "区域二十九", "区域三十"
+    };
+
+    private readonly string[] strAreaEN = new string[30]
+    {
+        "ZONE 1", "ZONE 2", "ZONE 3", "ZONE 4", "ZONEE 5", "ZONE 6", "ZONE 7", "ZONE 8", "ZONE 9", "ZONE 10",
+        "ZONE 11", "ZONE 12", "ZONE 13", "ZONE 14", "ZONEE 15", "ZONE 16", "ZONE 17", "ZONE 18", "ZONE 19", "ZONE 20",
+        "ZONE 21", "ZONE 22", "ZONE 23", "ZONE 24", "ZONEE 25", "ZONE 26", "ZONE 27", "ZONE 28", "ZONE 29", "ZONE 30"
+    };
+
+    private readonly string[] tblCTSDCS = new string[261]
+    {
+        "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
+        "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",
+        "127.3", "131.8", "136.5", "141.3", "146.2", "151.4", "156.7", "159.8", "162.2", "165.5",
+        "167.9", "171.3", "173.8", "177.3", "179.9", "183.5", "186.2", "189.9", "192.8", "196.6",
+        "199.5", "203.5", "206.5", "210.7", "218.1", "225.7", "229.1", "233.6", "241.8", "250.3",
+        "254.1", "D023N", "D025N", "D026N", "D031N", "D032N", "D036N", "D043N", "D047N", "D051N",
+        "D053N", "D054N", "D065N", "D071N", "D072N", "D073N", "D074N", "D114N", "D115N", "D116N",
+        "D122N", "D125N", "D131N", "D132N", "D134N", "D143N", "D145N", "D152N", "D155N", "D156N",
+        "D162N", "D165N", "D172N", "D174N", "D205N", "D212N", "D223N", "D225N", "D226N", "D243N",
+        "D244N", "D245N", "D246N", "D251N", "D252N", "D255N", "D261N", "D263N", "D265N", "D266N",
+        "D271N", "D274N", "D306N", "D311N", "D315N", "D325N", "D331N", "D332N", "D343N", "D346N",
+        "D351N", "D356N", "D364N", "D365N", "D371N", "D411N", "D412N", "D413N", "D423N", "D431N",
+        "D432N", "D445N", "D446N", "D452N", "D454N", "D455N", "D462N", "D464N", "D465N", "D466N",
+        "D503N", "D506N", "D516N", "D523N", "D526N", "D532N", "D546N", "D565N", "D606N", "D612N",
+        "D624N", "D627N", "D631N", "D632N", "D645N", "D654N", "D662N", "D664N", "D703N", "D712N",
+        "D723N", "D731N", "D732N", "D734N", "D743N", "D754N", "D023I", "D025I", "D026I", "D031I",
+        "D032I", "D036I", "D043I", "D047I", "D051I", "D053I", "D054I", "D065I", "D071I", "D072I",
+        "D073I", "D074I", "D114I", "D115I", "D116I", "D122I", "D125I", "D131I", "D132I", "D134I",
+        "D143I", "D145I", "D152I", "D155I", "D156I", "D162I", "D165I", "D172I", "D174I", "D205I",
+        "D212I", "D223I", "D225I", "D226I", "D243I", "D244I", "D245I", "D246I", "D251I", "D252I",
+        "D255I", "D261I", "D263I", "D265I", "D266I", "D271I", "D274I", "D306I", "D311I", "D315I",
+        "D325I", "D331I", "D332I", "D343I", "D346I", "D351I", "D356I", "D364I", "D365I", "D371I",
+        "D411I", "D412I", "D413I", "D423I", "D431I", "D432I", "D445I", "D446I", "D452I", "D454I",
+        "D455I", "D462I", "D464I", "D465I", "D466I", "D503I", "D506I", "D516I", "D523I", "D526I",
+        "D532I", "D546I", "D565I", "D606I", "D612I", "D624I", "D627I", "D631I", "D632I", "D645I",
+        "D654I", "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I",
+        "D754I"
+    };
+
     private AppData appData;
 
     private Button btn_AtFirstPage;
@@ -48,8 +103,6 @@ public class FormChannelList : Form
     private DataGridViewTextBoxColumn Column_TxFreq;
 
     private DataGridViewComboBoxColumn Column_TxPower;
-
-    private readonly IContainer components = null;
     private ContextMenuStrip contextMenuStrip;
 
     private int curPage;
@@ -58,15 +111,11 @@ public class FormChannelList : Form
 
     public DataGridViewX dGV_ChannelList;
 
+    private Rectangle dragBoxFromMouseDown;
+
     private Label label_BankName;
 
     private Label label_CurPage;
-
-    private readonly string LANG = "Chinese";
-
-    private readonly int maxFreq = 520;
-
-    private readonly int minFreq = 100;
     private ToolStripItem RCBatchClearEmptyChannel;
 
     // Right-click
@@ -76,69 +125,11 @@ public class FormChannelList : Form
     private ToolStripItem RCdelThisChannel;
     private ToolStripItem RCinsertAfterChannel;
     private ToolStripItem RCpasteChannel;
-
-    private Rectangle dragBoxFromMouseDown;
     private int rowIndexFromMouseDown;
     private int rowIndexOfItemUnderMouseToDrop;
 
-    private readonly string[] strAreaCN = new string[30]
-    {
-        "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八", "区域九", "区域十",
-        "区域十一", "区域十二", "区域十三", "区域十四", "区域十五", "区域十六", "区域十七", "区域十八", "区域十九", "区域二十",
-        "区域二十一", "区域二十二", "区域二十三", "区域二十四", "区域二十五", "区域二十六", "区域二十七", "区域二十八", "区域二十九", "区域三十"
-    };
-
-    private readonly string[] strAreaEN = new string[30]
-    {
-        "ZONE 1", "ZONE 2", "ZONE 3", "ZONE 4", "ZONEE 5", "ZONE 6", "ZONE 7", "ZONE 8", "ZONE 9", "ZONE 10",
-        "ZONE 11", "ZONE 12", "ZONE 13", "ZONE 14", "ZONEE 15", "ZONE 16", "ZONE 17", "ZONE 18", "ZONE 19", "ZONE 20",
-        "ZONE 21", "ZONE 22", "ZONE 23", "ZONE 24", "ZONEE 25", "ZONE 26", "ZONE 27", "ZONE 28", "ZONE 29", "ZONE 30"
-    };
-
     private TextBox tB_BankName;
 
-    private readonly string[] tblCTSDCS = new string[261]
-    {
-        "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
-        "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",
-        "127.3", "131.8", "136.5", "141.3", "146.2", "151.4", "156.7", "159.8", "162.2", "165.5",
-        "167.9", "171.3", "173.8", "177.3", "179.9", "183.5", "186.2", "189.9", "192.8", "196.6",
-        "199.5", "203.5", "206.5", "210.7", "218.1", "225.7", "229.1", "233.6", "241.8", "250.3",
-        "254.1", "D023N", "D025N", "D026N", "D031N", "D032N", "D036N", "D043N", "D047N", "D051N",
-        "D053N", "D054N", "D065N", "D071N", "D072N", "D073N", "D074N", "D114N", "D115N", "D116N",
-        "D122N", "D125N", "D131N", "D132N", "D134N", "D143N", "D145N", "D152N", "D155N", "D156N",
-        "D162N", "D165N", "D172N", "D174N", "D205N", "D212N", "D223N", "D225N", "D226N", "D243N",
-        "D244N", "D245N", "D246N", "D251N", "D252N", "D255N", "D261N", "D263N", "D265N", "D266N",
-        "D271N", "D274N", "D306N", "D311N", "D315N", "D325N", "D331N", "D332N", "D343N", "D346N",
-        "D351N", "D356N", "D364N", "D365N", "D371N", "D411N", "D412N", "D413N", "D423N", "D431N",
-        "D432N", "D445N", "D446N", "D452N", "D454N", "D455N", "D462N", "D464N", "D465N", "D466N",
-        "D503N", "D506N", "D516N", "D523N", "D526N", "D532N", "D546N", "D565N", "D606N", "D612N",
-        "D624N", "D627N", "D631N", "D632N", "D645N", "D654N", "D662N", "D664N", "D703N", "D712N",
-        "D723N", "D731N", "D732N", "D734N", "D743N", "D754N", "D023I", "D025I", "D026I", "D031I",
-        "D032I", "D036I", "D043I", "D047I", "D051I", "D053I", "D054I", "D065I", "D071I", "D072I",
-        "D073I", "D074I", "D114I", "D115I", "D116I", "D122I", "D125I", "D131I", "D132I", "D134I",
-        "D143I", "D145I", "D152I", "D155I", "D156I", "D162I", "D165I", "D172I", "D174I", "D205I",
-        "D212I", "D223I", "D225I", "D226I", "D243I", "D244I", "D245I", "D246I", "D251I", "D252I",
-        "D255I", "D261I", "D263I", "D265I", "D266I", "D271I", "D274I", "D306I", "D311I", "D315I",
-        "D325I", "D331I", "D332I", "D343I", "D346I", "D351I", "D356I", "D364I", "D365I", "D371I",
-        "D411I", "D412I", "D413I", "D423I", "D431I", "D432I", "D445I", "D446I", "D452I", "D454I",
-        "D455I", "D462I", "D464I", "D465I", "D466I", "D503I", "D506I", "D516I", "D523I", "D526I",
-        "D532I", "D546I", "D565I", "D606I", "D612I", "D624I", "D627I", "D631I", "D632I", "D645I",
-        "D654I", "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I",
-        "D754I"
-    };
-
-    private static FormChannelList instance;
-
-    public static FormChannelList getInstance()
-    {
-        return instance;
-    }
-    public static FormChannelList getNewInstance(Form parent)
-    {
-        instance = new FormChannelList(parent);
-        return instance;
-    }
     public FormChannelList(Form parent)
     {
         InitializeComponent();
@@ -156,6 +147,17 @@ public class FormChannelList : Form
         }
 
         LANG = Settings.Default.LANG;
+    }
+
+    public static FormChannelList getInstance()
+    {
+        return instance;
+    }
+
+    public static FormChannelList getNewInstance(Form parent)
+    {
+        instance = new FormChannelList(parent);
+        return instance;
     }
 
     public void LoadData(AppData appData)
@@ -189,15 +191,11 @@ public class FormChannelList : Form
     public int findLastEmpty()
     {
         var lastEmp = -1;
-        for (var i = 31; i >=0; i--)
+        for (var i = 31; i >= 0; i--)
             if (isEmpty(curPage, i))
-            {
                 lastEmp = i;
-            }
             else
-            {
                 break;
-            }
         return lastEmp;
     }
 
@@ -210,11 +208,12 @@ public class FormChannelList : Form
         // channelList[curPage][i].SqMode %= Column_SQMode.Items.Count;
         // channelList[curPage][i].Pttid %= Column_PTTID.Items.Count;
         // channelList[curPage][i].SignalGroup %= Column_SignalGroup.Items.Count;
-        var chan = new Channel(Int32.Parse(channel[0]),channel[1],
-            channel[2],channel[3],channel[4],0,0,0,0,0,0,channel[12]);
+        var chan = new Channel(int.Parse(channel[0]), channel[1],
+            channel[2], channel[3], channel[4], 0, 0, 0, 0, 0, 0, channel[12]);
         channelList[curPage][index] = chan;
         UpdateDataGridView(curPage);
     }
+
     private void ctx_copy_click(object sender, EventArgs e)
     {
         var current_row = dGV_ChannelList.CurrentCell.RowIndex;
@@ -250,7 +249,7 @@ public class FormChannelList : Form
     {
         var current_row = dGV_ChannelList.CurrentCell.RowIndex;
         dGV_ChannelList.CurrentCell.ReadOnly = true;
-        for (var i = current_row ; i < 31; i++)
+        for (var i = current_row; i < 31; i++)
             channelList[curPage][i] = (Channel)channelList[curPage][i + 1].Clone();
         channelList[curPage][31] = new Channel();
         updateCurrentPageChannelIndex(curPage);
@@ -293,19 +292,14 @@ public class FormChannelList : Form
         var cached_channel = new Channel[32];
         var channel_cursor = 0;
         for (var i = 0; i < 32; i++)
-        {
             //check it via "TxAllow"
             if (!isEmpty(curPage, i))
             {
                 cached_channel[channel_cursor] = new Channel();
                 cached_channel[channel_cursor++] = (Channel)channelList[curPage][i].Clone();
             }
-        }
 
-        for (var i = channel_cursor; i < 32; i++)
-        {
-            cached_channel[i] = new Channel();
-        }
+        for (var i = channel_cursor; i < 32; i++) cached_channel[i] = new Channel();
 
         cached_channel.CopyTo(channelList[curPage], 0);
         updateCurrentPageChannelIndex(curPage);

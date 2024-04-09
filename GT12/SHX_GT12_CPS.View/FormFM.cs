@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SHX_GT12_CPS;
+namespace SHX_GT12_CPS.View;
 
 public class FormFM : Form
 {
+    private readonly IContainer components = null;
     private DataGridViewTextBoxColumn Column_Freq_1;
 
     private DataGridViewTextBoxColumn Column_Freq_2;
@@ -15,8 +16,6 @@ public class FormFM : Form
     private DataGridViewTextBoxColumn Column_ID_1;
 
     private DataGridViewTextBoxColumn Column_ID_2;
-
-    private readonly IContainer components = null;
 
     private DataGridView dGV_FM;
     private FMChannel fms;

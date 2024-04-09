@@ -23,58 +23,51 @@ public class Hid
         READ_FAILD
     }
 
-    private IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
-
     private const int MAX_USB_DEVICES = 64;
-
-    private bool deviceOpened = false;
-
-    private FileStream hidDevice = null;
-
-    private IntPtr hHubDevice;
-
-    private int outputReportLength;
-
-    private int inputReportLength;
 
     public DelegateDataReceived DataReceived;
 
+    private bool deviceOpened;
+
     public DelegateStatusConnected DeviceRemoved;
 
-    public int OutputReportLength => outputReportLength;
+    private IntPtr hHubDevice;
 
-    public int InputReportLength => inputReportLength;
+    private FileStream hidDevice;
+
+    private readonly IntPtr INVALID_HANDLE_VALUE = new(-1);
+
+    public int OutputReportLength { get; private set; }
+
+    public int InputReportLength { get; private set; }
 
     public HID_RETURN OpenDevice(ushort vID, ushort pID, string serial)
     {
         if (!deviceOpened)
         {
-            List<string> deviceList = new List<string>();
+            var deviceList = new List<string>();
             GetHidDeviceList(ref deviceList);
-            if (deviceList.Count == 0)
-            {
-                return HID_RETURN.NO_DEVICE_CONECTED;
-            }
+            if (deviceList.Count == 0) return HID_RETURN.NO_DEVICE_CONECTED;
 
-            for (int i = 0; i < deviceList.Count; i++)
+            for (var i = 0; i < deviceList.Count; i++)
             {
-                IntPtr intPtr = CreateFile(deviceList[i], 3221225472u, 0u, 0u, 3u, 1073741824u, 0u);
+                var intPtr = CreateFile(deviceList[i], 3221225472u, 0u, 0u, 3u, 1073741824u, 0u);
                 if (intPtr != INVALID_HANDLE_VALUE)
                 {
-                    IntPtr intPtr2 = Marshal.AllocHGlobal(512);
+                    var intPtr2 = Marshal.AllocHGlobal(512);
                     HidD_GetAttributes(intPtr, out var attributes);
                     HidD_GetSerialNumberString(intPtr, intPtr2, 512);
-                    string text = Marshal.PtrToStringAuto(intPtr2);
+                    var text = Marshal.PtrToStringAuto(intPtr2);
                     Marshal.FreeHGlobal(intPtr2);
                     if (attributes.VendorID == vID && attributes.ProductID == pID && text.Contains(serial))
                     {
                         HidD_GetPreparsedData(intPtr, out var PreparsedData);
                         HidP_GetCaps(PreparsedData, out var Capabilities);
                         HidD_FreePreparsedData(PreparsedData);
-                        outputReportLength = Capabilities.OutputReportByteLength;
-                        inputReportLength = Capabilities.InputReportByteLength;
-                        hidDevice = new FileStream(new SafeFileHandle(intPtr, ownsHandle: false), FileAccess.ReadWrite,
-                            inputReportLength, isAsync: true);
+                        OutputReportLength = Capabilities.OutputReportByteLength;
+                        InputReportLength = Capabilities.InputReportByteLength;
+                        hidDevice = new FileStream(new SafeFileHandle(intPtr, false), FileAccess.ReadWrite,
+                            InputReportLength, true);
                         deviceOpened = true;
                         BeginAsyncRead();
                         hHubDevice = intPtr;
@@ -101,32 +94,26 @@ public class Hid
 
     private void BeginAsyncRead()
     {
-        byte[] array = new byte[InputReportLength];
-        IAsyncResult asyncResult = hidDevice.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
+        var array = new byte[InputReportLength];
+        var asyncResult = hidDevice.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
     }
 
     private void ReadCompleted(IAsyncResult iResult)
     {
-        byte[] array = (byte[])iResult.AsyncState;
+        var array = (byte[])iResult.AsyncState;
         try
         {
             hidDevice.EndRead(iResult);
-            byte[] array2 = new byte[array.Length];
-            for (int i = 0; i < array.Length; i++)
-            {
-                array2[i] = array[i];
-            }
+            var array2 = new byte[array.Length];
+            for (var i = 0; i < array.Length; i++) array2[i] = array[i];
 
-            report e = new report(array[0], array2);
+            var e = new report(array[0], array2);
             OnDataReceived(e);
-            if (deviceOpened)
-            {
-                BeginAsyncRead();
-            }
+            if (deviceOpened) BeginAsyncRead();
         }
         catch
         {
-            EventArgs e2 = new EventArgs();
+            var e2 = new EventArgs();
             OnDeviceRemoved(e2);
             CloseDevice();
         }
@@ -134,35 +121,25 @@ public class Hid
 
     protected virtual void OnDataReceived(report e)
     {
-        if (DataReceived != null)
-        {
-            DataReceived(this, e);
-        }
+        if (DataReceived != null) DataReceived(this, e);
     }
 
     protected virtual void OnDeviceRemoved(EventArgs e)
     {
-        if (DeviceRemoved != null)
-        {
-            DeviceRemoved(this, e);
-        }
+        if (DeviceRemoved != null) DeviceRemoved(this, e);
     }
 
     public HID_RETURN Write(report r)
     {
         if (deviceOpened)
-        {
             try
             {
-                byte[] array = new byte[outputReportLength];
-                int num = 0;
-                num = ((r.reportBuff.Length >= outputReportLength - 1)
-                    ? (outputReportLength - 1)
-                    : r.reportBuff.Length);
-                for (int i = 0; i < num; i++)
-                {
-                    array[i] = r.reportBuff[i];
-                }
+                var array = new byte[OutputReportLength];
+                var num = 0;
+                num = r.reportBuff.Length >= OutputReportLength - 1
+                    ? OutputReportLength - 1
+                    : r.reportBuff.Length;
+                for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
 
                 hidDevice.Write(array, 0, OutputReportLength);
                 return HID_RETURN.SUCCESS;
@@ -170,48 +147,43 @@ public class Hid
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                EventArgs e = new EventArgs();
+                var e = new EventArgs();
                 OnDeviceRemoved(e);
                 CloseDevice();
                 return HID_RETURN.NO_DEVICE_CONECTED;
             }
-        }
 
         return HID_RETURN.WRITE_FAILD;
     }
 
     public static void GetHidDeviceList(ref List<string> deviceList)
     {
-        Guid HidGuid = Guid.Empty;
-        uint num = 0u;
+        var HidGuid = Guid.Empty;
+        var num = 0u;
         deviceList.Clear();
         HidD_GetHidGuid(ref HidGuid);
-        IntPtr intPtr = SetupDiGetClassDevs(ref HidGuid, 0u, IntPtr.Zero, (DIGCF)18);
+        var intPtr = SetupDiGetClassDevs(ref HidGuid, 0u, IntPtr.Zero, (DIGCF)18);
         if (intPtr != IntPtr.Zero)
         {
-            SP_DEVICE_INTERFACE_DATA deviceInterfaceData = default(SP_DEVICE_INTERFACE_DATA);
+            var deviceInterfaceData = default(SP_DEVICE_INTERFACE_DATA);
             deviceInterfaceData.cbSize = Marshal.SizeOf((object)deviceInterfaceData);
             for (num = 0u; num < 64; num++)
-            {
                 if (SetupDiEnumDeviceInterfaces(intPtr, IntPtr.Zero, ref HidGuid, num, ref deviceInterfaceData))
                 {
-                    int requiredSize = 0;
+                    var requiredSize = 0;
                     SetupDiGetDeviceInterfaceDetail(intPtr, ref deviceInterfaceData, IntPtr.Zero, requiredSize,
                         ref requiredSize, null);
-                    IntPtr intPtr2 = Marshal.AllocHGlobal(requiredSize);
-                    SP_DEVICE_INTERFACE_DETAIL_DATA sP_DEVICE_INTERFACE_DETAIL_DATA =
+                    var intPtr2 = Marshal.AllocHGlobal(requiredSize);
+                    var sP_DEVICE_INTERFACE_DETAIL_DATA =
                         default(SP_DEVICE_INTERFACE_DETAIL_DATA);
                     sP_DEVICE_INTERFACE_DETAIL_DATA.cbSize = Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
-                    Marshal.StructureToPtr((object)sP_DEVICE_INTERFACE_DETAIL_DATA, intPtr2, fDeleteOld: false);
+                    Marshal.StructureToPtr((object)sP_DEVICE_INTERFACE_DETAIL_DATA, intPtr2, false);
                     if (SetupDiGetDeviceInterfaceDetail(intPtr, ref deviceInterfaceData, intPtr2, requiredSize,
                             ref requiredSize, null))
-                    {
                         deviceList.Add(Marshal.PtrToStringAuto((IntPtr)((int)intPtr2 + 4)));
-                    }
 
                     Marshal.FreeHGlobal(intPtr2);
                 }
-            }
         }
 
         SetupDiDestroyDeviceInfoList(intPtr);
