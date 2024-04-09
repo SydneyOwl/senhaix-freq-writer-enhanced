@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using SQ5R.View;
 
 namespace BF_H802_Import_Picture_tools;
 

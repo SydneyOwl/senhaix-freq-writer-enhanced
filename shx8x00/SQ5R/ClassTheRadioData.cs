@@ -11,7 +11,7 @@ public class ClassTheRadioData
 
     public DTMFData dtmfData = new();
 
-    public FormFunCFGData funCfgData = new();
+    public FunCFGData funCfgData = new();
 
     public OtherImfData otherImfData = new();
 

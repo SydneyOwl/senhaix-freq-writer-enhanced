@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Forms;
-using BF_H802_Import_Picture_tools;
 using SQ5R.View;
 
 namespace SQ5R;

@@ -16,30 +16,30 @@
 
 软件目前支持的功能：
 
-  | 信道操作                     |     Supported      |
-  | ---------------------------- | :----------------: |
-  | 上下拖拽调整信道顺序         | :white_check_mark: |
-  | 一键删除空信道               | :white_check_mark: |
-  | 撤回                         | :white_check_mark: |
-  | 清空指定信道（右键）         | :white_check_mark: |
-  | 指定信道后插入空信道（右键） | :white_check_mark: |
-  | 删除指定信道（右键）         | :white_check_mark: |
-  | 复制（右键）                 | :white_check_mark: |
-  | 剪切（右键）                 | :white_check_mark: |
-  | 粘贴（右键）                 | :white_check_mark: |
-  | 以及所有原有的功能           | :white_check_mark: |
+| 信道操作           |     Supported      |
+  |----------------|:------------------:|
+| 上下拖拽调整信道顺序     | :white_check_mark: |
+| 一键删除空信道        | :white_check_mark: |
+| 撤回             | :white_check_mark: |
+| 清空指定信道（右键）     | :white_check_mark: |
+| 指定信道后插入空信道（右键） | :white_check_mark: |
+| 删除指定信道（右键）     | :white_check_mark: |
+| 复制（右键）         | :white_check_mark: |
+| 剪切（右键）         | :white_check_mark: |
+| 粘贴（右键）         | :white_check_mark: |
+| 以及所有原有的功能      | :white_check_mark: |
 
-  | 蓝牙写频                                      |     Supported      |
-  | --------------------------------------------- | :----------------: |
-  | 不过滤 `ssid`                                 | :white_check_mark: |
-  | 不过滤 `rssi < -80` 的信号                    | :white_check_mark: |
-  | 连接森海克斯8800或后续成功加入蓝牙芯片的 8600 | :white_check_mark: |
-  | 所有写频线写频支持的功能                      | :white_check_mark: |
+| 蓝牙写频                        |     Supported      |
+  |-----------------------------|:------------------:|
+| 不过滤 `ssid`                  | :white_check_mark: |
+| 不过滤 `rssi < -80` 的信号        | :white_check_mark: |
+| 连接森海克斯8800或后续成功加入蓝牙芯片的 8600 | :white_check_mark: |
+| 所有写频线写频支持的功能                | :white_check_mark: |
 
-  | 其他功能         |          Supported           |
-  |--------------| :--------------------------: |
-  | 蓝牙或写频线修改开机画面 | `Experimental` :interrobang: |
-  | 打星助手         | :white_check_mark: |
+| 其他功能         |          Supported           |
+  |--------------|:----------------------------:|
+| 蓝牙或写频线修改开机画面 | `Experimental` :interrobang: |
+| 打星助手         |      :white_check_mark:      |
 
 > [!CAUTION]
 >
@@ -47,6 +47,7 @@
 
 ## 注意事项
 
-release中带有 `bluetooth` 字样的软件带有蓝牙写频功能，由于在 .net461基础上开发且使用了 BLE，**故该版本至少在 windows10及以上系统，且具备蓝牙硬件的电脑上方可使用**。
+release中带有 `bluetooth` 字样的软件带有蓝牙写频功能，由于在 .net461基础上开发且使用了 BLE，**故该版本至少在
+windows10及以上系统，且具备蓝牙硬件的电脑上方可使用**。
 
 没有 `bluetooth` 字样的版本使用 .net20开发，不具备蓝牙功能，**在 windows7 及以上系统即可运行**。

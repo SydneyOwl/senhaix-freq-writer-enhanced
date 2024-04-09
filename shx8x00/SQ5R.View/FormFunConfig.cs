@@ -17,7 +17,7 @@ public class FormFunConfig : Form
 
     private Button btn_Default;
 
-    private FormFunCFGData bufData;
+    private FunCFGData bufData;
 
     private CheckBox cB_AlarmSound;
 
@@ -164,7 +164,6 @@ public class FormFunConfig : Form
     private ComboBoxEx cbB_WorkModeA;
 
     private ComboBoxEx cbB_WorkModeB;
-    public MyDelegate ChangeCHCounts;
 
     private GroupBox gB_FreqMode_A;
 
@@ -290,7 +289,7 @@ public class FormFunConfig : Form
 
     private TextBox tB_B_RemainFreq;
 
-    public FormFunConfig(FormFunCFGData data)
+    public FormFunConfig(FunCFGData data)
     {
         InitializeComponent();
         StartPosition = FormStartPosition.CenterParent;
@@ -299,7 +298,7 @@ public class FormFunConfig : Form
 
     public bool FlagDataModify { get; set; } = false;
 
-    public static FormFunConfig getInstance(Form father, FormFunCFGData data)
+    public static FormFunConfig getInstance(Form father, FunCFGData data)
     {
         var formFunConfig = new FormFunConfig(data);
         formFunConfig.MdiParent = father;
@@ -322,7 +321,7 @@ public class FormFunConfig : Form
         }
     }
 
-    private void bindingTheControls(FormFunCFGData dat)
+    private void bindingTheControls(FunCFGData dat)
     {
         bufData = dat;
         TryToBingdingControl(cbB_TOT, "SelectedIndex", bufData, "CbB_TOT", 3);
@@ -381,7 +380,7 @@ public class FormFunConfig : Form
         TryToBingdingControl(cB_TDR, "Checked", bufData, "CB_TDR", false);
     }
 
-    public void updataTheBingdingValue(FormFunCFGData data)
+    public void updataTheBingdingValue(FunCFGData data)
     {
         removeTheBingdings();
         bindingTheControls(data);
@@ -447,7 +446,7 @@ public class FormFunConfig : Form
 
     private void btn_Default_Click(object sender, EventArgs e)
     {
-        var funCfgData = new FormFunCFGData();
+        var funCfgData = new FunCFGData();
         ((FormMain)MdiParent).theRadioData.funCfgData = funCfgData;
         bufData = ((FormMain)MdiParent).theRadioData.funCfgData;
         removeTheBingdings();
