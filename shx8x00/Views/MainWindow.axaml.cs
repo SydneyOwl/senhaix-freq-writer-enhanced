@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using shx8x00.constants;
@@ -24,6 +26,8 @@ public partial class MainWindow : Window
             ClassTheRadioData.getInstance().channelData = value;
         }
     }
+
+    private string savePath = "";
 
     public MainWindow()
     {
@@ -132,7 +136,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "小数点最多只能有5位！").ShowAsync();
+            MessageBoxManager.GetMessageBoxStandard("注意", "精度过高！").ShowAsync();
             // dataContext.RxFreq = "";
             // listItems[int.Parse(id)] = dataContext;
             return "-1";
@@ -146,5 +150,71 @@ public partial class MainWindow : Window
             freqChk = (num8 * num7).ToString();
         }
         return freqChk;
+    }
+
+    private void About_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var aboutWindow = new AboutWindow();
+        aboutWindow.ShowDialog(this); 
+    }
+
+    private async void new_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var box = MessageBoxManager
+            .GetMessageBoxStandard("注意","该操作将清空编辑中的信道，确定继续？",
+                ButtonEnum.YesNo);
+
+        var result = await box.ShowAsync();
+        if (result == ButtonResult.No)
+        {
+            return;
+        }
+        for (var i = 0; i < listItems.Count; i++)
+        {
+            var tmp = new ChannelData();
+            tmp.ChanNum = i.ToString();
+            listItems[i] = tmp;
+        }
+    }
+
+    private async void saveAs_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var ts = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        var topLevel = TopLevel.GetTopLevel(this);
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "保存配置文件",
+            SuggestedFileName = "Backup-"+ts+".dat"
+        });
+        if (file is not null)
+        {
+            savePath = new Uri(file.Path.ToString()).LocalPath;
+            await using var stream = await file.OpenWriteAsync();
+            stream.Seek(0L, SeekOrigin.Begin);
+            stream.SetLength(0L);
+            ClassTheRadioData.getInstance().SaveToFile(stream);
+            stream.Close();
+        }
+    }
+
+    private void save_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(savePath))
+        {
+            Stream stream = new FileStream(savePath, FileMode.OpenOrCreate);
+            stream.Seek(0L, SeekOrigin.Begin);
+            stream.SetLength(0L);
+            ClassTheRadioData.getInstance().SaveToFile(stream);
+            stream.Close();
+        }
+        else
+        {
+            saveAs_OnClick(null,null);
+        }
+    }
+
+    private void exit_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }

@@ -50,4 +50,9 @@ public class ClassTheRadioData
         instance = new ClassTheRadioData();
         return instance;
     }
+    
+    public static void forceNew()
+    {
+        instance = new ClassTheRadioData();
+    }
 }

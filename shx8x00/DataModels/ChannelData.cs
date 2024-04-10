@@ -2,6 +2,7 @@
 
 namespace shx8x00.DataModels;
 
+[Serializable]
 public class ChannelData
 {
     private string bandWidth;
