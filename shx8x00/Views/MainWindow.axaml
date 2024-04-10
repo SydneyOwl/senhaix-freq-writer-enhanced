@@ -3,8 +3,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
+        xmlns:vm="using:shx8x00.Views"
+        xmlns:constants="clr-namespace:shx8x00.constants"
+        Title="shx8x00通用写频软件"
+        x:DataType="vm:MainWindow"
         x:Class="shx8x00.Views.MainWindow"
-        Title="shx8x00通用写频软件">
+        xmlns:system="clr-namespace:System;assembly=System.Runtime">
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="文件">
@@ -96,17 +100,116 @@
                 </MenuItem>
                 </MenuItem>
         </Menu>
-        <Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
-            <TextBlock Foreground="Black">Dock = "Top"</TextBlock>
+        <Border Height="40" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal">
+            <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0"/>
+                    <TextBlock Text="读频" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button HorizontalAlignment="Left" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0"/>
+                    <TextBlock Text="写频" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            </StackPanel>
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
-            <TextBlock Foreground="Black">Dock = "Bottom"</TextBlock>
+            <TextBlock Foreground="Black">Ref. Version v0.1.a</TextBlock>
         </Border>
-        <Border Width="200" Background="PaleGreen" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Left">
-            <TextBlock Foreground="Black">Dock = "Left"</TextBlock>
-        </Border>
-        <Border Background="White" BorderBrush="Black" BorderThickness="1">
-            <TextBlock Foreground="Black">This content will "Fill" the remaining space</TextBlock>
+        <Border Background="White" BorderBrush="Black" BorderThickness="1" >
+            <DataGrid Margin="20" ItemsSource="{Binding listItems }"
+                      GridLinesVisibility="All"
+                      BorderThickness="1" BorderBrush="Gray"
+                      CanUserSortColumns="False" >
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="信道" 
+                                        Binding="{Binding ChanNum }" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="发射允许">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Center" SelectedItem="{Binding TxAllow, Mode=TwoWay}" ItemsSource="{x:Static constants:choice.txallow}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="接收频率">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding TxFreq}" LostFocus="InputElement_OnLostFocus"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="QT/DQT解码" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100" ItemsSource="{x:Static constants:choice.qtdqt}" SelectedItem="{Binding QtDec, Mode=TwoWay}" SelectionChanged="SelectingItemsControl_OnSelectionChanged"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="发射频率" 
+                                        Binding="{Binding TxFreq }" />
+                    <DataGridTemplateColumn Header="QT/DQT编码" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100" SelectedItem="{Binding QtEnc, Mode=TwoWay}" SelectionChanged="SelectingItemsControl_OnSelectionChanged" ItemsSource="{x:Static constants:choice.qtdqt}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="发射功率" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.txPwr}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="带宽" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.bandwidth}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="PTT-ID">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Pttid, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.pttid}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="繁忙锁定" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding BusyLock, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.busylock}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="扫描添加" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.scanadd}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="信令码" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding SigCode, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.signCode}" /> 
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>                    
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="信道名称" Width="*"
+                                        Binding="{Binding ChanName }" />
+                    <DataGridTemplateColumn Header="加密" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Encrypt, Mode=TwoWay}" HorizontalAlignment="Center" ItemsSource="{x:Static constants:choice.encrypt}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Border>
     </DockPanel>
 </Window>
