@@ -15,7 +15,7 @@ namespace shx8x00.Views;
 
 public partial class MainWindow : Window
 {
-    public ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().channelData;
+    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().channelData;
 
     public ObservableCollection<ChannelData> listItems
     {
@@ -216,5 +216,16 @@ public partial class MainWindow : Window
     private void exit_OnClick(object? sender, RoutedEventArgs e)
     {
         Close();
+    }
+
+    private void dtmfset_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var dtmfWindow = new DTMFWindow();
+        dtmfWindow.ShowDialog(this); 
+    }
+
+    private void option_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new OptionalWindow().ShowDialog(this);
     }
 }

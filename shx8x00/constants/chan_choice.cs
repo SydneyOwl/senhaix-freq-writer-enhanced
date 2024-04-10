@@ -2,7 +2,7 @@
 
 namespace shx8x00.constants;
 
-public class choice
+public class chan_choice
 {
     public static ObservableCollection<string> qtdqt = new ()
     {
@@ -90,4 +90,7 @@ public class choice
         "OFF",
         "ON"
     };
+
+    
+    
 }
