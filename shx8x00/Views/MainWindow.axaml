@@ -137,7 +137,7 @@
                     <DataGridTemplateColumn Header="接收频率">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding TxFreq}" LostFocus="InputElement_OnLostFocus"/>
+                                <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -148,8 +148,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="发射频率" 
-                                        Binding="{Binding TxFreq }" />
+                    <DataGridTemplateColumn Header="发射频率" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="QT/DQT编码" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

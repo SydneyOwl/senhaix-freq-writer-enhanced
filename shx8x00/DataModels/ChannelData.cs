@@ -24,6 +24,15 @@ public class ChannelData
         return $"{nameof(bandWidth)}: {bandWidth}, {nameof(busyLock)}: {busyLock}, {nameof(chanName)}: {chanName}, {nameof(chanNum)}: {chanNum}, {nameof(encrypt)}: {encrypt}, {nameof(pttid)}: {pttid}, {nameof(QTDec)}: {QTDec}, {nameof(QTEnc)}: {QTEnc}, {nameof(rxFreq)}: {rxFreq}, {nameof(scanAdd)}: {scanAdd}, {nameof(sigCode)}: {sigCode}, {nameof(txAllow)}: {txAllow}, {nameof(txFreq)}: {txFreq}, {nameof(txPwr)}: {txPwr}, {nameof(ChanNum)}: {ChanNum}, {nameof(TxAllow)}: {TxAllow}, {nameof(RxFreq)}: {RxFreq}, {nameof(QtDec)}: {QtDec}, {nameof(TxFreq)}: {TxFreq}, {nameof(QtEnc)}: {QtEnc}, {nameof(TxPwr)}: {TxPwr}, {nameof(BandWidth)}: {BandWidth}, {nameof(Pttid)}: {Pttid}, {nameof(BusyLock)}: {BusyLock}, {nameof(ScanAdd)}: {ScanAdd}, {nameof(SigCode)}: {SigCode}, {nameof(ChanName)}: {ChanName}, {nameof(Encrypt)}: {Encrypt}";
     }
 
+    public bool allEmpty()
+    {
+        return string.IsNullOrEmpty(bandWidth) && string.IsNullOrEmpty(busyLock) && string.IsNullOrEmpty(chanName) &&
+               string.IsNullOrEmpty(encrypt) && string.IsNullOrEmpty(pttid) && string.IsNullOrEmpty(QtDec) &&
+               string.IsNullOrEmpty(QtEnc) && string.IsNullOrEmpty(scanAdd) && string.IsNullOrEmpty(sigCode) &&
+               string.IsNullOrEmpty(txAllow)
+               && string.IsNullOrEmpty(txFreq) && string.IsNullOrEmpty(txPwr);
+    }
+
     public string ChanNum
     {
         get => chanNum;
