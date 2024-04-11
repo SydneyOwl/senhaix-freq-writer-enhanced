@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+                id="root"
+                xmlns="">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="col_addonscan.HeaderText" xml:space="preserve"><value>扫描添加</value></data>
+    <data name="&gt;&gt;btn_default.Parent" xml:space="preserve"><value>$this</value></data>
+    <data name="$this.Icon" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5JY29uAgAAAAhJY29uRGF0YQhJY29uU2l6ZQcEAhNTeXN0ZW0uRHJhd2luZy5TaXplAgAAAAIAAAAJAwAAAAX8////E1N5c3RlbS5EcmF3aW5nLlNpemUCAAAABXdpZHRoBmhlaWdodAAACAgCAAAAAAAAAAAAAAAPAwAAAP4CAAACAAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB3dwd3cHd3AAAAAAAAAAAAd3cHd3B3dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB3dwd3cHd3AAAAAAAAAAAAd3cHd3B3dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB3dwd3cHd3AAAAAAAAAAAAd3cHd3B3dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqqqqqqqqgAAAAAAAAAAAKAAoACgAKoAAAAAAAAAAACgoKCgoKCqAAAAAAAAAAAAoACgAKAAqgAAAAAAAAAAAKqqqqqqqqoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHBwd3d3dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcHB3d3d3cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwcHd3d3cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/gAH//wAA//4AAH/+AAB//gAAf/4AAH/+AAB//gAAf/4AAH/+AAB//gAAf/4AAH/+AAB//gAAf/4AAH/+AAB//gAAf/4AAH/+AAB//gAAf/4AAH/+AAB//gAAf/4AAH/+AAB//wAA///H4///x+P//8f3///H////x////8f//ws=
+        </value>
+    </data>
+    <data name="$this.Text" xml:space="preserve"><value>信道信息</value></data>
+    <data name="&gt;&gt;dGV.Type" xml:space="preserve"><value>DevComponents.DotNetBar.Controls.DataGridViewX, DevComponents.DotNetBar2, Version=14.0.0.3, Culture=neutral, PublicKeyToken=c39c3242a43eee2b</value></data>
+    <data name="&gt;&gt;dGV.Name" xml:space="preserve"><value>dGV</value></data>
+    <data name="&gt;&gt;col_bandw.Name" xml:space="preserve"><value>col_bandw</value></data>
+    <data name="&gt;&gt;col_bandw.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_pttid.Name" xml:space="preserve"><value>col_pttid</value></data>
+    <data name="&gt;&gt;col_pttid.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;btn_default.ZOrder" xml:space="preserve"><value>2</value></data>
+    <data name="$this.ClientSize" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5TaXplAgAAAAV3aWR0aAZoZWlnaHQAAAgIAgAAAMAEAADTAgAACw==
+        </value>
+    </data>
+    <data name="&gt;&gt;col_chnNum.Name" xml:space="preserve"><value>col_chnNum</value></data>
+    <data name="&gt;&gt;col_chnNum.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_lockonbusy.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_lockonbusy.Name" xml:space="preserve"><value>col_lockonbusy</value></data>
+    <data name="&gt;&gt;col_enableTx.Name" xml:space="preserve"><value>col_enableTx</value></data>
+    <data name="&gt;&gt;col_enableTx.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="btn_default.Location" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABRTeXN0ZW0uRHJhd2luZy5Qb2ludAIAAAABeAF5AAAICAIAAACOAgAAkQIAAAs=
+        </value>
+    </data>
+    <data name="&gt;&gt;col_rxFreq.Name" xml:space="preserve"><value>col_rxFreq</value></data>
+    <data name="&gt;&gt;col_rxFreq.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_signcode.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_signcode.Name" xml:space="preserve"><value>col_signcode</value></data>
+    <data name="&gt;&gt;col_QTDTQ.Name" xml:space="preserve"><value>col_QTDTQ</value></data>
+    <data name="&gt;&gt;col_QTDTQ.Type" xml:space="preserve"><value>DevComponents.DotNetBar.Controls.DataGridViewComboBoxExColumn, DevComponents.DotNetBar2, Version=14.0.0.3, Culture=neutral, PublicKeyToken=c39c3242a43eee2b</value></data>
+    <data name="&gt;&gt;col_txFreq.Name" xml:space="preserve"><value>col_txFreq</value></data>
+    <data name="&gt;&gt;col_txFreq.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_encrypt.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_encrypt.Name" xml:space="preserve"><value>col_encrypt</value></data>
+    <data name="&gt;&gt;col_QTDQT.Name" xml:space="preserve"><value>col_QTDQT</value></data>
+    <data name="&gt;&gt;col_QTDQT.Type" xml:space="preserve"><value>DevComponents.DotNetBar.Controls.DataGridViewComboBoxExColumn, DevComponents.DotNetBar2, Version=14.0.0.3, Culture=neutral, PublicKeyToken=c39c3242a43eee2b</value></data>
+    <data name="&gt;&gt;col_addonscan.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_addonscan.Name" xml:space="preserve"><value>col_addonscan</value></data>
+    <data name="&gt;&gt;col_txPwr.Name" xml:space="preserve"><value>col_txPwr</value></data>
+    <data name="&gt;&gt;col_txPwr.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="col_txPwr.HeaderText" xml:space="preserve"><value>发射功率</value></data>
+    <data name="&gt;&gt;col_chnName.Type" xml:space="preserve"><value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;col_chnName.Name" xml:space="preserve"><value>col_chnName</value></data>
+    <data name="btn_Clear.Location" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABRTeXN0ZW0uRHJhd2luZy5Qb2ludAIAAAABeAF5AAAICAIAAAB4AwAAkQIAAAs=
+        </value>
+    </data>
+    <data name="&gt;&gt;btn_default.Name" xml:space="preserve"><value>btn_default</value></data>
+    <data name="&gt;&gt;btn_default.Type" xml:space="preserve"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="col_QTDTQ.HeaderText" xml:space="preserve"><value>QT/DTQ 解码</value></data>
+    <data name="col_rxFreq.HeaderText" xml:space="preserve"><value>接收频率</value></data>
+    <data name="&gt;&gt;btn_Clear.Type" xml:space="preserve"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;btn_Clear.Name" xml:space="preserve"><value>btn_Clear</value></data>
+    <data name="col_pttid.HeaderText" xml:space="preserve"><value>PTT-ID</value></data>
+    <data name="col_QTDQT.HeaderText" xml:space="preserve"><value>QT/DQT 编码</value></data>
+    <data name="dGV.TabIndex"
+          type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <value>4</value>
+    </data>
+    <data name="col_enableTx.HeaderText" xml:space="preserve"><value>发射允许</value></data>
+    <data name="btn_default.TabIndex"
+          type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <value>1</value>
+    </data>
+    <data name="col_encrypt.HeaderText" xml:space="preserve"><value>加密</value></data>
+    <data name="dGV.Size" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5TaXplAgAAAAV3aWR0aAZoZWlnaHQAAAgIAgAAAKsEAAB0AgAACw==
+        </value>
+    </data>
+    <data name="btn_Clear.Text" xml:space="preserve"><value>清空列表</value></data>
+    <data name="btn_Clear.Size" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5TaXplAgAAAAV3aWR0aAZoZWlnaHQAAAgIAgAAALEAAAAsAAAACw==
+        </value>
+    </data>
+    <data name="dGV.ColumnHeadersHeight"
+          type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <value>35</value>
+    </data>
+    <data name="col_lockonbusy.HeaderText" xml:space="preserve"><value>繁忙锁定</value></data>
+    <data name="dGV.Location" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABRTeXN0ZW0uRHJhd2luZy5Qb2ludAIAAAABeAF5AAAICAIAAAAJAAAADAAAAAs=
+        </value>
+    </data>
+    <data name="col_txFreq.HeaderText" xml:space="preserve"><value>发射频率</value></data>
+    <data name="col_signcode.HeaderText" xml:space="preserve"><value>信令码</value></data>
+    <data name="&gt;&gt;$this.Name" xml:space="preserve"><value>FormCHImfo</value></data>
+    <data name="&gt;&gt;$this.Type" xml:space="preserve"><value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+    <data name="&gt;&gt;btn_Clear.Parent" xml:space="preserve"><value>$this</value></data>
+    <data name="col_chnNum.HeaderText" xml:space="preserve"><value>信道</value></data>
+    <data name="col_chnName.HeaderText" xml:space="preserve"><value>信道名称</value></data>
+    <data name="&gt;&gt;dGV.ZOrder" xml:space="preserve"><value>0</value></data>
+    <data name="&gt;&gt;btn_Clear.ZOrder" xml:space="preserve"><value>1</value></data>
+    <data name="btn_Clear.TabIndex"
+          type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <value>2</value>
+    </data>
+    <data name="$this.AutoScaleDimensions" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABRTeXN0ZW0uRHJhd2luZy5TaXplRgIAAAAFd2lkdGgGaGVpZ2h0AAALCwIAAAAAAABBAABwQQs=
+        </value>
+    </data>
+    <data name="btn_default.Size" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>
+            AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5TaXplAgAAAAV3aWR0aAZoZWlnaHQAAAgIAgAAALEAAAAsAAAACw==
+        </value>
+    </data>
+    <data name="btn_default.Text" xml:space="preserve"><value>出厂参数</value></data>
+    <data name="&gt;&gt;dGV.Parent" xml:space="preserve"><value>$this</value></data>
+    <data name="col_bandw.HeaderText" xml:space="preserve"><value>带宽</value></data>
+</root>

@@ -1,3 +1,5 @@
-.idea
-/bin
-/obj
+*.sln
+*.DotSettings.user
+obj/
+bin/
+.idea/

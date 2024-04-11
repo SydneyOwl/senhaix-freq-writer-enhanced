@@ -1,0 +1,14 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="500" Height="200"
+        CanResize="False"
+        x:Class="shx8x00.Views.AboutWindow"
+        Title="关于"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <TextBlock>森海克斯通用写频软件（SHX8X00）</TextBlock>
+        <TextBlock>版本v0.0.1 DEBUG</TextBlock>
+        <TextBlock>适配Windows/Linux/MacOS</TextBlock>
+        <TextBlock>仓库：https://github.com/SydneyOwl/senhaix-freq-writer-enhanced</TextBlock>
+    </StackPanel>
+</Window>
