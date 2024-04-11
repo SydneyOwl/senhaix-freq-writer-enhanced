@@ -9,22 +9,20 @@
 > 如有必要，请在任何操作前首先进行备份操作！
 
 > [!NOTE]  
-> 为使软件实现跨平台（在Mac/Linux端可用），目前正在尝试使用`Avalonia`重构UI，您可以在`develop`分支上查看进度。重构完成后将放弃对win7及以下平台的支持。
+> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经重构大致完成，已经合并入`master`，命名为`shx8x00_unix`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
 >
-> 目前进度：
-> + 8x00 95%
-> + GT12 0%
->
-> 由于gt12有点小贵暂时没买，还无法进行跨平台适配，如确实需要在linux/mac使用可以考虑虚拟机或者wine
+> 由于手头上没有GT12，暂时没法重构..
 
 
 ## 简介
 
-森海克斯8800/8600：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
+森海克斯8800/8600（for windows）：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
+
+森海克斯8800/8600（for windows&linux&mac）:  [森海克斯8800/8600写频软件简介](./shx8x00_unix/readme.md)
 
 森海克斯GT-12：[GT12写频软件简介](./GT12/readme.md)
 
-## 编译指引
+## 编译指引-shx8x00和GT12(适用于windows)
 
 如果需要自行编译，只需要使用`Makefiile`进行编译即可。克隆仓库时请使用`--recursive`参数！
 
@@ -47,6 +45,10 @@ mingw32-make shx8x00_nobt #只编译不支持蓝牙的shx8x00
 
 > [!TIP]
 > 您也可以参考`.github/workflows/build.yml`进行编译。
+
+## 编译指引shx8x00-unix(适用于windows/unix)
+
+还在写，还没放到release里面
 
 ## 其他
 
