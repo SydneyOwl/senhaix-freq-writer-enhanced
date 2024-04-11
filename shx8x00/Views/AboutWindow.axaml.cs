@@ -1,7 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 
 namespace shx8x00.Views;
 
@@ -11,5 +8,4 @@ public partial class AboutWindow : Window
     {
         InitializeComponent();
     }
-    
 }

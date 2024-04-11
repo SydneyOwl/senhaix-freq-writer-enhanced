@@ -11,26 +11,20 @@ namespace shx8x00.Views;
 
 public partial class ProgressBarWindow : Window
 {
-    private delegate void getWriteFreqResult(bool result);
+    private readonly MySerialPort sP;
 
-    private delegate void getWFProgress(int value);
+    // 读0
+    private readonly int status;
 
-    private delegate void getWFProgressText(string text);
-    
-    private WriFreq wF = null;
-
-    private MySerialPort sP;
-
-    private ClassTheRadioData theRadioData;
-    
-    private Thread threadWF;
+    private readonly ClassTheRadioData theRadioData;
 
     private Thread threadProgress;
-    
-    // 读0
-    private int status;
 
-    
+    private Thread threadWF;
+
+    private WriFreq wF;
+
+
     public ProgressBarWindow(int opStatus)
     {
         status = opStatus;
@@ -59,43 +53,41 @@ public partial class ProgressBarWindow : Window
             sP.CloseSerial();
         }
     }
+
     private void Task_WriteFreq()
     {
-        bool flag = false;
-        if (status==0)
-        {
+        var flag = false;
+        if (status == 0)
             wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.READ);
-        }
         else
-        {
             wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.WRITE);
-        }
         flag = wF.DoIt();
-        Dispatcher.UIThread.Invoke(()=>HandleWFResult(flag));
+        Dispatcher.UIThread.Invoke(() => HandleWFResult(flag));
     }
-    
-    private  void Task_GetProgress()
+
+    private void Task_GetProgress()
     {
-        bool flag = false;
-        int num = 3;
+        var flag = false;
+        var num = 3;
         while (wF == null)
         {
         }
+
         while (!wF.flagTransmitting)
         {
         }
+
         while (wF.flagTransmitting)
-        {
             switch (wF.state)
             {
                 case STATE.HandShakeStep1:
                 case STATE.HandShakeStep2:
                 case STATE.HandShakeStep3:
                 {
-                    string text2 = "握手...";
+                    var text2 = "握手...";
                     flag = false;
-                    Dispatcher.UIThread.Invoke(()=>statusLabel.Content = text2);
-                    Dispatcher.UIThread.Invoke(()=>progressBar.Value = 0);
+                    Dispatcher.UIThread.Invoke(() => statusLabel.Content = text2);
+                    Dispatcher.UIThread.Invoke(() => progressBar.Value = 0);
                     // Invoke(new getWFProgressText(UpdataWFProgressText), text2);
                     // Invoke(new getWFProgress(UpdataWFProgress), 0);
                     break;
@@ -103,13 +95,14 @@ public partial class ProgressBarWindow : Window
                 case STATE.HandShakeStep4:
                     if (!flag)
                     {
-                        string text3 = "进度...";
+                        var text3 = "进度...";
                         flag = true;
-                        Dispatcher.UIThread.Invoke(()=>statusLabel.Content = text3 + num + "%");
-                        Dispatcher.UIThread.Invoke(()=>progressBar.Value = num);
+                        Dispatcher.UIThread.Invoke(() => statusLabel.Content = text3 + num + "%");
+                        Dispatcher.UIThread.Invoke(() => progressBar.Value = num);
                         // Invoke(new getWFProgress(UpdataWFProgress), num);
                         // Invoke(new getWFProgressText(UpdataWFProgressText), text3 + num + "%");
                     }
+
                     break;
                 case STATE.ReadStep1:
                 case STATE.ReadStep3:
@@ -120,21 +113,22 @@ public partial class ProgressBarWindow : Window
                 case STATE.WriteStep2:
                     if (!flag)
                     {
-                        string text = "进度...";
+                        var text = "进度...";
                         flag = true;
                         if (wF.eepAddr % 64 == 0)
                         {
                             num++;
-                            Dispatcher.UIThread.Invoke(()=>statusLabel.Content =  text + num + "%");
-                            Dispatcher.UIThread.Invoke(()=>progressBar.Value = num);
+                            Dispatcher.UIThread.Invoke(() => statusLabel.Content = text + num + "%");
+                            Dispatcher.UIThread.Invoke(() => progressBar.Value = num);
                             // Invoke(new getWFProgress(UpdataWFProgress), num);
                             // Invoke(new getWFProgressText(UpdataWFProgressText), text + num + "%");
                         }
                     }
+
                     break;
             }
-        }
     }
+
     private void HandleWFResult(bool result)
     {
         if (result)
@@ -143,10 +137,17 @@ public partial class ProgressBarWindow : Window
             progressBar.Value = 100;
         }
         else
-        { 
+        {
             statusLabel.Content = "失败!";
         }
+
         sP.CloseSerial();
         StartButton.IsEnabled = true;
     }
+
+    private delegate void getWriteFreqResult(bool result);
+
+    private delegate void getWFProgress(int value);
+
+    private delegate void getWFProgressText(string text);
 }

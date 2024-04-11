@@ -5,7 +5,7 @@ using shx8x00.Views;
 
 namespace shx8x00;
 
-public partial class App : Application
+public class App : Application
 {
     public override void Initialize()
     {
@@ -15,9 +15,7 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
             desktop.MainWindow = new MainWindow();
-        }
 
         base.OnFrameworkInitializationCompleted();
     }

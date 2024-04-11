@@ -1,39 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO.Ports;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using shx8x00.Utils.Serial;
 
 namespace shx8x00.Views;
 
 public partial class PortSelectionWindow : Window
 {
-    public ObservableCollection<string> portList
-    {
-        get;
-        set;
-    }
-
     private string _portName = MySerialPort.getInstance().TargetPort;
-    public string portName
-    {
-        get
-        {
-            return _portName;
-        }
-        set
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            _portName = value;
-        }
-    }
 
     public PortSelectionWindow()
     {
@@ -44,8 +19,22 @@ public partial class PortSelectionWindow : Window
             portName = "";
             MySerialPort.getInstance().TargetPort = "";
         }
+
         InitializeComponent();
         DataContext = this;
+    }
+
+    public ObservableCollection<string> portList { get; set; }
+
+    public string portName
+    {
+        get => _portName;
+        set
+        {
+            if (string.IsNullOrEmpty(value)) return;
+
+            _portName = value;
+        }
     }
 
     private void confirm_OnClick(object? sender, RoutedEventArgs e)
@@ -63,9 +52,6 @@ public partial class PortSelectionWindow : Window
     {
         string[] portNames = SerialPort.GetPortNames();
         portList.Clear();
-        foreach (var name in portNames)
-        {
-            portList.Add(name);
-        }
+        foreach (var name in portNames) portList.Add(name);
     }
 }

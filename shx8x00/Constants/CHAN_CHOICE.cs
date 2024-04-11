@@ -4,7 +4,7 @@ namespace shx8x00.Constants;
 
 public class CHAN_CHOICE
 {
-    public static ObservableCollection<string> qtdqt = new ()
+    public static ObservableCollection<string> qtdqt = new()
     {
         "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
         "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",
@@ -39,33 +39,39 @@ public class CHAN_CHOICE
         "Yes",
         "No"
     };
+
     public static ObservableCollection<string> txPwr = new()
     {
         "L",
         "H"
     };
+
     public static ObservableCollection<string> bandwidth = new()
     {
         "W",
         "H"
     };
+
     public static ObservableCollection<string> pttid = new()
     {
         "OFF",
         "BOT",
         "EOT",
-        "BOTH",
+        "BOTH"
     };
+
     public static ObservableCollection<string> busylock = new()
     {
         "OFF",
         "ON"
     };
+
     public static ObservableCollection<string> scanadd = new()
     {
         "OFF",
         "ON"
     };
+
     public static ObservableCollection<string> signCode = new()
     {
         "1",
@@ -82,7 +88,7 @@ public class CHAN_CHOICE
         "12",
         "13",
         "14",
-        "15",
+        "15"
     };
 
     public static ObservableCollection<string> encrypt = new()
@@ -90,7 +96,4 @@ public class CHAN_CHOICE
         "OFF",
         "ON"
     };
-
-    
-    
 }
