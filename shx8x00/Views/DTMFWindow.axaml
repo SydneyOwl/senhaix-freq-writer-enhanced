@@ -5,47 +5,48 @@
         xmlns:vm="using:shx8x00.Views"
         xmlns:constants="clr-namespace:shx8x00.constants"
         x:DataType="vm:DTMFWindow"
-        Title="DTMF参数">
+        Title="DTMF参数"
+        KeyDown="Input_OnKeyDown">
     <Canvas>
         <Border Height="200" Width="380" Margin="10" BorderThickness="1" BorderBrush="Black"/>
         <Label Canvas.Top="0" Canvas.Left="20" Background="White">编码码组：</Label>
         <Label Canvas.Top="30" Canvas.Left="20" Background="White">1：</Label>
-        <TextBox Canvas.Top="25" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_1}"></TextBox>
+        <TextBox Canvas.Top="25" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_1}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="65" Canvas.Left="20" Background="White">2：</Label>
-        <TextBox Canvas.Top="60" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_2}"></TextBox>
+        <TextBox Canvas.Top="60" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_2}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="100" Canvas.Left="20" Background="White">3：</Label>
-        <TextBox Canvas.Top="95" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_3}"></TextBox>
+        <TextBox Canvas.Top="95" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_3}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="135" Canvas.Left="20" Background="White">4：</Label>
-        <TextBox Canvas.Top="130" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_4}"></TextBox>
+        <TextBox Canvas.Top="130" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_4}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="170" Canvas.Left="20" Background="White">5：</Label>
-        <TextBox Canvas.Top="165" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_5}"></TextBox>
+        <TextBox Canvas.Top="165" Canvas.Left="50" Text="{Binding dtmf.GroupOfDTMF_5}" TextChanged="TextBox_OnTextChanged"></TextBox>
         
         <Label Canvas.Top="30" Canvas.Left="130" Background="White">6：</Label>
-        <TextBox Canvas.Top="25" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_6}"></TextBox>
+        <TextBox Canvas.Top="25" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_6}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="65" Canvas.Left="130" Background="White">7：</Label>
-        <TextBox Canvas.Top="60" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_7}"></TextBox>
+        <TextBox Canvas.Top="60" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_7}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="100" Canvas.Left="130" Background="White">8：</Label>
-        <TextBox Canvas.Top="95" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_8}"></TextBox>
+        <TextBox Canvas.Top="95" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_8}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="135" Canvas.Left="130" Background="White">9：</Label>
-        <TextBox Canvas.Top="130" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_9}"></TextBox>
+        <TextBox Canvas.Top="130" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_9}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="170" Canvas.Left="130" Background="White">10：</Label>
-        <TextBox Canvas.Top="165" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_A}"></TextBox>
+        <TextBox Canvas.Top="165" Canvas.Left="160" Text="{Binding dtmf.GroupOfDTMF_A}" TextChanged="TextBox_OnTextChanged"></TextBox>
         
         <Label Canvas.Top="30" Canvas.Left="250" Background="White">11：</Label>
-        <TextBox Canvas.Top="25" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_B}"></TextBox>
+        <TextBox Canvas.Top="25" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_B}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="65" Canvas.Left="250" Background="White">12：</Label>
-        <TextBox Canvas.Top="60" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_C}"></TextBox>
+        <TextBox Canvas.Top="60" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_C}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="100" Canvas.Left="250" Background="White">13：</Label>
-        <TextBox Canvas.Top="95" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_D}"></TextBox>
+        <TextBox Canvas.Top="95" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_D}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="135" Canvas.Left="250" Background="White">14：</Label>
-        <TextBox Canvas.Top="130" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_E}"></TextBox>
+        <TextBox Canvas.Top="130" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_E}" TextChanged="TextBox_OnTextChanged"></TextBox>
         <Label Canvas.Top="170" Canvas.Left="250" Background="White">15：</Label>
-        <TextBox Canvas.Top="165" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_F}"></TextBox>
+        <TextBox Canvas.Top="165" Canvas.Left="280" Text="{Binding dtmf.GroupOfDTMF_F}" TextChanged="TextBox_OnTextChanged"></TextBox>
         
         <Border Height="160" Width="180" BorderThickness="1" BorderBrush="Black"
                 Canvas.Left="10" Canvas.Top="220"/>
         <Label Canvas.Top="210" Canvas.Left="20" Background="White">本机ID码：</Label>
-        <TextBox Canvas.Top="250" Canvas.Left="50" Width="100" Text="{Binding dtmf.TheIDOfLocalHost}"></TextBox>
+        <TextBox Canvas.Top="250" Canvas.Left="50" Width="100" Text="{Binding dtmf.TheIDOfLocalHost}" TextChanged="idhost_OnTextChanged" ></TextBox>
         <CheckBox Canvas.Top="290" Canvas.Left="20" IsChecked="{Binding dtmf.SendOnPTTPressed}">按下PTT时发送</CheckBox>
         <CheckBox Canvas.Top="320" Canvas.Left="20" IsChecked="{Binding dtmf.SendOnPTTReleased}">松开PTT时发送</CheckBox>
         

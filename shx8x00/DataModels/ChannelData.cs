@@ -37,7 +37,7 @@ public partial class ChannelData : ObservableObject
 
     public override string ToString()
     {
-        return $"{nameof(bandWidth)}: {bandWidth}, {nameof(busyLock)}: {busyLock}, {nameof(chanName)}: {chanName}, {nameof(chanNum)}: {chanNum}, {nameof(encrypt)}: {encrypt}, {nameof(pttid)}: {pttid}, {nameof(qtDec)}: {qtDec}, {nameof(qtEnc)}: {qtEnc}, {nameof(rxFreq)}: {rxFreq}, {nameof(scanAdd)}: {scanAdd}, {nameof(sigCode)}: {sigCode}, {nameof(txAllow)}: {txAllow}, {nameof(txFreq)}: {txFreq}, {nameof(txPwr)}: {txPwr}, {nameof(BandWidth)}: {BandWidth}, {nameof(BusyLock)}: {BusyLock}, {nameof(ChanName)}: {ChanName}, {nameof(ChanNum)}: {ChanNum}, {nameof(Encrypt)}: {Encrypt}, {nameof(Pttid)}: {Pttid}, {nameof(QtDec)}: {QtDec}, {nameof(QtEnc)}: {QtEnc}, {nameof(RxFreq)}: {RxFreq}, {nameof(ScanAdd)}: {ScanAdd}, {nameof(SigCode)}: {SigCode}, {nameof(TxAllow)}: {TxAllow}, {nameof(TxFreq)}: {TxFreq}, {nameof(TxPwr)}: {TxPwr}";
+        return $"{nameof(bandWidth)}: {bandWidth}, {nameof(busyLock)}: {busyLock}, {nameof(chanName)}: {chanName}, {nameof(chanNum)}: {chanNum}, {nameof(encrypt)}: {encrypt}, {nameof(pttid)}: {pttid}, {nameof(qtDec)}: {qtDec}, {nameof(qtEnc)}: {qtEnc}, {nameof(rxFreq)}: {rxFreq}, {nameof(scanAdd)}: {scanAdd}, {nameof(sigCode)}: {sigCode}, {nameof(txAllow)}: {txAllow}, {nameof(txFreq)}: {txFreq}, {nameof(txPwr)}: {txPwr}";
     }
 
     public bool allEmpty()
@@ -47,5 +47,13 @@ public partial class ChannelData : ObservableObject
                string.IsNullOrEmpty(qtEnc) && string.IsNullOrEmpty(scanAdd) && string.IsNullOrEmpty(sigCode) &&
                string.IsNullOrEmpty(txAllow)
                && string.IsNullOrEmpty(txFreq) && string.IsNullOrEmpty(txPwr);
+    }
+    public bool filled()
+    {
+        return !string.IsNullOrEmpty(bandWidth) && !string.IsNullOrEmpty(busyLock) && !string.IsNullOrEmpty(chanName) &&
+               !string.IsNullOrEmpty(encrypt) && !string.IsNullOrEmpty(pttid) && !string.IsNullOrEmpty(qtDec) &&
+               !string.IsNullOrEmpty(qtEnc) && !string.IsNullOrEmpty(scanAdd) && !string.IsNullOrEmpty(sigCode) &&
+               !string.IsNullOrEmpty(txAllow)
+               && !string.IsNullOrEmpty(txFreq) && !string.IsNullOrEmpty(txPwr);
     }
 }

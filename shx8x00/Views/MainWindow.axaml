@@ -52,7 +52,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="读写频">
-                <MenuItem Header="从手台读取信道">
+                <MenuItem Header="从手台读取信道" Click="writeChannel_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource arrow_up_regular}"/>
                     </MenuItem.Icon>
@@ -97,13 +97,13 @@
         </Menu>
         <Border Height="40" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
             <StackPanel Orientation="Horizontal">
-            <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_OnClick">
+            <Button HorizontalAlignment="Left" Margin="10,0,0,0" >
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0"/>
                     <TextBlock Text="读频" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="10,0,0,0">
+            <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="writeChannel_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0"/>
                     <TextBlock Text="写频" VerticalAlignment="Center"/>

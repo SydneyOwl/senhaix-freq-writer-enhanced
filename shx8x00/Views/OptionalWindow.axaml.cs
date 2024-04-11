@@ -53,7 +53,7 @@ public partial class OptionalWindow : Window
             var flag = false;
             if (num < 100.0 || num >= 520.0)
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "范围 100 - 520MHz").ShowAsync();
+                MessageBoxManager.GetMessageBoxStandard("注意", "范围 100 - 520MHz").ShowWindowDialogAsync(this);
                 return "400.12500";
             }
             
@@ -144,7 +144,7 @@ public partial class OptionalWindow : Window
             var num4 = int.Parse(text);
             if (num4 > 99)
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "范围 100 - 520MHz").ShowAsync();
+                MessageBoxManager.GetMessageBoxStandard("注意", "范围 100 - 520MHz").ShowWindowDialogAsync(this);
                 return "00.0000";
             }
 

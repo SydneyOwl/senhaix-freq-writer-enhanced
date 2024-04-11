@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
@@ -118,7 +120,7 @@ public partial class MainWindow : Window
         // 检查频率范围
         if (!double.TryParse(freqChk, out PFreq))
         { 
-            MessageBoxManager.GetMessageBoxStandard("注意", "输入频率格式有误").ShowAsync();
+            MessageBoxManager.GetMessageBoxStandard("注意", "输入频率格式有误").ShowWindowDialogAsync(this);
             // dataContext.RxFreq = "";
             // listItems[int.Parse(id)] = dataContext;
             return "-1";
@@ -127,7 +129,7 @@ public partial class MainWindow : Window
         if (PFreq < freq.theMinFreq || PFreq > freq.theMaxFreq)
         {
             MessageBoxManager.GetMessageBoxStandard("注意",
-                "频率错误!\n频率范围:" + freq.theMinFreq + "--" + freq.theMaxFreq).ShowAsync();
+                "频率错误!\n频率范围:" + freq.theMinFreq + "--" + freq.theMaxFreq).ShowWindowDialogAsync(this);
             return "-1";
         }
 
@@ -138,7 +140,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "精度过高！").ShowAsync();
+            MessageBoxManager.GetMessageBoxStandard("注意", "精度过高！").ShowWindowDialogAsync(this);
             // dataContext.RxFreq = "";
             // listItems[int.Parse(id)] = dataContext;
             return "-1";
@@ -166,11 +168,13 @@ public partial class MainWindow : Window
             .GetMessageBoxStandard("注意","该操作将清空编辑中的信道，确定继续？",
                 ButtonEnum.YesNo);
 
-        var result = await box.ShowAsync();
+        var result = await box.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No)
         {
             return;
         }
+        // TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
+        ClassTheRadioData.forceNew();
         for (var i = 0; i < listItems.Count; i++)
         {
             var tmp = new ChannelData();
@@ -243,7 +247,39 @@ public partial class MainWindow : Window
         {
             await using var stream = await files[0].OpenReadAsync();
             ClassTheRadioData.CreatObjFromFile(stream);
+            var inst = ClassTheRadioData.getInstance().chanData;
+            
+            // TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
+            for (var i = 0; i < listItems.Count; i++)
+            {
+                listItems[i] = inst[i];
+            }
         }
-        // tRIGGER...
+    }
+
+    private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var flag = false;
+        var tmp = ClassTheRadioData.getInstance();
+        tmp.channeldata = tmp.chanData.ToList();
+        // 检查信道
+        for (var a = 0;a<listItems.Count;a++)
+        {
+            if (listItems[a].allEmpty() || listItems[a].filled()){continue;}
+            // 不写入不完整的信道
+            tmp.channeldata[a] = new ChannelData();
+            flag = true;
+        }
+
+        if (flag)
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard("注意", "您有信道未完全填写，写入时将忽略!", ButtonEnum.YesNo);
+            var result = await box.ShowWindowDialogAsync(this);
+            if (result == ButtonResult.No)
+            {
+                tmp.channeldata = tmp.chanData.ToList();
+                return;
+            }
+        }
     }
 }
