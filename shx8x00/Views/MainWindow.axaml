@@ -17,7 +17,7 @@
                         <PathIcon Data="{StaticResource new_file}"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="打开">
+                <MenuItem Header="打开" Click="open_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource open_regular}"/>
                     </MenuItem.Icon>

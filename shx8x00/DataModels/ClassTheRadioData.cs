@@ -2,6 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using MsBox.Avalonia;
+using Newtonsoft.Json;
 
 namespace shx8x00.DataModels;
 
@@ -29,15 +32,40 @@ public class ClassTheRadioData
     }
     public void SaveToFile(Stream s)
     {
-        var binaryFormatter = new BinaryFormatter();
-        binaryFormatter.Serialize(s, this);
+        string json = JsonConvert.SerializeObject(instance, Formatting.Indented);
+        using (StreamWriter streamWriter = new StreamWriter(s, Encoding.UTF8))
+        {
+            Console.Write(instance.channelData[0].ToString());
+            streamWriter.Write(json);
+        }
     }
 
 
-    public static ClassTheRadioData CreatObjFromFile(Stream s)
+    public static void CreatObjFromFile(Stream s)
     {
-        var binaryFormatter = new BinaryFormatter();
-        return binaryFormatter.Deserialize(s) as ClassTheRadioData;
+        using (StreamReader streamReader = new StreamReader(s, Encoding.UTF8))
+        {
+            string json = streamReader.ReadToEnd();
+            ClassTheRadioData tmp;
+            try
+            {
+                tmp = JsonConvert.DeserializeObject<ClassTheRadioData>(json);
+            }
+            catch
+            {
+                MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
+                return;
+            }
+           if (tmp == null)
+           {
+               MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
+           }
+           else
+           {
+               instance = tmp;
+               Console.Write(instance.channelData[0].ToString());
+           }
+        }
     }
 
     public static ClassTheRadioData getInstance()

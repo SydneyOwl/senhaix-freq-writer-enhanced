@@ -41,6 +41,7 @@ public partial class MainWindow : Window
 
     private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
+        
     }
     
     private void txFreq_OnLostFocus(object? sender, RoutedEventArgs e)
@@ -227,5 +228,22 @@ public partial class MainWindow : Window
     private void option_OnClick(object? sender, RoutedEventArgs e)
     {
         new OptionalWindow().ShowDialog(this);
+    }
+
+    private async void open_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "打开备份",
+            AllowMultiple = false
+        });
+        if (files.Count > 0)
+        {
+            await using var stream = await files[0].OpenReadAsync();
+            ClassTheRadioData.CreatObjFromFile(stream);
+        }
+        // tRIGGER...
+        
     }
 }
