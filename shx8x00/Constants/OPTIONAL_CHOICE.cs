@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace shx8x00.constants;
+namespace shx8x00.Constants;
 
-public class optional_choice
+public class OPTIONAL_CHOICE
 {
     
     public static ObservableCollection<string> txTimeout = new()
@@ -52,8 +52,8 @@ public class optional_choice
         "高功率","低功率"
     };
 
-    public static ObservableCollection<string> txCTCSS = chan_choice.qtdqt;
-    public static ObservableCollection<string> rxCTCSS = chan_choice.qtdqt;
+    public static ObservableCollection<string> txCTCSS = CHAN_CHOICE.qtdqt;
+    public static ObservableCollection<string> rxCTCSS = CHAN_CHOICE.qtdqt;
     public static ObservableCollection<string> bandWidth = new()
     {
         "宽带","窄带"
@@ -68,7 +68,7 @@ public class optional_choice
         "OFF","+","-"
     };
 
-    public static ObservableCollection<string> signCode = chan_choice.signCode;
+    public static ObservableCollection<string> signCode = CHAN_CHOICE.signCode;
 
     public static ObservableCollection<string> encrypt = new()
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace shx8x00.constants;
+namespace shx8x00.Constants;
 
-public class chan_choice
+public class CHAN_CHOICE
 {
     public static ObservableCollection<string> qtdqt = new ()
     {

@@ -11,8 +11,9 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
-using shx8x00.constants;
+using shx8x00.Constants;
 using shx8x00.DataModels;
+using shx8x00.Utils.Serial;
 
 namespace shx8x00.Views;
 
@@ -126,10 +127,10 @@ public partial class MainWindow : Window
             return "-1";
         }
 
-        if (PFreq < freq.theMinFreq || PFreq > freq.theMaxFreq)
+        if (PFreq < FREQ.theMinFreq || PFreq > FREQ.theMaxFreq)
         {
             MessageBoxManager.GetMessageBoxStandard("注意",
-                "频率错误!\n频率范围:" + freq.theMinFreq + "--" + freq.theMaxFreq).ShowWindowDialogAsync(this);
+                "频率错误!\n频率范围:" + FREQ.theMinFreq + "--" + FREQ.theMaxFreq).ShowWindowDialogAsync(this);
             return "-1";
         }
 
@@ -257,6 +258,23 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void portChk()
+    {
+        if (MySerialPort.getInstance().TargetPort == "")
+        {
+            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择！").ShowWindowDialogAsync(this);
+            await new PortSelectionWindow().ShowDialog(this);
+        }
+    }
+
+    private async void readChannel_OnClick(object? sendser, RoutedEventArgs e)
+    {
+        portChk();
+        if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
+        {
+            await new ProgressBarWindow().ShowDialog(this);
+        }
+    }
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var flag = false;
@@ -281,5 +299,15 @@ public partial class MainWindow : Window
                 return;
             }
         }
+        portChk();
+        if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
+        {
+            await new ProgressBarWindow().ShowDialog(this);
+        }
+    }
+
+    private void portSel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new PortSelectionWindow().ShowDialog(this);
     }
 }

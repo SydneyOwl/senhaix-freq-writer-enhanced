@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace shx8x00.constants;
+namespace shx8x00.Constants;
 
-public class dtmf_choice
+public class DTMF_CHOICE
 {
     
     public static ObservableCollection<string> stopOrLastTime = new()

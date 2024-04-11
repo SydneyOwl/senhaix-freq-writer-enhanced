@@ -1,6 +1,6 @@
-﻿namespace shx8x00.constants;
+﻿namespace shx8x00.Constants;
 
-public class freq
+public class FREQ
 {
     public static short theMaxFreq = 520;
     

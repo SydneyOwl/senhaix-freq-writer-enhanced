@@ -3,7 +3,9 @@
        Width="400" Height="450"
         x:Class="shx8x00.Views.DTMFWindow"
         xmlns:vm="using:shx8x00.Views"
-        xmlns:constants="clr-namespace:shx8x00.constants"
+        xmlns:constants="clr-namespace:shx8x00.Constants"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
         x:DataType="vm:DTMFWindow"
         Title="DTMF参数"
         KeyDown="Input_OnKeyDown">
@@ -53,9 +55,9 @@
         <Border Height="160" Width="180" 
                 Canvas.Right="10" Canvas.Top="220" BorderThickness="1" BorderBrush="Black"/>
         <Label Canvas.Top="240" Canvas.Left="215" Background="White" FontSize="13">发送DTMF码时码持续时间：</Label>
-        <ComboBox  Canvas.Left="245" Canvas.Top="265" Width="90" ItemsSource="{x:Static constants:dtmf_choice.stopOrLastTime}" SelectedIndex="{Binding dtmf.LastTimeSend}"></ComboBox>
+        <ComboBox  Canvas.Left="245" Canvas.Top="265" Width="90" ItemsSource="{x:Static constants:DTMF_CHOICE.stopOrLastTime}" SelectedIndex="{Binding dtmf.LastTimeSend}"></ComboBox>
         <Label Canvas.Top="310" Canvas.Left="215" Background="White" FontSize="13">发送DTMF码时码间断时间：</Label>
-        <ComboBox  Canvas.Left="245" Canvas.Top="335" Width="90" ItemsSource="{x:Static constants:dtmf_choice.stopOrLastTime}" SelectedIndex="{Binding dtmf.LastTimeStop}"></ComboBox>
+        <ComboBox  Canvas.Left="245" Canvas.Top="335" Width="90" ItemsSource="{x:Static constants:DTMF_CHOICE.stopOrLastTime}" SelectedIndex="{Binding dtmf.LastTimeStop}"></ComboBox>
         
         <Button Canvas.Top="395" Canvas.Left="20" Width="100" Height="40" Click="restore_OnClick" >恢复默认</Button>
         <Button Canvas.Top="395" Canvas.Right="20" Width="100" Height="40" Click="confirm_OnClick" >确定</Button>
