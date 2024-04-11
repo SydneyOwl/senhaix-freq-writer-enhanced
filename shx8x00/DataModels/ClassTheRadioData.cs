@@ -1,24 +1,24 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Xml.Serialization;
 using MsBox.Avalonia;
-using Newtonsoft.Json;
 
 namespace shx8x00.DataModels;
 
 [Serializable]
 public class ClassTheRadioData
 {
-    public ObservableCollection<ChannelData> channelData = new();
+    public ObservableCollection<ChannelData> chanData = new();
 
     public DTMFData dtmfData = new();
 
     public FunCFGData funCfgData = new();
 
     public OtherImfData otherImfData = new();
-
+    
+    [XmlIgnore]
     public static ClassTheRadioData instance;
 
     public ClassTheRadioData()
@@ -27,16 +27,15 @@ public class ClassTheRadioData
         {
             var data = new ChannelData();
             data.ChanNum = i.ToString();
-            channelData.Add(data);
+            chanData.Add(data);
         }
     }
     public void SaveToFile(Stream s)
     {
-        string json = JsonConvert.SerializeObject(instance, Formatting.Indented);
+        XmlSerializer serializer = new XmlSerializer(typeof(ClassTheRadioData));
         using (StreamWriter streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
-            Console.Write(instance.channelData[0].ToString());
-            streamWriter.Write(json);
+            serializer.Serialize(streamWriter, instance);
         }
     }
 
@@ -45,26 +44,21 @@ public class ClassTheRadioData
     {
         using (StreamReader streamReader = new StreamReader(s, Encoding.UTF8))
         {
-            string json = streamReader.ReadToEnd();
+            string xmls = streamReader.ReadToEnd();
             ClassTheRadioData tmp;
             try
             {
-                tmp = JsonConvert.DeserializeObject<ClassTheRadioData>(json);
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(ClassTheRadioData));
+                StringReader stringReader = new StringReader(xmls);
+                tmp = (ClassTheRadioData)xmlSerializer.Deserialize(stringReader);
+                Console.WriteLine(tmp.chanData[0].ToString());
             }
             catch
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
                 return;
             }
-           if (tmp == null)
-           {
-               MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
-           }
-           else
-           {
-               instance = tmp;
-               Console.Write(instance.channelData[0].ToString());
-           }
+            instance = tmp;
         }
     }
 

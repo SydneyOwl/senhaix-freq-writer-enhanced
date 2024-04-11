@@ -7,33 +7,33 @@ namespace shx8x00.DataModels;
 public partial class ChannelData : ObservableObject
 {
     [ObservableProperty]
-    private string bandWidth;
+    private string bandWidth = "";
     [ObservableProperty]
-    private string busyLock;
+    private string busyLock ;
     [ObservableProperty]
-    private string chanName;
+    private string chanName = "";
     [ObservableProperty]
-    private string chanNum;
+    private string chanNum = "";
     [ObservableProperty]
-    private string encrypt;
+    private string encrypt = "";
     [ObservableProperty]
-    private string pttid;
+    private string pttid = "";
     [ObservableProperty]
-    private string qtDec;
+    private string qtDec = "";
     [ObservableProperty]
-    private string qtEnc;
+    private string qtEnc = "";
     [ObservableProperty]
-    private string rxFreq;
+    private string rxFreq = "";
     [ObservableProperty]
-    private string scanAdd;
+    private string scanAdd = "";
     [ObservableProperty]
-    private string sigCode;
+    private string sigCode = "";
     [ObservableProperty]
-    private string txAllow;
+    private string txAllow = "";
     [ObservableProperty]
-    private string txFreq;
+    private string txFreq = "";
     [ObservableProperty]
-    private string txPwr;
+    private string txPwr = "";
 
     public override string ToString()
     {

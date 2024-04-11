@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls;
@@ -15,7 +16,7 @@ namespace shx8x00.Views;
 
 public partial class MainWindow : Window
 {
-    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().channelData;
+    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
 
     public ObservableCollection<ChannelData> listItems
     {
@@ -23,7 +24,7 @@ public partial class MainWindow : Window
         set
         {
             _listItems = value;
-            ClassTheRadioData.getInstance().channelData = value;
+            ClassTheRadioData.getInstance().chanData = value;
         }
     }
 
@@ -244,6 +245,5 @@ public partial class MainWindow : Window
             ClassTheRadioData.CreatObjFromFile(stream);
         }
         // tRIGGER...
-        
     }
 }
