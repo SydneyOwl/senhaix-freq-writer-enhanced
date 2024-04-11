@@ -19,8 +19,10 @@
             <Label x:Name="statusLabel" Canvas.Top="70"
                    Canvas.Left="65" FontStyle="Italic">等待指令...</Label>
             <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                    x:Name="StartButton"
                     Canvas.Top="160"
-                    Canvas.Left="180">开始</Button>
+                    Canvas.Left="180"
+                    Click="Start_OnClick">开始</Button>
     </Canvas>
   
         

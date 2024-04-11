@@ -43,7 +43,7 @@ internal class MySerialPort : SerialPort
 	}
 	public void CloseSerial()
 	{
-		if (sp.IsOpen)
+		if (sp!=null && sp.IsOpen)
 		{
 			Close();
 		}

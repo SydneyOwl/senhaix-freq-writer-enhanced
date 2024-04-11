@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -258,21 +259,19 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void portChk()
+
+    private async void readChannel_OnClick(object? sendser, RoutedEventArgs e)
     {
+        var tmp = ClassTheRadioData.getInstance();
+        tmp.channeldata = tmp.chanData.ToList();
         if (MySerialPort.getInstance().TargetPort == "")
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择！").ShowWindowDialogAsync(this);
             await new PortSelectionWindow().ShowDialog(this);
         }
-    }
-
-    private async void readChannel_OnClick(object? sendser, RoutedEventArgs e)
-    {
-        portChk();
         if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
         {
-            await new ProgressBarWindow().ShowDialog(this);
+            await new ProgressBarWindow(0).ShowDialog(this);
         }
     }
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -299,10 +298,14 @@ public partial class MainWindow : Window
                 return;
             }
         }
-        portChk();
+        if (MySerialPort.getInstance().TargetPort == "")
+        {
+            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择！").ShowWindowDialogAsync(this);
+            await new PortSelectionWindow().ShowDialog(this);
+        }
         if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
         {
-            await new ProgressBarWindow().ShowDialog(this);
+            await new ProgressBarWindow(1).ShowDialog(this);
         }
     }
 

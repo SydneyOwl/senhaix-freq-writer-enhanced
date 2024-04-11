@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Timers;
 using shx8x00.Constants;
@@ -117,46 +118,46 @@ internal class WriFreq
 			{
 				if (ReadCHData())
 				{
-					sP.Close();
+					sP.CloseSerial();
 					return true;
 				}
-				sP.Close();
+				sP.CloseSerial();
 				return false;
 			}
 			if (OPERATION_TYPE.WRITE == op)
 			{
 				if (WriteCHData())
 				{
-					sP.Close();
+					sP.CloseSerial();
 					return true;
 				}
-				sP.Close();
+				sP.CloseSerial();
 				return false;
 			}
 			if (OPERATION_TYPE.READ_CONFIG == op)
 			{
 				if (ReadConfigData())
 				{
-					sP.Close();
+					sP.CloseSerial();
 					return true;
 				}
-				sP.Close();
+				sP.CloseSerial();
 				return false;
 			}
 			if (OPERATION_TYPE.WRITE_CONFIG == op)
 			{
 				if (WriteConfigData())
 				{
-					sP.Close();
+					sP.CloseSerial();
 					return true;
 				}
-				sP.Close();
+				sP.CloseSerial();
 				return false;
 			}
-			sP.Close();
+			sP.CloseSerial();
 			return false;
 		}
-		sP.Close();
+		sP.CloseSerial();
 		return false;
 	}
 

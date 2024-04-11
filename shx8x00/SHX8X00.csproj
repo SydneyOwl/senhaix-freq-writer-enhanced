@@ -20,6 +20,7 @@
     <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
