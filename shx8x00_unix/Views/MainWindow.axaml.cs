@@ -23,6 +23,9 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = this;
+        // 不太优雅，之后改
+        // 始终关不掉几个线程 先这样好了......
+        Closed += OnWindowClosed;
     }
 
     public ObservableCollection<ChannelData> listItems
@@ -33,6 +36,12 @@ public partial class MainWindow : Window
             _listItems = value;
             ClassTheRadioData.getInstance().chanData = value;
         }
+    }
+
+    private void OnWindowClosed(object? sender, EventArgs e)
+    {
+        Close();
+        Environment.Exit(0);
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)

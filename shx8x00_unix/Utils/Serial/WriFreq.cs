@@ -176,8 +176,8 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.HandShakeStep1:
-                        sP.Write(hSTable1, 0, hSTable1.Length);
-                        sP.Write(hStable2_ModelType[MODELTYPE], 0, hStable2_ModelType[MODELTYPE].Length);
+                        sP.WriteByte(hSTable1, 0, hSTable1.Length);
+                        sP.WriteByte(hStable2_ModelType[MODELTYPE], 0, hStable2_ModelType[MODELTYPE].Length);
                         sP.WriteByte(85);
                         timer.Start();
                         resetRetryCount();
@@ -186,7 +186,7 @@ internal class WriFreq
                     case STATE.HandShakeStep2:
                         if (sP.BytesToRead >= 1)
                         {
-                            sP.Read(bufForData, 0, 1);
+                            sP.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6)
                             {
                                 resetRetryCount();
@@ -199,7 +199,7 @@ internal class WriFreq
                     case STATE.HandShakeStep3:
                         if (sP.BytesToRead >= 8)
                         {
-                            sP.Read(bufForData, 0, 8);
+                            sP.ReadByte(bufForData, 0, 8);
                             timer.Stop();
                             resetRetryCount();
                             if (op == OPERATION_TYPE.READ || op == OPERATION_TYPE.READ_CONFIG)
@@ -247,7 +247,7 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.ReadStep1:
-                        sP.Write(array, 0, 4);
+                        sP.WriteByte(array, 0, 4);
                         state = STATE.ReadStep2;
                         timer.Start();
                         break;
@@ -256,7 +256,7 @@ internal class WriFreq
                         if (sP.BytesToRead < array[3] + 4) break;
                         timer.Stop();
                         resetRetryCount();
-                        sP.Read(bufForData, 0, array[3] + 4);
+                        sP.ReadByte(bufForData, 0, array[3] + 4);
                         if (bufForData[1] != array[1] || bufForData[2] != array[2]) break;
                         var array2 = new byte[4][]
                         {
@@ -660,13 +660,13 @@ internal class WriFreq
                             }
                         }
 
-                        sP.Write(array, 0, array[3] + 4);
+                        sP.WriteByte(array, 0, array[3] + 4);
                         timer.Start();
                         state = STATE.WriteStep2;
                         break;
                     case STATE.WriteStep2:
                         if (sP.BytesToRead < 1) break;
-                        sP.Read(bufForData, 0, sP.BytesToRead);
+                        sP.ReadByte(bufForData, 0, sP.BytesToRead);
                         if (bufForData[0] == 6)
                         {
                             timer.Stop();
@@ -716,7 +716,7 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.ReadStep1:
-                        sP.Write(array, 0, 4);
+                        sP.WriteByte(array, 0, 4);
                         state = STATE.ReadStep2;
                         timer.Start();
                         break;
@@ -724,7 +724,7 @@ internal class WriFreq
                         if (sP.BytesToRead < array[3] + 4) break;
                         timer.Stop();
                         resetRetryCount();
-                        sP.Read(bufForData, 0, sP.BytesToRead);
+                        sP.ReadByte(bufForData, 0, sP.BytesToRead);
                         if (bufForData[1] != array[1] || bufForData[2] != array[2]) break;
                         if (eepAddr == 8128)
                         {
@@ -787,7 +787,7 @@ internal class WriFreq
                             eepAddr = 7872;
                             array[1] = (byte)(eepAddr >> 8);
                             array[2] = (byte)eepAddr;
-                            sP.Write(array, 0, 4);
+                            sP.WriteByte(array, 0, 4);
                             state = STATE.ReadStep3;
                             break;
                         }
@@ -799,7 +799,7 @@ internal class WriFreq
                         {
                             timer.Stop();
                             resetRetryCount();
-                            sP.Read(bufForData, 0, 1);
+                            sP.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6) state = STATE.ReadStep2;
                         }
 
@@ -896,13 +896,13 @@ internal class WriFreq
                             array3[3] = 1;
                         }
 
-                        sP.Write(array3, 0, array3[3] + 4);
+                        sP.WriteByte(array3, 0, array3[3] + 4);
                         timer.Start();
                         state = STATE.WriteStep2;
                         break;
                     case STATE.WriteStep2:
                         if (sP.BytesToRead < 1) break;
-                        sP.Read(bufForData, 0, sP.BytesToRead);
+                        sP.ReadByte(bufForData, 0, sP.BytesToRead);
                         if (bufForData[0] != 6) break;
                         timer.Stop();
                         resetRetryCount();

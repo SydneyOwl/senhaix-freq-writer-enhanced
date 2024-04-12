@@ -8,4 +8,9 @@ TODO：高级的信道编辑功能
 
 ![](readme_shx8x00_unix/1.png)
 
-![](readme_shx8x00_unix/2.png)
+
+
+Linux写频示例（请使用sudo，如有必要自行安装写频线驱动）：
+
+![](./readme_shx8x00_unix/linux_example.png)
+

@@ -20,6 +20,15 @@ internal class MySerialPort : SerialPort
         Write(new byte[1] { dat }, 0, 1);
     }
 
+    public void WriteByte(byte[] buffer, int offset, int count)
+    {
+        Write(buffer, offset, count);
+    }
+
+    public void ReadByte(byte[] buffer, int offset, int count)
+    {
+        Read(buffer, offset, count);
+    }
     public static MySerialPort getInstance()
     {
         if (sp == null) sp = new MySerialPort();
@@ -41,7 +50,9 @@ internal class MySerialPort : SerialPort
 
     public void CloseSerial()
     {
+        var portTmp = sp.targetPort;
         if (sp != null && sp.IsOpen) Close();
-        sp = null;
+        sp = new MySerialPort();
+        sp.targetPort = portTmp;
     }
 }

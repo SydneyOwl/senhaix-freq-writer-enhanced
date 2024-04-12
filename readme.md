@@ -9,9 +9,7 @@
 > 如有必要，请在任何操作前首先进行备份操作！
 
 > [!NOTE]  
-> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经重构大致完成，已经合并入`master`，命名为`shx8x00_unix`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
->
-> 由于手头上没有GT12，暂时没法重构..
+> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经大致重构完成且已合并入`master`，命名为`shx8x00_unix`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
 
 
 ## 简介
@@ -22,7 +20,34 @@
 
 森海克斯GT-12：[GT12写频软件简介](./GT12/readme.md)
 
-## 编译指引-shx8x00和GT12(适用于windows)
+## 功能说明
+
++ 仅在windows端可用的森海克斯8x00写频软件（即森海克斯8800/8600for windows）由官方代码修改而来，使用了两套solution，其中一套对所用的`.net framework`进行了适当的升级以支持`BLE`蓝牙写频。另一套solution为了尽可能适配旧系统，继续采用`.net2.0`，最低支持到windows xp sp2。
+
++ GT12写频软件同样由官方代码修改而来，对.net进行了小版本的升级。
++ 在windows、linux、mac通用的森海克斯8x00写频软件为实现跨平台，完全弃用官方UI代码(winform)，转而采用`Avalonia`+.net6进行开发。
+
+目前各版本支持的功能：
+
+| -                                    | 森海克斯8800/8600（universal,win/unix）                      | 森海克斯8800/8600 (for windows,with bluetooth) | 森海克斯8800/8600 (for windows,without bluetooth) | GT-12 (for windows) |
+| ------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------- | ------------------- |
+| 支持的平台(理论)                     | windows7 sp1及以上* / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)** | windows 8及以上                                | windows xp sp2及以上                              | windows 8及以上     |
+|                                      |                                                              |                                                |                                                   |                     |
+| （以下为支持的功能）                 |                                                              |                                                |                                                   |                     |
+| 原有的所有功能                       | :white_check_mark:                                           | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
+| 高级信道编辑（顺序调整、复制粘贴等） | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
+| 蓝牙写频                             | :heavy_minus_sign:                                           | :white_check_mark:                             | :heavy_minus_sign:                                | :heavy_minus_sign:  |
+| （以下为支持的插件）                 |                                                              |                                                |                                                   |                     |
+| 开机画面修改                         | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :heavy_minus_sign:  |
+| 打星助手                             | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
+
+*Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
+
+**.NET 6 is supported in the Rosetta 2 x64 emulator.
+
+## 编译指引
+
+### Windows版
 
 如果需要自行编译，只需要使用`Makefiile`进行编译即可。克隆仓库时请使用`--recursive`参数！
 
@@ -35,20 +60,20 @@ mingw32-make shx8x00 #只编译支持蓝牙的shx8x00
 mingw32-make shx8x00_nobt #只编译不支持蓝牙的shx8x00
 ```
 
-|型号|编译要求|运行环境|
-|---|---|---|
-|`SHX8800`|.net4.6.2, win10+|win7 sp1+，建议windows10+*|
-|`SHX8800_nobt`|.net2.0|winxp sp2+|
-|`gt12`|.net4.6.2, win8+|win7 sp1+，建议win10+*|
+|型号|编译要求|
+|---|---|
+|`SHX8800`|.net4.6.2, win10+|
+|`SHX8800_nobt`|.net2.0|
+|`gt12`|.net4.6.2, win8+|
 
 *：低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
 > [!TIP]
 > 您也可以参考`.github/workflows/build.yml`进行编译。
 
-## 编译指引shx8x00-unix(适用于windows/unix)
+### windows&unix版
 
-还在写，还没放到release里面
+还在写...
 
 ## 其他
 
@@ -96,6 +121,8 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.2.1` 加入打星助手，更换了“关于”窗体
 
 ## 许可证
+
+该仓库中的三个项目均使用`The Unlicense`进行许可。
 
 ```markdown
 This is free and unencumbered software released into the public domain.

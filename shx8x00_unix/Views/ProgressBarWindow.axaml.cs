@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -46,9 +47,9 @@ public partial class ProgressBarWindow : Window
             threadProgress = new Thread(Task_GetProgress);
             threadProgress.Start();
         }
-        catch
+        catch (Exception ed)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接！").ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:"+ed.Message).ShowWindowDialogAsync(this);
             StartButton.IsEnabled = true;
             sP.CloseSerial();
         }
@@ -61,7 +62,14 @@ public partial class ProgressBarWindow : Window
             wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.READ);
         else
             wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.WRITE);
-        flag = wF.DoIt();
+        try
+        {
+            flag = wF.DoIt();
+        }
+        catch
+        {
+            // ignored
+        }
         Dispatcher.UIThread.Invoke(() => HandleWFResult(flag));
     }
 
