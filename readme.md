@@ -9,14 +9,14 @@
 > 如有必要，请在任何操作前首先进行备份操作！
 
 > [!NOTE]  
-> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经大致重构完成且已合并入`master`，命名为`shx8x00_unix`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
+> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经大致重构完成且已合并入`master`，命名为`shx8x00_universal`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
 
 
 ## 简介
 
 森海克斯8800/8600（for windows）：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
 
-森海克斯8800/8600（for windows&linux&mac）:  [森海克斯8800/8600写频软件简介](./shx8x00_unix/readme.md)
+森海克斯8800/8600（for windows&linux&mac）:  [森海克斯8800/8600写频软件简介](./shx8x00_universal/readme.md)
 
 森海克斯GT-12：[GT12写频软件简介](./GT12/readme.md)
 
