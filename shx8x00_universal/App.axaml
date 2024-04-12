@@ -1,15 +1,19 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="clr-namespace:shx8x00.Behaviors"
+             xmlns:shx8X00="clr-namespace:shx8x00"
+             xmlns:m="clr-namespace:shx8x00.DataModels"
              x:Class="shx8x00.App"
              RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Styles>
         <FluentTheme />
-    </Application.Styles>
-    <Application.Styles>
-        <FluentTheme />
         <StyleInclude Source="avares://shx8x00/Icons.axaml" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://shx8x00/DragDrop.axaml"></StyleInclude>
     </Application.Styles>
+    <Application.Resources>
+        <behaviors:DataGridDnd x:Key="DataGridDndBfNamedId" x:TypeArguments="m:ChannelData" />
+    </Application.Resources>
 </Application>

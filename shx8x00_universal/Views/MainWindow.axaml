@@ -3,13 +3,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
+        xmlns:m="clr-namespace:shx8x00.DataModels"
         xmlns:vm="using:shx8x00.Views"
         xmlns:constants="clr-namespace:shx8x00.Constants"
         Title="shx8x00通用写频软件"
         x:DataType="vm:MainWindow"
+        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="shx8x00.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized">
+        WindowState="Maximized"
+        >
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="文件">
@@ -119,10 +122,18 @@
             </StackPanel>
         </Border>
         <Border Background="White" BorderBrush="Black" BorderThickness="1">
-            <DataGrid Margin="20" ItemsSource="{Binding listItems } "  x:Name="channelDataGrid"
+            <DataGrid Margin="20" ItemsSource="{Binding listItems }"  x:Name="channelDataGrid"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray"
-                      CanUserSortColumns="False">
+                      CanUserSortColumns="False"
+                      Classes="draggable"
+                      CanUserResizeColumns="True"
+                      CanUserReorderColumns="True">
+                <Interaction.Behaviors>
+                    <BehaviorCollection>
+                        <idd:ContextDropBehavior Handler="{StaticResource DataGridDndBfNamedId}" />
+                    </BehaviorCollection>
+                </Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="信道"
                                         Binding="{Binding ChanNum }" IsReadOnly="True" />

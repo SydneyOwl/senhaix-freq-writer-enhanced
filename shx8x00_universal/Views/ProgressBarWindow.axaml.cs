@@ -43,6 +43,7 @@ public partial class ProgressBarWindow : Window
         {
             opRes = false;
             Close();
+            return;
         }
         StartButton.IsEnabled = false;
         progressBar.Value = 0;

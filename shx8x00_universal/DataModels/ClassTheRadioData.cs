@@ -81,4 +81,12 @@ public class ClassTheRadioData
     {
         instance = new ClassTheRadioData();
     }
+
+    public void sort()
+    {
+        for (var i = 0; i < instance.chanData.Count; i++)
+        {
+            instance.chanData[i].ChanNum = i.ToString();
+        }
+    }
 }

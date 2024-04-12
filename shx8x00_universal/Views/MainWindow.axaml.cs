@@ -1,8 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
@@ -16,18 +18,6 @@ namespace shx8x00.Views;
 public partial class MainWindow : Window
 {
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
-
-    private string savePath = "";
-
-    public MainWindow()
-    {
-        InitializeComponent();
-        DataContext = this;
-        // 不太优雅，之后改
-        // 始终关不掉几个线程 先这样好了......
-        Closed += OnWindowClosed;
-    }
-
     public ObservableCollection<ChannelData> listItems
     {
         get => _listItems;
@@ -35,6 +25,27 @@ public partial class MainWindow : Window
         {
             _listItems = value;
             ClassTheRadioData.getInstance().chanData = value;
+        }
+    }
+
+    private string savePath = "";
+
+    public MainWindow()
+    {
+        InitializeComponent();
+        DataContext = this;
+        _listItems.CollectionChanged += CollectionChangedHandler;
+        // 不太优雅，之后改
+        // 始终关不掉几个线程 先这样好了......
+        Closed += OnWindowClosed;
+    }
+
+    private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        Console.Write(e.Action);
+        if (e.Action.Equals(NotifyCollectionChangedAction.Add))
+        {
+            ClassTheRadioData.getInstance().sort();
         }
     }
 
@@ -160,8 +171,9 @@ public partial class MainWindow : Window
 
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
-        var aboutWindow = new AboutWindow();
-        aboutWindow.ShowDialog(this);
+        Console.Write(ClassTheRadioData.getInstance().chanData[0].ToString());
+        // var aboutWindow = new AboutWindow();
+        // aboutWindow.ShowDialog(this);
     }
 
     private async void new_OnClick(object? sender, RoutedEventArgs e)
@@ -312,4 +324,11 @@ public partial class MainWindow : Window
     {
         new PortSelectionWindow().ShowDialog(this);
     }
+
+
+    // private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    // {
+    //     ClassTheRadioData.getInstance().sort();
+    //     Console.Write("ca;;ed");
+    // }
 }

@@ -45,6 +45,8 @@ internal class MySerialPort : SerialPort
         sp.StopBits = StopBits.One;
         sp.WriteBufferSize = 1024;
         sp.ReadBufferSize = 1024;
+        sp.ReadTimeout = 4000;
+        sp.WriteTimeout = 4000;
         sp.Open();
     }
 
