@@ -172,14 +172,19 @@ public partial class MainWindow : Window
 
         var result = await box.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;
-        // TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
-        ClassTheRadioData.forceNew();
+        // _TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
+        // ClassTheRadioData.forceNew();
+        // this.listItems = ClassTheRadioData.getInstance().chanData;
         for (var i = 0; i < listItems.Count; i++)
         {
             var tmp = new ChannelData();
             tmp.ChanNum = i.ToString();
             listItems[i] = tmp;
         }
+        ClassTheRadioData.getInstance().channeldata = listItems.ToList();
+        ClassTheRadioData.getInstance().dtmfData = new DTMFData();
+        ClassTheRadioData.getInstance().funCfgData = new FunCFGData();
+        ClassTheRadioData.getInstance().otherImfData = new OtherImfData();
     }
 
     private async void saveAs_OnClick(object? sender, RoutedEventArgs e)

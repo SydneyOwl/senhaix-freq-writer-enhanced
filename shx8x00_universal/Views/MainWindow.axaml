@@ -118,7 +118,7 @@
             </StackPanel>
         </Border>
         <Border Background="White" BorderBrush="Black" BorderThickness="1">
-            <DataGrid Margin="20" ItemsSource="{Binding listItems }"
+            <DataGrid Margin="20" ItemsSource="{Binding listItems } "  x:Name="channelDataGrid"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray"
                       CanUserSortColumns="False">

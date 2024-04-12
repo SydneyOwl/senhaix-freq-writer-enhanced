@@ -25,6 +25,8 @@ public partial class ProgressBarWindow : Window
 
     private WriFreq wF;
 
+    private bool opRes = false;
+
 
     public ProgressBarWindow(int opStatus)
     {
@@ -37,6 +39,11 @@ public partial class ProgressBarWindow : Window
 
     private void Start_OnClick(object? sender, RoutedEventArgs e)
     {
+        if (opRes)
+        {
+            opRes = false;
+            Close();
+        }
         StartButton.IsEnabled = false;
         progressBar.Value = 0;
         try
@@ -142,20 +149,18 @@ public partial class ProgressBarWindow : Window
         if (result)
         {
             statusLabel.Content = "成功!";
+            StartButton.Content = "关闭";
             progressBar.Value = 100;
+            opRes = true;
         }
         else
         {
             statusLabel.Content = "失败!";
+            StartButton.Content = "重试";
+            opRes = false;
         }
 
         sP.CloseSerial();
         StartButton.IsEnabled = true;
     }
-
-    private delegate void getWriteFreqResult(bool result);
-
-    private delegate void getWFProgress(int value);
-
-    private delegate void getWFProgressText(string text);
 }

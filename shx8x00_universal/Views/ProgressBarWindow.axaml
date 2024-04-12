@@ -24,8 +24,8 @@
                 x:Name="StartButton"
                 Canvas.Top="160"
                 Canvas.Left="180"
-                Click="Start_OnClick">
-            开始
+                Click="Start_OnClick"
+                Content="开始">
         </Button>
     </Canvas>
 

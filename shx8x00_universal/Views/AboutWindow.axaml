@@ -10,5 +10,7 @@
         <TextBlock>版本v0.0.1 DEBUG</TextBlock>
         <TextBlock>适配Windows/Linux/MacOS</TextBlock>
         <TextBlock>仓库：https://github.com/SydneyOwl/senhaix-freq-writer-enhanced</TextBlock>
+        <TextBlock>许可证使用The Unlicense</TextBlock>
+        <TextBlock>tu 73 de sydneyowl</TextBlock>
     </StackPanel>
 </Window>
