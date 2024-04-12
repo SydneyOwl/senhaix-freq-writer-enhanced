@@ -8,7 +8,8 @@
         Title="shx8x00通用写频软件"
         x:DataType="vm:MainWindow"
         x:Class="shx8x00.Views.MainWindow"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="文件">

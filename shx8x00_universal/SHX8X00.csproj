@@ -8,6 +8,19 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
 
+  <!-- For Macos -->
+  <PropertyGroup>
+    <CFBundleName>SHX8X00</CFBundleName>
+    <CFBundleDisplayName>SHX8X00</CFBundleDisplayName>
+    <CFBundleIdentifier>com.sydneyowl</CFBundleIdentifier>
+    <CFBundleVersion>0.0.1</CFBundleVersion>
+    <CFBundlePackageType>APPL</CFBundlePackageType>
+    <CFBundleExecutable>SHX8X00</CFBundleExecutable>
+    <CFBundleShortVersionString>0.0.1.23</CFBundleShortVersionString>
+    <NSPrincipalClass>NSApplication</NSPrincipalClass>
+    <NSHighResolutionCapable>true</NSHighResolutionCapable>
+</PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.10" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
@@ -21,6 +34,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+    <PackageReference Include="Dotnet.Bundle" Version="*" />
   </ItemGroup>
 
   <ItemGroup>
