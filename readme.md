@@ -35,7 +35,7 @@
 |                                      |                                                              |                                                |                                                   |                     |
 | （以下为支持的功能）                 |                                                              |                                                |                                                   |                     |
 | 原有的所有功能                       | :white_check_mark:                                           | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
-| 高级信道编辑（顺序调整、复制粘贴等） | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                           | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
 | 蓝牙写频                             | :heavy_minus_sign:                                           | :white_check_mark:                             | :heavy_minus_sign:                                | :heavy_minus_sign:  |
 | （以下为支持的插件）                 |                                                              |                                                |                                                   |                     |
 | 开机画面修改                         | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :heavy_minus_sign:  |

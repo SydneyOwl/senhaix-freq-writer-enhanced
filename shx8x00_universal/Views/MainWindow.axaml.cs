@@ -17,6 +17,7 @@ namespace shx8x00.Views;
 
 public partial class MainWindow : Window
 {
+    private ChannelData tmpChannel;
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
     public ObservableCollection<ChannelData> listItems
     {
@@ -27,6 +28,8 @@ public partial class MainWindow : Window
             ClassTheRadioData.getInstance().chanData = value;
         }
     }
+    //无法正常更新序号，感觉是他的bug!
+    
 
     private string savePath = "";
 
@@ -42,10 +45,9 @@ public partial class MainWindow : Window
 
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
-        Console.Write(e.Action);
-        if (e.Action.Equals(NotifyCollectionChangedAction.Add))
+        if (e.Action.Equals(NotifyCollectionChangedAction.Add)||e.Action.Equals(NotifyCollectionChangedAction.Remove))
         {
-            ClassTheRadioData.getInstance().sort();
+            calcSequence();
         }
     }
 
@@ -280,7 +282,7 @@ public partial class MainWindow : Window
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择！").ShowWindowDialogAsync(this);
             await new PortSelectionWindow().ShowDialog(this);
         }
-
+        
         if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
             await new ProgressBarWindow(0).ShowDialog(this);
     }
@@ -331,4 +333,91 @@ public partial class MainWindow : Window
     //     ClassTheRadioData.getInstance().sort();
     //     Console.Write("ca;;ed");
     // }
+    private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        int selected = channelDataGrid.SelectedIndex;
+        tmpChannel = listItems[selected];
+    }
+
+    private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        int selected = channelDataGrid.SelectedIndex;
+        tmpChannel = listItems[selected].DeepCopy();
+        listItems[selected] = new ChannelData();
+        calcSequence();
+    }
+
+    private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        int selected = channelDataGrid.SelectedIndex;
+        listItems[selected] = tmpChannel.DeepCopy();
+        calcSequence();
+    }
+
+    private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        int selected = channelDataGrid.SelectedIndex;
+        listItems[selected] = new ChannelData();
+        calcSequence();
+    }
+
+    private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        int selected = channelDataGrid.SelectedIndex;
+        for (var i = selected; i < 127; i++) listItems[i] = listItems[i + 1];
+        listItems[127] = new ChannelData();
+        calcSequence();
+    }
+
+    private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        int selected = channelDataGrid.SelectedIndex;
+        if (!listItems[127].allEmpty())
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "信道127不为空无法插入！").ShowWindowDialogAsync(this);
+            return;
+        }
+        var lastEmp = 0;
+        for (var i = 0; i < 127; i++)
+            if (!listItems[i].allEmpty())
+                lastEmp = i;
+
+        for (var i = lastEmp; i > selected; i--) listItems[i + 1] = listItems[i];
+
+        listItems[selected + 1] = new ChannelData();
+        calcSequence();
+    }
+
+    private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var cached_channel = new ObservableCollection<ChannelData>();
+        for (int i = 0; i < 128; i++)
+        {
+            cached_channel.Add(new ChannelData());
+        }
+        var channel_cursor = 0;
+        for (var i = 0; i < 128; i++)
+            //check it via "TxAllow"
+            if (!listItems[i].allEmpty())
+            {
+                cached_channel[channel_cursor++] = listItems[i].DeepCopy();
+            }
+
+        for (var i = 0; i < channel_cursor; i++)
+        {
+            listItems[i] = cached_channel[i].DeepCopy();
+        }
+
+        for (var i = channel_cursor; i < 128; i++)
+        {
+            listItems[i] = new ChannelData();
+        }
+    }
+    private void calcSequence()
+    {
+        for (var i = 0; i < listItems.Count; i++)
+        {
+            listItems[i].ChanNum = i.ToString();
+        }
+    }
 }

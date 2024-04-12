@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace shx8x00.DataModels;
@@ -33,6 +36,21 @@ public partial class ChannelData : ObservableObject
     [ObservableProperty] private string txFreq = "";
 
     [ObservableProperty] private string txPwr = "";
+    
+    public ChannelData DeepCopy()
+    {
+        ChannelData rel;
+        using (MemoryStream ms = new MemoryStream())
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(ChannelData));
+            xml.Serialize(ms, this);
+            ms.Seek(0, SeekOrigin.Begin);
+            rel = (ChannelData)xml.Deserialize(ms);
+            ms.Close();
+        }
+        return rel;
+    }
+
 
     public void changeByNum(int index, string target)
     {
