@@ -1,4 +1,6 @@
+using System;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 using shx8x00.Constants;
 using shx8x00.DataModels;
@@ -106,15 +108,17 @@ internal class WriFreq
         flagRetry = false;
     }
 
-    public bool DoIt()
+    public async Task<bool> DoIt()
     {
         flagTransmitting = true;
         state = STATE.HandShakeStep1;
-        if (HandShake())
+        if (await HandShake())
         {
+            Console.WriteLine("Fial --- bufk");
             if (op == OPERATION_TYPE.READ)
             {
-                if (ReadCHData())
+                Console.WriteLine("Fial --- bufk1");
+                if (await ReadCHData())
                 {
                     sP.CloseSerial();
                     return true;
@@ -126,19 +130,25 @@ internal class WriFreq
 
             if (OPERATION_TYPE.WRITE == op)
             {
-                if (WriteCHData())
+                Console.WriteLine("Fial --- buf2");
+                if (await WriteCHData())
                 {
+                    
+                    Console.WriteLine("Fial --- buf3");
                     sP.CloseSerial();
                     return true;
                 }
-
+                
+                Console.WriteLine("Fial --- buf4");
                 sP.CloseSerial();
                 return false;
             }
 
             if (OPERATION_TYPE.READ_CONFIG == op)
             {
-                if (ReadConfigData())
+                
+                Console.WriteLine("Fial --- buf3");
+                if (await ReadConfigData())
                 {
                     sP.CloseSerial();
                     return true;
@@ -150,7 +160,9 @@ internal class WriFreq
 
             if (OPERATION_TYPE.WRITE_CONFIG == op)
             {
-                if (WriteConfigData())
+                
+                Console.WriteLine("Fial --- buf4");
+                if (await WriteConfigData())
                 {
                     sP.CloseSerial();
                     return true;
@@ -163,12 +175,11 @@ internal class WriFreq
             sP.CloseSerial();
             return false;
         }
-
         sP.CloseSerial();
         return false;
     }
 
-    private bool HandShake()
+    private async Task<bool> HandShake()
     {
         while (flagTransmitting)
             if (!flagRetry)
@@ -176,30 +187,30 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.HandShakeStep1:
-                        sP.WriteByte(hSTable1, 0, hSTable1.Length);
-                        sP.WriteByte(hStable2_ModelType[MODELTYPE], 0, hStable2_ModelType[MODELTYPE].Length);
-                        sP.WriteByte(85);
+                        await sP.WriteByte(hSTable1, 0, hSTable1.Length);
+                        await sP.WriteByte(hStable2_ModelType[MODELTYPE], 0, hStable2_ModelType[MODELTYPE].Length);
+                        await sP.WriteByte(85);
                         timer.Start();
                         resetRetryCount();
                         state = STATE.HandShakeStep2;
                         break;
                     case STATE.HandShakeStep2:
-                        if (sP.BytesToRead >= 1)
+                        await sP.preRead();
+                        if (sP.BytesToReadFromCache >= 1)
                         {
-                            sP.ReadByte(bufForData, 0, 1);
-                            if (bufForData[0] == 6)
-                            {
+                            await sP.ReadByte(bufForData, 0, 1);
+                            if (bufForData[0] == 6) {
                                 resetRetryCount();
-                                sP.WriteByte(70);
+                                await sP.WriteByte(70);
                                 state = STATE.HandShakeStep3;
                             }
                         }
-
                         break;
                     case STATE.HandShakeStep3:
-                        if (sP.BytesToRead >= 8)
+                        await sP.preRead();
+                        if (sP.BytesToReadFromCache >= 8)
                         {
-                            sP.ReadByte(bufForData, 0, 8);
+                            await sP.ReadByte(bufForData, 0, 8);
                             timer.Stop();
                             resetRetryCount();
                             if (op == OPERATION_TYPE.READ || op == OPERATION_TYPE.READ_CONFIG)
@@ -229,7 +240,7 @@ internal class WriFreq
                         state = STATE.HandShakeStep1;
                         break;
                     case STATE.HandShakeStep3:
-                        sP.WriteByte(70);
+                        await sP.WriteByte(70);
                         break;
                 }
             }
@@ -237,7 +248,7 @@ internal class WriFreq
         return false;
     }
 
-    private bool ReadCHData()
+    private async Task<bool> ReadCHData()
     {
         var array = new byte[4] { 82, 0, 0, 64 };
         var num = 0;
@@ -247,16 +258,17 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.ReadStep1:
-                        sP.WriteByte(array, 0, 4);
+                        await sP.WriteByte(array, 0, 4);
                         state = STATE.ReadStep2;
                         timer.Start();
                         break;
                     case STATE.ReadStep2:
                     {
-                        if (sP.BytesToRead < array[3] + 4) break;
+                        await sP.preRead();
+                        if (sP.BytesToReadFromCache < array[3] + 4) break;
                         timer.Stop();
                         resetRetryCount();
-                        sP.ReadByte(bufForData, 0, array[3] + 4);
+                        await sP.ReadByte(bufForData, 0, array[3] + 4);
                         if (bufForData[1] != array[1] || bufForData[2] != array[2]) break;
                         var array2 = new byte[4][]
                         {
@@ -378,7 +390,7 @@ internal class WriFreq
                             break;
                         }
 
-                        sP.WriteByte(69);
+                        await sP.WriteByte(69);
                         flagTransmitting = false;
                         return true;
                     }
@@ -399,7 +411,7 @@ internal class WriFreq
         return false;
     }
 
-    private bool WriteCHData()
+    private async Task<bool> WriteCHData()
     {
         var array = new byte[36]
         {
@@ -422,6 +434,7 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.WriteStep1:
+                        Console.WriteLine("Write kk");
                         if (eepAddr < 2048)
                         {
                             var cHImf_StrToHex = GetCHImf_StrToHex(theRadioData.channeldata[num++].transList());
@@ -660,13 +673,18 @@ internal class WriFreq
                             }
                         }
 
-                        sP.WriteByte(array, 0, array[3] + 4);
+                        Console.WriteLine("Write 423423kk");
+                        await sP.WriteByte(array, 0, array[3] + 4);
+                        
+                        Console.WriteLine("Write k-----k");
                         timer.Start();
                         state = STATE.WriteStep2;
                         break;
                     case STATE.WriteStep2:
-                        if (sP.BytesToRead < 1) break;
-                        sP.ReadByte(bufForData, 0, sP.BytesToRead);
+                        await sP.preRead();
+                        if (sP.BytesToReadFromCache < 1) break;
+                        await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
+                        Console.WriteLine("Write bb");
                         if (bufForData[0] == 6)
                         {
                             timer.Stop();
@@ -692,12 +710,12 @@ internal class WriFreq
             }
             else
             {
+                Console.WriteLine("Write kk5455");
                 if (timesOfRetry <= 0)
                 {
                     flagTransmitting = false;
                     return false;
                 }
-
                 timesOfRetry--;
                 num = 0;
                 flagRetry = false;
@@ -706,7 +724,7 @@ internal class WriFreq
         return false;
     }
 
-    private bool ReadConfigData()
+    private async Task<bool> ReadConfigData()
     {
         var array = new byte[4] { 83, 31, 192, 64 };
         eepAddr = 8128;
@@ -716,15 +734,16 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.ReadStep1:
-                        sP.WriteByte(array, 0, 4);
+                        await sP.WriteByte(array, 0, 4);
                         state = STATE.ReadStep2;
                         timer.Start();
                         break;
                     case STATE.ReadStep2:
-                        if (sP.BytesToRead < array[3] + 4) break;
+                        await sP.preRead();
+                        if (sP.BytesToReadFromCache < array[3] + 4) break;
                         timer.Stop();
                         resetRetryCount();
-                        sP.ReadByte(bufForData, 0, sP.BytesToRead);
+                        await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
                         if (bufForData[1] != array[1] || bufForData[2] != array[2]) break;
                         if (eepAddr == 8128)
                         {
@@ -781,13 +800,13 @@ internal class WriFreq
                         }
 
                         timer.Start();
-                        sP.WriteByte(6);
+                        await sP.WriteByte(6);
                         if (eepAddr == 8128)
                         {
                             eepAddr = 7872;
                             array[1] = (byte)(eepAddr >> 8);
                             array[2] = (byte)eepAddr;
-                            sP.WriteByte(array, 0, 4);
+                            await sP.WriteByte(array, 0, 4);
                             state = STATE.ReadStep3;
                             break;
                         }
@@ -795,11 +814,12 @@ internal class WriFreq
                         flagTransmitting = false;
                         return true;
                     case STATE.ReadStep3:
-                        if (sP.BytesToRead >= 1)
+                        await sP.preRead();
+                        if (sP.BytesToReadFromCache >= 1)
                         {
                             timer.Stop();
                             resetRetryCount();
-                            sP.ReadByte(bufForData, 0, 1);
+                            await sP.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6) state = STATE.ReadStep2;
                         }
 
@@ -821,7 +841,7 @@ internal class WriFreq
         return false;
     }
 
-    private bool WriteConfigData()
+    private async Task<bool> WriteConfigData()
     {
         var array = new byte[20]
         {
@@ -896,13 +916,15 @@ internal class WriFreq
                             array3[3] = 1;
                         }
 
-                        sP.WriteByte(array3, 0, array3[3] + 4);
+                        
+                        await sP.WriteByte(array3, 0, array3[3] + 4);
+                        await sP.WriteByte(array3, 0, array3[3] + 4);
                         timer.Start();
                         state = STATE.WriteStep2;
                         break;
                     case STATE.WriteStep2:
-                        if (sP.BytesToRead < 1) break;
-                        sP.ReadByte(bufForData, 0, sP.BytesToRead);
+                        if (sP.BytesToReadFromCache < 1) break;
+                        await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
                         if (bufForData[0] != 6) break;
                         timer.Stop();
                         resetRetryCount();
@@ -930,6 +952,7 @@ internal class WriFreq
             }
             else
             {
+                Console.WriteLine("Retry overrr");
                 if (timesOfRetry <= 0)
                 {
                     flagTransmitting = false;

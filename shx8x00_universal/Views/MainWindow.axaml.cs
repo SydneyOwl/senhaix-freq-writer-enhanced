@@ -1,17 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using InTheHand.Bluetooth;
 using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
+using MsBox.Avalonia.Models;
 using shx8x00.Constants;
 using shx8x00.DataModels;
 using shx8x00.Utils.Serial;
+using SHX8X00.Views;
 
 namespace shx8x00.Views;
 
@@ -277,14 +285,15 @@ public partial class MainWindow : Window
     {
         var tmp = ClassTheRadioData.getInstance();
         tmp.channeldata = tmp.chanData.ToList();
-        if (MySerialPort.getInstance().TargetPort == "")
+        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().Characteristic == null)
         {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择！").ShowWindowDialogAsync(this);
-            await new PortSelectionWindow().ShowDialog(this);
+            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择,请连接蓝牙或写频线").ShowWindowDialogAsync(this);
+            return;
         }
-        
-        if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
-            await new ProgressBarWindow(0).ShowDialog(this);
+        // await new PortSelectionWindow().ShowDialog(this);
+
+        // if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
+        await new ProgressBarWindow(0).ShowDialog(this);
     }
 
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -312,14 +321,16 @@ public partial class MainWindow : Window
             }
         }
 
-        if (MySerialPort.getInstance().TargetPort == "")
+        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().Characteristic == null)
         {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择！").ShowWindowDialogAsync(this);
-            await new PortSelectionWindow().ShowDialog(this);
+            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
+            return;
         }
+        
+        // await new PortSelectionWindow().ShowDialog(this);
 
-        if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
-            await new ProgressBarWindow(1).ShowDialog(this);
+        // if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
+        await new ProgressBarWindow(1).ShowDialog(this);
     }
 
     private void portSel_OnClick(object? sender, RoutedEventArgs e)
@@ -418,6 +429,111 @@ public partial class MainWindow : Window
         for (var i = 0; i < listItems.Count; i++)
         {
             listItems[i].ChanNum = i.ToString();
+        }
+    }
+    
+    private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "Linux下蓝牙写频Bug多多，您确定要继续吗", ButtonEnum.OkCancel);
+            var result =  await ans.ShowWindowDialogAsync(this);
+            if (result != ButtonResult.Yes)
+            {
+                return;
+            }
+        }
+        Console.WriteLine("Requesting Bluetooth Device...");
+        // for windows and macoos
+        try
+        {
+            var available = await Bluetooth.GetAvailabilityAsync();
+            // var available = true;
+            if (!available)
+            {
+                MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
+                return;
+            }
+        }
+        catch
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
+            return;
+        }
+
+        var hint = new HintBT();
+        hint.setLabelStatus("自动搜索中...");
+        hint.setButtonStatus(false);
+        hint.ShowDialog(this);
+        BluetoothDevice device = null;
+        var filter = new BluetoothLEScanFilter()
+        {
+            Name = BLE.BTNAME_SHX8800
+        };
+        try
+        {
+            // 过滤名称
+            device = await Bluetooth.RequestDeviceAsync(new RequestDeviceOptions { Filters = { filter } });
+        }
+        catch
+        {
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(5000);
+            var discoveredDevices = await Bluetooth.ScanForDevicesAsync(new RequestDeviceOptions()
+            {
+                Filters = { filter }
+            },cts.Token);
+            foreach (var discoveredDevice in discoveredDevices)
+            {
+                if (discoveredDevice.Name.Equals(BLE.BTNAME_SHX8800))
+                {
+                    device = discoveredDevice;
+                    break;
+                }
+            }
+        }
+
+        if (device == null)
+        {
+           hint.setLabelStatus("未找到设备！");
+           hint.setButtonStatus(true);
+           return;
+        }
+        hint.setLabelStatus("已找到设备\nMAC:"+device.Id+"\n尝试连接中...");
+        // Get Char.....
+        await device.Gatt.ConnectAsync();
+        Console.WriteLine("Connected");
+        var service = await device.Gatt.GetPrimaryServiceAsync(BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_SERVICE_UUID.ToUpper(), 16)));
+        if (service == null)
+        {
+            hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
+            hint.setButtonStatus(true);
+            return;
+        }
+
+        var character = await service.GetCharacteristicAsync(
+            BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_CHARACTERISTIC_UUID.ToUpper(), 16)));
+        
+        if (character == null)
+        {
+            hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
+            hint.setButtonStatus(true);
+            return;
+        }
+        else
+        {
+            hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
+            hint.setButtonStatus(true);
+            MySerialPort.getInstance().Characteristic = character;
+        }
+        character.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
+        await character.StartNotificationsAsync();
+    }
+    private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
+    {
+        foreach (var b in e.Value)
+        {
+            MySerialPort.getInstance().RxData.Enqueue(b);
         }
     }
 }

@@ -36,6 +36,10 @@ public partial class ProgressBarWindow : Window
         InitializeComponent();
     }
 
+    private void Exit_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 
     private void Start_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -46,6 +50,7 @@ public partial class ProgressBarWindow : Window
             return;
         }
         StartButton.IsEnabled = false;
+        CloseButton.IsEnabled = false;
         progressBar.Value = 0;
         try
         {
@@ -59,23 +64,26 @@ public partial class ProgressBarWindow : Window
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:"+ed.Message).ShowWindowDialogAsync(this);
             StartButton.IsEnabled = true;
+            CloseButton.IsEnabled = true;
             sP.CloseSerial();
         }
     }
 
-    private void Task_WriteFreq()
+    private async void Task_WriteFreq()
     {
         var flag = false;
         if (status == 0)
             wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.READ);
         else
             wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.WRITE);
+        MySerialPort.getInstance().RxData.Clear();
         try
         {
-            flag = wF.DoIt();
+            flag = await wF.DoIt();
         }
-        catch
+        catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             // ignored
         }
         Dispatcher.UIThread.Invoke(() => HandleWFResult(flag));
@@ -163,5 +171,6 @@ public partial class ProgressBarWindow : Window
 
         sP.CloseSerial();
         StartButton.IsEnabled = true;
+        CloseButton.IsEnabled = true;
     }
 }
