@@ -437,7 +437,7 @@ public partial class MainWindow : Window
         {
             var ans = MessageBoxManager.GetMessageBoxStandard("注意", "Linux下蓝牙写频Bug多多，您确定要继续吗", ButtonEnum.OkCancel);
             var result =  await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Yes)
+            if (result != ButtonResult.Ok)
             {
                 return;
             }
@@ -456,8 +456,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ed)
         {
-            Console.WriteLine(ed.Message);
-            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:"+ed.Message).ShowWindowDialogAsync(this);
             return;
         }
 
@@ -501,7 +500,24 @@ public partial class MainWindow : Window
         }
         hint.setLabelStatus("已找到设备\nMAC:"+device.Id+"\n尝试连接中...");
         // Get Char.....
-        await device.Gatt.ConnectAsync();
+        try
+        {
+            await device.Gatt.ConnectAsync();
+        }
+#if __LINUX__
+        catch (Tmds.DBus.DBusException)
+        {
+            hint.setLabelStatus("连接失败！\n请在设置-蓝牙中取消对walkie-talkie的连接。\n如果您是初次连接，请在设置中手动配对\nwalkie-talkie并点击配对！");
+            hint.setButtonStatus(true);
+            return;
+        }
+#endif
+        catch (Exception ea)
+        {
+            hint.setLabelStatus("连接失败！"+ea.Message);
+            hint.setButtonStatus(true);
+            return;
+        }
         Console.WriteLine("Connected");
         var service = await device.Gatt.GetPrimaryServiceAsync(BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_SERVICE_UUID.ToUpper(), 16)));
         if (service == null)

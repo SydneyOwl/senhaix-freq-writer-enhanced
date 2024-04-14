@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <!-- <TargetFramework>net6.0</TargetFramework> -->
+    <TargetFramework>net6.0</TargetFramework>
     <!-- <TargetFrameworks>net6.0-linux;net6.0-maccatalyst</TargetFrameworks> -->
-    <TargetFrameworks>net6.0-windows10.0.19041.0</TargetFrameworks>
+    <!-- <TargetFrameworks>net6.0-windows10.0.19041.0</TargetFrameworks> -->
     <!-- <TargetFrameworks Condition="'$(TargetPlatform)' != 'windows'">net6.0</TargetFrameworks> -->
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -30,7 +30,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.10.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
