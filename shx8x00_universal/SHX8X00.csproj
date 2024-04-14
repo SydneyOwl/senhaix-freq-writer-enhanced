@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <!-- <TargetFramework>net6.0</TargetFramework> -->
     <!-- <TargetFrameworks>net6.0-linux;net6.0-maccatalyst</TargetFrameworks> -->
-    <!-- <TargetFrameworks>net6.0-windows10.0.19041.0</TargetFrameworks> -->
+    <TargetFrameworks>net6.0-windows10.0.19041.0</TargetFrameworks>
     <!-- <TargetFrameworks Condition="'$(TargetPlatform)' != 'windows'">net6.0</TargetFrameworks> -->
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>

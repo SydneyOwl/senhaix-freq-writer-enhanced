@@ -114,10 +114,10 @@ internal class WriFreq
         state = STATE.HandShakeStep1;
         if (await HandShake())
         {
-            Console.WriteLine("Fial --- bufk");
+            
             if (op == OPERATION_TYPE.READ)
             {
-                Console.WriteLine("Fial --- bufk1");
+                
                 if (await ReadCHData())
                 {
                     sP.CloseSerial();
@@ -130,24 +130,17 @@ internal class WriFreq
 
             if (OPERATION_TYPE.WRITE == op)
             {
-                Console.WriteLine("Fial --- buf2");
                 if (await WriteCHData())
                 {
-                    
-                    Console.WriteLine("Fial --- buf3");
                     sP.CloseSerial();
                     return true;
                 }
-                
-                Console.WriteLine("Fial --- buf4");
                 sP.CloseSerial();
                 return false;
             }
 
             if (OPERATION_TYPE.READ_CONFIG == op)
             {
-                
-                Console.WriteLine("Fial --- buf3");
                 if (await ReadConfigData())
                 {
                     sP.CloseSerial();
@@ -160,8 +153,6 @@ internal class WriFreq
 
             if (OPERATION_TYPE.WRITE_CONFIG == op)
             {
-                
-                Console.WriteLine("Fial --- buf4");
                 if (await WriteConfigData())
                 {
                     sP.CloseSerial();
@@ -434,7 +425,6 @@ internal class WriFreq
                 switch (state)
                 {
                     case STATE.WriteStep1:
-                        Console.WriteLine("Write kk");
                         if (eepAddr < 2048)
                         {
                             var cHImf_StrToHex = GetCHImf_StrToHex(theRadioData.channeldata[num++].transList());
@@ -672,11 +662,7 @@ internal class WriFreq
                                 }
                             }
                         }
-
-                        Console.WriteLine("Write 423423kk");
                         await sP.WriteByte(array, 0, array[3] + 4);
-                        
-                        Console.WriteLine("Write k-----k");
                         timer.Start();
                         state = STATE.WriteStep2;
                         break;
@@ -684,7 +670,6 @@ internal class WriFreq
                         await sP.preRead();
                         if (sP.BytesToReadFromCache < 1) break;
                         await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
-                        Console.WriteLine("Write bb");
                         if (bufForData[0] == 6)
                         {
                             timer.Stop();

@@ -181,9 +181,8 @@ public partial class MainWindow : Window
 
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
-        Console.Write(ClassTheRadioData.getInstance().chanData[0].ToString());
-        // var aboutWindow = new AboutWindow();
-        // aboutWindow.ShowDialog(this);
+        var aboutWindow = new AboutWindow();
+        aboutWindow.ShowDialog(this);
     }
 
     private async void new_OnClick(object? sender, RoutedEventArgs e)
@@ -455,8 +454,9 @@ public partial class MainWindow : Window
                 return;
             }
         }
-        catch
+        catch (Exception ed)
         {
+            Console.WriteLine(ed.Message);
             MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
             return;
         }
@@ -522,12 +522,14 @@ public partial class MainWindow : Window
         }
         else
         {
+            character.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
+            await character.StartNotificationsAsync();
+            MySerialPort.getInstance().Characteristic = character;
+            MySerialPort.getInstance().BtDeviceMtu = device.Gatt.Mtu;
             hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
             hint.setButtonStatus(true);
-            MySerialPort.getInstance().Characteristic = character;
         }
-        character.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
-        await character.StartNotificationsAsync();
+        // cable.IsVisible = false;
     }
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {

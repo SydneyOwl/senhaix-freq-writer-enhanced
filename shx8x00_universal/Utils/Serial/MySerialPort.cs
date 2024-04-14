@@ -22,7 +22,15 @@ internal class MySerialPort : SerialPort
     private static MySerialPort sp;
 
     private GattCharacteristic characteristic = null;
-    
+
+    private int BTDeviceMTU = 23;
+
+    public int BtDeviceMtu
+    {
+        get => BTDeviceMTU;
+        set => BTDeviceMTU = value;
+    }
+
     private Queue<byte> rxData = new(1024);
 
     public Queue<byte> RxData
@@ -80,20 +88,22 @@ internal class MySerialPort : SerialPort
         }
         else
         {
-            // 太大的话要分开发，MTU=23！先发20
+            // 太大的话要分开发
             var tobeWrite = buffer.Skip(offset).Take(count).ToArray();
-            var sendTimes = tobeWrite.Length % 20;
+            var singleSize = (BTDeviceMTU - 5);
+            var sendTimes = tobeWrite.Length / singleSize;
             var tmp = 0;
-            for (int i = 0; i < sendTimes; i++)
+            for (int i = 0; i < sendTimes+1; i++)
             {
                 if (i == sendTimes)
                 {
-                    await characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(tobeWrite.Length-sendTimes*20).ToArray());
+                    await characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(tobeWrite.Length-sendTimes*singleSize).ToArray());
                     break;
                 }
-                await characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(20).ToArray());
-                tmp += 20;
+                await characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
+                tmp += singleSize;
             }
+            // Console.WriteLine(tobeWrite.Length);
             // await characteristic.WriteValueWithoutResponseAsync(tobeWrite);
         }
     }
