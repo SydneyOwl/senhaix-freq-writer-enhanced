@@ -124,7 +124,8 @@ public partial class MainWindow : Window
                 TxPwr = "H",
                 SigCode = "1",
                 ChanNum = id,
-                TxFreq = parsed
+                TxFreq = parsed,
+                IsVisable = true
             };
             listItems[int.Parse(id)] = data;
         }
@@ -196,13 +197,15 @@ public partial class MainWindow : Window
         // _TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
         // ClassTheRadioData.forceNew();
         // this.listItems = ClassTheRadioData.getInstance().chanData;
+        ClassTheRadioData.getInstance().channeldata.Clear();
         for (var i = 0; i < listItems.Count; i++)
         {
             var tmp = new ChannelData();
+            tmp.IsVisable = false;
             tmp.ChanNum = i.ToString();
             listItems[i] = tmp;
+            ClassTheRadioData.getInstance().channeldata.Add(tmp);
         }
-        ClassTheRadioData.getInstance().channeldata = listItems.ToList();
         ClassTheRadioData.getInstance().dtmfData = new DTMFData();
         ClassTheRadioData.getInstance().funCfgData = new FunCFGData();
         ClassTheRadioData.getInstance().otherImfData = new OtherImfData();
@@ -359,6 +362,7 @@ public partial class MainWindow : Window
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
+        if (tmpChannel==null)return;
         int selected = channelDataGrid.SelectedIndex;
         listItems[selected] = tmpChannel.DeepCopy();
         calcSequence();
@@ -422,6 +426,7 @@ public partial class MainWindow : Window
         {
             listItems[i] = new ChannelData();
         }
+        calcSequence();
     }
     private void calcSequence()
     {
@@ -433,9 +438,27 @@ public partial class MainWindow : Window
     
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "该功能不稳定，您确定要继续吗", ButtonEnum.OkCancel);
+            var result =  await ans.ShowWindowDialogAsync(this);
+            if (result != ButtonResult.Ok)
+            {
+                return;
+            }
+        }
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "Linux下蓝牙写频Bug多多，您确定要继续吗", ButtonEnum.OkCancel);
+            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "Linux下蓝牙写频支持不完整，您确定要继续吗", ButtonEnum.OkCancel);
+            var result =  await ans.ShowWindowDialogAsync(this);
+            if (result != ButtonResult.Ok)
+            {
+                return;
+            }
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "MACOS下蓝牙写频支持不完整，您确定要继续吗", ButtonEnum.OkCancel);
             var result =  await ans.ShowWindowDialogAsync(this);
             if (result != ButtonResult.Ok)
             {
@@ -536,15 +559,13 @@ public partial class MainWindow : Window
             hint.setButtonStatus(true);
             return;
         }
-        else
-        {
-            character.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
-            await character.StartNotificationsAsync();
-            MySerialPort.getInstance().Characteristic = character;
-            MySerialPort.getInstance().BtDeviceMtu = device.Gatt.Mtu;
-            hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
-            hint.setButtonStatus(true);
-        }
+
+        character.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
+        await character.StartNotificationsAsync();
+        MySerialPort.getInstance().Characteristic = character;
+        MySerialPort.getInstance().BtDeviceMtu = device.Gatt.Mtu;
+        hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
+        hint.setButtonStatus(true);
         // cable.IsVisible = false;
     }
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)

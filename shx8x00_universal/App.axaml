@@ -12,6 +12,11 @@
         <StyleInclude Source="avares://shx8x00/Icons.axaml" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
         <StyleInclude Source="avares://shx8x00/DragDrop.axaml"></StyleInclude>
+        
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
     </Application.Styles>
     <Application.Resources>
         <behaviors:DataGridDnd x:Key="DataGridDndBfNamedId" x:TypeArguments="m:ChannelData" />

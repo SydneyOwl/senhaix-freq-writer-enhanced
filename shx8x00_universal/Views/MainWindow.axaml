@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
+        Width="1332" Height="750"
         xmlns:m="clr-namespace:shx8x00.DataModels"
         xmlns:vm="using:shx8x00.Views"
         xmlns:constants="clr-namespace:shx8x00.Constants"
@@ -118,7 +119,8 @@
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
             <StackPanel Orientation="Horizontal">
                 <TextBlock>Version v0.0.1 UNSTABLE!! | </TextBlock>
-                <TextBlock Foreground="MediumBlue">https://github.com/SydneyOwl/senhaix-freq-writer-enhanced</TextBlock>
+                <TextBlock Foreground="MediumBlue">https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
+                <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             </StackPanel>
         </Border>
         <Border Background="White" BorderBrush="Black" BorderThickness="1">
@@ -128,7 +130,8 @@
                       CanUserSortColumns="False"
                       Classes="draggable"
                       CanUserResizeColumns="True"
-                      CanUserReorderColumns="True">
+                      CanUserReorderColumns="True"
+                      >
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="复制" Click="MenuCopyChannel_OnClick"/>
@@ -147,70 +150,76 @@
                 </Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="信道"
-                                        Binding="{Binding ChanNum }" IsReadOnly="True" />
-                    <DataGridTemplateColumn Header="发射允许">
+                                        Binding="{Binding ChanNum }" IsReadOnly="True" 
+                                        Width="*"  />
+                    <DataGridTemplateColumn Header="发射允许" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" SelectedItem="{Binding TxAllow, Mode=TwoWay}"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txallow}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txallow}" IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="接收频率">
+                    <DataGridTemplateColumn Header="接收频率" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus" />
+                                <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="QT/DQT解码">
+                    <DataGridTemplateColumn Header="QT/DQT解码" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
                                           ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}"
                                           SelectedItem="{Binding QtDec, Mode=TwoWay}"
+                                          IsVisible="{Binding IsVisable}"
                                           SelectionChanged="SelectingItemsControl_OnSelectionChanged" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="发射频率">
+                    <DataGridTemplateColumn Header="发射频率" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus" />
+                                <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus"  IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="QT/DQT编码">
+                    <DataGridTemplateColumn Header="QT/DQT编码" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
                                           SelectedItem="{Binding QtEnc, Mode=TwoWay}"
                                           SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="发射功率">
+                    <DataGridTemplateColumn Header="发射功率" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txPwr}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txPwr}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="带宽">
+                    <DataGridTemplateColumn Header="带宽" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.bandwidth}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.bandwidth}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="PTT-ID">
+                    <DataGridTemplateColumn Header="PTT-ID" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Pttid, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.pttid}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.pttid}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -218,7 +227,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BusyLock, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.busylock}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.busylock}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -226,7 +236,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.scanadd}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.scanadd}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -234,17 +245,19 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding SigCode, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.signCode}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.signCode}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="信道名称" Width="*"
-                                        Binding="{Binding ChanName }" />
+                    <DataGridTextColumn Header="信道名称" Width="1.5*"
+                                        Binding="{Binding ChanName }"/>
                     <DataGridTemplateColumn Header="加密" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Encrypt, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.encrypt}" />
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.encrypt}" 
+                                          IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

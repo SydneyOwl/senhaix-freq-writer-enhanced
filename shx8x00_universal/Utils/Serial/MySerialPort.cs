@@ -57,7 +57,7 @@ internal class MySerialPort : SerialPort
     public GattCharacteristic Characteristic
     {
         get => characteristic;
-        set => characteristic = value ?? throw new ArgumentNullException(nameof(value));
+        set => characteristic = value;
     }
 
     private string targetPort = "";
@@ -65,7 +65,7 @@ internal class MySerialPort : SerialPort
     public string TargetPort
     {
         get => targetPort;
-        set => targetPort = value ?? throw new ArgumentNullException(nameof(value));
+        set => targetPort = value;
     }
 
     public async Task WriteByte(byte buffer)

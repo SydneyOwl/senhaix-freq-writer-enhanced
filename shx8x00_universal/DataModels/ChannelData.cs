@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -37,6 +38,11 @@ public partial class ChannelData : ObservableObject
 
     [ObservableProperty] private string txPwr = "";
     
+    [XmlIgnore]
+    // [JsonIgnore]
+    [ObservableProperty]
+    private bool isVisable = false;
+    
     public ChannelData DeepCopy()
     {
         ChannelData rel;
@@ -64,6 +70,10 @@ public partial class ChannelData : ObservableObject
                 break;
             case 2:
                 RxFreq = target;
+                if (!string.IsNullOrEmpty(RxFreq))
+                {
+                    IsVisable = true;
+                }
                 break;
             case 3:
                 QtDec = target;
