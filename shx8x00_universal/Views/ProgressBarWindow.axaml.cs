@@ -40,10 +40,13 @@ public partial class ProgressBarWindow : Window
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        tokenSource.Cancel();
-        threadWF.Join();
-        threadProgress.Join();
-        ClassTheRadioData.getInstance().forceNewChannel();
+        if (threadWF != null || threadProgress != null)
+        {
+            tokenSource.Cancel();
+            threadWF.Join();
+            threadProgress.Join();
+            ClassTheRadioData.getInstance().forceNewChannel();
+        }
         Close();
     }
 
@@ -71,7 +74,7 @@ public partial class ProgressBarWindow : Window
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:" + ed.Message).ShowWindowDialogAsync(this);
             StartButton.IsEnabled = true;
-            CloseButton.IsEnabled = false;
+            CloseButton.IsEnabled = true;
             sP.CloseSerial();
         }
     }
@@ -179,6 +182,6 @@ public partial class ProgressBarWindow : Window
 
         sP.CloseSerial();
         StartButton.IsEnabled = true;
-        CloseButton.IsEnabled = false;
+        CloseButton.IsEnabled = true;
     }
 }

@@ -235,6 +235,7 @@ public partial class MainWindow : Window
     private void exit_OnClick(object? sender, RoutedEventArgs e)
     {
         Close();
+        Environment.Exit(0);
     }
 
     private void dtmfset_OnClick(object? sender, RoutedEventArgs e)
@@ -260,10 +261,6 @@ public partial class MainWindow : Window
         {
             await using var stream = await files[0].OpenReadAsync();
             ClassTheRadioData.CreatObjFromFile(stream);
-            var inst = ClassTheRadioData.getInstance().chanData;
-
-            // TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
-            for (var i = 0; i < listItems.Count; i++) listItems[i] = inst[i];
         }
     }
 

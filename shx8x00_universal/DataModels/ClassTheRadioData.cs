@@ -57,15 +57,21 @@ public class ClassTheRadioData
                 var xmlSerializer = new XmlSerializer(typeof(ClassTheRadioData));
                 var stringReader = new StringReader(xmls);
                 tmp = (ClassTheRadioData)xmlSerializer.Deserialize(stringReader);
-                tmp.chanData = new ObservableCollection<ChannelData>(tmp.channeldata);
+                instance.chanData.Clear();
+                foreach (var cd in tmp.channeldata)
+                {
+                    if (!cd.allEmpty())
+                    {
+                        cd.IsVisable = true;
+                    }
+                    instance.chanData.Add(cd);
+                }
             }
             catch
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
                 return;
             }
-
-            instance = tmp;
         }
     }
 
