@@ -50,7 +50,7 @@
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="DTMF（多音双频）" Click="dtmfset_OnClick">
+                <MenuItem Header="DTMF（双音多频）" Click="dtmfset_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
