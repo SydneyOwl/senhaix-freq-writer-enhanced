@@ -22,8 +22,8 @@
 
 ## 功能说明
 
-+ 仅在windows端可用的森海克斯8x00写频软件（即森海克斯8800/8600for windows）由官方代码修改而来，使用了两套solution，其中一套对所用的`.net framework`进行了适当的升级以支持`BLE`蓝牙写频。另一套solution为了尽可能适配旧系统，继续采用`.net2.0`，最低支持到windows xp sp2。
-+ GT12写频软件同样由官方代码修改而来，对.net进行了小版本的升级。
++ 仅在windows端可用的森海克斯8x00写频软件（即森海克斯8800/8600for windows）由官方软件修改而来，使用了两套solution，其中一套对所用的`.net framework`进行了适当的升级以支持`BLE`蓝牙写频。另一套solution为了尽可能适配旧系统，继续采用`.net2.0`，最低支持到windows xp sp2。
++ GT12写频软件同样由官方软件修改而来，对.net进行了小版本的升级。
 + 在windows、linux、mac通用的森海克斯8x00写频软件为实现跨平台，完全弃用官方UI代码(winform)，转而采用`Avalonia`+`.net`6进行开发。
 
 运行平台：
@@ -50,6 +50,12 @@
 [^4]:该版本自带runtime，无需额外安装
 
 ## 编译指引
+
+如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
+
+![image-20240415110219541](shx8x00_universal/readme_shx8x00_universal/image-20240415110219541.png)
+
+下面描述的是如何进行手动编译。
 
 ### 非通用版
 
@@ -127,6 +133,15 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.2.0` 修复蓝牙写频结束设备断开后，重新连接设备时搜索不到设备的问题/升级dotnet版本到4.6.2 LTS/更新所用依赖版本
 
 `v0.2.1` 加入打星助手，更换了“关于”窗体
+
+## Thanks...
+
++ `Avalonia` 的跨平台UI方案
+
++ `InTheHand.BluetoothLE`的低功耗蓝牙方案
++ `SenHaiX`的原版写频软件
++ `Linux.Bluetooth`的`D-Bus`方案
++ and more.....
 
 ## 许可证
 
