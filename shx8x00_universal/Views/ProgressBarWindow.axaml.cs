@@ -14,6 +14,7 @@ public partial class ProgressBarWindow : Window
 {
     private readonly MySerialPort sP;
 
+    private CancellationTokenSource tokenSource = new CancellationTokenSource();
     // 读0
     private readonly int status;
 
@@ -36,8 +37,12 @@ public partial class ProgressBarWindow : Window
         InitializeComponent();
     }
 
-    private void Exit_OnClick(object? sender, RoutedEventArgs e)
+    private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
+        tokenSource.Cancel();
+        threadWF.Join();
+        threadProgress.Join();
+        ClassTheRadioData.getInstance().forceNewChannel();
         Close();
     }
 
@@ -50,26 +55,26 @@ public partial class ProgressBarWindow : Window
             return;
         }
         StartButton.IsEnabled = false;
-        CloseButton.IsEnabled = false;
+        CloseButton.IsEnabled = true;
         progressBar.Value = 0;
         try
         {
             sP.OpenSerial();
-            threadWF = new Thread(Task_WriteFreq);
+            threadWF = new Thread(()=>Task_WriteFreq(tokenSource.Token));
             threadWF.Start();
-            threadProgress = new Thread(Task_GetProgress);
+            threadProgress = new Thread(()=>Task_GetProgress(tokenSource.Token));
             threadProgress.Start();
         }
         catch (Exception ed)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:"+ed.Message).ShowWindowDialogAsync(this);
             StartButton.IsEnabled = true;
-            CloseButton.IsEnabled = true;
+            CloseButton.IsEnabled = false;
             sP.CloseSerial();
         }
     }
 
-    private async void Task_WriteFreq()
+    private async void Task_WriteFreq(CancellationToken cancellationToken)
     {
         var flag = false;
         if (status == 0)
@@ -79,30 +84,30 @@ public partial class ProgressBarWindow : Window
         MySerialPort.getInstance().RxData.Clear();
         try
         {
-            flag = await wF.DoIt();
+            flag = await wF.DoIt(cancellationToken);
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
             // ignored
         }
-        Dispatcher.UIThread.Invoke(() => HandleWFResult(flag));
+        Dispatcher.UIThread.Post(() => HandleWFResult(flag));
     }
 
-    private void Task_GetProgress()
+    private void Task_GetProgress(CancellationToken cancellationToken)
     {
         var flag = false;
         var num = 3;
-        while (wF == null)
+        while (wF == null && !cancellationToken.IsCancellationRequested)
         {
             Thread.Sleep(1);
         }
-        while (!wF.flagTransmitting)
+        while (!wF.flagTransmitting && !cancellationToken.IsCancellationRequested)
         {
             Thread.Sleep(1);
         }
 
-        while (wF.flagTransmitting)
+        while (wF.flagTransmitting && !cancellationToken.IsCancellationRequested)
         {
             // Thread.Sleep(1);
             STATE curr;
@@ -157,7 +162,6 @@ public partial class ProgressBarWindow : Window
                     break;
             }
         }
-            
     }
 
     private void HandleWFResult(bool result)
@@ -178,6 +182,6 @@ public partial class ProgressBarWindow : Window
 
         sP.CloseSerial();
         StartButton.IsEnabled = true;
-        CloseButton.IsEnabled = true;
+        CloseButton.IsEnabled = false;
     }
 }

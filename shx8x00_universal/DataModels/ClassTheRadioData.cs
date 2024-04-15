@@ -77,10 +77,15 @@ public class ClassTheRadioData
         return instance;
     }
 
-    public static void forceNew()
+    public void forceNewChannel()
     {
-        instance = new ClassTheRadioData();
+        instance.chanData.Clear();
+        for (int i = 0; i < 128; i++)
+        {
+            ChannelData chan = new ChannelData();
+            chan.ChanNum = i.ToString();
+            chan.IsVisable = false;
+            instance.chanData.Add(chan);
+        }
     }
-
-   
 }

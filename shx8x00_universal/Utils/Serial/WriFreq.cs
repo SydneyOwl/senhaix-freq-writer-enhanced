@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using shx8x00.Constants;
 using shx8x00.DataModels;
+using Timer = System.Timers.Timer;
 
 
 namespace shx8x00.Utils.Serial;
@@ -123,17 +125,17 @@ internal class WriFreq
         flagRetry = false;
     }
 
-    public async Task<bool> DoIt()
+    public async Task<bool> DoIt(CancellationToken cancellationToken)
     {
         flagTransmitting = true;
         state = STATE.HandShakeStep1;
-        if (await HandShake())
+        if (await HandShake(cancellationToken))
         {
             
             if (op == OPERATION_TYPE.READ)
             {
                 
-                if (await ReadCHData())
+                if (await ReadCHData(cancellationToken))
                 {
                     sP.CloseSerial();
                     return true;
@@ -145,7 +147,7 @@ internal class WriFreq
 
             if (OPERATION_TYPE.WRITE == op)
             {
-                if (await WriteCHData())
+                if (await WriteCHData(cancellationToken))
                 {
                     sP.CloseSerial();
                     return true;
@@ -156,7 +158,7 @@ internal class WriFreq
 
             if (OPERATION_TYPE.READ_CONFIG == op)
             {
-                if (await ReadConfigData())
+                if (await ReadConfigData(cancellationToken))
                 {
                     sP.CloseSerial();
                     return true;
@@ -168,7 +170,7 @@ internal class WriFreq
 
             if (OPERATION_TYPE.WRITE_CONFIG == op)
             {
-                if (await WriteConfigData())
+                if (await WriteConfigData(cancellationToken))
                 {
                     sP.CloseSerial();
                     return true;
@@ -185,9 +187,9 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> HandShake()
+    private async Task<bool> HandShake(CancellationToken cancellationToken)
     {
-        while (flagTransmitting)
+        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
             if (!flagRetry)
             {
                 switch (state)
@@ -254,11 +256,11 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> ReadCHData()
+    private async Task<bool> ReadCHData(CancellationToken cancellationToken)
     {
         var array = new byte[4] { 82, 0, 0, 64 };
         var num = 0;
-        while (flagTransmitting)
+        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
             if (!flagRetry)
             {
                 switch (state)
@@ -417,7 +419,7 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> WriteCHData()
+    private async Task<bool> WriteCHData(CancellationToken cancellationToken)
     {
         var array = new byte[36]
         {
@@ -434,7 +436,7 @@ internal class WriFreq
             255, 255, 255, 255, 255, 255
         };
         var num = 0;
-        while (flagTransmitting)
+        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
             if (!flagRetry)
             {
                 switch (state)
@@ -724,11 +726,11 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> ReadConfigData()
+    private async Task<bool> ReadConfigData(CancellationToken cancellationToken)
     {
         var array = new byte[4] { 83, 31, 192, 64 };
         eepAddr = 8128;
-        while (flagTransmitting)
+        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
             if (!flagRetry)
             {
                 switch (state)
@@ -841,7 +843,7 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> WriteConfigData()
+    private async Task<bool> WriteConfigData(CancellationToken cancellationToken)
     {
         var array = new byte[20]
         {
@@ -855,7 +857,7 @@ internal class WriFreq
         };
         byte[] array3 = null;
         eepAddr = 8128;
-        while (flagTransmitting)
+        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
             if (!flagRetry)
             {
                 switch (state)

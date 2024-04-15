@@ -194,18 +194,18 @@ public partial class MainWindow : Window
 
         var result = await box.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;
-        // _TODO: 优雅一些，不知道为啥直接更新整个ObserItem的话界面不会更新
         // ClassTheRadioData.forceNew();
         // this.listItems = ClassTheRadioData.getInstance().chanData;
-        ClassTheRadioData.getInstance().channeldata.Clear();
-        for (var i = 0; i < listItems.Count; i++)
-        {
-            var tmp = new ChannelData();
-            tmp.IsVisable = false;
-            tmp.ChanNum = i.ToString();
-            listItems[i] = tmp;
-            ClassTheRadioData.getInstance().channeldata.Add(tmp);
-        }
+        // ClassTheRadioData.getInstance().channeldata.Clear();
+        // for (var i = 0; i < listItems.Count; i++)
+        // {
+        //     var tmp = new ChannelData();
+        //     tmp.IsVisable = false;
+        //     tmp.ChanNum = i.ToString();
+        //     listItems[i] = tmp;
+        //     ClassTheRadioData.getInstance().channeldata.Add(tmp);
+        // }
+        ClassTheRadioData.getInstance().forceNewChannel();
         ClassTheRadioData.getInstance().dtmfData = new DTMFData();
         ClassTheRadioData.getInstance().funCfgData = new FunCFGData();
         ClassTheRadioData.getInstance().otherImfData = new OtherImfData();
