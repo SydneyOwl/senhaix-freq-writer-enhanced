@@ -53,7 +53,7 @@ jobs:
         mv *.exe GT12-Freq-Writer
         mv *.config GT12-Freq-Writer
         mv *.pdb GT12-Freq-Writer
-        cp D:\a\CITEST\CITEST\data\satellite_data\data\amsat-all-frequencies.json GT12-Freq-Writer
+        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json GT12-Freq-Writer
         Compress-Archive -Path .\GT12-Freq-Writer -DestinationPath ..\..\..\..\tmp\GT12-Freq-Writer-${tagName}.zip
         cd ..\..\..\..\shx8x00\SQ5R.Properties
         $sourceFile = "./VERSION.cs"
@@ -75,7 +75,7 @@ jobs:
         mv *.exe Shx8x00-Freq-Writer-With-Bluetooth
         mv *.config Shx8x00-Freq-Writer-With-Bluetooth
         mv *.pdb Shx8x00-Freq-Writer-With-Bluetooth
-        cp D:\a\CITEST\CITEST\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer-With-Bluetooth
+        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer-With-Bluetooth
         Compress-Archive -Path .\Shx8x00-Freq-Writer-With-Bluetooth -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-With-Bluetooth-${tagName}.zip
         cd ..\net20
         mkdir -Force lib
@@ -85,7 +85,7 @@ jobs:
         mv *.exe Shx8x00-Freq-Writer
         mv *.config Shx8x00-Freq-Writer
         mv *.pdb Shx8x00-Freq-Writer
-        cp D:\a\CITEST\CITEST\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer
+        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer
         Compress-Archive -Path .\Shx8x00-Freq-Writer -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-${tagName}.zip
 
     - name: Upload Artifact
@@ -117,24 +117,24 @@ jobs:
         cd ..
         dotnet restore -r win-x64
         dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:TargetOS=Windows --self-contained true
-        cd D:/a/CITEST/CITEST/shx8x00_universal/bin/Release/net6.0-windows10.0.19041.0/win-x64
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin/Release/net6.0-windows10.0.19041.0/win-x64
         mkdir shx8x00-universial-freq-writer
         mv publish/* shx8x00-universial-freq-writer
-        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\CITEST\CITEST\tmpu\Shx8x00-Universial-Freq-Writer-Windows-${tagName}.zip
-        cd D:/a/CITEST/CITEST/shx8x00_universal/
+        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-Windows-${tagName}.zip
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/
         dotnet restore -r linux-x64
         dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true --self-contained true
-        cd D:/a/CITEST/CITEST/shx8x00_universal/bin\Release\net6.0\linux-x64\
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin\Release\net6.0\linux-x64\
         mkdir shx8x00-universial-freq-writer
         mv publish/* shx8x00-universial-freq-writer
-        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\CITEST\CITEST\tmpu\Shx8x00-Universial-Freq-Writer-Linux-${tagName}.zip
-        cd D:/a/CITEST/CITEST/shx8x00_universal/
+        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-Linux-${tagName}.zip
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/
         dotnet restore -r osx-x64
         dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64 -p:UseAppHost=true -property:Configuration=Release
-        cd D:/a/CITEST/CITEST/shx8x00_universal/bin\Release\net6.0\osx-x64\
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin\Release\net6.0\osx-x64\
         mkdir shx8x00-universial-freq-writer
         mv publish/SHX8X00.app shx8x00-universial-freq-writer
-        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\CITEST\CITEST\tmpu\Shx8x00-Universial-Freq-Writer-macOS-${tagName}.zip
+        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-macOS-${tagName}.zip
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -167,7 +167,7 @@ jobs:
 
     - name: Add Execute
       run: |
-        ls && cd /home/runner/work/CITEST/CITEST && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-macOS) && \
+        ls && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-macOS) && \
         echo $targetName && unzip $targetName && rm -rf $targetName && \
         chmod +x shx8x00-universial-freq-writer/SHX8X00.app/Contents/MacOS/SHX8X00 && \
         zip -r $targetName shx8x00-universial-freq-writer
