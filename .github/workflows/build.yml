@@ -170,6 +170,10 @@ jobs:
         ls && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-macOS) && \
         echo $targetName && unzip $targetName && rm -rf $targetName && \
         chmod +x shx8x00-universial-freq-writer/SHX8X00.app/Contents/MacOS/SHX8X00 && \
+        zip -r $targetName shx8x00-universial-freq-writer && \
+        rm -rf shx8x00-universial-freq-writer && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-Linux) && \
+        echo $targetName && unzip $targetName && rm -rf $targetName && \
+        chmod +x shx8x00-universial-freq-writer/SHX8X00 && \
         zip -r $targetName shx8x00-universial-freq-writer
 
     - name: Upload Artifact
