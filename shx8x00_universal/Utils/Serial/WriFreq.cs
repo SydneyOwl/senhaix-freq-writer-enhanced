@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading;
@@ -21,17 +20,9 @@ internal class WriFreq
 
     private static readonly ushort MODELTYPE_BFHx = 2;
 
-    private readonly ushort MODELTYPE = MODELTYPE_SHX;
-
     private readonly byte[] bufForData = new byte[128];
 
     private readonly OtherImfData cfgData;
-
-    public ushort eepAddr;
-
-    private bool flagRetry;
-
-    public bool flagTransmitting;
 
     private readonly byte[] hSTable1 = new byte[7] { 80, 82, 79, 71, 82, 79, 77 };
 
@@ -42,26 +33,11 @@ internal class WriFreq
         new byte[3] { 66, 70, 72 }
     };
 
-    private int numOfChannel = 0;
+    private readonly ushort MODELTYPE = MODELTYPE_SHX;
 
     private readonly OPERATION_TYPE op;
 
     private readonly MySerialPort sP;
-
-    private STATE _state = STATE.HandShakeStep1;
-    public STATE state {
-        get
-        {
-            return _state;
-        }
-        set
-        {
-            _state = value;
-            currentProgress.Enqueue(value);
-        }
-    }
-
-    public ConcurrentQueue<STATE> currentProgress = new ConcurrentQueue<STATE>();
 
     private readonly string[] Table_QT = new string[210]
     {
@@ -90,6 +66,18 @@ internal class WriFreq
 
     private readonly ClassTheRadioData theRadioData;
 
+    private STATE _state = STATE.HandShakeStep1;
+
+    public ConcurrentQueue<STATE> currentProgress = new();
+
+    public ushort eepAddr;
+
+    private bool flagRetry;
+
+    public bool flagTransmitting;
+
+    private int numOfChannel = 0;
+
     private Timer timer;
 
     private byte timesOfRetry = 5;
@@ -108,6 +96,16 @@ internal class WriFreq
         this.sP = sP;
         cfgData = data;
         TimerInit();
+    }
+
+    public STATE state
+    {
+        get => _state;
+        set
+        {
+            _state = value;
+            currentProgress.Enqueue(value);
+        }
     }
 
     private void TimerInit()
@@ -131,10 +129,8 @@ internal class WriFreq
         state = STATE.HandShakeStep1;
         if (await HandShake(cancellationToken))
         {
-            
             if (op == OPERATION_TYPE.READ)
             {
-                
                 if (await ReadCHData(cancellationToken))
                 {
                     sP.CloseSerial();
@@ -152,6 +148,7 @@ internal class WriFreq
                     sP.CloseSerial();
                     return true;
                 }
+
                 sP.CloseSerial();
                 return false;
             }
@@ -183,6 +180,7 @@ internal class WriFreq
             sP.CloseSerial();
             return false;
         }
+
         sP.CloseSerial();
         return false;
     }
@@ -207,12 +205,14 @@ internal class WriFreq
                         if (sP.BytesToReadFromCache >= 1)
                         {
                             await sP.ReadByte(bufForData, 0, 1);
-                            if (bufForData[0] == 6) {
+                            if (bufForData[0] == 6)
+                            {
                                 resetRetryCount();
                                 await sP.WriteByte(70);
                                 state = STATE.HandShakeStep3;
                             }
                         }
+
                         break;
                     case STATE.HandShakeStep3:
                         await sP.preRead();
@@ -679,6 +679,7 @@ internal class WriFreq
                                 }
                             }
                         }
+
                         await sP.WriteByte(array, 0, array[3] + 4);
                         timer.Start();
                         state = STATE.WriteStep2;
@@ -718,6 +719,7 @@ internal class WriFreq
                     flagTransmitting = false;
                     return false;
                 }
+
                 timesOfRetry--;
                 num = 0;
                 flagRetry = false;
@@ -918,7 +920,7 @@ internal class WriFreq
                             array3[3] = 1;
                         }
 
-                        
+
                         await sP.WriteByte(array3, 0, array3[3] + 4);
                         await sP.WriteByte(array3, 0, array3[3] + 4);
                         timer.Start();

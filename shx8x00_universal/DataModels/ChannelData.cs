@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text.Json.Serialization;
-using System.Xml;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -20,6 +18,11 @@ public partial class ChannelData : ObservableObject
 
     [ObservableProperty] private string encrypt = "";
 
+    [XmlIgnore]
+    // [JsonIgnore]
+    [ObservableProperty]
+    private bool isVisable;
+
     [ObservableProperty] private string pttid = "";
 
     [ObservableProperty] private string qtDec = "";
@@ -37,23 +40,19 @@ public partial class ChannelData : ObservableObject
     [ObservableProperty] private string txFreq = "";
 
     [ObservableProperty] private string txPwr = "";
-    
-    [XmlIgnore]
-    // [JsonIgnore]
-    [ObservableProperty]
-    private bool isVisable = false;
-    
+
     public ChannelData DeepCopy()
     {
         ChannelData rel;
-        using (MemoryStream ms = new MemoryStream())
+        using (var ms = new MemoryStream())
         {
-            XmlSerializer xml = new XmlSerializer(typeof(ChannelData));
+            var xml = new XmlSerializer(typeof(ChannelData));
             xml.Serialize(ms, this);
             ms.Seek(0, SeekOrigin.Begin);
             rel = (ChannelData)xml.Deserialize(ms);
             ms.Close();
         }
+
         return rel;
     }
 
@@ -70,10 +69,7 @@ public partial class ChannelData : ObservableObject
                 break;
             case 2:
                 RxFreq = target;
-                if (!string.IsNullOrEmpty(RxFreq))
-                {
-                    IsVisable = true;
-                }
+                if (!string.IsNullOrEmpty(RxFreq)) IsVisable = true;
                 break;
             case 3:
                 QtDec = target;

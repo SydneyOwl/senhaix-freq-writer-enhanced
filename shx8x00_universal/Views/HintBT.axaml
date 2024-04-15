@@ -1,7 +1,5 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="250" Height="300"
         x:Class="SHX8X00.Views.HintBT"
         Title="HintBT"
@@ -13,9 +11,9 @@
         BorderBrush="Brown"
         Background="BlanchedAlmond"
         WindowStartupLocation="CenterScreen">
-        <Canvas>
-            <Label x:Name="label" Canvas.Left="20"></Label>
-            <Button Canvas.Bottom="20" Canvas.Left="100" Content="关闭" x:Name="button" Click="Button_OnClick"></Button>
-        </Canvas>
-    
+    <Canvas>
+        <Label x:Name="label" Canvas.Left="20" />
+        <Button Canvas.Bottom="20" Canvas.Left="100" Content="关闭" x:Name="button" Click="Button_OnClick" />
+    </Canvas>
+
 </Window>

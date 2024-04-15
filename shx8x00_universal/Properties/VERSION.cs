@@ -1,4 +1,5 @@
 namespace shx8x00.Properties;
+
 public class VERSION
 {
     public static string GitCommitHash = "@COMMIT_HASH@";

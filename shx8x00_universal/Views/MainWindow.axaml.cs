@@ -1,21 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using InTheHand.Bluetooth;
 using MsBox.Avalonia;
-using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
-using MsBox.Avalonia.Models;
 using shx8x00.Constants;
 using shx8x00.DataModels;
 using shx8x00.Utils.Serial;
@@ -25,8 +20,18 @@ namespace shx8x00.Views;
 
 public partial class MainWindow : Window
 {
-    private ChannelData tmpChannel;
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
+    
+    private string savePath = "";
+    private ChannelData tmpChannel;
+    public MainWindow()
+    {
+        InitializeComponent();
+        DataContext = this;
+        _listItems.CollectionChanged += CollectionChangedHandler;
+        Closed += OnWindowClosed;
+    }
+
     public ObservableCollection<ChannelData> listItems
     {
         get => _listItems;
@@ -36,27 +41,11 @@ public partial class MainWindow : Window
             ClassTheRadioData.getInstance().chanData = value;
         }
     }
-    //无法正常更新序号，感觉是他的bug!
-    
-
-    private string savePath = "";
-
-    public MainWindow()
-    {
-        InitializeComponent();
-        DataContext = this;
-        _listItems.CollectionChanged += CollectionChangedHandler;
-        // 不太优雅，之后改
-        // 始终关不掉几个线程 先这样好了......
-        Closed += OnWindowClosed;
-    }
 
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action.Equals(NotifyCollectionChangedAction.Add)||e.Action.Equals(NotifyCollectionChangedAction.Remove))
-        {
-            calcSequence();
-        }
+        if (e.Action.Equals(NotifyCollectionChangedAction.Add) ||
+            e.Action.Equals(NotifyCollectionChangedAction.Remove)) calcSequence();
     }
 
     private void OnWindowClosed(object? sender, EventArgs e)
@@ -66,10 +55,6 @@ public partial class MainWindow : Window
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-    }
-
-    private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
     }
 
@@ -328,7 +313,7 @@ public partial class MainWindow : Window
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
             return;
         }
-        
+
         // await new PortSelectionWindow().ShowDialog(this);
 
         // if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
@@ -348,13 +333,13 @@ public partial class MainWindow : Window
     // }
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        int selected = channelDataGrid.SelectedIndex;
+        var selected = channelDataGrid.SelectedIndex;
         tmpChannel = listItems[selected];
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        int selected = channelDataGrid.SelectedIndex;
+        var selected = channelDataGrid.SelectedIndex;
         tmpChannel = listItems[selected].DeepCopy();
         listItems[selected] = new ChannelData();
         calcSequence();
@@ -362,22 +347,22 @@ public partial class MainWindow : Window
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (tmpChannel==null)return;
-        int selected = channelDataGrid.SelectedIndex;
+        if (tmpChannel == null) return;
+        var selected = channelDataGrid.SelectedIndex;
         listItems[selected] = tmpChannel.DeepCopy();
         calcSequence();
     }
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        int selected = channelDataGrid.SelectedIndex;
+        var selected = channelDataGrid.SelectedIndex;
         listItems[selected] = new ChannelData();
         calcSequence();
     }
 
     private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        int selected = channelDataGrid.SelectedIndex;
+        var selected = channelDataGrid.SelectedIndex;
         for (var i = selected; i < 127; i++) listItems[i] = listItems[i + 1];
         listItems[127] = new ChannelData();
         calcSequence();
@@ -385,12 +370,13 @@ public partial class MainWindow : Window
 
     private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        int selected = channelDataGrid.SelectedIndex;
+        var selected = channelDataGrid.SelectedIndex;
         if (!listItems[127].allEmpty())
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "信道127不为空无法插入！").ShowWindowDialogAsync(this);
             return;
         }
+
         var lastEmp = 0;
         for (var i = 0; i < 127; i++)
             if (!listItems[i].allEmpty())
@@ -405,66 +391,47 @@ public partial class MainWindow : Window
     private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var cached_channel = new ObservableCollection<ChannelData>();
-        for (int i = 0; i < 128; i++)
-        {
-            cached_channel.Add(new ChannelData());
-        }
+        for (var i = 0; i < 128; i++) cached_channel.Add(new ChannelData());
         var channel_cursor = 0;
         for (var i = 0; i < 128; i++)
             //check it via "TxAllow"
             if (!listItems[i].allEmpty())
-            {
                 cached_channel[channel_cursor++] = listItems[i].DeepCopy();
-            }
 
-        for (var i = 0; i < channel_cursor; i++)
-        {
-            listItems[i] = cached_channel[i].DeepCopy();
-        }
+        for (var i = 0; i < channel_cursor; i++) listItems[i] = cached_channel[i].DeepCopy();
 
-        for (var i = channel_cursor; i < 128; i++)
-        {
-            listItems[i] = new ChannelData();
-        }
+        for (var i = channel_cursor; i < 128; i++) listItems[i] = new ChannelData();
         calcSequence();
     }
+
     private void calcSequence()
     {
-        for (var i = 0; i < listItems.Count; i++)
-        {
-            listItems[i].ChanNum = i.ToString();
-        }
+        for (var i = 0; i < listItems.Count; i++) listItems[i].ChanNum = i.ToString();
     }
-    
+
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             var ans = MessageBoxManager.GetMessageBoxStandard("注意", "该功能不稳定，您确定要继续吗", ButtonEnum.OkCancel);
-            var result =  await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Ok)
-            {
-                return;
-            }
+            var result = await ans.ShowWindowDialogAsync(this);
+            if (result != ButtonResult.Ok) return;
         }
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             var ans = MessageBoxManager.GetMessageBoxStandard("注意", "Linux下蓝牙写频支持不完整，您确定要继续吗", ButtonEnum.OkCancel);
-            var result =  await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Ok)
-            {
-                return;
-            }
+            var result = await ans.ShowWindowDialogAsync(this);
+            if (result != ButtonResult.Ok) return;
         }
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             var ans = MessageBoxManager.GetMessageBoxStandard("注意", "MACOS下蓝牙写频支持不完整，您确定要继续吗", ButtonEnum.OkCancel);
-            var result =  await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Ok)
-            {
-                return;
-            }
+            var result = await ans.ShowWindowDialogAsync(this);
+            if (result != ButtonResult.Ok) return;
         }
+
         Console.WriteLine("Requesting Bluetooth Device...");
         // for windows and macoos
         try
@@ -479,7 +446,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ed)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:"+ed.Message).ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
             return;
         }
 
@@ -488,7 +455,7 @@ public partial class MainWindow : Window
         hint.setButtonStatus(false);
         hint.ShowDialog(this);
         BluetoothDevice device = null;
-        var filter = new BluetoothLEScanFilter()
+        var filter = new BluetoothLEScanFilter
         {
             Name = BLE.BTNAME_SHX8800
         };
@@ -501,27 +468,26 @@ public partial class MainWindow : Window
         {
             var cts = new CancellationTokenSource();
             cts.CancelAfter(5000);
-            var discoveredDevices = await Bluetooth.ScanForDevicesAsync(new RequestDeviceOptions()
+            var discoveredDevices = await Bluetooth.ScanForDevicesAsync(new RequestDeviceOptions
             {
                 Filters = { filter }
-            },cts.Token);
+            }, cts.Token);
             foreach (var discoveredDevice in discoveredDevices)
-            {
                 if (discoveredDevice.Name.Equals(BLE.BTNAME_SHX8800))
                 {
                     device = discoveredDevice;
                     break;
                 }
-            }
         }
 
         if (device == null)
         {
-           hint.setLabelStatus("未找到设备！");
-           hint.setButtonStatus(true);
-           return;
+            hint.setLabelStatus("未找到设备！");
+            hint.setButtonStatus(true);
+            return;
         }
-        hint.setLabelStatus("已找到设备\nMAC:"+device.Id+"\n尝试连接中...");
+
+        hint.setLabelStatus("已找到设备\nMAC:" + device.Id + "\n尝试连接中...");
         // Get Char.....
         try
         {
@@ -537,12 +503,15 @@ public partial class MainWindow : Window
 #endif
         catch (Exception ea)
         {
-            hint.setLabelStatus("连接失败！"+ea.Message);
+            hint.setLabelStatus("连接失败！" + ea.Message);
             hint.setButtonStatus(true);
             return;
         }
+
         Console.WriteLine("Connected");
-        var service = await device.Gatt.GetPrimaryServiceAsync(BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_SERVICE_UUID.ToUpper(), 16)));
+        var service =
+            await device.Gatt.GetPrimaryServiceAsync(
+                BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_SERVICE_UUID.ToUpper(), 16)));
         if (service == null)
         {
             hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
@@ -552,7 +521,7 @@ public partial class MainWindow : Window
 
         var character = await service.GetCharacteristicAsync(
             BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_CHARACTERISTIC_UUID.ToUpper(), 16)));
-        
+
         if (character == null)
         {
             hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
@@ -568,11 +537,9 @@ public partial class MainWindow : Window
         hint.setButtonStatus(true);
         // cable.IsVisible = false;
     }
+
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {
-        foreach (var b in e.Value)
-        {
-            MySerialPort.getInstance().RxData.Enqueue(b);
-        }
+        foreach (var b in e.Value) MySerialPort.getInstance().RxData.Enqueue(b);
     }
 }

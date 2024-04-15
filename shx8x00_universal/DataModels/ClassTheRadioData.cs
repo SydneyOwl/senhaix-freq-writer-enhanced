@@ -80,9 +80,9 @@ public class ClassTheRadioData
     public void forceNewChannel()
     {
         instance.chanData.Clear();
-        for (int i = 0; i < 128; i++)
+        for (var i = 0; i < 128; i++)
         {
-            ChannelData chan = new ChannelData();
+            var chan = new ChannelData();
             chan.ChanNum = i.ToString();
             chan.IsVisable = false;
             instance.chanData.Add(chan);

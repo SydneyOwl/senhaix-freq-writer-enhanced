@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using InTheHand.Bluetooth;
 
@@ -10,34 +9,31 @@ namespace shx8x00.Utils.Serial;
 
 internal class MySerialPort : SerialPort
 {
+    private static MySerialPort sp;
+
+    private Queue<byte> rxData = new(1024);
+
     public int BytesToReadFromCache
     {
         get
         {
-            if (characteristic != null) return rxData.Count;
+            if (Characteristic != null) return rxData.Count;
             return BytesToRead;
         }
     }
-    
-    private static MySerialPort sp;
 
-    private GattCharacteristic characteristic = null;
-
-    private int BTDeviceMTU = 23;
-
-    public int BtDeviceMtu
-    {
-        get => BTDeviceMTU;
-        set => BTDeviceMTU = value;
-    }
-
-    private Queue<byte> rxData = new(1024);
+    public int BtDeviceMtu { get; set; } = 23;
 
     public Queue<byte> RxData
     {
         get => rxData;
         set => rxData = value ?? throw new ArgumentNullException(nameof(value));
     }
+
+
+    public GattCharacteristic Characteristic { get; set; } = null;
+
+    public string TargetPort { get; set; } = "";
 
     public async Task preRead()
     {
@@ -53,36 +49,17 @@ internal class MySerialPort : SerialPort
         // }
     }
 
-
-    public GattCharacteristic Characteristic
-    {
-        get => characteristic;
-        set => characteristic = value;
-    }
-
-    private string targetPort = "";
-
-    public string TargetPort
-    {
-        get => targetPort;
-        set => targetPort = value;
-    }
-
     public async Task WriteByte(byte buffer)
     {
-        if (characteristic == null)
-        {
+        if (Characteristic == null)
             Write(new byte[1] { buffer }, 0, 1);
-        }
         else
-        {
-            await characteristic.WriteValueWithoutResponseAsync(new byte[1]{buffer});
-        }
+            await Characteristic.WriteValueWithoutResponseAsync(new byte[1] { buffer });
     }
 
     public async Task WriteByte(byte[] buffer, int offset, int count)
     {
-        if (characteristic == null)
+        if (Characteristic == null)
         {
             Write(buffer, offset, count);
         }
@@ -90,17 +67,19 @@ internal class MySerialPort : SerialPort
         {
             // 太大的话要分开发
             var tobeWrite = buffer.Skip(offset).Take(count).ToArray();
-            var singleSize = (BTDeviceMTU - 5);
+            var singleSize = BtDeviceMtu - 5;
             var sendTimes = tobeWrite.Length / singleSize;
             var tmp = 0;
-            for (int i = 0; i < sendTimes+1; i++)
+            for (var i = 0; i < sendTimes + 1; i++)
             {
                 if (i == sendTimes)
                 {
-                    await characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(tobeWrite.Length-sendTimes*singleSize).ToArray());
+                    await Characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp)
+                        .Take(tobeWrite.Length - sendTimes * singleSize).ToArray());
                     break;
                 }
-                await characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
+
+                await Characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
                 tmp += singleSize;
             }
             // Console.WriteLine(tobeWrite.Length);
@@ -110,7 +89,7 @@ internal class MySerialPort : SerialPort
 
     public async Task ReadByte(byte[] buffer, int offset, int count)
     {
-        if (characteristic == null)
+        if (Characteristic == null)
         {
             Read(buffer, offset, count);
         }
@@ -121,6 +100,7 @@ internal class MySerialPort : SerialPort
             tmp.CopyTo(buffer, 0);
         }
     }
+
     public static MySerialPort getInstance()
     {
         if (sp == null) sp = new MySerialPort();
@@ -130,9 +110,9 @@ internal class MySerialPort : SerialPort
 
     public void OpenSerial()
     {
-        if (characteristic == null)
+        if (Characteristic == null)
         {
-            sp.PortName = targetPort;
+            sp.PortName = TargetPort;
             sp.BaudRate = 9600;
             sp.DataBits = 8;
             sp.Parity = Parity.None;
@@ -147,12 +127,12 @@ internal class MySerialPort : SerialPort
 
     public void CloseSerial()
     {
-        if (characteristic == null)
+        if (Characteristic == null)
         {
-            var portTmp = sp.targetPort;
+            var portTmp = sp.TargetPort;
             if (sp != null && sp.IsOpen) Close();
             sp = new MySerialPort();
-            sp.targetPort = portTmp;
+            sp.TargetPort = portTmp;
         }
     }
 }

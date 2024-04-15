@@ -14,19 +14,20 @@ public partial class ProgressBarWindow : Window
 {
     private readonly MySerialPort sP;
 
-    private CancellationTokenSource tokenSource = new CancellationTokenSource();
     // 读0
     private readonly int status;
 
     private readonly ClassTheRadioData theRadioData;
 
+    private bool opRes;
+
     private Thread threadProgress;
 
     private Thread threadWF;
 
-    private WriFreq wF;
+    private readonly CancellationTokenSource tokenSource = new();
 
-    private bool opRes = false;
+    private WriFreq wF;
 
 
     public ProgressBarWindow(int opStatus)
@@ -54,20 +55,21 @@ public partial class ProgressBarWindow : Window
             Close();
             return;
         }
+
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
         progressBar.Value = 0;
         try
         {
             sP.OpenSerial();
-            threadWF = new Thread(()=>Task_WriteFreq(tokenSource.Token));
+            threadWF = new Thread(() => Task_WriteFreq(tokenSource.Token));
             threadWF.Start();
-            threadProgress = new Thread(()=>Task_GetProgress(tokenSource.Token));
+            threadProgress = new Thread(() => Task_GetProgress(tokenSource.Token));
             threadProgress.Start();
         }
         catch (Exception ed)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:"+ed.Message).ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:" + ed.Message).ShowWindowDialogAsync(this);
             StartButton.IsEnabled = true;
             CloseButton.IsEnabled = false;
             sP.CloseSerial();
@@ -91,6 +93,7 @@ public partial class ProgressBarWindow : Window
             Console.WriteLine(e.Message);
             // ignored
         }
+
         Dispatcher.UIThread.Post(() => HandleWFResult(flag));
     }
 
@@ -98,20 +101,14 @@ public partial class ProgressBarWindow : Window
     {
         var flag = false;
         var num = 3;
-        while (wF == null && !cancellationToken.IsCancellationRequested)
-        {
-            Thread.Sleep(1);
-        }
-        while (!wF.flagTransmitting && !cancellationToken.IsCancellationRequested)
-        {
-            Thread.Sleep(1);
-        }
+        while (wF == null && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
+        while (!wF.flagTransmitting && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
 
         while (wF.flagTransmitting && !cancellationToken.IsCancellationRequested)
         {
             // Thread.Sleep(1);
             STATE curr;
-            if (!wF.currentProgress.TryDequeue(out curr)){continue;}
+            if (!wF.currentProgress.TryDequeue(out curr)) continue;
             switch (curr)
             {
                 case STATE.HandShakeStep1:
