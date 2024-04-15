@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using shx8x00.Constants;
 using shx8x00.DataModels;
+
 
 namespace shx8x00.Utils.Serial;
 
@@ -44,7 +46,20 @@ internal class WriFreq
 
     private readonly MySerialPort sP;
 
-    public STATE state = STATE.HandShakeStep1;
+    private STATE _state = STATE.HandShakeStep1;
+    public STATE state {
+        get
+        {
+            return _state;
+        }
+        set
+        {
+            _state = value;
+            currentProgress.Enqueue(value);
+        }
+    }
+
+    public ConcurrentQueue<STATE> currentProgress = new ConcurrentQueue<STATE>();
 
     private readonly string[] Table_QT = new string[210]
     {
@@ -695,7 +710,7 @@ internal class WriFreq
             }
             else
             {
-                Console.WriteLine("Write kk5455");
+                // Console.WriteLine("Write kk5455");
                 if (timesOfRetry <= 0)
                 {
                     flagTransmitting = false;
@@ -937,7 +952,7 @@ internal class WriFreq
             }
             else
             {
-                Console.WriteLine("Retry overrr");
+                // Console.WriteLine("Retry overrr");
                 if (timesOfRetry <= 0)
                 {
                     flagTransmitting = false;

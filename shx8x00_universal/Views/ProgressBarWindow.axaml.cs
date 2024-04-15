@@ -95,14 +95,19 @@ public partial class ProgressBarWindow : Window
         var num = 3;
         while (wF == null)
         {
+            Thread.Sleep(1);
         }
-
         while (!wF.flagTransmitting)
         {
+            Thread.Sleep(1);
         }
 
         while (wF.flagTransmitting)
-            switch (wF.state)
+        {
+            // Thread.Sleep(1);
+            STATE curr;
+            if (!wF.currentProgress.TryDequeue(out curr)){continue;}
+            switch (curr)
             {
                 case STATE.HandShakeStep1:
                 case STATE.HandShakeStep2:
@@ -110,8 +115,8 @@ public partial class ProgressBarWindow : Window
                 {
                     var text2 = "握手...";
                     flag = false;
-                    Dispatcher.UIThread.Invoke(() => statusLabel.Content = text2);
-                    Dispatcher.UIThread.Invoke(() => progressBar.Value = 0);
+                    Dispatcher.UIThread.Post(() => statusLabel.Content = text2);
+                    Dispatcher.UIThread.Post(() => progressBar.Value = 0);
                     // Invoke(new getWFProgressText(UpdataWFProgressText), text2);
                     // Invoke(new getWFProgress(UpdataWFProgress), 0);
                     break;
@@ -121,8 +126,8 @@ public partial class ProgressBarWindow : Window
                     {
                         var text3 = "进度...";
                         flag = true;
-                        Dispatcher.UIThread.Invoke(() => statusLabel.Content = text3 + num + "%");
-                        Dispatcher.UIThread.Invoke(() => progressBar.Value = num);
+                        Dispatcher.UIThread.Post(() => statusLabel.Content = text3 + num + "%");
+                        Dispatcher.UIThread.Post(() => progressBar.Value = num);
                         // Invoke(new getWFProgress(UpdataWFProgress), num);
                         // Invoke(new getWFProgressText(UpdataWFProgressText), text3 + num + "%");
                     }
@@ -142,8 +147,8 @@ public partial class ProgressBarWindow : Window
                         if (wF.eepAddr % 64 == 0)
                         {
                             num++;
-                            Dispatcher.UIThread.Invoke(() => statusLabel.Content = text + num + "%");
-                            Dispatcher.UIThread.Invoke(() => progressBar.Value = num);
+                            Dispatcher.UIThread.Post(() => statusLabel.Content = text + num + "%");
+                            Dispatcher.UIThread.Post(() => progressBar.Value = num);
                             // Invoke(new getWFProgress(UpdataWFProgress), num);
                             // Invoke(new getWFProgressText(UpdataWFProgressText), text + num + "%");
                         }
@@ -151,6 +156,8 @@ public partial class ProgressBarWindow : Window
 
                     break;
             }
+        }
+            
     }
 
     private void HandleWFResult(bool result)
