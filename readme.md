@@ -14,40 +14,44 @@
 
 ## 简介
 
-森海克斯8800/8600（for windows）：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
+森海克斯8800/8600（仅windows）：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
 
-森海克斯8800/8600（for windows&linux&mac）:  [森海克斯8800/8600写频软件简介](./shx8x00_universal/readme.md)
+森海克斯8800/8600（通用）:  [森海克斯8800/8600写频软件简介](./shx8x00_universal/readme.md)
 
 森海克斯GT-12：[GT12写频软件简介](./GT12/readme.md)
 
 ## 功能说明
 
 + 仅在windows端可用的森海克斯8x00写频软件（即森海克斯8800/8600for windows）由官方代码修改而来，使用了两套solution，其中一套对所用的`.net framework`进行了适当的升级以支持`BLE`蓝牙写频。另一套solution为了尽可能适配旧系统，继续采用`.net2.0`，最低支持到windows xp sp2。
-
 + GT12写频软件同样由官方代码修改而来，对.net进行了小版本的升级。
-+ 在windows、linux、mac通用的森海克斯8x00写频软件为实现跨平台，完全弃用官方UI代码(winform)，转而采用`Avalonia`+.net6进行开发。
++ 在windows、linux、mac通用的森海克斯8x00写频软件为实现跨平台，完全弃用官方UI代码(winform)，转而采用`Avalonia`+`.net`6进行开发。
+
+运行平台：
+
+| -                | 森海克斯8800/8600通用版（Windows/Linux/macOS）               | 森海克斯8800/8600 (仅Windows，有蓝牙支持) | 森海克斯8800/8600 (仅Windows，无蓝牙支持) | GT-12 (仅Windows) |
+| ---------------- | ------------------------------------------------------------ | ----------------------------------------- | ----------------------------------------- | ----------------- |
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | windows 8及以上[^3]                       | windows xp sp2及以上                      | windows 8及以上   |
+
+[^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
+[^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
+[^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
 目前各版本支持的功能：
 
-| -                                    | 森海克斯8800/8600（universal,win/unix）                      | 森海克斯8800/8600 (for windows,with bluetooth) | 森海克斯8800/8600 (for windows,without bluetooth) | GT-12 (for windows) |
-| ------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------- | ------------------- |
-| 支持的平台(理论)                     | windows7 sp1及以上* / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)** | windows 8及以上                                | windows xp sp2及以上                              | windows 8及以上     |
-|                                      | 请自行安装写频线驱动！！！                                   |                                                |                                                   |                     |
-| （以下为支持的功能）                 | Alpha版下载地址：[Release](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2-alpha) |                                                |                                                   |                     |
-| 原有的所有功能                       | :white_check_mark:                                           | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                           | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
-| 蓝牙写频                             | 仅Windows, Linux不稳定，Mac会报错                            | :white_check_mark:                             | :heavy_minus_sign:                                | :heavy_minus_sign:  |
-| （以下为支持的插件）                 |                                                              |                                                |                                                   |                     |
-| 开机画面修改                         | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :heavy_minus_sign:  |
-| 打星助手                             | 开发中                                                       | :white_check_mark:                             | :white_check_mark:                                | :white_check_mark:  |
+| -                                    | 森海克斯8800/8600通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 (仅Windows，有蓝牙支持) | 森海克斯8800/8600 (仅Windows，无蓝牙支持) | GT-12 (仅Windows)  |
+| ------------------------------------ | -------------------------------------------------- | ----------------------------------------- | ----------------------------------------- | ------------------ |
+| 原有的所有功能                       | :white_check_mark:                                 | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                 | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
+| 蓝牙写频                             | 仅Windows； Linux和Mac版本正在等待上游依赖修复     | :white_check_mark:                        | :heavy_minus_sign:                        | :heavy_minus_sign: |
+| （以下为支持的插件）                 |                                                    |                                           |                                           |                    |
+| 开机画面修改                         | 开发中                                             | :white_check_mark:                        | :white_check_mark:                        | :heavy_minus_sign: |
+| 打星助手                             | 开发中                                             | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
 
-*Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
-
-**.NET 6 is supported in the Rosetta 2 x64 emulator.
+[^4]:该版本自带runtime，无需额外安装
 
 ## 编译指引
 
-### Windows版
+### 非通用版
 
 如果需要自行编译，只需要使用`Makefiile`进行编译即可。克隆仓库时请使用`--recursive`参数！
 
@@ -66,14 +70,18 @@ mingw32-make shx8x00_nobt #只编译不支持蓝牙的shx8x00
 |`SHX8800_nobt`|.net2.0|
 |`gt12`|.net4.6.2, win8+|
 
-*：低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
-
 > [!TIP]
 > 您也可以参考`.github/workflows/build.yml`进行编译。
 
-### windows&unix版
+### 通用版
 
-还在写...
+只有一点值得注意
+
+在编译windows时请使用指定框架：**net6.0-windows10.0.19041.0**，相关PR：[No path specified for UNIX transport](https://github.com/inthehand/32feet/issues/341)
+
+## FAQ
+
++ 在UNIX平台上，写频时很有可能需要`sudo`！
 
 ## 其他
 

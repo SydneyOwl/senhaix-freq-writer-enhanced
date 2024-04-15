@@ -160,14 +160,14 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="接收频率" Width="2*">
+                    <DataGridTemplateColumn Header="接收频率" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="QT/DQT解码" Width="1.5*">
+                    <DataGridTemplateColumn Header="QT/DQT解码" Width="1.3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
@@ -178,14 +178,14 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="发射频率" Width="2*">
+                    <DataGridTemplateColumn Header="发射频率" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus"  IsVisible="{Binding IsVisable}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="QT/DQT编码" Width="1.5*">
+                    <DataGridTemplateColumn Header="QT/DQT编码" Width="1.3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
@@ -196,7 +196,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="发射功率" Width="*">
+                    <DataGridTemplateColumn Header="发射功率" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -205,7 +205,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="带宽" Width="*">
+                    <DataGridTemplateColumn Header="带宽" Width="0.8*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -250,7 +250,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="信道名称" Width="1.5*"
+                    <DataGridTextColumn Header="信道名称" Width="1*"
                                         Binding="{Binding ChanName }"/>
                     <DataGridTemplateColumn Header="加密" Width="*">
                         <DataGridTemplateColumn.CellTemplate>

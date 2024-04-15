@@ -4,11 +4,17 @@
         CanResize="False"
         x:Class="shx8x00.Views.AboutWindow"
         Title="关于"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        xmlns:vm="using:shx8x00.Views"
+        xmlns:constants="clr-namespace:shx8x00.Properties"
+        >
     <StackPanel>
         <TextBlock>森海克斯通用写频软件（SHX8X00）</TextBlock>
         <TextBlock>版本v0.0.1 DEBUG</TextBlock>
         <TextBlock>适配Windows/Linux/MacOS</TextBlock>
+        <TextBlock>版本号：<Label Content="{x:Static constants:VERSION.Version}"></Label></TextBlock>
+        <TextBlock>提交哈希：<Label Content="{x:Static constants:VERSION.GitCommitHash}"></Label></TextBlock>
+        <TextBlock>编译时间：<Label Content="{x:Static constants:VERSION.BuildTime}"></Label></TextBlock>
         <TextBlock>仓库：https://github.com/SydneyOwl/senhaix-freq-writer-enhanced</TextBlock>
         <TextBlock>许可证使用The Unlicense</TextBlock>
         <TextBlock>tu 73 de sydneyowl</TextBlock>

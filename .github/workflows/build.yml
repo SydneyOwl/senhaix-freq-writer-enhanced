@@ -2,6 +2,7 @@ name: Senhaix Build
 
 permissions:
   contents: write
+  actions: write
 
 on:
   push:
@@ -11,7 +12,6 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
     runs-on: windows-latest
     
@@ -27,7 +27,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
       
     # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Build the application
+    - name: Build WIN32
       shell: pwsh
       run: |
         mkdir tmp
@@ -53,7 +53,7 @@ jobs:
         mv *.exe GT12-Freq-Writer
         mv *.config GT12-Freq-Writer
         mv *.pdb GT12-Freq-Writer
-        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json GT12-Freq-Writer
+        cp D:\a\CITEST\CITEST\data\satellite_data\data\amsat-all-frequencies.json GT12-Freq-Writer
         Compress-Archive -Path .\GT12-Freq-Writer -DestinationPath ..\..\..\..\tmp\GT12-Freq-Writer-${tagName}.zip
         cd ..\..\..\..\shx8x00\SQ5R.Properties
         $sourceFile = "./VERSION.cs"
@@ -75,7 +75,7 @@ jobs:
         mv *.exe Shx8x00-Freq-Writer-With-Bluetooth
         mv *.config Shx8x00-Freq-Writer-With-Bluetooth
         mv *.pdb Shx8x00-Freq-Writer-With-Bluetooth
-        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer-With-Bluetooth
+        cp D:\a\CITEST\CITEST\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer-With-Bluetooth
         Compress-Archive -Path .\Shx8x00-Freq-Writer-With-Bluetooth -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-With-Bluetooth-${tagName}.zip
         cd ..\net20
         mkdir -Force lib
@@ -85,17 +85,102 @@ jobs:
         mv *.exe Shx8x00-Freq-Writer
         mv *.config Shx8x00-Freq-Writer
         mv *.pdb Shx8x00-Freq-Writer
-        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer
+        cp D:\a\CITEST\CITEST\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer
         Compress-Archive -Path .\Shx8x00-Freq-Writer -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-${tagName}.zip
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: entire-folder-artifact
+        name: SHX8X00+GT12-Windows版
         path: ./tmp  # 替换为你要上传的文件夹路径
 
-    - name: Release
+    - name: Setup Dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Build UNIVERSIAL
+      shell: pwsh
+      run: | 
+        mkdir tmpu
+        Set-TimeZone -Name "China Standard Time"
+        $commitHash = git rev-parse --short HEAD
+        $buildTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $tagName = git describe --tags --abbrev=0 --always || ""
+        cd shx8x00_universal\Properties
+        $sourceFile = "./VERSION.cs"
+        (Get-Content $sourceFile) `
+          -replace '@COMMIT_HASH@', $commitHash `
+          -replace '@BUILD_TIME@', $buildTime `
+          -replace '@TAG_NAME@', $tagName `
+          | Set-Content $sourceFile
+        cd ..
+        dotnet restore -r win-x64
+        dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:TargetOS=Windows --self-contained true
+        cd D:/a/CITEST/CITEST/shx8x00_universal/bin/Release/net6.0-windows10.0.19041.0/win-x64
+        mkdir shx8x00-universial-freq-writer
+        mv publish/* shx8x00-universial-freq-writer
+        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\CITEST\CITEST\tmpu\Shx8x00-Universial-Freq-Writer-Windows-${tagName}.zip
+        cd D:/a/CITEST/CITEST/shx8x00_universal/
+        dotnet restore -r linux-x64
+        dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true --self-contained true
+        cd D:/a/CITEST/CITEST/shx8x00_universal/bin\Release\net6.0\linux-x64\
+        mkdir shx8x00-universial-freq-writer
+        mv publish/* shx8x00-universial-freq-writer
+        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\CITEST\CITEST\tmpu\Shx8x00-Universial-Freq-Writer-Linux-${tagName}.zip
+        cd D:/a/CITEST/CITEST/shx8x00_universal/
+        dotnet restore -r osx-x64
+        dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64 -p:UseAppHost=true -property:Configuration=Release
+        cd D:/a/CITEST/CITEST/shx8x00_universal/bin\Release\net6.0\osx-x64\
+        mkdir shx8x00-universial-freq-writer
+        mv publish/SHX8X00.app shx8x00-universial-freq-writer
+        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\CITEST\CITEST\tmpu\Shx8x00-Universial-Freq-Writer-macOS-${tagName}.zip
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SHX8X00通用版(Windows.macOS.Linux)
+        path: ./tmpu  # 替换为你要上传的文件夹路径
+
+    - name: Release WIN32
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: ./tmp/*
+        files: |
+          ./tmp/*.zip
+
+  afterbuild:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: SHX8X00通用版(Windows.macOS.Linux)
+        path: ./
+
+    - name: Delete Artifact by Name
+      uses: jimschubert/delete-artifacts-action@v1
+      with:
+        artifact_name: SHX8X00通用版(Windows.macOS.Linux)
+        min_bytes: '0'
+
+    - name: Add Execute
+      run: |
+        ls && cd /home/runner/work/CITEST/CITEST && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-macOS) && \
+        echo $targetName && unzip $targetName && rm -rf $targetName && \
+        chmod +x shx8x00-universial-freq-writer/SHX8X00.app/Contents/MacOS/SHX8X00 && \
+        zip -r $targetName shx8x00-universial-freq-writer
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: SHX8X00通用版(Windows.macOS.Linux)
+        path: ./*.zip
+    
+    - name: Release UNIVERSAL
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          ./*.zip
