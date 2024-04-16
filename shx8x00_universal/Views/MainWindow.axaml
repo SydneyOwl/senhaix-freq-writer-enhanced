@@ -96,9 +96,24 @@
                         <PathIcon Data="{StaticResource person_feedback_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="主题色">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource dark_theme_regular}" />
+                    </MenuItem.Icon>
+                    <MenuItem Header="Light" Click="Light_OnClick">
+                        <MenuItem.Icon>
+                            <PathIcon Data="{StaticResource weather_sunny_regular}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Dark" Click="Dark_OnClick">
+                        <MenuItem.Icon>
+                            <PathIcon Data="{StaticResource weather_moon_regular}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
             </MenuItem>
         </Menu>
-        <Border Height="40" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+        <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
             <StackPanel Orientation="Horizontal">
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="readChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
@@ -128,7 +143,8 @@
                       CanUserSortColumns="False"
                       Classes="draggable"
                       CanUserResizeColumns="True"
-                      CanUserReorderColumns="True">
+                      CanUserReorderColumns="True"
+                      RowBackground="{DynamicResource dgBackgroundBrush}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="复制" Click="MenuCopyChannel_OnClick" />

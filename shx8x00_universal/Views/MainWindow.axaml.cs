@@ -8,6 +8,7 @@ using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Avalonia.Styling;
 using InTheHand.Bluetooth;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -538,5 +539,15 @@ public partial class MainWindow : Window
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {
         foreach (var b in e.Value) MySerialPort.getInstance().RxData.Enqueue(b);
+    }
+
+    private void Dark_OnClick(object? sender, RoutedEventArgs e)
+    {
+        RequestedThemeVariant = ThemeVariant.Dark;
+    }
+
+    private void Light_OnClick(object? sender, RoutedEventArgs e)
+    {
+        RequestedThemeVariant = ThemeVariant.Light;
     }
 }
