@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -18,5 +19,10 @@ public class App : Application
             desktop.MainWindow = new MainWindow();
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void QuitMenuItem_OnClick(object? sender, EventArgs e)
+    {
+        Environment.Exit(-1);
     }
 }

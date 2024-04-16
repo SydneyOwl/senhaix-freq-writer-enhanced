@@ -5,7 +5,6 @@
              x:Class="shx8x00.App"
              RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://shx8x00/Icons.axaml" />
@@ -16,7 +15,23 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="FontSize" Value="15" />
         </Style>
+        <Style Selector="Window">
+            <Setter Property="Icon" Value="/Asset/shx8800-icons/icon.ico"></Setter>
+        </Style>
     </Application.Styles>
+    
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="/Asset/shx8800-icons/icon.ico" ToolTipText="森海克斯8x00写频软件">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick">
+                        </NativeMenuItem>
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
     <Application.Resources>
         <!-- FOR TOPBORDER -->
         <ResourceDictionary>

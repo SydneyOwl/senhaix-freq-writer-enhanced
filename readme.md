@@ -16,7 +16,7 @@
 
 森海克斯8800/8600（仅windows）：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
 
-森海克斯8800/8600（通用）:  [森海克斯8800/8600写频软件简介](./shx8x00_universal/readme.md)
+森海克斯8800/8600（通用）:  [森海克斯8800/8600通用写频软件简介](./shx8x00_universal/readme.md)
 
 森海克斯GT-12：[GT12写频软件简介](./GT12/readme.md)
 
@@ -134,6 +134,8 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.2.1` 加入打星助手，更换了“关于”窗体
 
+
+
 ## Thanks...
 
 + `Avalonia` 的跨平台UI方案
@@ -141,6 +143,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 + `InTheHand.BluetoothLE`的低功耗蓝牙方案
 + `SenHaiX`的原版写频软件
 + `Linux.Bluetooth`的`D-Bus`方案
++ [@rockliuxn](https://github.com/rockliuxn) 提供的图标，以及测试阶段的支持！
 + and more.....
 
 ## 许可证

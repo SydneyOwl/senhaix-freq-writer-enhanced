@@ -6,7 +6,8 @@
         Width="1332" Height="750"
         xmlns:vm="using:shx8x00.Views"
         xmlns:constants="clr-namespace:shx8x00.Constants"
-        Title="shx8x00通用写频软件"
+        xmlns:verConstants="clr-namespace:shx8x00.Properties"
+        Title="森海克斯8x00通用写频软件"
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="shx8x00.Views.MainWindow"
@@ -131,8 +132,8 @@
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
             <StackPanel Orientation="Horizontal">
-                <TextBlock>Version v0.0.1 UNSTABLE!! | </TextBlock>
-                <TextBlock Foreground="MediumBlue">https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
+                <Label Foreground="MediumBlue" Content="{x:Static verConstants:VERSION.Version}"></Label>
+                <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
                 <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             </StackPanel>
         </Border>
@@ -164,7 +165,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="信道"
                                         Binding="{Binding ChanNum }" IsReadOnly="True"
-                                        Width="*" />
+                                        Width="0.8*" />
                     <DataGridTemplateColumn Header="发射允许" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
