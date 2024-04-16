@@ -448,7 +448,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        var hint = new HintBT();
+        var hint = new HintBTWindow();
         hint.setLabelStatus("自动搜索中...");
         hint.setButtonStatus(false);
         hint.ShowDialog(this);

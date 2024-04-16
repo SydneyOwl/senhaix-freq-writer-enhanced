@@ -3,9 +3,9 @@ using Avalonia.Interactivity;
 
 namespace SHX8X00.Views;
 
-public partial class HintBT : Window
+public partial class HintBTWindow : Window
 {
-    public HintBT()
+    public HintBTWindow()
     {
         InitializeComponent();
     }

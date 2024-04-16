@@ -8,7 +8,6 @@
         xmlns:constants="clr-namespace:shx8x00.Properties">
     <StackPanel>
         <TextBlock>森海克斯通用写频软件（SHX8X00）</TextBlock>
-        <TextBlock>版本v0.0.1 DEBUG</TextBlock>
         <TextBlock>适配Windows/Linux/MacOS</TextBlock>
         <TextBlock>
             版本号：<Label Content="{x:Static constants:VERSION.Version}" />

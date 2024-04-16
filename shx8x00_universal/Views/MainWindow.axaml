@@ -92,11 +92,6 @@
             <!--     </MenuItem> -->
             <!-- </MenuItem> -->
             <MenuItem Header="其他">
-                <MenuItem Header="关于" Click="About_OnClick">
-                    <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource person_feedback_regular}" />
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="主题色">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource dark_theme_regular}" />
@@ -111,6 +106,11 @@
                             <PathIcon Data="{StaticResource weather_moon_regular}" />
                         </MenuItem.Icon>
                     </MenuItem>
+                </MenuItem>
+                <MenuItem Header="关于" Click="About_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource person_feedback_regular}" />
+                    </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
         </Menu>
