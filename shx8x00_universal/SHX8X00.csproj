@@ -21,6 +21,7 @@
         <CFBundlePackageType>APPL</CFBundlePackageType>
         <CFBundleExecutable>SHX8X00</CFBundleExecutable>
         <CFBundleShortVersionString>0.0.1.23</CFBundleShortVersionString>
+        <CFBundleIconFile>icon.icns</CFBundleIconFile>
         <NSPrincipalClass>NSApplication</NSPrincipalClass>
         <NSHighResolutionCapable>true</NSHighResolutionCapable>
     </PropertyGroup>

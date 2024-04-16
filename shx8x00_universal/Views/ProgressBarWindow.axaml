@@ -5,7 +5,8 @@
         Title="进度"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        Background="BlanchedAlmond" ExtendClientAreaToDecorationsHint="True"
+        Background="{DynamicResource pgBackgroundBrush}" 
+        ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         SystemDecorations="None">

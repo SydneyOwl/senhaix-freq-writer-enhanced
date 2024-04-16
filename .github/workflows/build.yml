@@ -133,6 +133,7 @@ jobs:
         dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64 -p:UseAppHost=true -property:Configuration=Release
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin\Release\net6.0\osx-x64\
         mkdir shx8x00-universial-freq-writer
+        mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/Asset/shx8800-icons/icon.icns publish/SHX8X00.app/Contents/Resources
         mv publish/SHX8X00.app shx8x00-universial-freq-writer
         Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-macOS-${tagName}.zip
     
