@@ -9,7 +9,9 @@
 > 如有必要，请在任何操作前首先进行备份操作！
 
 > [!NOTE]  
-> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经大致重构完成且已合并入`master`，命名为`shx8x00_universal`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
+> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经重构完成且已合并入`master`，命名为`shx8x00_universal`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
+>
+> `GT-12`还未开发跨平台版本，只在windows可用。
 
 
 ## 简介
