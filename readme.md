@@ -136,7 +136,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.2.1` 加入打星助手，更换了“关于”窗体
 
-
+`v0.2.2` 重写官方winform写频软件，实现跨平台
 
 ## Thanks...
 
