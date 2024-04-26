@@ -8,11 +8,6 @@
 > [!important]
 > 如有必要，请在任何操作前首先进行备份操作！
 
-> [!NOTE]  
-> 为使软件实现跨平台（在**Mac/Linux**端可用），目前正在尝试使用`Avalonia`和`.NET6.0`重构写频软件，其中森海克斯8600/8800已经重构完成且已合并入`master`，命名为`shx8x00_universal`，这一版本在linux/macos/windows上可用，具体系统要求可见下文。
->
-> `GT-12`还未开发跨平台版本，只在windows可用。
-
 
 ## 简介
 
@@ -24,9 +19,13 @@
 
 ## 功能说明
 
-+ 仅在windows端可用的森海克斯8x00写频软件（即森海克斯8800/8600for windows）由官方软件修改而来，使用了两套solution，其中一套对所用的`.net framework`进行了适当的升级以支持`BLE`蓝牙写频。另一套solution为了尽可能适配旧系统，继续采用`.net2.0`，最低支持到windows xp sp2。
-+ GT12写频软件同样由官方软件修改而来，对.net进行了小版本的升级。
-+ 在windows、linux、mac通用的森海克斯8x00写频软件为实现跨平台，完全弃用官方UI代码(winform)，转而采用`Avalonia`+`.net`6进行开发。
+>  [!NOTE]  
+>
+> 如果您是windows操作系统，优先推荐您下载Releases中的`xxx-Freq-Writer-xxx`或`Shx8x00-Freq-Writer-With-Bluetooth-xxx`。这两个版本由原版软件修改而来，具有较好的稳定性。
+>
+> 如果您是Linux/macOS，您可以下载Releases中跨平台版本的`Shx8x00-Universial-Freq-Writer`。这一版本弃用原软件所用的`winform`，使用`Avalonia`和`.NET6.0`进行重构，即`shx8x00_universal`。
+>
+> GT12还未开发跨平台版本，只在windows可用。
 
 运行平台：
 
@@ -44,7 +43,7 @@
 | ------------------------------------ | -------------------------------------------------- | ----------------------------------------- | ----------------------------------------- | ------------------ |
 | 原有的所有功能                       | :white_check_mark:                                 | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
 | 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                 | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
-| 蓝牙写频                             | 仅Windows； Linux和Mac版本正在等待上游依赖修复     | :white_check_mark:                        | :heavy_minus_sign:                        | :heavy_minus_sign: |
+| 蓝牙写频                             | 仅Windows，其他平台的还在写                        | :white_check_mark:                        | :heavy_minus_sign:                        | :heavy_minus_sign: |
 | （以下为支持的插件）                 |                                                    |                                           |                                           |                    |
 | 开机画面修改                         | 开发中                                             | :white_check_mark:                        | :white_check_mark:                        | :heavy_minus_sign: |
 | 打星助手                             | 开发中                                             | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
@@ -87,9 +86,15 @@ mingw32-make shx8x00_nobt #只编译不支持蓝牙的shx8x00
 
 在编译windows时请使用指定框架：**net6.0-windows10.0.19041.0**，相关PR：[No path specified for UNIX transport](https://github.com/inthehand/32feet/issues/341)
 
+## 开发指引
+
+您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
+
+（好吧，其实是我懒得写了）
+
 ## FAQ
 
-+ 在UNIX平台上，写频时很有可能需要`sudo`！
++ linux平台上写频时很有可能需要`sudo`！
 
 ## 其他
 
