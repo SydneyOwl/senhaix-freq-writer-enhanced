@@ -171,17 +171,18 @@ public partial class ProgressBarWindow : Window
             statusLabel.Content = "成功!";
             StartButton.Content = "关闭";
             progressBar.Value = 100;
+            StartButton.IsEnabled = true;
+            CloseButton.IsEnabled = false;
             opRes = true;
         }
         else
         {
             statusLabel.Content = "失败!";
             StartButton.Content = "重试";
+            StartButton.IsEnabled = true;
+            CloseButton.IsEnabled = true;
             opRes = false;
         }
-
         sP.CloseSerial();
-        StartButton.IsEnabled = true;
-        CloseButton.IsEnabled = true;
     }
 }
