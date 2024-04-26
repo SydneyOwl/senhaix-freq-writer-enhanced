@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if false
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using InTheHand.Bluetooth;
@@ -89,3 +90,4 @@ public class OSXSHXBLE : IBluetooth
         foreach (var b in e.Characteristic.Value) MySerialPort.getInstance().RxData.Enqueue(b);
     }
 }
+#endif

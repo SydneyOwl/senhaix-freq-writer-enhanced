@@ -16,7 +16,9 @@ using shx8x00.Constants;
 using shx8x00.DataModels;
 using shx8x00.Utils.BLE.Interfaces;
 using shx8x00.Utils.BLE.Platforms.Generic;
+#if false
 using shx8x00.Utils.BLE.Platforms.OSX;
+#endif
 using shx8x00.Utils.Serial;
 using SHX8X00.Views;
 
@@ -414,7 +416,7 @@ public partial class MainWindow : Window
     {
         IBluetooth osBLE;
         osBLE = new GenerticSHXBLE();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "暂不支持！").ShowWindowDialogAsync(this);
             return;
