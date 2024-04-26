@@ -1,6 +1,6 @@
 ﻿namespace shx8x00.Constants;
 
-public class BLE
+public class BLE_CONST
 {
     public static byte[] FINAL_DATA_STARTER = { 87, 28, 00 };
     public static int BT_CONNECT_TIMEOUT = 5;

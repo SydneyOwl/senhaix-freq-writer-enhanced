@@ -3,35 +3,44 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading.Tasks;
-using InTheHand.Bluetooth;
 
 namespace shx8x00.Utils.Serial;
 
-internal class MySerialPort : SerialPort
+public class MySerialPort : SerialPort
 {
     private static MySerialPort sp;
 
     private Queue<byte> rxData = new(1024);
+    
+    private int btDeviceMtu  = 23;
+    public delegate Task WriteValueAsync(byte[] value);
+
+    public WriteValueAsync WriteBLE;
+
+
+    public int BTDeviceMtu
+    {
+        get => btDeviceMtu;
+        set => btDeviceMtu = value;
+    }
+
 
     public int BytesToReadFromCache
     {
         get
         {
-            if (Characteristic != null) return rxData.Count;
+            if (WriteBLE != null) return rxData.Count;
             return BytesToRead;
         }
     }
 
-    public int BtDeviceMtu { get; set; } = 23;
 
     public Queue<byte> RxData
     {
         get => rxData;
         set => rxData = value ?? throw new ArgumentNullException(nameof(value));
     }
-
-
-    public GattCharacteristic Characteristic { get; set; } = null;
+    
 
     public string TargetPort { get; set; } = "";
 
@@ -51,15 +60,15 @@ internal class MySerialPort : SerialPort
 
     public async Task WriteByte(byte buffer)
     {
-        if (Characteristic == null)
+        if (WriteBLE == null)
             Write(new byte[1] { buffer }, 0, 1);
         else
-            await Characteristic.WriteValueWithoutResponseAsync(new byte[1] { buffer });
+            await WriteBLE(new byte[1] { buffer });
     }
 
     public async Task WriteByte(byte[] buffer, int offset, int count)
     {
-        if (Characteristic == null)
+        if (WriteBLE == null)
         {
             Write(buffer, offset, count);
         }
@@ -67,19 +76,19 @@ internal class MySerialPort : SerialPort
         {
             // 太大的话要分开发
             var tobeWrite = buffer.Skip(offset).Take(count).ToArray();
-            var singleSize = BtDeviceMtu - 5;
+            var singleSize = BTDeviceMtu - 5;
             var sendTimes = tobeWrite.Length / singleSize;
             var tmp = 0;
             for (var i = 0; i < sendTimes + 1; i++)
             {
                 if (i == sendTimes)
                 {
-                    await Characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp)
+                    await WriteBLE(tobeWrite.Skip(tmp)
                         .Take(tobeWrite.Length - sendTimes * singleSize).ToArray());
                     break;
                 }
 
-                await Characteristic.WriteValueWithoutResponseAsync(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
+                await WriteBLE(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
                 tmp += singleSize;
             }
             // Console.WriteLine(tobeWrite.Length);
@@ -89,7 +98,7 @@ internal class MySerialPort : SerialPort
 
     public async Task ReadByte(byte[] buffer, int offset, int count)
     {
-        if (Characteristic == null)
+        if (WriteBLE == null)
         {
             Read(buffer, offset, count);
         }
@@ -110,7 +119,7 @@ internal class MySerialPort : SerialPort
 
     public void OpenSerial()
     {
-        if (Characteristic == null)
+        if (WriteBLE == null)
         {
             sp.PortName = TargetPort;
             sp.BaudRate = 9600;
@@ -127,7 +136,7 @@ internal class MySerialPort : SerialPort
 
     public void CloseSerial()
     {
-        if (Characteristic == null)
+        if (WriteBLE == null)
         {
             var portTmp = sp.TargetPort;
             if (sp != null && sp.IsOpen) Close();

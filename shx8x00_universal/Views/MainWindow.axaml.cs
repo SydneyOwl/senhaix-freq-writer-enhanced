@@ -14,6 +14,9 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using shx8x00.Constants;
 using shx8x00.DataModels;
+using shx8x00.Utils.BLE.Interfaces;
+using shx8x00.Utils.BLE.Platforms.Generic;
+using shx8x00.Utils.BLE.Platforms.OSX;
 using shx8x00.Utils.Serial;
 using SHX8X00.Views;
 
@@ -270,7 +273,7 @@ public partial class MainWindow : Window
     {
         var tmp = ClassTheRadioData.getInstance();
         tmp.channeldata = tmp.chanData.ToList();
-        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().Characteristic == null)
+        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择,请连接蓝牙或写频线").ShowWindowDialogAsync(this);
             return;
@@ -306,7 +309,7 @@ public partial class MainWindow : Window
             }
         }
 
-        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().Characteristic == null)
+        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
             return;
@@ -409,32 +412,19 @@ public partial class MainWindow : Window
 
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "该功能不稳定，您确定要继续吗", ButtonEnum.OkCancel);
-            var result = await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Ok) return;
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "Linux下蓝牙写频支持不完整，您确定要继续吗", ButtonEnum.OkCancel);
-            var result = await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Ok) return;
-        }
+        IBluetooth osBLE;
+        osBLE = new GenerticSHXBLE();
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            var ans = MessageBoxManager.GetMessageBoxStandard("注意", "MACOS下蓝牙写频支持不完整，您确定要继续吗", ButtonEnum.OkCancel);
-            var result = await ans.ShowWindowDialogAsync(this);
-            if (result != ButtonResult.Ok) return;
+            osBLE = new OSXSHXBLE();
         }
 
         Console.WriteLine("Requesting Bluetooth Device...");
         // for windows and macoos
         try
         {
-            var available = await Bluetooth.GetAvailabilityAsync();
+            var available = await osBLE.GetBLEAvailabilityAsync();
             // var available = true;
             if (!available)
             {
@@ -452,44 +442,19 @@ public partial class MainWindow : Window
         hint.setLabelStatus("自动搜索中...");
         hint.setButtonStatus(false);
         hint.ShowDialog(this);
-        BluetoothDevice device = null;
-        var filter = new BluetoothLEScanFilter
-        {
-            Name = BLE.BTNAME_SHX8800
-        };
-        try
-        {
-            // 过滤名称
-            device = await Bluetooth.RequestDeviceAsync(new RequestDeviceOptions { Filters = { filter } });
-        }
-        catch
-        {
-            var cts = new CancellationTokenSource();
-            cts.CancelAfter(5000);
-            var discoveredDevices = await Bluetooth.ScanForDevicesAsync(new RequestDeviceOptions
-            {
-                Filters = { filter }
-            }, cts.Token);
-            foreach (var discoveredDevice in discoveredDevices)
-                if (discoveredDevice.Name.Equals(BLE.BTNAME_SHX8800))
-                {
-                    device = discoveredDevice;
-                    break;
-                }
-        }
 
-        if (device == null)
+        if (!await osBLE.ScanForSHXAsync())
         {
             hint.setLabelStatus("未找到设备！");
             hint.setButtonStatus(true);
             return;
         }
 
-        hint.setLabelStatus("已找到设备\nMAC:" + device.Id + "\n尝试连接中...");
+        hint.setLabelStatus("已找到设备,尝试连接中...");
         // Get Char.....
         try
         {
-            await device.Gatt.ConnectAsync();
+            await osBLE.ConnectSHXDeviceAsync();
         }
 #if __LINUX__
         catch (Tmds.DBus.DBusException)
@@ -507,30 +472,23 @@ public partial class MainWindow : Window
         }
 
         Console.WriteLine("Connected");
-        var service =
-            await device.Gatt.GetPrimaryServiceAsync(
-                BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_SERVICE_UUID.ToUpper(), 16)));
-        if (service == null)
+        if (!await osBLE.ConnectSHXRWServiceAsync())
         {
             hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
             hint.setButtonStatus(true);
             return;
         }
 
-        var character = await service.GetCharacteristicAsync(
-            BluetoothUuid.FromShortId(Convert.ToUInt16(BLE.RW_CHARACTERISTIC_UUID.ToUpper(), 16)));
+        
 
-        if (character == null)
+        if (!await osBLE.ConnectSHXRWCharacteristicAsync())
         {
             hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
             hint.setButtonStatus(true);
             return;
         }
 
-        character.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
-        await character.StartNotificationsAsync();
-        MySerialPort.getInstance().Characteristic = character;
-        MySerialPort.getInstance().BtDeviceMtu = device.Gatt.Mtu;
+        osBLE.RegisterSerial();
         hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
         hint.setButtonStatus(true);
         // cable.IsVisible = false;

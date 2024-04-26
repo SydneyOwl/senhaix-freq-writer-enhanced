@@ -40,7 +40,7 @@ public partial class PortSelectionWindow : Window
     private void confirm_OnClick(object? sender, RoutedEventArgs e)
     {
         MySerialPort.getInstance().TargetPort = portName;
-        MySerialPort.getInstance().Characteristic = null;
+        MySerialPort.getInstance().WriteBLE = null;
         Close();
     }
 
