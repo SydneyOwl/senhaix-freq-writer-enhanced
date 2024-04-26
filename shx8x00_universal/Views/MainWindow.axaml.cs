@@ -414,10 +414,12 @@ public partial class MainWindow : Window
     {
         IBluetooth osBLE;
         osBLE = new GenerticSHXBLE();
-
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            osBLE = new OSXSHXBLE();
+            MessageBoxManager.GetMessageBoxStandard("注意", "暂不支持！").ShowWindowDialogAsync(this);
+            return;
+            // 还使用不了...
+            // osBLE = new OSXSHXBLE();
         }
 
         Console.WriteLine("Requesting Bluetooth Device...");

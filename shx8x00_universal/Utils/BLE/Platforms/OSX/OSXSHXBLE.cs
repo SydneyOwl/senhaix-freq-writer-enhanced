@@ -16,7 +16,7 @@ public class OSXSHXBLE : IBluetooth
 {
     private IAdapter adapter;
     private IBluetoothLE ble;
-    private List<IDevice> devices;
+    private List<IDevice> devices = new List<IDevice>();
     private IDevice shxDevice;
     private IService shxService;
     private ICharacteristic shxCharacteristic;
@@ -60,7 +60,7 @@ public class OSXSHXBLE : IBluetooth
 
     public async Task<bool> ConnectSHXRWServiceAsync()
     {
-        await shxDevice.GetServiceAsync(
+        shxService = await shxDevice.GetServiceAsync(
             BluetoothUuid.FromShortId(Convert.ToUInt16(BLE_CONST.RW_SERVICE_UUID.ToUpper(), 16)));
         return shxDevice != null;
     }
