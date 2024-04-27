@@ -19,13 +19,13 @@ public partial class ProgressBarWindow : Window
 
     private readonly ClassTheRadioData theRadioData;
 
+    private readonly CancellationTokenSource tokenSource = new();
+
     private bool opRes;
 
     private Thread threadProgress;
 
     private Thread threadWF;
-
-    private readonly CancellationTokenSource tokenSource = new();
 
     private WriFreq wF;
 
@@ -47,6 +47,7 @@ public partial class ProgressBarWindow : Window
             threadProgress.Join();
             ClassTheRadioData.getInstance().forceNewChannel();
         }
+
         Close();
     }
 
@@ -183,6 +184,7 @@ public partial class ProgressBarWindow : Window
             CloseButton.IsEnabled = true;
             opRes = false;
         }
+
         sP.CloseSerial();
     }
 }

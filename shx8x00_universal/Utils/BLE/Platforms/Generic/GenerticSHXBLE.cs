@@ -10,12 +10,11 @@ namespace shx8x00.Utils.BLE.Platforms.Generic;
 
 public class GenerticSHXBLE : IBluetooth
 {
+    private GattCharacteristic shxCharacteristic;
     private BluetoothDevice shxDevice;
 
     private GattService shxService;
 
-    private GattCharacteristic shxCharacteristic;
-    
     public Task<bool> GetBLEAvailabilityAsync()
     {
         return Bluetooth.GetAvailabilityAsync();
@@ -59,7 +58,7 @@ public class GenerticSHXBLE : IBluetooth
     public async Task<bool> ConnectSHXRWServiceAsync()
     {
         shxService = await shxDevice.Gatt.GetPrimaryServiceAsync(
-                BluetoothUuid.FromShortId(Convert.ToUInt16(BLE_CONST.RW_SERVICE_UUID.ToUpper(), 16)));
+            BluetoothUuid.FromShortId(Convert.ToUInt16(BLE_CONST.RW_SERVICE_UUID.ToUpper(), 16)));
         return shxService != null;
     }
 

@@ -60,17 +60,13 @@ public class ClassTheRadioData
                 instance.chanData.Clear();
                 foreach (var cd in tmp.channeldata)
                 {
-                    if (!cd.allEmpty())
-                    {
-                        cd.IsVisable = true;
-                    }
+                    if (!cd.allEmpty()) cd.IsVisable = true;
                     instance.chanData.Add(cd);
                 }
             }
             catch
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
-                return;
             }
         }
     }

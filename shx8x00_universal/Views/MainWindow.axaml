@@ -114,7 +114,8 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+        <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"
+                DockPanel.Dock="Top">
             <StackPanel Orientation="Horizontal">
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="readChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
@@ -132,7 +133,7 @@
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
             <StackPanel Orientation="Horizontal">
-                <Label Foreground="MediumBlue" Content="{x:Static verConstants:VERSION.Version}"></Label>
+                <Label Foreground="MediumBlue" Content="{x:Static verConstants:VERSION.Version}" />
                 <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
                 <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             </StackPanel>

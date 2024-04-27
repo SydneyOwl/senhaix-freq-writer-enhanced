@@ -6,7 +6,7 @@
              RequestedThemeVariant="Default">
     <NativeMenu.Menu>
         <NativeMenu>
-            <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick"/>
+            <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick" />
         </NativeMenu>
     </NativeMenu.Menu>
     <TrayIcon.Icons>
@@ -14,8 +14,7 @@
             <TrayIcon Icon="/Asset/shx8800-icons/icon.ico" ToolTipText="森海克斯8x00写频软件">
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick">
-                        </NativeMenuItem>
+                        <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick" />
                     </NativeMenu>
                 </TrayIcon.Menu>
             </TrayIcon>
@@ -33,7 +32,7 @@
             <Setter Property="FontSize" Value="15" />
         </Style>
         <Style Selector="Window">
-            <Setter Property="Icon" Value="/Asset/shx8800-icons/icon.ico"></Setter>
+            <Setter Property="Icon" Value="/Asset/shx8800-icons/icon.ico" />
         </Style>
     </Application.Styles>
     <Application.Resources>

@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -16,9 +15,6 @@ using shx8x00.Constants;
 using shx8x00.DataModels;
 using shx8x00.Utils.BLE.Interfaces;
 using shx8x00.Utils.BLE.Platforms.Generic;
-#if false
-using shx8x00.Utils.BLE.Platforms.OSX;
-#endif
 using shx8x00.Utils.Serial;
 using SHX8X00.Views;
 
@@ -27,9 +23,10 @@ namespace shx8x00.Views;
 public partial class MainWindow : Window
 {
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
-    
+
     private string savePath = "";
     private ChannelData tmpChannel;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -483,7 +480,6 @@ public partial class MainWindow : Window
             return;
         }
 
-        
 
         if (!await osBLE.ConnectSHXRWCharacteristicAsync())
         {

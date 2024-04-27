@@ -8,21 +8,16 @@ namespace shx8x00.Utils.Serial;
 
 public class MySerialPort : SerialPort
 {
+    public delegate Task WriteValueAsync(byte[] value);
+
     private static MySerialPort sp;
 
     private Queue<byte> rxData = new(1024);
-    
-    private int btDeviceMtu  = 23;
-    public delegate Task WriteValueAsync(byte[] value);
 
     public WriteValueAsync WriteBLE;
 
 
-    public int BTDeviceMtu
-    {
-        get => btDeviceMtu;
-        set => btDeviceMtu = value;
-    }
+    public int BTDeviceMtu { get; set; } = 23;
 
 
     public int BytesToReadFromCache
@@ -40,7 +35,7 @@ public class MySerialPort : SerialPort
         get => rxData;
         set => rxData = value ?? throw new ArgumentNullException(nameof(value));
     }
-    
+
 
     public string TargetPort { get; set; } = "";
 
