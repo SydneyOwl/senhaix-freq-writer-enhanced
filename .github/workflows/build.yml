@@ -25,74 +25,6 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-      
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Build WIN32
-      shell: pwsh
-      run: |
-        mkdir tmp
-        Set-TimeZone -Name "China Standard Time"
-        $commitHash = git rev-parse --short HEAD
-        $buildTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-        $tagName = git describe --tags --abbrev=0 --always || ""
-        cd GT12\HID
-        $sourceFile = "./VERSION.cs"
-        (Get-Content $sourceFile) `
-          -replace '@COMMIT_HASH@', $commitHash `
-          -replace '@BUILD_TIME@', $buildTime `
-          -replace '@TAG_NAME@', $tagName `
-          | Set-Content $sourceFile
-        cd ..
-        msbuild /t:Restore
-        msbuild
-        cd bin\Debug\net462
-        mkdir -Force lib
-        mkdir GT12-Freq-Writer
-        mv *.dll lib
-        mv lib GT12-Freq-Writer
-        mv *.exe GT12-Freq-Writer
-        mv *.config GT12-Freq-Writer
-        mv *.pdb GT12-Freq-Writer
-        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json GT12-Freq-Writer
-        Compress-Archive -Path .\GT12-Freq-Writer -DestinationPath ..\..\..\..\tmp\GT12-Freq-Writer-${tagName}.zip
-        cd ..\..\..\..\shx8x00\SQ5R.Properties
-        $sourceFile = "./VERSION.cs"
-        (Get-Content $sourceFile) `
-          -replace '@COMMIT_HASH@', $commitHash `
-          -replace '@BUILD_TIME@', $buildTime `
-          -replace '@TAG_NAME@', $tagName `
-          | Set-Content $sourceFile
-        cd ..
-        msbuild SHX8X00.csproj /t:Restore
-        msbuild SHX8X00.csproj
-        msbuild SHX8X00_nobt.csproj /t:Restore
-        msbuild SHX8X00_nobt.csproj
-        cd bin\Debug\net462
-        mkdir -Force lib
-        mkdir Shx8x00-Freq-Writer-With-Bluetooth
-        mv *.dll lib
-        mv lib Shx8x00-Freq-Writer-With-Bluetooth
-        mv *.exe Shx8x00-Freq-Writer-With-Bluetooth
-        mv *.config Shx8x00-Freq-Writer-With-Bluetooth
-        mv *.pdb Shx8x00-Freq-Writer-With-Bluetooth
-        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer-With-Bluetooth
-        Compress-Archive -Path .\Shx8x00-Freq-Writer-With-Bluetooth -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-With-Bluetooth-${tagName}.zip
-        cd ..\net20
-        mkdir -Force lib
-        mkdir Shx8x00-Freq-Writer
-        mv *.dll lib
-        mv lib Shx8x00-Freq-Writer
-        mv *.exe Shx8x00-Freq-Writer
-        mv *.config Shx8x00-Freq-Writer
-        mv *.pdb Shx8x00-Freq-Writer
-        cp D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\data\satellite_data\data\amsat-all-frequencies.json Shx8x00-Freq-Writer
-        Compress-Archive -Path .\Shx8x00-Freq-Writer -DestinationPath ..\..\..\..\tmp\Shx8x00-Freq-Writer-${tagName}.zip
-
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: SHX8X00+GT12-Windows版
-        path: ./tmp  # 替换为你要上传的文件夹路径
 
     - name: Setup Dotnet
       uses: actions/setup-dotnet@v4
@@ -107,7 +39,7 @@ jobs:
         $commitHash = git rev-parse --short HEAD
         $buildTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         $tagName = git describe --tags --abbrev=0 --always || ""
-        cd shx8x00_universal\Properties
+        cd Properties
         $sourceFile = "./VERSION.cs"
         (Get-Content $sourceFile) `
           -replace '@COMMIT_HASH@', $commitHash `
@@ -117,38 +49,31 @@ jobs:
         cd ..
         dotnet restore -r win-x64
         dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:TargetOS=Windows --self-contained true
-        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin/Release/net6.0-windows10.0.19041.0/win-x64
-        mkdir shx8x00-universial-freq-writer
-        mv publish/* shx8x00-universial-freq-writer
-        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-Windows-${tagName}.zip
-        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin/Release/net6.0-windows10.0.19041.0/win-x64
+        mkdir senhaix-universial-freq-writer
+        mv publish/* senhaix-universial-freq-writer
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Windows-${tagName}.zip
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
         dotnet restore -r linux-x64
         dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true --self-contained true
-        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin\Release\net6.0\linux-x64\
-        mkdir shx8x00-universial-freq-writer
-        mv publish/* shx8x00-universial-freq-writer
-        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-Linux-${tagName}.zip
-        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin\Release\net6.0\linux-x64\
+        mkdir senhaix-universial-freq-writer
+        mv publish/* senhaix-universial-freq-writer
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Linux-${tagName}.zip
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
         dotnet restore -r osx-x64
         dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64 -p:UseAppHost=true -property:Configuration=Release
-        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/bin\Release\net6.0\osx-x64\
-        mkdir shx8x00-universial-freq-writer
-        mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/shx8x00_universal/Asset/shx8800-icons/icon.icns publish/SHX8X00.app/Contents/Resources
-        mv publish/SHX8X00.app shx8x00-universial-freq-writer
-        Compress-Archive -Path .\shx8x00-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\Shx8x00-Universial-Freq-Writer-macOS-${tagName}.zip
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin\Release\net6.0\osx-x64\
+        mkdir senhaix-universial-freq-writer
+        mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/Asset/shx8800-icons/icon.icns publish/SenhaixFreqWriter.app/Contents/Resources
+        mv publish/SenhaixFreqWriter.app senhaix-universial-freq-writer
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-macOS-${tagName}.zip
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: SHX8X00通用版(Windows.macOS.Linux)
-        path: ./tmpu  # 替换为你要上传的文件夹路径
-
-    - name: Release WIN32
-      uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: |
-          ./tmp/*.zip
+        name: 通用版(Windows.macOS.Linux)
+        path: ./tmpu
 
   afterbuild:
     needs: build
@@ -157,30 +82,30 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: SHX8X00通用版(Windows.macOS.Linux)
+        name: 通用版(Windows.macOS.Linux)
         path: ./
 
     - name: Delete Artifact by Name
       uses: jimschubert/delete-artifacts-action@v1
       with:
-        artifact_name: SHX8X00通用版(Windows.macOS.Linux)
+        artifact_name: 通用版(Windows.macOS.Linux)
         min_bytes: '0'
 
     - name: Add Execute
       run: |
-        ls && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-macOS) && \
+        ls && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep senhaix-universial-freq-writer-macOS) && \
         echo $targetName && unzip $targetName && rm -rf $targetName && \
-        chmod +x shx8x00-universial-freq-writer/SHX8X00.app/Contents/MacOS/SHX8X00 && \
-        zip -r $targetName shx8x00-universial-freq-writer && \
-        rm -rf shx8x00-universial-freq-writer && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep Shx8x00-Universial-Freq-Writer-Linux) && \
+        chmod +x senhaix-universial-freq-writer/SenhaixFreqWriter.app/Contents/MacOS/SenhaixFreqWriter && \
+        zip -r $targetName senhaix-universial-freq-writer && \
+        rm -rf senhaix-universial-freq-writer && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep senhaix-universial-freq-writer-Linux) && \
         echo $targetName && unzip $targetName && rm -rf $targetName && \
-        chmod +x shx8x00-universial-freq-writer/SHX8X00 && \
-        zip -r $targetName shx8x00-universial-freq-writer
+        chmod +x senhaix-universial-freq-writer/SenhaixFreqWriter && \
+        zip -r $targetName senhaix-universial-freq-writer
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: SHX8X00通用版(Windows.macOS.Linux)
+        name: 通用版(Windows.macOS.Linux)
         path: ./*.zip
     
     - name: Release UNIVERSAL

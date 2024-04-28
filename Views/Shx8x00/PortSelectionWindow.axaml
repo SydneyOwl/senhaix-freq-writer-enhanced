@@ -1,0 +1,21 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="300" Height="150"
+        x:Class="SenhaixFreqWriter.Views.Shx8x00.PortSelectionWindow"
+        Title="端口"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
+        x:DataType="vm:PortSelectionWindow"
+        WindowStartupLocation="CenterScreen">
+    <Canvas>
+        <Label Canvas.Top="20" Canvas.Left="10">选择端口(点击下拉选择):</Label>
+        <ComboBox Canvas.Top="50" Canvas.Left="70" Width="160" x:Name="PortChooseComboBox"
+                  ItemsSource="{Binding  portList}"
+                  SelectedValue="{Binding portName}" SelectedItem="{Binding portName}" />
+
+        <Button Canvas.Top="49" Canvas.Right="20" Click="Button_OnClick">
+            <PathIcon Data="{StaticResource arrow_sync_regular}" />
+        </Button>
+        <Button Canvas.Top="100" Canvas.Left="55" Click="confirm_OnClick">确定</Button>
+        <Button Canvas.Top="100" Canvas.Left="195" Click="abortd_OnClick">取消</Button>
+    </Canvas>
+</Window>

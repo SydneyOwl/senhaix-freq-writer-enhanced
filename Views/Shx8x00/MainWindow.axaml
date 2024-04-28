@@ -1,0 +1,290 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
+        Width="1332" Height="750"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
+        xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8x00"
+        xmlns:verConstants="clr-namespace:SenhaixFreqWriter.Properties"
+        Title="森海克斯8x00通用写频软件"
+        x:DataType="vm:MainWindow"
+        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
+        x:Class="SenhaixFreqWriter.Views.Shx8x00.MainWindow"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="文件">
+                <MenuItem Header="新建" Click="new_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource new_file}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="打开" Click="open_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource open_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="保存" Click="save_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource save_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="另存为" Click="saveAs_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource save_as_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="退出" Click="exit_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource error_circle_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="编辑">
+                <MenuItem Header="可选功能" Click="option_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource channel_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="DTMF（双音多频）" Click="dtmfset_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource channel_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="读写频">
+                <MenuItem Header="从手台读取信道" Click="readChannel_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource arrow_up_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="写入信道到手台" Click="writeChannel_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource arrow_down_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="读写频方式设置">
+                <MenuItem Header="写频线" Click="portSel_OnClick" x:Name="cable">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource usb_stick_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="蓝牙" Click="MenuConnectBT_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource bluetooth_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <!-- <MenuItem Header="工具"> -->
+            <!--     <MenuItem Header="修改开机画面"> -->
+            <!--         <MenuItem.Icon> -->
+            <!--             <PathIcon Data="{StaticResource channel_regular}"/> -->
+            <!--         </MenuItem.Icon> -->
+            <!--     </MenuItem> -->
+            <!--     <MenuItem Header="打星助手"> -->
+            <!--         <MenuItem.Icon> -->
+            <!--             <PathIcon Data="{StaticResource channel_regular}"/> -->
+            <!--         </MenuItem.Icon> -->
+            <!--     </MenuItem> -->
+            <!-- </MenuItem> -->
+            <MenuItem Header="其他">
+                <MenuItem Header="主题色">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource dark_theme_regular}" />
+                    </MenuItem.Icon>
+                    <MenuItem Header="Light" Click="Light_OnClick">
+                        <MenuItem.Icon>
+                            <PathIcon Data="{StaticResource weather_sunny_regular}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Dark" Click="Dark_OnClick">
+                        <MenuItem.Icon>
+                            <PathIcon Data="{StaticResource weather_moon_regular}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="关于" Click="About_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource person_feedback_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="切换设备" Click="SwitchDevice_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"
+                DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="readChannel_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                        <TextBlock Text="读频" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="writeChannel_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                        <TextBlock Text="写频" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+        <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <Label Foreground="MediumBlue" Content="{x:Static verConstants:VERSION.Version}" />
+                <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
+                <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
+            </StackPanel>
+        </Border>
+        <Border Background="White" BorderBrush="Black" BorderThickness="1">
+            <DataGrid Margin="20" ItemsSource="{Binding listItems }" x:Name="channelDataGrid"
+                      GridLinesVisibility="All"
+                      BorderThickness="1" BorderBrush="Gray"
+                      CanUserSortColumns="False"
+                      Classes="draggable"
+                      CanUserResizeColumns="True"
+                      CanUserReorderColumns="True"
+                      RowBackground="{DynamicResource dgBackgroundBrush}">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="复制" Click="MenuCopyChannel_OnClick" />
+                        <MenuItem Header="剪切" Click="MenuCutChannel_OnClick" />
+                        <MenuItem Header="粘贴" Click="MenuPasteChannel_OnClick" />
+                        <MenuItem Header="清空该信道" Click="MenuClrChannel_OnClick" />
+                        <MenuItem Header="删除该信道" Click="MenuDelChannel_OnClick" />
+                        <MenuItem Header="插入空信道" Click="MenuInsChannel_OnClick" />
+                        <MenuItem Header="合并非空信道" Click="MenuComChannel_OnClick" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <Interaction.Behaviors>
+                    <BehaviorCollection>
+                        <idd:ContextDropBehavior Handler="{StaticResource DataGridDndBfNamedId}" />
+                    </BehaviorCollection>
+                </Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="信道"
+                                        Binding="{Binding ChanNum }" IsReadOnly="True"
+                                        Width="0.8*" />
+                    <DataGridTemplateColumn Header="发射允许" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Center" SelectedItem="{Binding TxAllow, Mode=TwoWay}"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txallow}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="接收频率" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="QT/DQT解码" Width="1.3*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}"
+                                          SelectedItem="{Binding QtDec, Mode=TwoWay}"
+                                          IsVisible="{Binding IsVisable}"
+                                          SelectionChanged="SelectingItemsControl_OnSelectionChanged" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="发射频率" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus"
+                                         IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="QT/DQT编码" Width="1.3*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
+                                          SelectedItem="{Binding QtEnc, Mode=TwoWay}"
+                                          SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="发射功率" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txPwr}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="带宽" Width="0.8*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.bandwidth}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="PTT-ID" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Pttid, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.pttid}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="繁忙锁定" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding BusyLock, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.busylock}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="扫描添加" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.scanadd}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="信令码" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding SigCode, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.signCode}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="信道名称" Width="1*"
+                                        Binding="{Binding ChanName }" />
+                    <DataGridTemplateColumn Header="加密" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Encrypt, Mode=TwoWay}" HorizontalAlignment="Center"
+                                          ItemsSource="{x:Static constants:CHAN_CHOICE.encrypt}"
+                                          IsVisible="{Binding IsVisable}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </DockPanel>
+</Window>

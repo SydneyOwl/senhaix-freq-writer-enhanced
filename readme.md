@@ -9,29 +9,26 @@
 > 如有必要，请在任何操作前首先进行备份操作！
 
 
+## 写在前面...
+
+本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，由于由官方软件修改而来（winform）的森海克斯写频软件（森海克斯8x00以及gt12）仅支持windows，因此本仓库停止维护winform版本的写频软件且**如无重大错误不再更新**，但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
+
 ## 简介
 
-森海克斯8800/8600（仅windows）：[森海克斯8800/8600写频软件简介](./shx8x00/readme.md)
+该写频软件使用`net6.0`+`Avalonia`对原官方写频软件（winform）进行了重构，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
 
-森海克斯8800/8600（通用）:  [森海克斯8800/8600通用写频软件简介](./shx8x00_universal/readme.md)
+目前适配情况：
 
-森海克斯GT-12：[GT12写频软件简介](./GT12/readme.md)
++ 森海克斯8x00：已开发完成
++ 森海克斯GT12：**开发中！**
 
 ## 功能说明
 
->  [!NOTE]  
->
-> 如果您是windows操作系统，优先推荐您下载Releases中的`xxx-Freq-Writer-xxx`或`Shx8x00-Freq-Writer-With-Bluetooth-xxx`。这两个版本由原版软件修改而来，具有较好的稳定性。
->
-> 如果您是Linux/macOS，您可以下载Releases中跨平台版本的`Shx8x00-Universial-Freq-Writer`。这一版本弃用原软件所用的`winform`，使用`Avalonia`和`.NET6.0`进行重构，即`shx8x00_universal`。
->
-> GT12还未开发跨平台版本，只在windows可用。
-
 运行平台：
 
-| -                | 森海克斯8800/8600通用版（Windows/Linux/macOS）               | 森海克斯8800/8600 (仅Windows，有蓝牙支持) | 森海克斯8800/8600 (仅Windows，无蓝牙支持) | GT-12 (仅Windows) |
-| ---------------- | ------------------------------------------------------------ | ----------------------------------------- | ----------------------------------------- | ----------------- |
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | windows 8及以上[^3]                       | windows xp sp2及以上                      | windows 8及以上   |
+| -                | 森海克斯8800/8600通用版（Windows/Linux/macOS）               | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------- |
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上             |
 
 [^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
@@ -39,14 +36,14 @@
 
 目前各版本支持的功能：
 
-| -                                    | 森海克斯8800/8600通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 (仅Windows，有蓝牙支持) | 森海克斯8800/8600 (仅Windows，无蓝牙支持) | GT-12 (仅Windows)  |
-| ------------------------------------ | -------------------------------------------------- | ----------------------------------------- | ----------------------------------------- | ------------------ |
-| 原有的所有功能                       | :white_check_mark:                                 | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                 | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
-| 蓝牙写频                             | 仅Windows，其他平台的还在写                        | :white_check_mark:                        | :heavy_minus_sign:                        | :heavy_minus_sign: |
-| （以下为支持的插件）                 |                                                    |                                           |                                           |                    |
-| 开机画面修改                         | 开发中                                             | :white_check_mark:                        | :white_check_mark:                        | :heavy_minus_sign: |
-| 打星助手                             | 开发中                                             | :white_check_mark:                        | :white_check_mark:                        | :white_check_mark: |
+| -                                    | 森海克斯8800/8600通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+| ------------------------------------ | -------------------------------------------------- | --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                                 | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                 | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频                             | 仅Windows，其他平台的还在写                        | 仅蓝牙版支持                            | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                    |                                         |                              |
+| 开机画面修改                         | 开发中                                             | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | 开发中                                             | :white_check_mark:                      | :white_check_mark:           |
 
 [^4]:该版本自带runtime，无需额外安装
 
@@ -54,37 +51,12 @@
 
 如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
 
-![image-20240415110219541](shx8x00_universal/readme_shx8x00_universal/image-20240415110219541.png)
-
 下面描述的是如何进行手动编译。
 
-### 非通用版
-
-如果需要自行编译，只需要使用`Makefiile`进行编译即可。克隆仓库时请使用`--recursive`参数！
-
-windows环境下，您可以在安装`mingw`后使用mingw32-make进行编译：
-
-```powershell
-mingw32-make #全部编译
-mingw32-make gt12 #只编译GT12
-mingw32-make shx8x00 #只编译支持蓝牙的shx8x00
-mingw32-make shx8x00_nobt #只编译不支持蓝牙的shx8x00
-```
-
-|型号|编译要求|
-|---|---|
-|`SHX8800`|.net4.6.2, win10+|
-|`SHX8800_nobt`|.net2.0|
-|`gt12`|.net4.6.2, win8+|
+// TODO!
 
 > [!TIP]
 > 您也可以参考`.github/workflows/build.yml`进行编译。
-
-### 通用版
-
-只有一点值得注意
-
-在编译windows时请使用指定框架：**net6.0-windows10.0.19041.0**，相关PR：[No path specified for UNIX transport](https://github.com/inthehand/32feet/issues/341)
 
 ## 开发指引
 
@@ -155,7 +127,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 ## 许可证
 
-该仓库中的三个项目均使用`The Unlicense`进行许可。
+本项目使用`The Unlicense`进行许可。
 
 ```markdown
 This is free and unencumbered software released into the public domain.

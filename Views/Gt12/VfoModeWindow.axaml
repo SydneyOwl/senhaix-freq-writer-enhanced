@@ -1,0 +1,110 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
+        x:DataType="vm:VfoModeWindow"
+        Width="680" Height="650"
+        x:Class="SenhaixFreqWriter.Views.Gt12.VfoModeWindow"
+        Title="频率模式"
+        xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
+    <Canvas>
+        <Border Height="550" Width="300" Margin="10" BorderThickness="1" BorderBrush="Black" />
+        <Label Content="VFO A" Background="White" FontSize="20" Canvas.Left="20"></Label>
+        <Label Content="频率" FontSize="15" Canvas.Left="20" Canvas.Top="50"></Label>
+        <TextBox Canvas.Left="100" Canvas.Top="45" Width="150" 
+                 Height="30" Text="{Binding VfoInfos.VfoAFreq}" LostFocus="currentFreq_OnLostFocus"></TextBox>
+        <Label Content="接收亚音" FontSize="15" Canvas.Left="20" Canvas.Top="90"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="85" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.qtdqt}"
+                  SelectedValue="{Binding VfoInfos.StrVFOARxCtsDcs}"></ComboBox>
+        <Label Content="发射亚音" FontSize="15" Canvas.Left="20" Canvas.Top="130"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="125" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.qtdqt}"
+                  SelectedValue="{Binding VfoInfos.StrVFOATxCtsDcs}"></ComboBox>
+        <Label Content="信令系统" FontSize="15" Canvas.Left="20" Canvas.Top="170"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="165" Width="150" Height="30" 
+                  ItemsSource="{x:Static constants:VFO_CHOICE.sigSys}"
+                  SelectedIndex="{Binding VfoInfos.VfoASignalSystem}"></ComboBox>
+        <Label Content="静音模式" FontSize="15" Canvas.Left="20" Canvas.Top="210"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="205" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.sqmode}"
+                  SelectedIndex="{Binding VfoInfos.VfoASQMode}"></ComboBox>
+        <Label Content="功率" FontSize="15" Canvas.Left="20" Canvas.Top="250"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="245" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.power}"
+                  SelectedIndex="{Binding VfoInfos.VfoATxPower}"></ComboBox>
+        <Label Content="带宽" FontSize="15" Canvas.Left="20" Canvas.Top="290"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="285" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.bandwidth}"
+                  SelectedIndex="{Binding VfoInfos.VfoABandwide}"></ComboBox>
+        <Label Content="步进频率" FontSize="15" Canvas.Left="20" Canvas.Top="330"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="325" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.step}"
+                  SelectedIndex="{Binding VfoInfos.VfoAStep}"></ComboBox>
+        <Label Content="繁忙锁定" FontSize="15" Canvas.Left="20" Canvas.Top="370"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="365" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.busyLock}"
+                  SelectedIndex="{Binding VfoInfos.VfoABusyLock}"></ComboBox>
+        <Label Content="信令编码" FontSize="15" Canvas.Left="20" Canvas.Top="410"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="405" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.sigGroup}"
+                  SelectedIndex="{Binding VfoInfos.VfoASignalGroup}"></ComboBox>
+        <Label Content="频差方向" FontSize="15" Canvas.Left="20" Canvas.Top="450"></Label>
+        <ComboBox Canvas.Left="100" Canvas.Top="445" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.direction}"
+                  SelectedIndex="{Binding VfoInfos.VfoADir}"></ComboBox>
+        <Label Content="频差频率" FontSize="15" Canvas.Left="20" Canvas.Top="490"></Label>
+        <TextBox Canvas.Left="100" Canvas.Top="485" Width="150" Height="30" Text="{Binding VfoInfos.VfoAOffset}" LostFocus="freqOffset_OnLostFocus"></TextBox>
+        
+        <Border Height="550" Width="300" Margin="10" BorderThickness="1" BorderBrush="Black" Canvas.Left="350" />
+        <Label Content="VFO B" Background="White" FontSize="20" Canvas.Left="370"></Label>
+        <Label Content="频率" FontSize="15" Canvas.Left="370" Canvas.Top="50"></Label>
+        <TextBox Canvas.Left="450" Canvas.Top="45" Width="150" Height="30" 
+                 LostFocus="currentFreq_OnLostFocus" Text="{Binding VfoInfos.VfoBFreq}" ></TextBox>
+        <Label Content="接收亚音" FontSize="15" Canvas.Left="370" Canvas.Top="90"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="85" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.qtdqt}"
+                  SelectedValue="{Binding VfoInfos.StrVFOBRxCtsDcs}"></ComboBox>
+        <Label Content="发射亚音" FontSize="15" Canvas.Left="370" Canvas.Top="130"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="125" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.qtdqt}"
+                  SelectedValue="{Binding VfoInfos.StrVFOBTxCtsDcs}"></ComboBox>
+        <Label Content="信令系统" FontSize="15" Canvas.Left="370" Canvas.Top="170"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="165" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.sigSys}"
+                  SelectedIndex="{Binding VfoInfos.VfoBSignalSystem}"></ComboBox>
+        <Label Content="静音模式" FontSize="15" Canvas.Left="370" Canvas.Top="210"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="205" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.sqmode}"
+                  SelectedIndex="{Binding VfoInfos.VfoBSQMode}"></ComboBox>
+        <Label Content="功率" FontSize="15" Canvas.Left="370" Canvas.Top="250"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="245" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.power}"
+                  SelectedIndex="{Binding VfoInfos.VfoBTxPower}"></ComboBox>
+        <Label Content="带宽" FontSize="15" Canvas.Left="370" Canvas.Top="290"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="285" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.bandwidth}"
+                  SelectedIndex="{Binding VfoInfos.VfoBBandwide}"></ComboBox>
+        <Label Content="步进频率" FontSize="15" Canvas.Left="370" Canvas.Top="330"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="325" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.step}"
+                  SelectedIndex="{Binding VfoInfos.VfoBStep}"></ComboBox>
+        <Label Content="繁忙锁定" FontSize="15" Canvas.Left="370" Canvas.Top="370"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="365" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.busyLock}"
+                  SelectedIndex="{Binding VfoInfos.VfoBBusyLock}"></ComboBox>
+        <Label Content="信令编码" FontSize="15" Canvas.Left="370" Canvas.Top="410"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="405" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.sigGroup}"
+                  SelectedIndex="{Binding VfoInfos.VfoBSignalGroup}"></ComboBox>
+        <Label Content="频差方向" FontSize="15" Canvas.Left="370" Canvas.Top="450"></Label>
+        <ComboBox Canvas.Left="450" Canvas.Top="445" Width="150" Height="30"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.direction}"
+                  SelectedIndex="{Binding VfoInfos.VfoBDir}"></ComboBox>
+        <Label Content="频差频率" FontSize="15" Canvas.Left="370" Canvas.Top="490"></Label>
+        <TextBox Canvas.Left="450" Canvas.Top="485" Width="150" Height="30" Text="{Binding VfoInfos.VfoBOffset}" LostFocus="freqOffset_OnLostFocus"></TextBox>
+    </Canvas>
+</Window>

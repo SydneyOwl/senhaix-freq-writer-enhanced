@@ -1,3 +1,0 @@
-[submodule "data/satellite_data"]
-	path = data/satellite_data
-	url = https://github.com/palewire/amateur-satellite-database
