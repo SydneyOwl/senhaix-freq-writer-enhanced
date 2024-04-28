@@ -6,16 +6,12 @@
 ![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build.yml/badge.svg)
 
 > [!important]
-> 如有必要，请在任何操作前首先进行备份操作！
-
-
-## 写在前面...
-
-本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，由于由官方软件修改而来（winform）的森海克斯写频软件（森海克斯8x00以及gt12）仅支持windows，因此本仓库停止维护winform版本的写频软件且**如无重大错误不再更新**，但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
+> + 如有必要，请在任何操作前首先进行备份操作！
+> + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`及以后将停止维护winform版本（windows单平台）的写频软件（**如无重大错误不再更新**），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
 
 ## 简介
 
-该写频软件使用`net6.0`+`Avalonia`对原官方写频软件（winform）进行了重构，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
+该写频软件使用`net6.0`+`Avalonia`对森海克斯8600/8800/GT12的原官方写频软件（winform）进行了重构，并合并入一个软件中，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
 
 目前适配情况：
 
