@@ -106,5 +106,9 @@
                   SelectedIndex="{Binding VfoInfos.VfoBDir}"></ComboBox>
         <Label Content="频差频率" FontSize="15" Canvas.Left="370" Canvas.Top="490"></Label>
         <TextBox Canvas.Left="450" Canvas.Top="485" Width="150" Height="30" Text="{Binding VfoInfos.VfoBOffset}" LostFocus="freqOffset_OnLostFocus"></TextBox>
+        <Label Canvas.Bottom="30" Canvas.Left="20" Content="PTT-ID"></Label>
+        <ComboBox Canvas.Bottom="25" Canvas.Left="90"
+                  ItemsSource="{x:Static constants:VFO_CHOICE.pttid}"
+                  SelectedIndex="{Binding VfoInfos.Pttid}"></ComboBox>
     </Canvas>
 </Window>

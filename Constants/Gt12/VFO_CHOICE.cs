@@ -73,4 +73,9 @@ public class VFO_CHOICE
     {
         "QT/DQT", "QT/DQT*DTMF", "QT/DQT+DTMF"
     };
+
+    public static ObservableCollection<string> pttid = new()
+    {
+        "无", "发射开始", "发射结束", "两者"
+    };
 }

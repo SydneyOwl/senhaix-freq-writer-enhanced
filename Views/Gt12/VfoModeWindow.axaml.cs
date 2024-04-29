@@ -12,7 +12,7 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class VfoModeWindow : Window
 {
-    public VFOInfos _vfoInfos = AppData.getInstance().vfos;
+    private VFOInfos _vfoInfos = AppData.getInstance().vfos;
 
     public VFOInfos VfoInfos
     {

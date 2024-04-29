@@ -342,4 +342,10 @@ public partial class MainWindow : Window
     {
         new VfoModeWindow().ShowDialog(this);
     }
+    
+
+    private void OptionalMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new OptionalWindow().ShowDialog(this);
+    }
 }

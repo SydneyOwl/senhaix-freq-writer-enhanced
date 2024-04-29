@@ -50,7 +50,7 @@
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="可选功能">
+                <MenuItem Header="可选功能" Click="OptionalMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource toolbox_regular}" />
                     </MenuItem.Icon>
