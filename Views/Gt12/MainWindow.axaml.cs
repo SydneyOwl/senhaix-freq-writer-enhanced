@@ -348,4 +348,9 @@ public partial class MainWindow : Window
     {
         new OptionalWindow().ShowDialog(this);
     }
+
+    private void FMMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new FMWindow().ShowDialog(this);
+    }
 }

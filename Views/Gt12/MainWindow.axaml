@@ -55,7 +55,7 @@
                         <PathIcon Data="{StaticResource toolbox_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="收音机">
+                <MenuItem Header="收音机" Click="FMMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource router_regular}" />
                     </MenuItem.Icon>

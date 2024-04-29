@@ -9,3 +9,8 @@ public partial class FMChannel:ObservableObject
     [ObservableProperty]
     private int curFreq = 904;
 }
+public partial class FMObject:ObservableObject
+{
+    [ObservableProperty] private int id;
+    [ObservableProperty] private string freq = "";
+}
