@@ -1,6 +1,6 @@
 namespace SenhaixFreqWriter.Constants.Shx8x00;
 
-internal enum OPERATION_TYPE
+public enum OPERATION_TYPE
 {
     READ,
     WRITE,

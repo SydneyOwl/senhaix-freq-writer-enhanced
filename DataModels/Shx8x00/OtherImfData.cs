@@ -1,94 +1,32 @@
 using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
+
+//Notice: 请勿随意变更本文件参数！
 [Serializable]
-public class OtherImfData
-{
+public partial  class OtherImfData : ObservableObject
+{[ObservableProperty] 
     private bool enableTxOver480M;
-
+    [ObservableProperty] 
     private bool enableTxUHF = true;
-
+    [ObservableProperty] 
     private bool enableTxVHF = true;
-
+    [ObservableProperty] 
     private string powerUpChar1 = "BAOFENG";
-
+    [ObservableProperty] 
     private string powerUpChar2 = "UV-5R";
-
+    [ObservableProperty] 
     private string theMaxFreqOfUHF = "520";
-
+    [ObservableProperty] 
     private string theMaxFreqOfVHF = "174";
-
+    [ObservableProperty] 
     private string theMinFreqOfUHF = "400";
-
+    [ObservableProperty] 
     private string theMinFreqOfVHF = "136";
-
+    [ObservableProperty] 
     private int theRangeOfUHF;
+    [ObservableProperty] 
     private int theRangeOfVHF;
-
-    public string TheMinFreqOfVHF
-    {
-        get => theMinFreqOfVHF;
-        set => theMinFreqOfVHF = value;
-    }
-
-    public string TheMaxFreqOfVHF
-    {
-        get => theMaxFreqOfVHF;
-        set => theMaxFreqOfVHF = value;
-    }
-
-    public int TheRangeOfUHF
-    {
-        get => theRangeOfUHF;
-        set => theRangeOfUHF = value;
-    }
-
-    public string TheMinFreqOfUHF
-    {
-        get => theMinFreqOfUHF;
-        set => theMinFreqOfUHF = value;
-    }
-
-    public string TheMaxFreqOfUHF
-    {
-        get => theMaxFreqOfUHF;
-        set => theMaxFreqOfUHF = value;
-    }
-
-    public bool EnableTxUHF
-    {
-        get => enableTxUHF;
-        set => enableTxUHF = value;
-    }
-
-    public bool EnableTxVHF
-    {
-        get => enableTxVHF;
-        set => enableTxVHF = value;
-    }
-
-    public string PowerUpChar1
-    {
-        get => powerUpChar1;
-        set => powerUpChar1 = value;
-    }
-
-    public string PowerUpChar2
-    {
-        get => powerUpChar2;
-        set => powerUpChar2 = value;
-    }
-
-    public bool EnableTxOver480M
-    {
-        get => enableTxOver480M;
-        set => enableTxOver480M = value;
-    }
-
-    public int TheRangeOfVHF
-    {
-        get => theRangeOfVHF;
-        set => theRangeOfVHF = value;
-    }
 }

@@ -14,8 +14,7 @@ public partial class ProgressBarWindow : Window
 {
     private readonly MySerialPort sP;
 
-    // 读0
-    private readonly int status;
+    private readonly OPERATION_TYPE status;
 
     private readonly ClassTheRadioData theRadioData;
 
@@ -30,7 +29,7 @@ public partial class ProgressBarWindow : Window
     private WriFreq wF;
 
 
-    public ProgressBarWindow(int opStatus)
+    public ProgressBarWindow(OPERATION_TYPE opStatus)
     {
         status = opStatus;
         theRadioData = ClassTheRadioData.getInstance();
@@ -51,8 +50,13 @@ public partial class ProgressBarWindow : Window
         Close();
     }
 
-    private void Start_OnClick(object? sender, RoutedEventArgs e)
+    private async void Start_OnClick(object? sender, RoutedEventArgs e)
     {
+        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
+        {
+            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
+            return;
+        }
         if (opRes)
         {
             opRes = false;
@@ -83,10 +87,7 @@ public partial class ProgressBarWindow : Window
     private async void Task_WriteFreq(CancellationToken cancellationToken)
     {
         var flag = false;
-        if (status == 0)
-            wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.READ);
-        else
-            wF = new WriFreq(sP, theRadioData, OPERATION_TYPE.WRITE);
+        wF = new WriFreq(sP, theRadioData, status);
         MySerialPort.getInstance().RxData.Clear();
         try
         {

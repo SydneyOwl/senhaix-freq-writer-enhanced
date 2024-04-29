@@ -283,15 +283,7 @@ public partial class MainWindow : Window
     {
         var tmp = ClassTheRadioData.getInstance();
         tmp.channeldata = tmp.chanData.ToList();
-        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
-        {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择,请连接蓝牙或写频线").ShowWindowDialogAsync(this);
-            return;
-        }
-        // await new PortSelectionWindow().ShowDialog(this);
-
-        // if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
-        await new ProgressBarWindow(0).ShowDialog(this);
+        await new ProgressBarWindow(OPERATION_TYPE.READ).ShowDialog(this);
     }
 
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -318,17 +310,12 @@ public partial class MainWindow : Window
                 return;
             }
         }
-
-        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
-        {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
-            return;
-        }
+        
 
         // await new PortSelectionWindow().ShowDialog(this);
 
         // if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
-        await new ProgressBarWindow(1).ShowDialog(this);
+        await new ProgressBarWindow(OPERATION_TYPE.WRITE).ShowDialog(this);
     }
 
     private void portSel_OnClick(object? sender, RoutedEventArgs e)
@@ -526,5 +513,11 @@ public partial class MainWindow : Window
         devSwitchFlag = true;
         new DeviceSelectWindow().Show();
         Close();
+    }
+
+    private async void AdvancedMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+       await MessageBoxManager.GetMessageBoxStandard("注意", "请在遵守当地无线电管理相关条例的前提下使用本功能！").ShowWindowDialogAsync(this);
+        new OtherFunctionWindow().ShowDialog(this);
     }
 }
