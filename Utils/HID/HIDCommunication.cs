@@ -45,7 +45,7 @@ public class HIDCommunication
 
     public AppData appData = AppData.getInstance();
 
-    private bool flagReceiveData;
+    // private bool flagReceiveData;
 
     private bool flagRetry;
 
@@ -55,7 +55,7 @@ public class HIDCommunication
 
     private int progressVal;
 
-    private byte[] rxBuffer = new byte[64];
+    // private byte[] rxBuffer = new byte[64];
 
     private STEP step;
 
@@ -93,8 +93,8 @@ public class HIDCommunication
 
     public void DataReceived(object sender, byte[] e)
     {
-        rxBuffer = e;
-        flagReceiveData = true;
+        HIDTools.getInstance().rxBuffer = e;
+        HIDTools.getInstance().flagReceiveData = true;
     }
 
     private void resetRetryCount()
@@ -143,10 +143,10 @@ public class HIDCommunication
                         step = STEP.STEP_HANDSHAKE_2;
                         break;
                     case STEP.STEP_HANDSHAKE_2:
-                        if (flagReceiveData)
+                        if (HIDTools.getInstance().flagReceiveData)
                         {
-                            flagReceiveData = false;
-                            helper.AnalyzePackage(rxBuffer);
+                            HIDTools.getInstance().flagReceiveData = false;
+                            helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
                             if (helper.errorCode == HID_ERRORS.ER_NONE)
                             {
                                 byData = helper.LoadPackage(2, 0, null, 1);
@@ -158,10 +158,10 @@ public class HIDCommunication
 
                         break;
                     case STEP.STEP_HANDSHAKE_3:
-                        if (flagReceiveData)
+                        if (HIDTools.getInstance().flagReceiveData)
                         {
-                            flagReceiveData = false;
-                            helper.AnalyzePackage(rxBuffer);
+                            HIDTools.getInstance().flagReceiveData = false;
+                            helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
                             if (helper.errorCode == HID_ERRORS.ER_NONE)
                             {
                                 byData = helper.LoadPackage(70, 0, null, 1);
@@ -173,10 +173,10 @@ public class HIDCommunication
 
                         break;
                     case STEP.STEP_HANDSHAKE_4:
-                        if (!flagReceiveData) break;
+                        if (!HIDTools.getInstance().flagReceiveData) break;
 
-                        flagReceiveData = false;
-                        helper.AnalyzePackage(rxBuffer);
+                        HIDTools.getInstance().flagReceiveData = false;
+                        helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
                         if (helper.errorCode == HID_ERRORS.ER_NONE)
                         {
                             timer.Stop();
@@ -433,10 +433,10 @@ public class HIDCommunication
                         step = STEP.STEP_WRITE2;
                         break;
                     case STEP.STEP_WRITE2:
-                        if (!flagReceiveData) break;
+                        if (!HIDTools.getInstance().flagReceiveData) break;
 
-                        flagReceiveData = false;
-                        helper.AnalyzePackage(rxBuffer);
+                        HIDTools.getInstance().flagReceiveData = false;
+                        helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
                         if (helper.errorCode == HID_ERRORS.ER_NONE)
                         {
                             timer.Stop();
@@ -738,12 +738,12 @@ public class HIDCommunication
                         step = STEP.STEP_READ2;
                         break;
                     case STEP.STEP_READ2:
-                        if (!flagReceiveData) break;
+                        if (!HIDTools.getInstance().flagReceiveData) break;
 
-                        flagReceiveData = false;
+                        HIDTools.getInstance().flagReceiveData = false;
                         timer.Stop();
                         resetRetryCount();
-                        helper.AnalyzePackage(rxBuffer);
+                        helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
                         if (helper.errorCode != HID_ERRORS.ER_NONE) break;
 
                         if (num < 30720)

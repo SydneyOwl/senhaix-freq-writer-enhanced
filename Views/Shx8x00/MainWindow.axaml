@@ -112,16 +112,17 @@
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
+                <MenuItem Header="切换设备" Click="SwitchDevice_OnClick">
+                       <MenuItem.Icon>
+                           <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
+                       </MenuItem.Icon>
+                   </MenuItem>
                 <MenuItem Header="关于" Click="About_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource person_feedback_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="切换设备" Click="SwitchDevice_OnClick">
-                    <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                
             </MenuItem>
         </Menu>
         <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"

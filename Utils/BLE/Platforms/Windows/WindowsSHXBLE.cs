@@ -61,9 +61,7 @@ public class WindowsSHXBLE : IBluetooth
     private int connStep = BLE_CONST.STATUS_READY;
 
     public List<GattCharacteristic> characteristics = new();
-
-    public Queue<byte> rxData = new(1024);
-
+    
     private BluetoothLEAdvertisementWatcher Watcher;
 
     public WindowsSHXBLE()
@@ -73,6 +71,7 @@ public class WindowsSHXBLE : IBluetooth
         DeviceMacList = new List<string>();
     }
 
+    
     /// <summary>
     ///     当前连接的服务
     /// </summary>
@@ -180,6 +179,8 @@ public class WindowsSHXBLE : IBluetooth
         DeviceMacList = new List<string>();
         DeviceList = new List<BluetoothLEDevice>();
         MySerialPort.getInstance().WriteBLE = null;
+        Watcher.Stop();
+        Watcher = null;
         // ForceNewBleInstance();
         // Console.WriteLine("主动断开连接");
         // if (meg != null)

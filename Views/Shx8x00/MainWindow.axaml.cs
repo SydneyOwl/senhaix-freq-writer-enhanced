@@ -460,7 +460,7 @@ public partial class MainWindow : Window
 
         if (!await osBLE.ScanForSHXAsync())
         {
-            hint.setLabelStatus("未找到设备！");
+            hint.setLabelStatus("未找到设备！\n您可能需要重启软件！");
             hint.setButtonStatus(true);
             return;
         }
