@@ -60,7 +60,7 @@
                         <PathIcon Data="{StaticResource router_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="双音多频DTMF">
+                <MenuItem Header="双音多频DTMF" Click="DTMFMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>

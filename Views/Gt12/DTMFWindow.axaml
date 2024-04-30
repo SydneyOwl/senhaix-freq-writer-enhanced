@@ -1,0 +1,46 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="400" Height="550"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        x:Class="SenhaixFreqWriter.Views.Gt12.DTMFWindow"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
+        x:DataType="vm:DTMFWindow"
+        Title="DTMF设置">
+    <Canvas>
+        <DataGrid Margin="20" x:Name="FMDataGrid"
+                  GridLinesVisibility="All"
+                  BorderThickness="1" BorderBrush="Gray"
+                  CanUserSortColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  ItemsSource="{Binding Dtmfs}"
+                  Height="400"
+                  Width="350"
+                  RowBackground="{DynamicResource dgBackgroundBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }"/>
+                <DataGridTemplateColumn Header="码" IsReadOnly="False" 
+                                        Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Group}" LostFocus="GroupCodeInputElement_OnLostFocus"/>
+                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="名称" IsReadOnly="False" 
+                                        Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding GroupName}" LostFocus="GroupNameInputElement_OnLostFocus"/>
+                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Canvas>
+</Window>

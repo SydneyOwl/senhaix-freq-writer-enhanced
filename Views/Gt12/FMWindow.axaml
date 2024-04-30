@@ -10,26 +10,31 @@
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         x:DataType="vm:FMWindow"
         Title="收音机">
-    <DataGrid Margin="20" x:Name="FMDataGrid"
-              GridLinesVisibility="All"
-              BorderThickness="1" BorderBrush="Gray"
-              CanUserSortColumns="False"
-              CanUserResizeColumns="True"
-              CanUserReorderColumns="True"
-              ItemsSource="{Binding Fmchannels}"
-              Height="350"
-              RowBackground="{DynamicResource dgBackgroundBrush}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }"/>
-                <DataGridTemplateColumn Header="频点" IsReadOnly="False" 
-                                        Width="*" >
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Freq}" LostFocus="FreqInputElement_OnLostFocus"/>
-                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
+    <Canvas>
+        <DataGrid Margin="20" x:Name="FMDataGrid"
+                  GridLinesVisibility="All"
+                  BorderThickness="1" BorderBrush="Gray"
+                  CanUserSortColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  ItemsSource="{Binding Fmchannels}"
+                  Height="350"
+                  Width="350"
+                  RowBackground="{DynamicResource dgBackgroundBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }"/>
+                    <DataGridTemplateColumn Header="频点" IsReadOnly="False" 
+                                            Width="*" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Freq}" LostFocus="FreqInputElement_OnLostFocus"/>
+                                <!-- LostFocus="rxFreq_OnLostFocus" /> -->
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
         </DataGrid>
+        <Label Content="当前频率:" Canvas.Bottom="20" Canvas.Left="20"></Label>
+        <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}" LostFocus="currFreqInputElement_OnLostFocus"></TextBox>
+    </Canvas>
 </Window>

@@ -353,4 +353,9 @@ public partial class MainWindow : Window
     {
         new FMWindow().ShowDialog(this);
     }
+
+    private void DTMFMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new DTMFWindow().ShowDialog(this);
+    }
 }

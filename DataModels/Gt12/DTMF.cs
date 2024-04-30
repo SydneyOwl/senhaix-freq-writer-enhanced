@@ -59,3 +59,10 @@ public partial class DTMF : ObservableObject
         GroupName[19] = "成员20";
     }
 }
+
+public partial class DTMPObject : ObservableObject
+{
+    [ObservableProperty] private string id;
+    [ObservableProperty] private string group;
+    [ObservableProperty] private string groupName;
+}
