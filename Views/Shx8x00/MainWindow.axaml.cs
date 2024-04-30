@@ -320,6 +320,18 @@ public partial class MainWindow : Window
         new PortSelectionWindow().ShowDialog(this);
     }
 
+    private void forceRefreshUI()
+    {
+        // Deprecated!
+        //
+        //
+        // var tmp = ClassTheRadioData.getInstance().chanData.ToList();
+        // listItems.Clear();
+        // foreach (var channelData in tmp)
+        // {
+        //     listItems.Add(channelData);
+        // }
+    }
 
     // private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     // {
@@ -330,6 +342,7 @@ public partial class MainWindow : Window
     {
         var selected = channelDataGrid.SelectedIndex;
         tmpChannel = listItems[selected];
+        forceRefreshUI();
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -338,6 +351,7 @@ public partial class MainWindow : Window
         tmpChannel = listItems[selected].DeepCopy();
         listItems[selected] = new ChannelData();
         calcSequence();
+        forceRefreshUI();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -346,6 +360,7 @@ public partial class MainWindow : Window
         var selected = channelDataGrid.SelectedIndex;
         listItems[selected] = tmpChannel.DeepCopy();
         calcSequence();
+        forceRefreshUI();
     }
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -353,6 +368,7 @@ public partial class MainWindow : Window
         var selected = channelDataGrid.SelectedIndex;
         listItems[selected] = new ChannelData();
         calcSequence();
+        forceRefreshUI();
     }
 
     private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -361,6 +377,7 @@ public partial class MainWindow : Window
         for (var i = selected; i < 127; i++) listItems[i] = listItems[i + 1];
         listItems[127] = new ChannelData();
         calcSequence();
+        forceRefreshUI();
     }
 
     private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -381,6 +398,7 @@ public partial class MainWindow : Window
 
         listItems[selected + 1] = new ChannelData();
         calcSequence();
+        forceRefreshUI();
     }
 
     private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -397,6 +415,7 @@ public partial class MainWindow : Window
 
         for (var i = channel_cursor; i < 128; i++) listItems[i] = new ChannelData();
         calcSequence();
+        forceRefreshUI();
     }
 
     private void calcSequence()
@@ -434,7 +453,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        var hint = new HintBTWindow();
+        var hint = new HintWindow();
         hint.setLabelStatus("自动搜索中...");
         hint.setButtonStatus(false);
         hint.ShowDialog(this);

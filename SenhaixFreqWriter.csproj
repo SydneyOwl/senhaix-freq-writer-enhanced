@@ -48,35 +48,4 @@
     <ItemGroup>
         <AvaloniaResource Include="Asset\**"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Views\Shx8x00\DTMFWindow.axaml.cs">
-            <DependentUpon>DTMFWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Views\Shx8x00\MainWindow.axaml.cs">
-            <DependentUpon>MainWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Views\Shx8x00\OptionalWindow.axaml.cs">
-            <DependentUpon>OptionalWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Views\Shx8x00\PortSelectionWindow.axaml.cs">
-            <DependentUpon>PortSelectionWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Views\Common\AboutWindow.axaml.cs">
-            <DependentUpon>AboutWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Views\Common\HintBTWindow.axaml.cs">
-            <DependentUpon>HintBTWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Update="Views\Shx8x00\ProgressBarWindow.axaml.cs">
-            <DependentUpon>ProgressBarWindow.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-    </ItemGroup>
 </Project>

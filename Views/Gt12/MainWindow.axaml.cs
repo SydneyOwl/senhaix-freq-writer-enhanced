@@ -13,7 +13,7 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
-using SenhaixFreqWriter.DataModels.Shx8x00;
+using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Gt12;
@@ -437,5 +437,22 @@ public partial class MainWindow : Window
             AppData.CreatObjFromFile(stream);
             setArea(0);
         }
+    }
+
+    private void ConnectMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var hint = new HintWindow();
+        hint.setLabelStatus("连接设备中...");
+        hint.setButtonStatus(false);
+        hint.ShowDialog(this);
+        if (HIDTools.getInstance().findAndConnect()==HID_STATUS.SUCCESS)
+        {
+            hint.setLabelStatus("-------连接成功!");
+        }
+        else
+        {
+            hint.setLabelStatus("连接失败！");
+        }
+        hint.setButtonStatus(true);
     }
 }

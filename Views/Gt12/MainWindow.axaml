@@ -78,7 +78,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="读写频方式设置">
-                <MenuItem Header="写频线">
+                <MenuItem Header="写频线" Click="ConnectMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource usb_stick_regular}" />
                     </MenuItem.Icon>

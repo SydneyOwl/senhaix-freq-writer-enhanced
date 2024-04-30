@@ -57,7 +57,9 @@ public class ClassTheRadioData
                 var xmlSerializer = new XmlSerializer(typeof(ClassTheRadioData));
                 var stringReader = new StringReader(xmls);
                 tmp = (ClassTheRadioData)xmlSerializer.Deserialize(stringReader);
-                instance = tmp;
+                instance.funCfgData = tmp.funCfgData;
+                instance.dtmfData = tmp.dtmfData;
+                instance.otherImfData = tmp.otherImfData;
                 instance.chanData.Clear();
                 foreach (var cd in tmp.channeldata)
                 {

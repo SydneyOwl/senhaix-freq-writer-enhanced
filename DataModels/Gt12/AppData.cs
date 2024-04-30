@@ -74,7 +74,13 @@ public class AppData
                 var xmlSerializer = new XmlSerializer(typeof(AppData));
                 var stringReader = new StringReader(xmls);
                 tmp = (AppData)xmlSerializer.Deserialize(stringReader);
-                instance = tmp;
+                instance.dtmfs = tmp.dtmfs;
+                instance.funCfgs = tmp.funCfgs;
+                instance.fms = tmp.fms;
+                instance.mdcs = tmp.mdcs;
+                instance.vfos = tmp.vfos;
+                instance.bankName = tmp.bankName;
+                instance.channelList = tmp.channelList;
             }
             catch (Exception e)
             {

@@ -3,9 +3,9 @@ using Avalonia.Interactivity;
 
 namespace SenhaixFreqWriter.Views.Common;
 
-public partial class HintBTWindow : Window
+public partial class HintWindow : Window
 {
-    public HintBTWindow()
+    public HintWindow()
     {
         InitializeComponent();
     }

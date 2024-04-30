@@ -16,7 +16,7 @@ public class HIDTools
 
     public HidStream hidStream;
 
-    public static HIDTools instance;
+    private static HIDTools instance;
 
 
     //TODO: enhance
