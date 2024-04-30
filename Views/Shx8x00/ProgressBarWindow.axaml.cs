@@ -8,7 +8,7 @@ using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
 using SenhaixFreqWriter.Utils.Serial;
 
-namespace SenhaixFreqWriter.Views.Common;
+namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class ProgressBarWindow : Window
 {

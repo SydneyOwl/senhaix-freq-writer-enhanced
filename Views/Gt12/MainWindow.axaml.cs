@@ -115,13 +115,15 @@ public partial class MainWindow : Window
         areaLabel.Content = $"{area+1}/30";
     }
 
-    private void readChannel_OnClick(object? sender, RoutedEventArgs e)
+    private async void readChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        Console.WriteLine(AppData.getInstance().channelList[currentArea][1].RxFreq);
+        await new ProgressBarWindow(OP_TYPE.READ).ShowDialog(this);
+        setArea(0);
     }
-    private void writeChannel_OnClick(object? sender, RoutedEventArgs e)
+    private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+        await new ProgressBarWindow(OP_TYPE.WRITE).ShowDialog(this);
+        setArea(0);
     }
     private void foreChan_OnClick(object? sender, RoutedEventArgs e)
     {

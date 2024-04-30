@@ -36,6 +36,7 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10"/>
         <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.10.4"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
+        <PackageReference Include="HidSharp" Version="2.1.0" />
         <PackageReference Include="InTheHand.BluetoothLE" Version="4.0.36"/>
         <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
@@ -73,7 +74,7 @@
           <DependentUpon>HintBTWindow.axaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Common\ProgressBarWindow.axaml.cs">
+        <Compile Update="Views\Shx8x00\ProgressBarWindow.axaml.cs">
           <DependentUpon>ProgressBarWindow.axaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
