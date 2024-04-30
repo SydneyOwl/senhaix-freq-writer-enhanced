@@ -1,4 +1,9 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.IO;
+using System.Text;
+using System.Xml.Serialization;
+using MsBox.Avalonia;
+using SenhaixFreqWriter.DataModels.Shx8x00;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
@@ -37,6 +42,42 @@ public class AppData
                 var rmp = new Channel();
                 rmp.Id = j + 1;
                 channelList[i][j] = rmp;
+            }
+        }
+    }
+
+    public static AppData forceNewInstance()
+    {
+        instance = new AppData();
+        return instance;
+    }
+    public void SaveToFile(Stream s)
+    {
+        var serializer = new XmlSerializer(typeof(AppData));
+        using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
+        {
+            serializer.Serialize(streamWriter, instance);
+        }
+    }
+
+
+    public static void CreatObjFromFile(Stream s)
+    {
+        using (var streamReader = new StreamReader(s, Encoding.UTF8))
+        {
+            var xmls = streamReader.ReadToEnd();
+            AppData tmp;
+            try
+            {
+                var xmlSerializer = new XmlSerializer(typeof(AppData));
+                var stringReader = new StringReader(xmls);
+                tmp = (AppData)xmlSerializer.Deserialize(stringReader);
+                instance = tmp;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
             }
         }
     }

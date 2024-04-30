@@ -13,7 +13,43 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class DTMFWindow : Window
 {
+    public int WordTime
+    {
+        get => _wordTime;
+        set
+        {
+            _wordTime = value;
+            AppData.getInstance().dtmfs.WordTime = value;
+        }
+    }
+
+    public int IdleTime
+    {
+        get => _idleTime;
+        set
+        {
+            _idleTime = value;
+            AppData.getInstance().dtmfs.IdleTime = value;
+        }
+    }
+
     private ObservableCollection<DTMPObject> _dtmfs = new();
+
+    private int _wordTime = AppData.getInstance().dtmfs.WordTime;
+
+    private int _idleTime = AppData.getInstance().dtmfs.IdleTime;
+
+    private string _myId = AppData.getInstance().dtmfs.LocalID;
+
+    public string MyId
+    {
+        get => _myId;
+        set
+        {
+            _myId = value ?? throw new ArgumentNullException(nameof(value));
+            AppData.getInstance().dtmfs.LocalID = value;
+        }
+    }
 
     public ObservableCollection<DTMPObject> Dtmfs
     {

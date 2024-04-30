@@ -2,14 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Avalonia.Styling;
 using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.DataModels.Shx8x00;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Gt12;
@@ -29,13 +33,15 @@ public partial class MainWindow : Window
     
     private bool devSwitchFlag = false;
 
+    private string filePath = "";
+
     private Channel copiedChannel;
     public MainWindow()
     {
         InitializeComponent();
         DataContext = this;
-        _listItems.CollectionChanged += CollectionChangedHandler;
         setArea(0);
+        _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
     }
     private void About_OnClick(object? sender, RoutedEventArgs e)
@@ -53,12 +59,12 @@ public partial class MainWindow : Window
     }
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action.Equals(NotifyCollectionChangedAction.Add) ||
-            e.Action.Equals(NotifyCollectionChangedAction.Remove))
-        {
+        // if (e.Action.Equals(NotifyCollectionChangedAction.Add) ||
+        //     e.Action.Equals(NotifyCollectionChangedAction.Remove))
+        // {
             calcSeq();
             AppData.getInstance().channelList[currentArea] = listItems.ToArray();
-        }
+        // }
     }
 
     private void calcSeq()
@@ -99,8 +105,8 @@ public partial class MainWindow : Window
     private void setArea(int area)
     {
         currentArea = area;
-        listItems.Clear();
         var tmpChannel = AppData.getInstance().channelList[area];
+        listItems.Clear();
         for (var i = 0; i < tmpChannel.Length; i++)
         {
             listItems.Add(tmpChannel[i]);
@@ -357,5 +363,75 @@ public partial class MainWindow : Window
     private void DTMFMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         new DTMFWindow().ShowDialog(this);
+    }
+
+    private async void NewFileMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var box = MessageBoxManager
+            .GetMessageBoxStandard("注意", "该操作将清空编辑中的信道，确定继续？",
+                ButtonEnum.YesNo);
+
+        var result = await box.ShowWindowDialogAsync(this);
+        if (result == ButtonResult.No) return;
+        AppData.forceNewInstance();
+        setArea(0);
+    }
+
+    private void SaveFileMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(filePath))
+        {
+            Stream stream = new FileStream(filePath, FileMode.OpenOrCreate);
+            stream.Seek(0L, SeekOrigin.Begin);
+            stream.SetLength(0L);
+            AppData.getInstance().SaveToFile(stream);
+            stream.Close();
+        }
+        else
+        {
+            SaveAsMenuItem_OnClick(null, null);
+        }
+    }
+
+    private async void SaveAsMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var ts = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        var topLevel = GetTopLevel(this);
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "保存配置文件",
+            SuggestedFileName = "Backup-GT12-" + ts + ".dat"
+        });
+        if (file is not null)
+        {
+            filePath = new Uri(file.Path.ToString()).LocalPath;
+            await using var stream = await file.OpenWriteAsync();
+            stream.Seek(0L, SeekOrigin.Begin);
+            stream.SetLength(0L);
+            AppData.getInstance().SaveToFile(stream);
+            stream.Close();
+        }
+    }
+
+    private void ExitMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Close();
+        Environment.Exit(0);
+    }
+
+    private async void OpenFileMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var topLevel = GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "打开备份",
+            AllowMultiple = false
+        });
+        if (files.Count > 0)
+        {
+            await using var stream = await files[0].OpenReadAsync();
+            AppData.CreatObjFromFile(stream);
+            setArea(0);
+        }
     }
 }

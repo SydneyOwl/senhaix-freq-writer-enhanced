@@ -217,7 +217,7 @@ public partial class MainWindow : Window
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "保存配置文件",
-            SuggestedFileName = "Backup-" + ts + ".dat"
+            SuggestedFileName = "Backup-SHX8X00-" + ts + ".dat"
         });
         if (file is not null)
         {

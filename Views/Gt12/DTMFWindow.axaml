@@ -8,6 +8,7 @@
         x:Class="SenhaixFreqWriter.Views.Gt12.DTMFWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         x:DataType="vm:DTMFWindow"
+        xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
         Title="DTMF设置">
     <Canvas>
         <DataGrid Margin="20" x:Name="FMDataGrid"
@@ -42,5 +43,13 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Label Content="本机id" Canvas.Bottom="90" Canvas.Left="20"></Label>
+        <TextBox Canvas.Bottom="85" Canvas.Left="70" Text="{Binding MyId}" LostFocus="GroupCodeInputElement_OnLostFocus"></TextBox>
+        
+        <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160"></Label>
+        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}" SelectedIndex="{Binding WordTime}"></ComboBox>
+        
+        <Label Content="DTMF码间断时间" Canvas.Bottom="50" Canvas.Left="160"></Label>
+        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}" SelectedIndex="{Binding IdleTime}"></ComboBox>
     </Canvas>
 </Window>
