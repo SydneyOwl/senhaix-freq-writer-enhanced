@@ -4,16 +4,11 @@ namespace SenhaixFreqWriter.DataModels.Gt12;
 
 public partial class DTMF : ObservableObject
 {
-    [ObservableProperty]
-    private string[] group = new string[20];
-    [ObservableProperty]
-    private string[] groupName = new string[20];
-    [ObservableProperty]
-    private int idleTime = 1;
-    [ObservableProperty]
-    private string localID = "100";
-    [ObservableProperty]
-    private int wordTime = 1;
+    [ObservableProperty] private string[] group = new string[20];
+    [ObservableProperty] private string[] groupName = new string[20];
+    [ObservableProperty] private int idleTime = 1;
+    [ObservableProperty] private string localID = "100";
+    [ObservableProperty] private int wordTime = 1;
 
     public DTMF()
     {

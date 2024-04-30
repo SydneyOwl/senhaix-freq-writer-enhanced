@@ -181,7 +181,7 @@ public class WindowsSHXBLE : IBluetooth
         DeviceList = new List<BluetoothLEDevice>();
         MySerialPort.getInstance().WriteBLE = null;
         // ForceNewBleInstance();
-        Console.WriteLine("主动断开连接");
+        // Console.WriteLine("主动断开连接");
         // if (meg != null)
         // {
         //     meg.Text = "蓝牙（未连接）";
@@ -224,7 +224,7 @@ public class WindowsSHXBLE : IBluetooth
             if (asyncStatus == AsyncStatus.Completed)
             {
                 var services = asyncInfo.GetResults().Services;
-                Console.WriteLine("GattServices size=" + services.Count);
+                // Console.WriteLine("GattServices size=" + services.Count);
                 foreach (var ser in services) FindCharacteristic(ser);
 
                 CharacteristicFinish?.Invoke(services.Count);
@@ -263,7 +263,7 @@ public class WindowsSHXBLE : IBluetooth
         Array.Reverse(_Bytes1);
         CurrentDeviceMAC = BitConverter.ToString(_Bytes1, 2, 6).Replace('-', ':').ToLower();
 
-        Console.WriteLine(gattCharacteristic.CharacteristicProperties);
+        // Console.WriteLine(gattCharacteristic.CharacteristicProperties);
 
         // if (gattCharacteristic.CharacteristicProperties == GattCharacteristicProperties.Write)
         // {
@@ -348,20 +348,20 @@ public class WindowsSHXBLE : IBluetooth
                 {
                     var bleDevice = asyncInfo.GetResults();
                     DeviceList.Add(bleDevice);
-                    Console.WriteLine(bleDevice);
+                    // Console.WriteLine(bleDevice);
                 }
 
-                if (asyncStatus == AsyncStatus.Started) Console.WriteLine(asyncStatus.ToString());
-
-                if (asyncStatus == AsyncStatus.Canceled) Console.WriteLine(asyncStatus.ToString());
-
-                if (asyncStatus == AsyncStatus.Error) Console.WriteLine(asyncStatus.ToString());
+                // if (asyncStatus == AsyncStatus.Started) Console.WriteLine(asyncStatus.ToString());
+                //
+                // if (asyncStatus == AsyncStatus.Canceled) Console.WriteLine(asyncStatus.ToString());
+                //
+                // if (asyncStatus == AsyncStatus.Error) Console.WriteLine(asyncStatus.ToString());
             };
         }
         catch (Exception e)
         {
-            var msg = "没有发现设备" + e;
-            Console.WriteLine(msg);
+            // var msg = "没有发现设备" + e;
+            // Console.WriteLine(msg);
             StartBleDeviceWatcher();
         }
     }
@@ -382,7 +382,7 @@ public class WindowsSHXBLE : IBluetooth
             if (!asyncLock)
             {
                 asyncLock = true;
-                Console.WriteLine("设备已连接");
+                // Console.WriteLine("设备已连接");
                 // meg.Text = "蓝牙（已连接）";
             }
         }
@@ -395,7 +395,7 @@ public class WindowsSHXBLE : IBluetooth
     /// <returns></returns>
     private void EnableNotifications(GattCharacteristic characteristic)
     {
-        Console.WriteLine("收通知对象=" + CurrentDevice.Name + ":" + CurrentDevice.ConnectionStatus);
+        // Console.WriteLine("收通知对象=" + CurrentDevice.Name + ":" + CurrentDevice.ConnectionStatus);
         characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(CHARACTERISTIC_NOTIFICATION_TYPE)
             .Completed = (asyncInfo, asyncStatus) =>
         {
@@ -404,7 +404,7 @@ public class WindowsSHXBLE : IBluetooth
                 var status = asyncInfo.GetResults();
                 if (status == GattCommunicationStatus.Unreachable)
                 {
-                    Console.WriteLine("设备不可用");
+                    // Console.WriteLine("设备不可用");
                     if (CurrentNotifyCharacteristic != null && !asyncLock)
                         EnableNotifications(CurrentNotifyCharacteristic);
 
@@ -412,7 +412,7 @@ public class WindowsSHXBLE : IBluetooth
                 }
 
                 asyncLock = false;
-                Console.WriteLine("设备连接状态" + status);
+                // Console.WriteLine("设备连接状态" + status);
             }
         };
     }
@@ -446,16 +446,13 @@ public class WindowsSHXBLE : IBluetooth
 
     public void TriggerCharacteristicFinish(int size)
     {
-        Console.WriteLine("call me");
         if (size <= 0)
         {
-            Console.WriteLine("fail");
             connStep = BLE_CONST.STATUS_CONN_FAILED;
             Dispose();
             return;
         }
 
-        Console.WriteLine("success");
         connStep = BLE_CONST.STATUS_CONN_SUCCESS;
     }
 
@@ -470,11 +467,11 @@ public class WindowsSHXBLE : IBluetooth
 
     public void TriggerCharacteristicAdded(GattCharacteristic gatt)
     {
-        Console.WriteLine(
-            "handle:[0x{0}]  char properties:[{1}]  UUID:[{2}]",
-            gatt.AttributeHandle.ToString("X4"),
-            gatt.CharacteristicProperties.ToString(),
-            gatt.Uuid);
+        // Console.WriteLine(
+        //     "handle:[0x{0}]  char properties:[{1}]  UUID:[{2}]",
+        //     gatt.AttributeHandle.ToString("X4"),
+        //     gatt.CharacteristicProperties.ToString(),
+        //     gatt.Uuid);
         characteristics.Add(gatt);
     }
 
@@ -546,7 +543,8 @@ public class WindowsSHXBLE : IBluetooth
         {
             return false;
         }
-        var gattCharacteristic =characteristics.Find(x => x.Uuid.ToString().Contains(BLE_CONST.RW_CHARACTERISTIC_UUID));
+        var gattCharacteristic =
+characteristics.Find(x => x.Uuid.ToString().Contains(BLE_CONST.RW_CHARACTERISTIC_UUID));
         if (gattCharacteristic == null)
         {
             return false;

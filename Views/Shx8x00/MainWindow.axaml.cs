@@ -28,7 +28,7 @@ public partial class MainWindow : Window
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
 
     private string savePath = "";
-    
+
     private ChannelData tmpChannel;
 
     private bool devSwitchFlag = false;
@@ -62,10 +62,7 @@ public partial class MainWindow : Window
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         Close();
-        if (!devSwitchFlag)
-        {
-            Environment.Exit(0);
-        }
+        if (!devSwitchFlag) Environment.Exit(0);
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -310,7 +307,7 @@ public partial class MainWindow : Window
                 return;
             }
         }
-        
+
 
         // await new PortSelectionWindow().ShowDialog(this);
 
@@ -419,7 +416,7 @@ public partial class MainWindow : Window
 #if WINDOWS
         osBLE = new WindowsSHXBLE();
 #endif
-        Console.WriteLine("Requesting Bluetooth Device...");
+        // Console.WriteLine("Requesting Bluetooth Device...");
         // for windows and macoos
         try
         {
@@ -470,7 +467,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        Console.WriteLine("Connected");
+        // Console.WriteLine("Connected");
         if (!await osBLE.ConnectSHXRWServiceAsync())
         {
             hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
@@ -483,7 +480,7 @@ public partial class MainWindow : Window
         {
             hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
             hint.setButtonStatus(true);
-            
+
             return;
         }
 
@@ -517,7 +514,7 @@ public partial class MainWindow : Window
 
     private async void AdvancedMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-       await MessageBoxManager.GetMessageBoxStandard("注意", "请在遵守当地无线电管理相关条例的前提下使用本功能！").ShowWindowDialogAsync(this);
+        await MessageBoxManager.GetMessageBoxStandard("注意", "请在遵守当地无线电管理相关条例的前提下使用本功能！").ShowWindowDialogAsync(this);
         new OtherFunctionWindow().ShowDialog(this);
     }
 }

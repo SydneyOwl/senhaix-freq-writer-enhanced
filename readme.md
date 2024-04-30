@@ -7,11 +7,15 @@
 
 > [!important]
 > + 如有必要，请在任何操作前首先进行备份操作！
-> + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`及以后将停止维护winform版本（windows单平台）的写频软件（**如无重大错误不再更新**），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
+> + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`及以后将停止维护winform版本（windows单平台）的写频软件（
+    **如无重大错误不再更新**
+    ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
+    下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
 
 ## 简介
 
-该写频软件使用`net6.0`+`Avalonia`对森海克斯8600/8800/GT12的原官方写频软件（winform）进行了重构，并合并入一个软件中，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
+该写频软件使用`net6.0`+`Avalonia`
+对森海克斯8600/8800/GT12的原官方写频软件（winform）进行了重构，并合并入一个软件中，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
 
 目前适配情况：
 
@@ -22,24 +26,26 @@
 
 运行平台：
 
-| -                | 森海克斯8800/8600通用版（Windows/Linux/macOS）               | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------- |
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上             |
+| -         | 森海克斯8800/8600通用版（Windows/Linux/macOS）                                                    | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
+|-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
 
-[^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
+[^1]: Windows 7 SP1 is supported
+with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
+installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
 [^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
 目前各版本支持的功能：
 
-| -                                    | 森海克斯8800/8600通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-| ------------------------------------ | -------------------------------------------------- | --------------------------------------- | ---------------------------- |
-| 原有的所有功能                       | :white_check_mark:                                 | :white_check_mark:                      | :white_check_mark:           |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                 | :white_check_mark:                      | :white_check_mark:           |
-| 蓝牙写频                             | 仅Windows，其他平台的还在写                        | 仅蓝牙版支持                            | :heavy_minus_sign:           |
-| （以下为支持的插件）                 |                                                    |                                         |                              |
-| 开机画面修改                         | 开发中                                             | :white_check_mark:                      | :heavy_minus_sign:           |
-| 打星助手                             | 开发中                                             | :white_check_mark:                      | :white_check_mark:           |
+| -                  | 森海克斯8800/8600通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+|--------------------|-------------------------------------------|------------------------------|-----------------------|
+| 原有的所有功能            | :white_check_mark:                        | :white_check_mark:           | :white_check_mark:    |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                        | :white_check_mark:           | :white_check_mark:    |
+| 蓝牙写频               | 仅Windows，其他平台的还在写                         | 仅蓝牙版支持                       | :heavy_minus_sign:    |
+| （以下为支持的插件）         |                                           |                              |                       |
+| 开机画面修改             | 开发中                                       | :white_check_mark:           | :heavy_minus_sign:    |
+| 打星助手               | 开发中                                       | :white_check_mark:           | :white_check_mark:    |
 
 [^4]:该版本自带runtime，无需额外安装
 
@@ -66,25 +72,27 @@
 
 ## 其他
 
-
 > [!WARNING]  
 > 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
-卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。另外，请注意以下几点：
+卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)
+，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。另外，请注意以下几点：
 
 + 除亚音外，所有频率单位均为 MHz（兆赫兹）。
 + 针对 FM 卫星，默认按照 U 段 ±10KHz，V 段 ±5KHz 生成。
-+ SO-50 卫星的 OPEN 阶段为转发器激活之用。若转发器已激活，可跳过本阶段。两个 OPEN 分别对应 SO-50 出现和过顶，您可根据需要发射激活亚音。**（本软件未生成OPEN阶段）**
++ SO-50 卫星的 OPEN 阶段为转发器激活之用。若转发器已激活，可跳过本阶段。两个 OPEN 分别对应 SO-50 出现和过顶，您可根据需要发射激活亚音。
+  **（本软件未生成OPEN阶段）**
 + CAS-3H 和 PO-101 按照时间表计划开启转发器，请关注官方发布的时间表以及开机计划。
 + ISS-FM 转发器的开启请关注最新动态，在遇到 SSTV 活动、宇航员出舱活动等情况下可能关闭。
 + AO-91 卫星目前因电池故障，只能在日光下提供转发或工作状态不稳定，可能突然关机。
-中国空间站（CSS）已完成业余载荷频率协调，但截至目前，CSS 的业余载荷还并未投入使用，请关注最新消息。
+  中国空间站（CSS）已完成业余载荷频率协调，但截至目前，CSS 的业余载荷还并未投入使用，请关注最新消息。
 + UVSQ-SAT 卫星目前以科研任务为主，何时开放转发器也请关注最新消息。
 + Tevel 系列卫星较多，且都为同一参数。因此是按计划，在部分时间开启部分卫星的转发器，请关注最新信息以了解哪些卫星的转发器在何时处于可用状态。
 + 本表中亚音频率的单位为 Hz（赫兹）。若生成的数据亚音标注为OFF，表明此卫星转发器无需亚音即可使用。
 + *以上几点来源：https://forum.hamcq.cn/d/351
 
-shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector) 以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
+shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)
+以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
 
 ## 免责声明
 

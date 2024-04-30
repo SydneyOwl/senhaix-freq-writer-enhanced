@@ -38,12 +38,14 @@ public partial class VfoModeWindow : Window
             textBox.Text = "440.62500";
             return;
         }
+
         if (text.Replace(".", "").Length > 8)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "精度过高！").ShowWindowDialogAsync(this);
             textBox.Text = "440.62500";
             return;
         }
+
         if (text != "")
         {
             var text2 = text;
@@ -62,6 +64,7 @@ public partial class VfoModeWindow : Window
                 break;
             }
         }
+
         if (!(text != "")) return;
 
         var array = text.Split('.');
@@ -71,17 +74,22 @@ public partial class VfoModeWindow : Window
             int res;
             if (!int.TryParse(array[j], out res))
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + FREQ.minFreq + "--" + FREQ.maxFreq).ShowWindowDialogAsync(this);
-                textBox.Text =  "440.62500";
+                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + FREQ.minFreq + "--" + FREQ.maxFreq)
+                    .ShowWindowDialogAsync(this);
+                textBox.Text = "440.62500";
                 return;
             }
+
             list.Add(res);
-        };
+        }
+
+        ;
 
         if (list[0] < FREQ.minFreq || list[0] >= FREQ.maxFreq)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + FREQ.minFreq + "--" + FREQ.maxFreq).ShowWindowDialogAsync(this);
-            textBox.Text =  "440.62500";
+            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + FREQ.minFreq + "--" + FREQ.maxFreq)
+                .ShowWindowDialogAsync(this);
+            textBox.Text = "440.62500";
             return;
         }
 
@@ -154,16 +162,21 @@ public partial class VfoModeWindow : Window
             int res;
             if (!int.TryParse(array[j], out res))
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + FREQ.minFreq + "--" + FREQ.maxFreq).ShowWindowDialogAsync(this);
-                textBox.Text =  "440.62500";
+                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + FREQ.minFreq + "--" + FREQ.maxFreq)
+                    .ShowWindowDialogAsync(this);
+                textBox.Text = "440.62500";
                 return;
             }
+
             list.Add(res);
-        };
+        }
+
+        ;
 
         if (list[0] >= 100)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + FREQ.minFreq + "--" + FREQ.maxFreq).ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + FREQ.minFreq + "--" + FREQ.maxFreq)
+                .ShowWindowDialogAsync(this);
             textBox.Text = "00.0000";
             return;
         }

@@ -21,21 +21,21 @@ namespace SenhaixFreqWriter.Views.Gt12;
 public partial class MainWindow : Window
 {
     private ObservableCollection<Channel> _listItems = new();
+
     public ObservableCollection<Channel> listItems
     {
         get => _listItems;
-        set
-        {
-            _listItems = value;
-        }
+        set => _listItems = value;
     }
+
     public int currentArea = 0;
-    
+
     private bool devSwitchFlag = false;
 
     private string filePath = "";
 
     private Channel copiedChannel;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -44,36 +44,34 @@ public partial class MainWindow : Window
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
     }
+
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
         var aboutWindow = new AboutWindow();
         aboutWindow.ShowDialog(this);
     }
+
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         Close();
-        if (!devSwitchFlag)
-        {
-            Environment.Exit(0);
-        }
+        if (!devSwitchFlag) Environment.Exit(0);
     }
+
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
         // if (e.Action.Equals(NotifyCollectionChangedAction.Add) ||
         //     e.Action.Equals(NotifyCollectionChangedAction.Remove))
         // {
-            calcSeq();
-            AppData.getInstance().channelList[currentArea] = listItems.ToArray();
+        calcSeq();
+        AppData.getInstance().channelList[currentArea] = listItems.ToArray();
         // }
     }
 
     private void calcSeq()
     {
-        for (var i = 0; i < listItems.Count; i++)
-        {
-            listItems[i].Id = i + 1;
-        }
+        for (var i = 0; i < listItems.Count; i++) listItems[i].Id = i + 1;
     }
+
     private string calcNameSize(string name)
     {
         var num = 0;
@@ -102,17 +100,15 @@ public partial class MainWindow : Window
 
         return text;
     }
+
     private void setArea(int area)
     {
         currentArea = area;
         var tmpChannel = AppData.getInstance().channelList[area];
         listItems.Clear();
-        for (var i = 0; i < tmpChannel.Length; i++)
-        {
-            listItems.Add(tmpChannel[i]);
-        }
+        for (var i = 0; i < tmpChannel.Length; i++) listItems.Add(tmpChannel[i]);
         areaName.Text = AppData.getInstance().bankName[area];
-        areaLabel.Content = $"{area+1}/30";
+        areaLabel.Content = $"{area + 1}/30";
     }
 
     private async void readChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -120,44 +116,39 @@ public partial class MainWindow : Window
         await new ProgressBarWindow(OP_TYPE.READ).ShowDialog(this);
         setArea(0);
     }
+
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         await new ProgressBarWindow(OP_TYPE.WRITE).ShowDialog(this);
         setArea(0);
     }
+
     private void foreChan_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (currentArea > 0)
-        {
-            setArea(currentArea-1);
-        }
+        if (currentArea > 0) setArea(currentArea - 1);
     }
+
     private void nextChan_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (currentArea<29)
-        {
-            setArea(currentArea+1);
-        }
+        if (currentArea < 29) setArea(currentArea + 1);
     }
-    
+
     private void jumpChan_OnClick(object? sender, RoutedEventArgs e)
     {
         var tarChan = jumpTextBox.Text;
         int res;
         if (int.TryParse(tarChan, out res))
-        {
             if (res is > 0 and < 31)
-            {
-                setArea(res-1);
-            }
-        }
+                setArea(res - 1);
 
         jumpTextBox.Text = "";
     }
+
     private void Light_OnClick(object? sender, RoutedEventArgs e)
     {
         RequestedThemeVariant = ThemeVariant.Light;
     }
+
     private void Dark_OnClick(object? sender, RoutedEventArgs e)
     {
         RequestedThemeVariant = ThemeVariant.Dark;
@@ -184,6 +175,7 @@ public partial class MainWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", "输入频率格式有误").ShowWindowDialogAsync(this);
             return "-1";
         }
+
         var array = text.Split('.');
         var list = new List<int>();
         for (var j = 0; j < array.Length; j++) list.Add(int.Parse(array[j]));
@@ -204,15 +196,17 @@ public partial class MainWindow : Window
 
             num += list[1];
         }
+
         if (num % 125 != 0)
         {
             num /= 125;
             num *= 125;
         }
+
         return num.ToString().Insert(3, ".");
     }
 
-    
+
     private void txFreq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
@@ -224,13 +218,14 @@ public partial class MainWindow : Window
         if (parsed.Equals("-1"))
         {
             dataContext.TxFreq = "";
-            listItems[id-1] = dataContext;
+            listItems[id - 1] = dataContext;
             return;
         }
 
         dataContext.TxFreq = parsed;
-        listItems[id-1] = dataContext;
+        listItems[id - 1] = dataContext;
     }
+
     private void rxfreq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
@@ -242,7 +237,7 @@ public partial class MainWindow : Window
         if (parsed.Equals("-1"))
         {
             dataContext.RxFreq = "";
-            listItems[id-1] = dataContext;
+            listItems[id - 1] = dataContext;
             return;
         }
 
@@ -254,37 +249,39 @@ public partial class MainWindow : Window
                 Id = id,
                 RxFreq = parsed,
                 StrRxCtsDcs = "OFF",
-                  TxFreq  = parsed,
-                  StrTxCtsDcs = "OFF",
-                  TxPower = 0,
-                  Bandwide = 0,
-                  ScanAdd = 0,
-                  SignalGroup = 0,
-                  SqMode = 0,
-                  Pttid = 0,
-                  SignalSystem = 0,
-                  IsVisable = true
+                TxFreq = parsed,
+                StrTxCtsDcs = "OFF",
+                TxPower = 0,
+                Bandwide = 0,
+                ScanAdd = 0,
+                SignalGroup = 0,
+                SqMode = 0,
+                Pttid = 0,
+                SignalSystem = 0,
+                IsVisable = true
             };
-            listItems[id-1] = data;
+            listItems[id - 1] = data;
         }
         else
         {
             dataContext.RxFreq = parsed;
-            listItems[id-1] = dataContext;
+            listItems[id - 1] = dataContext;
         }
     }
+
     private void SwitchDevice_OnClick(object? sender, RoutedEventArgs e)
     {
         devSwitchFlag = true;
         new DeviceSelectWindow().Show();
         Close();
     }
-    
+
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
         copiedChannel = listItems[selected];
     }
+
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
@@ -292,6 +289,7 @@ public partial class MainWindow : Window
         listItems[selected] = new Channel();
         calcSeq();
     }
+
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         if (copiedChannel == null) return;
@@ -299,12 +297,14 @@ public partial class MainWindow : Window
         listItems[selected] = copiedChannel.DeepCopy();
         calcSeq();
     }
+
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
         listItems[selected] = new Channel();
         calcSeq();
     }
+
     private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
@@ -312,6 +312,7 @@ public partial class MainWindow : Window
         listItems[31] = new Channel();
         calcSeq();
     }
+
     private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
@@ -331,6 +332,7 @@ public partial class MainWindow : Window
         listItems[selected + 1] = new Channel();
         calcSeq();
     }
+
     private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var cached_channel = new ObservableCollection<Channel>();
@@ -350,7 +352,7 @@ public partial class MainWindow : Window
     {
         new VfoModeWindow().ShowDialog(this);
     }
-    
+
 
     private void OptionalMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {

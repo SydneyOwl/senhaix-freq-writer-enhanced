@@ -29,14 +29,14 @@
                 x:Name="StartButton"
                 Canvas.Top="160"
                 Canvas.Left="100"
-                Content="开始" 
-                Click="StartButton_OnClick"/>
+                Content="开始"
+                Click="StartButton_OnClick" />
         <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
                 x:Name="CloseButton"
                 Canvas.Top="160"
                 Canvas.Left="260"
-                Content="取消" 
-                Click="Cancel_OnClick"/>
+                Content="取消"
+                Click="Cancel_OnClick" />
     </Canvas>
 
 

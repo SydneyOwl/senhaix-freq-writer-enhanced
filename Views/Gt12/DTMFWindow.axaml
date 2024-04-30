@@ -1,8 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="400" Height="550"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Gt12.DTMFWindow"
@@ -22,34 +20,37 @@
                   Width="350"
                   RowBackground="{DynamicResource dgBackgroundBrush}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }"/>
-                <DataGridTemplateColumn Header="码" IsReadOnly="False" 
-                                        Width="*" >
+                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTemplateColumn Header="码" IsReadOnly="False"
+                                        Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Group}" LostFocus="GroupCodeInputElement_OnLostFocus"/>
+                            <TextBox Text="{Binding Group}" LostFocus="GroupCodeInputElement_OnLostFocus" />
                             <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="名称" IsReadOnly="False" 
-                                        Width="*" >
+                <DataGridTemplateColumn Header="名称" IsReadOnly="False"
+                                        Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding GroupName}" LostFocus="GroupNameInputElement_OnLostFocus"/>
+                            <TextBox Text="{Binding GroupName}" LostFocus="GroupNameInputElement_OnLostFocus" />
                             <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="本机id" Canvas.Bottom="90" Canvas.Left="20"></Label>
-        <TextBox Canvas.Bottom="85" Canvas.Left="70" Text="{Binding MyId}" LostFocus="GroupCodeInputElement_OnLostFocus"></TextBox>
-        
-        <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160"></Label>
-        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}" SelectedIndex="{Binding WordTime}"></ComboBox>
-        
-        <Label Content="DTMF码间断时间" Canvas.Bottom="50" Canvas.Left="160"></Label>
-        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}" SelectedIndex="{Binding IdleTime}"></ComboBox>
+        <Label Content="本机id" Canvas.Bottom="90" Canvas.Left="20" />
+        <TextBox Canvas.Bottom="85" Canvas.Left="70" Text="{Binding MyId}"
+                 LostFocus="GroupCodeInputElement_OnLostFocus" />
+
+        <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160" />
+        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}"
+                  SelectedIndex="{Binding WordTime}" />
+
+        <Label Content="DTMF码间断时间" Canvas.Bottom="50" Canvas.Left="160" />
+        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}"
+                  SelectedIndex="{Binding IdleTime}" />
     </Canvas>
 </Window>

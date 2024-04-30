@@ -13,22 +13,19 @@ public class HIDTools
     public int OutputReportLength;
 
     public int InputReportLength;
-    
+
     public HidStream hidStream;
-    
+
     public static HIDTools instance;
-    
-    
+
+
     //TODO: enhance
     public byte[] rxBuffer = new byte[64];
     public bool flagReceiveData;
 
     public static HIDTools getInstance()
     {
-        if (instance == null)
-        {
-            instance = new HIDTools();
-        }
+        if (instance == null) instance = new HIDTools();
 
         return instance;
     }
@@ -37,10 +34,7 @@ public class HIDTools
     {
         var list = DeviceList.Local;
         Gt12Device = list.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID);
-        if (Gt12Device == null)
-        {
-            return HID_STATUS.DEVICE_NOT_FOUND;
-        }
+        if (Gt12Device == null) return HID_STATUS.DEVICE_NOT_FOUND;
         OutputReportLength = Gt12Device.GetMaxInputReportLength();
         InputReportLength = Gt12Device.GetMaxInputReportLength();
         if (Gt12Device.TryOpen(out hidStream))
@@ -55,6 +49,7 @@ public class HIDTools
             return HID_STATUS.NO_DEVICE_CONNECTED;
         }
     }
+
     private void ReadCompleted(IAsyncResult iResult)
     {
         var array = (byte[])iResult.AsyncState;
@@ -76,12 +71,13 @@ public class HIDTools
             CloseDevice();
         }
     }
+
     private void BeginAsyncRead()
     {
         var array = new byte[InputReportLength];
         var asyncResult = hidStream.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
     }
-    
+
     public HID_STATUS Write(Report r)
     {
         if (hidStream.CanWrite)
@@ -105,7 +101,7 @@ public class HIDTools
 
         return HID_STATUS.WRITE_FAILD;
     }
-    
+
     public bool Send(byte[] byData)
     {
         var array = new byte[byData.Length];

@@ -24,6 +24,7 @@ public partial class OptionalWindow : Window
 
     public Function _func = AppData.getInstance().funCfgs;
     public MDC1200 _mdc = AppData.getInstance().mdcs;
+
     public OptionalWindow()
     {
         InitializeComponent();
@@ -41,16 +42,15 @@ public partial class OptionalWindow : Window
             textbox.Text = "";
             return;
         }
+
         foreach (var c in cont)
-        {
             if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') ||
-                (c >= 'a' && c <= 'z')))
+                  (c >= 'a' && c <= 'z')))
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "呼号错误！").ShowWindowDialogAsync(this);
                 textbox.Text = "";
                 return;
             }
-        }
 
         textbox.Text = textbox.Text.ToUpper();
     }
@@ -67,14 +67,11 @@ public partial class OptionalWindow : Window
         }
 
         foreach (var c in cont)
-        {
             if ((c < '0' || c > '9') && (c < 'A' || c > 'F'))
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "只能是数字或大写字母！").ShowWindowDialogAsync(this);
                 textbox.Text = "";
                 return;
             }
-        }
-        
     }
 }

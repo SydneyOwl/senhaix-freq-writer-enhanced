@@ -5,45 +5,32 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
-public partial class Channel:ObservableObject
+public partial class Channel : ObservableObject
 {
-    [ObservableProperty]
-    private int bandwide;
+    [ObservableProperty] private int bandwide;
+
     [ObservableProperty]
     // Useless member: id
     private int id;
-    [ObservableProperty]
-    private string name = "";
-    [ObservableProperty]
-    private int pttid;
-    [ObservableProperty]
-    private string rxFreq = "";
-    [ObservableProperty]
-    private int scanAdd;
-    [ObservableProperty]
-    private int signalGroup;
-    [ObservableProperty]
-    private int signalSystem;
-    [ObservableProperty]
-    private int sqMode;
-    [ObservableProperty]
-    private string strRxCtsDcs = "OFF";
-    [ObservableProperty]
-    private string strTxCtsDcs = "OFF";
-    [ObservableProperty]
-    private string txFreq = "";
-    [ObservableProperty]
-    private int txPower;
 
-    [XmlIgnore]
-    [ObservableProperty]
-    private bool isVisable;
+    [ObservableProperty] private string name = "";
+    [ObservableProperty] private int pttid;
+    [ObservableProperty] private string rxFreq = "";
+    [ObservableProperty] private int scanAdd;
+    [ObservableProperty] private int signalGroup;
+    [ObservableProperty] private int signalSystem;
+    [ObservableProperty] private int sqMode;
+    [ObservableProperty] private string strRxCtsDcs = "OFF";
+    [ObservableProperty] private string strTxCtsDcs = "OFF";
+    [ObservableProperty] private string txFreq = "";
+    [ObservableProperty] private int txPower;
+
+    [XmlIgnore] [ObservableProperty] private bool isVisable;
 
     public Channel()
     {
-        
     }
-    
+
     public Channel(int id, string rxFreq, string rxCts, string txFreq, string txCts, int power, int bandwide,
         int scanAdd, int sqMode, int pttid, int signal, string name)
     {
@@ -60,7 +47,7 @@ public partial class Channel:ObservableObject
         signalGroup = signal;
         this.name = name;
     }
-    
+
     public Channel DeepCopy()
     {
         Channel rel;
@@ -72,6 +59,7 @@ public partial class Channel:ObservableObject
             rel = (Channel)xml.Deserialize(ms);
             ms.Close();
         }
+
         return rel;
     }
 }

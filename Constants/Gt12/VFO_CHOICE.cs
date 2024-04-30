@@ -35,7 +35,7 @@ public class VFO_CHOICE
         "D754I"
     };
 
-    public static ObservableCollection<string> busyLock = new ObservableCollection<string>()
+    public static ObservableCollection<string> busyLock = new()
     {
         "关", "开"
     };
@@ -55,9 +55,10 @@ public class VFO_CHOICE
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
         "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"
     };
+
     public static ObservableCollection<string> step = new()
     {
-        "2.5  KHz", "5.0  KHz", "6.25 KHz", "10.0 KHz", "12.5 KHz", "20.0 KHz", "25.0 KHz", "50.0 KHz" 
+        "2.5  KHz", "5.0  KHz", "6.25 KHz", "10.0 KHz", "12.5 KHz", "20.0 KHz", "25.0 KHz", "50.0 KHz"
     };
 
     public static ObservableCollection<string> bandwidth = new()
@@ -69,6 +70,7 @@ public class VFO_CHOICE
     {
         "高", "中", "低"
     };
+
     public static ObservableCollection<string> sqmode = new()
     {
         "QT/DQT", "QT/DQT*DTMF", "QT/DQT+DTMF"

@@ -57,6 +57,7 @@ public partial class ProgressBarWindow : Window
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
             return;
         }
+
         if (opRes)
         {
             opRes = false;
@@ -95,7 +96,7 @@ public partial class ProgressBarWindow : Window
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            // Console.WriteLine(e.Message);
             // ignored
         }
 

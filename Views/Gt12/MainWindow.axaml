@@ -12,8 +12,7 @@
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Gt12.MainWindow"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
-        >
+        WindowState="Maximized">
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="文件">
@@ -142,7 +141,8 @@
                 <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             </StackPanel>
         </Border>
-        <Border Height="40" Background="{DynamicResource tbBackgroundBrush}"  BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
+        <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"
+                DockPanel.Dock="Bottom">
             <StackPanel Orientation="Horizontal">
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="foreChan_OnClick">
                     <StackPanel Orientation="Horizontal">
@@ -150,18 +150,18 @@
                         <TextBlock Text="上一区域" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label FontSize="15" Content="1/30" Margin="10,5,10,0" x:Name="areaLabel"></Label>
+                <Label FontSize="15" Content="1/30" Margin="10,5,10,0" x:Name="areaLabel" />
                 <Button HorizontalAlignment="Left" Margin="0,0,0,0" Click="nextChan_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_down_regular}" Margin="0,0,10,0" />
                         <TextBlock Text="下一区域" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label Foreground="Black" FontSize="16" Content="区域名称：" Margin="20,5,0,0"/>
-                <TextBox Width="140" FontSize="18" x:Name="areaName" LostFocus="AreaName_OnLostFocus"></TextBox>
+                <Label Foreground="Black" FontSize="16" Content="区域名称：" Margin="20,5,0,0" />
+                <TextBox Width="140" FontSize="18" x:Name="areaName" LostFocus="AreaName_OnLostFocus" />
                 <Label Foreground="Black" FontSize="16" Content="跳转到区域：" Margin="50,5,0,0" />
-                <TextBox Width="50" FontSize="18" x:Name="jumpTextBox"></TextBox>
-                <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="jumpChan_OnClick" >
+                <TextBox Width="50" FontSize="18" x:Name="jumpTextBox" />
+                <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="jumpChan_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="跳转" VerticalAlignment="Center" />
                     </StackPanel>
@@ -200,7 +200,7 @@
                     <DataGridTemplateColumn Header="接收频率" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding RxFreq}" LostFocus="rxfreq_OnLostFocus"/>
+                                <TextBox Text="{Binding RxFreq}" LostFocus="rxfreq_OnLostFocus" />
                                 <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -211,9 +211,8 @@
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
                                           ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}"
                                           SelectedItem="{Binding StrRxCtsDcs, Mode=TwoWay}"
-                                          IsVisible="{Binding IsVisable}"
-                                          />
-                                          <!-- SelectionChanged="SelectingItemsControl_OnSelectionChanged" /> -->
+                                          IsVisible="{Binding IsVisable}" />
+                                <!-- SelectionChanged="SelectingItemsControl_OnSelectionChanged" /> -->
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -267,7 +266,8 @@
                     <DataGridTemplateColumn Header="信令" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox SelectedIndex="{Binding SignalSystem, Mode=TwoWay}" HorizontalAlignment="Center"
+                                <ComboBox SelectedIndex="{Binding SignalSystem, Mode=TwoWay}"
+                                          HorizontalAlignment="Center"
                                           ItemsSource="{x:Static constants:CHAN_CHOICE.sigSys}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
@@ -294,7 +294,8 @@
                     <DataGridTemplateColumn Header="信令码" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox SelectedIndex="{Binding SignalGroup, Mode=TwoWay}" HorizontalAlignment="Center"
+                                <ComboBox SelectedIndex="{Binding SignalGroup, Mode=TwoWay}"
+                                          HorizontalAlignment="Center"
                                           ItemsSource="{x:Static constants:CHAN_CHOICE.sigGrp}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>

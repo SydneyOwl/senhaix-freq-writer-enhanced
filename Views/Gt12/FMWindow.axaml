@@ -1,11 +1,8 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="400" Height="450"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Gt12.FMWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         x:DataType="vm:FMWindow"
@@ -21,20 +18,21 @@
                   Height="350"
                   Width="350"
                   RowBackground="{DynamicResource dgBackgroundBrush}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }"/>
-                    <DataGridTemplateColumn Header="频点" IsReadOnly="False" 
-                                            Width="*" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Freq}" LostFocus="FreqInputElement_OnLostFocus"/>
-                                <!-- LostFocus="rxFreq_OnLostFocus" /> -->
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTemplateColumn Header="频点" IsReadOnly="False"
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Freq}" LostFocus="FreqInputElement_OnLostFocus" />
+                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
-        <Label Content="当前频率:" Canvas.Bottom="20" Canvas.Left="20"></Label>
-        <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}" LostFocus="currFreqInputElement_OnLostFocus"></TextBox>
+        <Label Content="当前频率:" Canvas.Bottom="20" Canvas.Left="20" />
+        <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}"
+                 LostFocus="currFreqInputElement_OnLostFocus" />
     </Canvas>
 </Window>

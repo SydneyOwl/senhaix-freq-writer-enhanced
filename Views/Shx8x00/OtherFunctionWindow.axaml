@@ -1,44 +1,43 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="400" Height="300"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.OtherFunctionWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
-        xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8x00"
         x:DataType="vm:OtherFunctionWindow"
         Title="高级设置">
     <Canvas>
         <Border Height="250" Width="350" Margin="20" BorderThickness="1" BorderBrush="Black" />
-        <Label Content="高级设置" Background="White" Canvas.Top="10" Canvas.Left="30" FontSize="20"></Label>
-        <Label Content="VHF频率范围(MHz)" Canvas.Top="50" Canvas.Left="30"></Label>
-        <TextBox x:Name="VhfMinTextBox" Canvas.Top="80" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfVHF}"></TextBox>
-        <Label Content="-" Canvas.Top="85" Canvas.Left="95"></Label>
-        <TextBox x:Name="VhfMaxTextBox" Canvas.Top="80" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfVHF}"></TextBox>
-        
-        <Label Content="UHF频率范围(MHz)" Canvas.Top="120" Canvas.Left="30"></Label>
-        <TextBox x:Name="UhfMinTextBox" Canvas.Top="150" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfUHF}"></TextBox>
-        <Label Content="-" Canvas.Top="155" Canvas.Left="95"></Label>
-        <TextBox x:Name="UhfMaxTextBox" Canvas.Top="150" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfUHF}"></TextBox>
-        
-        <Label Content="开机字符1" Canvas.Top="50" Canvas.Left="200"></Label>
-        <TextBox x:Name="PwrChar1Box" Canvas.Top="80" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar1}" LostFocus="tb_PowerUpChar_TextChanged"></TextBox>
-        
-        <Label Content="开机字符2" Canvas.Top="120" Canvas.Left="200"></Label>
-        <TextBox x:Name="PwrChar2Box" Canvas.Top="150" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar2}"  LostFocus="tb_PowerUpChar_TextChanged"></TextBox>
-        
-        <CheckBox Canvas.Top="200" Canvas.Left="230"  IsEnabled="False"></CheckBox>
-        <Label Canvas.Top="205" Canvas.Left="250" Content="480M以上发射"></Label>
-        
+        <Label Content="高级设置" Background="White" Canvas.Top="10" Canvas.Left="30" FontSize="20" />
+        <Label Content="VHF频率范围(MHz)" Canvas.Top="50" Canvas.Left="30" />
+        <TextBox x:Name="VhfMinTextBox" Canvas.Top="80" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfVHF}" />
+        <Label Content="-" Canvas.Top="85" Canvas.Left="95" />
+        <TextBox x:Name="VhfMaxTextBox" Canvas.Top="80" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfVHF}" />
+
+        <Label Content="UHF频率范围(MHz)" Canvas.Top="120" Canvas.Left="30" />
+        <TextBox x:Name="UhfMinTextBox" Canvas.Top="150" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfUHF}" />
+        <Label Content="-" Canvas.Top="155" Canvas.Left="95" />
+        <TextBox x:Name="UhfMaxTextBox" Canvas.Top="150" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfUHF}" />
+
+        <Label Content="开机字符1" Canvas.Top="50" Canvas.Left="200" />
+        <TextBox x:Name="PwrChar1Box" Canvas.Top="80" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar1}"
+                 LostFocus="tb_PowerUpChar_TextChanged" />
+
+        <Label Content="开机字符2" Canvas.Top="120" Canvas.Left="200" />
+        <TextBox x:Name="PwrChar2Box" Canvas.Top="150" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar2}"
+                 LostFocus="tb_PowerUpChar_TextChanged" />
+
+        <CheckBox Canvas.Top="200" Canvas.Left="230" IsEnabled="False" />
+        <Label Canvas.Top="205" Canvas.Left="250" Content="480M以上发射" />
+
         <Button HorizontalAlignment="Left" Canvas.Top="200" Canvas.Left="40" Click="ReadConfig_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="读取" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        
+
         <Button HorizontalAlignment="Left" Canvas.Top="200" Canvas.Left="140" Click="WriteConfig_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />

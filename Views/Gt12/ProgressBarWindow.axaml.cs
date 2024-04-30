@@ -24,10 +24,10 @@ public partial class ProgressBarWindow : Window
 
     private bool stopUpdateValue = false;
 
-    private bool opRes; 
+    private bool opRes;
 
     private CancellationTokenSource cancelSource;
-    
+
     public ProgressBarWindow(OP_TYPE op)
     {
         operation = op;
@@ -38,26 +38,28 @@ public partial class ProgressBarWindow : Window
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (HIDTools.getInstance().hidStream==null || !HIDTools.getInstance().hidStream.CanRead)
+        if (HIDTools.getInstance().hidStream == null || !HIDTools.getInstance().hidStream.CanRead)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请连接写频线！").ShowWindowDialogAsync(this);
             return;
         }
+
         if (opRes)
         {
             opRes = false;
             Close();
             return;
         }
+
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
         progressBar.Value = 0;
-        thread_Communication = new Thread(()=>Task_Communication(cancelSource.Token));
+        thread_Communication = new Thread(() => Task_Communication(cancelSource.Token));
         thread_Communication.Start();
-        thread_progress = new Thread(()=>Task_Progress(cancelSource.Token));
+        thread_progress = new Thread(() => Task_Progress(cancelSource.Token));
         thread_progress.Start();
     }
-    
+
     private void Task_Communication(CancellationToken token)
     {
         var flag = com.DoIt(token);
@@ -69,12 +71,13 @@ public partial class ProgressBarWindow : Window
         while (!stopUpdateValue && !token.IsCancellationRequested)
         {
             ProgressBarValue pgv;
-            if (!com.statusQueue.TryDequeue(out pgv)){continue;};
+            if (!com.statusQueue.TryDequeue(out pgv)) continue;
+            ;
             Dispatcher.UIThread.Post(() => statusLabel.DataContext = pgv.content);
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.value);
         }
     }
-    
+
     private void HandleResult(bool result)
     {
         if (result)
@@ -87,6 +90,7 @@ public partial class ProgressBarWindow : Window
             statusLabel.Content = "失败!";
             opRes = false;
         }
+
         StartButton.IsEnabled = true;
         if (opRes)
         {
@@ -98,8 +102,10 @@ public partial class ProgressBarWindow : Window
             StartButton.Content = "重试";
             CloseButton.IsEnabled = true;
         }
+
         stopUpdateValue = true;
     }
+
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
         if (thread_progress != null || thread_Communication != null)
@@ -109,7 +115,7 @@ public partial class ProgressBarWindow : Window
             thread_Communication.Join();
             AppData.forceNewInstance();
         }
+
         Close();
     }
-
 }

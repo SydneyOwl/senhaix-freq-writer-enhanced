@@ -8,26 +8,32 @@ public class CHAN_CHOICE
     {
         "高", "中", "低"
     };
+
     public static ObservableCollection<string> bandwidth = new()
     {
         "宽", "窄"
     };
+
     public static ObservableCollection<string> scanadd = new()
     {
         "删除", "添加"
     };
+
     public static ObservableCollection<string> sigSys = new()
     {
         "OFF", "SDC", "DTMF"
     };
+
     public static ObservableCollection<string> sql = new()
     {
         "QT/DQT", "QT/DQT*DTMF", "QT/DQT+DTMF"
     };
+
     public static ObservableCollection<string> pttid = new()
     {
         "无", "按下PTT", "松开PTT", "按下和松开PTT"
     };
+
     public static ObservableCollection<string> sigGrp = new()
     {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",

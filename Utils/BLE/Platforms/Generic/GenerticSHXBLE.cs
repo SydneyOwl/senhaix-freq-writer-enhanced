@@ -84,6 +84,5 @@ public class GenerticSHXBLE : IBluetooth
 
     public void Dispose()
     {
-        
     }
 }

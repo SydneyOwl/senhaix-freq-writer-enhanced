@@ -14,9 +14,10 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class FMWindow : Window
 {
-    private ObservableCollection<FMObject> _fmchannels = new ();
-    
-    private string _curFreq  = AppData.getInstance().fms.CurFreq.ToString().Insert(AppData.getInstance().fms.CurFreq.ToString().Length - 1, ".");
+    private ObservableCollection<FMObject> _fmchannels = new();
+
+    private string _curFreq = AppData.getInstance().fms.CurFreq.ToString()
+        .Insert(AppData.getInstance().fms.CurFreq.ToString().Length - 1, ".");
 
     public string CurFreq
     {
@@ -53,51 +54,43 @@ public partial class FMWindow : Window
     {
         InitializeComponent();
         DataContext = this;
-        for (int i=0;i<AppData.getInstance().fms.Channels.Length;i++)
+        for (var i = 0; i < AppData.getInstance().fms.Channels.Length; i++)
         {
             var tmp = new FMObject();
-            tmp.Id = i+1;
+            tmp.Id = i + 1;
             var freq = AppData.getInstance().fms.Channels[i].ToString();
             if (freq != "0")
             {
-                tmp.Freq = freq.Insert(freq.Length - 1, ".");;
+                tmp.Freq = freq.Insert(freq.Length - 1, ".");
+                ;
             }
+
             Fmchannels.Add(tmp);
         }
 
         ;
         Closing += (sender, args) =>
         {
-            for (int i = 0; i < AppData.getInstance().fms.Channels.Length; i++)
+            for (var i = 0; i < AppData.getInstance().fms.Channels.Length; i++)
             {
-                var tmp = Fmchannels[i].Freq.Replace(".","");
+                var tmp = Fmchannels[i].Freq.Replace(".", "");
                 int cache;
-                if (!int.TryParse(tmp, out cache))
-                {
-                    continue;
-                }
+                if (!int.TryParse(tmp, out cache)) continue;
                 AppData.getInstance().fms.Channels[i] = cache;
             }
 
-            if (string.IsNullOrEmpty(CurFreq))
-            {
-                return;
-            }
+            if (string.IsNullOrEmpty(CurFreq)) return;
             AppData.getInstance().fms.CurFreq = int.Parse(CurFreq.Replace(".", ""));
         };
     }
 
     private void calcSeq()
     {
-        for (int i = 0; i < AppData.getInstance().fms.Channels.Length; i++)
-        {
-            Fmchannels[i].Id = i;
-        }
+        for (var i = 0; i < AppData.getInstance().fms.Channels.Length; i++) Fmchannels[i].Id = i;
     }
 
     private void Freq_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
-       
     }
 
     private void FreqInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
@@ -106,16 +99,16 @@ public partial class FMWindow : Window
         var dataContext = textBox.DataContext as FMObject;
         var text = dataContext.Freq;
         double fmfreq;
-        if (string.IsNullOrEmpty(text)){return;}
+        if (string.IsNullOrEmpty(text)) return;
         if (!double.TryParse(text, out fmfreq))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "频率格式错误！").ShowWindowDialogAsync(this);
             textBox.Text = "";
-return;
+            return;
         }
 
         text = fmfreq.ToString("0.0");
-        
+
         var array = text.Split('.');
         var list = new List<int>();
         int num3;
@@ -136,6 +129,7 @@ return;
             textBox.Text = "";
             return;
         }
+
         text = num3.ToString();
         textBox.Text = text.Insert(text.Length - 1, ".");
     }
@@ -145,7 +139,7 @@ return;
         var textBox = (TextBox)sender;
         var text = textBox.Text;
         double fmfreq;
-        if (string.IsNullOrEmpty(text)){return;}
+        if (string.IsNullOrEmpty(text)) return;
         if (!double.TryParse(text, out fmfreq))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "频率格式错误！").ShowWindowDialogAsync(this);
@@ -154,7 +148,7 @@ return;
         }
 
         text = fmfreq.ToString("0.0");
-        
+
         var array = text.Split('.');
         var list = new List<int>();
         int num3;
@@ -175,6 +169,7 @@ return;
             textBox.Text = "";
             return;
         }
+
         text = num3.ToString();
         textBox.Text = text.Insert(text.Length - 1, ".");
     }

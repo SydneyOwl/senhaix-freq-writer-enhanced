@@ -26,6 +26,7 @@ public partial class DeviceSelectWindow : Window
                 new Shx8x00.MainWindow().Show();
                 break;
         }
+
         Close();
     }
 }

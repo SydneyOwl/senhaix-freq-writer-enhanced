@@ -11,7 +11,6 @@ using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
-
 public class HIDCommunication
 {
     private readonly DataHelper helper;
@@ -65,7 +64,7 @@ public class HIDCommunication
 
     private byte timesOfRetry = 5;
 
-    public ConcurrentQueue<ProgressBarValue> statusQueue = new(); 
+    public ConcurrentQueue<ProgressBarValue> statusQueue = new();
 
     public HIDCommunication(OP_TYPE opType)
     {
@@ -74,9 +73,9 @@ public class HIDCommunication
         TimerInit();
     }
 
-    public void UpdateProgressBar(int value,string content)
+    public void UpdateProgressBar(int value, string content)
     {
-        statusQueue.Enqueue(new ProgressBarValue(value,content));
+        statusQueue.Enqueue(new ProgressBarValue(value, content));
     }
 
     private void TimerInit()
