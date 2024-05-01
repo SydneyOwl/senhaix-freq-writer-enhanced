@@ -429,8 +429,11 @@ public partial class MainWindow : Window
         osBLE = new GenerticSHXBLE();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "暂不支持！").ShowWindowDialogAsync(this);
-            return;
+            var res = await MessageBoxManager.GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？",ButtonEnum.YesNo).ShowWindowDialogAsync(this);
+            if (res.Equals(ButtonResult.No))
+            {
+                return;
+            }
         }
 #if WINDOWS
         osBLE = new WindowsSHXBLE();

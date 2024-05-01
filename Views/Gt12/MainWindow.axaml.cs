@@ -318,7 +318,7 @@ public partial class MainWindow : Window
         var selected = channelDataGrid.SelectedIndex;
         if (listItems[31].IsVisable)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "信道127不为空无法插入！").ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "信道32不为空无法插入！").ShowWindowDialogAsync(this);
             return;
         }
 

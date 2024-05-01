@@ -1,25 +1,41 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="500" Height="200"
+        Width="400" Height="200"
         CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Common.AboutWindow"
         Title="关于"
         WindowStartupLocation="CenterScreen"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Properties">
-    <StackPanel>
-        <TextBlock>森海克斯通用写频软件（SHX8X00/GT12）</TextBlock>
-        <TextBlock>适配Windows/Linux/MacOS</TextBlock>
-        <TextBlock>
-            版本号：<Label Content="{x:Static constants:VERSION.Version}" />
-        </TextBlock>
-        <TextBlock>
-            提交哈希：<Label Content="{x:Static constants:VERSION.GitCommitHash}" />
-        </TextBlock>
-        <TextBlock>
-            编译时间：<Label Content="{x:Static constants:VERSION.BuildTime}" />
-        </TextBlock>
-        <TextBlock>仓库：https://github.com/SydneyOwl/senhaix-freq-writer-enhanced</TextBlock>
-        <TextBlock>许可证使用The Unlicense</TextBlock>
-        <TextBlock>tu 73 de sydneyowl</TextBlock>
-    </StackPanel>
+    <Canvas>
+        <Image  Height="150" Canvas.Top="30" Canvas.Left="20"
+               Source="avares://SenhaixFreqWriter/Asset/shx8800-icons/1024x1024.png"/>
+        <TextBlock Margin="220,30,0,20" FontWeight="Bold">森海克斯通用写频软件</TextBlock>
+        <Label Canvas.Top="50"  Canvas.Right="180">For</Label>
+        <Label Canvas.Top="50" Canvas.Right="110" x:Name="windows">Windows</Label>
+        <Label Canvas.Top="50"  Canvas.Right="100">/</Label>
+        <Label Canvas.Top="50" Canvas.Right="60" x:Name="linux">Linux</Label>
+        <Label Canvas.Top="50"  Canvas.Right="52">/</Label>
+        <Label Canvas.Top="50" Canvas.Right="0" x:Name="macos">macOS</Label>
+        
+        <Label Canvas.Right="148" Canvas.Top="75"> 版本号：</Label>
+        <Label Content="{x:Static constants:VERSION.Version}" Canvas.Left="250" Canvas.Top="75"/>
+        <Label Canvas.Right="162" Canvas.Top="100"> 提交：</Label>
+        <Label Content="{x:Static constants:VERSION.GitCommitHash}" Canvas.Left="240" Canvas.Top="100"/>
+        <Label Canvas.Right="134" Canvas.Top="125"> 编译时间：</Label>
+        <Label Content="{x:Static constants:VERSION.BuildTime}" Canvas.Right="30" Canvas.Top="125"/>
+        
+        <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="20" Click="RepoButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="仓库" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        
+        <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="100" Click="UpdateButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource arrow_up_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="检查更新" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+    </Canvas>
 </Window>
