@@ -9,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Gt12;
@@ -43,7 +44,32 @@ public partial class MainWindow : Window
         setArea(0);
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
+        if (HIDTools.getInstance().isDeviceConnected)
+        {
+            statusLabel.Content = "连接状态：已连接";
+        }
+        else
+        {
+            statusLabel.Content = "连接状态：未连接";
+        }
+        HIDTools.getInstance().updateLabel = connected =>
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (connected)
+                {
+                    statusLabel.Content = "连接状态：已连接";
+                }
+                else
+                {
+                    statusLabel.Content = "连接状态：未连接";
+                }
+            });
+        };
+        HIDTools.getInstance().findAndConnect();
     }
+    
+    
 
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -442,12 +468,24 @@ public partial class MainWindow : Window
     private void ConnectMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         var hint = new HintWindow();
-        hint.setLabelStatus("连接设备中...");
+        hint.setLabelStatus("(此为调试功能，正常情况软件会自动连接GT12)");
         hint.setButtonStatus(false);
         hint.ShowDialog(this);
+        
         if (HIDTools.getInstance().findAndConnect()==HID_STATUS.SUCCESS)
         {
-            hint.setLabelStatus("-------连接成功!");
+            hint.setLabelStatus("连接成功!");
+            hint.setLabelStatus("-------设备信息-------");
+            var gt12 = HIDTools.getInstance().Gt12Device;
+            hint.setLabelStatus($"最大输入长度：{gt12.GetMaxInputReportLength()}");
+            hint.setLabelStatus($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
+            hint.setLabelStatus($"PID：{gt12.ProductID}");
+            hint.setLabelStatus($"VID：{gt12.VendorID}");
+            hint.setLabelStatus($"设备路径：{gt12.DevicePath}");
+            hint.setLabelStatus($"序列号：{gt12.GetSerialNumber()}");
+            hint.setLabelStatus($"设备名：{gt12.GetProductName()}");
+            // hint.setLabelStatus($"文件系统名：{gt12.GetFileSystemName()}");
+            // hint.setLabelStatus($"ReNumber：{gt12.ReleaseNumber}");
         }
         else
         {

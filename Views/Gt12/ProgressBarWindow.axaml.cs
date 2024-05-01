@@ -39,7 +39,7 @@ public partial class ProgressBarWindow : Window
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (HIDTools.getInstance().hidStream == null || !HIDTools.getInstance().hidStream.CanRead)
+        if (!HIDTools.getInstance().isDeviceConnected)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请连接写频线！").ShowWindowDialogAsync(this);
             return;
@@ -64,7 +64,7 @@ public partial class ProgressBarWindow : Window
     private void Task_Communication(CancellationToken token)
     {
         var flag = com.DoIt(token);
-        Console.WriteLine("We've done write!");
+        // Console.WriteLine("We've done write!");
         Dispatcher.UIThread.Post(() => HandleResult(flag));
     }
 

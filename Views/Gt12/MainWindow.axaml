@@ -78,7 +78,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="读写频方式设置">
-                <MenuItem Header="写频线" Click="ConnectMenuItem_OnClick">
+                <MenuItem Header="写频线Debug" Click="ConnectMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource usb_stick_regular}" />
                     </MenuItem.Icon>
@@ -132,6 +132,7 @@
                         <TextBlock Text="写频" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
+                <Label Margin="30,7,0,0" Content="连接状态：未连接" x:Name="statusLabel"></Label>
             </StackPanel>
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">

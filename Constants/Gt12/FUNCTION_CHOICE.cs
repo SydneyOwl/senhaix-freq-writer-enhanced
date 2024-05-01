@@ -32,7 +32,7 @@ public class FUNCTION_CHOICE
 
     public static ObservableCollection<string> doubleWait = new()
     {
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+        "关", "开"
     };
 
     public static ObservableCollection<string> tone = new()

@@ -18,6 +18,14 @@ public class HIDTools
 
     private static HIDTools instance;
 
+    public bool isDeviceConnected = false;
+
+    public DeviceList devList;
+    
+    public delegate void updateMainUIThread(bool connected);
+
+    public updateMainUIThread updateLabel;
+
 
     //TODO: enhance
     public byte[] rxBuffer = new byte[64];
@@ -25,15 +33,35 @@ public class HIDTools
 
     public static HIDTools getInstance()
     {
-        if (instance == null) instance = new HIDTools();
+        if (instance == null)
+        {
+            instance = new HIDTools();
+            instance.devList = DeviceList.Local;
+            instance.devList.Changed += (sender, args) =>
+            {
+                Console.WriteLine("changed...");
+                if (instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null)
+                {
+                    instance.isDeviceConnected = false;
+                    instance.updateLabel(false);
+                }
+                else
+                {
+                    instance.findAndConnect();
+                }
+            };
+        }
 
         return instance;
     }
 
     public HID_STATUS findAndConnect()
     {
-        var list = DeviceList.Local;
-        Gt12Device = list.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID);
+        if (isDeviceConnected)
+        {
+            return HID_STATUS.SUCCESS;
+        }
+        Gt12Device = devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID);
         if (Gt12Device == null) return HID_STATUS.DEVICE_NOT_FOUND;
         OutputReportLength = Gt12Device.GetMaxInputReportLength();
         InputReportLength = Gt12Device.GetMaxInputReportLength();
@@ -42,6 +70,8 @@ public class HIDTools
             hidStream.ReadTimeout = Timeout.Infinite;
             // Loop reading...
             BeginAsyncRead();
+            instance.isDeviceConnected = true;
+            instance.updateLabel(true);
             return HID_STATUS.SUCCESS;
         }
         else
@@ -65,7 +95,7 @@ public class HIDTools
             rxBuffer = array1;
             // Console.WriteLine(BitConverter.ToString(rxBuffer));
             flagReceiveData = true;
-            if (hidStream.CanRead) BeginAsyncRead();
+            if (isDeviceConnected) BeginAsyncRead();
             else
             {
                 // Console.WriteLine("stop read...");
