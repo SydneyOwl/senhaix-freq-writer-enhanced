@@ -108,6 +108,7 @@ public class HIDCommunication
         flagTransmitting = true;
         resetRetryCount();
         step = STEP.STEP_HANDSHAKE_1;
+        HIDTools.getInstance().flagReceiveData = false;
         if (HandShake(token))
         {
             if (opType == OP_TYPE.WRITE)
@@ -128,10 +129,11 @@ public class HIDCommunication
         var byData = new byte[1];
         while (flagTransmitting && !token.IsCancellationRequested)
             if (!flagRetry)
-            {
+            { ;
                 switch (step)
                 {
                     case STEP.STEP_HANDSHAKE_1:
+                        // Console.WriteLine("strp1");
                         byData = Encoding.ASCII.GetBytes("PROGRAMGT12");
                         byData = helper.LoadPackage(1, 0, byData, (byte)byData.Length);
                         hid.Send(byData);
@@ -143,6 +145,7 @@ public class HIDCommunication
                         step = STEP.STEP_HANDSHAKE_2;
                         break;
                     case STEP.STEP_HANDSHAKE_2:
+                        // Console.WriteLine("strp2");
                         if (HIDTools.getInstance().flagReceiveData)
                         {
                             HIDTools.getInstance().flagReceiveData = false;
@@ -158,6 +161,7 @@ public class HIDCommunication
 
                         break;
                     case STEP.STEP_HANDSHAKE_3:
+                        // Console.WriteLine("strp3");
                         if (HIDTools.getInstance().flagReceiveData)
                         {
                             HIDTools.getInstance().flagReceiveData = false;
@@ -173,6 +177,7 @@ public class HIDCommunication
 
                         break;
                     case STEP.STEP_HANDSHAKE_4:
+                        // Console.WriteLine("strp4");
                         if (!HIDTools.getInstance().flagReceiveData) break;
 
                         HIDTools.getInstance().flagReceiveData = false;
@@ -221,7 +226,11 @@ public class HIDCommunication
         ushort num = 0;
         byte b = 0;
         var num2 = 0;
-        while (flagTransmitting && token.IsCancellationRequested)
+        
+        // Console.WriteLine("we're in writing");
+        while (flagTransmitting && !token.IsCancellationRequested)
+        {
+            // Console.WriteLine("wE;RE WRITEING");
             if (!flagRetry)
             {
                 switch (step)
@@ -472,7 +481,7 @@ public class HIDCommunication
                 flagRetry = false;
                 hid.Send(byData);
             }
-
+        }
         return false;
     }
 

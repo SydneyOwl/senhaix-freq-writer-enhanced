@@ -39,7 +39,7 @@ public partial class ProgressBarWindow : Window
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (threadWF != null || threadProgress != null)
+        if ((threadWF != null || threadProgress != null)&&status==OPERATION_TYPE.READ)
         {
             tokenSource.Cancel();
             threadWF.Join();

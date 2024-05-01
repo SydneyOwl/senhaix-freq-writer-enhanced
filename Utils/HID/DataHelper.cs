@@ -48,18 +48,27 @@ public class DataHelper
 
     public int AnalyzePackage(byte[] dat)
     {
-        lenOfPackage = dat[1];
-        command = dat[2];
-        args = (ushort)((dat[3] << 8) | dat[4]);
-        errorCode = (HID_ERRORS)args;
-        for (var i = 0; i < lenOfPackage - 5; i++) payload[i] = dat[i + 5];
+        try
+        {
+            lenOfPackage = dat[1];
+            command = dat[2];
+            args = (ushort)((dat[3] << 8) | dat[4]);
+            errorCode = (HID_ERRORS)args;
+            for (var i = 0; i < lenOfPackage - 5; i++) payload[i] = dat[i + 5];
 
-        var num = 2 + lenOfPackage - 2;
-        crc = (ushort)CrcValidation(dat, 2, lenOfPackage - 2);
-        var num2 = (ushort)((dat[num] << 8) | dat[num + 1]);
-        if (crc == num2) return 1;
+            var num = 2 + lenOfPackage - 2;
+            crc = (ushort)CrcValidation(dat, 2, lenOfPackage - 2);
+            var num2 = (ushort)((dat[num] << 8) | dat[num + 1]);
+            if (crc == num2) return 1;
+            return -1;
+        }
+        catch
+        {
+            // 写频完成后手台还会发几个包，。不知道为啥
+            return -1;
+        }
+        
 
-        return -1;
     }
 
     private int CrcValidation(byte[] dat, int offset, int count)

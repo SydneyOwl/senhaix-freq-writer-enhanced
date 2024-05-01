@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -63,6 +64,7 @@ public partial class ProgressBarWindow : Window
     private void Task_Communication(CancellationToken token)
     {
         var flag = com.DoIt(token);
+        Console.WriteLine("We've done write!");
         Dispatcher.UIThread.Post(() => HandleResult(flag));
     }
 
@@ -73,7 +75,7 @@ public partial class ProgressBarWindow : Window
             ProgressBarValue pgv;
             if (!com.statusQueue.TryDequeue(out pgv)) continue;
             ;
-            Dispatcher.UIThread.Post(() => statusLabel.DataContext = pgv.content);
+            Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.content);
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.value);
         }
     }
@@ -108,7 +110,7 @@ public partial class ProgressBarWindow : Window
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (thread_progress != null || thread_Communication != null)
+        if ((thread_progress != null || thread_Communication != null)&&operation==OP_TYPE.READ)
         {
             cancelSource.Cancel();
             thread_progress.Join();

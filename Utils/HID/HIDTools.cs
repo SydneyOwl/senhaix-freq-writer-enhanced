@@ -63,11 +63,18 @@ public class HIDTools
             var array1 = new byte[64];
             Array.Copy(e.reportBuff, 0, array1, 0, 64);
             rxBuffer = array1;
+            // Console.WriteLine(BitConverter.ToString(rxBuffer));
             flagReceiveData = true;
             if (hidStream.CanRead) BeginAsyncRead();
+            else
+            {
+                // Console.WriteLine("stop read...");
+                CloseDevice();
+            }
         }
-        catch
+        catch(Exception e)
         {
+            // Console.WriteLine("stop read. due to."+e.Message);
             CloseDevice();
         }
     }
@@ -95,6 +102,7 @@ public class HIDTools
             }
             catch (Exception ex)
             {
+                // Console.WriteLine("stop write. due to."+ex.Message);
                 CloseDevice();
                 return HID_STATUS.NO_DEVICE_CONNECTED;
             }
@@ -112,6 +120,7 @@ public class HIDTools
 
     public void CloseDevice()
     {
+        // Console.WriteLine("closed...");
         Gt12Device = null;
         hidStream.Close();
     }
