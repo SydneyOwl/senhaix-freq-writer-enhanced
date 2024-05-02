@@ -39,7 +39,7 @@ public partial class ProgressBarWindow : Window
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (!HIDTools.getInstance().isDeviceConnected)
+        if (!opRes && !HIDTools.getInstance().isDeviceConnected)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请连接写频线！").ShowWindowDialogAsync(this);
             return;

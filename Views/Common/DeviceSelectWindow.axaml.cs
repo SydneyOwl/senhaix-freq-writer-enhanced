@@ -12,11 +12,11 @@ public partial class DeviceSelectWindow : Window
 {
     public DeviceSelectWindow()
     {
+        InitializeComponent();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "请您确认是否已经以sudo权限打开软件~如果是请忽略").ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "请您确认是否已经以sudo权限打开软件~如果是请忽略").ShowAsync();
         }
-        InitializeComponent();
         if (HIDTools.isSHXHIDExist())
         {
             DeviceChooseComboBox.SelectedIndex = 1;

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using HidSharp;
+using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
 
@@ -65,8 +67,9 @@ public class HIDTools
                     instance.findAndConnect();
                 }
             };
-#endif
+#else
             Task.Run(()=>instance.pollDevStatus(instance.pollTokenSource.Token));
+#endif
         }
         return instance;
     }
@@ -76,9 +79,9 @@ public class HIDTools
         while (!token.IsCancellationRequested)
         {
             if (devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null)
-            {
+            { 
                 isDeviceConnected = false;
-               updateLabel(false);
+                updateLabel(false);
             }
             else
             {
@@ -128,16 +131,20 @@ public class HIDTools
             // Console.WriteLine(BitConverter.ToString(rxBuffer));
             flagReceiveData = true;
             if (isDeviceConnected) BeginAsyncRead();
-            else
-            {
-                // Console.WriteLine("stop read...");
-                CloseDevice();
-            }
+            // else
+            // {
+            //     // Console.WriteLine("stop read...");
+            //     CloseDevice();
+            // }
         }
         catch(Exception e)
         {
-            // Console.WriteLine("stop read. due to."+e.Message);
-            CloseDevice();
+            // Dispatcher.UIThread.Post(()=>
+            // {
+            //     MessageBoxManager.GetMessageBoxStandard("注意", "出错，请重新插拔设备！").ShowAsync();
+            // });
+            // // Console.WriteLine("stop read. due to."+e.Message);
+            // CloseDevice();
         }
     }
 
@@ -184,6 +191,7 @@ public class HIDTools
     {
         // Console.WriteLine("closed...");
         Gt12Device = null;
+        isDeviceConnected = false;
         hidStream.Close();
     }
 }

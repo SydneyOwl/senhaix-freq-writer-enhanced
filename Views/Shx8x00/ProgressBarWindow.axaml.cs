@@ -52,7 +52,7 @@ public partial class ProgressBarWindow : Window
 
     private async void Start_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
+        if (!opRes && MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
             return;
