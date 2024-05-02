@@ -482,7 +482,7 @@ public partial class MainWindow : Window
             hint.setLabelStatus($"PID：{gt12.ProductID}");
             hint.setLabelStatus($"VID：{gt12.VendorID}");
             hint.setLabelStatus($"设备路径：{gt12.DevicePath}");
-            hint.setLabelStatus($"序列号：{gt12.GetSerialNumber()}");
+            // hint.setLabelStatus($"序列号：{gt12.GetSerialNumber()}");
             hint.setLabelStatus($"设备名：{gt12.GetProductName()}");
             // hint.setLabelStatus($"文件系统名：{gt12.GetFileSystemName()}");
             // hint.setLabelStatus($"ReNumber：{gt12.ReleaseNumber}");

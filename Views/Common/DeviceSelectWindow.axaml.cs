@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -13,18 +14,20 @@ public partial class DeviceSelectWindow : Window
     public DeviceSelectWindow()
     {
         InitializeComponent();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            MessageBoxManager.GetMessageBoxStandard("注意", "请您确认是否已经以sudo权限打开软件~如果是请忽略").ShowAsync();
-        }
         if (HIDTools.isSHXHIDExist())
         {
             DeviceChooseComboBox.SelectedIndex = 1;
         }
     }
 
-    private void Device_OnClick(object? sender, RoutedEventArgs e)
+    private async void Device_OnClick(object? sender, RoutedEventArgs e)
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)&&!Environment.UserName.Equals("root"))
+        {
+            await MessageBoxManager.GetMessageBoxStandard("注意", "请以sudo权限打开软件!").ShowWindowDialogAsync(this);
+            Environment.Exit(0);
+            return;
+        }
         switch (DeviceChooseComboBox.SelectedIndex)
         {
             case 0:
