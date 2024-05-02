@@ -31,6 +31,14 @@ public class HIDTools
     public byte[] rxBuffer = new byte[64];
     public bool flagReceiveData;
 
+    public static bool isSHXHIDExist()
+    {
+        var instance = new HIDTools();
+        instance.devList = DeviceList.Local;
+        return instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) != null;
+    }
+    
+
     public static HIDTools getInstance()
     {
         if (instance == null)

@@ -87,8 +87,8 @@ public partial class AboutWindow : Window
             {
                 var jsonContent = await response.Content.ReadAsStringAsync();
                 JObject releaseJson = JObject.Parse(jsonContent);
-                string tagName = ((string)releaseJson["tag_name"]).Replace("v","");
-                string currentTag = Properties.VERSION.Version.Replace("v","");
+                string tagName = ((string)releaseJson["tag_name"]).Replace("v","").Split("-")[0];
+                string currentTag = Properties.VERSION.Version.Replace("v","").Split("-")[0];
                 var result = tagName.CompareTo(currentTag);
                 if (result > 0)
                     MessageBoxManager.GetMessageBoxStandard("注意", "有新版本可用~").ShowWindowDialogAsync(this);
