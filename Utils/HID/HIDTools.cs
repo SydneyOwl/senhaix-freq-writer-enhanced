@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using HidSharp;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
@@ -30,6 +31,9 @@ public class HIDTools
     //TODO: enhance
     public byte[] rxBuffer = new byte[64];
     public bool flagReceiveData;
+    
+    // For unix
+    private CancellationTokenSource pollTokenSource;
 
     public static bool isSHXHIDExist()
     {
@@ -37,14 +41,17 @@ public class HIDTools
         instance.devList = DeviceList.Local;
         return instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) != null;
     }
-    
 
     public static HIDTools getInstance()
     {
         if (instance == null)
         {
             instance = new HIDTools();
+            instance.pollTokenSource = new CancellationTokenSource();
             instance.devList = DeviceList.Local;
+            
+            // On unix system we poll!
+#if WINDOWS
             instance.devList.Changed += (sender, args) =>
             {
                 Console.WriteLine("changed...");
@@ -58,11 +65,28 @@ public class HIDTools
                     instance.findAndConnect();
                 }
             };
+#endif
+            Task.Run(()=>instance.pollDevStatus(instance.pollTokenSource.Token));
         }
-
         return instance;
     }
 
+    private void pollDevStatus(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            if (devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null)
+            {
+                isDeviceConnected = false;
+               updateLabel(false);
+            }
+            else
+            {
+                findAndConnect();
+            } 
+            Thread.Sleep(100);
+        }
+    }
     public HID_STATUS findAndConnect()
     {
         if (isDeviceConnected)
