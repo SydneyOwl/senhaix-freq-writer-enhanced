@@ -72,7 +72,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: 通用版(Windows.macOS.Linux)
+        name: SenhaixFreqWriterArtifacts
         path: ./tmpu
 
   afterbuild:
@@ -82,22 +82,22 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: 通用版(Windows.macOS.Linux)
+        # name: SenhaixFreqWriterArtifacts
         path: ./
 
     - name: Delete Artifact by Name
       uses: jimschubert/delete-artifacts-action@v1
       with:
-        artifact_name: 通用版(Windows.macOS.Linux)
+        artifact_name: SenhaixFreqWriterArtifacts
         min_bytes: '0'
 
     - name: Add Execute
       run: |
-        ls && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep senhaix-universial-freq-writer-macOS) && \
+        ls && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/SenhaixFreqWriterArtifacts && targetName=$(ls  | grep senhaix-universial-freq-writer-macOS) && \
         echo $targetName && unzip $targetName && rm -rf $targetName && \
         chmod +x senhaix-universial-freq-writer/SenhaixFreqWriter.app/Contents/MacOS/SenhaixFreqWriter && \
         zip -r $targetName senhaix-universial-freq-writer && \
-        rm -rf senhaix-universial-freq-writer && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced && targetName=$(ls  | grep senhaix-universial-freq-writer-Linux) && \
+        rm -rf senhaix-universial-freq-writer && cd /home/runner/work/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/SenhaixFreqWriterArtifacts && targetName=$(ls  | grep senhaix-universial-freq-writer-Linux) && \
         echo $targetName && unzip $targetName && rm -rf $targetName && \
         chmod +x senhaix-universial-freq-writer/SenhaixFreqWriter && \
         zip -r $targetName senhaix-universial-freq-writer
@@ -105,8 +105,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: 通用版(Windows.macOS.Linux)
-        path: ./*.zip
+        name: SenhaixFreqWriterArtifacts
+        path: SenhaixFreqWriterArtifacts/*.zip
     
     - name: Release UNIVERSAL
       uses: softprops/action-gh-release@v2
