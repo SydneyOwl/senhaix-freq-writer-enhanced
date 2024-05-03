@@ -34,11 +34,11 @@ public partial class ProgressBarWindow : Window
         operation = op;
         InitializeComponent();
         com = new HIDCommunication(operation);
-        cancelSource = new CancellationTokenSource();
     }
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        stopUpdateValue = false;
         if (!opRes && !HIDTools.getInstance().isDeviceConnected)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请连接写频线！").ShowWindowDialogAsync(this);
@@ -51,7 +51,7 @@ public partial class ProgressBarWindow : Window
             Close();
             return;
         }
-
+        cancelSource = new CancellationTokenSource();
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
         progressBar.Value = 0;
@@ -74,7 +74,6 @@ public partial class ProgressBarWindow : Window
         {
             ProgressBarValue pgv;
             if (!com.statusQueue.TryDequeue(out pgv)) continue;
-            ;
             Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.content);
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.value);
         }
@@ -89,7 +88,7 @@ public partial class ProgressBarWindow : Window
         }
         else
         {
-            statusLabel.Content = "失败!";
+            statusLabel.Content = "失败!请插拔写频线或重启设备后点击重试！";
             opRes = false;
         }
 
@@ -106,13 +105,28 @@ public partial class ProgressBarWindow : Window
         }
 
         stopUpdateValue = true;
+        try
+        {
+            cancelSource.Cancel();
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if ((thread_progress != null || thread_Communication != null)&&operation==OP_TYPE.READ)
+        try
         {
             cancelSource.Cancel();
+        }
+        catch
+        {
+            //ignored
+        }
+        if ((thread_progress != null || thread_Communication != null)&&operation==OP_TYPE.READ)
+        {
             thread_progress.Join();
             thread_Communication.Join();
             AppData.forceNewInstance();

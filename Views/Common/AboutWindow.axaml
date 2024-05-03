@@ -22,7 +22,7 @@
         <Label Canvas.Right="162" Canvas.Top="100"> 提交：</Label>
         <Label Content="{x:Static constants:VERSION.GitCommitHash}" Canvas.Left="240" Canvas.Top="100"/>
         <Label Canvas.Right="134" Canvas.Top="125"> 编译时间：</Label>
-        <Label Content="{x:Static constants:VERSION.BuildTime}" Canvas.Right="30" Canvas.Top="125"/>
+        <Label Content="{x:Static constants:VERSION.BuildTime}" Canvas.Right="0" Canvas.Top="125"/>
         
         <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="20" Click="RepoButton_OnClick">
             <StackPanel Orientation="Horizontal">

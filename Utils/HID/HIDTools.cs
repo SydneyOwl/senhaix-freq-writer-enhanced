@@ -33,10 +33,12 @@ public class HIDTools
     //TODO: enhance
     public byte[] rxBuffer = new byte[64];
     public bool flagReceiveData;
-    
+
+    public bool requestReconnect;
     // For unix
     private CancellationTokenSource pollTokenSource;
 
+    private Mutex _mutex = new();
     public static bool isSHXHIDExist()
     {
         var instance = new HIDTools();
@@ -56,7 +58,7 @@ public class HIDTools
 #if WINDOWS
             instance.devList.Changed += (sender, args) =>
             {
-                Console.WriteLine("changed...");
+                // Console.WriteLine("changed...");
                 if (instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null)
                 {
                     instance.isDeviceConnected = false;
@@ -78,10 +80,14 @@ public class HIDTools
     {
         while (!token.IsCancellationRequested)
         {
-            if (devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null)
+            if (devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null )
             { 
+                // Console.WriteLine("Chlose");
                 isDeviceConnected = false;
                 updateLabel(false);
+                // requestReconnect = false;
+                // hidStream?.Dispose();
+                // hidStream = null;
             }
             else
             {
@@ -92,12 +98,19 @@ public class HIDTools
     }
     public HID_STATUS findAndConnect()
     {
+        _mutex.WaitOne();
         if (isDeviceConnected)
         {
+            _mutex.ReleaseMutex();
             return HID_STATUS.SUCCESS;
         }
+        // Console.WriteLine("alaysz");
         Gt12Device = devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID);
-        if (Gt12Device == null) return HID_STATUS.DEVICE_NOT_FOUND;
+        if (Gt12Device == null)
+        {
+            _mutex.ReleaseMutex();
+            return HID_STATUS.DEVICE_NOT_FOUND;
+        }
         OutputReportLength = Gt12Device.GetMaxInputReportLength();
         InputReportLength = Gt12Device.GetMaxInputReportLength();
         if (Gt12Device.TryOpen(out hidStream))
@@ -107,10 +120,14 @@ public class HIDTools
             BeginAsyncRead();
             instance.isDeviceConnected = true;
             instance.updateLabel(true);
+            
+            _mutex.ReleaseMutex();
             return HID_STATUS.SUCCESS;
         }
         else
         {
+            // Console.WriteLine("Not Connected");
+            _mutex.ReleaseMutex();
             return HID_STATUS.NO_DEVICE_CONNECTED;
         }
     }
@@ -130,7 +147,7 @@ public class HIDTools
             rxBuffer = array1;
             // Console.WriteLine(BitConverter.ToString(rxBuffer));
             flagReceiveData = true;
-            if (isDeviceConnected) BeginAsyncRead();
+            BeginAsyncRead();
             // else
             // {
             //     // Console.WriteLine("stop read...");
@@ -143,39 +160,40 @@ public class HIDTools
             // {
             //     MessageBoxManager.GetMessageBoxStandard("注意", "出错，请重新插拔设备！").ShowAsync();
             // });
-            // // Console.WriteLine("stop read. due to."+e.Message);
+            // Console.WriteLine("stop read. due to."+e.Message);
             // CloseDevice();
         }
     }
 
     private void BeginAsyncRead()
     {
+        // Console.WriteLine("Reading...");
         var array = new byte[InputReportLength];
         var asyncResult = hidStream.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
     }
 
     public HID_STATUS Write(Report r)
     {
-        if (hidStream.CanWrite)
-            try
-            {
-                var array = new byte[OutputReportLength];
-                var num = 0;
-                num = r.reportBuff.Length >= OutputReportLength - 1
-                    ? OutputReportLength - 1
-                    : r.reportBuff.Length;
-                for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
-
-                hidStream.Write(array, 0, OutputReportLength);
-                return HID_STATUS.SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                // Console.WriteLine("stop write. due to."+ex.Message);
-                CloseDevice();
-                return HID_STATUS.NO_DEVICE_CONNECTED;
-            }
-
+        // Console.WriteLine("writing...");
+        try
+        {
+            var array = new byte[OutputReportLength];
+            var num = 0;
+            num = r.reportBuff.Length >= OutputReportLength - 1
+                ? OutputReportLength - 1
+                : r.reportBuff.Length;
+            for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
+        
+            hidStream.Write(array, 0, OutputReportLength);
+            return HID_STATUS.SUCCESS;
+        }
+        catch (Exception ex)
+        {
+            // Console.WriteLine("stop write. due to."+ex.Message);
+            // CloseDevice();
+            return HID_STATUS.NO_DEVICE_CONNECTED;
+        }
+            
         return HID_STATUS.WRITE_FAILD;
     }
 

@@ -105,6 +105,9 @@ public class HIDCommunication
 
     public bool DoIt(CancellationToken token)
     {
+// #if !WINDOWS
+//         HIDTools.getInstance().requestReconnect = true;
+// #endif
         flagTransmitting = true;
         resetRetryCount();
         step = STEP.STEP_HANDSHAKE_1;
@@ -129,16 +132,16 @@ public class HIDCommunication
         var byData = new byte[1];
         while (flagTransmitting && !token.IsCancellationRequested)
             if (!flagRetry)
-            { ;
+            { 
                 switch (step)
                 {
                     case STEP.STEP_HANDSHAKE_1:
                         // Console.WriteLine("strp1");
                         byData = Encoding.ASCII.GetBytes("PROGRAMGT12");
                         byData = helper.LoadPackage(1, 0, byData, (byte)byData.Length);
-                        hid.Send(byData);
+                        HIDTools.getInstance().Send(byData);
                         progressVal = 0;
-                        progressCont = "握手...";
+                        progressCont = "【如果卡住请插拔写频线或重启设备后重试！】握手...";
                         UpdateProgressBar(progressVal, progressCont);
                         timer.Start();
                         resetRetryCount();
@@ -153,7 +156,7 @@ public class HIDCommunication
                             if (helper.errorCode == HID_ERRORS.ER_NONE)
                             {
                                 byData = helper.LoadPackage(2, 0, null, 1);
-                                hid.Send(byData);
+                                HIDTools.getInstance().Send(byData);
                                 resetRetryCount();
                                 step = STEP.STEP_HANDSHAKE_3;
                             }
@@ -169,7 +172,7 @@ public class HIDCommunication
                             if (helper.errorCode == HID_ERRORS.ER_NONE)
                             {
                                 byData = helper.LoadPackage(70, 0, null, 1);
-                                hid.Send(byData);
+                                HIDTools.getInstance().Send(byData);
                                 resetRetryCount();
                                 step = STEP.STEP_HANDSHAKE_4;
                             }
@@ -213,7 +216,7 @@ public class HIDCommunication
 
                 timesOfRetry--;
                 flagRetry = false;
-                hid.Send(byData);
+                HIDTools.getInstance().Send(byData);
             }
 
         return false;
@@ -432,7 +435,7 @@ public class HIDCommunication
                         }
 
                         byData = helper.LoadPackage(87, num, array, (byte)array.Length);
-                        hid.Send(byData);
+                        HIDTools.getInstance().Send(byData);
                         timer.Start();
                         progressVal = num * 100 / 45728;
                         if (progressVal > 100) progressVal = 100;
@@ -479,7 +482,7 @@ public class HIDCommunication
 
                 timesOfRetry--;
                 flagRetry = false;
-                hid.Send(byData);
+                HIDTools.getInstance().Send(byData);
             }
         }
         return false;
@@ -736,7 +739,7 @@ public class HIDCommunication
                 {
                     case STEP.STEP_READ1:
                         byData = helper.LoadPackage(82, num, null, 1);
-                        hid.Send(byData);
+                        HIDTools.getInstance().Send(byData);
                         progressVal = num * 100 / 45728;
                         if (progressVal > 100) progressVal = 100;
 
@@ -954,7 +957,7 @@ public class HIDCommunication
                         progressCont = "完成";
                         UpdateProgressBar(progressVal, progressCont);
                         byData = helper.LoadPackage(69, 0, null, 1);
-                        hid.Send(byData);
+                        HIDTools.getInstance().Send(byData);
                         flagTransmitting = false;
                         return true;
                 }
@@ -970,7 +973,7 @@ public class HIDCommunication
 
                 timesOfRetry--;
                 flagRetry = false;
-                hid.Send(byData);
+                HIDTools.getInstance().Send(byData);
             }
 
         return false;

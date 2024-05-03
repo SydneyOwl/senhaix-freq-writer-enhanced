@@ -18,7 +18,7 @@ public partial class ProgressBarWindow : Window
 
     private readonly ClassTheRadioData theRadioData;
 
-    private readonly CancellationTokenSource tokenSource = new();
+    private CancellationTokenSource tokenSource;
 
     private bool opRes;
 
@@ -39,9 +39,16 @@ public partial class ProgressBarWindow : Window
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if ((threadWF != null || threadProgress != null)&&status==OPERATION_TYPE.READ)
+        try
         {
             tokenSource.Cancel();
+        }
+        catch
+        {
+            //
+        }
+        if ((threadWF != null || threadProgress != null)&&status==OPERATION_TYPE.READ)
+        {
             threadWF.Join();
             threadProgress.Join();
             ClassTheRadioData.getInstance().forceNewChannel();
@@ -64,6 +71,8 @@ public partial class ProgressBarWindow : Window
             Close();
             return;
         }
+
+        tokenSource = new CancellationTokenSource();
 
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
@@ -186,7 +195,14 @@ public partial class ProgressBarWindow : Window
             CloseButton.IsEnabled = true;
             opRes = false;
         }
-
+        try
+        {
+            tokenSource.Cancel();
+        }
+        catch
+        {
+            //
+        }
         sP.CloseSerial();
     }
 }
