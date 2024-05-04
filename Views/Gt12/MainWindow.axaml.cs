@@ -472,6 +472,17 @@ public partial class MainWindow : Window
         hint.setButtonStatus(false);
         hint.ShowDialog(this);
         
+        hint.setLabelStatus("-------所有HID设备-------");
+        foreach (var hidDevice in HIDTools.getAllHIDDevices())
+        {
+            hint.setLabelStatus($"设备名：{hidDevice.GetProductName()}");
+            // hint.setLabelStatus($"序列号：{hidDevice.GetSerialNumber()}");
+            hint.setLabelStatus($"VID：{hidDevice.VendorID}");
+            hint.setLabelStatus($"PID：{hidDevice.ProductID}");
+            hint.setLabelStatus($"路径：{hidDevice.DevicePath}");
+            hint.setLabelStatus("----------------");
+        }
+        
         if (HIDTools.getInstance().findAndConnect()==HID_STATUS.SUCCESS)
         {
             hint.setLabelStatus("连接成功!");

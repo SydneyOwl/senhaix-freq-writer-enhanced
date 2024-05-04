@@ -12,7 +12,7 @@ public partial class HintWindow : Window
 
     public void setLabelStatus(string stat)
     {
-        label.Content += "\n" + stat;
+        label.Text += "\n" + stat;
     }
 
     public void setButtonStatus(bool show)

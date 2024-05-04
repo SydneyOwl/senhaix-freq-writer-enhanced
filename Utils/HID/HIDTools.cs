@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
@@ -44,6 +46,11 @@ public class HIDTools
         var instance = new HIDTools();
         instance.devList = DeviceList.Local;
         return instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) != null;
+    }
+
+    public static List<HidDevice> getAllHIDDevices()
+    {
+        return DeviceList.Local.GetHidDevices().ToList();
     }
 
     public static HIDTools getInstance()
