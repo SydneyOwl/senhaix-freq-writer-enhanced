@@ -87,9 +87,19 @@ public partial class AboutWindow : Window
             {
                 var jsonContent = await response.Content.ReadAsStringAsync();
                 JObject releaseJson = JObject.Parse(jsonContent);
-                string tagName = ((string)releaseJson["tag_name"]).Replace("v","").Split("-")[0];
-                string currentTag = Properties.VERSION.Version.Replace("v","").Split("-")[0];
-                var result = tagName.CompareTo(currentTag);
+                string tagTime = ((string)releaseJson["published_at"]);
+                string currentTagTime = Properties.VERSION.BuildTime;
+                if (currentTagTime.Equals("@BUILD_TIME@"))
+                {
+                    MessageBoxManager.GetMessageBoxStandard("注意", "此版本未被发行！").ShowWindowDialogAsync(this);
+                    return;
+                }
+                var tagTimeParsed = DateTime.Parse(tagTime);
+                var curTagTimeParsed = DateTime.Parse(currentTagTime);
+                
+                // string tagName = ((string)releaseJson["tag_name"]).Replace("v","").Split("-")[0];
+                // string currentTag = Properties.VERSION.Version.Replace("v","").Split("-")[0];
+                var result = tagTimeParsed.CompareTo(curTagTimeParsed);
                 if (result > 0)
                     MessageBoxManager.GetMessageBoxStandard("注意", "有新版本可用~").ShowWindowDialogAsync(this);
                 else
