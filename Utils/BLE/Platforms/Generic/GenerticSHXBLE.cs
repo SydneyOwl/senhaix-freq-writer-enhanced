@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using InTheHand.Bluetooth;
-using SenhaixFreqWriter.Constants.Shx8x00;
+using SenhaixFreqWriter.Constants.BLE;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.Serial;
 
@@ -77,6 +77,11 @@ public class GenerticSHXBLE : IBluetooth
         MySerialPort.getInstance().WriteBLE = shxCharacteristic.WriteValueWithoutResponseAsync;
     }
 
+    public void RegisterHID()
+    {
+        throw new NotImplementedException();
+    }
+
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {
         foreach (var b in e.Value) MySerialPort.getInstance().RxData.Enqueue(b);
@@ -87,5 +92,10 @@ public class GenerticSHXBLE : IBluetooth
         shxDevice = null;
         shxCharacteristic = null;
         shxService = null;
+    }
+
+    public void setStatusUpdater(updater up)
+    {
+        throw new NotImplementedException();
     }
 }

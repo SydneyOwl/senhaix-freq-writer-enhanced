@@ -36,11 +36,18 @@ public class HIDTools
     public byte[] rxBuffer = new byte[64];
     public bool flagReceiveData;
 
-    public bool requestReconnect;
-    // For unix
-    private CancellationTokenSource pollTokenSource;
+    public delegate Task WriteValueAsync(byte[] value);
 
+    private Queue<byte> rxData = new(1024);
+
+    public WriteValueAsync WriteBLE;
+
+    public int BTDeviceMtu = 23;
+    
+    private CancellationTokenSource pollTokenSource;
+    
     private Mutex _mutex = new();
+    
     public static bool isSHXHIDExist()
     {
         var instance = new HIDTools();
@@ -58,7 +65,6 @@ public class HIDTools
         if (instance == null)
         {
             instance = new HIDTools();
-            instance.pollTokenSource = new CancellationTokenSource();
             instance.devList = DeviceList.Local;
             
             // On unix system we poll!
@@ -184,26 +190,66 @@ public class HIDTools
         // Console.WriteLine("writing...");
         try
         {
-            var array = new byte[OutputReportLength];
+            var array = new byte[BTDeviceMtu - 1];
             var num = 0;
-            num = r.reportBuff.Length >= OutputReportLength - 1
-                ? OutputReportLength - 1
-                : r.reportBuff.Length;
-            for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
-        
-            hidStream.Write(array, 0, OutputReportLength);
+            if (WriteBLE != null)
+            {
+                // num = r.reportBuff.Length >= BTDeviceMtu - 1
+                //     ? BTDeviceMtu - 1
+                //     : r.reportBuff.Length;
+                // for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
+                // WriteBLE(array);
+                var tobeWrite = bytesTrimEnd(r.reportBuff);
+                var singleSize = BTDeviceMtu - 2;
+                var sendTimes = tobeWrite.Length / singleSize;
+                var tmp = 0;
+                for (var i = 0; i < sendTimes + 1; i++)
+                {
+                    if (i == sendTimes)
+                    {
+                        WriteBLE(tobeWrite.Skip(tmp)
+                            .Take(tobeWrite.Length - sendTimes * singleSize).ToArray());
+                        break;
+                    }
+                    WriteBLE(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
+                    tmp += singleSize;
+                }
+            }
+            else
+            {
+                num = r.reportBuff.Length >= OutputReportLength - 1
+                    ? OutputReportLength - 1
+                    : r.reportBuff.Length;
+                for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
+                hidStream.Write(array, 0, OutputReportLength);
+            }
             return HID_STATUS.SUCCESS;
         }
         catch (Exception ex)
         {
-            // Console.WriteLine("stop write. due to."+ex.Message);
+            Console.WriteLine("stop write. due to."+ex.Message);
             // CloseDevice();
             return HID_STATUS.NO_DEVICE_CONNECTED;
         }
             
         return HID_STATUS.WRITE_FAILD;
     }
-
+    public byte[] bytesTrimEnd(byte[] bytes)
+    {
+        List<byte> list = bytes.ToList();
+        for (int i = bytes.Length - 1; i >= 0; i--)
+        {
+            if(bytes[i]==0x00)
+            {
+                list.RemoveAt(i);
+            }
+            else
+            {
+                break;
+            }
+        }
+        return list.ToArray();
+    }
     public bool Send(byte[] byData)
     {
         var array = new byte[byData.Length];

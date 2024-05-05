@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -14,6 +15,8 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Utils.BLE.Interfaces;
+using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
 
@@ -36,6 +39,8 @@ public partial class MainWindow : Window
     private string filePath = "";
 
     private Channel copiedChannel;
+
+    private IBluetooth osBLE;
 
     public MainWindow()
     {
@@ -502,6 +507,108 @@ public partial class MainWindow : Window
         {
             hint.setLabelStatus("连接失败！");
         }
+        hint.setButtonStatus(true);
+    }
+
+    private async void BTMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        osBLE?.Dispose();
+        osBLE = new GenerticSHXBLE();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            var res = await MessageBoxManager.GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？",ButtonEnum.YesNo).ShowWindowDialogAsync(this);
+            if (res.Equals(ButtonResult.No))
+            {
+                return;
+            }
+        }
+#if WINDOWS
+        osBLE = new WindowsSHXBLE();
+#endif
+        osBLE.setStatusUpdater((status =>
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (status)
+                {
+                    statusLabel.Content = "连接状态：蓝牙已连接";
+                }
+                else
+                {
+                    statusLabel.Content = "连接状态：蓝牙未连接";
+                }
+            });
+        } ));
+        await MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙写频速度真的超级慢...如非紧急情况建议使用写频线").ShowWindowDialogAsync(this);
+        // Console.WriteLine("Requesting Bluetooth Device...");
+        // for windows and macoos
+        try
+        {
+            var available = await osBLE.GetBLEAvailabilityAsync();
+            // var available = true;
+            if (!available)
+            {
+                MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
+                return;
+            }
+        }
+        catch (Exception ed)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
+            return;
+        }
+
+        var hint = new HintWindow();
+        hint.setLabelStatus("自动搜索中...");
+        hint.setButtonStatus(false);
+        hint.ShowDialog(this);
+
+        if (!await osBLE.ScanForSHXAsync())
+        {
+            hint.setLabelStatus("未找到设备！\n您可能需要重启软件！");
+            hint.setButtonStatus(true);
+            return;
+        }
+
+        hint.setLabelStatus("已找到设备,尝试连接中...");
+        // Get Char.....
+        try
+        {
+            await osBLE.ConnectSHXDeviceAsync();
+        }
+#if __LINUX__
+        catch (Tmds.DBus.DBusException)
+        {
+            hint.setLabelStatus("连接失败！\n请在设置-蓝牙中取消对walkie-talkie的连接。\n如果您是初次连接，请在设置中手动配对\nwalkie-talkie并点击配对！");
+            hint.setButtonStatus(true);
+            return;
+        }
+#endif
+        catch (Exception ea)
+        {
+            hint.setLabelStatus("连接失败！" + ea.Message);
+            hint.setButtonStatus(true);
+            return;
+        }
+
+        // Console.WriteLine("Connected");
+        if (!await osBLE.ConnectSHXRWServiceAsync())
+        {
+            hint.setLabelStatus("未找到写特征\n确认您使用的是GT12");
+            hint.setButtonStatus(true);
+            return;
+        }
+
+
+        if (!await osBLE.ConnectSHXRWCharacteristicAsync())
+        {
+            hint.setLabelStatus("未找到写特征\n确认您使用的是GT12");
+            hint.setButtonStatus(true);
+            return;
+        }
+
+        osBLE.RegisterHID();
+        hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
         hint.setButtonStatus(true);
     }
 }

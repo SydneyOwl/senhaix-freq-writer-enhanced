@@ -1,4 +1,4 @@
-﻿namespace SenhaixFreqWriter.Constants.Shx8x00;
+﻿namespace SenhaixFreqWriter.Constants.BLE;
 
 public class BLE_CONST
 {

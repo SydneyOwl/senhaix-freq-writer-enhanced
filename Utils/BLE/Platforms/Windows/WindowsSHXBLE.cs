@@ -12,8 +12,10 @@ using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Security.Cryptography;
+using SenhaixFreqWriter.Constants.BLE;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
+using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
 
 namespace shx.Utils.BLE.Platforms.Windows;
@@ -28,6 +30,8 @@ public enum MsgType
 
 public class WindowsSHXBLE : IBluetooth
 {
+
+    public updater statusUpdate;
     /// <summary>
     ///     获取特征委托
     /// </summary>
@@ -179,7 +183,7 @@ public class WindowsSHXBLE : IBluetooth
         DeviceMacList = new List<string>();
         DeviceList = new List<BluetoothLEDevice>();
         MySerialPort.getInstance().WriteBLE = null;
-        Watcher.Stop();
+        Watcher?.Stop();
         Watcher = null;
         // ForceNewBleInstance();
         // Console.WriteLine("主动断开连接");
@@ -210,6 +214,7 @@ public class WindowsSHXBLE : IBluetooth
             {
                 if (asyncStatus == AsyncStatus.Completed)
                 {
+                    // Console.WriteLine("WRITE");
                     var a = asyncInfo.GetResults();
                 }
             };
@@ -372,18 +377,22 @@ public class WindowsSHXBLE : IBluetooth
     {
         if (sender.ConnectionStatus == BluetoothConnectionStatus.Disconnected && CurrentDeviceMAC != null)
         {
+            statusUpdate(false);
             if (!asyncLock)
             {
                 asyncLock = true;
+                Console.WriteLine("设备已断开");
                 Dispose();
             }
         }
         else
         {
+            Console.WriteLine("connected");
+            statusUpdate(true);
             if (!asyncLock)
             {
                 asyncLock = true;
-                // Console.WriteLine("设备已连接");
+                Console.WriteLine("设备已连接");
                 // meg.Text = "蓝牙（已连接）";
             }
         }
@@ -457,13 +466,19 @@ public class WindowsSHXBLE : IBluetooth
         connStep = BLE_CONST.STATUS_CONN_SUCCESS;
     }
 
-    public void TriggerRecdata(GattCharacteristic sender, byte[] data)
+    public void TriggerRecdata8800(GattCharacteristic sender, byte[] data)
     {
         foreach (var b in data)
         {
             var tmp = b;
             MySerialPort.getInstance().RxData.Enqueue(tmp);
         }
+    }
+    public void TriggerRecdataGt12(GattCharacteristic sender, byte[] data)
+    {
+        HIDTools.getInstance().rxBuffer = data;
+        HIDTools.getInstance().flagReceiveData = true;
+        // Console.WriteLine("READ1!");
     }
 
     public void TriggerCharacteristicAdded(GattCharacteristic gatt)
@@ -505,7 +520,6 @@ public class WindowsSHXBLE : IBluetooth
         DeviceWatcherChanged += TriggerDeviceWatcherChanged;
         CharacteristicAdded += TriggerCharacteristicAdded;
         CharacteristicFinish += TriggerCharacteristicFinish;
-        Recdate += TriggerRecdata;
         StartBleDeviceWatcher();
         await Task.Delay(7000);
         StopBleDeviceWatcher();
@@ -557,6 +571,19 @@ characteristics.Find(x => x.Uuid.ToString().Contains(BLE_CONST.RW_CHARACTERISTIC
     public void RegisterSerial()
     {
         MySerialPort.getInstance().WriteBLE = Write;
+        Recdate += TriggerRecdata8800;
+    }
+
+    public void RegisterHID()
+    {
+        HIDTools.getInstance().WriteBLE = Write;
+        Recdate += TriggerRecdataGt12;
+        statusUpdate(true);
+    }
+
+    public void setStatusUpdater(updater up)
+    {
+        statusUpdate = up;
     }
 }
 #endif
