@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using MsBox.Avalonia;
-using SenhaixFreqWriter.DataModels.Shx8x00;
+using Newtonsoft.Json;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
@@ -23,7 +23,7 @@ public class AppData
     public MDC1200 mdcs = new();
     public VFOInfos vfos = new();
 
-    [XmlIgnore] public static AppData instance;
+    [JsonIgnore] public static AppData instance;
 
     public static AppData getInstance()
     {
@@ -55,7 +55,8 @@ public class AppData
 
     public void SaveToFile(Stream s)
     {
-        var serializer = new XmlSerializer(typeof(AppData));
+        var serializer = new JsonSerializer();
+        serializer.Formatting = Formatting.Indented;
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
             serializer.Serialize(streamWriter, instance);
@@ -71,9 +72,9 @@ public class AppData
             AppData tmp;
             try
             {
-                var xmlSerializer = new XmlSerializer(typeof(AppData));
-                var stringReader = new StringReader(xmls);
-                tmp = (AppData)xmlSerializer.Deserialize(stringReader);
+                var jsonSerializer = new JsonSerializer();
+                var stringReader = new JsonTextReader(new StringReader(xmls));
+                tmp = jsonSerializer.Deserialize<AppData>(stringReader);
                 instance.dtmfs = tmp.dtmfs;
                 instance.funCfgs = tmp.funCfgs;
                 instance.fms = tmp.fms;
