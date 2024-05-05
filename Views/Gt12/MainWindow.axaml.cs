@@ -20,6 +20,10 @@ using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
 
+#if WINDOWS
+using shx.Utils.BLE.Platforms.Windows;
+#endif
+
 namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class MainWindow : Window
