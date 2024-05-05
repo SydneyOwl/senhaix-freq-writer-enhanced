@@ -18,7 +18,7 @@
 目前适配情况：
 
 + 森海克斯8x00：已开发完成
-+ 森海克斯GT12：**测试中！麻烦使用macos的友台给下反馈~**
++ 森海克斯GT12：**测试中！麻烦使用macos的友台给下反馈~您可以在[pre-release](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.3.0-alpha3)中或action中下载**
 
 | SHX8X00                      | GT12                         |
 | ---------------------------- | ---------------------------- |
