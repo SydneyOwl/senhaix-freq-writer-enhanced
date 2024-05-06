@@ -18,7 +18,7 @@
 目前适配情况：
 
 + 森海克斯8x00：已开发完成
-+ 森海克斯GT12：**测试中！麻烦使用macos的友台给下反馈~您可以在[pre-release](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.3.0-alpha3)中或action中下载**
++ 森海克斯GT12：**测试中！麻烦使用macos的友台给下反馈~您可以在beta版本的release中或action中下载**
 
 | SHX8X00                      | GT12                         |
 | ---------------------------- | ---------------------------- |
@@ -70,7 +70,7 @@ installed.
 
 ## FAQ
 
-+ linux平台上写频时很有可能需要`sudo`！
++ linux平台上写频需要`sudo`！
 
 ## 其他
 
@@ -78,20 +78,7 @@ installed.
 > 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
 卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)
-，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。另外，请注意以下几点：
-
-+ 除亚音外，所有频率单位均为 MHz（兆赫兹）。
-+ 针对 FM 卫星，默认按照 U 段 ±10KHz，V 段 ±5KHz 生成。
-+ SO-50 卫星的 OPEN 阶段为转发器激活之用。若转发器已激活，可跳过本阶段。两个 OPEN 分别对应 SO-50 出现和过顶，您可根据需要发射激活亚音。
-  **（本软件未生成OPEN阶段）**
-+ CAS-3H 和 PO-101 按照时间表计划开启转发器，请关注官方发布的时间表以及开机计划。
-+ ISS-FM 转发器的开启请关注最新动态，在遇到 SSTV 活动、宇航员出舱活动等情况下可能关闭。
-+ AO-91 卫星目前因电池故障，只能在日光下提供转发或工作状态不稳定，可能突然关机。
-  中国空间站（CSS）已完成业余载荷频率协调，但截至目前，CSS 的业余载荷还并未投入使用，请关注最新消息。
-+ UVSQ-SAT 卫星目前以科研任务为主，何时开放转发器也请关注最新消息。
-+ Tevel 系列卫星较多，且都为同一参数。因此是按计划，在部分时间开启部分卫星的转发器，请关注最新信息以了解哪些卫星的转发器在何时处于可用状态。
-+ 本表中亚音频率的单位为 Hz（赫兹）。若生成的数据亚音标注为OFF，表明此卫星转发器无需亚音即可使用。
-+ *以上几点来源：https://forum.hamcq.cn/d/351
+，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
 
 shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)
 以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
@@ -120,6 +107,8 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.2.1` 加入打星助手，更换了“关于”窗体
 
 `v0.2.2` 重写官方winform写频软件，实现跨平台
+
+`v0.3.0(beta)` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题
 
 ## Thanks...
 
