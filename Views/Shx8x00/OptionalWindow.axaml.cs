@@ -167,7 +167,7 @@ public partial class OptionalWindow : Window
     private void B_Freq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.getInstance().funCfgData.TB_A_CurFreq = parseCurFreq(textBox.Text);
+        ClassTheRadioData.getInstance().funCfgData.TB_B_CurFreq = parseCurFreq(textBox.Text);
     }
 
 
