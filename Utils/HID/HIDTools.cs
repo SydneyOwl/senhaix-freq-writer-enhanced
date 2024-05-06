@@ -44,7 +44,7 @@ public class HIDTools
 
     public int BTDeviceMtu = 23;
     
-    private CancellationTokenSource pollTokenSource;
+    private CancellationTokenSource pollTokenSource = new CancellationTokenSource();
     
     private Mutex _mutex = new();
     
@@ -124,7 +124,7 @@ public class HIDTools
             _mutex.ReleaseMutex();
             return HID_STATUS.DEVICE_NOT_FOUND;
         }
-        OutputReportLength = Gt12Device.GetMaxInputReportLength();
+        OutputReportLength = Gt12Device.GetMaxOutputReportLength();
         InputReportLength = Gt12Device.GetMaxInputReportLength();
         if (Gt12Device.TryOpen(out hidStream))
         {
@@ -190,17 +190,17 @@ public class HIDTools
         // Console.WriteLine("writing...");
         try
         {
-            var array = new byte[BTDeviceMtu - 1];
-            var num = 0;
             if (WriteBLE != null)
             {
+                var array = new byte[BTDeviceMtu - 1];
+                var num = 0;
                 // num = r.reportBuff.Length >= BTDeviceMtu - 1
                 //     ? BTDeviceMtu - 1
                 //     : r.reportBuff.Length;
                 // for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
                 // WriteBLE(array);
                 var tobeWrite = bytesTrimEnd(r.reportBuff);
-                var singleSize = BTDeviceMtu - 2;
+                var singleSize = BTDeviceMtu - 1;
                 var sendTimes = tobeWrite.Length / singleSize;
                 var tmp = 0;
                 for (var i = 0; i < sendTimes + 1; i++)
@@ -217,10 +217,13 @@ public class HIDTools
             }
             else
             {
+                var array = new byte[OutputReportLength];
+                var num = 0;
                 num = r.reportBuff.Length >= OutputReportLength - 1
                     ? OutputReportLength - 1
                     : r.reportBuff.Length;
                 for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
+                Console.WriteLine(OutputReportLength);
                 hidStream.Write(array, 0, OutputReportLength);
             }
             return HID_STATUS.SUCCESS;
