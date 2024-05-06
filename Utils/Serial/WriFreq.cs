@@ -1344,10 +1344,10 @@ internal class WriFreq
             theRadioData.channeldata[NO_CH].changeByNum(3, CaculateCDCSS_HexToStr(array));
         // channelDat[3] = CaculateCDCSS_HexToStr(array);
         if (GetTypeOfSubaudio_HexToStr(array2[1]) == SUBAUDIO_TYPE.CTCSS)
-            theRadioData.channeldata[NO_CH].changeByNum(5, CaculateCTCSS_HexToStr(array));
+            theRadioData.channeldata[NO_CH].changeByNum(5, CaculateCTCSS_HexToStr(array2));
         // channelDat[5] = CaculateCTCSS_HexToStr(array2);
         else
-            theRadioData.channeldata[NO_CH].changeByNum(5, CaculateCDCSS_HexToStr(array));
+            theRadioData.channeldata[NO_CH].changeByNum(5, CaculateCDCSS_HexToStr(array2));
         // channelDat[5] = CaculateCDCSS_HexToStr(array2);
     }
 
