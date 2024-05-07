@@ -149,7 +149,7 @@
                 <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             </StackPanel>
         </Border>
-        <Border Background="White" BorderBrush="Black" BorderThickness="1">
+        <Border Background="{DynamicResource dgvBackgroundBrush}" BorderBrush="Black" BorderThickness="1">
             <DataGrid Margin="20" ItemsSource="{Binding ListItems }" x:Name="channelDataGrid"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray"
