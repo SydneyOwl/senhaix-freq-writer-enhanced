@@ -6,31 +6,21 @@ using SenhaixFreqWriter.DataModels.Shx8x00;
 
 namespace SenhaixFreqWriter.Views.Shx8x00;
 
-public partial class DTMFWindow : Window
+public partial class DtmfWindow : Window
 {
-    public DTMFData _dtmf = ClassTheRadioData.getInstance().dtmfData;
+    public DtmfData Dtmf { get; set; } = ClassTheRadioData.GetInstance().DtmfData;
 
-    public DTMFWindow()
+    public DtmfWindow()
     {
         InitializeComponent();
         DataContext = this;
     }
 
-    public DTMFData dtmf
-    {
-        get => _dtmf;
-        set
-        {
-            ClassTheRadioData.getInstance().dtmfData = value;
-            _dtmf = value;
-        }
-    }
-
     private void restore_OnClick(object? sender, RoutedEventArgs e)
     {
-        ClassTheRadioData.getInstance().dtmfData = new DTMFData();
+        ClassTheRadioData.GetInstance().DtmfData = new DtmfData();
         Close();
-        var newWindow = new DTMFWindow();
+        var newWindow = new DtmfWindow();
         newWindow.Show();
     }
 
@@ -47,14 +37,14 @@ public partial class DTMFWindow : Window
         if (text.Length > 5)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "最多5位！").ShowWindowDialogAsync(this);
-            ClassTheRadioData.getInstance().dtmfData.TheIDOfLocalHost = "80808";
+            ClassTheRadioData.GetInstance().DtmfData.TheIdOfLocalHost = "80808";
             return;
         }
 
         if ((text[text.Length - 1] < '0' || text[text.Length - 1] > '9') && text.Length == 5)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "最后一位只能是数字").ShowWindowDialogAsync(this);
-            ClassTheRadioData.getInstance().dtmfData.TheIDOfLocalHost = "80808";
+            ClassTheRadioData.GetInstance().DtmfData.TheIdOfLocalHost = "80808";
             return;
         }
 

@@ -2,17 +2,17 @@
 
 namespace SenhaixFreqWriter.Utils.BLE.Interfaces;
 
-public delegate void updater(bool status);
+public delegate void Updater(bool status);
 
 public interface IBluetooth
 {
-    public Task<bool> GetBLEAvailabilityAsync();
-    public Task<bool> ScanForSHXAsync();
-    public Task ConnectSHXDeviceAsync();
-    public Task<bool> ConnectSHXRWServiceAsync();
-    public Task<bool> ConnectSHXRWCharacteristicAsync();
+    public Task<bool> GetBleAvailabilityAsync();
+    public Task<bool> ScanForShxAsync();
+    public Task ConnectShxDeviceAsync();
+    public Task<bool> ConnectShxRwServiceAsync();
+    public Task<bool> ConnectShxRwCharacteristicAsync();
     public void RegisterSerial();
-    public void RegisterHID();
+    public void RegisterHid();
     public void Dispose();
-    public void setStatusUpdater(updater up);
+    public void SetStatusUpdater(Updater up);
 }

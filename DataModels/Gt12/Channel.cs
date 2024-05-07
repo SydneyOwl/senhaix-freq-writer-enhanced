@@ -7,25 +7,25 @@ namespace SenhaixFreqWriter.DataModels.Gt12;
 
 public partial class Channel : ObservableObject
 {
-    [ObservableProperty] private int bandwide;
+    [ObservableProperty] private int _bandwide;
 
     [ObservableProperty]
     // Useless member: id
-    private int id;
+    private int _id;
 
-    [ObservableProperty] private string name = "";
-    [ObservableProperty] private int pttid;
-    [ObservableProperty] private string rxFreq = "";
-    [ObservableProperty] private int scanAdd;
-    [ObservableProperty] private int signalGroup;
-    [ObservableProperty] private int signalSystem;
-    [ObservableProperty] private int sqMode;
-    [ObservableProperty] private string strRxCtsDcs = "OFF";
-    [ObservableProperty] private string strTxCtsDcs = "OFF";
-    [ObservableProperty] private string txFreq = "";
-    [ObservableProperty] private int txPower;
+    [ObservableProperty] private string _name = "";
+    [ObservableProperty] private int _pttid;
+    [ObservableProperty] private string _rxFreq = "";
+    [ObservableProperty] private int _scanAdd;
+    [ObservableProperty] private int _signalGroup;
+    [ObservableProperty] private int _signalSystem;
+    [ObservableProperty] private int _sqMode;
+    [ObservableProperty] private string _strRxCtsDcs = "OFF";
+    [ObservableProperty] private string _strTxCtsDcs = "OFF";
+    [ObservableProperty] private string _txFreq = "";
+    [ObservableProperty] private int _txPower;
 
-    [XmlIgnore] [ObservableProperty] private bool isVisable;
+    [XmlIgnore] [ObservableProperty] private bool _isVisable;
 
     public Channel()
     {
@@ -34,18 +34,18 @@ public partial class Channel : ObservableObject
     public Channel(int id, string rxFreq, string rxCts, string txFreq, string txCts, int power, int bandwide,
         int scanAdd, int sqMode, int pttid, int signal, string name)
     {
-        this.id = id;
-        this.rxFreq = rxFreq;
-        strRxCtsDcs = rxCts;
-        this.txFreq = txFreq;
-        strTxCtsDcs = txCts;
-        txPower = power;
-        this.bandwide = bandwide;
-        this.scanAdd = scanAdd;
-        this.sqMode = sqMode;
-        this.pttid = pttid;
-        signalGroup = signal;
-        this.name = name;
+        _id = id;
+        _rxFreq = rxFreq;
+        _strRxCtsDcs = rxCts;
+        _txFreq = txFreq;
+        _strTxCtsDcs = txCts;
+        _txPower = power;
+        _bandwide = bandwide;
+        _scanAdd = scanAdd;
+        _sqMode = sqMode;
+        _pttid = pttid;
+        _signalGroup = signal;
+        _name = name;
     }
 
     public Channel DeepCopy()

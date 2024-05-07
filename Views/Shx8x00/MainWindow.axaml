@@ -113,16 +113,16 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="切换设备" Click="SwitchDevice_OnClick">
-                       <MenuItem.Icon>
-                           <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
-                       </MenuItem.Icon>
-                   </MenuItem>
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="关于" Click="About_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource person_feedback_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                
+
             </MenuItem>
         </Menu>
         <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"
@@ -144,13 +144,13 @@
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
             <StackPanel Orientation="Horizontal">
-                <Label Foreground="MediumBlue" Content="{x:Static verConstants:VERSION.Version}" />
+                <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" />
                 <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
                 <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             </StackPanel>
         </Border>
         <Border Background="White" BorderBrush="Black" BorderThickness="1">
-            <DataGrid Margin="20" ItemsSource="{Binding listItems }" x:Name="channelDataGrid"
+            <DataGrid Margin="20" ItemsSource="{Binding ListItems }" x:Name="channelDataGrid"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray"
                       CanUserSortColumns="False"
@@ -182,7 +182,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" SelectedItem="{Binding TxAllow, Mode=TwoWay}"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txallow}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Txallow}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -198,7 +198,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Qtdqt}"
                                           SelectedItem="{Binding QtDec, Mode=TwoWay}"
                                           IsVisible="{Binding IsVisable}"
                                           SelectionChanged="SelectingItemsControl_OnSelectionChanged" />
@@ -219,7 +219,7 @@
                                 <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
                                           SelectedItem="{Binding QtEnc, Mode=TwoWay}"
                                           SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.qtdqt}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Qtdqt}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -228,7 +228,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.txPwr}"
+                                          ItemsSource="{x:Static constants:ChanChoice.TxPwr}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -237,7 +237,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.bandwidth}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Bandwidth}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -246,7 +246,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Pttid, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.pttid}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Pttid}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -255,7 +255,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BusyLock, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.busylock}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Busylock}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -264,7 +264,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.scanadd}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Scanadd}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -273,7 +273,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding SigCode, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.signCode}"
+                                          ItemsSource="{x:Static constants:ChanChoice.SignCode}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -284,7 +284,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Encrypt, Mode=TwoWay}" HorizontalAlignment="Center"
-                                          ItemsSource="{x:Static constants:CHAN_CHOICE.encrypt}"
+                                          ItemsSource="{x:Static constants:ChanChoice.Encrypt}"
                                           IsVisible="{Binding IsVisable}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

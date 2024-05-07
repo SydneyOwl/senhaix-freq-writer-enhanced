@@ -11,15 +11,24 @@ using SenhaixFreqWriter.DataModels.Gt12;
 
 namespace SenhaixFreqWriter.Views.Gt12;
 
-public partial class DTMFWindow : Window
+public partial class DtmfWindow : Window
 {
+    
+    private ObservableCollection<DtmpObject> _dtmfs = new();
+
+    private int _wordTime = AppData.GetInstance().Dtmfs.WordTime;
+
+    private int _idleTime = AppData.GetInstance().Dtmfs.IdleTime;
+
+    private string _myId = AppData.GetInstance().Dtmfs.LocalId;
+    
     public int WordTime
     {
         get => _wordTime;
         set
         {
             _wordTime = value;
-            AppData.getInstance().dtmfs.WordTime = value;
+            AppData.GetInstance().Dtmfs.WordTime = value;
         }
     }
 
@@ -29,17 +38,10 @@ public partial class DTMFWindow : Window
         set
         {
             _idleTime = value;
-            AppData.getInstance().dtmfs.IdleTime = value;
+            AppData.GetInstance().Dtmfs.IdleTime = value;
         }
     }
 
-    private ObservableCollection<DTMPObject> _dtmfs = new();
-
-    private int _wordTime = AppData.getInstance().dtmfs.WordTime;
-
-    private int _idleTime = AppData.getInstance().dtmfs.IdleTime;
-
-    private string _myId = AppData.getInstance().dtmfs.LocalID;
 
     public string MyId
     {
@@ -47,24 +49,24 @@ public partial class DTMFWindow : Window
         set
         {
             _myId = value ?? throw new ArgumentNullException(nameof(value));
-            AppData.getInstance().dtmfs.LocalID = value;
+            AppData.GetInstance().Dtmfs.LocalId = value;
         }
     }
 
-    public ObservableCollection<DTMPObject> Dtmfs
+    public ObservableCollection<DtmpObject> Dtmfs
     {
         get => _dtmfs;
         set => _dtmfs = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public DTMFWindow()
+    public DtmfWindow()
     {
         InitializeComponent();
         DataContext = this;
-        var dtmfOrig = AppData.getInstance().dtmfs;
+        var dtmfOrig = AppData.GetInstance().Dtmfs;
         for (var i = 0; i < 20; i++)
         {
-            var tmp = new DTMPObject();
+            var tmp = new DtmpObject();
             tmp.Id = (i + 1).ToString();
             tmp.GroupName = dtmfOrig.GroupName[i];
             tmp.Group = dtmfOrig.Group[i];
@@ -84,8 +86,8 @@ public partial class DTMFWindow : Window
 
             for (var j = 0; j < 20; j++)
             {
-                AppData.getInstance().dtmfs.Group[j] = Dtmfs[j].Group;
-                AppData.getInstance().dtmfs.GroupName[j] = Dtmfs[j].GroupName;
+                AppData.GetInstance().Dtmfs.Group[j] = Dtmfs[j].Group;
+                AppData.GetInstance().Dtmfs.GroupName[j] = Dtmfs[j].GroupName;
             }
         };
     }

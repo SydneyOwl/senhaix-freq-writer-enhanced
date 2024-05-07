@@ -2,12 +2,12 @@
 
 public class ProgressBarValue
 {
-    public int value;
-    public string content;
+    public int Value;
+    public string Content;
 
     public ProgressBarValue(int value, string content)
     {
-        this.value = value;
-        this.content = content;
+        Value = value;
+        Content = content;
     }
 }

@@ -1,7 +1,7 @@
 namespace SenhaixFreqWriter.Constants.Shx8x00;
 
-internal enum SUBAUDIO_TYPE
+internal enum SubaudioType
 {
-    CTCSS,
-    CDCSS
+    Ctcss,
+    Cdcss
 }

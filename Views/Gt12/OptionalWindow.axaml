@@ -13,101 +13,101 @@
             <Canvas>
                 <Label Content="静噪等级" Canvas.Top="20" Canvas.Left="10" />
                 <ComboBox Canvas.Top="15" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.sql}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Sql}"
                           SelectedIndex="{Binding Func.Sql}" />
                 <Label Content="发射超时" Canvas.Top="60" Canvas.Left="10" />
                 <ComboBox Canvas.Top="55" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.txTimeout}"
+                          ItemsSource="{x:Static constants:FunctionChoice.TxTimeout}"
                           SelectedIndex="{Binding Func.Tot}" />
                 <Label Content="省电模式" Canvas.Top="100" Canvas.Left="10" />
                 <ComboBox Canvas.Top="95" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.saveMode}"
+                          ItemsSource="{x:Static constants:FunctionChoice.SaveMode}"
                           SelectedIndex="{Binding Func.SaveMode}" />
                 <Label Content="声控开关" Canvas.Top="140" Canvas.Left="10" />
                 <ComboBox Canvas.Top="135" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.voxSwitch}"
+                          ItemsSource="{x:Static constants:FunctionChoice.VoxSwitch}"
                           SelectedIndex="{Binding Func.VoxSw}" />
                 <Label Content="声控等级" Canvas.Top="180" Canvas.Left="10" />
                 <ComboBox Canvas.Top="175" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.vox}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Vox}"
                           SelectedIndex="{Binding Func.Vox}" />
                 <Label Content="声控延时" Canvas.Top="220" Canvas.Left="10" />
                 <ComboBox Canvas.Top="215" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.voxDelay}"
+                          ItemsSource="{x:Static constants:FunctionChoice.VoxDelay}"
                           SelectedIndex="{Binding Func.VoxDlyTime}" />
                 <Label Content="双守功能" Canvas.Top="300" Canvas.Left="10" />
                 <ComboBox Canvas.Top="295" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.doubleWait}"
+                          ItemsSource="{x:Static constants:FunctionChoice.DoubleWait}"
                           SelectedIndex="{Binding Func.DualStandby}" />
                 <Label Content="中继倒频频率" Canvas.Top="340" Canvas.Left="10" />
                 <ComboBox Canvas.Top="335" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.tone}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Tone}"
                           SelectedIndex="{Binding Func.Tone}" />
                 <Label Content="侧音开关" Canvas.Top="380" Canvas.Left="10" />
                 <ComboBox Canvas.Top="375" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.sideTone}"
+                          ItemsSource="{x:Static constants:FunctionChoice.SideTone}"
                           SelectedIndex="{Binding Func.SideTone}" />
 
                 <Label Content="尾音消除" Canvas.Top="20" Canvas.Left="230" />
                 <ComboBox Canvas.Top="15" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.tailClear}"
+                          ItemsSource="{x:Static constants:FunctionChoice.TailClear}"
                           SelectedIndex="{Binding Func.TailClear}" />
                 <Label Content="开机显示方式" Canvas.Top="60" Canvas.Left="230" />
                 <ComboBox Canvas.Top="55" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.powerOnDisplay}"
+                          ItemsSource="{x:Static constants:FunctionChoice.PowerOnDisplay}"
                           SelectedIndex="{Binding Func.PowerOnDisType}" />
                 <Label Content="提示音" Canvas.Top="100" Canvas.Left="230" />
                 <ComboBox Canvas.Top="95" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.beep}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Beep}"
                           SelectedIndex="{Binding Func.Beep}" />
                 <Label Content="麦克风增益" Canvas.Top="140" Canvas.Left="230" />
                 <ComboBox Canvas.Top="135" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.micGain}"
+                          ItemsSource="{x:Static constants:FunctionChoice.MicGain}"
                           SelectedIndex="{Binding Func.MicGain}" />
                 <Label Content="扫描模式" Canvas.Top="180" Canvas.Left="230" />
                 <ComboBox Canvas.Top="175" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.scanMode}"
+                          ItemsSource="{x:Static constants:FunctionChoice.ScanMode}"
                           SelectedIndex="{Binding Func.ScanMode}" />
                 <Label Content="报警模式" Canvas.Top="220" Canvas.Left="230" />
                 <ComboBox Canvas.Top="215" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.SOS}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Sos}"
                           SelectedIndex="{Binding Func.AlarmMode}" />
                 <Label Content="键盘锁定" Canvas.Top="260" Canvas.Left="230" />
                 <ComboBox Canvas.Top="255" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.keyLock}"
+                          ItemsSource="{x:Static constants:FunctionChoice.KeyLock}"
                           SelectedIndex="{Binding Func.KeyLock}" />
                 <Label Content="FM收音机" Canvas.Top="300" Canvas.Left="230" />
                 <ComboBox Canvas.Top="295" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.FM}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Fm}"
                           SelectedIndex="{Binding Func.FmEnable}" />
                 <Label Content="当前区域" Canvas.Top="340" Canvas.Left="230" />
                 <ComboBox Canvas.Top="335" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.curBank}"
+                          ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
                           SelectedIndex="{Binding Func.CurBank}" />
                 <Label Content="键盘锁定时间" Canvas.Top="380" Canvas.Left="230" />
                 <ComboBox Canvas.Top="375" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.autoLock}"
+                          ItemsSource="{x:Static constants:FunctionChoice.AutoLock}"
                           SelectedIndex="{Binding Func.AutoLock}" />
 
                 <Label Content="菜单退出时间" Canvas.Top="20" Canvas.Left="450" />
                 <ComboBox Canvas.Top="15" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.autoQuit}"
+                          ItemsSource="{x:Static constants:FunctionChoice.AutoQuit}"
                           SelectedIndex="{Binding Func.MenuQuitTime}" />
                 <Label Content="背光时间" Canvas.Top="60" Canvas.Left="450" />
                 <ComboBox Canvas.Top="55" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.backgroundLightTime}"
+                          ItemsSource="{x:Static constants:FunctionChoice.BackgroundLightTime}"
                           SelectedIndex="{Binding Func.Backlight}" />
                 <Label Content="背光亮度" Canvas.Top="100" Canvas.Left="450" />
                 <ComboBox Canvas.Top="95" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.bright}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Bright}"
                           SelectedIndex="{Binding Func.Bright}" />
                 <Label Content="发码延迟" Canvas.Top="140" Canvas.Left="450" />
                 <ComboBox Canvas.Top="135" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.sendCodeDelay}"
+                          ItemsSource="{x:Static constants:FunctionChoice.SendCodeDelay}"
                           SelectedIndex="{Binding Func.PttDly}" />
                 <Label Content="发射结束提示音" Canvas.Top="180" Canvas.Left="450" />
                 <ComboBox Canvas.Top="175" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.beep}"
+                          ItemsSource="{x:Static constants:FunctionChoice.Beep}"
                           SelectedIndex="{Binding Func.Beep}" />
             </Canvas>
         </TabItem>
@@ -116,52 +116,52 @@
             <Canvas>
                 <Label Content="A段显示模式" Canvas.Top="20" Canvas.Left="10" />
                 <ComboBox Canvas.Top="15" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.displayType}"
+                          ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChADisType}" />
                 <Label Content="A段工作模式" Canvas.Top="60" Canvas.Left="10" />
                 <ComboBox Canvas.Top="55" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.workMode}"
+                          ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChAWorkmode}" />
                 <Label Content="B段显示模式" Canvas.Top="100" Canvas.Left="10" />
                 <ComboBox Canvas.Top="95" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.displayType}"
+                          ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChBDisType}" />
                 <Label Content="B段工作模式" Canvas.Top="140" Canvas.Left="10" />
                 <ComboBox Canvas.Top="135" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.workMode}"
+                          ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChBWorkmode}" />
                 <Label Content="侧键1短按" Canvas.Top="180" Canvas.Left="10" />
                 <ComboBox Canvas.Top="175" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.keyFunc}"
+                          ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key1Short}" />
                 <Label Content="侧键1长按" Canvas.Top="220" Canvas.Left="10" />
                 <ComboBox Canvas.Top="215" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.keyFunc}"
+                          ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key1Long}" />
                 <Label Content="侧键2短按" Canvas.Top="260" Canvas.Left="10" />
                 <ComboBox Canvas.Top="255" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.keyFunc}"
+                          ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key2Short}" />
                 <Label Content="侧键2长按" Canvas.Top="300" Canvas.Left="10" />
                 <ComboBox Canvas.Top="295" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.keyFunc}"
+                          ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key2Long}" />
                 <Label Content="过中继尾音消除" Canvas.Top="340" Canvas.Left="10" />
                 <ComboBox Canvas.Top="335" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.rptTailClear}"
+                          ItemsSource="{x:Static constants:FunctionChoice.RptTailClear}"
                           SelectedIndex="{Binding Func.RptTailClear}" />
                 <Label Content="过中继尾音检测" Canvas.Top="380" Canvas.Left="10" />
                 <ComboBox Canvas.Top="375" Canvas.Left="130" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.rptDetectTail}"
+                          ItemsSource="{x:Static constants:FunctionChoice.RptDetectTail}"
                           SelectedIndex="{Binding Func.RptTailDet}" />
 
                 <Label Content="开机显示时间" Canvas.Top="20" Canvas.Left="260" />
                 <ComboBox Canvas.Top="15" Canvas.Left="380" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.powerUpDisplayTime}"
+                          ItemsSource="{x:Static constants:FunctionChoice.PowerUpDisplayTime}"
                           SelectedIndex="{Binding Func.PowerUpDisTime}" />
                 <Label Content="蓝牙音频增益" Canvas.Top="60" Canvas.Left="260" />
                 <ComboBox Canvas.Top="55" Canvas.Left="380" Width="100"
-                          ItemsSource="{x:Static constants:FUNCTION_CHOICE.BTGain}"
+                          ItemsSource="{x:Static constants:FunctionChoice.BtGain}"
                           SelectedIndex="{Binding Func.BluetoothAudioGain}" />
                 <Label Content="呼号" Canvas.Top="190" Canvas.Left="280" />
                 <TextBox Canvas.Top="185" Canvas.Left="360" Width="100" Text="{Binding Func.CallSign}"

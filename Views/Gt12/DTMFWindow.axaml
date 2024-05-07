@@ -3,9 +3,9 @@
         Width="400" Height="550"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        x:Class="SenhaixFreqWriter.Views.Gt12.DTMFWindow"
+        x:Class="SenhaixFreqWriter.Views.Gt12.DtmfWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
-        x:DataType="vm:DTMFWindow"
+        x:DataType="vm:DtmfWindow"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
         Title="DTMF设置">
     <Canvas>
@@ -46,11 +46,11 @@
                  LostFocus="GroupCodeInputElement_OnLostFocus" />
 
         <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160" />
-        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}"
+        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
                   SelectedIndex="{Binding WordTime}" />
 
         <Label Content="DTMF码间断时间" Canvas.Bottom="50" Canvas.Left="160" />
-        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DTMF_CHOICE.time}"
+        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
                   SelectedIndex="{Binding IdleTime}" />
     </Canvas>
 </Window>

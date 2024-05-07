@@ -9,48 +9,48 @@ namespace SenhaixFreqWriter.DataModels.Gt12;
 
 public class AppData
 {
-    public string[] bankName = new string[30]
+    public string[] BankName = new string[30]
     {
         "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八", "区域九", "区域十",
         "区域十一", "区域十二", "区域十三", "区域十四", "区域十五", "区域十六", "区域十七", "区域十八", "区域十九", "区域二十",
         "区域二十一", "区域二十二", "区域二十三", "区域二十四", "区域二十五", "区域二十六", "区域二十七", "区域二十八", "区域二十九", "区域三十"
     };
 
-    public Channel[][] channelList = new Channel[30][];
-    public DTMF dtmfs = new();
-    public FMChannel fms = new();
-    public Function funCfgs = new();
-    public MDC1200 mdcs = new();
-    public VFOInfos vfos = new();
+    public Channel[][] ChannelList = new Channel[30][];
+    public Dtmf Dtmfs = new();
+    public FmChannel Fms = new();
+    public Function FunCfgs = new();
+    public Mdc1200 Mdcs = new();
+    public VfoInfos Vfos = new();
 
-    [JsonIgnore] public static AppData instance;
+    [JsonIgnore] public static AppData Instance;
 
-    public static AppData getInstance()
+    public static AppData GetInstance()
     {
-        if (instance != null) return instance;
+        if (Instance != null) return Instance;
 
-        instance = new AppData();
-        return instance;
+        Instance = new AppData();
+        return Instance;
     }
 
     public AppData()
     {
         for (var i = 0; i < 30; i++)
         {
-            channelList[i] = new Channel[32];
+            ChannelList[i] = new Channel[32];
             for (var j = 0; j < 32; j++)
             {
                 var rmp = new Channel();
                 rmp.Id = j + 1;
-                channelList[i][j] = rmp;
+                ChannelList[i][j] = rmp;
             }
         }
     }
 
-    public static AppData forceNewInstance()
+    public static AppData ForceNewInstance()
     {
-        instance = new AppData();
-        return instance;
+        Instance = new AppData();
+        return Instance;
     }
 
     public void SaveToFile(Stream s)
@@ -59,7 +59,7 @@ public class AppData
         serializer.Formatting = Formatting.Indented;
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
-            serializer.Serialize(streamWriter, instance);
+            serializer.Serialize(streamWriter, Instance);
         }
     }
 
@@ -75,13 +75,13 @@ public class AppData
                 var jsonSerializer = new JsonSerializer();
                 var stringReader = new JsonTextReader(new StringReader(xmls));
                 tmp = jsonSerializer.Deserialize<AppData>(stringReader);
-                instance.dtmfs = tmp.dtmfs;
-                instance.funCfgs = tmp.funCfgs;
-                instance.fms = tmp.fms;
-                instance.mdcs = tmp.mdcs;
-                instance.vfos = tmp.vfos;
-                instance.bankName = tmp.bankName;
-                instance.channelList = tmp.channelList;
+                Instance.Dtmfs = tmp.Dtmfs;
+                Instance.FunCfgs = tmp.FunCfgs;
+                Instance.Fms = tmp.Fms;
+                Instance.Mdcs = tmp.Mdcs;
+                Instance.Vfos = tmp.Vfos;
+                Instance.BankName = tmp.BankName;
+                Instance.ChannelList = tmp.ChannelList;
             }
             catch (Exception e)
             {

@@ -7,22 +7,12 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OptionalWindow : Window
 {
-    public FunCFGData _fun = ClassTheRadioData.getInstance().funCfgData;
+    public FunCfgData Fun { get; set; } = ClassTheRadioData.GetInstance().FunCfgData;
 
     public OptionalWindow()
     {
         InitializeComponent();
         DataContext = this;
-    }
-
-    public FunCFGData fun
-    {
-        get => _fun;
-        set
-        {
-            ClassTheRadioData.getInstance().funCfgData = value;
-            _fun = value;
-        }
     }
 
     private void close_OnClick(object? sender, RoutedEventArgs e)
@@ -32,13 +22,13 @@ public partial class OptionalWindow : Window
 
     private void restore_OnClick(object? sender, RoutedEventArgs e)
     {
-        ClassTheRadioData.getInstance().funCfgData = new FunCFGData();
+        ClassTheRadioData.GetInstance().FunCfgData = new FunCfgData();
         var tmp = new OptionalWindow();
         Close();
         tmp.Show();
     }
 
-    private string parseCurFreq(string frq)
+    private string ParseCurFreq(string frq)
     {
         var texter = frq;
         if (!string.IsNullOrEmpty(texter))
@@ -90,7 +80,7 @@ public partial class OptionalWindow : Window
         return texter;
     }
 
-    private string parsePinFreq(string freq)
+    private string ParsePinFreq(string freq)
     {
         var text = freq;
         var num = text.IndexOf('.');
@@ -161,25 +151,25 @@ public partial class OptionalWindow : Window
     private void A_Freq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.getInstance().funCfgData.TB_A_CurFreq = parseCurFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBACurFreq = ParseCurFreq(textBox.Text);
     }
 
     private void B_Freq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.getInstance().funCfgData.TB_B_CurFreq = parseCurFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBBCurFreq = ParseCurFreq(textBox.Text);
     }
 
 
     private void A_RmFq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.getInstance().funCfgData.TB_A_RemainFreq = parsePinFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBARemainFreq = ParsePinFreq(textBox.Text);
     }
 
     private void B_RmFq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.getInstance().funCfgData.TB_B_RemainFreq = parsePinFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBBRemainFreq = ParsePinFreq(textBox.Text);
     }
 }

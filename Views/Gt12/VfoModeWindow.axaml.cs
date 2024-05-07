@@ -12,14 +12,8 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class VfoModeWindow : Window
 {
-    private VFOInfos _vfoInfos = AppData.getInstance().vfos;
-
-    public VFOInfos VfoInfos
-    {
-        get => _vfoInfos;
-        set => _vfoInfos = value;
-    }
-
+    public VfoInfos VfoInfos { get; set; } = AppData.GetInstance().Vfos;
+    
     public VfoModeWindow()
     {
         InitializeComponent();
@@ -74,7 +68,7 @@ public partial class VfoModeWindow : Window
             int res;
             if (!int.TryParse(array[j], out res))
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + FREQ.minFreq + "--" + FREQ.maxFreq)
+                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + Freq.MinFreq + "--" + Freq.MaxFreq)
                     .ShowWindowDialogAsync(this);
                 textBox.Text = "440.62500";
                 return;
@@ -85,9 +79,9 @@ public partial class VfoModeWindow : Window
 
         ;
 
-        if (list[0] < FREQ.minFreq || list[0] >= FREQ.maxFreq)
+        if (list[0] < Freq.MinFreq || list[0] >= Freq.MaxFreq)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + FREQ.minFreq + "--" + FREQ.maxFreq)
+            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + Freq.MinFreq + "--" + Freq.MaxFreq)
                 .ShowWindowDialogAsync(this);
             textBox.Text = "440.62500";
             return;
@@ -162,7 +156,7 @@ public partial class VfoModeWindow : Window
             int res;
             if (!int.TryParse(array[j], out res))
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + FREQ.minFreq + "--" + FREQ.maxFreq)
+                MessageBoxManager.GetMessageBoxStandard("注意", "格式错误" + Freq.MinFreq + "--" + Freq.MaxFreq)
                     .ShowWindowDialogAsync(this);
                 textBox.Text = "440.62500";
                 return;
@@ -175,7 +169,7 @@ public partial class VfoModeWindow : Window
 
         if (list[0] >= 100)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + FREQ.minFreq + "--" + FREQ.maxFreq)
+            MessageBoxManager.GetMessageBoxStandard("注意", "频率错误!\n频率范围:" + Freq.MinFreq + "--" + Freq.MaxFreq)
                 .ShowWindowDialogAsync(this);
             textBox.Text = "00.0000";
             return;

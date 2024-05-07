@@ -1,8 +1,8 @@
 ﻿namespace SenhaixFreqWriter.Constants.Gt12;
 
-public class GT12_HID
+public class Gt12Hid
 {
-    public static ushort PID = 650;
+    public static ushort Pid = 650;
 
-    public static ushort VID = 10473;
+    public static ushort Vid = 10473;
 }

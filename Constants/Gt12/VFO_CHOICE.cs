@@ -2,9 +2,9 @@
 
 namespace SenhaixFreqWriter.Constants.Gt12;
 
-public class VFO_CHOICE
+public class VfoChoice
 {
-    public static ObservableCollection<string> qtdqt = new()
+    public static ObservableCollection<string> Qtdqt = new()
     {
         "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
         "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",
@@ -35,48 +35,48 @@ public class VFO_CHOICE
         "D754I"
     };
 
-    public static ObservableCollection<string> busyLock = new()
+    public static ObservableCollection<string> BusyLock = new()
     {
         "关", "开"
     };
 
-    public static ObservableCollection<string> sigSys = new()
+    public static ObservableCollection<string> SigSys = new()
     {
         "无", "SDC", "DTMF"
     };
 
-    public static ObservableCollection<string> direction = new()
+    public static ObservableCollection<string> Direction = new()
     {
         "OFF", "+", "-"
     };
 
-    public static ObservableCollection<string> sigGroup = new()
+    public static ObservableCollection<string> SigGroup = new()
     {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
         "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"
     };
 
-    public static ObservableCollection<string> step = new()
+    public static ObservableCollection<string> Step = new()
     {
         "2.5  KHz", "5.0  KHz", "6.25 KHz", "10.0 KHz", "12.5 KHz", "20.0 KHz", "25.0 KHz", "50.0 KHz"
     };
 
-    public static ObservableCollection<string> bandwidth = new()
+    public static ObservableCollection<string> Bandwidth = new()
     {
         "宽", "窄"
     };
 
-    public static ObservableCollection<string> power = new()
+    public static ObservableCollection<string> Power = new()
     {
         "高", "中", "低"
     };
 
-    public static ObservableCollection<string> sqmode = new()
+    public static ObservableCollection<string> Sqmode = new()
     {
         "QT/DQT", "QT/DQT*DTMF", "QT/DQT+DTMF"
     };
 
-    public static ObservableCollection<string> pttid = new()
+    public static ObservableCollection<string> Pttid = new()
     {
         "无", "发射开始", "发射结束", "两者"
     };

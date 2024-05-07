@@ -13,13 +13,7 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OtherFunctionWindow : Window
 {
-    public OtherImfData _imf = ClassTheRadioData.getInstance().otherImfData;
-
-    public OtherImfData Imf
-    {
-        get => _imf;
-        set => _imf = value;
-    }
+    public OtherImfData Imf { get; set; } = ClassTheRadioData.GetInstance().OtherImfData;
 
     public OtherFunctionWindow()
     {
@@ -29,29 +23,29 @@ public partial class OtherFunctionWindow : Window
 
     private async void WriteConfig_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (check() == 0) await new ProgressBarWindow(OPERATION_TYPE.WRITE_CONFIG).ShowDialog(this);
+        if (Check() == 0) await new ProgressBarWindow(OperationType.WriteConfig).ShowDialog(this);
     }
 
     private async void ReadConfig_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (check() == 0) await new ProgressBarWindow(OPERATION_TYPE.READ_CONFIG).ShowDialog(this);
+        if (Check() == 0) await new ProgressBarWindow(OperationType.ReadConfig).ShowDialog(this);
     }
 
-    private int check()
+    private int Check()
     {
         // Check frequency! DO NOT BYPASS THIS CHECK!! USE AT YOUR OWN RISK!!
-        var minUHF = UhfMinTextBox.Text;
-        var maxUHF = UhfMaxTextBox.Text;
-        var minVHF = VhfMinTextBox.Text;
-        var maxVHF = VhfMaxTextBox.Text;
+        var minUhf = UhfMinTextBox.Text;
+        var maxUhf = UhfMaxTextBox.Text;
+        var minVhf = VhfMinTextBox.Text;
+        var maxVhf = VhfMaxTextBox.Text;
 
-        int minUHFTmp;
-        int maxUHFTmp;
-        int minVHFTmp;
-        int maxVHFTmp;
-        if (int.TryParse(minUHF, out minUHFTmp))
+        int minUhfTmp;
+        int maxUhfTmp;
+        int minVhfTmp;
+        int maxVhfTmp;
+        if (int.TryParse(minUhf, out minUhfTmp))
         {
-            if (minUHFTmp < 400)
+            if (minUhfTmp < 400)
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "U段发射频率必须高于400！").ShowWindowDialogAsync(this);
                 return -1;
@@ -63,9 +57,9 @@ public partial class OtherFunctionWindow : Window
             return -1;
         }
 
-        if (int.TryParse(maxUHF, out maxUHFTmp))
+        if (int.TryParse(maxUhf, out maxUhfTmp))
         {
-            if (maxUHFTmp > 520)
+            if (maxUhfTmp > 520)
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "U段发射频率必须低于520！").ShowWindowDialogAsync(this);
                 return -1;
@@ -77,9 +71,9 @@ public partial class OtherFunctionWindow : Window
             return -1;
         }
 
-        if (int.TryParse(minVHF, out minVHFTmp))
+        if (int.TryParse(minVhf, out minVhfTmp))
         {
-            if (minVHFTmp < 136)
+            if (minVhfTmp < 136)
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "V段发射频率必须高于136！").ShowWindowDialogAsync(this);
                 return -1;
@@ -91,9 +85,9 @@ public partial class OtherFunctionWindow : Window
             return -1;
         }
 
-        if (int.TryParse(maxVHF, out maxVHFTmp))
+        if (int.TryParse(maxVhf, out maxVhfTmp))
         {
-            if (maxVHFTmp > 174)
+            if (maxVhfTmp > 174)
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "V段发射频率必须低于174！").ShowWindowDialogAsync(this);
                 return -1;
@@ -105,19 +99,19 @@ public partial class OtherFunctionWindow : Window
             return -1;
         }
 
-        if (!(minUHFTmp is >= 400 and <= 520 && maxUHFTmp is >= 400 and <= 520))
+        if (!(minUhfTmp is >= 400 and <= 520 && maxUhfTmp is >= 400 and <= 520))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "U段输入错误！！").ShowWindowDialogAsync(this);
             return -1;
         }
 
-        if (!(minVHFTmp is >= 136 and <= 174 && maxVHFTmp is >= 136 and <= 174))
+        if (!(minVhfTmp is >= 136 and <= 174 && maxVhfTmp is >= 136 and <= 174))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "V段输入错误！！").ShowWindowDialogAsync(this);
             return -1;
         }
 
-        if (!(minUHFTmp < maxUHFTmp && minVHFTmp < maxVHFTmp))
+        if (!(minUhfTmp < maxUhfTmp && minVhfTmp < maxVhfTmp))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "大小段输入错误！！").ShowWindowDialogAsync(this);
             return -1;

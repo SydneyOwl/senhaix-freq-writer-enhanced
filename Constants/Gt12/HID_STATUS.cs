@@ -1,11 +1,11 @@
 ﻿namespace SenhaixFreqWriter.Constants.Gt12;
 
-public enum HID_STATUS
+public enum HidStatus
 {
-    SUCCESS,
-    NO_DEVICE_CONNECTED,
-    DEVICE_NOT_FOUND,
-    DEVICE_OPENED,
-    WRITE_FAILD,
-    READ_FAILD
+    Success,
+    NoDeviceConnected,
+    DeviceNotFound,
+    DeviceOpened,
+    WriteFaild,
+    ReadFaild
 }

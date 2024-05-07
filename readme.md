@@ -8,7 +8,9 @@
 > [!important]
 > + 如有必要，请在任何操作前首先进行备份操作！
 > + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`及以后将停止维护winform版本（windows单平台）的写频软件
-> （**如无重大错误不再更新**），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
+    > （**如无重大错误不再更新**
+    ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
+    下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
 
 ## 简介
 
@@ -21,7 +23,7 @@
 + 森海克斯GT12：**测试中！麻烦使用macos的友台给下反馈~您可以在beta版本的release中或action中下载**
 
 | SHX8X00                      | GT12                         |
-| ---------------------------- | ---------------------------- |
+|------------------------------|------------------------------|
 | ![](./readme_image/8x00.png) | ![](./readme_image/gt12.png) |
 
 ## 功能说明
@@ -78,7 +80,8 @@ installed.
 > 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
 卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)
-，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
+，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)
+进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
 
 shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)
 以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
@@ -111,7 +114,6 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.3.0(beta)` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题
 
 ## Thanks...
-
 
 + `SenHaiX`的原版写频软件
 + `Avalonia` 的跨平台UI方案

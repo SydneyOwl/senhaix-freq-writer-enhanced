@@ -25,16 +25,26 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class MainWindow : Window
 {
-    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.getInstance().chanData;
+    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ChanData;
 
-    private string savePath = "";
+    private string _savePath = "";
 
-    private ChannelData tmpChannel;
+    private ChannelData _tmpChannel;
 
-    private bool devSwitchFlag = false;
+    private bool _devSwitchFlag = false;
 
-    private IBluetooth osBLE;
-
+    private IBluetooth _osBle;
+    
+    public ObservableCollection<ChannelData> ListItems
+    {
+        get => _listItems;
+        set
+        {
+            _listItems = value;
+            ClassTheRadioData.GetInstance().ChanData = value;
+        }
+    }
+    
     public MainWindow()
     {
         InitializeComponent();
@@ -43,26 +53,16 @@ public partial class MainWindow : Window
         Closed += OnWindowClosed;
     }
 
-    public ObservableCollection<ChannelData> listItems
-    {
-        get => _listItems;
-        set
-        {
-            _listItems = value;
-            ClassTheRadioData.getInstance().chanData = value;
-        }
-    }
-
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action.Equals(NotifyCollectionChangedAction.Add) ||
-            e.Action.Equals(NotifyCollectionChangedAction.Remove)) calcSequence();
+            e.Action.Equals(NotifyCollectionChangedAction.Remove)) CalcSequence();
     }
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         Close();
-        if (!devSwitchFlag) Environment.Exit(0);
+        if (!_devSwitchFlag) Environment.Exit(0);
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -76,16 +76,16 @@ public partial class MainWindow : Window
         var id = dataContext.ChanNum;
         if (string.IsNullOrEmpty(dataContext.TxFreq)) return;
 
-        var parsed = freqParser(dataContext.TxFreq);
+        var parsed = FreqParser(dataContext.TxFreq);
         if (parsed.Equals("-1"))
         {
             dataContext.TxFreq = "";
-            listItems[int.Parse(id)] = dataContext;
+            ListItems[int.Parse(id)] = dataContext;
             return;
         }
 
         dataContext.TxFreq = parsed;
-        listItems[int.Parse(id)] = dataContext;
+        ListItems[int.Parse(id)] = dataContext;
     }
 
     private void rxFreq_OnLostFocus(object? sender, RoutedEventArgs e)
@@ -95,16 +95,16 @@ public partial class MainWindow : Window
         var id = dataContext.ChanNum;
         if (string.IsNullOrEmpty(dataContext.RxFreq)) return;
 
-        var parsed = freqParser(dataContext.RxFreq);
+        var parsed = FreqParser(dataContext.RxFreq);
         if (parsed.Equals("-1"))
         {
             dataContext.RxFreq = "";
-            listItems[int.Parse(id)] = dataContext;
+            ListItems[int.Parse(id)] = dataContext;
             return;
         }
 
         // 写入默认值
-        if (dataContext.allEmpty())
+        if (dataContext.AllEmpty())
         {
             var data = new ChannelData
             {
@@ -123,20 +123,20 @@ public partial class MainWindow : Window
                 TxFreq = parsed,
                 IsVisable = true
             };
-            listItems[int.Parse(id)] = data;
+            ListItems[int.Parse(id)] = data;
         }
         else
         {
             dataContext.RxFreq = parsed;
-            listItems[int.Parse(id)] = dataContext;
+            ListItems[int.Parse(id)] = dataContext;
         }
     }
 
-    private string freqParser(string freqChk)
+    private string FreqParser(string freqChk)
     {
-        double PFreq;
+        double pFreq;
         // 检查频率范围
-        if (!double.TryParse(freqChk, out PFreq))
+        if (!double.TryParse(freqChk, out pFreq))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "输入频率格式有误").ShowWindowDialogAsync(this);
             // dataContext.RxFreq = "";
@@ -144,10 +144,10 @@ public partial class MainWindow : Window
             return "-1";
         }
 
-        if (PFreq < FREQ.theMinFreq || PFreq > FREQ.theMaxFreq)
+        if (pFreq < Freq.TheMinFreq || pFreq > Freq.TheMaxFreq)
         {
             MessageBoxManager.GetMessageBoxStandard("注意",
-                "频率错误!\n频率范围:" + FREQ.theMinFreq + "--" + FREQ.theMaxFreq).ShowWindowDialogAsync(this);
+                "频率错误!\n频率范围:" + Freq.TheMinFreq + "--" + Freq.TheMaxFreq).ShowWindowDialogAsync(this);
             return "-1";
         }
 
@@ -201,10 +201,10 @@ public partial class MainWindow : Window
         //     listItems[i] = tmp;
         //     ClassTheRadioData.getInstance().channeldata.Add(tmp);
         // }
-        ClassTheRadioData.getInstance().forceNewChannel();
-        ClassTheRadioData.getInstance().dtmfData = new DTMFData();
-        ClassTheRadioData.getInstance().funCfgData = new FunCFGData();
-        ClassTheRadioData.getInstance().otherImfData = new OtherImfData();
+        ClassTheRadioData.GetInstance().ForceNewChannel();
+        ClassTheRadioData.GetInstance().DtmfData = new DtmfData();
+        ClassTheRadioData.GetInstance().FunCfgData = new FunCfgData();
+        ClassTheRadioData.GetInstance().OtherImfData = new OtherImfData();
     }
 
     private async void saveAs_OnClick(object? sender, RoutedEventArgs e)
@@ -218,23 +218,23 @@ public partial class MainWindow : Window
         });
         if (file is not null)
         {
-            savePath = new Uri(file.Path.ToString()).LocalPath;
+            _savePath = new Uri(file.Path.ToString()).LocalPath;
             await using var stream = await file.OpenWriteAsync();
             stream.Seek(0L, SeekOrigin.Begin);
             stream.SetLength(0L);
-            ClassTheRadioData.getInstance().SaveToFile(stream);
+            ClassTheRadioData.GetInstance().SaveToFile(stream);
             stream.Close();
         }
     }
 
     private void save_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(savePath))
+        if (!string.IsNullOrEmpty(_savePath))
         {
-            Stream stream = new FileStream(savePath, FileMode.OpenOrCreate);
+            Stream stream = new FileStream(_savePath, FileMode.OpenOrCreate);
             stream.Seek(0L, SeekOrigin.Begin);
             stream.SetLength(0L);
-            ClassTheRadioData.getInstance().SaveToFile(stream);
+            ClassTheRadioData.GetInstance().SaveToFile(stream);
             stream.Close();
         }
         else
@@ -251,7 +251,7 @@ public partial class MainWindow : Window
 
     private void dtmfset_OnClick(object? sender, RoutedEventArgs e)
     {
-        var dtmfWindow = new DTMFWindow();
+        var dtmfWindow = new DtmfWindow();
         dtmfWindow.ShowDialog(this);
     }
 
@@ -278,22 +278,22 @@ public partial class MainWindow : Window
 
     private async void readChannel_OnClick(object? sendser, RoutedEventArgs e)
     {
-        var tmp = ClassTheRadioData.getInstance();
-        tmp.channeldata = tmp.chanData.ToList();
-        await new ProgressBarWindow(OPERATION_TYPE.READ).ShowDialog(this);
+        var tmp = ClassTheRadioData.GetInstance();
+        tmp.Channeldata = tmp.ChanData.ToList();
+        await new ProgressBarWindow(OperationType.Read).ShowDialog(this);
     }
 
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var flag = false;
-        var tmp = ClassTheRadioData.getInstance();
-        tmp.channeldata = tmp.chanData.ToList();
+        var tmp = ClassTheRadioData.GetInstance();
+        tmp.Channeldata = tmp.ChanData.ToList();
         // 检查信道
-        for (var a = 0; a < listItems.Count; a++)
+        for (var a = 0; a < ListItems.Count; a++)
         {
-            if (listItems[a].allEmpty() || listItems[a].filled()) continue;
+            if (ListItems[a].AllEmpty() || ListItems[a].Filled()) continue;
             // 不写入不完整的信道
-            tmp.channeldata[a] = new ChannelData();
+            tmp.Channeldata[a] = new ChannelData();
             flag = true;
         }
 
@@ -303,7 +303,7 @@ public partial class MainWindow : Window
             var result = await box.ShowWindowDialogAsync(this);
             if (result == ButtonResult.No)
             {
-                tmp.channeldata = tmp.chanData.ToList();
+                tmp.Channeldata = tmp.ChanData.ToList();
                 return;
             }
         }
@@ -312,7 +312,7 @@ public partial class MainWindow : Window
         // await new PortSelectionWindow().ShowDialog(this);
 
         // if (!string.IsNullOrEmpty(MySerialPort.getInstance().TargetPort))
-        await new ProgressBarWindow(OPERATION_TYPE.WRITE).ShowDialog(this);
+        await new ProgressBarWindow(OperationType.Write).ShowDialog(this);
     }
 
     private void portSel_OnClick(object? sender, RoutedEventArgs e)
@@ -320,7 +320,7 @@ public partial class MainWindow : Window
         new PortSelectionWindow().ShowDialog(this);
     }
 
-    private void forceRefreshUI()
+    private void ForceRefreshUi()
     {
         // Deprecated!
         //
@@ -341,49 +341,49 @@ public partial class MainWindow : Window
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        tmpChannel = listItems[selected];
-        forceRefreshUI();
+        _tmpChannel = ListItems[selected];
+        ForceRefreshUi();
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        tmpChannel = listItems[selected].DeepCopy();
-        listItems[selected] = new ChannelData();
-        calcSequence();
-        forceRefreshUI();
+        _tmpChannel = ListItems[selected].DeepCopy();
+        ListItems[selected] = new ChannelData();
+        CalcSequence();
+        ForceRefreshUi();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (tmpChannel == null) return;
+        if (_tmpChannel == null) return;
         var selected = channelDataGrid.SelectedIndex;
-        listItems[selected] = tmpChannel.DeepCopy();
-        calcSequence();
-        forceRefreshUI();
+        ListItems[selected] = _tmpChannel.DeepCopy();
+        CalcSequence();
+        ForceRefreshUi();
     }
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        listItems[selected] = new ChannelData();
-        calcSequence();
-        forceRefreshUI();
+        ListItems[selected] = new ChannelData();
+        CalcSequence();
+        ForceRefreshUi();
     }
 
     private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        for (var i = selected; i < 127; i++) listItems[i] = listItems[i + 1];
-        listItems[127] = new ChannelData();
-        calcSequence();
-        forceRefreshUI();
+        for (var i = selected; i < 127; i++) ListItems[i] = ListItems[i + 1];
+        ListItems[127] = new ChannelData();
+        CalcSequence();
+        ForceRefreshUi();
     }
 
     private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        if (!listItems[127].allEmpty())
+        if (!ListItems[127].AllEmpty())
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "信道127不为空无法插入！").ShowWindowDialogAsync(this);
             return;
@@ -391,58 +391,57 @@ public partial class MainWindow : Window
 
         var lastEmp = 0;
         for (var i = 0; i < 127; i++)
-            if (!listItems[i].allEmpty())
+            if (!ListItems[i].AllEmpty())
                 lastEmp = i;
 
-        for (var i = lastEmp; i > selected; i--) listItems[i + 1] = listItems[i];
+        for (var i = lastEmp; i > selected; i--) ListItems[i + 1] = ListItems[i];
 
-        listItems[selected + 1] = new ChannelData();
-        calcSequence();
-        forceRefreshUI();
+        ListItems[selected + 1] = new ChannelData();
+        CalcSequence();
+        ForceRefreshUi();
     }
 
     private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var cached_channel = new ObservableCollection<ChannelData>();
-        for (var i = 0; i < 128; i++) cached_channel.Add(new ChannelData());
-        var channel_cursor = 0;
+        var cachedChannel = new ObservableCollection<ChannelData>();
+        for (var i = 0; i < 128; i++) cachedChannel.Add(new ChannelData());
+        var channelCursor = 0;
         for (var i = 0; i < 128; i++)
             //check it via "TxAllow"
-            if (!listItems[i].allEmpty())
-                cached_channel[channel_cursor++] = listItems[i].DeepCopy();
+            if (!ListItems[i].AllEmpty())
+                cachedChannel[channelCursor++] = ListItems[i].DeepCopy();
 
-        for (var i = 0; i < channel_cursor; i++) listItems[i] = cached_channel[i].DeepCopy();
+        for (var i = 0; i < channelCursor; i++) ListItems[i] = cachedChannel[i].DeepCopy();
 
-        for (var i = channel_cursor; i < 128; i++) listItems[i] = new ChannelData();
-        calcSequence();
-        forceRefreshUI();
+        for (var i = channelCursor; i < 128; i++) ListItems[i] = new ChannelData();
+        CalcSequence();
+        ForceRefreshUi();
     }
 
-    private void calcSequence()
+    private void CalcSequence()
     {
-        for (var i = 0; i < listItems.Count; i++) listItems[i].ChanNum = i.ToString();
+        for (var i = 0; i < ListItems.Count; i++) ListItems[i].ChanNum = i.ToString();
     }
 
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        osBLE?.Dispose();
-        osBLE = new GenerticSHXBLE();
+        _osBle?.Dispose();
+        _osBle = new GenerticShxble();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            var res = await MessageBoxManager.GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？",ButtonEnum.YesNo).ShowWindowDialogAsync(this);
-            if (res.Equals(ButtonResult.No))
-            {
-                return;
-            }
+            var res = await MessageBoxManager
+                .GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？", ButtonEnum.YesNo)
+                .ShowWindowDialogAsync(this);
+            if (res.Equals(ButtonResult.No)) return;
         }
 #if WINDOWS
-        osBLE = new WindowsSHXBLE();
+        _osBle = new WindowsShxble();
 #endif
         // Console.WriteLine("Requesting Bluetooth Device...");
         // for windows and macoos
         try
         {
-            var available = await osBLE.GetBLEAvailabilityAsync();
+            var available = await _osBle.GetBleAvailabilityAsync();
             // var available = true;
             if (!available)
             {
@@ -457,22 +456,22 @@ public partial class MainWindow : Window
         }
 
         var hint = new HintWindow();
-        hint.setLabelStatus("自动搜索中...");
-        hint.setButtonStatus(false);
+        hint.SetLabelStatus("自动搜索中...");
+        hint.SetButtonStatus(false);
         hint.ShowDialog(this);
 
-        if (!await osBLE.ScanForSHXAsync())
+        if (!await _osBle.ScanForShxAsync())
         {
-            hint.setLabelStatus("未找到设备！\n您可能需要重启软件！");
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
+            hint.SetButtonStatus(true);
             return;
         }
 
-        hint.setLabelStatus("已找到设备,尝试连接中...");
+        hint.SetLabelStatus("已找到设备,尝试连接中...");
         // Get Char.....
         try
         {
-            await osBLE.ConnectSHXDeviceAsync();
+            await _osBle.ConnectShxDeviceAsync();
         }
 #if __LINUX__
         catch (Tmds.DBus.DBusException)
@@ -484,37 +483,37 @@ public partial class MainWindow : Window
 #endif
         catch (Exception ea)
         {
-            hint.setLabelStatus("连接失败！" + ea.Message);
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("连接失败！" + ea.Message);
+            hint.SetButtonStatus(true);
             return;
         }
 
         // Console.WriteLine("Connected");
-        if (!await osBLE.ConnectSHXRWServiceAsync())
+        if (!await _osBle.ConnectShxRwServiceAsync())
         {
-            hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
+            hint.SetButtonStatus(true);
             return;
         }
 
 
-        if (!await osBLE.ConnectSHXRWCharacteristicAsync())
+        if (!await _osBle.ConnectShxRwCharacteristicAsync())
         {
-            hint.setLabelStatus("未找到写特征\n确认您使用的是8800");
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
+            hint.SetButtonStatus(true);
 
             return;
         }
 
-        osBLE.RegisterSerial();
-        hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
-        hint.setButtonStatus(true);
+        _osBle.RegisterSerial();
+        hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
+        hint.SetButtonStatus(true);
         // cable.IsVisible = false;
     }
 
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {
-        foreach (var b in e.Value) MySerialPort.getInstance().RxData.Enqueue(b);
+        foreach (var b in e.Value) MySerialPort.GetInstance().RxData.Enqueue(b);
     }
 
     private void Dark_OnClick(object? sender, RoutedEventArgs e)
@@ -529,7 +528,7 @@ public partial class MainWindow : Window
 
     private void SwitchDevice_OnClick(object? sender, RoutedEventArgs e)
     {
-        devSwitchFlag = true;
+        _devSwitchFlag = true;
         new DeviceSelectWindow().Show();
         Close();
     }

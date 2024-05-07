@@ -1,7 +1,7 @@
 ﻿namespace SenhaixFreqWriter.Constants.Gt12;
 
-public class FREQ
+public class Freq
 {
-    public static int maxFreq = 520;
-    public static int minFreq = 100;
+    public static int MaxFreq = 520;
+    public static int MinFreq = 100;
 }

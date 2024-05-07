@@ -10,21 +10,21 @@ public class MySerialPort : SerialPort
 {
     public delegate Task WriteValueAsync(byte[] value);
 
-    private static MySerialPort sp;
+    private static MySerialPort _sp;
 
-    private Queue<byte> rxData = new(1024);
+    private Queue<byte> _rxData = new(1024);
 
-    public WriteValueAsync WriteBLE;
+    public WriteValueAsync WriteBle;
 
 
-    public int BTDeviceMtu { get; set; } = 23;
+    public int BtDeviceMtu { get; set; } = 23;
 
 
     public int BytesToReadFromCache
     {
         get
         {
-            if (WriteBLE != null) return rxData.Count;
+            if (WriteBle != null) return _rxData.Count;
             return BytesToRead;
         }
     }
@@ -32,14 +32,14 @@ public class MySerialPort : SerialPort
 
     public Queue<byte> RxData
     {
-        get => rxData;
-        set => rxData = value ?? throw new ArgumentNullException(nameof(value));
+        get => _rxData;
+        set => _rxData = value ?? throw new ArgumentNullException(nameof(value));
     }
 
 
     public string TargetPort { get; set; } = "";
 
-    public async Task preRead()
+    public async Task PreRead()
     {
         // var data = await characteristic.ReadValueAsync();
         // Console.WriteLine("Now I Read");
@@ -55,15 +55,15 @@ public class MySerialPort : SerialPort
 
     public async Task WriteByte(byte buffer)
     {
-        if (WriteBLE == null)
+        if (WriteBle == null)
             Write(new byte[1] { buffer }, 0, 1);
         else
-            await WriteBLE(new byte[1] { buffer });
+            await WriteBle(new byte[1] { buffer });
     }
 
     public async Task WriteByte(byte[] buffer, int offset, int count)
     {
-        if (WriteBLE == null)
+        if (WriteBle == null)
         {
             Write(buffer, offset, count);
         }
@@ -71,19 +71,19 @@ public class MySerialPort : SerialPort
         {
             // 太大的话要分开发
             var tobeWrite = buffer.Skip(offset).Take(count).ToArray();
-            var singleSize = BTDeviceMtu - 5;
+            var singleSize = BtDeviceMtu - 5;
             var sendTimes = tobeWrite.Length / singleSize;
             var tmp = 0;
             for (var i = 0; i < sendTimes + 1; i++)
             {
                 if (i == sendTimes)
                 {
-                    await WriteBLE(tobeWrite.Skip(tmp)
+                    await WriteBle(tobeWrite.Skip(tmp)
                         .Take(tobeWrite.Length - sendTimes * singleSize).ToArray());
                     break;
                 }
 
-                await WriteBLE(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
+                await WriteBle(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
                 tmp += singleSize;
             }
             // Console.WriteLine(tobeWrite.Length);
@@ -93,50 +93,50 @@ public class MySerialPort : SerialPort
 
     public async Task ReadByte(byte[] buffer, int offset, int count)
     {
-        if (WriteBLE == null)
+        if (WriteBle == null)
         {
             Read(buffer, offset, count);
         }
         else
         {
             var tmp = new byte[count];
-            for (var z = 0; z < count; z++) tmp[z] = rxData.Dequeue();
+            for (var z = 0; z < count; z++) tmp[z] = _rxData.Dequeue();
             tmp.CopyTo(buffer, 0);
         }
     }
 
-    public static MySerialPort getInstance()
+    public static MySerialPort GetInstance()
     {
-        if (sp == null) sp = new MySerialPort();
+        if (_sp == null) _sp = new MySerialPort();
 
-        return sp;
+        return _sp;
     }
 
     public void OpenSerial()
     {
-        if (WriteBLE == null)
+        if (WriteBle == null)
         {
-            sp.PortName = TargetPort;
-            sp.BaudRate = 9600;
-            sp.DataBits = 8;
-            sp.Parity = Parity.None;
-            sp.StopBits = StopBits.One;
-            sp.WriteBufferSize = 1024;
-            sp.ReadBufferSize = 1024;
-            sp.ReadTimeout = 4000;
-            sp.WriteTimeout = 4000;
-            sp.Open();
+            _sp.PortName = TargetPort;
+            _sp.BaudRate = 9600;
+            _sp.DataBits = 8;
+            _sp.Parity = Parity.None;
+            _sp.StopBits = StopBits.One;
+            _sp.WriteBufferSize = 1024;
+            _sp.ReadBufferSize = 1024;
+            _sp.ReadTimeout = 4000;
+            _sp.WriteTimeout = 4000;
+            _sp.Open();
         }
     }
 
     public void CloseSerial()
     {
-        if (WriteBLE == null)
+        if (WriteBle == null)
         {
-            var portTmp = sp.TargetPort;
-            if (sp != null && sp.IsOpen) Close();
-            sp = new MySerialPort();
-            sp.TargetPort = portTmp;
+            var portTmp = _sp.TargetPort;
+            if (_sp != null && _sp.IsOpen) Close();
+            _sp = new MySerialPort();
+            _sp.TargetPort = portTmp;
         }
     }
 }

@@ -10,15 +10,15 @@
     <Canvas>
         <Border Height="250" Width="350" Margin="20" BorderThickness="1" BorderBrush="Black" />
         <Label Content="高级设置" Background="White" Canvas.Top="10" Canvas.Left="30" FontSize="20" />
-        <Label Content="VHF频率范围(MHz)" Canvas.Top="50" Canvas.Left="30" />
-        <TextBox x:Name="VhfMinTextBox" Canvas.Top="80" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfVHF}" />
+        <Label Content="Vhf频率范围(MHz)" Canvas.Top="50" Canvas.Left="30" />
+        <TextBox x:Name="VhfMinTextBox" Canvas.Top="80" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfVhf}" />
         <Label Content="-" Canvas.Top="85" Canvas.Left="95" />
-        <TextBox x:Name="VhfMaxTextBox" Canvas.Top="80" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfVHF}" />
+        <TextBox x:Name="VhfMaxTextBox" Canvas.Top="80" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfVhf}" />
 
-        <Label Content="UHF频率范围(MHz)" Canvas.Top="120" Canvas.Left="30" />
-        <TextBox x:Name="UhfMinTextBox" Canvas.Top="150" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfUHF}" />
+        <Label Content="Uhf频率范围(MHz)" Canvas.Top="120" Canvas.Left="30" />
+        <TextBox x:Name="UhfMinTextBox" Canvas.Top="150" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfUhf}" />
         <Label Content="-" Canvas.Top="155" Canvas.Left="95" />
-        <TextBox x:Name="UhfMaxTextBox" Canvas.Top="150" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfUHF}" />
+        <TextBox x:Name="UhfMaxTextBox" Canvas.Top="150" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfUhf}" />
 
         <Label Content="开机字符1" Canvas.Top="50" Canvas.Left="200" />
         <TextBox x:Name="PwrChar1Box" Canvas.Top="80" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar1}"

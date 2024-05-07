@@ -2,15 +2,15 @@
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
-public partial class DTMF : ObservableObject
+public partial class Dtmf : ObservableObject
 {
-    [ObservableProperty] private string[] group = new string[20];
-    [ObservableProperty] private string[] groupName = new string[20];
-    [ObservableProperty] private int idleTime = 1;
-    [ObservableProperty] private string localID = "100";
-    [ObservableProperty] private int wordTime = 1;
+    [ObservableProperty] private string[] _group = new string[20];
+    [ObservableProperty] private string[] _groupName = new string[20];
+    [ObservableProperty] private int _idleTime = 1;
+    [ObservableProperty] private string _localId = "100";
+    [ObservableProperty] private int _wordTime = 1;
 
-    public DTMF()
+    public Dtmf()
     {
         Group[0] = "101";
         GroupName[0] = "成员1";
@@ -55,9 +55,9 @@ public partial class DTMF : ObservableObject
     }
 }
 
-public partial class DTMPObject : ObservableObject
+public partial class DtmpObject : ObservableObject
 {
-    [ObservableProperty] private string id;
-    [ObservableProperty] private string group;
-    [ObservableProperty] private string groupName;
+    [ObservableProperty] private string _id;
+    [ObservableProperty] private string _group;
+    [ObservableProperty] private string _groupName;
 }

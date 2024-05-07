@@ -2,9 +2,9 @@
 
 namespace SenhaixFreqWriter.Constants.Shx8x00;
 
-public class CHAN_CHOICE
+public class ChanChoice
 {
-    public static ObservableCollection<string> qtdqt = new()
+    public static ObservableCollection<string> Qtdqt = new()
     {
         "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
         "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",
@@ -34,25 +34,25 @@ public class CHAN_CHOICE
         "D743I", "D754I"
     };
 
-    public static ObservableCollection<string> txallow = new()
+    public static ObservableCollection<string> Txallow = new()
     {
         "Yes",
         "No"
     };
 
-    public static ObservableCollection<string> txPwr = new()
+    public static ObservableCollection<string> TxPwr = new()
     {
         "L",
         "H"
     };
 
-    public static ObservableCollection<string> bandwidth = new()
+    public static ObservableCollection<string> Bandwidth = new()
     {
         "W",
         "H"
     };
 
-    public static ObservableCollection<string> pttid = new()
+    public static ObservableCollection<string> Pttid = new()
     {
         "OFF",
         "BOT",
@@ -60,19 +60,19 @@ public class CHAN_CHOICE
         "BOTH"
     };
 
-    public static ObservableCollection<string> busylock = new()
+    public static ObservableCollection<string> Busylock = new()
     {
         "OFF",
         "ON"
     };
 
-    public static ObservableCollection<string> scanadd = new()
+    public static ObservableCollection<string> Scanadd = new()
     {
         "OFF",
         "ON"
     };
 
-    public static ObservableCollection<string> signCode = new()
+    public static ObservableCollection<string> SignCode = new()
     {
         "1",
         "2",
@@ -91,7 +91,7 @@ public class CHAN_CHOICE
         "15"
     };
 
-    public static ObservableCollection<string> encrypt = new()
+    public static ObservableCollection<string> Encrypt = new()
     {
         "OFF",
         "ON"

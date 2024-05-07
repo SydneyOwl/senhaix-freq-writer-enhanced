@@ -8,25 +8,10 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class PortSelectionWindow : Window
 {
-    private string _portName = MySerialPort.getInstance().TargetPort;
+    private string _portName = MySerialPort.GetInstance().TargetPort;
 
-    public PortSelectionWindow()
-    {
-        string[] portNames = SerialPort.GetPortNames();
-        portList = new ObservableCollection<string>(portNames);
-        if (!portList.Contains(portName))
-        {
-            portName = "";
-            MySerialPort.getInstance().TargetPort = "";
-        }
-
-        InitializeComponent();
-        DataContext = this;
-    }
-
-    public ObservableCollection<string> portList { get; set; }
-
-    public string portName
+    public ObservableCollection<string> PortList { get; set; }
+    public string PortName
     {
         get => _portName;
         set
@@ -36,11 +21,24 @@ public partial class PortSelectionWindow : Window
             _portName = value;
         }
     }
+    public PortSelectionWindow()
+    {
+        string[] portNames = SerialPort.GetPortNames();
+        PortList = new ObservableCollection<string>(portNames);
+        if (!PortList.Contains(PortName))
+        {
+            PortName = "";
+            MySerialPort.GetInstance().TargetPort = "";
+        }
+
+        InitializeComponent();
+        DataContext = this;
+    }
 
     private void confirm_OnClick(object? sender, RoutedEventArgs e)
     {
-        MySerialPort.getInstance().TargetPort = portName;
-        MySerialPort.getInstance().WriteBLE = null;
+        MySerialPort.GetInstance().TargetPort = PortName;
+        MySerialPort.GetInstance().WriteBle = null;
         Close();
     }
 
@@ -52,7 +50,7 @@ public partial class PortSelectionWindow : Window
     private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
         string[] portNames = SerialPort.GetPortNames();
-        portList.Clear();
-        foreach (var name in portNames) portList.Add(name);
+        PortList.Clear();
+        foreach (var name in portNames) PortList.Add(name);
     }
 }

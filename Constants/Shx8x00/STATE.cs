@@ -1,6 +1,6 @@
 namespace SenhaixFreqWriter.Constants.Shx8x00;
 
-public enum STATE
+public enum State
 {
     HandShakeStep1,
     HandShakeStep2,

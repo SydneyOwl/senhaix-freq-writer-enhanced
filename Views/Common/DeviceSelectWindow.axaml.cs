@@ -14,20 +14,18 @@ public partial class DeviceSelectWindow : Window
     public DeviceSelectWindow()
     {
         InitializeComponent();
-        if (HIDTools.isSHXHIDExist())
-        {
-            DeviceChooseComboBox.SelectedIndex = 1;
-        }
+        if (HidTools.IsShxhidExist()) DeviceChooseComboBox.SelectedIndex = 1;
     }
 
     private async void Device_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)&&!Environment.UserName.Equals("root"))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && !Environment.UserName.Equals("root"))
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请以sudo权限打开软件!").ShowWindowDialogAsync(this);
             Environment.Exit(0);
             return;
         }
+
         switch (DeviceChooseComboBox.SelectedIndex)
         {
             case 0:

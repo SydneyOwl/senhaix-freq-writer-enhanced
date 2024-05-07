@@ -12,18 +12,18 @@ namespace SenhaixFreqWriter.DataModels.Shx8x00;
 [Serializable]
 public class ClassTheRadioData
 {
-    [XmlIgnore] public static ClassTheRadioData instance;
+    [XmlIgnore] public static ClassTheRadioData Instance;
 
-    [XmlIgnore] public ObservableCollection<ChannelData> chanData = new();
+    [XmlIgnore] public ObservableCollection<ChannelData> ChanData = new();
 
     //TODO 无法直接反序列化到chanData, 只能这样一下
-    public List<ChannelData> channeldata = new();
+    public List<ChannelData> Channeldata = new();
 
-    public DTMFData dtmfData = new();
+    public DtmfData DtmfData = new();
 
-    public FunCFGData funCfgData = new();
+    public FunCfgData FunCfgData = new();
 
-    public OtherImfData otherImfData = new();
+    public OtherImfData OtherImfData = new();
 
     public ClassTheRadioData()
     {
@@ -31,7 +31,7 @@ public class ClassTheRadioData
         {
             var data = new ChannelData();
             data.ChanNum = i.ToString();
-            chanData.Add(data);
+            ChanData.Add(data);
         }
     }
 
@@ -40,8 +40,8 @@ public class ClassTheRadioData
         var serializer = new XmlSerializer(typeof(ClassTheRadioData));
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
-            instance.channeldata = instance.chanData.ToList();
-            serializer.Serialize(streamWriter, instance);
+            Instance.Channeldata = Instance.ChanData.ToList();
+            serializer.Serialize(streamWriter, Instance);
         }
     }
 
@@ -57,14 +57,14 @@ public class ClassTheRadioData
                 var xmlSerializer = new XmlSerializer(typeof(ClassTheRadioData));
                 var stringReader = new StringReader(xmls);
                 tmp = (ClassTheRadioData)xmlSerializer.Deserialize(stringReader);
-                instance.funCfgData = tmp.funCfgData;
-                instance.dtmfData = tmp.dtmfData;
-                instance.otherImfData = tmp.otherImfData;
-                instance.chanData.Clear();
-                foreach (var cd in tmp.channeldata)
+                Instance.FunCfgData = tmp.FunCfgData;
+                Instance.DtmfData = tmp.DtmfData;
+                Instance.OtherImfData = tmp.OtherImfData;
+                Instance.ChanData.Clear();
+                foreach (var cd in tmp.Channeldata)
                 {
-                    if (!cd.allEmpty()) cd.IsVisable = true;
-                    instance.chanData.Add(cd);
+                    if (!cd.AllEmpty()) cd.IsVisable = true;
+                    Instance.ChanData.Add(cd);
                 }
             }
             catch
@@ -74,23 +74,23 @@ public class ClassTheRadioData
         }
     }
 
-    public static ClassTheRadioData getInstance()
+    public static ClassTheRadioData GetInstance()
     {
-        if (instance != null) return instance;
+        if (Instance != null) return Instance;
 
-        instance = new ClassTheRadioData();
-        return instance;
+        Instance = new ClassTheRadioData();
+        return Instance;
     }
 
-    public void forceNewChannel()
+    public void ForceNewChannel()
     {
-        instance.chanData.Clear();
+        Instance.ChanData.Clear();
         for (var i = 0; i < 128; i++)
         {
             var chan = new ChannelData();
             chan.ChanNum = i.ToString();
             chan.IsVisable = false;
-            instance.chanData.Add(chan);
+            Instance.ChanData.Add(chan);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace SenhaixFreqWriter.Constants.Gt12;
 
-public enum OP_TYPE
+public enum OpType
 {
-    READ,
-    WRITE
+    Read,
+    Write
 }

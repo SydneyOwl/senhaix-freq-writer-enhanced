@@ -1,6 +1,6 @@
 ﻿namespace SenhaixFreqWriter.Constants.Gt12;
 
-public enum HID_ERRORS
+public enum HidErrors
 {
-    ER_NONE = 6
+    ErNone = 6
 }

@@ -10,20 +10,8 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class OptionalWindow : Window
 {
-    public Function Func
-    {
-        get => _func;
-        set => _func = value;
-    }
-
-    public MDC1200 Mdc
-    {
-        get => _mdc;
-        set => _mdc = value;
-    }
-
-    public Function _func = AppData.getInstance().funCfgs;
-    public MDC1200 _mdc = AppData.getInstance().mdcs;
+    public Function Func { get; set; } = AppData.GetInstance().FunCfgs;
+    public Mdc1200 Mdc { get; set; } = AppData.GetInstance().Mdcs;
 
     public OptionalWindow()
     {

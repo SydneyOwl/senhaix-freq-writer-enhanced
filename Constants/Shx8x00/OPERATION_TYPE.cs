@@ -1,9 +1,9 @@
 namespace SenhaixFreqWriter.Constants.Shx8x00;
 
-public enum OPERATION_TYPE
+public enum OperationType
 {
-    READ,
-    WRITE,
-    READ_CONFIG,
-    WRITE_CONFIG
+    Read,
+    Write,
+    ReadConfig,
+    WriteConfig
 }

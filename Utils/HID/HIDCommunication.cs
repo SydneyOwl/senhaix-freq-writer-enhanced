@@ -10,15 +10,15 @@ using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
-public class HIDCommunication
+public class HidCommunication
 {
-    private readonly DataHelper helper;
+    private readonly DataHelper _helper;
 
-    private readonly HIDTools hid = HIDTools.getInstance();
+    private readonly HidTools _hid = HidTools.GetInstance();
 
-    private readonly OP_TYPE opType;
+    private readonly OpType _opType;
 
-    private readonly string[] tblCTSDCS = new string[210]
+    private readonly string[] _tblCtsdcs = new string[210]
     {
         "D023N", "D025N", "D026N", "D031N", "D032N", "D036N", "D043N", "D047N", "D051N", "D053N",
         "D054N", "D065N", "D071N", "D072N", "D073N", "D074N", "D114N", "D115N", "D116N", "D122N",
@@ -43,64 +43,64 @@ public class HIDCommunication
         "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I", "D754I"
     };
 
-    public AppData appData = AppData.getInstance();
+    public AppData AppData = AppData.GetInstance();
 
     // private bool flagReceiveData;
 
-    private bool flagRetry;
+    private bool _flagRetry;
 
-    private bool flagTransmitting;
+    private bool _flagTransmitting;
 
-    private string progressCont = "";
+    private string _progressCont = "";
 
-    private int progressVal;
+    private int _progressVal;
 
     // private byte[] rxBuffer = new byte[64];
 
-    private STEP step;
+    private Step _step;
 
-    private Timer timer;
+    private Timer _timer;
 
-    private byte timesOfRetry = 5;
+    private byte _timesOfRetry = 5;
 
-    public ConcurrentQueue<ProgressBarValue> statusQueue = new();
+    public ConcurrentQueue<ProgressBarValue> StatusQueue = new();
 
-    public HIDCommunication(OP_TYPE opType)
+    public HidCommunication(OpType opType)
     {
-        this.opType = opType;
-        helper = new DataHelper();
+        _opType = opType;
+        _helper = new DataHelper();
         TimerInit();
     }
 
     public void UpdateProgressBar(int value, string content)
     {
-        statusQueue.Enqueue(new ProgressBarValue(value, content));
+        StatusQueue.Enqueue(new ProgressBarValue(value, content));
     }
 
     private void TimerInit()
     {
-        timer = new Timer();
-        timer.Interval = 1000.0;
-        timer.Elapsed += Timer_Elapsed;
-        timer.AutoReset = true;
-        timer.Enabled = true;
+        _timer = new Timer();
+        _timer.Interval = 1000.0;
+        _timer.Elapsed += Timer_Elapsed;
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
     }
 
     private void Timer_Elapsed(object sender, ElapsedEventArgs e)
     {
-        flagRetry = true;
+        _flagRetry = true;
     }
 
     public void DataReceived(object sender, byte[] e)
     {
-        HIDTools.getInstance().rxBuffer = e;
-        HIDTools.getInstance().flagReceiveData = true;
+        HidTools.GetInstance().RxBuffer = e;
+        HidTools.GetInstance().FlagReceiveData = true;
     }
 
-    private void resetRetryCount()
+    private void ResetRetryCount()
     {
-        timesOfRetry = 5;
-        flagRetry = false;
+        _timesOfRetry = 5;
+        _flagRetry = false;
     }
 
     public bool DoIt(CancellationToken token)
@@ -108,13 +108,13 @@ public class HIDCommunication
 // #if !WINDOWS
 //         HIDTools.getInstance().requestReconnect = true;
 // #endif
-        flagTransmitting = true;
-        resetRetryCount();
-        step = STEP.STEP_HANDSHAKE_1;
-        HIDTools.getInstance().flagReceiveData = false;
+        _flagTransmitting = true;
+        ResetRetryCount();
+        _step = Step.StepHandshake1;
+        HidTools.GetInstance().FlagReceiveData = false;
         if (HandShake(token))
         {
-            if (opType == OP_TYPE.WRITE)
+            if (_opType == OpType.Write)
             {
                 if (Write(token)) return true;
             }
@@ -130,75 +130,75 @@ public class HIDCommunication
     private bool HandShake(CancellationToken token)
     {
         var byData = new byte[1];
-        while (flagTransmitting && !token.IsCancellationRequested)
-            if (!flagRetry)
-            { 
-                switch (step)
+        while (_flagTransmitting && !token.IsCancellationRequested)
+            if (!_flagRetry)
+            {
+                switch (_step)
                 {
-                    case STEP.STEP_HANDSHAKE_1:
+                    case Step.StepHandshake1:
                         // Console.WriteLine("strp1");
                         byData = Encoding.ASCII.GetBytes("PROGRAMGT12");
-                        byData = helper.LoadPackage(1, 0, byData, (byte)byData.Length);
-                        HIDTools.getInstance().Send(byData);
-                        progressVal = 0;
-                        progressCont = "【如果卡住请插拔写频线或重启设备后重试！】握手...";
-                        UpdateProgressBar(progressVal, progressCont);
-                        timer.Start();
-                        resetRetryCount();
-                        step = STEP.STEP_HANDSHAKE_2;
+                        byData = _helper.LoadPackage(1, 0, byData, (byte)byData.Length);
+                        HidTools.GetInstance().Send(byData);
+                        _progressVal = 0;
+                        _progressCont = "【如果卡住请插拔写频线或重启设备后重试！】握手...";
+                        UpdateProgressBar(_progressVal, _progressCont);
+                        _timer.Start();
+                        ResetRetryCount();
+                        _step = Step.StepHandshake2;
                         break;
-                    case STEP.STEP_HANDSHAKE_2:
+                    case Step.StepHandshake2:
                         // Console.WriteLine("strp2");
-                        if (HIDTools.getInstance().flagReceiveData)
+                        if (HidTools.GetInstance().FlagReceiveData)
                         {
-                            HIDTools.getInstance().flagReceiveData = false;
-                            helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
-                            if (helper.errorCode == HID_ERRORS.ER_NONE)
+                            HidTools.GetInstance().FlagReceiveData = false;
+                            _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                            if (_helper.ErrorCode == HidErrors.ErNone)
                             {
-                                byData = helper.LoadPackage(2, 0, null, 1);
-                                HIDTools.getInstance().Send(byData);
-                                resetRetryCount();
-                                step = STEP.STEP_HANDSHAKE_3;
+                                byData = _helper.LoadPackage(2, 0, null, 1);
+                                HidTools.GetInstance().Send(byData);
+                                ResetRetryCount();
+                                _step = Step.StepHandshake3;
                             }
                         }
 
                         break;
-                    case STEP.STEP_HANDSHAKE_3:
+                    case Step.StepHandshake3:
                         // Console.WriteLine("strp3");
-                        if (HIDTools.getInstance().flagReceiveData)
+                        if (HidTools.GetInstance().FlagReceiveData)
                         {
-                            HIDTools.getInstance().flagReceiveData = false;
-                            helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
-                            if (helper.errorCode == HID_ERRORS.ER_NONE)
+                            HidTools.GetInstance().FlagReceiveData = false;
+                            _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                            if (_helper.ErrorCode == HidErrors.ErNone)
                             {
-                                byData = helper.LoadPackage(70, 0, null, 1);
-                                HIDTools.getInstance().Send(byData);
-                                resetRetryCount();
-                                step = STEP.STEP_HANDSHAKE_4;
+                                byData = _helper.LoadPackage(70, 0, null, 1);
+                                HidTools.GetInstance().Send(byData);
+                                ResetRetryCount();
+                                _step = Step.StepHandshake4;
                             }
                         }
 
                         break;
-                    case STEP.STEP_HANDSHAKE_4:
+                    case Step.StepHandshake4:
                         // Console.WriteLine("strp4");
-                        if (!HIDTools.getInstance().flagReceiveData) break;
+                        if (!HidTools.GetInstance().FlagReceiveData) break;
 
-                        HIDTools.getInstance().flagReceiveData = false;
-                        helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
-                        if (helper.errorCode == HID_ERRORS.ER_NONE)
+                        HidTools.GetInstance().FlagReceiveData = false;
+                        _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                        if (_helper.ErrorCode == HidErrors.ErNone)
                         {
-                            timer.Stop();
-                            resetRetryCount();
-                            progressVal = 0;
-                            progressCont = "进度..." + progressVal + "%";
-                            UpdateProgressBar(progressVal, progressCont);
-                            if (opType == OP_TYPE.READ)
+                            _timer.Stop();
+                            ResetRetryCount();
+                            _progressVal = 0;
+                            _progressCont = "进度..." + _progressVal + "%";
+                            UpdateProgressBar(_progressVal, _progressCont);
+                            if (_opType == OpType.Read)
                             {
-                                step = STEP.STEP_READ1;
+                                _step = Step.StepRead1;
                                 return true;
                             }
 
-                            step = STEP.STEP_WRITE1;
+                            _step = Step.StepWrite1;
                             return true;
                         }
 
@@ -207,16 +207,16 @@ public class HIDCommunication
             }
             else
             {
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    timer.Stop();
-                    flagTransmitting = false;
+                    _timer.Stop();
+                    _flagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
-                HIDTools.getInstance().Send(byData);
+                _timesOfRetry--;
+                _flagRetry = false;
+                HidTools.GetInstance().Send(byData);
             }
 
         return false;
@@ -229,16 +229,15 @@ public class HIDCommunication
         ushort num = 0;
         byte b = 0;
         var num2 = 0;
-        
+
         // Console.WriteLine("we're in writing");
-        while (flagTransmitting && !token.IsCancellationRequested)
-        {
+        while (_flagTransmitting && !token.IsCancellationRequested)
             // Console.WriteLine("wE;RE WRITEING");
-            if (!flagRetry)
+            if (!_flagRetry)
             {
-                switch (step)
+                switch (_step)
                 {
-                    case STEP.STEP_WRITE1:
+                    case Step.StepWrite1:
                         if (num < 30720)
                         {
                             var channelInfos = GetChannelInfos(num2++);
@@ -247,72 +246,72 @@ public class HIDCommunication
                         else if (num >= 32000 && num < 32480)
                         {
                             var num3 = (num - 32000) / 16;
-                            GetbankName(array, 0, appData.bankName[num3]);
-                            GetbankName(array, 16, appData.bankName[num3 + 1]);
+                            GetbankName(array, 0, AppData.BankName[num3]);
+                            GetbankName(array, 16, AppData.BankName[num3 + 1]);
                         }
                         else if (num == 32768)
                         {
-                            var vFOAInfos = GetVFOAInfos();
-                            for (var j = 0; j < 32; j++) array[j] = vFOAInfos[j];
+                            var vFoaInfos = GetVfoaInfos();
+                            for (var j = 0; j < 32; j++) array[j] = vFoaInfos[j];
                         }
                         else if (num == 32800)
                         {
-                            var vFOBInfos = GetVFOBInfos();
-                            for (var k = 0; k < 32; k++) array[k] = vFOBInfos[k];
+                            var vFobInfos = GetVfobInfos();
+                            for (var k = 0; k < 32; k++) array[k] = vFobInfos[k];
                         }
                         else if (num == 36864)
                         {
-                            array[0] = (byte)appData.funCfgs.Sql;
-                            array[1] = (byte)appData.funCfgs.SaveMode;
-                            array[2] = (byte)appData.funCfgs.Vox;
-                            array[3] = (byte)appData.funCfgs.VoxDlyTime;
-                            array[4] = (byte)appData.funCfgs.DualStandby;
-                            array[5] = (byte)appData.funCfgs.Tot;
-                            array[6] = (byte)appData.funCfgs.Beep;
-                            array[7] = (byte)appData.funCfgs.SideTone;
-                            array[8] = (byte)appData.funCfgs.ScanMode;
-                            array[9] = (byte)appData.vfos.Pttid;
-                            array[10] = (byte)appData.funCfgs.PttDly;
-                            array[11] = (byte)appData.funCfgs.ChADisType;
-                            array[12] = (byte)appData.funCfgs.ChBDisType;
-                            array[13] = (byte)appData.funCfgs.CbBMisscall;
-                            array[14] = (byte)appData.funCfgs.AutoLock;
-                            array[15] = (byte)appData.funCfgs.MicGain;
-                            array[16] = (byte)appData.funCfgs.AlarmMode;
-                            array[17] = (byte)appData.funCfgs.TailClear;
-                            array[18] = (byte)appData.funCfgs.RptTailClear;
-                            array[19] = (byte)appData.funCfgs.RptTailDet;
-                            array[20] = (byte)appData.funCfgs.Roger;
+                            array[0] = (byte)AppData.FunCfgs.Sql;
+                            array[1] = (byte)AppData.FunCfgs.SaveMode;
+                            array[2] = (byte)AppData.FunCfgs.Vox;
+                            array[3] = (byte)AppData.FunCfgs.VoxDlyTime;
+                            array[4] = (byte)AppData.FunCfgs.DualStandby;
+                            array[5] = (byte)AppData.FunCfgs.Tot;
+                            array[6] = (byte)AppData.FunCfgs.Beep;
+                            array[7] = (byte)AppData.FunCfgs.SideTone;
+                            array[8] = (byte)AppData.FunCfgs.ScanMode;
+                            array[9] = (byte)AppData.Vfos.Pttid;
+                            array[10] = (byte)AppData.FunCfgs.PttDly;
+                            array[11] = (byte)AppData.FunCfgs.ChADisType;
+                            array[12] = (byte)AppData.FunCfgs.ChBDisType;
+                            array[13] = (byte)AppData.FunCfgs.CbBMisscall;
+                            array[14] = (byte)AppData.FunCfgs.AutoLock;
+                            array[15] = (byte)AppData.FunCfgs.MicGain;
+                            array[16] = (byte)AppData.FunCfgs.AlarmMode;
+                            array[17] = (byte)AppData.FunCfgs.TailClear;
+                            array[18] = (byte)AppData.FunCfgs.RptTailClear;
+                            array[19] = (byte)AppData.FunCfgs.RptTailDet;
+                            array[20] = (byte)AppData.FunCfgs.Roger;
                             array[21] = 0;
-                            array[22] = (byte)appData.funCfgs.FmEnable;
+                            array[22] = (byte)AppData.FunCfgs.FmEnable;
                             array[23] = 0;
-                            array[23] |= (byte)appData.funCfgs.ChAWorkmode;
-                            array[23] |= (byte)(appData.funCfgs.ChBWorkmode << 4);
-                            array[24] = (byte)appData.funCfgs.KeyLock;
-                            array[25] = (byte)appData.funCfgs.AutoPowerOff;
-                            array[26] = (byte)appData.funCfgs.PowerOnDisType;
+                            array[23] |= (byte)AppData.FunCfgs.ChAWorkmode;
+                            array[23] |= (byte)(AppData.FunCfgs.ChBWorkmode << 4);
+                            array[24] = (byte)AppData.FunCfgs.KeyLock;
+                            array[25] = (byte)AppData.FunCfgs.AutoPowerOff;
+                            array[26] = (byte)AppData.FunCfgs.PowerOnDisType;
                             array[27] = 0;
-                            array[28] = (byte)appData.funCfgs.Tone;
-                            array[29] = (byte)appData.funCfgs.CurBank;
-                            array[30] = (byte)appData.funCfgs.Backlight;
-                            array[31] = (byte)appData.funCfgs.MenuQuitTime;
+                            array[28] = (byte)AppData.FunCfgs.Tone;
+                            array[29] = (byte)AppData.FunCfgs.CurBank;
+                            array[30] = (byte)AppData.FunCfgs.Backlight;
+                            array[31] = (byte)AppData.FunCfgs.MenuQuitTime;
                         }
                         else if (num == 36896)
                         {
-                            array[0] = (byte)appData.funCfgs.Key1Short;
-                            array[1] = (byte)appData.funCfgs.Key1Long;
-                            array[2] = (byte)appData.funCfgs.Key2Short;
-                            array[3] = (byte)appData.funCfgs.Key2Long;
-                            array[4] = (byte)appData.funCfgs.Bright;
+                            array[0] = (byte)AppData.FunCfgs.Key1Short;
+                            array[1] = (byte)AppData.FunCfgs.Key1Long;
+                            array[2] = (byte)AppData.FunCfgs.Key2Short;
+                            array[3] = (byte)AppData.FunCfgs.Key2Long;
+                            array[4] = (byte)AppData.FunCfgs.Bright;
                             array[5] = 0;
                             array[6] = 0;
-                            array[7] = (byte)appData.funCfgs.VoxSw;
-                            array[8] = (byte)appData.funCfgs.PowerUpDisTime;
-                            array[9] = (byte)appData.funCfgs.BluetoothAudioGain;
-                            if (appData.funCfgs.CallSign != null && appData.funCfgs.CallSign != "")
+                            array[7] = (byte)AppData.FunCfgs.VoxSw;
+                            array[8] = (byte)AppData.FunCfgs.PowerUpDisTime;
+                            array[9] = (byte)AppData.FunCfgs.BluetoothAudioGain;
+                            if (AppData.FunCfgs.CallSign != null && AppData.FunCfgs.CallSign != "")
                             {
-                                var bytes = Encoding.GetEncoding("gb2312").GetBytes(appData.funCfgs.CallSign);
-                                Debug.WriteLine($"Callsign: {appData.funCfgs.CallSign}");
+                                var bytes = Encoding.GetEncoding("gb2312").GetBytes(AppData.FunCfgs.CallSign);
+                                Debug.WriteLine($"Callsign: {AppData.FunCfgs.CallSign}");
                                 var array2 = bytes;
                                 foreach (var b2 in array2) Debug.WriteLine($"Byte: {b2}");
 
@@ -321,151 +320,151 @@ public class HIDCommunication
                         }
                         else if (num == 40960)
                         {
-                            GetFMFreq(array, 0, appData.fms.CurFreq);
-                            GetFMFreq(array, 2, appData.fms.Channels[0]);
-                            GetFMFreq(array, 4, appData.fms.Channels[1]);
-                            GetFMFreq(array, 6, appData.fms.Channels[2]);
-                            GetFMFreq(array, 8, appData.fms.Channels[3]);
-                            GetFMFreq(array, 10, appData.fms.Channels[4]);
-                            GetFMFreq(array, 12, appData.fms.Channels[5]);
-                            GetFMFreq(array, 14, appData.fms.Channels[6]);
-                            GetFMFreq(array, 16, appData.fms.Channels[7]);
-                            GetFMFreq(array, 18, appData.fms.Channels[8]);
-                            GetFMFreq(array, 20, appData.fms.Channels[9]);
-                            GetFMFreq(array, 22, appData.fms.Channels[10]);
-                            GetFMFreq(array, 24, appData.fms.Channels[11]);
-                            GetFMFreq(array, 26, appData.fms.Channels[12]);
-                            GetFMFreq(array, 28, appData.fms.Channels[13]);
-                            GetFMFreq(array, 30, appData.fms.Channels[14]);
+                            GetFmFreq(array, 0, AppData.Fms.CurFreq);
+                            GetFmFreq(array, 2, AppData.Fms.Channels[0]);
+                            GetFmFreq(array, 4, AppData.Fms.Channels[1]);
+                            GetFmFreq(array, 6, AppData.Fms.Channels[2]);
+                            GetFmFreq(array, 8, AppData.Fms.Channels[3]);
+                            GetFmFreq(array, 10, AppData.Fms.Channels[4]);
+                            GetFmFreq(array, 12, AppData.Fms.Channels[5]);
+                            GetFmFreq(array, 14, AppData.Fms.Channels[6]);
+                            GetFmFreq(array, 16, AppData.Fms.Channels[7]);
+                            GetFmFreq(array, 18, AppData.Fms.Channels[8]);
+                            GetFmFreq(array, 20, AppData.Fms.Channels[9]);
+                            GetFmFreq(array, 22, AppData.Fms.Channels[10]);
+                            GetFmFreq(array, 24, AppData.Fms.Channels[11]);
+                            GetFmFreq(array, 26, AppData.Fms.Channels[12]);
+                            GetFmFreq(array, 28, AppData.Fms.Channels[13]);
+                            GetFmFreq(array, 30, AppData.Fms.Channels[14]);
                         }
                         else if (num >= 45056 && num < 45744)
                         {
                             switch (num)
                             {
                                 case 45056:
-                                    GetDTMFWord(array, 0, appData.dtmfs.LocalID);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[0]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.LocalId);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[0]);
                                     break;
                                 case 45088:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[1]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[2]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[1]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[2]);
                                     break;
                                 case 45120:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[3]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[4]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[3]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[4]);
                                     break;
                                 case 45152:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[5]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[6]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[5]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[6]);
                                     break;
                                 case 45184:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[7]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[8]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[7]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[8]);
                                     break;
                                 case 45216:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[9]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[10]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[9]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[10]);
                                     break;
                                 case 45248:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[11]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[12]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[11]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[12]);
                                     break;
                                 case 45280:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[13]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[14]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[13]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[14]);
                                     break;
                                 case 45312:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[15]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[16]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[15]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[16]);
                                     break;
                                 case 45344:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[17]);
-                                    GetDTMFWord(array, 16, appData.dtmfs.Group[18]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[17]);
+                                    GetDtmfWord(array, 16, AppData.Dtmfs.Group[18]);
                                     break;
                                 case 45376:
-                                    GetDTMFWord(array, 0, appData.dtmfs.Group[19]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[0]);
+                                    GetDtmfWord(array, 0, AppData.Dtmfs.Group[19]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[0]);
                                     break;
                                 case 45408:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[1]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[2]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[1]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[2]);
                                     break;
                                 case 45440:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[3]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[4]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[3]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[4]);
                                     break;
                                 case 45472:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[5]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[6]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[5]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[6]);
                                     break;
                                 case 45504:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[7]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[8]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[7]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[8]);
                                     break;
                                 case 45536:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[9]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[10]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[9]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[10]);
                                     break;
                                 case 45568:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[11]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[12]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[11]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[12]);
                                     break;
                                 case 45600:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[13]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[14]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[13]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[14]);
                                     break;
                                 case 45632:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[15]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[16]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[15]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[16]);
                                     break;
                                 case 45664:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[17]);
-                                    GetDTMFName(array, 16, appData.dtmfs.GroupName[18]);
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[17]);
+                                    GetDtmfName(array, 16, AppData.Dtmfs.GroupName[18]);
                                     break;
                                 case 45696:
-                                    GetDTMFName(array, 0, appData.dtmfs.GroupName[19]);
-                                    array[16] = (byte)appData.dtmfs.WordTime;
-                                    array[17] = (byte)appData.dtmfs.IdleTime;
+                                    GetDtmfName(array, 0, AppData.Dtmfs.GroupName[19]);
+                                    array[16] = (byte)AppData.Dtmfs.WordTime;
+                                    array[17] = (byte)AppData.Dtmfs.IdleTime;
                                     break;
                                 case 45728:
-                                    GetCallIDWord(array, 0, appData.mdcs.CallID);
-                                    GetMDC1200_IDWord(array, 16, appData.mdcs.Id);
+                                    GetCallIdWord(array, 0, AppData.Mdcs.CallId);
+                                    GetMDC1200_IDWord(array, 16, AppData.Mdcs.Id);
                                     break;
                             }
                         }
 
-                        byData = helper.LoadPackage(87, num, array, (byte)array.Length);
-                        HIDTools.getInstance().Send(byData);
-                        timer.Start();
-                        progressVal = num * 100 / 45728;
-                        if (progressVal > 100) progressVal = 100;
+                        byData = _helper.LoadPackage(87, num, array, (byte)array.Length);
+                        HidTools.GetInstance().Send(byData);
+                        _timer.Start();
+                        _progressVal = num * 100 / 45728;
+                        if (_progressVal > 100) _progressVal = 100;
 
-                        progressCont = "进度..." + progressVal + "%";
-                        UpdateProgressBar(progressVal, progressCont);
-                        step = STEP.STEP_WRITE2;
+                        _progressCont = "进度..." + _progressVal + "%";
+                        UpdateProgressBar(_progressVal, _progressCont);
+                        _step = Step.StepWrite2;
                         break;
-                    case STEP.STEP_WRITE2:
-                        if (!HIDTools.getInstance().flagReceiveData) break;
+                    case Step.StepWrite2:
+                        if (!HidTools.GetInstance().FlagReceiveData) break;
 
-                        HIDTools.getInstance().flagReceiveData = false;
-                        helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
-                        if (helper.errorCode == HID_ERRORS.ER_NONE)
+                        HidTools.GetInstance().FlagReceiveData = false;
+                        _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                        if (_helper.ErrorCode == HidErrors.ErNone)
                         {
-                            timer.Stop();
-                            resetRetryCount();
+                            _timer.Stop();
+                            ResetRetryCount();
                             for (var i = 0; i < 32; i++) array[i] = byte.MaxValue;
 
                             if (num >= 45728)
                             {
-                                progressVal = 100;
-                                progressCont = "完成";
-                                UpdateProgressBar(progressVal, progressCont);
-                                flagTransmitting = false;
+                                _progressVal = 100;
+                                _progressCont = "完成";
+                                UpdateProgressBar(_progressVal, _progressCont);
+                                _flagTransmitting = false;
                                 return true;
                             }
 
                             num += 32;
-                            step = STEP.STEP_WRITE1;
+                            _step = Step.StepWrite1;
                         }
 
                         break;
@@ -473,18 +472,18 @@ public class HIDCommunication
             }
             else
             {
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    timer.Stop();
-                    flagTransmitting = false;
+                    _timer.Stop();
+                    _flagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
-                HIDTools.getInstance().Send(byData);
+                _timesOfRetry--;
+                _flagRetry = false;
+                HidTools.GetInstance().Send(byData);
             }
-        }
+
         return false;
     }
 
@@ -495,7 +494,7 @@ public class HIDCommunication
         {
             int i;
             for (i = 0; i < 210; i++)
-                if (strData == tblCTSDCS[i])
+                if (strData == _tblCtsdcs[i])
                 {
                     i++;
                     break;
@@ -537,10 +536,10 @@ public class HIDCommunication
         return array;
     }
 
-    private byte[] GetChannelInfos(int CH_Num)
+    private byte[] GetChannelInfos(int chNum)
     {
-        var num = CH_Num / 32;
-        var num2 = CH_Num % 32;
+        var num = chNum / 32;
+        var num2 = chNum % 32;
         var array = new byte[32]
         {
             255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
@@ -548,32 +547,32 @@ public class HIDCommunication
             255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
             255, 255
         };
-        if (appData.channelList[num][num2].RxFreq != "")
+        if (AppData.ChannelList[num][num2].RxFreq != "")
         {
-            var sourceArray = CaculateFreq_StrToHex(appData.channelList[num][num2].RxFreq);
+            var sourceArray = CaculateFreq_StrToHex(AppData.ChannelList[num][num2].RxFreq);
             Array.Copy(sourceArray, 0, array, 0, 4);
-            if (appData.channelList[num][num2].TxFreq != "")
+            if (AppData.ChannelList[num][num2].TxFreq != "")
             {
-                var sourceArray2 = CaculateFreq_StrToHex(appData.channelList[num][num2].TxFreq);
+                var sourceArray2 = CaculateFreq_StrToHex(AppData.ChannelList[num][num2].TxFreq);
                 Array.Copy(sourceArray2, 0, array, 4, 4);
             }
 
-            var sourceArray3 = CaculateCtsDcs(appData.channelList[num][num2].StrRxCtsDcs);
+            var sourceArray3 = CaculateCtsDcs(AppData.ChannelList[num][num2].StrRxCtsDcs);
             Array.Copy(sourceArray3, 0, array, 8, 2);
-            sourceArray3 = CaculateCtsDcs(appData.channelList[num][num2].StrTxCtsDcs);
+            sourceArray3 = CaculateCtsDcs(AppData.ChannelList[num][num2].StrTxCtsDcs);
             Array.Copy(sourceArray3, 0, array, 10, 2);
-            array[12] = (byte)appData.channelList[num][num2].SignalGroup;
-            array[13] = (byte)appData.channelList[num][num2].Pttid;
-            array[14] = (byte)appData.channelList[num][num2].TxPower;
+            array[12] = (byte)AppData.ChannelList[num][num2].SignalGroup;
+            array[13] = (byte)AppData.ChannelList[num][num2].Pttid;
+            array[14] = (byte)AppData.ChannelList[num][num2].TxPower;
             array[15] = 0;
-            array[15] |= (byte)(appData.channelList[num][num2].Bandwide << 6);
-            array[15] |= (byte)(appData.channelList[num][num2].SqMode << 4);
-            array[15] |= (byte)(appData.channelList[num][num2].ScanAdd << 2);
-            array[15] |= (byte)(appData.channelList[num][num2].SignalSystem & 3);
-            if (appData.channelList[num][num2].Name != "")
+            array[15] |= (byte)(AppData.ChannelList[num][num2].Bandwide << 6);
+            array[15] |= (byte)(AppData.ChannelList[num][num2].SqMode << 4);
+            array[15] |= (byte)(AppData.ChannelList[num][num2].ScanAdd << 2);
+            array[15] |= (byte)(AppData.ChannelList[num][num2].SignalSystem & 3);
+            if (AppData.ChannelList[num][num2].Name != "")
             {
                 var num3 = 0;
-                var bytes = Encoding.GetEncoding("gb2312").GetBytes(appData.channelList[num][num2].Name);
+                var bytes = Encoding.GetEncoding("gb2312").GetBytes(AppData.ChannelList[num][num2].Name);
                 num3 = bytes.Length > 12 ? 12 : bytes.Length;
                 Array.Copy(bytes, 0, array, 20, num3);
             }
@@ -595,7 +594,7 @@ public class HIDCommunication
         }
     }
 
-    private byte[] GetVFOAInfos()
+    private byte[] GetVfoaInfos()
     {
         var array = new byte[32]
         {
@@ -604,35 +603,35 @@ public class HIDCommunication
             0, 0, 0, 255, 255, 255, 255, 255, 255, 255,
             255, 255
         };
-        var s = appData.vfos.VfoAFreq.Remove(3, 1);
+        var s = AppData.Vfos.VfoAFreq.Remove(3, 1);
         var num = int.Parse(s);
         array[0] = (byte)((uint)num & 0xFFu);
         array[1] = (byte)((uint)(num >> 8) & 0xFFu);
         array[2] = (byte)((uint)(num >> 16) & 0xFFu);
         array[3] = (byte)((uint)(num >> 24) & 0xFFu);
-        var sourceArray = CaculateCtsDcs(appData.vfos.StrVFOARxCtsDcs);
+        var sourceArray = CaculateCtsDcs(AppData.Vfos.StrVfoaRxCtsDcs);
         Array.Copy(sourceArray, 0, array, 4, 2);
-        sourceArray = CaculateCtsDcs(appData.vfos.StrVFOATxCtsDcs);
+        sourceArray = CaculateCtsDcs(AppData.Vfos.StrVfoaTxCtsDcs);
         Array.Copy(sourceArray, 0, array, 6, 2);
-        array[8] = (byte)appData.vfos.VfoABusyLock;
-        array[9] = (byte)appData.vfos.VfoASignalGroup;
-        array[10] = (byte)appData.vfos.VfoATxPower;
-        array[11] = (byte)appData.vfos.VfoABandwide;
-        array[12] = (byte)appData.vfos.VfoAScram;
-        array[13] = (byte)appData.vfos.VfoAStep;
-        array[14] = (byte)appData.vfos.VfoADir;
-        var s2 = appData.vfos.VfoAOffset.Remove(2, 1);
+        array[8] = (byte)AppData.Vfos.VfoABusyLock;
+        array[9] = (byte)AppData.Vfos.VfoASignalGroup;
+        array[10] = (byte)AppData.Vfos.VfoATxPower;
+        array[11] = (byte)AppData.Vfos.VfoABandwide;
+        array[12] = (byte)AppData.Vfos.VfoAScram;
+        array[13] = (byte)AppData.Vfos.VfoAStep;
+        array[14] = (byte)AppData.Vfos.VfoADir;
+        var s2 = AppData.Vfos.VfoAOffset.Remove(2, 1);
         var num2 = int.Parse(s2) * 10;
         array[15] = (byte)((uint)num2 & 0xFFu);
         array[16] = (byte)((uint)(num2 >> 8) & 0xFFu);
         array[17] = (byte)((uint)(num2 >> 16) & 0xFFu);
         array[18] = (byte)((uint)(num2 >> 24) & 0xFFu);
-        array[19] = (byte)appData.vfos.VfoASQMode;
-        array[26] = (byte)appData.vfos.VfoASignalSystem;
+        array[19] = (byte)AppData.Vfos.VfoAsqMode;
+        array[26] = (byte)AppData.Vfos.VfoASignalSystem;
         return array;
     }
 
-    private byte[] GetVFOBInfos()
+    private byte[] GetVfobInfos()
     {
         var array = new byte[32]
         {
@@ -641,35 +640,35 @@ public class HIDCommunication
             0, 0, 0, 255, 255, 255, 255, 255, 255, 255,
             255, 255
         };
-        var s = appData.vfos.VfoBFreq.Remove(3, 1);
+        var s = AppData.Vfos.VfoBFreq.Remove(3, 1);
         var num = int.Parse(s);
         array[0] = (byte)((uint)num & 0xFFu);
         array[1] = (byte)((uint)(num >> 8) & 0xFFu);
         array[2] = (byte)((uint)(num >> 16) & 0xFFu);
         array[3] = (byte)((uint)(num >> 24) & 0xFFu);
-        var sourceArray = CaculateCtsDcs(appData.vfos.StrVFOBRxCtsDcs);
+        var sourceArray = CaculateCtsDcs(AppData.Vfos.StrVfobRxCtsDcs);
         Array.Copy(sourceArray, 0, array, 4, 2);
-        sourceArray = CaculateCtsDcs(appData.vfos.StrVFOBTxCtsDcs);
+        sourceArray = CaculateCtsDcs(AppData.Vfos.StrVfobTxCtsDcs);
         Array.Copy(sourceArray, 0, array, 6, 2);
-        array[8] = (byte)appData.vfos.VfoBBusyLock;
-        array[9] = (byte)appData.vfos.VfoBSignalGroup;
-        array[10] = (byte)appData.vfos.VfoBTxPower;
-        array[11] = (byte)appData.vfos.VfoBBandwide;
-        array[12] = (byte)appData.vfos.VfoBScram;
-        array[13] = (byte)appData.vfos.VfoBStep;
-        array[14] = (byte)appData.vfos.VfoBDir;
-        var s2 = appData.vfos.VfoBOffset.Remove(2, 1);
+        array[8] = (byte)AppData.Vfos.VfoBBusyLock;
+        array[9] = (byte)AppData.Vfos.VfoBSignalGroup;
+        array[10] = (byte)AppData.Vfos.VfoBTxPower;
+        array[11] = (byte)AppData.Vfos.VfoBBandwide;
+        array[12] = (byte)AppData.Vfos.VfoBScram;
+        array[13] = (byte)AppData.Vfos.VfoBStep;
+        array[14] = (byte)AppData.Vfos.VfoBDir;
+        var s2 = AppData.Vfos.VfoBOffset.Remove(2, 1);
         var num2 = int.Parse(s2) * 10;
         array[15] = (byte)((uint)num2 & 0xFFu);
         array[16] = (byte)((uint)(num2 >> 8) & 0xFFu);
         array[17] = (byte)((uint)(num2 >> 16) & 0xFFu);
         array[18] = (byte)((uint)(num2 >> 24) & 0xFFu);
-        array[19] = (byte)appData.vfos.VfoBSQMode;
-        array[26] = (byte)appData.vfos.VfoBSignalSystem;
+        array[19] = (byte)AppData.Vfos.VfoBsqMode;
+        array[26] = (byte)AppData.Vfos.VfoBSignalSystem;
         return array;
     }
 
-    private void GetFMFreq(byte[] payload, int offset, int freq)
+    private void GetFmFreq(byte[] payload, int offset, int freq)
     {
         if (freq != 0)
         {
@@ -678,7 +677,7 @@ public class HIDCommunication
         }
     }
 
-    private void GetDTMFWord(byte[] payload, int offset, string word)
+    private void GetDtmfWord(byte[] payload, int offset, string word)
     {
         var text = "0123456789ABCD*#";
         var num = 0;
@@ -697,7 +696,7 @@ public class HIDCommunication
         }
     }
 
-    private void GetDTMFName(byte[] payload, int offset, string word)
+    private void GetDtmfName(byte[] payload, int offset, string word)
     {
         var num = 0;
         if (word != "")
@@ -710,12 +709,12 @@ public class HIDCommunication
         }
     }
 
-    private void GetCallIDWord(byte[] payload, int offset, string callID)
+    private void GetCallIdWord(byte[] payload, int offset, string callId)
     {
-        if (callID != "")
+        if (callId != "")
         {
-            var bytes = Encoding.ASCII.GetBytes(callID);
-            for (var i = 0; i < callID.Length; i++) payload[i + offset] = bytes[i];
+            var bytes = Encoding.ASCII.GetBytes(callId);
+            for (var i = 0; i < callId.Length; i++) payload[i + offset] = bytes[i];
         }
     }
 
@@ -732,215 +731,215 @@ public class HIDCommunication
         var byData = new byte[10];
         ushort num = 0;
         var num2 = 0;
-        while (flagTransmitting && !token.IsCancellationRequested)
-            if (!flagRetry)
+        while (_flagTransmitting && !token.IsCancellationRequested)
+            if (!_flagRetry)
             {
-                switch (step)
+                switch (_step)
                 {
-                    case STEP.STEP_READ1:
-                        byData = helper.LoadPackage(82, num, null, 1);
-                        HIDTools.getInstance().Send(byData);
-                        progressVal = num * 100 / 45728;
-                        if (progressVal > 100) progressVal = 100;
+                    case Step.StepRead1:
+                        byData = _helper.LoadPackage(82, num, null, 1);
+                        HidTools.GetInstance().Send(byData);
+                        _progressVal = num * 100 / 45728;
+                        if (_progressVal > 100) _progressVal = 100;
 
-                        progressCont = "进度..." + progressVal + "%";
-                        UpdateProgressBar(progressVal, progressCont);
-                        resetRetryCount();
-                        timer.Start();
-                        step = STEP.STEP_READ2;
+                        _progressCont = "进度..." + _progressVal + "%";
+                        UpdateProgressBar(_progressVal, _progressCont);
+                        ResetRetryCount();
+                        _timer.Start();
+                        _step = Step.StepRead2;
                         break;
-                    case STEP.STEP_READ2:
-                        if (!HIDTools.getInstance().flagReceiveData) break;
+                    case Step.StepRead2:
+                        if (!HidTools.GetInstance().FlagReceiveData) break;
 
-                        HIDTools.getInstance().flagReceiveData = false;
-                        timer.Stop();
-                        resetRetryCount();
-                        helper.AnalyzePackage(HIDTools.getInstance().rxBuffer);
-                        if (helper.errorCode != HID_ERRORS.ER_NONE) break;
+                        HidTools.GetInstance().FlagReceiveData = false;
+                        _timer.Stop();
+                        ResetRetryCount();
+                        _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                        if (_helper.ErrorCode != HidErrors.ErNone) break;
 
                         if (num < 30720)
                         {
-                            SetChannelInfos(num2++, helper.payload);
+                            SetChannelInfos(num2++, _helper.Payload);
                         }
                         else if (num >= 32000 && num < 32480)
                         {
                             var num3 = (num - 32000) / 16;
-                            appData.bankName[num3] = SetbankName(helper.payload, 0);
-                            appData.bankName[num3 + 1] = SetbankName(helper.payload, 16);
+                            AppData.BankName[num3] = SetbankName(_helper.Payload, 0);
+                            AppData.BankName[num3 + 1] = SetbankName(_helper.Payload, 16);
                         }
                         else if (num == 32768)
                         {
-                            SetVFOAInfos(helper.payload);
+                            SetVfoaInfos(_helper.Payload);
                         }
                         else if (num == 32800)
                         {
-                            SetVFOBInfos(helper.payload);
+                            SetVfobInfos(_helper.Payload);
                         }
                         else if (num == 36864)
                         {
-                            appData.funCfgs.Sql = helper.payload[0] % 10;
-                            appData.funCfgs.SaveMode = helper.payload[1] % 2;
-                            appData.funCfgs.Vox = helper.payload[2] % 3;
-                            appData.funCfgs.VoxDlyTime = helper.payload[3] % 16;
-                            appData.funCfgs.DualStandby = helper.payload[4] % 2;
-                            appData.funCfgs.Tot = helper.payload[5] % 9;
-                            appData.funCfgs.Beep = helper.payload[6] % 4;
-                            appData.funCfgs.SideTone = helper.payload[7] % 2;
-                            appData.funCfgs.ScanMode = helper.payload[8] % 3;
-                            appData.vfos.Pttid = helper.payload[9] % 4;
-                            appData.funCfgs.PttDly = helper.payload[10] % 16;
-                            appData.funCfgs.ChADisType = helper.payload[11] % 3;
-                            appData.funCfgs.ChBDisType = helper.payload[12] % 3;
-                            appData.funCfgs.CbBMisscall = helper.payload[13] % 2;
-                            appData.funCfgs.AutoLock = helper.payload[14] % 7;
-                            appData.funCfgs.MicGain = helper.payload[15] % 3;
-                            appData.funCfgs.AlarmMode = helper.payload[16] % 3;
-                            appData.funCfgs.TailClear = helper.payload[17] % 2;
-                            appData.funCfgs.RptTailClear = helper.payload[18] % 11;
-                            appData.funCfgs.RptTailDet = helper.payload[19] % 11;
-                            appData.funCfgs.Roger = helper.payload[20] % 2;
-                            appData.funCfgs.FmEnable = helper.payload[22] % 2;
-                            appData.funCfgs.ChAWorkmode = (helper.payload[23] & 0xF) % 2;
-                            appData.funCfgs.ChBWorkmode = ((helper.payload[23] & 0xF0) >> 4) % 2;
-                            appData.funCfgs.KeyLock = helper.payload[24] % 2;
-                            appData.funCfgs.AutoPowerOff = helper.payload[25] % 5;
-                            appData.funCfgs.PowerOnDisType = helper.payload[26] % 3;
-                            appData.funCfgs.Tone = helper.payload[28] % 4;
-                            appData.funCfgs.CurBank = helper.payload[29] % 30;
-                            appData.funCfgs.Backlight = helper.payload[30] % 9;
-                            appData.funCfgs.MenuQuitTime = helper.payload[31] % 11;
+                            AppData.FunCfgs.Sql = _helper.Payload[0] % 10;
+                            AppData.FunCfgs.SaveMode = _helper.Payload[1] % 2;
+                            AppData.FunCfgs.Vox = _helper.Payload[2] % 3;
+                            AppData.FunCfgs.VoxDlyTime = _helper.Payload[3] % 16;
+                            AppData.FunCfgs.DualStandby = _helper.Payload[4] % 2;
+                            AppData.FunCfgs.Tot = _helper.Payload[5] % 9;
+                            AppData.FunCfgs.Beep = _helper.Payload[6] % 4;
+                            AppData.FunCfgs.SideTone = _helper.Payload[7] % 2;
+                            AppData.FunCfgs.ScanMode = _helper.Payload[8] % 3;
+                            AppData.Vfos.Pttid = _helper.Payload[9] % 4;
+                            AppData.FunCfgs.PttDly = _helper.Payload[10] % 16;
+                            AppData.FunCfgs.ChADisType = _helper.Payload[11] % 3;
+                            AppData.FunCfgs.ChBDisType = _helper.Payload[12] % 3;
+                            AppData.FunCfgs.CbBMisscall = _helper.Payload[13] % 2;
+                            AppData.FunCfgs.AutoLock = _helper.Payload[14] % 7;
+                            AppData.FunCfgs.MicGain = _helper.Payload[15] % 3;
+                            AppData.FunCfgs.AlarmMode = _helper.Payload[16] % 3;
+                            AppData.FunCfgs.TailClear = _helper.Payload[17] % 2;
+                            AppData.FunCfgs.RptTailClear = _helper.Payload[18] % 11;
+                            AppData.FunCfgs.RptTailDet = _helper.Payload[19] % 11;
+                            AppData.FunCfgs.Roger = _helper.Payload[20] % 2;
+                            AppData.FunCfgs.FmEnable = _helper.Payload[22] % 2;
+                            AppData.FunCfgs.ChAWorkmode = (_helper.Payload[23] & 0xF) % 2;
+                            AppData.FunCfgs.ChBWorkmode = ((_helper.Payload[23] & 0xF0) >> 4) % 2;
+                            AppData.FunCfgs.KeyLock = _helper.Payload[24] % 2;
+                            AppData.FunCfgs.AutoPowerOff = _helper.Payload[25] % 5;
+                            AppData.FunCfgs.PowerOnDisType = _helper.Payload[26] % 3;
+                            AppData.FunCfgs.Tone = _helper.Payload[28] % 4;
+                            AppData.FunCfgs.CurBank = _helper.Payload[29] % 30;
+                            AppData.FunCfgs.Backlight = _helper.Payload[30] % 9;
+                            AppData.FunCfgs.MenuQuitTime = _helper.Payload[31] % 11;
                         }
                         else if (num == 36896)
                         {
-                            appData.funCfgs.Key1Short = helper.payload[0] % 10;
-                            appData.funCfgs.Key1Long = helper.payload[1] % 10;
-                            appData.funCfgs.Key2Short = helper.payload[2] % 10;
-                            appData.funCfgs.Key2Long = helper.payload[3] % 10;
-                            appData.funCfgs.Bright = helper.payload[4] % 2;
-                            appData.funCfgs.VoxSw = helper.payload[7] % 2;
-                            appData.funCfgs.PowerUpDisTime = helper.payload[8] % 15;
-                            appData.funCfgs.BluetoothAudioGain = helper.payload[9] % 5;
+                            AppData.FunCfgs.Key1Short = _helper.Payload[0] % 10;
+                            AppData.FunCfgs.Key1Long = _helper.Payload[1] % 10;
+                            AppData.FunCfgs.Key2Short = _helper.Payload[2] % 10;
+                            AppData.FunCfgs.Key2Long = _helper.Payload[3] % 10;
+                            AppData.FunCfgs.Bright = _helper.Payload[4] % 2;
+                            AppData.FunCfgs.VoxSw = _helper.Payload[7] % 2;
+                            AppData.FunCfgs.PowerUpDisTime = _helper.Payload[8] % 15;
+                            AppData.FunCfgs.BluetoothAudioGain = _helper.Payload[9] % 5;
                             var num4 = 0;
-                            for (var i = 0; i < 6 && helper.payload[10 + i] != byte.MaxValue; i++)
+                            for (var i = 0; i < 6 && _helper.Payload[10 + i] != byte.MaxValue; i++)
                             {
                                 num4++;
-                                Debug.WriteLine("Byte:{0}", helper.payload[10 + i]);
+                                Debug.WriteLine("Byte:{0}", _helper.Payload[10 + i]);
                             }
 
-                            appData.funCfgs.CallSign =
-                                Encoding.GetEncoding("gb2312").GetString(helper.payload, 10, num4);
+                            AppData.FunCfgs.CallSign =
+                                Encoding.GetEncoding("gb2312").GetString(_helper.Payload, 10, num4);
                         }
                         else if (num == 40960)
                         {
-                            appData.fms.CurFreq = SetFMFreq(helper.payload, 0);
-                            appData.fms.Channels[0] = SetFMFreq(helper.payload, 2);
-                            appData.fms.Channels[1] = SetFMFreq(helper.payload, 4);
-                            appData.fms.Channels[2] = SetFMFreq(helper.payload, 6);
-                            appData.fms.Channels[3] = SetFMFreq(helper.payload, 8);
-                            appData.fms.Channels[4] = SetFMFreq(helper.payload, 10);
-                            appData.fms.Channels[5] = SetFMFreq(helper.payload, 12);
-                            appData.fms.Channels[6] = SetFMFreq(helper.payload, 14);
-                            appData.fms.Channels[7] = SetFMFreq(helper.payload, 16);
-                            appData.fms.Channels[8] = SetFMFreq(helper.payload, 18);
-                            appData.fms.Channels[9] = SetFMFreq(helper.payload, 20);
-                            appData.fms.Channels[10] = SetFMFreq(helper.payload, 22);
-                            appData.fms.Channels[11] = SetFMFreq(helper.payload, 24);
-                            appData.fms.Channels[12] = SetFMFreq(helper.payload, 26);
-                            appData.fms.Channels[13] = SetFMFreq(helper.payload, 28);
-                            appData.fms.Channels[14] = SetFMFreq(helper.payload, 30);
+                            AppData.Fms.CurFreq = SetFmFreq(_helper.Payload, 0);
+                            AppData.Fms.Channels[0] = SetFmFreq(_helper.Payload, 2);
+                            AppData.Fms.Channels[1] = SetFmFreq(_helper.Payload, 4);
+                            AppData.Fms.Channels[2] = SetFmFreq(_helper.Payload, 6);
+                            AppData.Fms.Channels[3] = SetFmFreq(_helper.Payload, 8);
+                            AppData.Fms.Channels[4] = SetFmFreq(_helper.Payload, 10);
+                            AppData.Fms.Channels[5] = SetFmFreq(_helper.Payload, 12);
+                            AppData.Fms.Channels[6] = SetFmFreq(_helper.Payload, 14);
+                            AppData.Fms.Channels[7] = SetFmFreq(_helper.Payload, 16);
+                            AppData.Fms.Channels[8] = SetFmFreq(_helper.Payload, 18);
+                            AppData.Fms.Channels[9] = SetFmFreq(_helper.Payload, 20);
+                            AppData.Fms.Channels[10] = SetFmFreq(_helper.Payload, 22);
+                            AppData.Fms.Channels[11] = SetFmFreq(_helper.Payload, 24);
+                            AppData.Fms.Channels[12] = SetFmFreq(_helper.Payload, 26);
+                            AppData.Fms.Channels[13] = SetFmFreq(_helper.Payload, 28);
+                            AppData.Fms.Channels[14] = SetFmFreq(_helper.Payload, 30);
                         }
                         else if (num >= 45056 && num < 45744)
                         {
                             switch (num)
                             {
                                 case 45056:
-                                    appData.dtmfs.LocalID = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[0] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.LocalId = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[0] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45088:
-                                    appData.dtmfs.Group[1] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[2] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[1] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[2] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45120:
-                                    appData.dtmfs.Group[3] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[4] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[3] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[4] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45152:
-                                    appData.dtmfs.Group[5] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[6] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[5] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[6] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45184:
-                                    appData.dtmfs.Group[7] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[8] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[7] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[8] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45216:
-                                    appData.dtmfs.Group[9] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[10] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[9] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[10] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45248:
-                                    appData.dtmfs.Group[11] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[12] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[11] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[12] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45280:
-                                    appData.dtmfs.Group[13] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[14] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[13] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[14] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45312:
-                                    appData.dtmfs.Group[15] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[16] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[15] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[16] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45344:
-                                    appData.dtmfs.Group[17] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.Group[18] = SetDTMFWord(helper.payload, 16);
+                                    AppData.Dtmfs.Group[17] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.Group[18] = SetDtmfWord(_helper.Payload, 16);
                                     break;
                                 case 45376:
-                                    appData.dtmfs.Group[19] = SetDTMFWord(helper.payload, 0);
-                                    appData.dtmfs.GroupName[0] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.Group[19] = SetDtmfWord(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[0] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45408:
-                                    appData.dtmfs.GroupName[1] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[2] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[1] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[2] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45440:
-                                    appData.dtmfs.GroupName[3] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[4] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[3] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[4] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45472:
-                                    appData.dtmfs.GroupName[5] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[6] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[5] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[6] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45504:
-                                    appData.dtmfs.GroupName[7] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[8] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[7] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[8] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45536:
-                                    appData.dtmfs.GroupName[9] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[10] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[9] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[10] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45568:
-                                    appData.dtmfs.GroupName[11] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[12] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[11] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[12] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45600:
-                                    appData.dtmfs.GroupName[13] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[14] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[13] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[14] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45632:
-                                    appData.dtmfs.GroupName[15] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[16] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[15] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[16] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45664:
-                                    appData.dtmfs.GroupName[17] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.GroupName[18] = SetDTMFGroupName(helper.payload, 16);
+                                    AppData.Dtmfs.GroupName[17] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.GroupName[18] = SetDtmfGroupName(_helper.Payload, 16);
                                     break;
                                 case 45696:
-                                    appData.dtmfs.GroupName[19] = SetDTMFGroupName(helper.payload, 0);
-                                    appData.dtmfs.WordTime = helper.payload[16];
-                                    appData.dtmfs.IdleTime = helper.payload[17];
+                                    AppData.Dtmfs.GroupName[19] = SetDtmfGroupName(_helper.Payload, 0);
+                                    AppData.Dtmfs.WordTime = _helper.Payload[16];
+                                    AppData.Dtmfs.IdleTime = _helper.Payload[17];
                                     break;
                                 case 45728:
-                                    appData.mdcs.CallID = SetCallID(helper.payload, 0);
-                                    appData.mdcs.Id = SetMDC1200ID(helper.payload, 16);
+                                    AppData.Mdcs.CallId = SetCallId(_helper.Payload, 0);
+                                    AppData.Mdcs.Id = SetMdc1200Id(_helper.Payload, 16);
                                     break;
                             }
                         }
@@ -948,32 +947,32 @@ public class HIDCommunication
                         if (num < 45728)
                         {
                             num += 32;
-                            timer.Start();
-                            step = STEP.STEP_READ1;
+                            _timer.Start();
+                            _step = Step.StepRead1;
                             break;
                         }
 
-                        progressVal = 100;
-                        progressCont = "完成";
-                        UpdateProgressBar(progressVal, progressCont);
-                        byData = helper.LoadPackage(69, 0, null, 1);
-                        HIDTools.getInstance().Send(byData);
-                        flagTransmitting = false;
+                        _progressVal = 100;
+                        _progressCont = "完成";
+                        UpdateProgressBar(_progressVal, _progressCont);
+                        byData = _helper.LoadPackage(69, 0, null, 1);
+                        HidTools.GetInstance().Send(byData);
+                        _flagTransmitting = false;
                         return true;
                 }
             }
             else
             {
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    timer.Stop();
-                    flagTransmitting = false;
+                    _timer.Stop();
+                    _flagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
-                HIDTools.getInstance().Send(byData);
+                _timesOfRetry--;
+                _flagRetry = false;
+                HidTools.GetInstance().Send(byData);
             }
 
         return false;
@@ -997,7 +996,7 @@ public class HIDCommunication
         {
             if (dat[1 + offset] == 0)
             {
-                if (dat[offset] != 0 && dat[offset] <= 210) return tblCTSDCS[dat[offset] - 1];
+                if (dat[offset] != 0 && dat[offset] <= 210) return _tblCtsdcs[dat[offset] - 1];
 
                 return "OFF";
             }
@@ -1018,35 +1017,33 @@ public class HIDCommunication
         }
     }
 
-    private void SetChannelInfos(int CH_Num, byte[] dat)
+    private void SetChannelInfos(int chNum, byte[] dat)
     {
-        var num = CH_Num / 32;
-        var num2 = CH_Num % 32;
+        var num = chNum / 32;
+        var num2 = chNum % 32;
         if (dat[0] == byte.MaxValue || dat[1] == byte.MaxValue || dat[3] == 0) return;
 
-        appData.channelList[num][num2].RxFreq = CaculateFreq_HexToStr(dat, 0);
-        if (!string.IsNullOrEmpty(appData.channelList[num][num2].RxFreq))
-        {
-            appData.channelList[num][num2].IsVisable = true;
-        }
+        AppData.ChannelList[num][num2].RxFreq = CaculateFreq_HexToStr(dat, 0);
+        if (!string.IsNullOrEmpty(AppData.ChannelList[num][num2].RxFreq))
+            AppData.ChannelList[num][num2].IsVisable = true;
         if (dat[4] != byte.MaxValue && dat[5] != byte.MaxValue)
-            appData.channelList[num][num2].TxFreq = CaculateFreq_HexToStr(dat, 4);
+            AppData.ChannelList[num][num2].TxFreq = CaculateFreq_HexToStr(dat, 4);
 
-        appData.channelList[num][num2].StrRxCtsDcs = CaculateCtsDcs(dat, 8);
-        appData.channelList[num][num2].StrTxCtsDcs = CaculateCtsDcs(dat, 10);
-        appData.channelList[num][num2].SignalGroup = dat[12] % 20;
-        appData.channelList[num][num2].Pttid = dat[13] % 4;
-        appData.channelList[num][num2].TxPower = dat[14] % 2;
-        appData.channelList[num][num2].Bandwide = (dat[15] >> 6) & 1;
-        appData.channelList[num][num2].SqMode = ((dat[15] >> 4) & 3) % 3;
-        appData.channelList[num][num2].ScanAdd = (dat[15] >> 2) & 1;
-        appData.channelList[num][num2].SignalSystem = (dat[15] & 3) % 3;
+        AppData.ChannelList[num][num2].StrRxCtsDcs = CaculateCtsDcs(dat, 8);
+        AppData.ChannelList[num][num2].StrTxCtsDcs = CaculateCtsDcs(dat, 10);
+        AppData.ChannelList[num][num2].SignalGroup = dat[12] % 20;
+        AppData.ChannelList[num][num2].Pttid = dat[13] % 4;
+        AppData.ChannelList[num][num2].TxPower = dat[14] % 2;
+        AppData.ChannelList[num][num2].Bandwide = (dat[15] >> 6) & 1;
+        AppData.ChannelList[num][num2].SqMode = ((dat[15] >> 4) & 3) % 3;
+        AppData.ChannelList[num][num2].ScanAdd = (dat[15] >> 2) & 1;
+        AppData.ChannelList[num][num2].SignalSystem = (dat[15] & 3) % 3;
         if (dat[20] != byte.MaxValue)
         {
             var num3 = 0;
             for (var i = 0; i < 12 && dat[20 + i] != byte.MaxValue; i++) num3++;
 
-            appData.channelList[num][num2].Name = Encoding.GetEncoding("gb2312").GetString(dat, 20, num3);
+            AppData.ChannelList[num][num2].Name = Encoding.GetEncoding("gb2312").GetString(dat, 20, num3);
         }
     }
 
@@ -1116,45 +1113,45 @@ public class HIDCommunication
         return result;
     }
 
-    private void SetVFOAInfos(byte[] dat)
+    private void SetVfoaInfos(byte[] dat)
     {
         var text = CaculateFreq(dat);
-        if (text != "") appData.vfos.VfoAFreq = text;
+        if (text != "") AppData.Vfos.VfoAFreq = text;
 
-        appData.vfos.StrVFOARxCtsDcs = CaculateCtsDcs(dat, 4);
-        appData.vfos.StrVFOATxCtsDcs = CaculateCtsDcs(dat, 6);
-        appData.vfos.VfoABusyLock = dat[8] % 2;
-        appData.vfos.VfoASignalGroup = dat[9] % 20;
-        appData.vfos.VfoATxPower = dat[10] % 3;
-        appData.vfos.VfoABandwide = dat[11] % 2;
-        appData.vfos.VfoAScram = dat[12] % 9;
-        appData.vfos.VfoAStep = dat[13] % 8;
-        appData.vfos.VfoADir = dat[14] % 3;
-        appData.vfos.VfoAOffset = CaculateOffset(dat, 15);
-        appData.vfos.VfoASQMode = dat[19] % 3;
-        appData.vfos.VfoASignalSystem = dat[26] % 3;
+        AppData.Vfos.StrVfoaRxCtsDcs = CaculateCtsDcs(dat, 4);
+        AppData.Vfos.StrVfoaTxCtsDcs = CaculateCtsDcs(dat, 6);
+        AppData.Vfos.VfoABusyLock = dat[8] % 2;
+        AppData.Vfos.VfoASignalGroup = dat[9] % 20;
+        AppData.Vfos.VfoATxPower = dat[10] % 3;
+        AppData.Vfos.VfoABandwide = dat[11] % 2;
+        AppData.Vfos.VfoAScram = dat[12] % 9;
+        AppData.Vfos.VfoAStep = dat[13] % 8;
+        AppData.Vfos.VfoADir = dat[14] % 3;
+        AppData.Vfos.VfoAOffset = CaculateOffset(dat, 15);
+        AppData.Vfos.VfoAsqMode = dat[19] % 3;
+        AppData.Vfos.VfoASignalSystem = dat[26] % 3;
     }
 
-    private void SetVFOBInfos(byte[] dat)
+    private void SetVfobInfos(byte[] dat)
     {
         var text = CaculateFreq(dat);
-        if (text != "") appData.vfos.VfoBFreq = text;
+        if (text != "") AppData.Vfos.VfoBFreq = text;
 
-        appData.vfos.StrVFOBRxCtsDcs = CaculateCtsDcs(dat, 4);
-        appData.vfos.StrVFOBTxCtsDcs = CaculateCtsDcs(dat, 6);
-        appData.vfos.VfoBBusyLock = dat[8] % 2;
-        appData.vfos.VfoBSignalGroup = dat[9] % 20;
-        appData.vfos.VfoBTxPower = dat[10] % 3;
-        appData.vfos.VfoBBandwide = dat[11] % 2;
-        appData.vfos.VfoBScram = dat[12] % 9;
-        appData.vfos.VfoBStep = dat[13] % 8;
-        appData.vfos.VfoBDir = dat[14] % 3;
-        appData.vfos.VfoBOffset = CaculateOffset(dat, 15);
-        appData.vfos.VfoBSQMode = dat[19] % 3;
-        appData.vfos.VfoBSignalSystem = dat[26] % 3;
+        AppData.Vfos.StrVfobRxCtsDcs = CaculateCtsDcs(dat, 4);
+        AppData.Vfos.StrVfobTxCtsDcs = CaculateCtsDcs(dat, 6);
+        AppData.Vfos.VfoBBusyLock = dat[8] % 2;
+        AppData.Vfos.VfoBSignalGroup = dat[9] % 20;
+        AppData.Vfos.VfoBTxPower = dat[10] % 3;
+        AppData.Vfos.VfoBBandwide = dat[11] % 2;
+        AppData.Vfos.VfoBScram = dat[12] % 9;
+        AppData.Vfos.VfoBStep = dat[13] % 8;
+        AppData.Vfos.VfoBDir = dat[14] % 3;
+        AppData.Vfos.VfoBOffset = CaculateOffset(dat, 15);
+        AppData.Vfos.VfoBsqMode = dat[19] % 3;
+        AppData.Vfos.VfoBSignalSystem = dat[26] % 3;
     }
 
-    private int SetFMFreq(byte[] payload, int offset)
+    private int SetFmFreq(byte[] payload, int offset)
     {
         var num = 0;
         if (payload[offset] != byte.MaxValue && payload[offset + 1] != byte.MaxValue)
@@ -1165,7 +1162,7 @@ public class HIDCommunication
         return num;
     }
 
-    private string SetDTMFWord(byte[] payload, int offset)
+    private string SetDtmfWord(byte[] payload, int offset)
     {
         var text = "0123456789ABCD*#";
         var text2 = "";
@@ -1180,7 +1177,7 @@ public class HIDCommunication
         return text2;
     }
 
-    private string SetDTMFGroupName(byte[] payload, int offset)
+    private string SetDtmfGroupName(byte[] payload, int offset)
     {
         var result = "";
         var num = 0;
@@ -1194,7 +1191,7 @@ public class HIDCommunication
         return result;
     }
 
-    private string SetCallID(byte[] payload, int offset)
+    private string SetCallId(byte[] payload, int offset)
     {
         var result = "";
         var num = 0;
@@ -1208,7 +1205,7 @@ public class HIDCommunication
         return result;
     }
 
-    private string SetMDC1200ID(byte[] payload, int offset)
+    private string SetMdc1200Id(byte[] payload, int offset)
     {
         var text = "0123456789ABCDEF";
         var text2 = "";

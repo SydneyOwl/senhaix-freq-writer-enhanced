@@ -2,33 +2,33 @@
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
-public partial class VFOInfos : ObservableObject
+public partial class VfoInfos : ObservableObject
 {
-    [ObservableProperty] private int pttid;
-    [ObservableProperty] private string strVFOARxCtsDcs = "OFF";
-    [ObservableProperty] private string strVFOATxCtsDcs = "OFF";
-    [ObservableProperty] private string strVFOBRxCtsDcs = "OFF";
-    [ObservableProperty] private string strVFOBTxCtsDcs = "OFF";
-    [ObservableProperty] private int vfoABandwide;
-    [ObservableProperty] private int vfoABusyLock;
-    [ObservableProperty] private int vfoADir;
-    [ObservableProperty] private string vfoAFreq = "440.62500";
-    [ObservableProperty] private string vfoAOffset = "00.0000";
-    [ObservableProperty] private int vfoAScram;
-    [ObservableProperty] private int vfoASignalGroup;
-    [ObservableProperty] private int vfoASignalSystem;
-    [ObservableProperty] private int vfoASQMode;
-    [ObservableProperty] private int vfoAStep;
-    [ObservableProperty] private int vfoATxPower;
-    [ObservableProperty] private int vfoBBandwide;
-    [ObservableProperty] private int vfoBBusyLock;
-    [ObservableProperty] private int vfoBDir;
-    [ObservableProperty] private string vfoBFreq = "145.62500";
-    [ObservableProperty] private string vfoBOffset = "00.0000";
-    [ObservableProperty] private int vfoBScram;
-    [ObservableProperty] private int vfoBSignalGroup;
-    [ObservableProperty] private int vfoBSignalSystem;
-    [ObservableProperty] private int vfoBSQMode;
-    [ObservableProperty] private int vfoBStep;
-    [ObservableProperty] private int vfoBTxPower;
+    [ObservableProperty] private int _pttid;
+    [ObservableProperty] private string _strVfoaRxCtsDcs = "OFF";
+    [ObservableProperty] private string _strVfoaTxCtsDcs = "OFF";
+    [ObservableProperty] private string _strVfobRxCtsDcs = "OFF";
+    [ObservableProperty] private string _strVfobTxCtsDcs = "OFF";
+    [ObservableProperty] private int _vfoABandwide;
+    [ObservableProperty] private int _vfoABusyLock;
+    [ObservableProperty] private int _vfoADir;
+    [ObservableProperty] private string _vfoAFreq = "440.62500";
+    [ObservableProperty] private string _vfoAOffset = "00.0000";
+    [ObservableProperty] private int _vfoAScram;
+    [ObservableProperty] private int _vfoASignalGroup;
+    [ObservableProperty] private int _vfoASignalSystem;
+    [ObservableProperty] private int _vfoAsqMode;
+    [ObservableProperty] private int _vfoAStep;
+    [ObservableProperty] private int _vfoATxPower;
+    [ObservableProperty] private int _vfoBBandwide;
+    [ObservableProperty] private int _vfoBBusyLock;
+    [ObservableProperty] private int _vfoBDir;
+    [ObservableProperty] private string _vfoBFreq = "145.62500";
+    [ObservableProperty] private string _vfoBOffset = "00.0000";
+    [ObservableProperty] private int _vfoBScram;
+    [ObservableProperty] private int _vfoBSignalGroup;
+    [ObservableProperty] private int _vfoBSignalSystem;
+    [ObservableProperty] private int _vfoBsqMode;
+    [ObservableProperty] private int _vfoBStep;
+    [ObservableProperty] private int _vfoBTxPower;
 }

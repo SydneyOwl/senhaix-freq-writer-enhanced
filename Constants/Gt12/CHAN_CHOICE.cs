@@ -2,45 +2,45 @@
 
 namespace SenhaixFreqWriter.Constants.Gt12;
 
-public class CHAN_CHOICE
+public class ChanChoice
 {
-    public static ObservableCollection<string> power = new()
+    public static ObservableCollection<string> Power = new()
     {
         "高", "中", "低"
     };
 
-    public static ObservableCollection<string> bandwidth = new()
+    public static ObservableCollection<string> Bandwidth = new()
     {
         "宽", "窄"
     };
 
-    public static ObservableCollection<string> scanadd = new()
+    public static ObservableCollection<string> Scanadd = new()
     {
         "删除", "添加"
     };
 
-    public static ObservableCollection<string> sigSys = new()
+    public static ObservableCollection<string> SigSys = new()
     {
         "OFF", "SDC", "DTMF"
     };
 
-    public static ObservableCollection<string> sql = new()
+    public static ObservableCollection<string> Sql = new()
     {
         "QT/DQT", "QT/DQT*DTMF", "QT/DQT+DTMF"
     };
 
-    public static ObservableCollection<string> pttid = new()
+    public static ObservableCollection<string> Pttid = new()
     {
         "无", "按下PTT", "松开PTT", "按下和松开PTT"
     };
 
-    public static ObservableCollection<string> sigGrp = new()
+    public static ObservableCollection<string> SigGrp = new()
     {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
         "14", "15", "16", "17", "18", "19", "20"
     };
 
-    public static ObservableCollection<string> qtdqt = new()
+    public static ObservableCollection<string> Qtdqt = new()
     {
         "OFF", "67.0", "69.3", "71.9", "74.4", "77.0", "79.7", "82.5", "85.4", "88.5",
         "91.5", "94.8", "97.4", "100.0", "103.5", "107.2", "110.9", "114.8", "118.8", "123.0",

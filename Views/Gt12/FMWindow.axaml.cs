@@ -12,53 +12,34 @@ using SenhaixFreqWriter.DataModels.Gt12;
 
 namespace SenhaixFreqWriter.Views.Gt12;
 
-public partial class FMWindow : Window
+public partial class FmWindow : Window
 {
-    private ObservableCollection<FMObject> _fmchannels = new();
+    private ObservableCollection<FmObject> _fmchannels = new();
 
-    private string _curFreq = AppData.getInstance().fms.CurFreq.ToString()
-        .Insert(AppData.getInstance().fms.CurFreq.ToString().Length - 1, ".");
+    private string _curFreq = AppData.GetInstance().Fms.CurFreq.ToString()
+        .Insert(AppData.GetInstance().Fms.CurFreq.ToString().Length - 1, ".");
 
+    public ObservableCollection<FmObject> Fmchannels
+    {
+        get => _fmchannels;
+        set => _fmchannels = value;
+    }
+    
     public string CurFreq
     {
         get => _curFreq;
         set => _curFreq = value;
     }
 
-    // public string CurFreq
-    // {
-    //     get
-    //     {
-    //         return (_curFreq / 10).ToString();
-    //     }
-    //     set
-    //     {
-    //         double cache;
-    //         if (!double.TryParse(value, out cache))
-    //         {
-    //             return;
-    //         }
-    //
-    //         _curFreq = int.Parse(value.Replace(".", ""));
-    //         AppData.getInstance().fms.CurFreq = _curFreq;
-    //     }
-    // }
-
-    public ObservableCollection<FMObject> Fmchannels
-    {
-        get => _fmchannels;
-        set => _fmchannels = value;
-    }
-
-    public FMWindow()
+    public FmWindow()
     {
         InitializeComponent();
         DataContext = this;
-        for (var i = 0; i < AppData.getInstance().fms.Channels.Length; i++)
+        for (var i = 0; i < AppData.GetInstance().Fms.Channels.Length; i++)
         {
-            var tmp = new FMObject();
+            var tmp = new FmObject();
             tmp.Id = i + 1;
-            var freq = AppData.getInstance().fms.Channels[i].ToString();
+            var freq = AppData.GetInstance().Fms.Channels[i].ToString();
             if (freq != "0")
             {
                 tmp.Freq = freq.Insert(freq.Length - 1, ".");
@@ -71,22 +52,22 @@ public partial class FMWindow : Window
         ;
         Closing += (sender, args) =>
         {
-            for (var i = 0; i < AppData.getInstance().fms.Channels.Length; i++)
+            for (var i = 0; i < AppData.GetInstance().Fms.Channels.Length; i++)
             {
                 var tmp = Fmchannels[i].Freq.Replace(".", "");
                 int cache;
                 if (!int.TryParse(tmp, out cache)) continue;
-                AppData.getInstance().fms.Channels[i] = cache;
+                AppData.GetInstance().Fms.Channels[i] = cache;
             }
 
             if (string.IsNullOrEmpty(CurFreq)) return;
-            AppData.getInstance().fms.CurFreq = int.Parse(CurFreq.Replace(".", ""));
+            AppData.GetInstance().Fms.CurFreq = int.Parse(CurFreq.Replace(".", ""));
         };
     }
 
-    private void calcSeq()
+    private void CalcSeq()
     {
-        for (var i = 0; i < AppData.getInstance().fms.Channels.Length; i++) Fmchannels[i].Id = i;
+        for (var i = 0; i < AppData.GetInstance().Fms.Channels.Length; i++) Fmchannels[i].Id = i;
     }
 
     private void Freq_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
@@ -96,7 +77,7 @@ public partial class FMWindow : Window
     private void FreqInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        var dataContext = textBox.DataContext as FMObject;
+        var dataContext = textBox.DataContext as FmObject;
         var text = dataContext.Freq;
         double fmfreq;
         if (string.IsNullOrEmpty(text)) return;

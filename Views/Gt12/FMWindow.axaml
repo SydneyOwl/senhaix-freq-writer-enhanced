@@ -3,9 +3,9 @@
         Width="400" Height="450"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        x:Class="SenhaixFreqWriter.Views.Gt12.FMWindow"
+        x:Class="SenhaixFreqWriter.Views.Gt12.FmWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
-        x:DataType="vm:FMWindow"
+        x:DataType="vm:FmWindow"
         Title="收音机">
     <Canvas>
         <DataGrid Margin="20" x:Name="FMDataGrid"

@@ -12,28 +12,28 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class ProgressBarWindow : Window
 {
-    private readonly MySerialPort sP;
+    private readonly MySerialPort _sP;
 
-    private readonly OPERATION_TYPE status;
+    private readonly OperationType _status;
 
-    private readonly ClassTheRadioData theRadioData;
+    private readonly ClassTheRadioData _theRadioData;
 
-    private CancellationTokenSource tokenSource;
+    private CancellationTokenSource _tokenSource;
 
-    private bool opRes;
+    private bool _opRes;
 
-    private Thread threadProgress;
+    private Thread _threadProgress;
 
-    private Thread threadWF;
+    private Thread _threadWf;
 
-    private WriFreq wF;
+    private WriFreq _wF;
 
 
-    public ProgressBarWindow(OPERATION_TYPE opStatus)
+    public ProgressBarWindow(OperationType opStatus)
     {
-        status = opStatus;
-        theRadioData = ClassTheRadioData.getInstance();
-        sP = MySerialPort.getInstance();
+        _status = opStatus;
+        _theRadioData = ClassTheRadioData.GetInstance();
+        _sP = MySerialPort.GetInstance();
         InitializeComponent();
     }
 
@@ -41,17 +41,18 @@ public partial class ProgressBarWindow : Window
     {
         try
         {
-            tokenSource.Cancel();
+            _tokenSource.Cancel();
         }
         catch
         {
             //
         }
-        if ((threadWF != null || threadProgress != null)&&status==OPERATION_TYPE.READ)
+
+        if ((_threadWf != null || _threadProgress != null) && _status == OperationType.Read)
         {
-            threadWF.Join();
-            threadProgress.Join();
-            ClassTheRadioData.getInstance().forceNewChannel();
+            _threadWf.Join();
+            _threadProgress.Join();
+            ClassTheRadioData.GetInstance().ForceNewChannel();
         }
 
         Close();
@@ -59,49 +60,49 @@ public partial class ProgressBarWindow : Window
 
     private async void Start_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (!opRes && MySerialPort.getInstance().TargetPort == "" && MySerialPort.getInstance().WriteBLE == null)
+        if (!_opRes && MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "端口还未选择，请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
             return;
         }
 
-        if (opRes)
+        if (_opRes)
         {
-            opRes = false;
+            _opRes = false;
             Close();
             return;
         }
 
-        tokenSource = new CancellationTokenSource();
+        _tokenSource = new CancellationTokenSource();
 
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
         progressBar.Value = 0;
         try
         {
-            sP.OpenSerial();
-            threadWF = new Thread(() => Task_WriteFreq(tokenSource.Token));
-            threadWF.Start();
-            threadProgress = new Thread(() => Task_GetProgress(tokenSource.Token));
-            threadProgress.Start();
+            _sP.OpenSerial();
+            _threadWf = new Thread(() => Task_WriteFreq(_tokenSource.Token));
+            _threadWf.Start();
+            _threadProgress = new Thread(() => Task_GetProgress(_tokenSource.Token));
+            _threadProgress.Start();
         }
         catch (Exception ed)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "检查写频线是否正确连接:" + ed.Message).ShowWindowDialogAsync(this);
             StartButton.IsEnabled = true;
             CloseButton.IsEnabled = true;
-            sP.CloseSerial();
+            _sP.CloseSerial();
         }
     }
 
     private async void Task_WriteFreq(CancellationToken cancellationToken)
     {
         var flag = false;
-        wF = new WriFreq(sP, theRadioData, status);
-        MySerialPort.getInstance().RxData.Clear();
+        _wF = new WriFreq(_sP, _theRadioData, _status);
+        MySerialPort.GetInstance().RxData.Clear();
         try
         {
-            flag = await wF.DoIt(cancellationToken);
+            flag = await _wF.DoIt(cancellationToken);
         }
         catch (Exception e)
         {
@@ -109,26 +110,26 @@ public partial class ProgressBarWindow : Window
             // ignored
         }
 
-        Dispatcher.UIThread.Post(() => HandleWFResult(flag));
+        Dispatcher.UIThread.Post(() => HandleWfResult(flag));
     }
 
     private void Task_GetProgress(CancellationToken cancellationToken)
     {
         var flag = false;
         var num = 3;
-        while (wF == null && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
-        while (!wF.flagTransmitting && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
+        while (_wF == null && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
+        while (!_wF.FlagTransmitting && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
 
-        while (wF.flagTransmitting && !cancellationToken.IsCancellationRequested)
+        while (_wF.FlagTransmitting && !cancellationToken.IsCancellationRequested)
         {
             // Thread.Sleep(1);
-            STATE curr;
-            if (!wF.currentProgress.TryDequeue(out curr)) continue;
+            State curr;
+            if (!_wF.CurrentProgress.TryDequeue(out curr)) continue;
             switch (curr)
             {
-                case STATE.HandShakeStep1:
-                case STATE.HandShakeStep2:
-                case STATE.HandShakeStep3:
+                case State.HandShakeStep1:
+                case State.HandShakeStep2:
+                case State.HandShakeStep3:
                 {
                     var text2 = "握手...";
                     flag = false;
@@ -138,7 +139,7 @@ public partial class ProgressBarWindow : Window
                     // Invoke(new getWFProgress(UpdataWFProgress), 0);
                     break;
                 }
-                case STATE.HandShakeStep4:
+                case State.HandShakeStep4:
                     if (!flag)
                     {
                         var text3 = "进度...";
@@ -150,18 +151,18 @@ public partial class ProgressBarWindow : Window
                     }
 
                     break;
-                case STATE.ReadStep1:
-                case STATE.ReadStep3:
-                case STATE.WriteStep1:
+                case State.ReadStep1:
+                case State.ReadStep3:
+                case State.WriteStep1:
                     flag = false;
                     break;
-                case STATE.ReadStep2:
-                case STATE.WriteStep2:
+                case State.ReadStep2:
+                case State.WriteStep2:
                     if (!flag)
                     {
                         var text = "进度...";
                         flag = true;
-                        if (wF.eepAddr % 64 == 0)
+                        if (_wF.EepAddr % 64 == 0)
                         {
                             num++;
                             Dispatcher.UIThread.Post(() => statusLabel.Content = text + num + "%");
@@ -176,7 +177,7 @@ public partial class ProgressBarWindow : Window
         }
     }
 
-    private void HandleWFResult(bool result)
+    private void HandleWfResult(bool result)
     {
         if (result)
         {
@@ -185,7 +186,7 @@ public partial class ProgressBarWindow : Window
             progressBar.Value = 100;
             StartButton.IsEnabled = true;
             CloseButton.IsEnabled = false;
-            opRes = true;
+            _opRes = true;
         }
         else
         {
@@ -193,16 +194,18 @@ public partial class ProgressBarWindow : Window
             StartButton.Content = "重试";
             StartButton.IsEnabled = true;
             CloseButton.IsEnabled = true;
-            opRes = false;
+            _opRes = false;
         }
+
         try
         {
-            tokenSource.Cancel();
+            _tokenSource.Cancel();
         }
         catch
         {
             //
         }
-        sP.CloseSerial();
+
+        _sP.CloseSerial();
     }
 }

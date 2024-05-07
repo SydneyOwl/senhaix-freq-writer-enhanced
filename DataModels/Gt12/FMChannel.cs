@@ -2,14 +2,14 @@
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
-public partial class FMChannel : ObservableObject
+public partial class FmChannel : ObservableObject
 {
-    [ObservableProperty] private int[] channels = new int[15];
-    [ObservableProperty] private int curFreq = 904;
+    [ObservableProperty] private int[] _channels = new int[15];
+    [ObservableProperty] private int _curFreq = 904;
 }
 
-public partial class FMObject : ObservableObject
+public partial class FmObject : ObservableObject
 {
-    [ObservableProperty] private int id;
-    [ObservableProperty] private string freq = "";
+    [ObservableProperty] private int _id;
+    [ObservableProperty] private string _freq = "";
 }

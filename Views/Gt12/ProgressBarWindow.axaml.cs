@@ -15,67 +15,68 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class ProgressBarWindow : Window
 {
-    private Thread thread_Communication;
+    private Thread _threadCommunication;
 
-    private Thread thread_progress;
+    private Thread _threadProgress;
 
-    private OP_TYPE operation;
+    private OpType _operation;
 
-    private HIDCommunication com;
+    private HidCommunication _com;
 
-    private bool stopUpdateValue = false;
+    private bool _stopUpdateValue = false;
 
-    private bool opRes;
+    private bool _opRes;
 
-    private CancellationTokenSource cancelSource;
+    private CancellationTokenSource _cancelSource;
 
-    public ProgressBarWindow(OP_TYPE op)
+    public ProgressBarWindow(OpType op)
     {
-        operation = op;
+        _operation = op;
         InitializeComponent();
-        com = new HIDCommunication(operation);
+        _com = new HidCommunication(_operation);
     }
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        stopUpdateValue = false;
-        if (!opRes && !HIDTools.getInstance().isDeviceConnected && HIDTools.getInstance().WriteBLE==null)
+        _stopUpdateValue = false;
+        if (!_opRes && !HidTools.GetInstance().IsDeviceConnected && HidTools.GetInstance().WriteBle == null)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请连接写频线！").ShowWindowDialogAsync(this);
             return;
         }
 
-        if (opRes)
+        if (_opRes)
         {
-            opRes = false;
+            _opRes = false;
             Close();
             return;
         }
-        cancelSource = new CancellationTokenSource();
+
+        _cancelSource = new CancellationTokenSource();
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
         progressBar.Value = 0;
-        thread_Communication = new Thread(() => Task_Communication(cancelSource.Token));
-        thread_Communication.Start();
-        thread_progress = new Thread(() => Task_Progress(cancelSource.Token));
-        thread_progress.Start();
+        _threadCommunication = new Thread(() => Task_Communication(_cancelSource.Token));
+        _threadCommunication.Start();
+        _threadProgress = new Thread(() => Task_Progress(_cancelSource.Token));
+        _threadProgress.Start();
     }
 
     private void Task_Communication(CancellationToken token)
     {
-        var flag = com.DoIt(token);
+        var flag = _com.DoIt(token);
         // Console.WriteLine("We've done write!");
         Dispatcher.UIThread.Post(() => HandleResult(flag));
     }
 
     private void Task_Progress(CancellationToken token)
     {
-        while (!stopUpdateValue && !token.IsCancellationRequested)
+        while (!_stopUpdateValue && !token.IsCancellationRequested)
         {
             ProgressBarValue pgv;
-            if (!com.statusQueue.TryDequeue(out pgv)) continue;
-            Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.content);
-            Dispatcher.UIThread.Post(() => progressBar.Value = pgv.value);
+            if (!_com.StatusQueue.TryDequeue(out pgv)) continue;
+            Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.Content);
+            Dispatcher.UIThread.Post(() => progressBar.Value = pgv.Value);
         }
     }
 
@@ -84,16 +85,16 @@ public partial class ProgressBarWindow : Window
         if (result)
         {
             statusLabel.Content = "完成！";
-            opRes = true;
+            _opRes = true;
         }
         else
         {
             statusLabel.Content = "失败!请插拔写频线或重启设备后点击重试！";
-            opRes = false;
+            _opRes = false;
         }
 
         StartButton.IsEnabled = true;
-        if (opRes)
+        if (_opRes)
         {
             StartButton.Content = "关闭";
             CloseButton.IsEnabled = false;
@@ -104,10 +105,10 @@ public partial class ProgressBarWindow : Window
             CloseButton.IsEnabled = true;
         }
 
-        stopUpdateValue = true;
+        _stopUpdateValue = true;
         try
         {
-            cancelSource.Cancel();
+            _cancelSource.Cancel();
         }
         catch
         {
@@ -119,17 +120,18 @@ public partial class ProgressBarWindow : Window
     {
         try
         {
-            cancelSource.Cancel();
+            _cancelSource.Cancel();
         }
         catch
         {
             //ignored
         }
-        if ((thread_progress != null || thread_Communication != null)&&operation==OP_TYPE.READ)
+
+        if ((_threadProgress != null || _threadCommunication != null) && _operation == OpType.Read)
         {
-            thread_progress.Join();
-            thread_Communication.Join();
-            AppData.forceNewInstance();
+            _threadProgress.Join();
+            _threadCommunication.Join();
+            AppData.ForceNewInstance();
         }
 
         Close();

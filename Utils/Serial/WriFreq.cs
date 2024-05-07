@@ -14,32 +14,32 @@ namespace SenhaixFreqWriter.Utils.Serial;
 
 internal class WriFreq
 {
-    private static readonly ushort MODELTYPE_WLT = 0;
+    private static readonly ushort ModeltypeWlt = 0;
 
-    private static readonly ushort MODELTYPE_SHX = 1;
+    private static readonly ushort ModeltypeShx = 1;
 
-    private static readonly ushort MODELTYPE_BFHx = 2;
+    private static readonly ushort ModeltypeBfHx = 2;
 
-    private readonly byte[] bufForData = new byte[128];
+    private readonly byte[] _bufForData = new byte[128];
 
-    private readonly OtherImfData cfgData;
+    private readonly OtherImfData _cfgData;
 
-    private readonly byte[] hSTable1 = new byte[7] { 80, 82, 79, 71, 82, 79, 77 };
+    private readonly byte[] _hSTable1 = new byte[7] { 80, 82, 79, 71, 82, 79, 77 };
 
-    private readonly byte[][] hStable2_ModelType = new byte[3][]
+    private readonly byte[][] _hStable2ModelType = new byte[3][]
     {
         new byte[3] { 87, 76, 84 },
         new byte[3] { 83, 72, 88 },
         new byte[3] { 66, 70, 72 }
     };
 
-    private readonly ushort MODELTYPE = MODELTYPE_SHX;
+    private readonly ushort _modeltype = ModeltypeShx;
 
-    private readonly OPERATION_TYPE op;
+    private readonly OperationType _op;
 
-    private readonly MySerialPort sP;
+    private readonly MySerialPort _sP;
 
-    private readonly string[] Table_QT = new string[210]
+    private readonly string[] _tableQt = new string[210]
     {
         "D023N", "D025N", "D026N", "D031N", "D032N", "D036N", "D043N", "D047N", "D051N", "D053N",
         "D054N", "D065N", "D071N", "D072N", "D073N", "D074N", "D114N", "D115N", "D116N", "D122N",
@@ -64,167 +64,167 @@ internal class WriFreq
         "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I", "D754I"
     };
 
-    private readonly ClassTheRadioData theRadioData;
+    private readonly ClassTheRadioData _theRadioData;
 
-    private STATE _state = STATE.HandShakeStep1;
+    private State _state = State.HandShakeStep1;
 
-    public ConcurrentQueue<STATE> currentProgress = new();
+    public ConcurrentQueue<State> CurrentProgress = new();
 
-    public ushort eepAddr;
+    public ushort EepAddr;
 
-    private bool flagRetry;
+    private bool _flagRetry;
 
-    public bool flagTransmitting;
+    public bool FlagTransmitting;
 
-    private int numOfChannel = 0;
+    private int _numOfChannel = 0;
 
-    private Timer timer;
+    private Timer _timer;
 
-    private byte timesOfRetry = 5;
+    private byte _timesOfRetry = 5;
 
-    public WriFreq(MySerialPort sP, ClassTheRadioData theRadioData, OPERATION_TYPE op)
+    public WriFreq(MySerialPort sP, ClassTheRadioData theRadioData, OperationType op)
     {
-        this.op = op;
-        this.sP = sP;
-        this.theRadioData = theRadioData;
+        _op = op;
+        _sP = sP;
+        _theRadioData = theRadioData;
         TimerInit();
     }
 
-    public WriFreq(MySerialPort sP, OtherImfData data, OPERATION_TYPE op)
+    public WriFreq(MySerialPort sP, OtherImfData data, OperationType op)
     {
-        this.op = op;
-        this.sP = sP;
-        cfgData = data;
+        _op = op;
+        _sP = sP;
+        _cfgData = data;
         TimerInit();
     }
 
-    public STATE state
+    public State State
     {
         get => _state;
         set
         {
             _state = value;
-            currentProgress.Enqueue(value);
+            CurrentProgress.Enqueue(value);
         }
     }
 
     private void TimerInit()
     {
-        timer = new Timer();
-        timer.Interval = 1000.0;
-        timer.Elapsed += Timer_Elapsed;
-        timer.AutoReset = true;
-        timer.Enabled = true;
+        _timer = new Timer();
+        _timer.Interval = 1000.0;
+        _timer.Elapsed += Timer_Elapsed;
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
     }
 
-    private void resetRetryCount()
+    private void ResetRetryCount()
     {
-        timesOfRetry = 5;
-        flagRetry = false;
+        _timesOfRetry = 5;
+        _flagRetry = false;
     }
 
     public async Task<bool> DoIt(CancellationToken cancellationToken)
     {
-        flagTransmitting = true;
-        state = STATE.HandShakeStep1;
+        FlagTransmitting = true;
+        State = State.HandShakeStep1;
         if (await HandShake(cancellationToken))
         {
-            if (op == OPERATION_TYPE.READ)
+            if (_op == OperationType.Read)
             {
-                if (await ReadCHData(cancellationToken))
+                if (await ReadChData(cancellationToken))
                 {
-                    sP.CloseSerial();
+                    _sP.CloseSerial();
                     return true;
                 }
 
-                sP.CloseSerial();
+                _sP.CloseSerial();
                 return false;
             }
 
-            if (OPERATION_TYPE.WRITE == op)
+            if (OperationType.Write == _op)
             {
-                if (await WriteCHData(cancellationToken))
+                if (await WriteChData(cancellationToken))
                 {
-                    sP.CloseSerial();
+                    _sP.CloseSerial();
                     return true;
                 }
 
-                sP.CloseSerial();
+                _sP.CloseSerial();
                 return false;
             }
 
-            if (OPERATION_TYPE.READ_CONFIG == op)
+            if (OperationType.ReadConfig == _op)
             {
                 if (await ReadConfigData(cancellationToken))
                 {
-                    sP.CloseSerial();
+                    _sP.CloseSerial();
                     return true;
                 }
 
-                sP.CloseSerial();
+                _sP.CloseSerial();
                 return false;
             }
 
-            if (OPERATION_TYPE.WRITE_CONFIG == op)
+            if (OperationType.WriteConfig == _op)
             {
                 if (await WriteConfigData(cancellationToken))
                 {
-                    sP.CloseSerial();
+                    _sP.CloseSerial();
                     return true;
                 }
 
-                sP.CloseSerial();
+                _sP.CloseSerial();
                 return false;
             }
 
-            sP.CloseSerial();
+            _sP.CloseSerial();
             return false;
         }
 
-        sP.CloseSerial();
+        _sP.CloseSerial();
         return false;
     }
 
     private async Task<bool> HandShake(CancellationToken cancellationToken)
     {
-        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
-            if (!flagRetry)
+        while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
+            if (!_flagRetry)
             {
-                switch (state)
+                switch (State)
                 {
-                    case STATE.HandShakeStep1:
-                        await sP.WriteByte(hSTable1, 0, hSTable1.Length);
-                        await sP.WriteByte(hStable2_ModelType[MODELTYPE], 0, hStable2_ModelType[MODELTYPE].Length);
-                        await sP.WriteByte(85);
-                        timer.Start();
-                        resetRetryCount();
-                        state = STATE.HandShakeStep2;
+                    case State.HandShakeStep1:
+                        await _sP.WriteByte(_hSTable1, 0, _hSTable1.Length);
+                        await _sP.WriteByte(_hStable2ModelType[_modeltype], 0, _hStable2ModelType[_modeltype].Length);
+                        await _sP.WriteByte(85);
+                        _timer.Start();
+                        ResetRetryCount();
+                        State = State.HandShakeStep2;
                         break;
-                    case STATE.HandShakeStep2:
-                        await sP.preRead();
-                        if (sP.BytesToReadFromCache >= 1)
+                    case State.HandShakeStep2:
+                        await _sP.PreRead();
+                        if (_sP.BytesToReadFromCache >= 1)
                         {
-                            await sP.ReadByte(bufForData, 0, 1);
-                            if (bufForData[0] == 6)
+                            await _sP.ReadByte(_bufForData, 0, 1);
+                            if (_bufForData[0] == 6)
                             {
-                                resetRetryCount();
-                                await sP.WriteByte(70);
-                                state = STATE.HandShakeStep3;
+                                ResetRetryCount();
+                                await _sP.WriteByte(70);
+                                State = State.HandShakeStep3;
                             }
                         }
 
                         break;
-                    case STATE.HandShakeStep3:
-                        await sP.preRead();
-                        if (sP.BytesToReadFromCache >= 8)
+                    case State.HandShakeStep3:
+                        await _sP.PreRead();
+                        if (_sP.BytesToReadFromCache >= 8)
                         {
-                            await sP.ReadByte(bufForData, 0, 8);
-                            timer.Stop();
-                            resetRetryCount();
-                            if (op == OPERATION_TYPE.READ || op == OPERATION_TYPE.READ_CONFIG)
-                                state = STATE.ReadStep1;
-                            else if (OPERATION_TYPE.WRITE == op || op == OPERATION_TYPE.WRITE_CONFIG)
-                                state = STATE.WriteStep1;
+                            await _sP.ReadByte(_bufForData, 0, 8);
+                            _timer.Stop();
+                            ResetRetryCount();
+                            if (_op == OperationType.Read || _op == OperationType.ReadConfig)
+                                State = State.ReadStep1;
+                            else if (OperationType.Write == _op || _op == OperationType.WriteConfig)
+                                State = State.WriteStep1;
                             return true;
                         }
 
@@ -233,22 +233,22 @@ internal class WriFreq
             }
             else
             {
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    timer.Stop();
-                    flagTransmitting = false;
+                    _timer.Stop();
+                    FlagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
-                switch (state)
+                _timesOfRetry--;
+                _flagRetry = false;
+                switch (State)
                 {
-                    case STATE.HandShakeStep2:
-                        state = STATE.HandShakeStep1;
+                    case State.HandShakeStep2:
+                        State = State.HandShakeStep1;
                         break;
-                    case STATE.HandShakeStep3:
-                        await sP.WriteByte(70);
+                    case State.HandShakeStep3:
+                        await _sP.WriteByte(70);
                         break;
                 }
             }
@@ -256,28 +256,28 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> ReadCHData(CancellationToken cancellationToken)
+    private async Task<bool> ReadChData(CancellationToken cancellationToken)
     {
         var array = new byte[4] { 82, 0, 0, 64 };
         var num = 0;
-        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
-            if (!flagRetry)
+        while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
+            if (!_flagRetry)
             {
-                switch (state)
+                switch (State)
                 {
-                    case STATE.ReadStep1:
-                        await sP.WriteByte(array, 0, 4);
-                        state = STATE.ReadStep2;
-                        timer.Start();
+                    case State.ReadStep1:
+                        await _sP.WriteByte(array, 0, 4);
+                        State = State.ReadStep2;
+                        _timer.Start();
                         break;
-                    case STATE.ReadStep2:
+                    case State.ReadStep2:
                     {
-                        await sP.preRead();
-                        if (sP.BytesToReadFromCache < array[3] + 4) break;
-                        timer.Stop();
-                        resetRetryCount();
-                        await sP.ReadByte(bufForData, 0, array[3] + 4);
-                        if (bufForData[1] != array[1] || bufForData[2] != array[2]) break;
+                        await _sP.PreRead();
+                        if (_sP.BytesToReadFromCache < array[3] + 4) break;
+                        _timer.Stop();
+                        ResetRetryCount();
+                        await _sP.ReadByte(_bufForData, 0, array[3] + 4);
+                        if (_bufForData[1] != array[1] || _bufForData[2] != array[2]) break;
                         var array2 = new byte[4][]
                         {
                             new byte[16],
@@ -287,47 +287,47 @@ internal class WriFreq
                         };
                         for (var i = 0; i < 16; i++)
                         {
-                            array2[0][i] = bufForData[i + 4];
-                            array2[1][i] = bufForData[i + 4 + 16];
-                            array2[2][i] = bufForData[i + 4 + 32];
-                            array2[3][i] = bufForData[i + 4 + 48];
+                            array2[0][i] = _bufForData[i + 4];
+                            array2[1][i] = _bufForData[i + 4 + 16];
+                            array2[2][i] = _bufForData[i + 4 + 32];
+                            array2[3][i] = _bufForData[i + 4 + 48];
                         }
 
-                        if (eepAddr >= 0 && eepAddr < 2048)
+                        if (EepAddr >= 0 && EepAddr < 2048)
                         {
-                            GetCHImfo_HexToStr(theRadioData, num++, array2[0]);
-                            GetCHImfo_HexToStr(theRadioData, num++, array2[1]);
-                            GetCHImfo_HexToStr(theRadioData, num++, array2[2]);
-                            GetCHImfo_HexToStr(theRadioData, num++, array2[3]);
+                            GetCHImfo_HexToStr(_theRadioData, num++, array2[0]);
+                            GetCHImfo_HexToStr(_theRadioData, num++, array2[1]);
+                            GetCHImfo_HexToStr(_theRadioData, num++, array2[2]);
+                            GetCHImfo_HexToStr(_theRadioData, num++, array2[3]);
                         }
-                        else if (eepAddr == 2048)
+                        else if (EepAddr == 2048)
                         {
                             num = 0;
                         }
-                        else if (eepAddr >= 3072 && eepAddr < 5120)
+                        else if (EepAddr >= 3072 && EepAddr < 5120)
                         {
-                            theRadioData.channeldata[num++].changeByNum(12, GetTheNameOfCH(array2[0]));
-                            theRadioData.channeldata[num++].changeByNum(12, GetTheNameOfCH(array2[1]));
-                            theRadioData.channeldata[num++].changeByNum(12, GetTheNameOfCH(array2[2]));
-                            theRadioData.channeldata[num++].changeByNum(12, GetTheNameOfCH(array2[3]));
+                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[0]));
+                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[1]));
+                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[2]));
+                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[3]));
                         }
-                        else if (eepAddr == 6656)
+                        else if (EepAddr == 6656)
                         {
-                            GetFunCfgImf_Part1(theRadioData, array2[0]);
-                            GetFunCfgImf_Part2(theRadioData, array2[1]);
+                            GetFunCfgImf_Part1(_theRadioData, array2[0]);
+                            GetFunCfgImf_Part2(_theRadioData, array2[1]);
                             if (array2[2][0] == byte.MaxValue) array2[2][0] = 5;
-                            theRadioData.funCfgData.CbB_VoxDelay = array2[2][0];
+                            _theRadioData.FunCfgData.CbBVoxDelay = array2[2][0];
                             if (array2[2][1] == byte.MaxValue) array2[2][1] = 1;
-                            theRadioData.funCfgData.CbB_TimerMenuQuit = array2[2][1];
+                            _theRadioData.FunCfgData.CbBTimerMenuQuit = array2[2][1];
                             if (array2[2][2] == byte.MaxValue) array2[2][2] = 1;
-                            theRadioData.funCfgData.CbB_MicGain = array2[2][2];
+                            _theRadioData.FunCfgData.CbBMicGain = array2[2][2];
                         }
-                        else if (eepAddr == 6720)
+                        else if (EepAddr == 6720)
                         {
-                            GetVFO_A_Parameter(theRadioData, array2[0], array2[1]);
-                            GetVFO_B_Parameter(theRadioData, array2[2], array2[3]);
+                            GetVFO_A_Parameter(_theRadioData, array2[0], array2[1]);
+                            GetVFO_B_Parameter(_theRadioData, array2[2], array2[3]);
                         }
-                        else if (eepAddr == 6784)
+                        else if (EepAddr == 6784)
                         {
                             var array3 = new byte[5] { 7, 10, 5, 28, 29 };
                             var num2 = -1;
@@ -338,7 +338,7 @@ internal class WriFreq
                                     break;
                                 }
 
-                            if (num2 != -1) theRadioData.funCfgData.CbB_KeySide = num2;
+                            if (num2 != -1) _theRadioData.FunCfgData.CbBKeySide = num2;
                             num2 = -1;
                             for (var k = 0; k < 5; k++)
                                 if (array2[0][1] == array3[k])
@@ -347,79 +347,80 @@ internal class WriFreq
                                     break;
                                 }
 
-                            if (num2 != -1) theRadioData.funCfgData.CbB_KeySideL = num2;
+                            if (num2 != -1) _theRadioData.FunCfgData.CbBKeySideL = num2;
                         }
-                        else if (eepAddr >= 6912 && eepAddr < 7136)
+                        else if (EepAddr >= 6912 && EepAddr < 7136)
                         {
-                            switch (eepAddr)
+                            switch (EepAddr)
                             {
                                 case 6912:
-                                    theRadioData.dtmfData.GroupOfDTMF_1 = ConvertHex2Str_DTMF(array2[0]);
-                                    theRadioData.dtmfData.GroupOfDTMF_2 = ConvertHex2Str_DTMF(array2[1]);
-                                    theRadioData.dtmfData.GroupOfDTMF_3 = ConvertHex2Str_DTMF(array2[2]);
-                                    theRadioData.dtmfData.GroupOfDTMF_4 = ConvertHex2Str_DTMF(array2[3]);
+                                    _theRadioData.DtmfData.GroupOfDtmf1 = ConvertHex2Str_DTMF(array2[0]);
+                                    _theRadioData.DtmfData.GroupOfDtmf2 = ConvertHex2Str_DTMF(array2[1]);
+                                    _theRadioData.DtmfData.GroupOfDtmf3 = ConvertHex2Str_DTMF(array2[2]);
+                                    _theRadioData.DtmfData.GroupOfDtmf4 = ConvertHex2Str_DTMF(array2[3]);
                                     break;
                                 case 6976:
-                                    theRadioData.dtmfData.GroupOfDTMF_5 = ConvertHex2Str_DTMF(array2[0]);
-                                    theRadioData.dtmfData.GroupOfDTMF_6 = ConvertHex2Str_DTMF(array2[1]);
-                                    theRadioData.dtmfData.GroupOfDTMF_7 = ConvertHex2Str_DTMF(array2[2]);
-                                    theRadioData.dtmfData.GroupOfDTMF_8 = ConvertHex2Str_DTMF(array2[3]);
+                                    _theRadioData.DtmfData.GroupOfDtmf5 = ConvertHex2Str_DTMF(array2[0]);
+                                    _theRadioData.DtmfData.GroupOfDtmf6 = ConvertHex2Str_DTMF(array2[1]);
+                                    _theRadioData.DtmfData.GroupOfDtmf7 = ConvertHex2Str_DTMF(array2[2]);
+                                    _theRadioData.DtmfData.GroupOfDtmf8 = ConvertHex2Str_DTMF(array2[3]);
                                     break;
                                 case 7040:
-                                    theRadioData.dtmfData.GroupOfDTMF_9 = ConvertHex2Str_DTMF(array2[0]);
-                                    theRadioData.dtmfData.GroupOfDTMF_A = ConvertHex2Str_DTMF(array2[1]);
-                                    theRadioData.dtmfData.GroupOfDTMF_B = ConvertHex2Str_DTMF(array2[2]);
-                                    theRadioData.dtmfData.GroupOfDTMF_C = ConvertHex2Str_DTMF(array2[3]);
+                                    _theRadioData.DtmfData.GroupOfDtmf9 = ConvertHex2Str_DTMF(array2[0]);
+                                    _theRadioData.DtmfData.GroupOfDtmfA = ConvertHex2Str_DTMF(array2[1]);
+                                    _theRadioData.DtmfData.GroupOfDtmfB = ConvertHex2Str_DTMF(array2[2]);
+                                    _theRadioData.DtmfData.GroupOfDtmfC = ConvertHex2Str_DTMF(array2[3]);
                                     break;
                                 case 7104:
-                                    theRadioData.dtmfData.GroupOfDTMF_D = ConvertHex2Str_DTMF(array2[0]);
-                                    theRadioData.dtmfData.GroupOfDTMF_E = ConvertHex2Str_DTMF(array2[1]);
-                                    theRadioData.dtmfData.GroupOfDTMF_F = ConvertHex2Str_DTMF(array2[2]);
-                                    theRadioData.dtmfData.TheIDOfLocalHost = GetTheLocalID(array2[3]);
-                                    theRadioData.dtmfData.GroupCall = array2[3][5];
-                                    theRadioData.dtmfData.SendOnPTTPressed = GetTheBoolOfSendIDOnPTTPress(array2[3]);
-                                    theRadioData.dtmfData.SendOnPTTReleased = GetTheBoolOfSendIDOnPTTRelease(array2[3]);
-                                    theRadioData.dtmfData.LastTimeSend = array2[3][7];
-                                    theRadioData.dtmfData.LastTimeStop = array2[3][8];
+                                    _theRadioData.DtmfData.GroupOfDtmfD = ConvertHex2Str_DTMF(array2[0]);
+                                    _theRadioData.DtmfData.GroupOfDtmfE = ConvertHex2Str_DTMF(array2[1]);
+                                    _theRadioData.DtmfData.GroupOfDtmfF = ConvertHex2Str_DTMF(array2[2]);
+                                    _theRadioData.DtmfData.TheIdOfLocalHost = GetTheLocalId(array2[3]);
+                                    _theRadioData.DtmfData.GroupCall = array2[3][5];
+                                    _theRadioData.DtmfData.SendOnPttPressed = GetTheBoolOfSendIDOnPTTPress(array2[3]);
+                                    _theRadioData.DtmfData.SendOnPttReleased =
+                                        GetTheBoolOfSendIDOnPTTRelease(array2[3]);
+                                    _theRadioData.DtmfData.LastTimeSend = array2[3][7];
+                                    _theRadioData.DtmfData.LastTimeStop = array2[3][8];
                                     break;
                             }
                         }
 
-                        if (eepAddr < 7168)
+                        if (EepAddr < 7168)
                         {
-                            eepAddr += array[3];
-                            if (eepAddr == 2112)
-                                eepAddr = 3072;
-                            else if (eepAddr == 5120) eepAddr = 6656;
-                            array[1] = (byte)(eepAddr >> 8);
-                            array[2] = (byte)eepAddr;
-                            timer.Start();
-                            state = STATE.ReadStep1;
+                            EepAddr += array[3];
+                            if (EepAddr == 2112)
+                                EepAddr = 3072;
+                            else if (EepAddr == 5120) EepAddr = 6656;
+                            array[1] = (byte)(EepAddr >> 8);
+                            array[2] = (byte)EepAddr;
+                            _timer.Start();
+                            State = State.ReadStep1;
                             break;
                         }
 
-                        await sP.WriteByte(69);
-                        flagTransmitting = false;
+                        await _sP.WriteByte(69);
+                        FlagTransmitting = false;
                         return true;
                     }
                 }
             }
             else
             {
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    flagTransmitting = false;
+                    FlagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
+                _timesOfRetry--;
+                _flagRetry = false;
             }
 
         return false;
     }
 
-    private async Task<bool> WriteCHData(CancellationToken cancellationToken)
+    private async Task<bool> WriteChData(CancellationToken cancellationToken)
     {
         var array = new byte[36]
         {
@@ -436,107 +437,107 @@ internal class WriFreq
             255, 255, 255, 255, 255, 255
         };
         var num = 0;
-        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
-            if (!flagRetry)
+        while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
+            if (!_flagRetry)
             {
-                switch (state)
+                switch (State)
                 {
-                    case STATE.WriteStep1:
-                        if (eepAddr < 2048)
+                    case State.WriteStep1:
+                        if (EepAddr < 2048)
                         {
-                            var cHImf_StrToHex = GetCHImf_StrToHex(theRadioData.channeldata[num++].transList());
-                            var cHImf_StrToHex2 = GetCHImf_StrToHex(theRadioData.channeldata[num++].transList());
+                            var cHImfStrToHex = GetCHImf_StrToHex(_theRadioData.Channeldata[num++].TransList());
+                            var cHImfStrToHex2 = GetCHImf_StrToHex(_theRadioData.Channeldata[num++].TransList());
                             for (var j = 0; j < 16; j++)
                             {
-                                array[j + 4] = cHImf_StrToHex[j];
-                                array[j + 20] = cHImf_StrToHex2[j];
+                                array[j + 4] = cHImfStrToHex[j];
+                                array[j + 20] = cHImfStrToHex2[j];
                             }
                         }
-                        else if (eepAddr == 2048)
+                        else if (EepAddr == 2048)
                         {
                             num = 0;
                         }
-                        else if (eepAddr >= 3072 && eepAddr < 5120)
+                        else if (EepAddr >= 3072 && EepAddr < 5120)
                         {
-                            var array3 = SetCHNaemToHex(theRadioData.channeldata[num++].transList());
-                            var array4 = SetCHNaemToHex(theRadioData.channeldata[num++].transList());
+                            var array3 = SetChNaemToHex(_theRadioData.Channeldata[num++].TransList());
+                            var array4 = SetChNaemToHex(_theRadioData.Channeldata[num++].TransList());
                             for (var k = 0; k < 16; k++)
                             {
                                 array[k + 4] = array3[k];
                                 array[k + 20] = array4[k];
                             }
                         }
-                        else if (eepAddr == 6656)
+                        else if (EepAddr == 6656)
                         {
-                            array[4] = (byte)theRadioData.funCfgData.CbB_SQL;
-                            array[5] = (byte)theRadioData.funCfgData.CbB_SaveMode;
-                            array[6] = (byte)theRadioData.funCfgData.CbB_VOX;
-                            array[7] = (byte)theRadioData.funCfgData.CbB_AutoBackLight;
-                            if (theRadioData.funCfgData.CB_TDR)
+                            array[4] = (byte)_theRadioData.FunCfgData.CbBSql;
+                            array[5] = (byte)_theRadioData.FunCfgData.CbBSaveMode;
+                            array[6] = (byte)_theRadioData.FunCfgData.CbBVox;
+                            array[7] = (byte)_theRadioData.FunCfgData.CbBAutoBackLight;
+                            if (_theRadioData.FunCfgData.CBTdr)
                                 array[8] = 1;
                             else
                                 array[8] = 0;
-                            array[9] = (byte)theRadioData.funCfgData.CbB_TOT;
-                            if (theRadioData.funCfgData.CB_SoundOfBi)
+                            array[9] = (byte)_theRadioData.FunCfgData.CbBTot;
+                            if (_theRadioData.FunCfgData.CBSoundOfBi)
                                 array[10] = 1;
                             else
                                 array[10] = 0;
-                            array[11] = (byte)theRadioData.funCfgData.CbB_VoicSwitch;
-                            array[12] = (byte)theRadioData.funCfgData.CbB_Language;
-                            array[13] = (byte)theRadioData.funCfgData.CbB_DTMF;
-                            array[14] = (byte)theRadioData.funCfgData.CbB_Scan;
-                            array[15] = (byte)theRadioData.funCfgData.CbB_PTTID;
-                            array[16] = (byte)theRadioData.funCfgData.CbB_SendIDDelay;
-                            array[17] = (byte)theRadioData.funCfgData.CbB_CH_A_DisplayMode;
-                            array[18] = (byte)theRadioData.funCfgData.CbB_CH_B_DisplayMode;
-                            if (theRadioData.funCfgData.CB_StopSendOnBusy)
+                            array[11] = (byte)_theRadioData.FunCfgData.CbBVoicSwitch;
+                            array[12] = (byte)_theRadioData.FunCfgData.CbBLanguage;
+                            array[13] = (byte)_theRadioData.FunCfgData.CbBDtmf;
+                            array[14] = (byte)_theRadioData.FunCfgData.CbBScan;
+                            array[15] = (byte)_theRadioData.FunCfgData.CbBPttid;
+                            array[16] = (byte)_theRadioData.FunCfgData.CbBSendIdDelay;
+                            array[17] = (byte)_theRadioData.FunCfgData.CbBChADisplayMode;
+                            array[18] = (byte)_theRadioData.FunCfgData.CbBChBDisplayMode;
+                            if (_theRadioData.FunCfgData.CBStopSendOnBusy)
                                 array[19] = 1;
                             else
                                 array[19] = 0;
-                            if (theRadioData.funCfgData.CB_AutoLock)
+                            if (_theRadioData.FunCfgData.CBAutoLock)
                                 array[20] = 1;
                             else
                                 array[20] = 0;
-                            array[21] = (byte)theRadioData.funCfgData.CbB_AlarmMode;
-                            if (theRadioData.funCfgData.CB_AlarmSound)
+                            array[21] = (byte)_theRadioData.FunCfgData.CbBAlarmMode;
+                            if (_theRadioData.FunCfgData.CBAlarmSound)
                                 array[22] = 1;
                             else
                                 array[22] = 0;
-                            array[23] = (byte)theRadioData.funCfgData.CbB_TxUnderTDRStart;
-                            array[24] = (byte)theRadioData.funCfgData.CbB_TailNoiseClear;
-                            array[25] = (byte)theRadioData.funCfgData.CbB_PassRepetNoiseClear;
-                            array[26] = (byte)theRadioData.funCfgData.CbB_PassRepetNoiseDetect;
-                            array[27] = (byte)theRadioData.funCfgData.CbB_SoundOfTxEnd;
+                            array[23] = (byte)_theRadioData.FunCfgData.CbBTxUnderTdrStart;
+                            array[24] = (byte)_theRadioData.FunCfgData.CbBTailNoiseClear;
+                            array[25] = (byte)_theRadioData.FunCfgData.CbBPassRptNoiseClear;
+                            array[26] = (byte)_theRadioData.FunCfgData.CbBPassRptNoiseDetect;
+                            array[27] = (byte)_theRadioData.FunCfgData.CbBSoundOfTxEnd;
                             array[28] = 0;
-                            if (theRadioData.funCfgData.CB_FMRadioEnable)
+                            if (_theRadioData.FunCfgData.CBFmRadioEnable)
                                 array[29] = 0;
                             else
                                 array[29] = 1;
-                            array[30] = (byte)theRadioData.funCfgData.CbB_WorkModeB;
+                            array[30] = (byte)_theRadioData.FunCfgData.CbBWorkModeB;
                             array[30] <<= 4;
-                            array[30] = (byte)(array[30] | theRadioData.funCfgData.CbB_WorkModeA);
-                            if (theRadioData.funCfgData.CB_LockKeyBoard)
+                            array[30] = (byte)(array[30] | _theRadioData.FunCfgData.CbBWorkModeA);
+                            if (_theRadioData.FunCfgData.CBLockKeyBoard)
                                 array[31] = 1;
                             else
                                 array[31] = 0;
-                            array[32] = (byte)theRadioData.funCfgData.CbB_PowerOnMsg;
+                            array[32] = (byte)_theRadioData.FunCfgData.CbBPowerOnMsg;
                             array[33] = 0;
-                            array[34] = (byte)theRadioData.funCfgData.CbB_1750Hz;
+                            array[34] = (byte)_theRadioData.FunCfgData.CbB1750Hz;
                             array[35] = 128;
                         }
-                        else if (eepAddr == 6688)
+                        else if (EepAddr == 6688)
                         {
-                            array[4] = (byte)theRadioData.funCfgData.CbB_VoxDelay;
-                            array[5] = (byte)theRadioData.funCfgData.CbB_TimerMenuQuit;
-                            array[6] = (byte)theRadioData.funCfgData.CbB_MicGain;
+                            array[4] = (byte)_theRadioData.FunCfgData.CbBVoxDelay;
+                            array[5] = (byte)_theRadioData.FunCfgData.CbBTimerMenuQuit;
+                            array[6] = (byte)_theRadioData.FunCfgData.CbBMicGain;
                         }
-                        else if (eepAddr == 6720)
+                        else if (EepAddr == 6720)
                         {
-                            var array5 = SetDataVFOFreq(theRadioData.funCfgData.TB_A_CurFreq);
-                            var array6 = SetDataVFOQT(theRadioData.funCfgData.CbB_A_RxQT,
-                                theRadioData.funCfgData.CbB_A_TxQT);
-                            var array7 = SetDataVFOCfgA(theRadioData);
-                            var array8 = SetDataVFORemainFreq(theRadioData.funCfgData.TB_A_RemainFreq);
+                            var array5 = SetDataVfoFreq(_theRadioData.FunCfgData.TBACurFreq);
+                            var array6 = SetDataVfoqt(_theRadioData.FunCfgData.CbBARxQt,
+                                _theRadioData.FunCfgData.CbBATxQt);
+                            var array7 = SetDataVfoCfgA(_theRadioData);
+                            var array8 = SetDataVfoRemainFreq(_theRadioData.FunCfgData.TBARemainFreq);
                             for (var l = 0; l < 4; l++)
                             {
                                 array[l + 4] = array5[l];
@@ -547,13 +548,13 @@ internal class WriFreq
                             for (var m = 0; m < 6; m++) array[m + 18] = array7[m];
                             for (var n = 0; n < 7; n++) array[n + 24] = array8[n];
                         }
-                        else if (eepAddr == 6752)
+                        else if (EepAddr == 6752)
                         {
-                            var array9 = SetDataVFOFreq(theRadioData.funCfgData.TB_B_CurFreq);
-                            var array10 = SetDataVFOQT(theRadioData.funCfgData.CbB_B_RxQT,
-                                theRadioData.funCfgData.CbB_B_TxQT);
-                            var array11 = SetDataVFOCfgB(theRadioData);
-                            var array12 = SetDataVFORemainFreq(theRadioData.funCfgData.TB_B_RemainFreq);
+                            var array9 = SetDataVfoFreq(_theRadioData.FunCfgData.TBBCurFreq);
+                            var array10 = SetDataVfoqt(_theRadioData.FunCfgData.CbBBRxQt,
+                                _theRadioData.FunCfgData.CbBBTxQt);
+                            var array11 = SetDataVfoCfgB(_theRadioData);
+                            var array12 = SetDataVfoRemainFreq(_theRadioData.FunCfgData.TBBRemainFreq);
                             for (var num2 = 0; num2 < 4; num2++)
                             {
                                 array[num2 + 4] = array9[num2];
@@ -564,20 +565,20 @@ internal class WriFreq
                             for (var num3 = 0; num3 < 6; num3++) array[num3 + 18] = array11[num3];
                             for (var num4 = 0; num4 < 7; num4++) array[num4 + 24] = array12[num4];
                         }
-                        else if (eepAddr == 6784)
+                        else if (EepAddr == 6784)
                         {
                             var array13 = new byte[5] { 7, 10, 5, 28, 29 };
-                            array[4] = array13[theRadioData.funCfgData.CbB_KeySide];
-                            array[5] = array13[theRadioData.funCfgData.CbB_KeySideL];
+                            array[4] = array13[_theRadioData.FunCfgData.CbBKeySide];
+                            array[5] = array13[_theRadioData.FunCfgData.CbBKeySideL];
                         }
-                        else if (eepAddr >= 6912 && eepAddr <= 7136)
+                        else if (EepAddr >= 6912 && EepAddr <= 7136)
                         {
-                            switch (eepAddr)
+                            switch (EepAddr)
                             {
                                 case 6912:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_1);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_2);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf1);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf2);
                                     for (var num8 = 0; num8 < 16; num8++)
                                     {
                                         array[num8 + 4] = array14[num8];
@@ -588,8 +589,8 @@ internal class WriFreq
                                 }
                                 case 6944:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_3);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_4);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf3);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf4);
                                     for (var num9 = 0; num9 < 16; num9++)
                                     {
                                         array[num9 + 4] = array14[num9];
@@ -600,8 +601,8 @@ internal class WriFreq
                                 }
                                 case 6976:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_5);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_6);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf5);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf6);
                                     for (var num13 = 0; num13 < 16; num13++)
                                     {
                                         array[num13 + 4] = array14[num13];
@@ -612,8 +613,8 @@ internal class WriFreq
                                 }
                                 case 7008:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_7);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_8);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf7);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf8);
                                     for (var num7 = 0; num7 < 16; num7++)
                                     {
                                         array[num7 + 4] = array14[num7];
@@ -624,8 +625,8 @@ internal class WriFreq
                                 }
                                 case 7040:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_9);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_A);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmf9);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmfA);
                                     for (var num12 = 0; num12 < 16; num12++)
                                     {
                                         array[num12 + 4] = array14[num12];
@@ -636,8 +637,8 @@ internal class WriFreq
                                 }
                                 case 7072:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_B);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_C);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmfB);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmfC);
                                     for (var num10 = 0; num10 < 16; num10++)
                                     {
                                         array[num10 + 4] = array14[num10];
@@ -648,8 +649,8 @@ internal class WriFreq
                                 }
                                 case 7104:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_D);
-                                    var array15 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_E);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmfD);
+                                    var array15 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmfE);
                                     for (var num11 = 0; num11 < 16; num11++)
                                     {
                                         array[num11 + 4] = array14[num11];
@@ -660,52 +661,52 @@ internal class WriFreq
                                 }
                                 case 7136:
                                 {
-                                    var array14 = SetDTMFTOHex(theRadioData.dtmfData.GroupOfDTMF_F);
+                                    var array14 = SetDtmftoHex(_theRadioData.DtmfData.GroupOfDtmfF);
                                     for (var num5 = 0; num5 < 16; num5++) array[num5 + 4] = array14[num5];
-                                    if (theRadioData.dtmfData.TheIDOfLocalHost != "")
+                                    if (_theRadioData.DtmfData.TheIdOfLocalHost != "")
                                     {
-                                        var theIDOfLocalHost = theRadioData.dtmfData.TheIDOfLocalHost;
-                                        for (var num6 = 0; num6 < theIDOfLocalHost.Length; num6++)
-                                            array[num6 + 20] = byte.Parse(theIDOfLocalHost[num6].ToString() ?? "");
+                                        var theIdOfLocalHost = _theRadioData.DtmfData.TheIdOfLocalHost;
+                                        for (var num6 = 0; num6 < theIdOfLocalHost.Length; num6++)
+                                            array[num6 + 20] = byte.Parse(theIdOfLocalHost[num6].ToString() ?? "");
                                     }
 
-                                    array[25] = (byte)theRadioData.dtmfData.GroupCall;
+                                    array[25] = (byte)_theRadioData.DtmfData.GroupCall;
                                     array[26] = 0;
-                                    if (theRadioData.dtmfData.SendOnPTTPressed) array[26] |= 1;
-                                    if (theRadioData.dtmfData.SendOnPTTReleased) array[26] |= 2;
-                                    array[27] = (byte)theRadioData.dtmfData.LastTimeSend;
-                                    array[28] = (byte)theRadioData.dtmfData.LastTimeStop;
+                                    if (_theRadioData.DtmfData.SendOnPttPressed) array[26] |= 1;
+                                    if (_theRadioData.DtmfData.SendOnPttReleased) array[26] |= 2;
+                                    array[27] = (byte)_theRadioData.DtmfData.LastTimeSend;
+                                    array[28] = (byte)_theRadioData.DtmfData.LastTimeStop;
                                     break;
                                 }
                             }
                         }
 
-                        await sP.WriteByte(array, 0, array[3] + 4);
-                        timer.Start();
-                        state = STATE.WriteStep2;
+                        await _sP.WriteByte(array, 0, array[3] + 4);
+                        _timer.Start();
+                        State = State.WriteStep2;
                         break;
-                    case STATE.WriteStep2:
-                        await sP.preRead();
-                        if (sP.BytesToReadFromCache < 1) break;
-                        await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
-                        if (bufForData[0] == 6)
+                    case State.WriteStep2:
+                        await _sP.PreRead();
+                        if (_sP.BytesToReadFromCache < 1) break;
+                        await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
+                        if (_bufForData[0] == 6)
                         {
-                            timer.Stop();
-                            resetRetryCount();
-                            if (eepAddr >= 7168)
+                            _timer.Stop();
+                            ResetRetryCount();
+                            if (EepAddr >= 7168)
                             {
-                                flagTransmitting = false;
+                                FlagTransmitting = false;
                                 return true;
                             }
 
-                            eepAddr += array[3];
-                            if (eepAddr == 2080)
-                                eepAddr = 3072;
-                            else if (eepAddr == 5120) eepAddr = 6656;
+                            EepAddr += array[3];
+                            if (EepAddr == 2080)
+                                EepAddr = 3072;
+                            else if (EepAddr == 5120) EepAddr = 6656;
                             for (var i = 0; i < 36; i++) array[i] = array2[i];
-                            array[1] = (byte)(eepAddr >> 8);
-                            array[2] = (byte)eepAddr;
-                            state = STATE.WriteStep1;
+                            array[1] = (byte)(EepAddr >> 8);
+                            array[2] = (byte)EepAddr;
+                            State = State.WriteStep1;
                         }
 
                         break;
@@ -714,15 +715,15 @@ internal class WriFreq
             else
             {
                 // Console.WriteLine("Write kk5455");
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    flagTransmitting = false;
+                    FlagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
+                _timesOfRetry--;
                 num = 0;
-                flagRetry = false;
+                _flagRetry = false;
             }
 
         return false;
@@ -731,100 +732,100 @@ internal class WriFreq
     private async Task<bool> ReadConfigData(CancellationToken cancellationToken)
     {
         var array = new byte[4] { 83, 31, 192, 64 };
-        eepAddr = 8128;
-        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
-            if (!flagRetry)
+        EepAddr = 8128;
+        while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
+            if (!_flagRetry)
             {
-                switch (state)
+                switch (State)
                 {
-                    case STATE.ReadStep1:
-                        await sP.WriteByte(array, 0, 4);
-                        state = STATE.ReadStep2;
-                        timer.Start();
+                    case State.ReadStep1:
+                        await _sP.WriteByte(array, 0, 4);
+                        State = State.ReadStep2;
+                        _timer.Start();
                         break;
-                    case STATE.ReadStep2:
-                        await sP.preRead();
-                        if (sP.BytesToReadFromCache < array[3] + 4) break;
-                        timer.Stop();
-                        resetRetryCount();
-                        await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
-                        if (bufForData[1] != array[1] || bufForData[2] != array[2]) break;
-                        if (eepAddr == 8128)
+                    case State.ReadStep2:
+                        await _sP.PreRead();
+                        if (_sP.BytesToReadFromCache < array[3] + 4) break;
+                        _timer.Stop();
+                        ResetRetryCount();
+                        await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
+                        if (_bufForData[1] != array[1] || _bufForData[2] != array[2]) break;
+                        if (EepAddr == 8128)
                         {
                             var array2 = new byte[4][];
                             for (var i = 0; i < 4; i++)
                             {
                                 array2[i] = new byte[16];
-                                for (var j = 0; j < 16; j++) array2[i][j] = bufForData[4 + i * 16 + j];
+                                for (var j = 0; j < 16; j++) array2[i][j] = _bufForData[4 + i * 16 + j];
                             }
 
-                            cfgData.TheMinFreqOfVHF =
+                            _cfgData.TheMinFreqOfVhf =
                                 (HexToInt(array2[0][1]) * 100 + HexToInt(array2[0][2])).ToString();
-                            cfgData.TheMaxFreqOfVHF =
+                            _cfgData.TheMaxFreqOfVhf =
                                 (HexToInt(array2[0][3]) * 100 + HexToInt(array2[0][4])).ToString();
-                            cfgData.TheMinFreqOfUHF =
+                            _cfgData.TheMinFreqOfUhf =
                                 (HexToInt(array2[0][6]) * 100 + HexToInt(array2[0][7])).ToString();
-                            cfgData.TheMaxFreqOfUHF =
+                            _cfgData.TheMaxFreqOfUhf =
                                 (HexToInt(array2[0][8]) * 100 + HexToInt(array2[0][9])).ToString();
-                            if (cfgData.TheMinFreqOfUHF == "433")
-                                cfgData.TheRangeOfUHF = 1;
+                            if (_cfgData.TheMinFreqOfUhf == "433")
+                                _cfgData.TheRangeOfUhf = 1;
                             else
-                                cfgData.TheRangeOfUHF = 0;
-                            if (cfgData.TheMaxFreqOfVHF == "174")
-                                cfgData.TheRangeOfVHF = 0;
-                            else if (cfgData.TheMaxFreqOfVHF == "149")
-                                cfgData.TheRangeOfVHF = 1;
-                            else if (cfgData.TheMaxFreqOfVHF == "260")
-                                cfgData.TheRangeOfVHF = 2;
+                                _cfgData.TheRangeOfUhf = 0;
+                            if (_cfgData.TheMaxFreqOfVhf == "174")
+                                _cfgData.TheRangeOfVhf = 0;
+                            else if (_cfgData.TheMaxFreqOfVhf == "149")
+                                _cfgData.TheRangeOfVhf = 1;
+                            else if (_cfgData.TheMaxFreqOfVhf == "260")
+                                _cfgData.TheRangeOfVhf = 2;
                             else
-                                cfgData.TheRangeOfVHF = 3;
+                                _cfgData.TheRangeOfVhf = 3;
                             if ((array2[0][10] & 1) == 1)
-                                cfgData.EnableTxOver480M = true;
+                                _cfgData.EnableTxOver480M = true;
                             else
-                                cfgData.EnableTxOver480M = false;
+                                _cfgData.EnableTxOver480M = false;
                         }
-                        else if (eepAddr == 7872)
+                        else if (EepAddr == 7872)
                         {
                             var array3 = new byte[4][];
                             for (var k = 0; k < 4; k++)
                             {
                                 array3[k] = new byte[16];
-                                for (var l = 0; l < 16; l++) array3[k][l] = bufForData[4 + k * 16 + l];
+                                for (var l = 0; l < 16; l++) array3[k][l] = _bufForData[4 + k * 16 + l];
                             }
 
                             var text = "";
-                            var aSCIIEncoding = new ASCIIEncoding();
+                            var aSciiEncoding = new ASCIIEncoding();
                             for (var m = 0; m < 7 && array3[2][m] != byte.MaxValue; m++)
-                                text += aSCIIEncoding.GetString(array3[2], m, 1);
-                            cfgData.PowerUpChar1 = text;
+                                text += aSciiEncoding.GetString(array3[2], m, 1);
+                            _cfgData.PowerUpChar1 = text;
                             text = "";
                             for (var n = 7; n < 14 && array3[2][n] != byte.MaxValue; n++)
-                                text += aSCIIEncoding.GetString(array3[2], n, 1);
-                            cfgData.PowerUpChar2 = text;
+                                text += aSciiEncoding.GetString(array3[2], n, 1);
+                            _cfgData.PowerUpChar2 = text;
                         }
 
-                        timer.Start();
-                        await sP.WriteByte(6);
-                        if (eepAddr == 8128)
+                        _timer.Start();
+                        await _sP.WriteByte(6);
+                        if (EepAddr == 8128)
                         {
-                            eepAddr = 7872;
-                            array[1] = (byte)(eepAddr >> 8);
-                            array[2] = (byte)eepAddr;
-                            await sP.WriteByte(array, 0, 4);
-                            state = STATE.ReadStep3;
+                            EepAddr = 7872;
+                            array[1] = (byte)(EepAddr >> 8);
+                            array[2] = (byte)EepAddr;
+                            await _sP.WriteByte(array, 0, 4);
+                            State = State.ReadStep3;
                             break;
                         }
 
-                        flagTransmitting = false;
+                        FlagTransmitting = false;
                         return true;
-                    case STATE.ReadStep3:
-                        await sP.preRead();
-                        if (sP.BytesToReadFromCache >= 1)
+                    case State.ReadStep3:
+                        await _sP.PreRead();
+                        if (_sP.BytesToReadFromCache >= 1)
                         {
-                            timer.Stop();
-                            resetRetryCount();
-                            await sP.ReadByte(bufForData, 0, 1);
-                            if (bufForData[0] == 6) state = STATE.ReadStep2;
+                            _timer.Stop();
+                            ResetRetryCount();
+                            await _sP.ReadByte(_bufForData, 0, 1);
+                            if (_bufForData[0] == 6) State = State.ReadStep2;
                         }
 
                         break;
@@ -832,14 +833,14 @@ internal class WriFreq
             }
             else
             {
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    flagTransmitting = false;
+                    FlagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
+                _timesOfRetry--;
+                _flagRetry = false;
             }
 
         return false;
@@ -858,53 +859,53 @@ internal class WriFreq
             32, 32, 32, 32, 32, 32, 32, 32, 0, 0
         };
         byte[] array3 = null;
-        eepAddr = 8128;
-        while (flagTransmitting && !cancellationToken.IsCancellationRequested)
-            if (!flagRetry)
+        EepAddr = 8128;
+        while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
+            if (!_flagRetry)
             {
-                switch (state)
+                switch (State)
                 {
-                    case STATE.WriteStep1:
-                        if (eepAddr == 8128)
+                    case State.WriteStep1:
+                        if (EepAddr == 8128)
                         {
                             ushort num = 0;
-                            num = ushort.Parse(cfgData.TheMinFreqOfVHF);
+                            num = ushort.Parse(_cfgData.TheMinFreqOfVhf);
                             array[5] = (byte)(num / 100);
                             array[6] = (byte)(num % 100 / 10 * 16 + num % 10);
-                            num = ushort.Parse(cfgData.TheMaxFreqOfVHF);
+                            num = ushort.Parse(_cfgData.TheMaxFreqOfVhf);
                             array[7] = (byte)(num / 100);
                             array[8] = (byte)(num % 100 / 10 * 16 + num % 10);
-                            num = ushort.Parse(cfgData.TheMinFreqOfUHF);
+                            num = ushort.Parse(_cfgData.TheMinFreqOfUhf);
                             array[10] = (byte)(num / 100);
                             array[11] = (byte)(num % 100 / 10 * 16 + num % 10);
-                            num = ushort.Parse(cfgData.TheMaxFreqOfUHF);
+                            num = ushort.Parse(_cfgData.TheMaxFreqOfUhf);
                             array[12] = (byte)(num / 100);
                             array[13] = (byte)(num % 100 / 10 * 16 + num % 10);
-                            if (cfgData.EnableTxOver480M)
+                            if (_cfgData.EnableTxOver480M)
                                 array[14] = 1;
                             else
                                 array[14] = 0;
                             array3 = array;
                         }
-                        else if (eepAddr == 7904)
+                        else if (EepAddr == 7904)
                         {
-                            var powerUpChar = cfgData.PowerUpChar1;
-                            var powerUpChar2 = cfgData.PowerUpChar2;
+                            var powerUpChar = _cfgData.PowerUpChar1;
+                            var powerUpChar2 = _cfgData.PowerUpChar2;
                             if (powerUpChar == null || powerUpChar == "")
                             {
                                 for (var i = 4; i < 11; i++) array2[i] = 32;
                             }
                             else
                             {
-                                var num2 = 7 - cfgData.PowerUpChar1.Length;
+                                var num2 = 7 - _cfgData.PowerUpChar1.Length;
                                 var num3 = num2 / 2;
-                                var bytes = Encoding.ASCII.GetBytes(cfgData.PowerUpChar1);
-                                for (var j = 4 + num3; j < 4 + num3 + cfgData.PowerUpChar1.Length; j++)
+                                var bytes = Encoding.ASCII.GetBytes(_cfgData.PowerUpChar1);
+                                for (var j = 4 + num3; j < 4 + num3 + _cfgData.PowerUpChar1.Length; j++)
                                     array2[j] = bytes[j - 4 - num3];
-                                num2 = 7 - cfgData.PowerUpChar2.Length;
+                                num2 = 7 - _cfgData.PowerUpChar2.Length;
                                 num3 = num2 / 2;
-                                bytes = Encoding.ASCII.GetBytes(cfgData.PowerUpChar2);
-                                for (var k = 11 + num3; k < 11 + num3 + cfgData.PowerUpChar2.Length; k++)
+                                bytes = Encoding.ASCII.GetBytes(_cfgData.PowerUpChar2);
+                                for (var k = 11 + num3; k < 11 + num3 + _cfgData.PowerUpChar2.Length; k++)
                                     array2[k] = bytes[k - 11 - num3];
                                 array3 = array2;
                             }
@@ -912,7 +913,7 @@ internal class WriFreq
                         else
                         {
                             ushort num4 = 0;
-                            num4 = ushort.Parse(cfgData.TheMinFreqOfVHF);
+                            num4 = ushort.Parse(_cfgData.TheMinFreqOfVhf);
                             if (num4 == 136)
                                 array3[4] = 0;
                             else
@@ -921,50 +922,50 @@ internal class WriFreq
                         }
 
 
-                        await sP.WriteByte(array3, 0, array3[3] + 4);
-                        await sP.WriteByte(array3, 0, array3[3] + 4);
-                        timer.Start();
-                        state = STATE.WriteStep2;
+                        await _sP.WriteByte(array3, 0, array3[3] + 4);
+                        await _sP.WriteByte(array3, 0, array3[3] + 4);
+                        _timer.Start();
+                        State = State.WriteStep2;
                         break;
-                    case STATE.WriteStep2:
-                        if (sP.BytesToReadFromCache < 1) break;
-                        await sP.ReadByte(bufForData, 0, sP.BytesToReadFromCache);
-                        if (bufForData[0] != 6) break;
-                        timer.Stop();
-                        resetRetryCount();
-                        if (eepAddr == 8128)
+                    case State.WriteStep2:
+                        if (_sP.BytesToReadFromCache < 1) break;
+                        await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
+                        if (_bufForData[0] != 6) break;
+                        _timer.Stop();
+                        ResetRetryCount();
+                        if (EepAddr == 8128)
                         {
-                            eepAddr = 7904;
-                            array2[1] = (byte)(eepAddr >> 8);
-                            array2[2] = (byte)eepAddr;
-                            state = STATE.WriteStep1;
+                            EepAddr = 7904;
+                            array2[1] = (byte)(EepAddr >> 8);
+                            array2[2] = (byte)EepAddr;
+                            State = State.WriteStep1;
                             break;
                         }
 
-                        if (eepAddr == 7904)
+                        if (EepAddr == 7904)
                         {
-                            eepAddr = 7872;
-                            array2[1] = (byte)(eepAddr >> 8);
-                            array2[2] = (byte)eepAddr;
-                            state = STATE.WriteStep1;
+                            EepAddr = 7872;
+                            array2[1] = (byte)(EepAddr >> 8);
+                            array2[2] = (byte)EepAddr;
+                            State = State.WriteStep1;
                             break;
                         }
 
-                        flagTransmitting = false;
+                        FlagTransmitting = false;
                         return true;
                 }
             }
             else
             {
                 // Console.WriteLine("Retry overrr");
-                if (timesOfRetry <= 0)
+                if (_timesOfRetry <= 0)
                 {
-                    flagTransmitting = false;
+                    FlagTransmitting = false;
                     return false;
                 }
 
-                timesOfRetry--;
-                flagRetry = false;
+                _timesOfRetry--;
+                _flagRetry = false;
             }
 
         return false;
@@ -1026,7 +1027,7 @@ internal class WriFreq
         array[1] = array2[1];
         array[2] = array3[0];
         array[3] = array3[1];
-        array[4] = GetCHSignalCode(strDat[11]);
+        array[4] = GetChSignalCode(strDat[11]);
         array[5] = array4[0];
         array[6] = array4[1];
         array[7] = array4[2];
@@ -1057,7 +1058,7 @@ internal class WriFreq
         {
             int i;
             for (i = 0; i < 210; i++)
-                if (strDat == Table_QT[i])
+                if (strDat == _tableQt[i])
                 {
                     i++;
                     break;
@@ -1085,12 +1086,12 @@ internal class WriFreq
         return array;
     }
 
-    private byte GetCHSignalCode(string strDat)
+    private byte GetChSignalCode(string strDat)
     {
         return (byte)(byte.Parse(strDat) - 1);
     }
 
-    private byte GetCHTxPower(string strDat)
+    private byte GetChTxPower(string strDat)
     {
         if (strDat == "H") return 0;
         return 1;
@@ -1144,7 +1145,7 @@ internal class WriFreq
         return array;
     }
 
-    private byte[] SetDataVFOFreq(string vfoFreq)
+    private byte[] SetDataVfoFreq(string vfoFreq)
     {
         var array = new byte[8];
         array[0] = byte.Parse(vfoFreq[0].ToString() ?? "");
@@ -1158,7 +1159,7 @@ internal class WriFreq
         return array;
     }
 
-    private byte[] SetDataVFORemainFreq(string strRemainFreq)
+    private byte[] SetDataVfoRemainFreq(string strRemainFreq)
     {
         var array = new byte[7];
         string text;
@@ -1182,7 +1183,7 @@ internal class WriFreq
         return array;
     }
 
-    private byte[] SetDataVFOQT(string rxQt, string txQt)
+    private byte[] SetDataVfoqt(string rxQt, string txQt)
     {
         var array = new byte[4];
         var array2 = new byte[2];
@@ -1195,53 +1196,53 @@ internal class WriFreq
         return array;
     }
 
-    private byte[] SetDataVFOCfgA(ClassTheRadioData theRadioData)
+    private byte[] SetDataVfoCfgA(ClassTheRadioData theRadioData)
     {
         var array = new byte[6] { 0, 0, 0, 0, 0, 0 };
-        if (theRadioData.funCfgData.CbB_A_RemainDir != 0)
+        if (theRadioData.FunCfgData.CbBARemainDir != 0)
         {
-            if (theRadioData.funCfgData.CbB_A_RemainDir == 1)
+            if (theRadioData.FunCfgData.CbBARemainDir == 1)
                 array[0] = 16;
             else
                 array[0] = 32;
         }
 
         array[0] &= 240;
-        array[0] += (byte)theRadioData.funCfgData.CbB_A_SignalingEnCoder;
+        array[0] += (byte)theRadioData.FunCfgData.CbBASignalingEnCoder;
         array[1] = 0;
-        array[2] = (byte)theRadioData.funCfgData.CbB_A_Power;
+        array[2] = (byte)theRadioData.FunCfgData.CbBAPower;
         array[3] = 0;
-        if (theRadioData.funCfgData.CbB_A_CHBand == 1) array[3] |= 64;
-        if (theRadioData.funCfgData.CbB_A_Fhss == 1) array[3] |= 1;
-        array[4] = (byte)theRadioData.funCfgData.CbB_A_Band;
-        array[5] = (byte)theRadioData.funCfgData.CbB_A_FreqStep;
+        if (theRadioData.FunCfgData.CbBAChBand == 1) array[3] |= 64;
+        if (theRadioData.FunCfgData.CbBAFhss == 1) array[3] |= 1;
+        array[4] = (byte)theRadioData.FunCfgData.CbBABand;
+        array[5] = (byte)theRadioData.FunCfgData.CbBAFreqStep;
         return array;
     }
 
-    private byte[] SetDataVFOCfgB(ClassTheRadioData theRadioData)
+    private byte[] SetDataVfoCfgB(ClassTheRadioData theRadioData)
     {
         var array = new byte[6] { 0, 0, 0, 0, 0, 0 };
-        if (theRadioData.funCfgData.CbB_B_RemainDir != 0)
+        if (theRadioData.FunCfgData.CbBBRemainDir != 0)
         {
-            if (theRadioData.funCfgData.CbB_B_RemainDir == 1)
+            if (theRadioData.FunCfgData.CbBBRemainDir == 1)
                 array[0] = 16;
             else
                 array[0] = 32;
         }
 
         array[0] &= 240;
-        array[0] += (byte)theRadioData.funCfgData.CbB_B_SignalingEnCoder;
+        array[0] += (byte)theRadioData.FunCfgData.CbBBSignalingEnCoder;
         array[1] = 0;
-        array[2] = (byte)theRadioData.funCfgData.CbB_B_Power;
+        array[2] = (byte)theRadioData.FunCfgData.CbBBPower;
         array[3] = 0;
-        if (theRadioData.funCfgData.CbB_B_CHBand == 1) array[3] |= 64;
-        if (theRadioData.funCfgData.CbB_B_Fhss == 1) array[3] |= 1;
-        array[4] = (byte)theRadioData.funCfgData.CbB_B_Band;
-        array[5] = (byte)theRadioData.funCfgData.CbB_B_FreqStep;
+        if (theRadioData.FunCfgData.CbBBChBand == 1) array[3] |= 64;
+        if (theRadioData.FunCfgData.CbBBFhss == 1) array[3] |= 1;
+        array[4] = (byte)theRadioData.FunCfgData.CbBBBand;
+        array[5] = (byte)theRadioData.FunCfgData.CbBBFreqStep;
         return array;
     }
 
-    private byte[] SetCHNaemToHex(string[] channelData)
+    private byte[] SetChNaemToHex(string[] channelData)
     {
         var array = new byte[16]
         {
@@ -1260,7 +1261,7 @@ internal class WriFreq
         return array;
     }
 
-    private byte[] SetDTMFTOHex(string dtmfCode)
+    private byte[] SetDtmftoHex(string dtmfCode)
     {
         var array = new byte[16]
         {
@@ -1273,24 +1274,24 @@ internal class WriFreq
         return array;
     }
 
-    private void GetCHImfo_HexToStr(ClassTheRadioData theRadioData, int NO_CH, byte[] dat)
+    private void GetCHImfo_HexToStr(ClassTheRadioData theRadioData, int noCh, byte[] dat)
     {
         if (dat[0] == byte.MaxValue)
         {
-            for (var i = 0; i < 13; i++) theRadioData.channeldata[NO_CH].changeByNum(i, null);
+            for (var i = 0; i < 13; i++) theRadioData.Channeldata[noCh].ChangeByNum(i, null);
             // theRadioData.ChannelData[NO_CH][i] = null;
             // theRadioData.ChannelData[NO_CH][0] = NO_CH.ToString();
-            theRadioData.channeldata[NO_CH].changeByNum(0, NO_CH.ToString());
+            theRadioData.Channeldata[noCh].ChangeByNum(0, noCh.ToString());
         }
         else
         {
-            GetFreqImf_HexToStr(theRadioData, NO_CH, dat);
-            GetQTImf_HexToStr(theRadioData, NO_CH, dat);
-            GetCHOtherImf(theRadioData, NO_CH, dat);
+            GetFreqImf_HexToStr(theRadioData, noCh, dat);
+            GetQTImf_HexToStr(theRadioData, noCh, dat);
+            GetChOtherImf(theRadioData, noCh, dat);
         }
     }
 
-    private void GetFreqImf_HexToStr(ClassTheRadioData theRadioData, int NO_CH, byte[] dat)
+    private void GetFreqImf_HexToStr(ClassTheRadioData theRadioData, int noCh, byte[] dat)
     {
         var dat2 = new byte[4]
         {
@@ -1306,8 +1307,8 @@ internal class WriFreq
             dat[6],
             dat[7]
         };
-        theRadioData.channeldata[NO_CH].changeByNum(2, CaculateFreq_HexToStr(dat2));
-        theRadioData.channeldata[NO_CH].changeByNum(4, CaculateFreq_HexToStr(dat3));
+        theRadioData.Channeldata[noCh].ChangeByNum(2, CaculateFreq_HexToStr(dat2));
+        theRadioData.Channeldata[noCh].ChangeByNum(4, CaculateFreq_HexToStr(dat3));
         // channelDat[2] = CaculateFreq_HexToStr(dat2);
         // channelDat[4] = CaculateFreq_HexToStr(dat3);
     }
@@ -1325,7 +1326,7 @@ internal class WriFreq
         return null;
     }
 
-    private void GetQTImf_HexToStr(ClassTheRadioData theRadioData, int NO_CH, byte[] dat)
+    private void GetQTImf_HexToStr(ClassTheRadioData theRadioData, int noCh, byte[] dat)
     {
         var array = new byte[2]
         {
@@ -1337,17 +1338,17 @@ internal class WriFreq
             dat[10],
             dat[11]
         };
-        if (GetTypeOfSubaudio_HexToStr(array[1]) == SUBAUDIO_TYPE.CTCSS)
-            theRadioData.channeldata[NO_CH].changeByNum(3, CaculateCTCSS_HexToStr(array));
+        if (GetTypeOfSubaudio_HexToStr(array[1]) == SubaudioType.Ctcss)
+            theRadioData.Channeldata[noCh].ChangeByNum(3, CaculateCTCSS_HexToStr(array));
         // channelDat[3] = CaculateCTCSS_HexToStr(array);
         else
-            theRadioData.channeldata[NO_CH].changeByNum(3, CaculateCDCSS_HexToStr(array));
+            theRadioData.Channeldata[noCh].ChangeByNum(3, CaculateCDCSS_HexToStr(array));
         // channelDat[3] = CaculateCDCSS_HexToStr(array);
-        if (GetTypeOfSubaudio_HexToStr(array2[1]) == SUBAUDIO_TYPE.CTCSS)
-            theRadioData.channeldata[NO_CH].changeByNum(5, CaculateCTCSS_HexToStr(array2));
+        if (GetTypeOfSubaudio_HexToStr(array2[1]) == SubaudioType.Ctcss)
+            theRadioData.Channeldata[noCh].ChangeByNum(5, CaculateCTCSS_HexToStr(array2));
         // channelDat[5] = CaculateCTCSS_HexToStr(array2);
         else
-            theRadioData.channeldata[NO_CH].changeByNum(5, CaculateCDCSS_HexToStr(array2));
+            theRadioData.Channeldata[noCh].ChangeByNum(5, CaculateCDCSS_HexToStr(array2));
         // channelDat[5] = CaculateCDCSS_HexToStr(array2);
     }
 
@@ -1367,67 +1368,67 @@ internal class WriFreq
 
     private string CaculateCDCSS_HexToStr(byte[] dat)
     {
-        if (dat[0] != 0 && dat[0] <= 210) return Table_QT[dat[0] - 1];
+        if (dat[0] != 0 && dat[0] <= 210) return _tableQt[dat[0] - 1];
         return "OFF";
     }
 
-    private SUBAUDIO_TYPE GetTypeOfSubaudio_HexToStr(byte dat)
+    private SubaudioType GetTypeOfSubaudio_HexToStr(byte dat)
     {
-        if (dat == 0) return SUBAUDIO_TYPE.CDCSS;
-        return SUBAUDIO_TYPE.CTCSS;
+        if (dat == 0) return SubaudioType.Cdcss;
+        return SubaudioType.Ctcss;
     }
 
-    private void GetCHOtherImf(ClassTheRadioData theRadioData, int NO_CH, byte[] dat)
+    private void GetChOtherImf(ClassTheRadioData theRadioData, int noCh, byte[] dat)
     {
         if (dat[12] >= 15) dat[12] = 0;
-        theRadioData.channeldata[NO_CH].changeByNum(11, (dat[12] + 1).ToString());
+        theRadioData.Channeldata[noCh].ChangeByNum(11, (dat[12] + 1).ToString());
         // channelDat[11] = (dat[12] + 1).ToString();
         var array = new string[4] { "OFF", "BOT", "EOT", "BOTH" };
         if (dat[13] > 3) dat[13] = 0;
-        theRadioData.channeldata[NO_CH].changeByNum(8, array[dat[13]]);
+        theRadioData.Channeldata[noCh].ChangeByNum(8, array[dat[13]]);
         // channelDat[8] = array[dat[13]];
         var array2 = new string[2] { "H", "L" };
         if (dat[14] > 1) dat[14] = 0;
-        theRadioData.channeldata[NO_CH].changeByNum(6, array2[dat[14]]);
+        theRadioData.Channeldata[noCh].ChangeByNum(6, array2[dat[14]]);
 
         // channelDat[6] = array2[dat[14]];
 
         if ((dat[15] & 0x40) == 64)
-            theRadioData.channeldata[NO_CH].changeByNum(7, "N");
+            theRadioData.Channeldata[noCh].ChangeByNum(7, "N");
         // channelDat[7] = "N";
         else
-            theRadioData.channeldata[NO_CH].changeByNum(7, "W");
+            theRadioData.Channeldata[noCh].ChangeByNum(7, "W");
         // channelDat[7] = "W";
         if ((dat[15] & 8) == 8)
-            theRadioData.channeldata[NO_CH].changeByNum(9, "ON");
+            theRadioData.Channeldata[noCh].ChangeByNum(9, "ON");
         // channelDat[9] = "ON";
         else
-            theRadioData.channeldata[NO_CH].changeByNum(9, "OFF");
+            theRadioData.Channeldata[noCh].ChangeByNum(9, "OFF");
         // channelDat[9] = "OFF";
         if ((dat[15] & 4) == 4)
-            theRadioData.channeldata[NO_CH].changeByNum(10, "ON");
+            theRadioData.Channeldata[noCh].ChangeByNum(10, "ON");
         // channelDat[10] = "ON";
         else
-            theRadioData.channeldata[NO_CH].changeByNum(10, "OFF");
+            theRadioData.Channeldata[noCh].ChangeByNum(10, "OFF");
         // channelDat[10] = "OFF";
         if ((dat[15] & 2) == 2)
-            theRadioData.channeldata[NO_CH].changeByNum(1, "Yes");
+            theRadioData.Channeldata[noCh].ChangeByNum(1, "Yes");
         // channelDat[1] = "Yes";
         else
-            theRadioData.channeldata[NO_CH].changeByNum(1, "No");
+            theRadioData.Channeldata[noCh].ChangeByNum(1, "No");
         // channelDat[1] = "No";
         if ((dat[15] & 1) == 1)
-            theRadioData.channeldata[NO_CH].changeByNum(13, "ON");
+            theRadioData.Channeldata[noCh].ChangeByNum(13, "ON");
         // channelDat[13] = "ON";
         else
-            theRadioData.channeldata[NO_CH].changeByNum(13, "OFF");
+            theRadioData.Channeldata[noCh].ChangeByNum(13, "OFF");
         // channelDat[13] = "OFF";
     }
 
-    private string GetTheNameOfCH(byte[] dat)
+    private string GetTheNameOfCh(byte[] dat)
     {
         var text = "";
-        var aSCIIEncoding = new ASCIIEncoding();
+        var aSciiEncoding = new ASCIIEncoding();
         var encoding = Encoding.GetEncoding("gb2312");
         var num = 0;
         while (num < 12 && dat[num] != byte.MaxValue)
@@ -1438,7 +1439,7 @@ internal class WriFreq
             }
             else
             {
-                text += aSCIIEncoding.GetString(dat, num, 1);
+                text += aSciiEncoding.GetString(dat, num, 1);
                 num++;
             }
 
@@ -1453,7 +1454,7 @@ internal class WriFreq
         return text;
     }
 
-    private string GetTheLocalID(byte[] dat)
+    private string GetTheLocalId(byte[] dat)
     {
         var text = "";
         for (var i = 0; i < 5 && dat[i] != byte.MaxValue; i++) text += dat[i];
@@ -1474,66 +1475,66 @@ internal class WriFreq
 
     private void GetFunCfgImf_Part1(ClassTheRadioData theRadioData, byte[] dat)
     {
-        theRadioData.funCfgData.CbB_SQL = dat[0];
+        theRadioData.FunCfgData.CbBSql = dat[0];
         if (dat[1] > 2) dat[1] = 1;
-        theRadioData.funCfgData.CbB_SaveMode = dat[1];
-        theRadioData.funCfgData.CbB_VOX = dat[2];
-        theRadioData.funCfgData.CbB_AutoBackLight = dat[3];
+        theRadioData.FunCfgData.CbBSaveMode = dat[1];
+        theRadioData.FunCfgData.CbBVox = dat[2];
+        theRadioData.FunCfgData.CbBAutoBackLight = dat[3];
         if (dat[4] > 0)
-            theRadioData.funCfgData.CB_TDR = true;
+            theRadioData.FunCfgData.CBTdr = true;
         else
-            theRadioData.funCfgData.CB_TDR = false;
-        theRadioData.funCfgData.CbB_TOT = dat[5];
+            theRadioData.FunCfgData.CBTdr = false;
+        theRadioData.FunCfgData.CbBTot = dat[5];
         if (dat[6] > 0)
-            theRadioData.funCfgData.CB_SoundOfBi = true;
+            theRadioData.FunCfgData.CBSoundOfBi = true;
         else
-            theRadioData.funCfgData.CB_SoundOfBi = false;
-        theRadioData.funCfgData.CbB_VoicSwitch = dat[7];
+            theRadioData.FunCfgData.CBSoundOfBi = false;
+        theRadioData.FunCfgData.CbBVoicSwitch = dat[7];
         if (dat[8] >= 2) dat[8] = 1;
-        theRadioData.funCfgData.CbB_Language = dat[8];
-        theRadioData.funCfgData.CbB_DTMF = dat[9];
-        theRadioData.funCfgData.CbB_Scan = dat[10];
+        theRadioData.FunCfgData.CbBLanguage = dat[8];
+        theRadioData.FunCfgData.CbBDtmf = dat[9];
+        theRadioData.FunCfgData.CbBScan = dat[10];
         if (dat[11] > 3) dat[11] = 0;
-        theRadioData.funCfgData.CbB_PTTID = dat[11];
-        theRadioData.funCfgData.CbB_SendIDDelay = dat[12];
-        theRadioData.funCfgData.CbB_CH_A_DisplayMode = dat[13];
-        theRadioData.funCfgData.CbB_CH_B_DisplayMode = dat[14];
+        theRadioData.FunCfgData.CbBPttid = dat[11];
+        theRadioData.FunCfgData.CbBSendIdDelay = dat[12];
+        theRadioData.FunCfgData.CbBChADisplayMode = dat[13];
+        theRadioData.FunCfgData.CbBChBDisplayMode = dat[14];
         if (dat[15] > 0)
-            theRadioData.funCfgData.CB_StopSendOnBusy = true;
+            theRadioData.FunCfgData.CBStopSendOnBusy = true;
         else
-            theRadioData.funCfgData.CB_StopSendOnBusy = false;
+            theRadioData.FunCfgData.CBStopSendOnBusy = false;
     }
 
     private void GetFunCfgImf_Part2(ClassTheRadioData theRadioData, byte[] dat)
     {
         if (dat[0] > 0)
-            theRadioData.funCfgData.CB_AutoLock = true;
+            theRadioData.FunCfgData.CBAutoLock = true;
         else
-            theRadioData.funCfgData.CB_AutoLock = false;
-        theRadioData.funCfgData.CbB_AlarmMode = dat[1];
+            theRadioData.FunCfgData.CBAutoLock = false;
+        theRadioData.FunCfgData.CbBAlarmMode = dat[1];
         if (dat[2] > 0)
-            theRadioData.funCfgData.CB_AlarmSound = true;
+            theRadioData.FunCfgData.CBAlarmSound = true;
         else
-            theRadioData.funCfgData.CB_AlarmSound = false;
-        theRadioData.funCfgData.CbB_TxUnderTDRStart = dat[3];
-        theRadioData.funCfgData.CbB_TailNoiseClear = dat[4];
-        theRadioData.funCfgData.CbB_PassRepetNoiseClear = dat[5];
-        theRadioData.funCfgData.CbB_PassRepetNoiseDetect = dat[6];
-        theRadioData.funCfgData.CbB_SoundOfTxEnd = dat[7];
+            theRadioData.FunCfgData.CBAlarmSound = false;
+        theRadioData.FunCfgData.CbBTxUnderTdrStart = dat[3];
+        theRadioData.FunCfgData.CbBTailNoiseClear = dat[4];
+        theRadioData.FunCfgData.CbBPassRptNoiseClear = dat[5];
+        theRadioData.FunCfgData.CbBPassRptNoiseDetect = dat[6];
+        theRadioData.FunCfgData.CbBSoundOfTxEnd = dat[7];
         if (dat[9] > 0)
-            theRadioData.funCfgData.CB_FMRadioEnable = false;
+            theRadioData.FunCfgData.CBFmRadioEnable = false;
         else
-            theRadioData.funCfgData.CB_FMRadioEnable = true;
-        theRadioData.funCfgData.CbB_WorkModeA = dat[10] & 0xF;
-        theRadioData.funCfgData.CbB_WorkModeB = (dat[10] >> 4) & 0xF;
+            theRadioData.FunCfgData.CBFmRadioEnable = true;
+        theRadioData.FunCfgData.CbBWorkModeA = dat[10] & 0xF;
+        theRadioData.FunCfgData.CbBWorkModeB = (dat[10] >> 4) & 0xF;
         if (dat[11] > 0)
-            theRadioData.funCfgData.CB_LockKeyBoard = true;
+            theRadioData.FunCfgData.CBLockKeyBoard = true;
         else
-            theRadioData.funCfgData.CB_LockKeyBoard = false;
+            theRadioData.FunCfgData.CBLockKeyBoard = false;
         if (dat[12] == byte.MaxValue) dat[12] = 0;
-        theRadioData.funCfgData.CbB_PowerOnMsg = dat[12];
+        theRadioData.FunCfgData.CbBPowerOnMsg = dat[12];
         if (dat[14] > 3) dat[14] = 2;
-        theRadioData.funCfgData.CbB_1750Hz = dat[14];
+        theRadioData.FunCfgData.CbB1750Hz = dat[14];
     }
 
     private string GetVFO_CurFreq(byte[] dat)
@@ -1563,11 +1564,11 @@ internal class WriFreq
             dat[3]
         };
         var array3 = new string[2];
-        if (GetTypeOfSubaudio_HexToStr(array[1]) == SUBAUDIO_TYPE.CTCSS)
+        if (GetTypeOfSubaudio_HexToStr(array[1]) == SubaudioType.Ctcss)
             array3[0] = CaculateCTCSS_HexToStr(array);
         else
             array3[0] = CaculateCDCSS_HexToStr(array);
-        if (GetTypeOfSubaudio_HexToStr(array2[1]) == SUBAUDIO_TYPE.CTCSS)
+        if (GetTypeOfSubaudio_HexToStr(array2[1]) == SubaudioType.Ctcss)
             array3[1] = CaculateCTCSS_HexToStr(array2);
         else
             array3[1] = CaculateCDCSS_HexToStr(array2);
@@ -1637,18 +1638,18 @@ internal class WriFreq
             dat2[10]
         };
         var array = new string[2];
-        theRadioData.funCfgData.TB_A_CurFreq = GetVFO_CurFreq(dat3);
+        theRadioData.FunCfgData.TBACurFreq = GetVFO_CurFreq(dat3);
         array = GetVF0_QTImf(dat4);
-        theRadioData.funCfgData.CbB_A_RxQT = array[0];
-        theRadioData.funCfgData.CbB_A_TxQT = array[1];
-        theRadioData.funCfgData.CbB_A_RemainDir = GetVFO_DirOfRemainFreq(dat[14]);
-        theRadioData.funCfgData.CbB_A_SignalingEnCoder = GetVFO_SignalingCode(dat[14]);
-        theRadioData.funCfgData.CbB_A_Power = dat2[0];
-        theRadioData.funCfgData.CbB_A_CHBand = GetVFO_BandWide(dat2[1]);
-        theRadioData.funCfgData.CbB_A_Fhss = GetVFO_Fhss(dat2[1]);
-        theRadioData.funCfgData.CbB_A_Band = dat2[2];
-        theRadioData.funCfgData.CbB_A_FreqStep = dat2[3] % 8;
-        theRadioData.funCfgData.TB_A_RemainFreq = GetVFO_RemainFreq(dat5);
+        theRadioData.FunCfgData.CbBARxQt = array[0];
+        theRadioData.FunCfgData.CbBATxQt = array[1];
+        theRadioData.FunCfgData.CbBARemainDir = GetVFO_DirOfRemainFreq(dat[14]);
+        theRadioData.FunCfgData.CbBASignalingEnCoder = GetVFO_SignalingCode(dat[14]);
+        theRadioData.FunCfgData.CbBAPower = dat2[0];
+        theRadioData.FunCfgData.CbBAChBand = GetVFO_BandWide(dat2[1]);
+        theRadioData.FunCfgData.CbBAFhss = GetVFO_Fhss(dat2[1]);
+        theRadioData.FunCfgData.CbBABand = dat2[2];
+        theRadioData.FunCfgData.CbBAFreqStep = dat2[3] % 8;
+        theRadioData.FunCfgData.TBARemainFreq = GetVFO_RemainFreq(dat5);
     }
 
     private void GetVFO_B_Parameter(ClassTheRadioData theRadioData, byte[] dat, byte[] dat2)
@@ -1682,18 +1683,18 @@ internal class WriFreq
             dat2[10]
         };
         var array = new string[2];
-        theRadioData.funCfgData.TB_B_CurFreq = GetVFO_CurFreq(dat3);
+        theRadioData.FunCfgData.TBBCurFreq = GetVFO_CurFreq(dat3);
         array = GetVF0_QTImf(dat4);
-        theRadioData.funCfgData.CbB_B_RxQT = array[0];
-        theRadioData.funCfgData.CbB_B_TxQT = array[1];
-        theRadioData.funCfgData.CbB_B_RemainDir = GetVFO_DirOfRemainFreq(dat[14]);
-        theRadioData.funCfgData.CbB_B_SignalingEnCoder = GetVFO_SignalingCode(dat[14]);
-        theRadioData.funCfgData.CbB_B_Power = dat2[0];
-        theRadioData.funCfgData.CbB_B_CHBand = GetVFO_BandWide(dat2[1]);
-        theRadioData.funCfgData.CbB_B_Fhss = GetVFO_Fhss(dat2[1]);
-        theRadioData.funCfgData.CbB_B_Band = dat2[2];
-        theRadioData.funCfgData.CbB_B_FreqStep = dat2[3] % 8;
-        theRadioData.funCfgData.TB_B_RemainFreq = GetVFO_RemainFreq(dat5);
+        theRadioData.FunCfgData.CbBBRxQt = array[0];
+        theRadioData.FunCfgData.CbBBTxQt = array[1];
+        theRadioData.FunCfgData.CbBBRemainDir = GetVFO_DirOfRemainFreq(dat[14]);
+        theRadioData.FunCfgData.CbBBSignalingEnCoder = GetVFO_SignalingCode(dat[14]);
+        theRadioData.FunCfgData.CbBBPower = dat2[0];
+        theRadioData.FunCfgData.CbBBChBand = GetVFO_BandWide(dat2[1]);
+        theRadioData.FunCfgData.CbBBFhss = GetVFO_Fhss(dat2[1]);
+        theRadioData.FunCfgData.CbBBBand = dat2[2];
+        theRadioData.FunCfgData.CbBBFreqStep = dat2[3] % 8;
+        theRadioData.FunCfgData.TBBRemainFreq = GetVFO_RemainFreq(dat5);
     }
 
     private short HexToInt(byte data)
@@ -1704,6 +1705,6 @@ internal class WriFreq
 
     private void Timer_Elapsed(object sender, ElapsedEventArgs e)
     {
-        flagRetry = true;
+        _flagRetry = true;
     }
 }

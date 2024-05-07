@@ -8,38 +8,38 @@ namespace SenhaixFreqWriter.DataModels.Shx8x00;
 [Serializable]
 public partial class ChannelData : ObservableObject
 {
-    [ObservableProperty] private string bandWidth = "";
+    [ObservableProperty] private string _bandWidth = "";
 
-    [ObservableProperty] private string busyLock;
+    [ObservableProperty] private string _busyLock;
 
-    [ObservableProperty] private string chanName = "";
+    [ObservableProperty] private string _chanName = "";
 
-    [ObservableProperty] private string chanNum = "";
+    [ObservableProperty] private string _chanNum = "";
 
-    [ObservableProperty] private string encrypt = "";
+    [ObservableProperty] private string _encrypt = "";
 
     [XmlIgnore]
     // [JsonIgnore]
     [ObservableProperty]
-    private bool isVisable;
+    private bool _isVisable;
 
-    [ObservableProperty] private string pttid = "";
+    [ObservableProperty] private string _pttid = "";
 
-    [ObservableProperty] private string qtDec = "";
+    [ObservableProperty] private string _qtDec = "";
 
-    [ObservableProperty] private string qtEnc = "";
+    [ObservableProperty] private string _qtEnc = "";
 
-    [ObservableProperty] private string rxFreq = "";
+    [ObservableProperty] private string _rxFreq = "";
 
-    [ObservableProperty] private string scanAdd = "";
+    [ObservableProperty] private string _scanAdd = "";
 
-    [ObservableProperty] private string sigCode = "";
+    [ObservableProperty] private string _sigCode = "";
 
-    [ObservableProperty] private string txAllow = "";
+    [ObservableProperty] private string _txAllow = "";
 
-    [ObservableProperty] private string txFreq = "";
+    [ObservableProperty] private string _txFreq = "";
 
-    [ObservableProperty] private string txPwr = "";
+    [ObservableProperty] private string _txPwr = "";
 
     public ChannelData DeepCopy()
     {
@@ -49,7 +49,7 @@ public partial class ChannelData : ObservableObject
             var xml = new XmlSerializer(typeof(ChannelData));
             xml.Serialize(ms, this);
             ms.Seek(0, SeekOrigin.Begin);
-            rel = (ChannelData)xml.Deserialize(ms);
+            rel = (ChannelData)xml.Deserialize(ms)!;
             ms.Close();
         }
 
@@ -57,7 +57,7 @@ public partial class ChannelData : ObservableObject
     }
 
 
-    public void changeByNum(int index, string target)
+    public void ChangeByNum(int index, string target)
     {
         switch (index)
         {
@@ -107,36 +107,39 @@ public partial class ChannelData : ObservableObject
         }
     }
 
-    public string[] transList()
+    public string[] TransList()
     {
         return new[]
         {
-            chanNum, txAllow, rxFreq, qtDec, txFreq, qtEnc, txPwr, bandWidth, pttid, busyLock, scanAdd, sigCode,
-            chanName, encrypt
+            ChanNum, TxAllow, RxFreq, QtDec, TxFreq, QtEnc, TxPwr, BandWidth, Pttid, BusyLock, ScanAdd,
+            SigCode,
+            ChanName,
+            Encrypt
         };
     }
 
     public override string ToString()
     {
         return
-            $"{nameof(bandWidth)}: {bandWidth}, {nameof(busyLock)}: {busyLock}, {nameof(chanName)}: {chanName}, {nameof(chanNum)}: {chanNum}, {nameof(encrypt)}: {encrypt}, {nameof(pttid)}: {pttid}, {nameof(qtDec)}: {qtDec}, {nameof(qtEnc)}: {qtEnc}, {nameof(rxFreq)}: {rxFreq}, {nameof(scanAdd)}: {scanAdd}, {nameof(sigCode)}: {sigCode}, {nameof(txAllow)}: {txAllow}, {nameof(txFreq)}: {txFreq}, {nameof(txPwr)}: {txPwr}";
+            $"{nameof(BandWidth)}: {BandWidth}, {nameof(BusyLock)}: {BusyLock}, {nameof(ChanName)}: {ChanName}, {nameof(ChanNum)}: {ChanNum}, {nameof(Encrypt)}: {Encrypt}, {nameof(Pttid)}: {Pttid}, {nameof(QtDec)}: {QtDec}, {nameof(QtEnc)}: {QtEnc}, {nameof(RxFreq)}: {RxFreq}, {nameof(ScanAdd)}: {ScanAdd}, {nameof(SigCode)}: {SigCode}, {nameof(TxAllow)}: {TxAllow}, {nameof(TxFreq)}: {TxFreq}, {nameof(TxPwr)}: {TxPwr}";
     }
 
-    public bool allEmpty()
+    public bool AllEmpty()
     {
-        return string.IsNullOrEmpty(bandWidth) && string.IsNullOrEmpty(busyLock) && string.IsNullOrEmpty(chanName) &&
-               string.IsNullOrEmpty(encrypt) && string.IsNullOrEmpty(pttid) && string.IsNullOrEmpty(qtDec) &&
-               string.IsNullOrEmpty(qtEnc) && string.IsNullOrEmpty(scanAdd) && string.IsNullOrEmpty(sigCode) &&
-               string.IsNullOrEmpty(txAllow)
-               && string.IsNullOrEmpty(txFreq) && string.IsNullOrEmpty(txPwr);
+        return string.IsNullOrEmpty(BandWidth) && string.IsNullOrEmpty(BusyLock) && string.IsNullOrEmpty(ChanName) &&
+               string.IsNullOrEmpty(Encrypt) && string.IsNullOrEmpty(Pttid) && string.IsNullOrEmpty(QtDec) &&
+               string.IsNullOrEmpty(QtEnc) && string.IsNullOrEmpty(ScanAdd) && string.IsNullOrEmpty(SigCode) &&
+               string.IsNullOrEmpty(TxAllow)
+               && string.IsNullOrEmpty(TxFreq) && string.IsNullOrEmpty(TxPwr);
     }
 
-    public bool filled()
+    public bool Filled()
     {
-        return !string.IsNullOrEmpty(bandWidth) && !string.IsNullOrEmpty(busyLock) && !string.IsNullOrEmpty(chanName) &&
-               !string.IsNullOrEmpty(encrypt) && !string.IsNullOrEmpty(pttid) && !string.IsNullOrEmpty(qtDec) &&
-               !string.IsNullOrEmpty(qtEnc) && !string.IsNullOrEmpty(scanAdd) && !string.IsNullOrEmpty(sigCode) &&
-               !string.IsNullOrEmpty(txAllow)
-               && !string.IsNullOrEmpty(txFreq) && !string.IsNullOrEmpty(txPwr);
+        return !string.IsNullOrEmpty(BandWidth) && !string.IsNullOrEmpty(BusyLock) &&
+               !string.IsNullOrEmpty(ChanName) &&
+               !string.IsNullOrEmpty(Encrypt) && !string.IsNullOrEmpty(Pttid) && !string.IsNullOrEmpty(QtDec) &&
+               !string.IsNullOrEmpty(QtEnc) && !string.IsNullOrEmpty(ScanAdd) && !string.IsNullOrEmpty(SigCode) &&
+               !string.IsNullOrEmpty(TxAllow)
+               && !string.IsNullOrEmpty(TxFreq) && !string.IsNullOrEmpty(TxPwr);
     }
 }

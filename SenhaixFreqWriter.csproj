@@ -4,7 +4,7 @@
         <!-- 手动编译UNIX时请注释 -->
         <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
         <!-- 手动编译Windows时请注释 -->
-        <TargetFramework>net6.0</TargetFramework>
+        <!--        <TargetFramework>net6.0</TargetFramework>-->
         <TargetFramework Condition="'$(TargetOS)' == 'Windows'">net6.0-windows10.0.19041.0</TargetFramework>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>

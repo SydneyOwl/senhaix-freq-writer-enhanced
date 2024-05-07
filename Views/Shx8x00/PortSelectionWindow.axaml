@@ -9,8 +9,8 @@
     <Canvas>
         <Label Canvas.Top="20" Canvas.Left="10">选择端口(点击下拉选择):</Label>
         <ComboBox Canvas.Top="50" Canvas.Left="70" Width="160" x:Name="PortChooseComboBox"
-                  ItemsSource="{Binding  portList}"
-                  SelectedValue="{Binding portName}" SelectedItem="{Binding portName}" />
+                  ItemsSource="{Binding  PortList}"
+                  SelectedValue="{Binding PortName}" SelectedItem="{Binding PortName}" />
 
         <Button Canvas.Top="49" Canvas.Right="20" Click="Button_OnClick">
             <PathIcon Data="{StaticResource arrow_sync_regular}" />

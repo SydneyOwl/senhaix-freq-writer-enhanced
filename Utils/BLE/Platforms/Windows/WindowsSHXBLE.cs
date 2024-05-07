@@ -25,13 +25,13 @@ public enum MsgType
     NotifyTxt,
     BleDevice,
     BleSendData,
-    BleRecData,
+    BleRecData
 }
 
-public class WindowsSHXBLE : IBluetooth
+public class WindowsShxble : IBluetooth
 {
+    public Updater StatusUpdate;
 
-    public updater statusUpdate;
     /// <summary>
     ///     获取特征委托
     /// </summary>
@@ -45,7 +45,7 @@ public class WindowsSHXBLE : IBluetooth
     /// <summary>
     ///     定义搜索蓝牙设备委托
     /// </summary>
-    public delegate void DeviceWatcherChangedEvent(BluetoothLEDevice bluetoothLEDevice);
+    public delegate void DeviceWatcherChangedEvent(BluetoothLEDevice bluetoothLeDevice);
 
     /// <summary>
     ///     接受数据委托
@@ -57,31 +57,31 @@ public class WindowsSHXBLE : IBluetooth
     /// <summary>
     ///     特性通知类型通知启用
     /// </summary>
-    private const GattClientCharacteristicConfigurationDescriptorValue CHARACTERISTIC_NOTIFICATION_TYPE =
+    private const GattClientCharacteristicConfigurationDescriptorValue CharacteristicNotificationType =
         GattClientCharacteristicConfigurationDescriptorValue.Notify;
 
-    private bool asyncLock;
+    private bool _asyncLock;
 
-    private int connStep = BLE_CONST.STATUS_READY;
+    private int _connStep = BleConst.StatusReady;
 
-    public List<GattCharacteristic> characteristics = new();
-    
-    private BluetoothLEAdvertisementWatcher Watcher;
+    public List<GattCharacteristic> Characteristics = new();
 
-    public WindowsSHXBLE()
+    private BluetoothLEAdvertisementWatcher _watcher;
+
+    public WindowsShxble()
     {
         // Dispose();
         DeviceList = new List<BluetoothLEDevice>();
         DeviceMacList = new List<string>();
     }
 
-    
+
     /// <summary>
     ///     当前连接的服务
     /// </summary>
     public GattDeviceService CurrentService { get; private set; }
 
-    public BluetoothLEDevice CurrentSHXDevice;
+    public BluetoothLEDevice CurrentShxDevice;
 
     /// <summary>
     ///     当前连接的蓝牙设备
@@ -108,7 +108,7 @@ public class WindowsSHXBLE : IBluetooth
     /// <summary>
     ///     当前连接的蓝牙Mac
     /// </summary>
-    private string CurrentDeviceMAC { get; set; }
+    private string CurrentDeviceMac { get; set; }
 
     /// <summary>
     ///     搜索蓝牙事件
@@ -135,25 +135,25 @@ public class WindowsSHXBLE : IBluetooth
     /// </summary>
     public void StartBleDeviceWatcher()
     {
-        Watcher = new BluetoothLEAdvertisementWatcher();
+        _watcher = new BluetoothLEAdvertisementWatcher();
 
-        Watcher.ScanningMode = BluetoothLEScanningMode.Active;
-        
+        _watcher.ScanningMode = BluetoothLEScanningMode.Active;
+
         // only activate the watcher when we're recieving values >= -80
-        Watcher.SignalStrengthFilter.InRangeThresholdInDBm = -80;
+        _watcher.SignalStrengthFilter.InRangeThresholdInDBm = -80;
 
         // stop watching if the value drops below -90 (user walked away)
-        Watcher.SignalStrengthFilter.OutOfRangeThresholdInDBm = -90;
+        _watcher.SignalStrengthFilter.OutOfRangeThresholdInDBm = -90;
 
         // register callback for when we see an advertisements
-        Watcher.Received += OnAdvertisementReceived;
+        _watcher.Received += OnAdvertisementReceived;
 
         // wait 5 seconds to make sure the device is really out of range
-        Watcher.SignalStrengthFilter.OutOfRangeTimeout = TimeSpan.FromMilliseconds(5000);
-        Watcher.SignalStrengthFilter.SamplingInterval = TimeSpan.FromMilliseconds(2000);
+        _watcher.SignalStrengthFilter.OutOfRangeTimeout = TimeSpan.FromMilliseconds(5000);
+        _watcher.SignalStrengthFilter.SamplingInterval = TimeSpan.FromMilliseconds(2000);
 
         // starting watching for advertisements
-        Watcher.Start();
+        _watcher.Start();
 
         // Console.WriteLine("自动发现设备中..");
     }
@@ -163,8 +163,8 @@ public class WindowsSHXBLE : IBluetooth
     /// </summary>
     public void StopBleDeviceWatcher()
     {
-        if (Watcher != null)
-            Watcher.Stop();
+        if (_watcher != null)
+            _watcher.Stop();
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public class WindowsSHXBLE : IBluetooth
     /// <returns></returns>
     public void Dispose()
     {
-        CurrentDeviceMAC = null;
+        CurrentDeviceMac = null;
         CurrentService?.Dispose();
         CurrentDevice?.Dispose();
         CurrentDevice = null;
@@ -182,9 +182,9 @@ public class WindowsSHXBLE : IBluetooth
         CurrentNotifyCharacteristic = null;
         DeviceMacList = new List<string>();
         DeviceList = new List<BluetoothLEDevice>();
-        MySerialPort.getInstance().WriteBLE = null;
-        Watcher?.Stop();
-        Watcher = null;
+        MySerialPort.GetInstance().WriteBle = null;
+        _watcher?.Stop();
+        _watcher = null;
         // ForceNewBleInstance();
         // Console.WriteLine("主动断开连接");
         // if (meg != null)
@@ -196,10 +196,10 @@ public class WindowsSHXBLE : IBluetooth
     /// <summary>
     ///     匹配
     /// </summary>
-    /// <param name="Device"></param>
-    public void StartMatching(BluetoothLEDevice Device)
+    /// <param name="device"></param>
+    public void StartMatching(BluetoothLEDevice device)
     {
-        CurrentDevice = Device;
+        CurrentDevice = device;
     }
 
     /// <summary>
@@ -218,7 +218,7 @@ public class WindowsSHXBLE : IBluetooth
                     var a = asyncInfo.GetResults();
                 }
             };
-        return Task.Run(() => {});
+        return Task.Run(() => { });
     }
 
     /// 获取蓝牙服务
@@ -241,20 +241,20 @@ public class WindowsSHXBLE : IBluetooth
     /// <summary>
     ///     按MAC地址直接组装设备ID查找设备
     /// </summary>
-    public void SelectDeviceFromIdAsync(string MAC)
+    public void SelectDeviceFromIdAsync(string mac)
     {
-        CurrentDeviceMAC = MAC;
+        CurrentDeviceMac = mac;
         CurrentDevice = null;
         BluetoothAdapter.GetDefaultAsync().Completed = (asyncInfo, asyncStatus) =>
         {
             if (asyncStatus == AsyncStatus.Completed)
             {
                 var mBluetoothAdapter = asyncInfo.GetResults();
-                var _Bytes1 = BitConverter.GetBytes(mBluetoothAdapter.BluetoothAddress); //ulong转换为byte数组
-                Array.Reverse(_Bytes1);
-                var macAddress = BitConverter.ToString(_Bytes1, 2, 6).Replace('-', ':').ToLower();
-                var Id = "BluetoothLE#BluetoothLE" + macAddress + "-" + MAC;
-                Matching(Id);
+                var bytes1 = BitConverter.GetBytes(mBluetoothAdapter.BluetoothAddress); //ulong转换为byte数组
+                Array.Reverse(bytes1);
+                var macAddress = BitConverter.ToString(bytes1, 2, 6).Replace('-', ':').ToLower();
+                var id = "BluetoothLE#BluetoothLE" + macAddress + "-" + mac;
+                Matching(id);
             }
         };
     }
@@ -265,9 +265,9 @@ public class WindowsSHXBLE : IBluetooth
     /// <returns></returns>
     public void SetOpteron(GattCharacteristic gattCharacteristic)
     {
-        var _Bytes1 = BitConverter.GetBytes(CurrentDevice.BluetoothAddress);
-        Array.Reverse(_Bytes1);
-        CurrentDeviceMAC = BitConverter.ToString(_Bytes1, 2, 6).Replace('-', ':').ToLower();
+        var bytes1 = BitConverter.GetBytes(CurrentDevice.BluetoothAddress);
+        Array.Reverse(bytes1);
+        CurrentDeviceMac = BitConverter.ToString(bytes1, 2, 6).Replace('-', ':').ToLower();
 
         // Console.WriteLine(gattCharacteristic.CharacteristicProperties);
 
@@ -344,11 +344,11 @@ public class WindowsSHXBLE : IBluetooth
     ///     搜索到的蓝牙设备
     /// </summary>
     /// <returns></returns>
-    private void Matching(string Id)
+    private void Matching(string id)
     {
         try
         {
-            BluetoothLEDevice.FromIdAsync(Id).Completed = (asyncInfo, asyncStatus) =>
+            BluetoothLEDevice.FromIdAsync(id).Completed = (asyncInfo, asyncStatus) =>
             {
                 if (asyncStatus == AsyncStatus.Completed)
                 {
@@ -375,12 +375,12 @@ public class WindowsSHXBLE : IBluetooth
 
     private void CurrentDevice_ConnectionStatusChanged(BluetoothLEDevice sender, object args)
     {
-        if (sender.ConnectionStatus == BluetoothConnectionStatus.Disconnected && CurrentDeviceMAC != null)
+        if (sender.ConnectionStatus == BluetoothConnectionStatus.Disconnected && CurrentDeviceMac != null)
         {
-            statusUpdate(false);
-            if (!asyncLock)
+            StatusUpdate(false);
+            if (!_asyncLock)
             {
-                asyncLock = true;
+                _asyncLock = true;
                 Console.WriteLine("设备已断开");
                 Dispose();
             }
@@ -388,10 +388,10 @@ public class WindowsSHXBLE : IBluetooth
         else
         {
             Console.WriteLine("connected");
-            statusUpdate(true);
-            if (!asyncLock)
+            StatusUpdate(true);
+            if (!_asyncLock)
             {
-                asyncLock = true;
+                _asyncLock = true;
                 Console.WriteLine("设备已连接");
                 // meg.Text = "蓝牙（已连接）";
             }
@@ -406,7 +406,7 @@ public class WindowsSHXBLE : IBluetooth
     private void EnableNotifications(GattCharacteristic characteristic)
     {
         // Console.WriteLine("收通知对象=" + CurrentDevice.Name + ":" + CurrentDevice.ConnectionStatus);
-        characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(CHARACTERISTIC_NOTIFICATION_TYPE)
+        characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(CharacteristicNotificationType)
             .Completed = (asyncInfo, asyncStatus) =>
         {
             if (asyncStatus == AsyncStatus.Completed)
@@ -415,13 +415,13 @@ public class WindowsSHXBLE : IBluetooth
                 if (status == GattCommunicationStatus.Unreachable)
                 {
                     // Console.WriteLine("设备不可用");
-                    if (CurrentNotifyCharacteristic != null && !asyncLock)
+                    if (CurrentNotifyCharacteristic != null && !_asyncLock)
                         EnableNotifications(CurrentNotifyCharacteristic);
 
                     return;
                 }
 
-                asyncLock = false;
+                _asyncLock = false;
                 // Console.WriteLine("设备连接状态" + status);
             }
         };
@@ -437,19 +437,19 @@ public class WindowsSHXBLE : IBluetooth
         Recdate?.Invoke(sender, data);
     }
 
-    public string calMac(ulong or)
+    public string CalMac(ulong or)
     {
-        var _Bytes1 = BitConverter.GetBytes(or);
-        Array.Reverse(_Bytes1);
-        var address = BitConverter.ToString(_Bytes1, 2, 6).Replace('-', ':').ToLower();
+        var bytes1 = BitConverter.GetBytes(or);
+        Array.Reverse(bytes1);
+        var address = BitConverter.ToString(bytes1, 2, 6).Replace('-', ':').ToLower();
         return address;
     }
 
     // actions..
     public void TriggerDeviceWatcherChanged(BluetoothLEDevice currentDevice)
     {
-        var address = calMac(currentDevice.BluetoothAddress);
-        if (DeviceMacList.Contains(address) ) return;
+        var address = CalMac(currentDevice.BluetoothAddress);
+        if (DeviceMacList.Contains(address)) return;
 
         DeviceMacList.Add(address);
     }
@@ -458,12 +458,12 @@ public class WindowsSHXBLE : IBluetooth
     {
         if (size <= 0)
         {
-            connStep = BLE_CONST.STATUS_CONN_FAILED;
+            _connStep = BleConst.StatusConnFailed;
             Dispose();
             return;
         }
 
-        connStep = BLE_CONST.STATUS_CONN_SUCCESS;
+        _connStep = BleConst.StatusConnSuccess;
     }
 
     public void TriggerRecdata8800(GattCharacteristic sender, byte[] data)
@@ -471,13 +471,14 @@ public class WindowsSHXBLE : IBluetooth
         foreach (var b in data)
         {
             var tmp = b;
-            MySerialPort.getInstance().RxData.Enqueue(tmp);
+            MySerialPort.GetInstance().RxData.Enqueue(tmp);
         }
     }
+
     public void TriggerRecdataGt12(GattCharacteristic sender, byte[] data)
     {
-        HIDTools.getInstance().rxBuffer = data;
-        HIDTools.getInstance().flagReceiveData = true;
+        HidTools.GetInstance().RxBuffer = data;
+        HidTools.GetInstance().FlagReceiveData = true;
         // Console.WriteLine("READ1!");
     }
 
@@ -488,10 +489,10 @@ public class WindowsSHXBLE : IBluetooth
         //     gatt.AttributeHandle.ToString("X4"),
         //     gatt.CharacteristicProperties.ToString(),
         //     gatt.Uuid);
-        characteristics.Add(gatt);
+        Characteristics.Add(gatt);
     }
 
-    private bool isBtSupported()
+    private bool IsBtSupported()
     {
         foreach (var allNetworkInterface in NetworkInterface.GetAllNetworkInterfaces())
             if (allNetworkInterface.Description.Contains("Bluetooth") ||
@@ -502,20 +503,20 @@ public class WindowsSHXBLE : IBluetooth
         return false;
     }
 
-    public void ConnectDevice(BluetoothLEDevice Device)
+    public void ConnectDevice(BluetoothLEDevice device)
     {
-        characteristics.Clear();
+        Characteristics.Clear();
         StopBleDeviceWatcher();
-        StartMatching(Device);
+        StartMatching(device);
         FindService();
     }
 
-    public async Task<bool> GetBLEAvailabilityAsync()
+    public async Task<bool> GetBleAvailabilityAsync()
     {
-        return isBtSupported();
+        return IsBtSupported();
     }
 
-    public async Task<bool> ScanForSHXAsync()
+    public async Task<bool> ScanForShxAsync()
     {
         DeviceWatcherChanged += TriggerDeviceWatcherChanged;
         CharacteristicAdded += TriggerCharacteristicAdded;
@@ -524,66 +525,55 @@ public class WindowsSHXBLE : IBluetooth
         await Task.Delay(7000);
         StopBleDeviceWatcher();
         for (var i = 0; i < DeviceList.Count; i++)
-        {
-            if (DeviceList[i].Name.Equals(BLE_CONST.BTNAME_SHX8800))
+            if (DeviceList[i].Name.Equals(BleConst.BtnameShx8800))
             {
-                CurrentSHXDevice = DeviceList[i];
+                CurrentShxDevice = DeviceList[i];
                 return true;
             }
-        }
 
         return false;
     }
 
-    public Task ConnectSHXDeviceAsync()
+    public Task ConnectShxDeviceAsync()
     {
         return Task.Run(() => { });
     }
 
-    public async Task<bool> ConnectSHXRWServiceAsync()
+    public async Task<bool> ConnectShxRwServiceAsync()
     {
         return true;
     }
 
-    public async Task<bool> ConnectSHXRWCharacteristicAsync()
+    public async Task<bool> ConnectShxRwCharacteristicAsync()
     {
-        ConnectDevice(CurrentSHXDevice);
+        ConnectDevice(CurrentShxDevice);
         var timeCount = 0;
         // 连接中... 成功！ 失败！
-        while (connStep == BLE_CONST.STATUS_READY && timeCount++ < 200)
-        {
-            Thread.Sleep(50);
-        }
-        if (connStep != BLE_CONST.STATUS_CONN_SUCCESS)
-        {
-            return false;
-        }
+        while (_connStep == BleConst.StatusReady && timeCount++ < 200) Thread.Sleep(50);
+        if (_connStep != BleConst.StatusConnSuccess) return false;
         var gattCharacteristic =
-characteristics.Find(x => x.Uuid.ToString().Contains(BLE_CONST.RW_CHARACTERISTIC_UUID));
-        if (gattCharacteristic == null)
-        {
-            return false;
-        }
+            Characteristics.Find(x => x.Uuid.ToString().Contains(BleConst.RwCharacteristicUuid));
+        if (gattCharacteristic == null) return false;
         SetOpteron(gattCharacteristic);
         return true;
     }
 
     public void RegisterSerial()
     {
-        MySerialPort.getInstance().WriteBLE = Write;
+        MySerialPort.GetInstance().WriteBle = Write;
         Recdate += TriggerRecdata8800;
     }
 
-    public void RegisterHID()
+    public void RegisterHid()
     {
-        HIDTools.getInstance().WriteBLE = Write;
+        HidTools.GetInstance().WriteBle = Write;
         Recdate += TriggerRecdataGt12;
-        statusUpdate(true);
+        StatusUpdate(true);
     }
 
-    public void setStatusUpdater(updater up)
+    public void SetStatusUpdater(Updater up)
     {
-        statusUpdate = up;
+        StatusUpdate = up;
     }
 }
 #endif

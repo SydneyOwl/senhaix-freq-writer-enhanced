@@ -8,28 +8,28 @@ using SenhaixFreqWriter.Utils.Serial;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 
-public class GenerticSHXBLE : IBluetooth
+public class GenerticShxble : IBluetooth
 {
-    private GattCharacteristic shxCharacteristic;
-    private BluetoothDevice shxDevice;
+    private GattCharacteristic _shxCharacteristic;
+    private BluetoothDevice _shxDevice;
 
-    private GattService shxService;
+    private GattService _shxService;
 
-    public Task<bool> GetBLEAvailabilityAsync()
+    public Task<bool> GetBleAvailabilityAsync()
     {
         return Bluetooth.GetAvailabilityAsync();
     }
 
-    public async Task<bool> ScanForSHXAsync()
+    public async Task<bool> ScanForShxAsync()
     {
         var filter = new BluetoothLEScanFilter
         {
-            Name = BLE_CONST.BTNAME_SHX8800
+            Name = BleConst.BtnameShx8800
         };
         try
         {
             // 过滤名称
-            shxDevice = await Bluetooth.RequestDeviceAsync(new RequestDeviceOptions { Filters = { filter } });
+            _shxDevice = await Bluetooth.RequestDeviceAsync(new RequestDeviceOptions { Filters = { filter } });
         }
         catch
         {
@@ -40,61 +40,61 @@ public class GenerticSHXBLE : IBluetooth
                 Filters = { filter }
             }, cts.Token);
             foreach (var discoveredDevice in discoveredDevices)
-                if (discoveredDevice.Name.Equals(BLE_CONST.BTNAME_SHX8800))
+                if (discoveredDevice.Name.Equals(BleConst.BtnameShx8800))
                 {
-                    shxDevice = discoveredDevice;
+                    _shxDevice = discoveredDevice;
                     break;
                 }
         }
 
-        return shxDevice != null;
+        return _shxDevice != null;
     }
 
-    public Task ConnectSHXDeviceAsync()
+    public Task ConnectShxDeviceAsync()
     {
-        return shxDevice.Gatt.ConnectAsync();
+        return _shxDevice.Gatt.ConnectAsync();
     }
 
-    public async Task<bool> ConnectSHXRWServiceAsync()
+    public async Task<bool> ConnectShxRwServiceAsync()
     {
-        shxService = await shxDevice.Gatt.GetPrimaryServiceAsync(
-            BluetoothUuid.FromShortId(Convert.ToUInt16(BLE_CONST.RW_SERVICE_UUID.ToUpper(), 16)));
-        return shxService != null;
+        _shxService = await _shxDevice.Gatt.GetPrimaryServiceAsync(
+            BluetoothUuid.FromShortId(Convert.ToUInt16(BleConst.RwServiceUuid.ToUpper(), 16)));
+        return _shxService != null;
     }
 
-    public async Task<bool> ConnectSHXRWCharacteristicAsync()
+    public async Task<bool> ConnectShxRwCharacteristicAsync()
     {
-        shxCharacteristic = await shxService.GetCharacteristicAsync(
-            BluetoothUuid.FromShortId(Convert.ToUInt16(BLE_CONST.RW_CHARACTERISTIC_UUID.ToUpper(), 16)));
-        return shxCharacteristic != null;
+        _shxCharacteristic = await _shxService.GetCharacteristicAsync(
+            BluetoothUuid.FromShortId(Convert.ToUInt16(BleConst.RwCharacteristicUuid.ToUpper(), 16)));
+        return _shxCharacteristic != null;
     }
 
     public async void RegisterSerial()
     {
-        shxCharacteristic.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
-        MySerialPort.getInstance().BTDeviceMtu = shxDevice.Gatt.Mtu;
-        await shxCharacteristic.StartNotificationsAsync();
-        MySerialPort.getInstance().WriteBLE = shxCharacteristic.WriteValueWithoutResponseAsync;
+        _shxCharacteristic.CharacteristicValueChanged += Characteristic_CharacteristicValueChanged;
+        MySerialPort.GetInstance().BtDeviceMtu = _shxDevice.Gatt.Mtu;
+        await _shxCharacteristic.StartNotificationsAsync();
+        MySerialPort.GetInstance().WriteBle = _shxCharacteristic.WriteValueWithoutResponseAsync;
     }
 
-    public void RegisterHID()
+    public void RegisterHid()
     {
         throw new NotImplementedException();
     }
 
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {
-        foreach (var b in e.Value) MySerialPort.getInstance().RxData.Enqueue(b);
+        foreach (var b in e.Value) MySerialPort.GetInstance().RxData.Enqueue(b);
     }
 
     public void Dispose()
     {
-        shxDevice = null;
-        shxCharacteristic = null;
-        shxService = null;
+        _shxDevice = null;
+        _shxCharacteristic = null;
+        _shxService = null;
     }
 
-    public void setStatusUpdater(updater up)
+    public void SetStatusUpdater(Updater up)
     {
         throw new NotImplementedException();
     }

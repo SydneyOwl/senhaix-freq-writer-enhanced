@@ -11,7 +11,7 @@ using SenhaixFreqWriter.DataModels.Gt12;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
-public class HIDTools
+public class HidTools
 {
     public HidDevice Gt12Device;
 
@@ -19,129 +19,134 @@ public class HIDTools
 
     public int InputReportLength;
 
-    public HidStream hidStream;
+    public HidStream HidStream;
 
-    private static HIDTools instance;
+    private static HidTools _instance;
 
-    public bool isDeviceConnected = false;
+    public bool IsDeviceConnected = false;
 
-    public DeviceList devList;
-    
-    public delegate void updateMainUIThread(bool connected);
+    public DeviceList DevList;
 
-    public updateMainUIThread updateLabel;
+    public delegate void UpdateMainUiThread(bool connected);
+
+    public UpdateMainUiThread UpdateLabel;
 
 
     //TODO: enhance
-    public byte[] rxBuffer = new byte[64];
-    public bool flagReceiveData;
+    public byte[] RxBuffer = new byte[64];
+    public bool FlagReceiveData;
 
     public delegate Task WriteValueAsync(byte[] value);
 
-    private Queue<byte> rxData = new(1024);
+    private Queue<byte> _rxData = new(1024);
 
-    public WriteValueAsync WriteBLE;
+    public WriteValueAsync WriteBle;
 
-    public int BTDeviceMtu = 23;
-    
-    private CancellationTokenSource pollTokenSource = new CancellationTokenSource();
-    
+    public int BtDeviceMtu = 23;
+
+    private CancellationTokenSource _pollTokenSource = new();
+
     private Mutex _mutex = new();
-    
-    public static bool isSHXHIDExist()
+
+    public static bool IsShxhidExist()
     {
-        var instance = new HIDTools();
-        instance.devList = DeviceList.Local;
-        return instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) != null;
+        var instance = new HidTools();
+        instance.DevList = DeviceList.Local;
+        return instance.DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) != null;
     }
 
-    public static List<HidDevice> getAllHIDDevices()
+    public static List<HidDevice> GetAllHidDevices()
     {
         return DeviceList.Local.GetHidDevices().ToList();
     }
 
-    public static HIDTools getInstance()
+    public static HidTools GetInstance()
     {
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = new HIDTools();
-            instance.devList = DeviceList.Local;
-            
+            _instance = new HidTools();
+            _instance.DevList = DeviceList.Local;
+
             // On unix system we poll!
 #if WINDOWS
-            instance.devList.Changed += (sender, args) =>
+            _instance.DevList.Changed += (sender, args) =>
             {
                 // Console.WriteLine("changed...");
-                if (instance.devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null)
+                if (_instance.DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) == null)
                 {
-                    instance.isDeviceConnected = false;
-                    instance.updateLabel(false);
+                    _instance.IsDeviceConnected = false;
+                    _instance.UpdateLabel(false);
                 }
                 else
                 {
-                    instance.findAndConnect();
+                    _instance.FindAndConnect();
                 }
             };
 #else
             Task.Run(()=>instance.pollDevStatus(instance.pollTokenSource.Token));
 #endif
         }
-        return instance;
+
+        return _instance;
     }
 
-    private void pollDevStatus(CancellationToken token)
+    private void PollDevStatus(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            if (devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID) == null )
-            { 
+            if (DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) == null)
+            {
                 // Console.WriteLine("Chlose");
-                isDeviceConnected = false;
-                updateLabel(false);
+                IsDeviceConnected = false;
+                UpdateLabel(false);
                 // requestReconnect = false;
                 // hidStream?.Dispose();
                 // hidStream = null;
             }
             else
             {
-                findAndConnect();
-            } 
+                FindAndConnect();
+            }
+
             Thread.Sleep(100);
         }
     }
-    public HID_STATUS findAndConnect()
+
+    public HidStatus FindAndConnect()
     {
         _mutex.WaitOne();
-        if (isDeviceConnected)
+        if (IsDeviceConnected)
         {
             _mutex.ReleaseMutex();
-            return HID_STATUS.SUCCESS;
+            return HidStatus.Success;
         }
+
         // Console.WriteLine("alaysz");
-        Gt12Device = devList.GetHidDeviceOrNull(GT12_HID.VID, GT12_HID.PID);
+        Gt12Device = DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid);
         if (Gt12Device == null)
         {
             _mutex.ReleaseMutex();
-            return HID_STATUS.DEVICE_NOT_FOUND;
+            return HidStatus.DeviceNotFound;
         }
+
         OutputReportLength = Gt12Device.GetMaxOutputReportLength();
         InputReportLength = Gt12Device.GetMaxInputReportLength();
-        if (Gt12Device.TryOpen(out hidStream))
+        if (Gt12Device.TryOpen(out HidStream))
         {
-            hidStream.ReadTimeout = Timeout.Infinite;
+            HidStream.ReadTimeout = Timeout.Infinite;
             // Loop reading...
             BeginAsyncRead();
-            instance.isDeviceConnected = true;
-            instance.updateLabel(true);
-            
+            _instance.IsDeviceConnected = true;
+            _instance.UpdateLabel(true);
+
             _mutex.ReleaseMutex();
-            return HID_STATUS.SUCCESS;
+            return HidStatus.Success;
         }
         else
         {
             // Console.WriteLine("Not Connected");
             _mutex.ReleaseMutex();
-            return HID_STATUS.NO_DEVICE_CONNECTED;
+            return HidStatus.NoDeviceConnected;
         }
     }
 
@@ -150,16 +155,16 @@ public class HIDTools
         var array = (byte[])iResult.AsyncState;
         try
         {
-            hidStream.EndRead(iResult);
+            HidStream.EndRead(iResult);
             // var array2 = new byte[array.Length];
             // for (var i = 0; i < array.Length; i++) array2[i] = array[i];
 
             var e = new Report(array[0], array);
             var array1 = new byte[64];
-            Array.Copy(e.reportBuff, 0, array1, 0, 64);
-            rxBuffer = array1;
+            Array.Copy(e.ReportBuff, 0, array1, 0, 64);
+            RxBuffer = array1;
             // Console.WriteLine(BitConverter.ToString(rxBuffer));
-            flagReceiveData = true;
+            FlagReceiveData = true;
             BeginAsyncRead();
             // else
             // {
@@ -167,7 +172,7 @@ public class HIDTools
             //     CloseDevice();
             // }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             // Dispatcher.UIThread.Post(()=>
             // {
@@ -182,36 +187,37 @@ public class HIDTools
     {
         // Console.WriteLine("Reading...");
         var array = new byte[InputReportLength];
-        var asyncResult = hidStream.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
+        var asyncResult = HidStream.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
     }
 
-    public HID_STATUS Write(Report r)
+    public HidStatus Write(Report r)
     {
         // Console.WriteLine("writing...");
         try
         {
-            if (WriteBLE != null)
+            if (WriteBle != null)
             {
-                var array = new byte[BTDeviceMtu - 1];
+                var array = new byte[BtDeviceMtu - 1];
                 var num = 0;
                 // num = r.reportBuff.Length >= BTDeviceMtu - 1
                 //     ? BTDeviceMtu - 1
                 //     : r.reportBuff.Length;
                 // for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
                 // WriteBLE(array);
-                var tobeWrite = bytesTrimEnd(r.reportBuff);
-                var singleSize = BTDeviceMtu - 1;
+                var tobeWrite = BytesTrimEnd(r.ReportBuff);
+                var singleSize = BtDeviceMtu - 1;
                 var sendTimes = tobeWrite.Length / singleSize;
                 var tmp = 0;
                 for (var i = 0; i < sendTimes + 1; i++)
                 {
                     if (i == sendTimes)
                     {
-                        WriteBLE(tobeWrite.Skip(tmp)
+                        WriteBle(tobeWrite.Skip(tmp)
                             .Take(tobeWrite.Length - sendTimes * singleSize).ToArray());
                         break;
                     }
-                    WriteBLE(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
+
+                    WriteBle(tobeWrite.Skip(tmp).Take(singleSize).ToArray());
                     tmp += singleSize;
                 }
             }
@@ -219,45 +225,42 @@ public class HIDTools
             {
                 var array = new byte[OutputReportLength];
                 var num = 0;
-                num = r.reportBuff.Length >= OutputReportLength - 1
+                num = r.ReportBuff.Length >= OutputReportLength - 1
                     ? OutputReportLength - 1
-                    : r.reportBuff.Length;
-                for (var i = 0; i < num; i++) array[i] = r.reportBuff[i];
+                    : r.ReportBuff.Length;
+                for (var i = 0; i < num; i++) array[i] = r.ReportBuff[i];
                 Console.WriteLine(OutputReportLength);
-                hidStream.Write(array, 0, OutputReportLength);
+                HidStream.Write(array, 0, OutputReportLength);
             }
-            return HID_STATUS.SUCCESS;
+
+            return HidStatus.Success;
         }
         catch (Exception ex)
         {
-            Console.WriteLine("stop write. due to."+ex.Message);
+            Console.WriteLine("stop write. due to." + ex.Message);
             // CloseDevice();
-            return HID_STATUS.NO_DEVICE_CONNECTED;
+            return HidStatus.NoDeviceConnected;
         }
-            
-        return HID_STATUS.WRITE_FAILD;
+
+        return HidStatus.WriteFaild;
     }
-    public byte[] bytesTrimEnd(byte[] bytes)
+
+    public byte[] BytesTrimEnd(byte[] bytes)
     {
-        List<byte> list = bytes.ToList();
-        for (int i = bytes.Length - 1; i >= 0; i--)
-        {
-            if(bytes[i]==0x00)
-            {
+        var list = bytes.ToList();
+        for (var i = bytes.Length - 1; i >= 0; i--)
+            if (bytes[i] == 0x00)
                 list.RemoveAt(i);
-            }
             else
-            {
                 break;
-            }
-        }
         return list.ToArray();
     }
+
     public bool Send(byte[] byData)
     {
         var array = new byte[byData.Length];
         Array.Copy(byData, 0, array, 0, byData.Length);
-        if (Write(new Report(1, array)) != HID_STATUS.SUCCESS) return false;
+        if (Write(new Report(1, array)) != HidStatus.Success) return false;
         return true;
     }
 
@@ -265,7 +268,7 @@ public class HIDTools
     {
         // Console.WriteLine("closed...");
         Gt12Device = null;
-        isDeviceConnected = false;
-        hidStream.Close();
+        IsDeviceConnected = false;
+        HidStream.Close();
     }
 }

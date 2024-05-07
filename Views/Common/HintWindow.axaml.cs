@@ -10,12 +10,12 @@ public partial class HintWindow : Window
         InitializeComponent();
     }
 
-    public void setLabelStatus(string stat)
+    public void SetLabelStatus(string stat)
     {
         label.Text += "\n" + stat;
     }
 
-    public void setButtonStatus(bool show)
+    public void SetButtonStatus(bool show)
     {
         button.IsEnabled = show;
     }

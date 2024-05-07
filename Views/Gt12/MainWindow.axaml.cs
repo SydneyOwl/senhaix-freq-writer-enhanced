@@ -28,57 +28,42 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class MainWindow : Window
 {
-    private ObservableCollection<Channel> _listItems = new();
+    public ObservableCollection<Channel> ListItems { get; set; }= new();
+    
+    public int CurrentArea = 0;
 
-    public ObservableCollection<Channel> listItems
-    {
-        get => _listItems;
-        set => _listItems = value;
-    }
+    private bool _devSwitchFlag = false;
 
-    public int currentArea = 0;
+    private string _filePath = "";
 
-    private bool devSwitchFlag = false;
+    private Channel _copiedChannel;
 
-    private string filePath = "";
-
-    private Channel copiedChannel;
-
-    private IBluetooth osBLE;
+    private IBluetooth _osBle;
 
     public MainWindow()
     {
         InitializeComponent();
         DataContext = this;
-        setArea(0);
-        _listItems.CollectionChanged += CollectionChangedHandler;
+        SetArea(0);
+        ListItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
-        if (HIDTools.getInstance().isDeviceConnected)
-        {
+        if (HidTools.GetInstance().IsDeviceConnected)
             statusLabel.Content = "连接状态：已连接";
-        }
         else
-        {
             statusLabel.Content = "连接状态：未连接";
-        }
-        HIDTools.getInstance().updateLabel = connected =>
+        HidTools.GetInstance().UpdateLabel = connected =>
         {
             Dispatcher.UIThread.Post(() =>
             {
                 if (connected)
-                {
                     statusLabel.Content = "连接状态：已连接";
-                }
                 else
-                {
                     statusLabel.Content = "连接状态：未连接";
-                }
             });
         };
-        HIDTools.getInstance().findAndConnect();
+        HidTools.GetInstance().FindAndConnect();
     }
-    
-    
+
 
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -89,7 +74,7 @@ public partial class MainWindow : Window
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         Close();
-        if (!devSwitchFlag) Environment.Exit(0);
+        if (!_devSwitchFlag) Environment.Exit(0);
     }
 
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
@@ -97,17 +82,17 @@ public partial class MainWindow : Window
         // if (e.Action.Equals(NotifyCollectionChangedAction.Add) ||
         //     e.Action.Equals(NotifyCollectionChangedAction.Remove))
         // {
-        calcSeq();
-        AppData.getInstance().channelList[currentArea] = listItems.ToArray();
+        CalcSeq();
+        AppData.GetInstance().ChannelList[CurrentArea] = ListItems.ToArray();
         // }
     }
 
-    private void calcSeq()
+    private void CalcSeq()
     {
-        for (var i = 0; i < listItems.Count; i++) listItems[i].Id = i + 1;
+        for (var i = 0; i < ListItems.Count; i++) ListItems[i].Id = i + 1;
     }
 
-    private string calcNameSize(string name)
+    private string CalcNameSize(string name)
     {
         var num = 0;
         var num2 = 0;
@@ -136,36 +121,36 @@ public partial class MainWindow : Window
         return text;
     }
 
-    private void setArea(int area)
+    private void SetArea(int area)
     {
-        currentArea = area;
-        var tmpChannel = AppData.getInstance().channelList[area];
-        listItems.Clear();
-        for (var i = 0; i < tmpChannel.Length; i++) listItems.Add(tmpChannel[i]);
-        areaName.Text = AppData.getInstance().bankName[area];
+        CurrentArea = area;
+        var tmpChannel = AppData.GetInstance().ChannelList[area];
+        ListItems.Clear();
+        for (var i = 0; i < tmpChannel.Length; i++) ListItems.Add(tmpChannel[i]);
+        areaName.Text = AppData.GetInstance().BankName[area];
         areaLabel.Content = $"{area + 1}/30";
     }
 
     private async void readChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        await new ProgressBarWindow(OP_TYPE.READ).ShowDialog(this);
-        setArea(0);
+        await new ProgressBarWindow(OpType.Read).ShowDialog(this);
+        SetArea(0);
     }
 
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        await new ProgressBarWindow(OP_TYPE.WRITE).ShowDialog(this);
-        setArea(0);
+        await new ProgressBarWindow(OpType.Write).ShowDialog(this);
+        SetArea(0);
     }
 
     private void foreChan_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (currentArea > 0) setArea(currentArea - 1);
+        if (CurrentArea > 0) SetArea(CurrentArea - 1);
     }
 
     private void nextChan_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (currentArea < 29) setArea(currentArea + 1);
+        if (CurrentArea < 29) SetArea(CurrentArea + 1);
     }
 
     private void jumpChan_OnClick(object? sender, RoutedEventArgs e)
@@ -174,7 +159,7 @@ public partial class MainWindow : Window
         int res;
         if (int.TryParse(tarChan, out res))
             if (res is > 0 and < 31)
-                setArea(res - 1);
+                SetArea(res - 1);
 
         jumpTextBox.Text = "";
     }
@@ -193,15 +178,15 @@ public partial class MainWindow : Window
     {
         if (string.IsNullOrEmpty(areaName.Text))
         {
-            areaName.Text = AppData.getInstance().bankName[currentArea];
+            areaName.Text = AppData.GetInstance().BankName[CurrentArea];
             return;
         }
 
-        areaName.Text = calcNameSize(areaName.Text);
-        AppData.getInstance().bankName[currentArea] = calcNameSize(areaName.Text);
+        areaName.Text = CalcNameSize(areaName.Text);
+        AppData.GetInstance().BankName[CurrentArea] = CalcNameSize(areaName.Text);
     }
 
-    private string freqChecker(string text)
+    private string FreqChecker(string text)
     {
         var num = 0;
         // 检查频率范围
@@ -215,7 +200,7 @@ public partial class MainWindow : Window
         var list = new List<int>();
         for (var j = 0; j < array.Length; j++) list.Add(int.Parse(array[j]));
 
-        if (list[0] < FREQ.minFreq || list[0] >= FREQ.maxFreq)
+        if (list[0] < Freq.MinFreq || list[0] >= Freq.MaxFreq)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "输入频率格式有误").ShowWindowDialogAsync(this);
             return "-1";
@@ -249,16 +234,16 @@ public partial class MainWindow : Window
         var id = dataContext.Id;
         if (string.IsNullOrEmpty(dataContext.TxFreq)) return;
 
-        var parsed = freqChecker(dataContext.TxFreq);
+        var parsed = FreqChecker(dataContext.TxFreq);
         if (parsed.Equals("-1"))
         {
             dataContext.TxFreq = "";
-            listItems[id - 1] = dataContext;
+            ListItems[id - 1] = dataContext;
             return;
         }
 
         dataContext.TxFreq = parsed;
-        listItems[id - 1] = dataContext;
+        ListItems[id - 1] = dataContext;
     }
 
     private void rxfreq_OnLostFocus(object? sender, RoutedEventArgs e)
@@ -268,11 +253,11 @@ public partial class MainWindow : Window
         var id = dataContext.Id;
         if (string.IsNullOrEmpty(dataContext.RxFreq)) return;
 
-        var parsed = freqChecker(dataContext.RxFreq);
+        var parsed = FreqChecker(dataContext.RxFreq);
         if (parsed.Equals("-1"))
         {
             dataContext.RxFreq = "";
-            listItems[id - 1] = dataContext;
+            ListItems[id - 1] = dataContext;
             return;
         }
 
@@ -295,18 +280,18 @@ public partial class MainWindow : Window
                 SignalSystem = 0,
                 IsVisable = true
             };
-            listItems[id - 1] = data;
+            ListItems[id - 1] = data;
         }
         else
         {
             dataContext.RxFreq = parsed;
-            listItems[id - 1] = dataContext;
+            ListItems[id - 1] = dataContext;
         }
     }
 
     private void SwitchDevice_OnClick(object? sender, RoutedEventArgs e)
     {
-        devSwitchFlag = true;
+        _devSwitchFlag = true;
         new DeviceSelectWindow().Show();
         Close();
     }
@@ -314,44 +299,44 @@ public partial class MainWindow : Window
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        copiedChannel = listItems[selected];
+        _copiedChannel = ListItems[selected];
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        copiedChannel = listItems[selected].DeepCopy();
-        listItems[selected] = new Channel();
-        calcSeq();
+        _copiedChannel = ListItems[selected].DeepCopy();
+        ListItems[selected] = new Channel();
+        CalcSeq();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (copiedChannel == null) return;
+        if (_copiedChannel == null) return;
         var selected = channelDataGrid.SelectedIndex;
-        listItems[selected] = copiedChannel.DeepCopy();
-        calcSeq();
+        ListItems[selected] = _copiedChannel.DeepCopy();
+        CalcSeq();
     }
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        listItems[selected] = new Channel();
-        calcSeq();
+        ListItems[selected] = new Channel();
+        CalcSeq();
     }
 
     private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        for (var i = selected; i < 31; i++) listItems[i] = listItems[i + 1];
-        listItems[31] = new Channel();
-        calcSeq();
+        for (var i = selected; i < 31; i++) ListItems[i] = ListItems[i + 1];
+        ListItems[31] = new Channel();
+        CalcSeq();
     }
 
     private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
-        if (listItems[31].IsVisable)
+        if (ListItems[31].IsVisable)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "信道32不为空无法插入！").ShowWindowDialogAsync(this);
             return;
@@ -359,28 +344,28 @@ public partial class MainWindow : Window
 
         var lastEmp = 0;
         for (var i = 0; i < 31; i++)
-            if (listItems[i].IsVisable)
+            if (ListItems[i].IsVisable)
                 lastEmp = i;
 
-        for (var i = lastEmp; i > selected; i--) listItems[i + 1] = listItems[i];
+        for (var i = lastEmp; i > selected; i--) ListItems[i + 1] = ListItems[i];
 
-        listItems[selected + 1] = new Channel();
-        calcSeq();
+        ListItems[selected + 1] = new Channel();
+        CalcSeq();
     }
 
     private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var cached_channel = new ObservableCollection<Channel>();
-        for (var i = 0; i < 32; i++) cached_channel.Add(new Channel());
-        var channel_cursor = 0;
+        var cachedChannel = new ObservableCollection<Channel>();
+        for (var i = 0; i < 32; i++) cachedChannel.Add(new Channel());
+        var channelCursor = 0;
         for (var i = 0; i < 32; i++)
-            if (listItems[i].IsVisable)
-                cached_channel[channel_cursor++] = listItems[i].DeepCopy();
+            if (ListItems[i].IsVisable)
+                cachedChannel[channelCursor++] = ListItems[i].DeepCopy();
 
-        for (var i = 0; i < channel_cursor; i++) listItems[i] = cached_channel[i].DeepCopy();
+        for (var i = 0; i < channelCursor; i++) ListItems[i] = cachedChannel[i].DeepCopy();
 
-        for (var i = channel_cursor; i < 32; i++) listItems[i] = new Channel();
-        calcSeq();
+        for (var i = channelCursor; i < 32; i++) ListItems[i] = new Channel();
+        CalcSeq();
     }
 
     private void VfoMenuItem_OnClick(object? sender, RoutedEventArgs e)
@@ -396,12 +381,12 @@ public partial class MainWindow : Window
 
     private void FMMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new FMWindow().ShowDialog(this);
+        new FmWindow().ShowDialog(this);
     }
 
     private void DTMFMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new DTMFWindow().ShowDialog(this);
+        new DtmfWindow().ShowDialog(this);
     }
 
     private async void NewFileMenuItem_OnClick(object? sender, RoutedEventArgs e)
@@ -412,18 +397,18 @@ public partial class MainWindow : Window
 
         var result = await box.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;
-        AppData.forceNewInstance();
-        setArea(0);
+        AppData.ForceNewInstance();
+        SetArea(0);
     }
 
     private void SaveFileMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(filePath))
+        if (!string.IsNullOrEmpty(_filePath))
         {
-            Stream stream = new FileStream(filePath, FileMode.OpenOrCreate);
+            Stream stream = new FileStream(_filePath, FileMode.OpenOrCreate);
             stream.Seek(0L, SeekOrigin.Begin);
             stream.SetLength(0L);
-            AppData.getInstance().SaveToFile(stream);
+            AppData.GetInstance().SaveToFile(stream);
             stream.Close();
         }
         else
@@ -443,11 +428,11 @@ public partial class MainWindow : Window
         });
         if (file is not null)
         {
-            filePath = new Uri(file.Path.ToString()).LocalPath;
+            _filePath = new Uri(file.Path.ToString()).LocalPath;
             await using var stream = await file.OpenWriteAsync();
             stream.Seek(0L, SeekOrigin.Begin);
             stream.SetLength(0L);
-            AppData.getInstance().SaveToFile(stream);
+            AppData.GetInstance().SaveToFile(stream);
             stream.Close();
         }
     }
@@ -470,85 +455,81 @@ public partial class MainWindow : Window
         {
             await using var stream = await files[0].OpenReadAsync();
             AppData.CreatObjFromFile(stream);
-            setArea(0);
+            SetArea(0);
         }
     }
 
     private void ConnectMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         var hint = new HintWindow();
-        hint.setLabelStatus("(此为调试功能，正常情况软件会自动连接GT12)");
-        hint.setButtonStatus(false);
+        hint.SetLabelStatus("(此为调试功能，正常情况软件会自动连接GT12)");
+        hint.SetButtonStatus(false);
         hint.ShowDialog(this);
-        
-        hint.setLabelStatus("-------所有HID设备-------");
-        foreach (var hidDevice in HIDTools.getAllHIDDevices())
+
+        hint.SetLabelStatus("-------所有HID设备-------");
+        foreach (var hidDevice in HidTools.GetAllHidDevices())
         {
-            hint.setLabelStatus($"设备名：{hidDevice.GetProductName()}");
+            hint.SetLabelStatus($"设备名：{hidDevice.GetProductName()}");
             // hint.setLabelStatus($"序列号：{hidDevice.GetSerialNumber()}");
-            hint.setLabelStatus($"VID：{hidDevice.VendorID}");
-            hint.setLabelStatus($"PID：{hidDevice.ProductID}");
-            hint.setLabelStatus($"路径：{hidDevice.DevicePath}");
-            hint.setLabelStatus("----------------");
+            hint.SetLabelStatus($"VID：{hidDevice.VendorID}");
+            hint.SetLabelStatus($"PID：{hidDevice.ProductID}");
+            hint.SetLabelStatus($"路径：{hidDevice.DevicePath}");
+            hint.SetLabelStatus("----------------");
         }
-        
-        if (HIDTools.getInstance().findAndConnect()==HID_STATUS.SUCCESS)
+
+        if (HidTools.GetInstance().FindAndConnect() == HidStatus.Success)
         {
-            hint.setLabelStatus("连接成功!");
-            hint.setLabelStatus("-------设备信息-------");
-            var gt12 = HIDTools.getInstance().Gt12Device;
-            hint.setLabelStatus($"最大输入长度：{gt12.GetMaxInputReportLength()}");
-            hint.setLabelStatus($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
-            hint.setLabelStatus($"PID：{gt12.ProductID}");
-            hint.setLabelStatus($"VID：{gt12.VendorID}");
-            hint.setLabelStatus($"设备路径：{gt12.DevicePath}");
+            hint.SetLabelStatus("连接成功!");
+            hint.SetLabelStatus("-------设备信息-------");
+            var gt12 = HidTools.GetInstance().Gt12Device;
+            hint.SetLabelStatus($"最大输入长度：{gt12.GetMaxInputReportLength()}");
+            hint.SetLabelStatus($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
+            hint.SetLabelStatus($"PID：{gt12.ProductID}");
+            hint.SetLabelStatus($"VID：{gt12.VendorID}");
+            hint.SetLabelStatus($"设备路径：{gt12.DevicePath}");
             // hint.setLabelStatus($"序列号：{gt12.GetSerialNumber()}");
-            hint.setLabelStatus($"设备名：{gt12.GetProductName()}");
+            hint.SetLabelStatus($"设备名：{gt12.GetProductName()}");
             // hint.setLabelStatus($"文件系统名：{gt12.GetFileSystemName()}");
             // hint.setLabelStatus($"ReNumber：{gt12.ReleaseNumber}");
         }
         else
         {
-            hint.setLabelStatus("连接失败！");
+            hint.SetLabelStatus("连接失败！");
         }
-        hint.setButtonStatus(true);
+
+        hint.SetButtonStatus(true);
     }
 
     private async void BTMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        osBLE?.Dispose();
-        osBLE = new GenerticSHXBLE();
+        _osBle?.Dispose();
+        _osBle = new GenerticShxble();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            var res = await MessageBoxManager.GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？",ButtonEnum.YesNo).ShowWindowDialogAsync(this);
-            if (res.Equals(ButtonResult.No))
-            {
-                return;
-            }
+            var res = await MessageBoxManager
+                .GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？", ButtonEnum.YesNo)
+                .ShowWindowDialogAsync(this);
+            if (res.Equals(ButtonResult.No)) return;
         }
 #if WINDOWS
-        osBLE = new WindowsSHXBLE();
+        _osBle = new WindowsShxble();
 #endif
-        osBLE.setStatusUpdater((status =>
+        _osBle.SetStatusUpdater(status =>
         {
             Dispatcher.UIThread.Post(() =>
             {
                 if (status)
-                {
                     statusLabel.Content = "连接状态：蓝牙已连接";
-                }
                 else
-                {
                     statusLabel.Content = "连接状态：蓝牙未连接";
-                }
             });
-        } ));
+        });
         await MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙写频速度真的超级慢...如非紧急情况建议使用写频线").ShowWindowDialogAsync(this);
         // Console.WriteLine("Requesting Bluetooth Device...");
         // for windows and macoos
         try
         {
-            var available = await osBLE.GetBLEAvailabilityAsync();
+            var available = await _osBle.GetBleAvailabilityAsync();
             // var available = true;
             if (!available)
             {
@@ -563,22 +544,22 @@ public partial class MainWindow : Window
         }
 
         var hint = new HintWindow();
-        hint.setLabelStatus("自动搜索中...");
-        hint.setButtonStatus(false);
+        hint.SetLabelStatus("自动搜索中...");
+        hint.SetButtonStatus(false);
         hint.ShowDialog(this);
 
-        if (!await osBLE.ScanForSHXAsync())
+        if (!await _osBle.ScanForShxAsync())
         {
-            hint.setLabelStatus("未找到设备！\n您可能需要重启软件！");
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
+            hint.SetButtonStatus(true);
             return;
         }
 
-        hint.setLabelStatus("已找到设备,尝试连接中...");
+        hint.SetLabelStatus("已找到设备,尝试连接中...");
         // Get Char.....
         try
         {
-            await osBLE.ConnectSHXDeviceAsync();
+            await _osBle.ConnectShxDeviceAsync();
         }
 #if __LINUX__
         catch (Tmds.DBus.DBusException)
@@ -590,29 +571,29 @@ public partial class MainWindow : Window
 #endif
         catch (Exception ea)
         {
-            hint.setLabelStatus("连接失败！" + ea.Message);
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("连接失败！" + ea.Message);
+            hint.SetButtonStatus(true);
             return;
         }
 
         // Console.WriteLine("Connected");
-        if (!await osBLE.ConnectSHXRWServiceAsync())
+        if (!await _osBle.ConnectShxRwServiceAsync())
         {
-            hint.setLabelStatus("未找到写特征\n确认您使用的是GT12");
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("未找到写特征\n确认您使用的是GT12");
+            hint.SetButtonStatus(true);
             return;
         }
 
 
-        if (!await osBLE.ConnectSHXRWCharacteristicAsync())
+        if (!await _osBle.ConnectShxRwCharacteristicAsync())
         {
-            hint.setLabelStatus("未找到写特征\n确认您使用的是GT12");
-            hint.setButtonStatus(true);
+            hint.SetLabelStatus("未找到写特征\n确认您使用的是GT12");
+            hint.SetButtonStatus(true);
             return;
         }
 
-        osBLE.RegisterHID();
-        hint.setLabelStatus("连接成功！\n请点击关闭，并进行读写频");
-        hint.setButtonStatus(true);
+        _osBle.RegisterHid();
+        hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
+        hint.SetButtonStatus(true);
     }
 }
