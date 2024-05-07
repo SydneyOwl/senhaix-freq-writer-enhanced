@@ -183,7 +183,7 @@
                         <MenuItem Header="复制" Click="MenuCopyChannel_OnClick" />
                         <MenuItem Header="剪切" Click="MenuCutChannel_OnClick" />
                         <MenuItem Header="粘贴" Click="MenuPasteChannel_OnClick" />
-                        <MenuItem Header="清空该信道" Click="MenuClrChannel_OnClick" />
+                        <MenuItem Header="清空选中的信道" Click="MenuClrChannel_OnClick" />
                         <MenuItem Header="删除该信道" Click="MenuDelChannel_OnClick" />
                         <MenuItem Header="插入空信道" Click="MenuInsChannel_OnClick" />
                         <MenuItem Header="合并非空信道" Click="MenuComChannel_OnClick" />

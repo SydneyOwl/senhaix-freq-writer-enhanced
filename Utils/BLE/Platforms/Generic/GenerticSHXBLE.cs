@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using InTheHand.Bluetooth;
@@ -17,6 +18,10 @@ public class GenerticShxble : IBluetooth
 
     public Task<bool> GetBleAvailabilityAsync()
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return Task.Run(()=> false);
+        }
         return Bluetooth.GetAvailabilityAsync();
     }
 

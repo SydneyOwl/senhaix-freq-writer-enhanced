@@ -320,8 +320,17 @@ public partial class MainWindow : Window
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var selected = channelDataGrid.SelectedIndex;
-        ListItems[selected] = new Channel();
+        var selected = new List<int>();
+        foreach (var selectedItem in channelDataGrid.SelectedItems)
+        {
+            selected.Add((((Channel)selectedItem).Id)-1);
+        }
+        foreach (var o in selected)
+        {
+            ListItems[o] = new Channel();
+        }
+        // var selected = channelDataGrid.SelectedIndex;
+        // ListItems[selected] = new Channel();
         CalcSeq();
     }
 
@@ -504,13 +513,6 @@ public partial class MainWindow : Window
     {
         _osBle?.Dispose();
         _osBle = new GenerticShxble();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            var res = await MessageBoxManager
-                .GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？", ButtonEnum.YesNo)
-                .ShowWindowDialogAsync(this);
-            if (res.Equals(ButtonResult.No)) return;
-        }
 #if WINDOWS
         _osBle = new WindowsShxble();
 #endif
@@ -524,8 +526,6 @@ public partial class MainWindow : Window
                     statusLabel.Content = "连接状态：蓝牙未连接";
             });
         });
-        await MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙写频速度真的超级慢...如非紧急情况建议使用写频线").ShowWindowDialogAsync(this);
-        // Console.WriteLine("Requesting Bluetooth Device...");
         // for windows and macoos
         try
         {

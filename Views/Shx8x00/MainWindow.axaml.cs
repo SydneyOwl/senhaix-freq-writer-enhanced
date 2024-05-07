@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
@@ -322,27 +323,12 @@ public partial class MainWindow : Window
 
     private void ForceRefreshUi()
     {
-        // Deprecated!
-        //
-        //
-        // var tmp = ClassTheRadioData.getInstance().chanData.ToList();
-        // listItems.Clear();
-        // foreach (var channelData in tmp)
-        // {
-        //     listItems.Add(channelData);
-        // }
     }
 
-    // private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
-    // {
-    //     ClassTheRadioData.getInstance().sort();
-    //     Console.Write("ca;;ed");
-    // }
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = channelDataGrid.SelectedIndex;
         _tmpChannel = ListItems[selected];
-        ForceRefreshUi();
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -351,7 +337,6 @@ public partial class MainWindow : Window
         _tmpChannel = ListItems[selected].DeepCopy();
         ListItems[selected] = new ChannelData();
         CalcSequence();
-        ForceRefreshUi();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -360,15 +345,22 @@ public partial class MainWindow : Window
         var selected = channelDataGrid.SelectedIndex;
         ListItems[selected] = _tmpChannel.DeepCopy();
         CalcSequence();
-        ForceRefreshUi();
     }
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var selected = channelDataGrid.SelectedIndex;
-        ListItems[selected] = new ChannelData();
+        var selected = new List<int>();
+        foreach (var selectedItem in channelDataGrid.SelectedItems)
+        {
+            selected.Add(int.Parse(((ChannelData)selectedItem).ChanNum));
+        }
+        foreach (var o in selected)
+        {
+            ListItems[o] = new ChannelData();
+        }
+        // var selected = channelDataGrid.SelectedIndex;
+        // ListItems[selected] = new ChannelData();
         CalcSequence();
-        ForceRefreshUi();
     }
 
     private void MenuDelChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -377,7 +369,6 @@ public partial class MainWindow : Window
         for (var i = selected; i < 127; i++) ListItems[i] = ListItems[i + 1];
         ListItems[127] = new ChannelData();
         CalcSequence();
-        ForceRefreshUi();
     }
 
     private void MenuInsChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -398,7 +389,6 @@ public partial class MainWindow : Window
 
         ListItems[selected + 1] = new ChannelData();
         CalcSequence();
-        ForceRefreshUi();
     }
 
     private void MenuComChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -415,7 +405,6 @@ public partial class MainWindow : Window
 
         for (var i = channelCursor; i < 128; i++) ListItems[i] = new ChannelData();
         CalcSequence();
-        ForceRefreshUi();
     }
 
     private void CalcSequence()
@@ -427,18 +416,9 @@ public partial class MainWindow : Window
     {
         _osBle?.Dispose();
         _osBle = new GenerticShxble();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            var res = await MessageBoxManager
-                .GetMessageBoxStandard("注意", "macOS和Linux的写频支持不完整！您要继续吗？", ButtonEnum.YesNo)
-                .ShowWindowDialogAsync(this);
-            if (res.Equals(ButtonResult.No)) return;
-        }
 #if WINDOWS
         _osBle = new WindowsShxble();
 #endif
-        // Console.WriteLine("Requesting Bluetooth Device...");
-        // for windows and macoos
         try
         {
             var available = await _osBle.GetBleAvailabilityAsync();

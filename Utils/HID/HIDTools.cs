@@ -229,7 +229,7 @@ public class HidTools
                     ? OutputReportLength - 1
                     : r.ReportBuff.Length;
                 for (var i = 0; i < num; i++) array[i] = r.ReportBuff[i];
-                Console.WriteLine(OutputReportLength);
+                // Console.WriteLine(OutputReportLength);
                 HidStream.Write(array, 0, OutputReportLength);
             }
 
@@ -237,7 +237,7 @@ public class HidTools
         }
         catch (Exception ex)
         {
-            Console.WriteLine("stop write. due to." + ex.Message);
+            // Console.WriteLine("stop write. due to." + ex.Message);
             // CloseDevice();
             return HidStatus.NoDeviceConnected;
         }

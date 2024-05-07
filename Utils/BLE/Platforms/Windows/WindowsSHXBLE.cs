@@ -381,18 +381,18 @@ public class WindowsShxble : IBluetooth
             if (!_asyncLock)
             {
                 _asyncLock = true;
-                Console.WriteLine("设备已断开");
+                // Console.WriteLine("设备已断开");
                 Dispose();
             }
         }
         else
         {
-            Console.WriteLine("connected");
+            // Console.WriteLine("connected");
             StatusUpdate(true);
             if (!_asyncLock)
             {
                 _asyncLock = true;
-                Console.WriteLine("设备已连接");
+                // Console.WriteLine("设备已连接");
                 // meg.Text = "蓝牙（已连接）";
             }
         }
