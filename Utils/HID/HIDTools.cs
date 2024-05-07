@@ -83,7 +83,7 @@ public class HidTools
                 }
             };
 #else
-            Task.Run(()=>instance.pollDevStatus(instance.pollTokenSource.Token));
+            Task.Run(()=>_instance.PollDevStatus(_instance._pollTokenSource.Token));
 #endif
         }
 
