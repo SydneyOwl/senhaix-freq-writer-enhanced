@@ -107,8 +107,8 @@
                           SelectedIndex="{Binding Func.PttDly}" />
                 <Label Content="发射结束提示音" Canvas.Top="180" Canvas.Left="450" />
                 <ComboBox Canvas.Top="175" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FunctionChoice.Beep}"
-                          SelectedIndex="{Binding Func.Beep}" />
+                          ItemsSource="{x:Static constants:FunctionChoice.Roger}"
+                          SelectedIndex="{Binding Func.Roger}" />
             </Canvas>
         </TabItem>
 

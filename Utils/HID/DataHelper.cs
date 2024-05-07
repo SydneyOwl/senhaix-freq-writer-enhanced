@@ -11,6 +11,7 @@ public class DataHelper
     private ushort _crc;
 
     public HidErrors ErrorCode;
+    
     private byte _header = 170;
 
     private byte _lenOfPackage;

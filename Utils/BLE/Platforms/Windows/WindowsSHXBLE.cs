@@ -210,7 +210,7 @@ public class WindowsShxble : IBluetooth
     {
         if (CurrentWriteCharacteristic != null)
             CurrentWriteCharacteristic.WriteValueAsync(CryptographicBuffer.CreateFromByteArray(data),
-                GattWriteOption.WriteWithResponse).Completed = (asyncInfo, asyncStatus) =>
+                GattWriteOption.WriteWithoutResponse).Completed = (asyncInfo, asyncStatus) =>
             {
                 if (asyncStatus == AsyncStatus.Completed)
                 {

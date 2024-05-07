@@ -311,10 +311,7 @@ public class HidCommunication
                             if (AppData.FunCfgs.CallSign != null && AppData.FunCfgs.CallSign != "")
                             {
                                 var bytes = Encoding.GetEncoding("gb2312").GetBytes(AppData.FunCfgs.CallSign);
-                                Debug.WriteLine($"Callsign: {AppData.FunCfgs.CallSign}");
                                 var array2 = bytes;
-                                foreach (var b2 in array2) Debug.WriteLine($"Byte: {b2}");
-
                                 Array.Copy(bytes, 0, array, 10, bytes.Length);
                             }
                         }
