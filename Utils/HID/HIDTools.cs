@@ -50,9 +50,7 @@ public class HidTools
 
     public static bool IsShxhidExist()
     {
-        var instance = new HidTools();
-        instance.DevList = DeviceList.Local;
-        return instance.DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) != null;
+        return DeviceList.Local.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) != null;
     }
 
     public static List<HidDevice> GetAllHidDevices()
