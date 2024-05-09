@@ -143,11 +143,11 @@
             </StackPanel>
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
-            <StackPanel Orientation="Horizontal">
-                <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" />
-                <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock>
-                <TextBlock Foreground="PaleVioletRed">对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
-            </StackPanel>
+            <!-- <StackPanel Orientation="Horizontal"> -->
+                <!-- <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" /> -->
+                <!-- <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock> -->
+                <TextBlock Foreground="Blue">Tips: 对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
+            <!-- </StackPanel> -->
         </Border>
         <Border Background="{DynamicResource dgvBackgroundBrush}" BorderBrush="Black" BorderThickness="1">
             <DataGrid Margin="20" ItemsSource="{Binding ListItems }" x:Name="channelDataGrid"
