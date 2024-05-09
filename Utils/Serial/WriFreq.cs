@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading;
@@ -201,7 +202,6 @@ internal class WriFreq
                         State = State.HandShakeStep2;
                         break;
                     case State.HandShakeStep2:
-                        await _sP.PreRead();
                         if (_sP.BytesToReadFromCache >= 1)
                         {
                             await _sP.ReadByte(_bufForData, 0, 1);
@@ -212,10 +212,8 @@ internal class WriFreq
                                 State = State.HandShakeStep3;
                             }
                         }
-
                         break;
                     case State.HandShakeStep3:
-                        await _sP.PreRead();
                         if (_sP.BytesToReadFromCache >= 8)
                         {
                             await _sP.ReadByte(_bufForData, 0, 8);
@@ -227,7 +225,6 @@ internal class WriFreq
                                 State = State.WriteStep1;
                             return true;
                         }
-
                         break;
                 }
             }
@@ -239,7 +236,6 @@ internal class WriFreq
                     FlagTransmitting = false;
                     return false;
                 }
-
                 _timesOfRetry--;
                 _flagRetry = false;
                 switch (State)
@@ -255,6 +251,8 @@ internal class WriFreq
 
         return false;
     }
+    
+    
 
     private async Task<bool> ReadChData(CancellationToken cancellationToken)
     {
@@ -272,7 +270,6 @@ internal class WriFreq
                         break;
                     case State.ReadStep2:
                     {
-                        await _sP.PreRead();
                         if (_sP.BytesToReadFromCache < array[3] + 4) break;
                         _timer.Stop();
                         ResetRetryCount();
@@ -686,7 +683,7 @@ internal class WriFreq
                         State = State.WriteStep2;
                         break;
                     case State.WriteStep2:
-                        await _sP.PreRead();
+                        
                         if (_sP.BytesToReadFromCache < 1) break;
                         await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
                         if (_bufForData[0] == 6)
@@ -744,7 +741,7 @@ internal class WriFreq
                         _timer.Start();
                         break;
                     case State.ReadStep2:
-                        await _sP.PreRead();
+                        
                         if (_sP.BytesToReadFromCache < array[3] + 4) break;
                         _timer.Stop();
                         ResetRetryCount();
@@ -819,7 +816,7 @@ internal class WriFreq
                         FlagTransmitting = false;
                         return true;
                     case State.ReadStep3:
-                        await _sP.PreRead();
+                        
                         if (_sP.BytesToReadFromCache >= 1)
                         {
                             _timer.Stop();

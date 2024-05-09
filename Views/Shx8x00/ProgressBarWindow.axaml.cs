@@ -122,7 +122,7 @@ public partial class ProgressBarWindow : Window
 
         while (_wF.FlagTransmitting && !cancellationToken.IsCancellationRequested)
         {
-            // Thread.Sleep(1);
+            Thread.Sleep(10);
             State curr;
             if (!_wF.CurrentProgress.TryDequeue(out curr)) continue;
             switch (curr)

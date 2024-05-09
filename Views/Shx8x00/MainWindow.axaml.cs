@@ -18,6 +18,7 @@ using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
+using SenhaixFreqWriter.Views.Shx8x00.Plugin;
 #if WINDOWS
 using shx.Utils.BLE.Platforms.Windows;
 #endif
@@ -517,5 +518,10 @@ public partial class MainWindow : Window
     {
         await MessageBoxManager.GetMessageBoxStandard("注意", "请在遵守当地无线电管理相关条例的前提下使用本功能！").ShowWindowDialogAsync(this);
         new OtherFunctionWindow().ShowDialog(this);
+    }
+
+    private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new BootImageImportWindow().ShowDialog(this);
     }
 }

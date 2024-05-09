@@ -73,6 +73,7 @@ public partial class ProgressBarWindow : Window
     {
         while (!_stopUpdateValue && !token.IsCancellationRequested)
         {
+            Thread.Sleep(10);
             ProgressBarValue pgv;
             if (!_com.StatusQueue.TryDequeue(out pgv)) continue;
             Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.Content);
