@@ -27,13 +27,11 @@
 
 运行平台：
 
-| -         | 森海克斯8800/8600通用版（Windows/Linux/macOS）                                                    | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
-|-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
+| -                | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------- |
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上             |
 
-[^1]: Windows 7 SP1 is supported
-with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
-installed.
+[^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
 [^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
