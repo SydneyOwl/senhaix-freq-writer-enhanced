@@ -14,8 +14,6 @@ public class HidCommunication
 {
     private readonly DataHelper _helper;
 
-    private readonly HidTools _hid = HidTools.GetInstance();
-
     private readonly OpType _opType;
 
     private readonly string[] _tblCtsdcs = new string[210]
@@ -63,6 +61,8 @@ public class HidCommunication
 
     private byte _timesOfRetry = 5;
 
+    private HidTools _hid = HidTools.GetInstance();
+    
     public ConcurrentQueue<ProgressBarValue> StatusQueue = new();
 
     public HidCommunication(OpType opType)
@@ -93,8 +93,8 @@ public class HidCommunication
 
     public void DataReceived(object sender, byte[] e)
     {
-        HidTools.GetInstance().RxBuffer = e;
-        HidTools.GetInstance().FlagReceiveData = true;
+        _hid.RxBuffer = e;
+        _hid.FlagReceiveData = true;
     }
 
     private void ResetRetryCount()
@@ -106,12 +106,12 @@ public class HidCommunication
     public bool DoIt(CancellationToken token)
     {
 // #if !WINDOWS
-//         HIDTools.getInstance().requestReconnect = true;
+//         hid.requestReconnect = true;
 // #endif
         _flagTransmitting = true;
         ResetRetryCount();
         _step = Step.StepHandshake1;
-        HidTools.GetInstance().FlagReceiveData = false;
+        _hid.FlagReceiveData = false;
         if (HandShake(token))
         {
             if (_opType == OpType.Write)
@@ -139,7 +139,7 @@ public class HidCommunication
                         // Console.WriteLine("strp1");
                         byData = Encoding.ASCII.GetBytes("PROGRAMGT12");
                         byData = _helper.LoadPackage(1, 0, byData, (byte)byData.Length);
-                        HidTools.GetInstance().Send(byData);
+                        _hid.Send(byData);
                         _progressVal = 0;
                         _progressCont = "【如果卡住请插拔写频线或重启设备后重试！】握手...";
                         UpdateProgressBar(_progressVal, _progressCont);
@@ -149,14 +149,14 @@ public class HidCommunication
                         break;
                     case Step.StepHandshake2:
                         // Console.WriteLine("strp2");
-                        if (HidTools.GetInstance().FlagReceiveData)
+                        if (_hid.FlagReceiveData)
                         {
-                            HidTools.GetInstance().FlagReceiveData = false;
-                            _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                            _hid.FlagReceiveData = false;
+                            _helper.AnalyzePackage(_hid.RxBuffer);
                             if (_helper.ErrorCode == HidErrors.ErNone)
                             {
                                 byData = _helper.LoadPackage(2, 0, null, 1);
-                                HidTools.GetInstance().Send(byData);
+                                _hid.Send(byData);
                                 ResetRetryCount();
                                 _step = Step.StepHandshake3;
                             }
@@ -165,14 +165,14 @@ public class HidCommunication
                         break;
                     case Step.StepHandshake3:
                         // Console.WriteLine("strp3");
-                        if (HidTools.GetInstance().FlagReceiveData)
+                        if (_hid.FlagReceiveData)
                         {
-                            HidTools.GetInstance().FlagReceiveData = false;
-                            _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                            _hid.FlagReceiveData = false;
+                            _helper.AnalyzePackage(_hid.RxBuffer);
                             if (_helper.ErrorCode == HidErrors.ErNone)
                             {
                                 byData = _helper.LoadPackage(70, 0, null, 1);
-                                HidTools.GetInstance().Send(byData);
+                                _hid.Send(byData);
                                 ResetRetryCount();
                                 _step = Step.StepHandshake4;
                             }
@@ -181,10 +181,10 @@ public class HidCommunication
                         break;
                     case Step.StepHandshake4:
                         // Console.WriteLine("strp4");
-                        if (!HidTools.GetInstance().FlagReceiveData) break;
+                        if (!_hid.FlagReceiveData) break;
 
-                        HidTools.GetInstance().FlagReceiveData = false;
-                        _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                        _hid.FlagReceiveData = false;
+                        _helper.AnalyzePackage(_hid.RxBuffer);
                         if (_helper.ErrorCode == HidErrors.ErNone)
                         {
                             _timer.Stop();
@@ -216,7 +216,7 @@ public class HidCommunication
 
                 _timesOfRetry--;
                 _flagRetry = false;
-                HidTools.GetInstance().Send(byData);
+                _hid.Send(byData);
             }
 
         return false;
@@ -431,7 +431,7 @@ public class HidCommunication
                         }
 
                         byData = _helper.LoadPackage(87, num, array, (byte)array.Length);
-                        HidTools.GetInstance().Send(byData);
+                        _hid.Send(byData);
                         _timer.Start();
                         _progressVal = num * 100 / 45728;
                         if (_progressVal > 100) _progressVal = 100;
@@ -441,10 +441,10 @@ public class HidCommunication
                         _step = Step.StepWrite2;
                         break;
                     case Step.StepWrite2:
-                        if (!HidTools.GetInstance().FlagReceiveData) break;
+                        if (!_hid.FlagReceiveData) break;
 
-                        HidTools.GetInstance().FlagReceiveData = false;
-                        _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                        _hid.FlagReceiveData = false;
+                        _helper.AnalyzePackage(_hid.RxBuffer);
                         if (_helper.ErrorCode == HidErrors.ErNone)
                         {
                             _timer.Stop();
@@ -478,7 +478,7 @@ public class HidCommunication
 
                 _timesOfRetry--;
                 _flagRetry = false;
-                HidTools.GetInstance().Send(byData);
+                _hid.Send(byData);
             }
 
         return false;
@@ -735,7 +735,7 @@ public class HidCommunication
                 {
                     case Step.StepRead1:
                         byData = _helper.LoadPackage(82, num, null, 1);
-                        HidTools.GetInstance().Send(byData);
+                        _hid.Send(byData);
                         _progressVal = num * 100 / 45728;
                         if (_progressVal > 100) _progressVal = 100;
 
@@ -746,12 +746,12 @@ public class HidCommunication
                         _step = Step.StepRead2;
                         break;
                     case Step.StepRead2:
-                        if (!HidTools.GetInstance().FlagReceiveData) break;
+                        if (!_hid.FlagReceiveData) break;
 
-                        HidTools.GetInstance().FlagReceiveData = false;
+                        _hid.FlagReceiveData = false;
                         _timer.Stop();
                         ResetRetryCount();
-                        _helper.AnalyzePackage(HidTools.GetInstance().RxBuffer);
+                        _helper.AnalyzePackage(_hid.RxBuffer);
                         if (_helper.ErrorCode != HidErrors.ErNone) break;
 
                         if (num < 30720)
@@ -953,7 +953,7 @@ public class HidCommunication
                         _progressCont = "完成";
                         UpdateProgressBar(_progressVal, _progressCont);
                         byData = _helper.LoadPackage(69, 0, null, 1);
-                        HidTools.GetInstance().Send(byData);
+                        _hid.Send(byData);
                         _flagTransmitting = false;
                         return true;
                 }
@@ -969,7 +969,7 @@ public class HidCommunication
 
                 _timesOfRetry--;
                 _flagRetry = false;
-                HidTools.GetInstance().Send(byData);
+                _hid.Send(byData);
             }
 
         return false;

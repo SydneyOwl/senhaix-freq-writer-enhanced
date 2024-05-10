@@ -8,17 +8,18 @@ using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
 using SkiaSharp;
 
-namespace SenhaixFreqWriter.Views.Shx8x00.Plugin;
+namespace SenhaixFreqWriter.Views.Gt12.Plugin;
 
 public partial class BootImageImportWindow : Window
 {
 
     private SKBitmap bitmap;
     private CancellationTokenSource ctx;
-    private WriBootImage boot;
+    private HIDBootImage boot;
     public BootImageImportWindow()
     {
         InitializeComponent();
@@ -44,7 +45,7 @@ public partial class BootImageImportWindow : Window
             return;
         }
         var bitmap = SKBitmap.Decode(files[0].Path.AbsolutePath);
-        if (bitmap.Width!=128 || bitmap.Height!=128)
+        if (bitmap.Width!=240 || bitmap.Height!=320)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
@@ -69,14 +70,14 @@ public partial class BootImageImportWindow : Window
             start.IsEnabled = true;
             return;
         }
-        if (MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
+        if (!HidTools.GetInstance().IsDeviceConnected && HidTools.GetInstance().WriteBle == null)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
             start.IsEnabled = true;
             return;
         }
 
-        boot = new WriBootImage(bitmap);
+        boot = new HIDBootImage(bitmap);
         new Thread(()=>
         {
             startWrite(ctx);
@@ -89,7 +90,7 @@ public partial class BootImageImportWindow : Window
 
     private async void startWrite(CancellationTokenSource source)
     {
-        var res = await boot.WriteImg();
+        var res = boot.WriteImg();
         Dispatcher.UIThread.Invoke(() =>
         {
             start.IsEnabled = true;
@@ -118,6 +119,7 @@ public partial class BootImageImportWindow : Window
             {
                 continue;
             }
+            // Console.Write(curPct);
             Dispatcher.UIThread.Post(() =>
             {
                 pgBar.Value = curPct;

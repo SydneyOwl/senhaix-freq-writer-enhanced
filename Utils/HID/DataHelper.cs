@@ -6,7 +6,7 @@ public class DataHelper
 {
     private ushort _args;
 
-    private byte _command;
+    public byte Command;
 
     private ushort _crc;
 
@@ -46,13 +46,39 @@ public class DataHelper
         array[num + 1] = (byte)_crc;
         return array;
     }
+    
+    public byte[] LoadImgDataPackage(byte cmd, ushort args, byte[] dat, byte len)
+    {
+        byte[] array = new byte[64];
+        if (dat == null)
+        {
+            len = 1;
+        }
+        array[0] = 1;
+        array[1] = (byte)(3 + len + 2);
+        array[2] = cmd;
+        array[3] = (byte)(args >> 8);
+        array[4] = (byte)args;
+        if (dat != null)
+        {
+            for (int i = 0; i < len; i++)
+            {
+                array[5 + i] = dat[i];
+            }
+        }
+        else
+        {
+            array[5] = 0;
+        }
+        return array;
+    }
 
     public int AnalyzePackage(byte[] dat)
     {
         try
         {
             _lenOfPackage = dat[1];
-            _command = dat[2];
+            Command = dat[2];
             _args = (ushort)((dat[3] << 8) | dat[4]);
             ErrorCode = (HidErrors)_args;
             for (var i = 0; i < _lenOfPackage - 5; i++) Payload[i] = dat[i + 5];
@@ -70,7 +96,7 @@ public class DataHelper
         }
     }
 
-    private int CrcValidation(byte[] dat, int offset, int count)
+    public static int CrcValidation(byte[] dat, int offset, int count)
     {
         var num = 0;
         for (var i = 0; i < count; i++)

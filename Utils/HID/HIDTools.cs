@@ -46,7 +46,9 @@ public class HidTools
 
     private CancellationTokenSource _pollTokenSource = new();
 
-    private Mutex _mutex = new();
+    private Mutex _mutexSearch = new();
+
+    private Mutex _mutexSend = new();
 
     public static bool IsShxhidExist()
     {
@@ -112,10 +114,10 @@ public class HidTools
 
     public HidStatus FindAndConnect()
     {
-        _mutex.WaitOne();
+        _mutexSearch.WaitOne();
         if (IsDeviceConnected)
         {
-            _mutex.ReleaseMutex();
+            _mutexSearch.ReleaseMutex();
             return HidStatus.Success;
         }
 
@@ -123,7 +125,7 @@ public class HidTools
         Gt12Device = DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid);
         if (Gt12Device == null)
         {
-            _mutex.ReleaseMutex();
+            _mutexSearch.ReleaseMutex();
             return HidStatus.DeviceNotFound;
         }
 
@@ -137,13 +139,13 @@ public class HidTools
             _instance.IsDeviceConnected = true;
             _instance.UpdateLabel(true);
 
-            _mutex.ReleaseMutex();
+            _mutexSearch.ReleaseMutex();
             return HidStatus.Success;
         }
         else
         {
             // Console.WriteLine("Not Connected");
-            _mutex.ReleaseMutex();
+            _mutexSearch.ReleaseMutex();
             return HidStatus.NoDeviceConnected;
         }
     }
@@ -163,6 +165,7 @@ public class HidTools
             RxBuffer = array1;
             // Console.WriteLine(BitConverter.ToString(rxBuffer));
             FlagReceiveData = true;
+            // Console.Write("Read!");
             BeginAsyncRead();
             // else
             // {
@@ -191,6 +194,7 @@ public class HidTools
     public HidStatus Write(Report r)
     {
         // Console.WriteLine("writing...");
+        _mutexSend.WaitOne();
         try
         {
             if (WriteBle != null)
@@ -222,15 +226,16 @@ public class HidTools
             else
             {
                 var array = new byte[OutputReportLength];
-                var num = 0;
-                num = r.ReportBuff.Length >= OutputReportLength - 1
-                    ? OutputReportLength - 1
-                    : r.ReportBuff.Length;
-                for (var i = 0; i < num; i++) array[i] = r.ReportBuff[i];
+                // var num = 0;
+                // num = r.ReportBuff.Length >= OutputReportLength - 1
+                //     ? OutputReportLength - 1
+                //     : r.ReportBuff.Length;
                 // Console.WriteLine(OutputReportLength);
+                for (var i = 0; i < r.ReportBuff.Length; i++) array[i] = r.ReportBuff[i];
                 HidStream.Write(array, 0, OutputReportLength);
             }
 
+            // Console.Write("Write!");
             return HidStatus.Success;
         }
         catch (Exception ex)
@@ -239,7 +244,10 @@ public class HidTools
             // CloseDevice();
             return HidStatus.NoDeviceConnected;
         }
-
+        finally
+        {
+            _mutexSend.ReleaseMutex();
+        }
         return HidStatus.WriteFaild;
     }
 

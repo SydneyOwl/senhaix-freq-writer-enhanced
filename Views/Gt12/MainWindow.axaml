@@ -89,6 +89,18 @@
                 <!--     </MenuItem.Icon> -->
                 <!-- </MenuItem> -->
             </MenuItem>
+            <MenuItem Header="工具">
+                <MenuItem Header="修改开机画面" Click="BootImageMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource channel_regular}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!-- <MenuItem Header="打星助手"> -->
+                <!--     <MenuItem.Icon> -->
+                <!--         <PathIcon Data="{StaticResource channel_regular}"/> -->
+                <!--     </MenuItem.Icon> -->
+                <!-- </MenuItem> -->
+            </MenuItem>
             <MenuItem Header="其他">
                 <MenuItem Header="主题色">
                     <MenuItem.Icon>

@@ -19,6 +19,7 @@ using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
+using SenhaixFreqWriter.Views.Gt12.Plugin;
 
 #if WINDOWS
 using shx.Utils.BLE.Platforms.Windows;
@@ -595,5 +596,10 @@ public partial class MainWindow : Window
         _osBle.RegisterHid();
         hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
         hint.SetButtonStatus(true);
+    }
+
+    private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new BootImageImportWindow().ShowDialog(this);
     }
 }
