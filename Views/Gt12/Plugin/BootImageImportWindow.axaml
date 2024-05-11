@@ -14,7 +14,7 @@
         <Image Height="320" Width="240" 
                Name="bootImage"
                Canvas.Left="20" Canvas.Top="30"/>
-        <Label Foreground="Red" Canvas.Left="60" Canvas.Bottom="10">尺寸限制：320x240</Label>
+        <Label Foreground="Red" Canvas.Left="80" Canvas.Bottom="10">尺寸限制：320x240，建议bmp格式</Label>
         <Button HorizontalAlignment="Left"  Canvas.Right="20" Canvas.Top="100" Click="OpenImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />

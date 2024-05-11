@@ -50,7 +50,7 @@ public partial class BootImageImportWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
-        if (!bitmap.ColorType.Equals(SKColorType.Bgra8888))
+        if (!bitmap.ColorType.Equals(SKColorType.Bgra8888)&&!bitmap.ColorType.Equals(SKColorType.Rgba8888))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片像素格式不符合要求！").ShowWindowDialogAsync(this);
             return;
