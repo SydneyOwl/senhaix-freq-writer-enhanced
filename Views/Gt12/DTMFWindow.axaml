@@ -9,7 +9,7 @@
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
         Title="DTMF设置">
     <Canvas>
-        <DataGrid Margin="20" x:Name="FMDataGrid"
+        <DataGrid Margin="20" Name="FMDataGrid"
                   GridLinesVisibility="All"
                   BorderThickness="1" BorderBrush="Gray"
                   CanUserSortColumns="False"

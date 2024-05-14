@@ -13,13 +13,14 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
-using SenhaixFreqWriter.Views.Gt12.Plugin;
+using SenhaixFreqWriter.Views.Plugin;
 
 #if WINDOWS
 using shx.Utils.BLE.Platforms.Windows;
@@ -594,6 +595,6 @@ public partial class MainWindow : Window
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BootImageImportWindow().ShowDialog(this);
+        new BootImageImportWindow(SHX_DEVICE.GT12).ShowDialog(this);
     }
 }

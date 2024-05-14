@@ -6,7 +6,7 @@
         WindowStartupLocation="CenterScreen">
     <Canvas>
         <Label Canvas.Top="20" Canvas.Left="10">选择设备:</Label>
-        <ComboBox Canvas.Top="50" Canvas.Left="55" Width="200" x:Name="DeviceChooseComboBox" SelectedIndex="0">
+        <ComboBox Canvas.Top="50" Canvas.Left="55" Width="200" Name="DeviceChooseComboBox" SelectedIndex="0">
             <ComboBoxItem Content="森海克斯8800/8600" />
             <ComboBoxItem Content="森海克斯GT12" />
         </ComboBox>

@@ -1,31 +1,33 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="400" Height="390"
-        x:Class="SenhaixFreqWriter.Views.Gt12.Plugin.BootImageImportWindow"
-        xmlns:vm="using:SenhaixFreqWriter.Views.Gt12.Plugin"
+        x:Class="SenhaixFreqWriter.Views.Plugin.BootImageImportWindow"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:BootImageImportWindow"
         Title="开机图片导入"
         WindowStartupLocation="CenterScreen"
         CanResize="False">
     <Canvas>
-        <Rectangle Height="320" Width="240" Fill="LightGray" Canvas.Left="20" Canvas.Top="30" />
-        <Image Height="320" Width="240"
+        <!-- shx8x00 -->
+        <Rectangle Height="{Binding bootImgHeight}" Width="{Binding bootImgWidth}" Fill="LightGray" 
+                   Canvas.Left="30" Canvas.Top="30" />
+        <Image Height="{Binding bootImgHeight}" Width="{Binding bootImgWidth}"
                Name="bootImage"
-               Canvas.Left="20" Canvas.Top="30" />
-        <Label Foreground="Red" Canvas.Left="80" Canvas.Bottom="10">尺寸限制：320x240，建议bmp格式</Label>
-        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="100" Click="OpenImageButton_OnClick">
+               Canvas.Left="30" Canvas.Top="30" />
+        <Label Foreground="Red" Canvas.Left="10" Canvas.Bottom="15" Content="{Binding hint}"></Label>
+        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="40" Click="OpenImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="打开图片" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="230" Click="ImportButton_OnClick"
-                x:Name="start">
+        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="120" Click="ImportButton_OnClick"
+                Name="start">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="开始导入" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        <ProgressBar Canvas.Bottom="0" Value="0" Width="400" x:Name="pgBar" />
+        <ProgressBar Canvas.Bottom="0" Value="0" Width="400" Name="pgBar" />
     </Canvas>
 </Window>

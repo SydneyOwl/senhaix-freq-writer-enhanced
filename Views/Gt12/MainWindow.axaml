@@ -143,7 +143,7 @@
                         <TextBlock Text="写频" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label Margin="30,7,0,0" Content="连接状态：未连接" x:Name="statusLabel" />
+                <Label Margin="30,7,0,0" Content="连接状态：未连接" Name="statusLabel" />
             </StackPanel>
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
@@ -162,7 +162,7 @@
                         <TextBlock Text="上一区域" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label FontSize="15" Content="1/30" Margin="10,5,10,0" x:Name="areaLabel" />
+                <Label FontSize="15" Content="1/30" Margin="10,5,10,0" Name="areaLabel" />
                 <Button HorizontalAlignment="Left" Margin="0,0,0,0" Click="nextChan_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_down_regular}" Margin="0,0,10,0" />
@@ -170,9 +170,9 @@
                     </StackPanel>
                 </Button>
                 <Label Foreground="Black" FontSize="16" Content="区域名称：" Margin="20,5,0,0" />
-                <TextBox Width="140" FontSize="18" x:Name="areaName" LostFocus="AreaName_OnLostFocus" />
+                <TextBox Width="140" FontSize="18" Name="areaName" LostFocus="AreaName_OnLostFocus" />
                 <Label Foreground="Black" FontSize="16" Content="跳转到区域：" Margin="50,5,0,0" />
-                <TextBox Width="50" FontSize="18" x:Name="jumpTextBox" />
+                <TextBox Width="50" FontSize="18" Name="jumpTextBox" />
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="jumpChan_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="跳转" VerticalAlignment="Center" />
@@ -181,7 +181,7 @@
             </StackPanel>
         </Border>
         <Border Background="{DynamicResource dgvBackgroundBrush}" BorderBrush="Black" BorderThickness="1">
-            <DataGrid Margin="20" ItemsSource="{Binding ListItems }" x:Name="channelDataGrid"
+            <DataGrid Margin="20" ItemsSource="{Binding ListItems }" Name="channelDataGrid"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray"
                       CanUserSortColumns="False"

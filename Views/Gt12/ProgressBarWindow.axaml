@@ -13,7 +13,7 @@
     <Canvas>
         <ProgressBar Margin="0 10" Height="20"
                      Minimum="0" Maximum="100" Value="0"
-                     Width="400" x:Name="progressBar"
+                     Width="400" Name="progressBar"
                      ShowProgressText="True"
                      Canvas.Top="90"
                      Canvas.Left="20" />
@@ -21,18 +21,18 @@
                Canvas.Left="20">
             状态：
         </Label>
-        <Label x:Name="statusLabel" Canvas.Top="70"
+        <Label Name="statusLabel" Canvas.Top="70"
                Canvas.Left="65" FontStyle="Italic">
             等待指令...
         </Label>
         <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                x:Name="StartButton"
+                Name="StartButton"
                 Canvas.Top="160"
                 Canvas.Left="100"
                 Content="开始"
                 Click="StartButton_OnClick" />
         <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                x:Name="CloseButton"
+                Name="CloseButton"
                 Canvas.Top="160"
                 Canvas.Left="260"
                 Content="取消"

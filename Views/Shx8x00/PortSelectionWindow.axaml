@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen">
     <Canvas>
         <Label Canvas.Top="20" Canvas.Left="10">选择端口(点击下拉选择):</Label>
-        <ComboBox Canvas.Top="50" Canvas.Left="70" Width="160" x:Name="PortChooseComboBox"
+        <ComboBox Canvas.Top="50" Canvas.Left="70" Width="160" Name="PortChooseComboBox"
                   ItemsSource="{Binding  PortList}"
                   SelectedValue="{Binding PortName}" SelectedItem="{Binding PortName}" />
 

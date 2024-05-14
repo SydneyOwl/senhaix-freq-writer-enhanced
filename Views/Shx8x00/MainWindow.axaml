@@ -72,7 +72,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="读写频方式设置">
-                <MenuItem Header="写频线" Click="portSel_OnClick" x:Name="cable">
+                <MenuItem Header="写频线" Click="portSel_OnClick" Name="cable">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource usb_stick_regular}" />
                     </MenuItem.Icon>
@@ -149,7 +149,7 @@
             <!-- </StackPanel> -->
         </Border>
         <Border Background="{DynamicResource dgvBackgroundBrush}" BorderBrush="Black" BorderThickness="1">
-            <DataGrid Margin="20" ItemsSource="{Binding ListItems }" x:Name="channelDataGrid"
+            <DataGrid Margin="20" ItemsSource="{Binding ListItems }" Name="channelDataGrid"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray"
                       CanUserSortColumns="False"

@@ -8,7 +8,7 @@
         x:DataType="vm:FmWindow"
         Title="收音机">
     <Canvas>
-        <DataGrid Margin="20" x:Name="FMDataGrid"
+        <DataGrid Margin="20" Name="FMDataGrid"
                   GridLinesVisibility="All"
                   BorderThickness="1" BorderBrush="Gray"
                   CanUserSortColumns="False"

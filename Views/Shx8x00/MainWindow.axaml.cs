@@ -12,13 +12,14 @@ using Avalonia.Styling;
 using InTheHand.Bluetooth;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
-using SenhaixFreqWriter.Views.Shx8x00.Plugin;
+using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
 using shx.Utils.BLE.Platforms.Windows;
 #endif
@@ -517,6 +518,6 @@ public partial class MainWindow : Window
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BootImageImportWindow().ShowDialog(this);
+        new BootImageImportWindow(SHX_DEVICE.SHX8X00).ShowDialog(this);
     }
 }

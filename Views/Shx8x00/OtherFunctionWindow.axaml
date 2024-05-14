@@ -11,21 +11,21 @@
         <Border Height="250" Width="350" Margin="20" BorderThickness="1" BorderBrush="Black" />
         <Label Content="高级设置" Background="White" Canvas.Top="10" Canvas.Left="30" FontSize="20" />
         <Label Content="Vhf频率范围(MHz)" Canvas.Top="50" Canvas.Left="30" />
-        <TextBox x:Name="VhfMinTextBox" Canvas.Top="80" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfVhf}" />
+        <TextBox Name="VhfMinTextBox" Canvas.Top="80" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfVhf}" />
         <Label Content="-" Canvas.Top="85" Canvas.Left="95" />
-        <TextBox x:Name="VhfMaxTextBox" Canvas.Top="80" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfVhf}" />
+        <TextBox Name="VhfMaxTextBox" Canvas.Top="80" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfVhf}" />
 
         <Label Content="Uhf频率范围(MHz)" Canvas.Top="120" Canvas.Left="30" />
-        <TextBox x:Name="UhfMinTextBox" Canvas.Top="150" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfUhf}" />
+        <TextBox Name="UhfMinTextBox" Canvas.Top="150" Canvas.Left="30" Text="{Binding Imf.TheMinFreqOfUhf}" />
         <Label Content="-" Canvas.Top="155" Canvas.Left="95" />
-        <TextBox x:Name="UhfMaxTextBox" Canvas.Top="150" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfUhf}" />
+        <TextBox Name="UhfMaxTextBox" Canvas.Top="150" Canvas.Left="110" Text="{Binding Imf.TheMaxFreqOfUhf}" />
 
         <Label Content="开机字符1" Canvas.Top="50" Canvas.Left="200" />
-        <TextBox x:Name="PwrChar1Box" Canvas.Top="80" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar1}"
+        <TextBox Name="PwrChar1Box" Canvas.Top="80" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar1}"
                  LostFocus="tb_PowerUpChar_TextChanged" />
 
         <Label Content="开机字符2" Canvas.Top="120" Canvas.Left="200" />
-        <TextBox x:Name="PwrChar2Box" Canvas.Top="150" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar2}"
+        <TextBox Name="PwrChar2Box" Canvas.Top="150" Canvas.Left="200" Width="120" Text="{Binding Imf.PowerUpChar2}"
                  LostFocus="tb_PowerUpChar_TextChanged" />
 
         <CheckBox Canvas.Top="200" Canvas.Left="230" IsEnabled="False" />

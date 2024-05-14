@@ -11,11 +11,11 @@
                Source="avares://SenhaixFreqWriter/Asset/shx8800-icons/1024x1024.png" />
         <TextBlock Margin="220,30,0,20" FontWeight="Bold">森海克斯通用写频软件</TextBlock>
         <Label Canvas.Top="50" Canvas.Right="180">For</Label>
-        <Label Canvas.Top="50" Canvas.Right="110" x:Name="windows">Windows</Label>
+        <Label Canvas.Top="50" Canvas.Right="110" Name="windows">Windows</Label>
         <Label Canvas.Top="50" Canvas.Right="100">/</Label>
-        <Label Canvas.Top="50" Canvas.Right="60" x:Name="linux">Linux</Label>
+        <Label Canvas.Top="50" Canvas.Right="60" Name="linux">Linux</Label>
         <Label Canvas.Top="50" Canvas.Right="52">/</Label>
-        <Label Canvas.Top="50" Canvas.Right="0" x:Name="macos">macOS</Label>
+        <Label Canvas.Top="50" Canvas.Right="0" Name="macos">macOS</Label>
 
         <Label Canvas.Right="148" Canvas.Top="75"> 版本号：</Label>
         <Label Content="{x:Static constants:Version.VersionTag}" Canvas.Left="250" Canvas.Top="75" />
