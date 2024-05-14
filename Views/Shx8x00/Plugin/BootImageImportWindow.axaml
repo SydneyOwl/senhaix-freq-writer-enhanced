@@ -1,7 +1,5 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="350" Height="250"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.Plugin.BootImageImportWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00.Plugin"
@@ -10,23 +8,24 @@
         WindowStartupLocation="CenterScreen"
         CanResize="False">
     <Canvas>
-        <Rectangle Height="128" Width="128" Fill="LightGray" Canvas.Left="30" Canvas.Top="70"></Rectangle>
-        <Image Height="128" Width="128" 
+        <Rectangle Height="128" Width="128" Fill="LightGray" Canvas.Left="30" Canvas.Top="70" />
+        <Image Height="128" Width="128"
                Name="bootImage"
-               Canvas.Left="30" Canvas.Top="70"/>
+               Canvas.Left="30" Canvas.Top="70" />
         <Label Foreground="Red" Canvas.Left="50" Canvas.Bottom="15">尺寸限制：128x128，建议bmp格式</Label>
-        <Button HorizontalAlignment="Left"  Canvas.Right="40" Canvas.Top="80" Click="OpenImageButton_OnClick">
+        <Button HorizontalAlignment="Left" Canvas.Right="40" Canvas.Top="80" Click="OpenImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="打开图片" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        <Button HorizontalAlignment="Left"  Canvas.Right="40" Canvas.Top="150" Click="ImportButton_OnClick" x:Name="start">
+        <Button HorizontalAlignment="Left" Canvas.Right="40" Canvas.Top="150" Click="ImportButton_OnClick"
+                x:Name="start">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="开始导入" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        <ProgressBar Canvas.Bottom="0" Value="0" Width="350" x:Name="pgBar"></ProgressBar>
+        <ProgressBar Canvas.Bottom="0" Value="0" Width="350" x:Name="pgBar" />
     </Canvas>
 </Window>

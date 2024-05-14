@@ -13,7 +13,6 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class DtmfWindow : Window
 {
-    
     private ObservableCollection<DtmpObject> _dtmfs = new();
 
     private int _wordTime = AppData.GetInstance().Dtmfs.WordTime;
@@ -21,7 +20,7 @@ public partial class DtmfWindow : Window
     private int _idleTime = AppData.GetInstance().Dtmfs.IdleTime;
 
     private string _myId = AppData.GetInstance().Dtmfs.LocalId;
-    
+
     public int WordTime
     {
         get => _wordTime;

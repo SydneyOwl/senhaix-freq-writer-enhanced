@@ -10,7 +10,7 @@ public partial class ChannelData : ObservableObject
 {
     [ObservableProperty] private string _bandWidth = "";
 
-    [ObservableProperty] private string _busyLock;
+    [ObservableProperty] private string _busyLock = "";
 
     [ObservableProperty] private string _chanName = "";
 

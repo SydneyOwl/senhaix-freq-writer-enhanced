@@ -77,9 +77,6 @@ public partial class AboutWindow : Window
 
             if (response.IsSuccessStatusCode)
             {
-                var jsonContent = await response.Content.ReadAsStringAsync();
-                var releaseJson = JObject.Parse(jsonContent);
-                var tagTime = (string)releaseJson["published_at"];
                 var currentTagTime = Properties.Version.BuildTime;
                 if (currentTagTime.Equals("@BUILD_TIME@"))
                 {
@@ -87,8 +84,13 @@ public partial class AboutWindow : Window
                     return;
                 }
 
+                var jsonContent = await response.Content.ReadAsStringAsync();
+                var releaseJson = JObject.Parse(jsonContent);
+                var tagTime = (string)releaseJson["published_at"];
                 var tagTimeParsed = DateTime.Parse(tagTime);
                 var curTagTimeParsed = DateTime.Parse(currentTagTime);
+                // 转UTC
+                curTagTimeParsed = curTagTimeParsed.ToUniversalTime();
 
                 // string tagName = ((string)releaseJson["tag_name"]).Replace("v","").Split("-")[0];
                 // string currentTag = Properties.VERSION.Version.Replace("v","").Split("-")[0];

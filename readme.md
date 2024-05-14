@@ -7,7 +7,10 @@
 
 > [!important]
 > + 如有必要，请在任何操作前首先进行备份操作！
-> + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
+> + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`
+    及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**
+    ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
+    下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
 
 ## 简介
 
@@ -27,11 +30,13 @@
 
 运行平台：
 
-| -                | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------- |
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上             |
+| -         | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）                                               | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
+|-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
 
-[^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
+[^1]: Windows 7 SP1 is supported
+with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
+installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
 [^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 

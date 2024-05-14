@@ -6,7 +6,6 @@
         Width="1332" Height="750"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
-        xmlns:verConstants="clr-namespace:SenhaixFreqWriter.Properties"
         Title="森海克斯gt12写频软件"
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
@@ -92,7 +91,7 @@
             <MenuItem Header="工具">
                 <MenuItem Header="修改开机画面" Click="BootImageMenuItem_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource channel_regular}"/>
+                        <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <!-- <MenuItem Header="打星助手"> -->
@@ -149,9 +148,9 @@
         </Border>
         <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
             <!-- <StackPanel Orientation="Horizontal"> -->
-                <!-- <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" /> -->
-                <!-- <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock> -->
-                <TextBlock Foreground="Blue">Tips:对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
+            <!-- <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" /> -->
+            <!-- <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock> -->
+            <TextBlock Foreground="Blue">Tips:对信道进行拖动等操作后序号可能会出现“27”，此时上下拉动右侧滚动条即可</TextBlock>
             <!-- </StackPanel> -->
         </Border>
         <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"

@@ -13,7 +13,7 @@ namespace SenhaixFreqWriter.Views.Gt12;
 public partial class VfoModeWindow : Window
 {
     public VfoInfos VfoInfos { get; set; } = AppData.GetInstance().Vfos;
-    
+
     public VfoModeWindow()
     {
         InitializeComponent();

@@ -36,7 +36,7 @@ public partial class MainWindow : Window
     private bool _devSwitchFlag = false;
 
     private IBluetooth _osBle;
-    
+
     public ObservableCollection<ChannelData> ListItems
     {
         get => _listItems;
@@ -46,7 +46,7 @@ public partial class MainWindow : Window
             ClassTheRadioData.GetInstance().ChanData = value;
         }
     }
-    
+
     public MainWindow()
     {
         InitializeComponent();
@@ -352,13 +352,8 @@ public partial class MainWindow : Window
     {
         var selected = new List<int>();
         foreach (var selectedItem in channelDataGrid.SelectedItems)
-        {
             selected.Add(int.Parse(((ChannelData)selectedItem).ChanNum));
-        }
-        foreach (var o in selected)
-        {
-            ListItems[o] = new ChannelData();
-        }
+        foreach (var o in selected) ListItems[o] = new ChannelData();
         // var selected = channelDataGrid.SelectedIndex;
         // ListItems[selected] = new ChannelData();
         CalcSequence();

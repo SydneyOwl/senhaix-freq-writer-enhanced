@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia.Threading;
 using HidSharp;
-using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
 
@@ -34,11 +32,10 @@ public class HidTools
 
     //TODO: enhance
     public byte[] RxBuffer = new byte[64];
+    
     public bool FlagReceiveData;
 
     public delegate Task WriteValueAsync(byte[] value);
-
-    private Queue<byte> _rxData = new(1024);
 
     public WriteValueAsync WriteBle;
 
@@ -83,7 +80,7 @@ public class HidTools
                 }
             };
 #else
-            Task.Run(()=>_instance.PollDevStatus(_instance._pollTokenSource.Token));
+            Task.Run(() => _instance.PollDevStatus(_instance._pollTokenSource.Token));
 #endif
         }
 
@@ -248,6 +245,7 @@ public class HidTools
         {
             _mutexSend.ReleaseMutex();
         }
+
         return HidStatus.WriteFaild;
     }
 

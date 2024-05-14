@@ -15,10 +15,10 @@ namespace SenhaixFreqWriter.Views.Shx8x00.Plugin;
 
 public partial class BootImageImportWindow : Window
 {
-
     private SKBitmap bitmap;
     private CancellationTokenSource ctx;
     private WriBootImage boot;
+
     public BootImageImportWindow()
     {
         InitializeComponent();
@@ -39,23 +39,20 @@ public partial class BootImageImportWindow : Window
                 fileType
             }
         });
-        if (files.Count == 0)
-        {
-            return;
-        }
+        if (files.Count == 0) return;
         var bitmap = SKBitmap.Decode(files[0].Path.AbsolutePath);
-        if (bitmap.Width!=128 || bitmap.Height!=128)
+        if (bitmap.Width != 128 || bitmap.Height != 128)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
-        Console.WriteLine(bitmap.ColorType.ToString());
-        // Console.WriteLine(bitmap.ColorType.Equals(SKColorType.Rgba8888));
-        if (!bitmap.ColorType.Equals(SKColorType.Bgra8888)&&!bitmap.ColorType.Equals(SKColorType.Rgba8888))
+
+        if (!bitmap.ColorType.Equals(SKColorType.Bgra8888) && !bitmap.ColorType.Equals(SKColorType.Rgba8888))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片像素格式不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
+
         this.bitmap = bitmap;
         bootImage.Source = new Bitmap(files[0].Path.AbsolutePath);
     }
@@ -71,6 +68,7 @@ public partial class BootImageImportWindow : Window
             start.IsEnabled = true;
             return;
         }
+
         if (MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
@@ -79,34 +77,21 @@ public partial class BootImageImportWindow : Window
         }
 
         boot = new WriBootImage(bitmap);
-        new Thread(()=>
-        {
-            startWrite(ctx);
-        }).Start();
-        new Thread(()=>
-        {
-            startGetProcess(ctx.Token);
-        }).Start();
+        new Thread(() => { startWrite(ctx); }).Start();
+        new Thread(() => { startGetProcess(ctx.Token); }).Start();
     }
 
     private async void startWrite(CancellationTokenSource source)
     {
         var res = await boot.WriteImg();
-        Dispatcher.UIThread.Invoke(() =>
-        {
-            start.IsEnabled = true;
-        });
+        Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
             if (res)
-            {
                 MessageBoxManager.GetMessageBoxStandard("注意", "成功！").ShowWindowDialogAsync(this);
-            }
             else
-            {
                 MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
-            }
             start.IsEnabled = true;
         });
     }
@@ -116,14 +101,8 @@ public partial class BootImageImportWindow : Window
         while (!token.IsCancellationRequested)
         {
             int curPct;
-            if (!boot.currentProg.TryDequeue(out curPct))
-            {
-                continue;
-            }
-            Dispatcher.UIThread.Post(() =>
-            {
-                pgBar.Value = curPct;
-            });
+            if (!boot.currentProg.TryDequeue(out curPct)) continue;
+            Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
             // Thread.Sleep(10);
         }
     }

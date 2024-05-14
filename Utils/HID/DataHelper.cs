@@ -11,7 +11,7 @@ public class DataHelper
     private ushort _crc;
 
     public HidErrors ErrorCode;
-    
+
     private byte _header = 170;
 
     private byte _lenOfPackage;
@@ -46,30 +46,21 @@ public class DataHelper
         array[num + 1] = (byte)_crc;
         return array;
     }
-    
+
     public byte[] LoadImgDataPackage(byte cmd, ushort args, byte[] dat, byte len)
     {
-        byte[] array = new byte[64];
-        if (dat == null)
-        {
-            len = 1;
-        }
+        var array = new byte[64];
+        if (dat == null) len = 1;
         array[0] = 1;
         array[1] = (byte)(3 + len + 2);
         array[2] = cmd;
         array[3] = (byte)(args >> 8);
         array[4] = (byte)args;
         if (dat != null)
-        {
-            for (int i = 0; i < len; i++)
-            {
+            for (var i = 0; i < len; i++)
                 array[5 + i] = dat[i];
-            }
-        }
         else
-        {
             array[5] = 0;
-        }
         return array;
     }
 

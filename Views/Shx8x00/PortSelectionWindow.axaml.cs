@@ -11,6 +11,7 @@ public partial class PortSelectionWindow : Window
     private string _portName = MySerialPort.GetInstance().TargetPort;
 
     public ObservableCollection<string> PortList { get; set; }
+
     public string PortName
     {
         get => _portName;
@@ -21,6 +22,7 @@ public partial class PortSelectionWindow : Window
             _portName = value;
         }
     }
+
     public PortSelectionWindow()
     {
         string[] portNames = SerialPort.GetPortNames();

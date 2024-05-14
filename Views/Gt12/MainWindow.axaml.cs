@@ -29,8 +29,8 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class MainWindow : Window
 {
-    public ObservableCollection<Channel> ListItems { get; set; }= new();
-    
+    public ObservableCollection<Channel> ListItems { get; set; } = new();
+
     public int CurrentArea = 0;
 
     private bool _devSwitchFlag = false;
@@ -322,14 +322,8 @@ public partial class MainWindow : Window
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)
     {
         var selected = new List<int>();
-        foreach (var selectedItem in channelDataGrid.SelectedItems)
-        {
-            selected.Add((((Channel)selectedItem).Id)-1);
-        }
-        foreach (var o in selected)
-        {
-            ListItems[o] = new Channel();
-        }
+        foreach (var selectedItem in channelDataGrid.SelectedItems) selected.Add(((Channel)selectedItem).Id - 1);
+        foreach (var o in selected) ListItems[o] = new Channel();
         // var selected = channelDataGrid.SelectedIndex;
         // ListItems[selected] = new Channel();
         CalcSeq();

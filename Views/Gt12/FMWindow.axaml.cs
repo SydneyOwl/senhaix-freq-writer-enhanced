@@ -24,7 +24,7 @@ public partial class FmWindow : Window
         get => _fmchannels;
         set => _fmchannels = value;
     }
-    
+
     public string CurFreq
     {
         get => _curFreq;

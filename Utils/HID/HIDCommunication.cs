@@ -62,7 +62,7 @@ public class HidCommunication
     private byte _timesOfRetry = 5;
 
     private HidTools _hid = HidTools.GetInstance();
-    
+
     public ConcurrentQueue<ProgressBarValue> StatusQueue = new();
 
     public HidCommunication(OpType opType)

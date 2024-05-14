@@ -18,10 +18,7 @@ public class GenerticShxble : IBluetooth
 
     public Task<bool> GetBleAvailabilityAsync()
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return Task.Run(()=> false);
-        }
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return Task.Run(() => false);
         return Bluetooth.GetAvailabilityAsync();
     }
 
