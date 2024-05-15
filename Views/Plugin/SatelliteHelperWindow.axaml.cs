@@ -39,13 +39,13 @@ public partial class SatelliteHelperWindow : Window
     {
         if (!File.Exists("./amsat-all-frequencies.json"))
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "未找到卫星数据！").ShowAsync();
+            selectedSatelliteInfo.Text = "未找到卫星数据,请点击更新星历！";
             return;
         }
         var satelliteData = File.ReadAllText("./amsat-all-frequencies.json");
         if (satelliteData == "")
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "卫星数据无效！").ShowAsync();
+            selectedSatelliteInfo.Text = "卫星数据无效,请点击更新星历！";
             return;
         }
 
@@ -54,10 +54,10 @@ public partial class SatelliteHelperWindow : Window
             Dispatcher.UIThread.Invoke(() =>
             {
                 selectedSatelliteInfo.Text = "";
+                modeListBox.Items.Clear();
             });
             satelliteList.Clear();
             namelist.Clear();
-            modeListBox.Items.Clear();
             List<string> nameListCache = new List<string>();
             satelliteJson = JArray.Parse(satelliteData);
             foreach (var b in satelliteJson) nameListCache.Add((string)b["name"]);
@@ -71,10 +71,9 @@ public partial class SatelliteHelperWindow : Window
         catch (Exception e)
         {
             Console.WriteLine(e);
-            MessageBoxManager.GetMessageBoxStandard("注意", "卫星数据无效！").ShowWindowDialogAsync(this);
+            selectedSatelliteInfo.Text = "卫星数据无效,请点击更新星历！";
             return;
         }
-        
     }
 
     private void SearchTextBox_OnTextChanged(object? sender, TextChangedEventArgs e)

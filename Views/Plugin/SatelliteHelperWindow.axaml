@@ -6,7 +6,8 @@
         x:Class="SenhaixFreqWriter.Views.Plugin.SatelliteHelperWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:SatelliteHelperWindow"
-        Title="打星助手">
+        Title="打星助手"
+        CanResize="False">
     <Canvas>
         <Label Content="搜索：" Margin="20"></Label>
         <TextBox Canvas.Top="15" Canvas.Left="70" Width="100" TextChanged="SearchTextBox_OnTextChanged"></TextBox>
