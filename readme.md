@@ -42,14 +42,14 @@ installed.
 
 目前各版本支持的功能：
 
-| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-|--------------------|------------------------------------------------|------------------------------|-----------------------|
-| 原有的所有功能            | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 蓝牙写频               | 仅8800, Windows                                 | 仅蓝牙版支持                       | :heavy_minus_sign:    |
-| （以下为支持的插件）         |                                                |                              |                       |
-| 开机画面修改             | :white_check_mark:                             | :white_check_mark:           | :heavy_minus_sign:    |
-| 打星助手               | 开发中                                            | :white_check_mark:           | :white_check_mark:    |
+| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频                             | 仅8800；目前只在Windows上可用                           | 仅蓝牙版支持                            | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                         |                                         |                              |
+| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
 
 [^4]:该版本自带runtime，无需额外安装
 
