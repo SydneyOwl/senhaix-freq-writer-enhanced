@@ -72,13 +72,13 @@ public partial class BootImageImportWindow : Window
             return;
         }
         
-        if ((bitmap.Width != 128 || bitmap.Height != 128)&&_device==SHX_DEVICE.SHX8X00)
+        if ((bitmap.Width != Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH || bitmap.Height != Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT)&&_device==SHX_DEVICE.SHX8X00)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
         
-        if ((bitmap.Width != 240 || bitmap.Height != 320)&&_device==SHX_DEVICE.GT12)
+        if ((bitmap.Width != Constants.Gt12.OTHERS.BOOT_IMG_WIDTH || bitmap.Height != Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT)&&_device==SHX_DEVICE.GT12)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;

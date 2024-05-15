@@ -34,9 +34,7 @@
 |-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
 | 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
 
-[^1]: Windows 7 SP1 is supported
-with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
-installed.
+[^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
 [^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
@@ -57,12 +55,11 @@ installed.
 
 如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
 
-下面描述的是如何进行手动编译。
+![](./readme_image/artifact.png)
 
-// TODO!
+如您使用`Rider`，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架，直接publish即可！
 
-> [!TIP]
-> 您也可以参考`.github/workflows/build.yml`进行编译。
+如您使用命令行编译，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架后，可以参考`.github/workflows/build.yml`进行编译。
 
 ## 开发指引
 
@@ -79,12 +76,9 @@ installed.
 > [!WARNING]  
 > 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
-卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)
-，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)
-进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
+卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
 
-shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)
-以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
+shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector) 以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
 
 ## 免责声明
 
