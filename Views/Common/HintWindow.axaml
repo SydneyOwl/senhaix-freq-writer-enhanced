@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterScreen">
     <Canvas>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Width="250" Height="250">
-            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" />
+            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" Width="220"/>
         </ScrollViewer>
         <Button Canvas.Bottom="20" Canvas.Left="100" Content="关闭" Name="button" Click="Button_OnClick" />
     </Canvas>

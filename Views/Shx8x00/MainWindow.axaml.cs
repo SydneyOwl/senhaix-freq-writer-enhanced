@@ -520,4 +520,50 @@ public partial class MainWindow : Window
     {
         new BootImageImportWindow(SHX_DEVICE.SHX8X00).ShowDialog(this);
     }
+
+    private void SatMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new SatelliteHelperWindow(InsertNewChannel).ShowDialog(this);
+    }
+    
+    private void InsertNewChannel(string rx, string dec, string tx, string enc, string name)
+    {
+        var lastEmptyIndex = -1;
+        for (var i = ListItems.Count - 1; i >= 0; i--)
+        {
+            if (ListItems[i].AllEmpty())
+            {
+                lastEmptyIndex = i;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (lastEmptyIndex == -1)
+        {
+            throw new IndexOutOfRangeException("信道空间已满，无法插入！");
+        }
+
+        var data = new ChannelData
+        {
+            RxFreq = rx,
+            TxAllow = "Yes",
+            Encrypt = "OFF",
+            Pttid = "OFF",
+            BandWidth = "W",
+            BusyLock = "OFF",
+            QtDec = dec,
+            QtEnc = enc,
+            ScanAdd = "ON",
+            TxPwr = "H",
+            SigCode = "1",
+            ChanNum = lastEmptyIndex.ToString(),
+            TxFreq = tx,
+            IsVisable = true,
+            ChanName = name
+        };
+        ListItems[lastEmptyIndex] = data;
+    }
 }

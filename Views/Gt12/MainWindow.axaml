@@ -94,11 +94,11 @@
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <!-- <MenuItem Header="打星助手"> -->
-                <!--     <MenuItem.Icon> -->
-                <!--         <PathIcon Data="{StaticResource channel_regular}"/> -->
-                <!--     </MenuItem.Icon> -->
-                <!-- </MenuItem> -->
+                <MenuItem Header="打星助手" Click="SatMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource channel_regular}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="其他">
                 <MenuItem Header="主题色">

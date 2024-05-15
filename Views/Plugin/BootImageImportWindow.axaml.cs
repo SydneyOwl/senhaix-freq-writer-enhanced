@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MsBox.Avalonia;
@@ -25,6 +23,8 @@ public partial class BootImageImportWindow : Window
     public int bootImgWidth { get; set; }
     public int bootImgHeight { get; set; }
     
+    public int windowHeight { get; set; }
+    
     public string hint { get; set; }
 
     public BootImageImportWindow(SHX_DEVICE dev)
@@ -36,11 +36,13 @@ public partial class BootImageImportWindow : Window
                 bootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
                 bootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
                 hint = $"尺寸限制：{bootImgWidth}x{bootImgHeight}，建议bmp格式";
+                windowHeight = 200;
                 break;
             case SHX_DEVICE.GT12:
                 bootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
                 bootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
                 hint = $"尺寸限制：{bootImgWidth}x{bootImgHeight}，建议bmp格式";
+                windowHeight = 390;
                 break;
         }
         InitializeComponent();
