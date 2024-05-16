@@ -30,25 +30,37 @@ public partial class SatelliteHelperWindow : Window
     public SatelliteHelperWindow(InsertChannelMethod func)
     {
         InitializeComponent();
-        DataContext = this;
-        LoadJson();
         InsertData = func;
+        DataContext = this;
+        Task.Run(() =>
+        {
+            if (!LoadJson())
+            {
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    selectedSatelliteInfo.Text += "正在为您更新卫星数据...\n";   
+                });
+                FetchData(); 
+            }
+        });
     }
     
-    private void LoadJson()
+    private bool LoadJson()
     {
         if (!File.Exists("./amsat-all-frequencies.json"))
         {
-            selectedSatelliteInfo.Text = "未找到卫星数据,请点击更新星历！";
-            return;
+            Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
+            return false;
         }
         var satelliteData = File.ReadAllText("./amsat-all-frequencies.json");
         if (satelliteData == "")
         {
-            selectedSatelliteInfo.Text = "卫星数据无效,请点击更新星历！";
-            return;
+            Dispatcher.UIThread.Invoke(()=>
+            {
+                return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n";
+            });
+            return false;
         }
-
         try
         {
             Dispatcher.UIThread.Invoke(() =>
@@ -71,9 +83,14 @@ public partial class SatelliteHelperWindow : Window
         catch (Exception e)
         {
             Console.WriteLine(e);
-            selectedSatelliteInfo.Text = "卫星数据无效,请点击更新星历！";
-            return;
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n";
+            });
+            return false;
         }
+
+        return true;
     }
 
     private void SearchTextBox_OnTextChanged(object? sender, TextChangedEventArgs e)
