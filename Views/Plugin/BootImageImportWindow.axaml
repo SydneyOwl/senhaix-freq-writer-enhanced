@@ -1,6 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="400" Height="{Binding windowHeight}"
+        Width="400" Height="{Binding WindowHeight}"
         x:Class="SenhaixFreqWriter.Views.Plugin.BootImageImportWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:BootImageImportWindow"
@@ -9,13 +9,19 @@
         CanResize="False">
     <Canvas>
         <!-- shx8x00 -->
-        <Rectangle Height="{Binding bootImgHeight}" Width="{Binding bootImgWidth}" Fill="LightGray" 
+        <Rectangle Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}" Fill="LightGray" 
                    Canvas.Left="30" Canvas.Top="30" />
-        <Image Height="{Binding bootImgHeight}" Width="{Binding bootImgWidth}"
+        <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
                Name="bootImage"
                Canvas.Left="30" Canvas.Top="30" />
-        <Label Foreground="Red" Canvas.Left="10" Canvas.Bottom="15" Content="{Binding hint}"></Label>
-        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="40" Click="OpenImageButton_OnClick">
+        <Label Foreground="Red" Canvas.Left="10" Canvas.Bottom="15" Content="{Binding Hint}"></Label>
+        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="40" Click="CreateImageButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="制作图片" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="80" Click="OpenImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="打开图片" VerticalAlignment="Center" />

@@ -20,12 +20,12 @@ public partial class BootImageImportWindow : Window
     private WriBootImage _bootWri;
     private HIDBootImage _bootHid;
     private SHX_DEVICE _device = SHX_DEVICE.SHX8X00;
-    public int bootImgWidth { get; set; }
-    public int bootImgHeight { get; set; }
+    public int BootImgWidth { get; set; }
+    public int BootImgHeight { get; set; }
     
-    public int windowHeight { get; set; }
+    public int WindowHeight { get; set; }
     
-    public string hint { get; set; }
+    public string Hint { get; set; }
 
     public BootImageImportWindow(SHX_DEVICE dev)
     {
@@ -33,16 +33,16 @@ public partial class BootImageImportWindow : Window
         switch (dev)
         {
             case SHX_DEVICE.SHX8X00:
-                bootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
-                bootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
-                hint = $"尺寸限制：{bootImgWidth}x{bootImgHeight}，建议bmp格式";
-                windowHeight = 200;
+                BootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
+                BootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
+                Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
+                WindowHeight = 200;
                 break;
             case SHX_DEVICE.GT12:
-                bootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
-                bootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
-                hint = $"尺寸限制：{bootImgWidth}x{bootImgHeight}，建议bmp格式";
-                windowHeight = 390;
+                BootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
+                BootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
+                Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
+                WindowHeight = 390;
                 break;
         }
         InitializeComponent();
@@ -53,7 +53,7 @@ public partial class BootImageImportWindow : Window
     {
         var topLevel = GetTopLevel(this);
         var fileType = new FilePickerFileType("image");
-        fileType.Patterns = new[] { "*.bmp", "*.jpg" };
+        fileType.Patterns = new[] { "*.bmp", "*.jpg", "*.png" };
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "打开备份",
@@ -176,5 +176,17 @@ public partial class BootImageImportWindow : Window
             if (!_bootHid.currentProg.TryDequeue(out curPct)) continue;
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
         }
+    }
+
+    private async void CreateImageButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var bi = new BootImageCreatorWindow(_device);
+        await bi.ShowDialog(this);
+        if (bi.CreatedBitmap == null)
+        {
+            return;
+        };
+        bootImage.Source = bi.CreatedAvaloniaBitmap;
+        this._bitmap = bi.CreatedBitmap;
     }
 }

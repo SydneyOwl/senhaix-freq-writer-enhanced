@@ -1,0 +1,45 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Width="440" Height="{Binding WindowHeight}"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
+        x:DataType="vm:BootImageCreatorWindow"
+        x:Class="SenhaixFreqWriter.Views.Plugin.BootImageCreatorWindow"
+        Title="制作图片"
+        xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
+    <Canvas>
+        <!-- <Rectangle Height="128" Width="128" Fill="LightGray"  -->
+        <!--            Canvas.Left="30" Canvas.Top="50" /> -->
+        <!-- <Image Height="128" Width="128" -->
+        <!--        Name="bootImage" -->
+        <!--        Canvas.Left="30" Canvas.Top="50" /> -->
+        <Rectangle Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}" Fill="LightGray" 
+                   Canvas.Left="10" Canvas.Top="10" />
+        <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
+               Name="bootImage"
+               Canvas.Left="10" Canvas.Top="10" />
+        <Label Content="输入呼号：" Canvas.Left="260" Canvas.Top="70"></Label>
+        <TextBox Canvas.Left="340" Canvas.Top="65" Width="80" Name="call" TextChanged="Call_OnTextChanged" Text=""></TextBox>
+        
+        <Label Content="背景色：" Canvas.Left="260" Canvas.Top="120"></Label>
+        <colorpicker:ColorButton Color="Orange" Canvas.Left="320" Canvas.Top="120" Name="back" DataContextChanged="Back_OnDataContextChanged" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
+        <Label Content="字体色：" Canvas.Left="260" Canvas.Top="150"></Label>
+        <colorpicker:ColorButton Color="White" Canvas.Left="320" Canvas.Top="150" Name="font" DataContextChanged="Font_OnDataContextChanged" PropertyChanged="Font_OnPropertyChanged"></colorpicker:ColorButton>
+        
+        <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="200" Click="ConfirmButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="确定" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="200" Click="AbortButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="取消" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+    </Canvas>
+</Window>

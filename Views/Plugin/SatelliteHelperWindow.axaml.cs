@@ -17,12 +17,12 @@ namespace SenhaixFreqWriter.Views.Plugin;
 
 public partial class SatelliteHelperWindow : Window
 {
-    private string[] currentChannel = new string[14];
-    public ObservableCollection<string> namelist { get; set; } = new();
+    private string[] _currentChannel = new string[14];
+    public ObservableCollection<string> Namelist { get; set; } = new();
 
-    public List<string> satelliteList = new List<string>();
+    public List<string> SatelliteList = new List<string>();
     
-    private JArray satelliteJson = new();
+    private JArray _satelliteJson = new();
 
     public delegate void InsertChannelMethod(string rx, string rxDec, string tx, string txDec, string name);
 
@@ -31,11 +31,11 @@ public partial class SatelliteHelperWindow : Window
     {
         InitializeComponent();
         DataContext = this;
-        loadJSON();
+        LoadJson();
         InsertData = func;
     }
     
-    private void loadJSON()
+    private void LoadJson()
     {
         if (!File.Exists("./amsat-all-frequencies.json"))
         {
@@ -56,16 +56,16 @@ public partial class SatelliteHelperWindow : Window
                 selectedSatelliteInfo.Text = "";
                 modeListBox.Items.Clear();
             });
-            satelliteList.Clear();
-            namelist.Clear();
+            SatelliteList.Clear();
+            Namelist.Clear();
             List<string> nameListCache = new List<string>();
-            satelliteJson = JArray.Parse(satelliteData);
-            foreach (var b in satelliteJson) nameListCache.Add((string)b["name"]);
+            _satelliteJson = JArray.Parse(satelliteData);
+            foreach (var b in _satelliteJson) nameListCache.Add((string)b["name"]);
             nameListCache = nameListCache.Distinct().ToList();
             foreach (var se in nameListCache)
             {
-                satelliteList.Add(se);
-                namelist.Add(se);
+                SatelliteList.Add(se);
+                Namelist.Add(se);
             }
         }
         catch (Exception e)
@@ -79,12 +79,12 @@ public partial class SatelliteHelperWindow : Window
     private void SearchTextBox_OnTextChanged(object? sender, TextChangedEventArgs e)
     {
         var current = ((TextBox)sender).Text;
-        var query = from item in satelliteList where item.ToLower().Contains(current.ToLower()) select item;
-        namelist.Clear();
+        var query = from item in SatelliteList where item.ToLower().Contains(current.ToLower()) select item;
+        Namelist.Clear();
         modeListBox.Selection.Clear();
         modeListBox.Items.Clear();
         selectedSatelliteInfo.Text = "";
-        foreach (var a in query) namelist.Add(a);
+        foreach (var a in query) Namelist.Add(a);
     }
 
     private void SatListBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -94,7 +94,7 @@ public partial class SatelliteHelperWindow : Window
         // listBox1.SelectedItem
         // throw new System.NotImplementedException();
         var current = satListBox.SelectedItem.ToString();
-        var query = from item in satelliteJson where (string)item["name"] == current select item;
+        var query = from item in _satelliteJson where (string)item["name"] == current select item;
         modeListBox.Selection.Clear();
         modeListBox.Items.Clear();
         selectedSatelliteInfo.Text = current;
@@ -109,7 +109,7 @@ public partial class SatelliteHelperWindow : Window
         if (satListBox.SelectedItem == null) return;
         var currentSat = satListBox.SelectedItem.ToString();
         var currentMode = modeListBox.SelectedItem?.ToString();
-        var query = from item in satelliteJson
+        var query = from item in _satelliteJson
             where (string)item["name"] == currentSat && (string)item["mode"] == currentMode
             select item;
         if (!query.Any()){return;}
@@ -119,18 +119,18 @@ public partial class SatelliteHelperWindow : Window
         var callsign = query.First()["callsign"];
         var status = query.First()["status"];
         var satnogId = query.First()["satnogs_id"];
-        var tone = matchTone(checker(query.First()["mode"]));
-        selectedSatelliteInfo.Text = string.Format("上行频率:{0}\n下行频率：{1}\n亚音：{2}\n呼号：{3}\n状态：{4}\nid:{5}", checker(uplink),
-            checker(downlink), tone, checker(callsign), checker(status), checker(satnogId));
+        var tone = MatchTone(Checker(query.First()["mode"]));
+        selectedSatelliteInfo.Text = string.Format("上行频率:{0}\n下行频率：{1}\n亚音：{2}\n呼号：{3}\n状态：{4}\nid:{5}", Checker(uplink),
+            Checker(downlink), tone, Checker(callsign), Checker(status), Checker(satnogId));
         // 
-        currentChannel = new string[14]
+        _currentChannel = new string[14]
         {
-            "", "Yes", checker(downlink), "OFF", checker(uplink), tone, "H", "W", "OFF", "OFF",
-            "ON", "1", checker(sat), "OFF"
+            "", "Yes", Checker(downlink), "OFF", Checker(uplink), tone, "H", "W", "OFF", "OFF",
+            "ON", "1", Checker(sat), "OFF"
         };
     }
     
-    private string matchTone(string mode)
+    private string MatchTone(string mode)
     {
         var pattern = @"(?i)\b(?:tone|ctcss)\s+(\d+(?:\.\d+)?)?(?=hz\b)";
 
@@ -144,17 +144,17 @@ public partial class SatelliteHelperWindow : Window
         return "";
     }
     
-    private string checker(IEnumerable<JToken> res)
+    private string Checker(IEnumerable<JToken> res)
     {
         return res.Value<string>() == null ? "" : res.ToString();
     }
 
     private void FetchSatDataButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        new Task(()=>{fetchData();}).Start();
+        new Task(()=>{FetchData();}).Start();
     }
 
-    private void fetchData ()
+    private void FetchData ()
     {
         var url =
             "https://raw.githubusercontent.com/palewire/amateur-satellite-database/main/data/amsat-all-frequencies.json";
@@ -167,7 +167,7 @@ public partial class SatelliteHelperWindow : Window
                 FetchSat.IsEnabled = false;
             });
             new WebClient().DownloadFile(url, "./amsat-all-frequencies.json");
-            loadJSON();
+            LoadJson();
             Dispatcher.UIThread.Post(() =>
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "更新完成！").ShowWindowDialogAsync(this);
@@ -179,7 +179,7 @@ public partial class SatelliteHelperWindow : Window
             try
             {
                 new WebClient().DownloadFile(url, "./amsat-all-frequencies.json");
-                loadJSON();
+                LoadJson();
                 Dispatcher.UIThread.Post(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新完成！").ShowWindowDialogAsync(this);
@@ -211,34 +211,34 @@ public partial class SatelliteHelperWindow : Window
     private void InsertChannelButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // 直接从之前的winform移植来的，不想改了
-        if (currentChannel[2] == "")
-            if (checkIsFloatOrNumber(currentChannel[4]))
-                currentChannel[2] = currentChannel[4];
-        if (currentChannel[4] == "")
-            if (checkIsFloatOrNumber(currentChannel[2]))
-                currentChannel[4] = currentChannel[2];
-        if (currentChannel[5] == "") currentChannel[5] = "OFF";
+        if (_currentChannel[2] == "")
+            if (CheckIsFloatOrNumber(_currentChannel[4]))
+                _currentChannel[2] = _currentChannel[4];
+        if (_currentChannel[4] == "")
+            if (CheckIsFloatOrNumber(_currentChannel[2]))
+                _currentChannel[4] = _currentChannel[2];
+        if (_currentChannel[5] == "") _currentChannel[5] = "OFF";
 
-        if (int.TryParse(currentChannel[5], out var number)) currentChannel[5] = number + ".0";
+        if (int.TryParse(_currentChannel[5], out var number)) _currentChannel[5] = number + ".0";
         
-        if (!(checkIsFloatOrNumber(currentChannel[2]) &&
-              checkIsFloatOrNumber(currentChannel[4]) && CheckTones(currentChannel[5])))
+        if (!(CheckIsFloatOrNumber(_currentChannel[2]) &&
+              CheckIsFloatOrNumber(_currentChannel[4]) && CheckTones(_currentChannel[5])))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "当前卫星不支持插入！").ShowWindowDialogAsync(this);
             return;
         }
-        double.TryParse(currentChannel[2], out var kk);
-        currentChannel[2] = kk.ToString("0.00000");
+        double.TryParse(_currentChannel[2], out var kk);
+        _currentChannel[2] = kk.ToString("0.00000");
 
-        double.TryParse(currentChannel[4], out kk);
-        currentChannel[4] = kk.ToString("0.00000");
+        double.TryParse(_currentChannel[4], out kk);
+        _currentChannel[4] = kk.ToString("0.00000");
 
         try
         {
             if (!doppler.IsChecked.Value)
             {
-                InsertData(currentChannel[2], currentChannel[3], currentChannel[4], currentChannel[5],
-                    currentChannel[12]);
+                InsertData(_currentChannel[2], _currentChannel[3], _currentChannel[4], _currentChannel[5],
+                    _currentChannel[12]);
                 MessageBoxManager.GetMessageBoxStandard("注意", "插入成功！").ShowWindowDialogAsync(this);
             }
             else
@@ -253,45 +253,45 @@ public partial class SatelliteHelperWindow : Window
                     MessageBoxManager.GetMessageBoxStandard("注意", "多普勒数值有误！").ShowWindowDialogAsync(this);
                     return;
                 }
-                var tmp = (string[])currentChannel.Clone(); 
-                currentChannel[2] = calcDop(double.Parse(currentChannel[2]), parsedUnumber, parsedVnumber, -2, 1)
+                var tmp = (string[])_currentChannel.Clone(); 
+                _currentChannel[2] = CalcDop(double.Parse(_currentChannel[2]), parsedUnumber, parsedVnumber, -2, 1)
                     .ToString("0.00000");
-                currentChannel[4] = calcDop(double.Parse(currentChannel[4]), parsedUnumber, parsedVnumber, -2, 0)
+                _currentChannel[4] = CalcDop(double.Parse(_currentChannel[4]), parsedUnumber, parsedVnumber, -2, 0)
                     .ToString("0.00000");
-                currentChannel[12] += "-A1";
-                InsertData(currentChannel[2], currentChannel[3], currentChannel[4], currentChannel[5],
-                    currentChannel[12]);
-                currentChannel = (string[])tmp.Clone();
-                currentChannel[2] = calcDop(double.Parse(currentChannel[2]), parsedUnumber, parsedVnumber, -1, 1)
+                _currentChannel[12] += "-A1";
+                InsertData(_currentChannel[2], _currentChannel[3], _currentChannel[4], _currentChannel[5],
+                    _currentChannel[12]);
+                _currentChannel = (string[])tmp.Clone();
+                _currentChannel[2] = CalcDop(double.Parse(_currentChannel[2]), parsedUnumber, parsedVnumber, -1, 1)
                     .ToString("0.00000");
-                currentChannel[4] = calcDop(double.Parse(currentChannel[4]), parsedUnumber, parsedVnumber, -1, 0)
+                _currentChannel[4] = CalcDop(double.Parse(_currentChannel[4]), parsedUnumber, parsedVnumber, -1, 0)
                     .ToString("0.00000");
-                currentChannel[12] += "-A2";
-                InsertData(currentChannel[2], currentChannel[3], currentChannel[4], currentChannel[5],
-                    currentChannel[12]);
-                currentChannel = (string[])tmp.Clone();
-                currentChannel[2] = calcDop(double.Parse(currentChannel[2]), parsedUnumber, parsedVnumber, 0, 1)
+                _currentChannel[12] += "-A2";
+                InsertData(_currentChannel[2], _currentChannel[3], _currentChannel[4], _currentChannel[5],
+                    _currentChannel[12]);
+                _currentChannel = (string[])tmp.Clone();
+                _currentChannel[2] = CalcDop(double.Parse(_currentChannel[2]), parsedUnumber, parsedVnumber, 0, 1)
                     .ToString("0.00000");
-                currentChannel[4] = calcDop(double.Parse(currentChannel[4]), parsedUnumber, parsedVnumber, 0, 0)
+                _currentChannel[4] = CalcDop(double.Parse(_currentChannel[4]), parsedUnumber, parsedVnumber, 0, 0)
                     .ToString("0.00000");
-                InsertData(currentChannel[2], currentChannel[3], currentChannel[4], currentChannel[5],
-                    currentChannel[12]);
-                currentChannel = (string[])tmp.Clone();
-                currentChannel[2] = calcDop(double.Parse(currentChannel[2]), parsedUnumber, parsedVnumber, 1, 1)
+                InsertData(_currentChannel[2], _currentChannel[3], _currentChannel[4], _currentChannel[5],
+                    _currentChannel[12]);
+                _currentChannel = (string[])tmp.Clone();
+                _currentChannel[2] = CalcDop(double.Parse(_currentChannel[2]), parsedUnumber, parsedVnumber, 1, 1)
                     .ToString("0.00000");
-                currentChannel[4] = calcDop(double.Parse(currentChannel[4]), parsedUnumber, parsedVnumber, 1, 0)
+                _currentChannel[4] = CalcDop(double.Parse(_currentChannel[4]), parsedUnumber, parsedVnumber, 1, 0)
                     .ToString("0.00000");
-                currentChannel[12] += "-L1";
-                InsertData(currentChannel[2], currentChannel[3], currentChannel[4], currentChannel[5],
-                    currentChannel[12]);
-                currentChannel = (string[])tmp.Clone();
-                currentChannel[2] = calcDop(double.Parse(currentChannel[2]), parsedUnumber, parsedVnumber, 2, 1)
+                _currentChannel[12] += "-L1";
+                InsertData(_currentChannel[2], _currentChannel[3], _currentChannel[4], _currentChannel[5],
+                    _currentChannel[12]);
+                _currentChannel = (string[])tmp.Clone();
+                _currentChannel[2] = CalcDop(double.Parse(_currentChannel[2]), parsedUnumber, parsedVnumber, 2, 1)
                     .ToString("0.00000");
-                currentChannel[4] = calcDop(double.Parse(currentChannel[4]), parsedUnumber, parsedVnumber, 2, 0)
+                _currentChannel[4] = CalcDop(double.Parse(_currentChannel[4]), parsedUnumber, parsedVnumber, 2, 0)
                     .ToString("0.00000");
-                currentChannel[12] += "-L2";
-                InsertData(currentChannel[2], currentChannel[3], currentChannel[4], currentChannel[5],
-                    currentChannel[12]);
+                _currentChannel[12] += "-L2";
+                InsertData(_currentChannel[2], _currentChannel[3], _currentChannel[4], _currentChannel[5],
+                    _currentChannel[12]);
                 MessageBoxManager.GetMessageBoxStandard("注意", "插入成功！").ShowWindowDialogAsync(this);
             }
         }
@@ -300,7 +300,7 @@ public partial class SatelliteHelperWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", $"出错:{ae.Message}！").ShowWindowDialogAsync(this);
         }
     }
-    private bool checkIsFloatOrNumber(string value)
+    private bool CheckIsFloatOrNumber(string value)
     {
         int tempInt;
         if (int.TryParse(value, out tempInt)) return true;
@@ -325,7 +325,7 @@ public partial class SatelliteHelperWindow : Window
         };
         return ctcss.Contains(value);
     }
-    private double calcDop(double band, int U_step, int V_step, int level, int direction)
+    private double CalcDop(double band, int uStep, int vStep, int level, int direction)
         //direction==0: uplink
     {
         // level should be -2~~2
@@ -333,12 +333,12 @@ public partial class SatelliteHelperWindow : Window
         {
             // V band
             if (direction == 1)
-                return band - 0.0005 * V_step * level;
-            return band + 0.0005 * V_step * level;
+                return band - 0.0005 * vStep * level;
+            return band + 0.0005 * vStep * level;
         }
 
         if (direction == 1)
-            return band - 0.0005 * U_step * level;
-        return band + 0.0005 * U_step * level;
+            return band - 0.0005 * uStep * level;
+        return band + 0.0005 * uStep * level;
     }
 }
