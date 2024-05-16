@@ -49,7 +49,7 @@
         
         <Button HorizontalAlignment="Left" Canvas.Top="500" Canvas.Left="350" Click="InsertChannelButton_OnClick" Name="insertChannel" IsEnabled="False">
             <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <PathIcon Data="{StaticResource insert}" Margin="0,0,10,0" />
                 <TextBlock Text="插入信道" VerticalAlignment="Center" />
             </StackPanel>
         </Button>

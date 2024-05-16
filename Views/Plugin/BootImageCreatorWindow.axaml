@@ -31,13 +31,13 @@
         
         <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="200" Click="ConfirmButton_OnClick">
             <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
                 <TextBlock Text="确定" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="200" Click="AbortButton_OnClick">
             <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
                 <TextBlock Text="取消" VerticalAlignment="Center" />
             </StackPanel>
         </Button>

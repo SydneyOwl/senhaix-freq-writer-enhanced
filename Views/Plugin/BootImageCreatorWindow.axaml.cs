@@ -19,6 +19,8 @@ public partial class BootImageCreatorWindow : Window
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
     public int WindowHeight { get; set; }
+
+    private bool _stopUpdate;
     public BootImageCreatorWindow(SHX_DEVICE device)
     {
         _dev = device;
@@ -41,6 +43,10 @@ public partial class BootImageCreatorWindow : Window
 
     private void UpdatePreview()
     {
+        if (_stopUpdate)
+        {
+            return;
+        }
         var callsign = call.Text;
         var backColor = back.Color.ToSKColor();
         var fontColor = font.Color.ToSKColor();
@@ -117,6 +123,7 @@ public partial class BootImageCreatorWindow : Window
 
     private void AbortButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        _stopUpdate = true;
         CreatedAvaloniaBitmap = null;
         CreatedBitmap = null;
         Close();

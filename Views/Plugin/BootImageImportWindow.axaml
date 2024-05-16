@@ -17,20 +17,20 @@
         <Label Foreground="Red" Canvas.Left="10" Canvas.Bottom="15" Content="{Binding Hint}"></Label>
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="40" Click="CreateImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <PathIcon Data="{StaticResource draw}" Margin="0,0,10,0" />
                 <TextBlock Text="制作图片" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="80" Click="OpenImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <PathIcon Data="{StaticResource open_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="打开图片" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="120" Click="ImportButton_OnClick"
                 Name="start">
             <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                <PathIcon Data="{StaticResource upload}" Margin="0,0,10,0" />
                 <TextBlock Text="开始导入" VerticalAlignment="Center" />
             </StackPanel>
         </Button>

@@ -55,7 +55,7 @@
                 </MenuItem>
                 <MenuItem Header="收音机" Click="FMMenuItem_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource router_regular}" />
+                        <PathIcon Data="{StaticResource radio}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="双音多频DTMF" Click="DTMFMenuItem_OnClick">
@@ -67,12 +67,12 @@
             <MenuItem Header="读写频">
                 <MenuItem Header="从手台读取信道" Click="readChannel_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource arrow_up_regular}" />
+                        <PathIcon Data="{StaticResource arrow_down_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="写入信道到手台" Click="writeChannel_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource arrow_down_regular}" />
+                        <PathIcon Data="{StaticResource arrow_up_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -91,19 +91,19 @@
             <MenuItem Header="工具">
                 <MenuItem Header="修改开机画面" Click="BootImageMenuItem_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource channel_regular}" />
+                        <PathIcon Data="{StaticResource bootImgModify}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="打星助手" Click="SatMenuItem_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource channel_regular}"/>
+                        <PathIcon Data="{StaticResource satellite}"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="其他">
                 <MenuItem Header="主题色">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource dark_theme_regular}" />
+                        <PathIcon Data="{StaticResource DarkLight}" />
                     </MenuItem.Icon>
                     <MenuItem Header="Light" Click="Light_OnClick">
                         <MenuItem.Icon>
@@ -133,13 +133,13 @@
             <StackPanel Orientation="Horizontal">
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="readChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
-                        <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                        <PathIcon Data="{StaticResource arrow_down_regular}" Margin="0,0,10,0" />
                         <TextBlock Text="读频" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="writeChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
-                        <PathIcon Data="{StaticResource channel_regular}" Margin="0,0,10,0" />
+                        <PathIcon Data="{StaticResource arrow_up_regular}" Margin="0,0,10,0" />
                         <TextBlock Text="写频" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
