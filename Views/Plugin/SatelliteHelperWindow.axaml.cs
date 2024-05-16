@@ -227,6 +227,7 @@ public partial class SatelliteHelperWindow : Window
 
     private void InsertChannelButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        ModeListBox_OnSelectionChanged(null, null);
         // 直接从之前的winform移植来的，不想改了
         if (_currentChannel[2] == "")
             if (CheckIsFloatOrNumber(_currentChannel[4]))
