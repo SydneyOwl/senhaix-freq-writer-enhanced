@@ -14,7 +14,9 @@ using Bitmap = Avalonia.Media.Imaging.Bitmap;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
+using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.DataModels.Gt12;
 
 namespace SenhaixFreqWriter.Views.Plugin;
 
@@ -26,6 +28,7 @@ public partial class BootImageCreatorWindow : Window
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
     public int WindowHeight { get; set; }
+    public float defaultY{ get; set; }
 
     private bool _stopUpdate;
 
@@ -40,7 +43,7 @@ public partial class BootImageCreatorWindow : Window
             case SHX_DEVICE.SHX8X00:
                 BootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
                 BootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
-                WindowHeight = 300;
+                WindowHeight = 500;
                 break;
             case SHX_DEVICE.GT12:
                 BootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
@@ -60,7 +63,7 @@ public partial class BootImageCreatorWindow : Window
     {
         BootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
         BootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
-        WindowHeight = 300;
+        WindowHeight = 500;
         InitializeFont();
         InitializeComponent();
         DataContext = this;
@@ -121,9 +124,11 @@ public partial class BootImageCreatorWindow : Window
         fontStyleList.Add("加粗");
         fontStyleList.Add("斜体");
         fontStyleList.Add("加粗斜体");
+
+        defaultY = BootImgHeight / 2;
     }
 
-    private void UpdatePreview()
+    private void UpdatePreview(bool resetCenter = false)
     {
         if (_stopUpdate)
         {
@@ -162,11 +167,20 @@ public partial class BootImageCreatorWindow : Window
                 sKPaint.TextSize = (float)sizeSlider.Value;
                 sKPaint.IsAntialias = true;
                 sKPaint.Typeface = SKTypeface.FromFamilyName(fontFamily, fontStyle);
-                SKRect size = new SKRect();
-                sKPaint.MeasureText(callsign, ref size);
-                float temp = (BootImgWidth - size.Size.Width) / 2;
-                float temp1 = (BootImgHeight - size.Size.Height) / 2;
-                canvas.DrawText(callsign, temp, temp1 - size.Top, sKPaint);
+                if (!resetCenter)
+                {
+                    canvas.DrawText(callsign, (float)sizeSliderX.Value, (float)sizeSliderY.Value, sKPaint);
+                }
+                else
+                {
+                    SKRect size = new SKRect();
+                    sKPaint.MeasureText(callsign, ref size);
+                    float temp = (BootImgWidth - size.Size.Width) / 2;
+                    float temp1 = (BootImgHeight - size.Size.Height) / 2;
+                    sizeSliderX.Value = temp;
+                    sizeSliderY.Value = temp1 - size.Top;
+                    canvas.DrawText(callsign, temp, temp1 - size.Top, sKPaint);
+                }
             }
         }
         using (var stream = new MemoryStream())
@@ -243,6 +257,37 @@ public partial class BootImageCreatorWindow : Window
         {
             // in theory only macos throws this...
             MessageBoxManager.GetMessageBoxStandard("注意", "该字体不受支持...").ShowWindowDialogAsync(this);
+        }
+    }
+
+    private void SetCenterButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            UpdatePreview(true);
+        }
+        catch
+        {
+            //
+        }
+    }
+
+    private async void SaveFileToButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var topLevel = GetTopLevel(this);
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "保存配置文件",
+            SuggestedFileName = "boot_image_"+_dev+".png"
+        });
+        if (file is not null)
+        {
+            var path = new Uri(file.Path.ToString()).LocalPath;
+            await using var stream = await file.OpenWriteAsync();
+            stream.Seek(0L, SeekOrigin.Begin);
+            stream.SetLength(0L);
+            CreatedBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
+            stream.Close();
         }
     }
 }

@@ -21,37 +21,57 @@
         <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
                Name="bootImage"
                Canvas.Left="10" Canvas.Top="10" />
-        <Label Content="输入呼号：" Canvas.Left="260" Canvas.Top="70"></Label>
+         
+        <Label Content="图片背景色：" Canvas.Left="260" Canvas.Top="20"></Label>
+        <colorpicker:ColorButton Color="Orange" Canvas.Left="360" Canvas.Top="20" Name="back" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
+        
+        
+        <Border BorderBrush="Black" BorderThickness="1" Width="300" Height="230"
+                Canvas.Left="250" Canvas.Top="55"></Border>
+        <Label Content="输入信息：" Canvas.Left="260" Canvas.Top="70"></Label>
         <TextBox Canvas.Left="340" Canvas.Top="65" Width="80" Name="call" TextChanged="Call_OnTextChanged" Text=""></TextBox>
-        
-        <Label Content="背景色：" Canvas.Left="260" Canvas.Top="120"></Label>
-        <colorpicker:ColorButton Color="Orange" Canvas.Left="320" Canvas.Top="120" Name="back" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
-        <Label Content="字体色：" Canvas.Left="260" Canvas.Top="150"></Label>
-        <colorpicker:ColorButton Color="White" Canvas.Left="320" Canvas.Top="150" Name="font" PropertyChanged="Font_OnPropertyChanged"></colorpicker:ColorButton>
-        
-        <Label Content="字号大小：" Canvas.Left="260" Canvas.Top="190"></Label>
+        <Label Content="字体色：" Canvas.Left="430" Canvas.Top="70"></Label>
+        <colorpicker:ColorButton Color="White" Canvas.Left="490" Canvas.Top="70" Name="font" PropertyChanged="Font_OnPropertyChanged"></colorpicker:ColorButton>
+        <Label Content="字体：" Canvas.Left="260" Canvas.Top="120"></Label>
+        <ComboBox Name="fontComboBox" Canvas.Left="320" Canvas.Top="115" MaxWidth="80"
+                  ItemsSource="{Binding fontList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
+        <Label Content="样式：" Canvas.Left="400" Canvas.Top="120"></Label>
+        <ComboBox Name="fontStyleComboBox" Canvas.Left="450" Canvas.Top="115" ItemsSource="{Binding fontStyleList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
+        <Label Content="字号大小：" Canvas.Left="260" Canvas.Top="160"></Label>
         <TextBlock Text="{Binding #sizeSlider.Value}" 
-                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="192"/>
+                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="162"/>
         <Slider Name="sizeSlider" Width="150" Maximum="100"  Minimum="0"  Value="30" ValueChanged="SizeSlider_OnValueChanged"
-                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="260" Canvas.Top="200"/>
+                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="380" Canvas.Top="147"/>
+        <Label Content="位置(X)：" Canvas.Left="260" Canvas.Top="190"></Label>
+        <TextBlock Text="{Binding #sizeSliderX.Value}" 
+                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="192"/>
+        <Slider Name="sizeSliderX" Width="150" Maximum="{Binding BootImgWidth}"  Minimum="0"  Value="10" ValueChanged="SizeSlider_OnValueChanged"
+                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="380" Canvas.Top="178"/>
+        <Label Content="位置(Y)：" Canvas.Left="260" Canvas.Top="220"></Label>
+        <TextBlock Text="{Binding #sizeSliderY.Value}" 
+                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="222"/>
+        <Slider Name="sizeSliderY" Width="150" Maximum="{Binding BootImgHeight}"  Minimum="0"  Value="{Binding defaultY}" ValueChanged="SizeSlider_OnValueChanged"
+                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="380" Canvas.Top="208"/>
+        <Button Content="居中" Canvas.Left="270" Canvas.Top="250" Click="SetCenterButton_OnClick"></Button>
         
-        <Label Content="字体：" Canvas.Left="370" Canvas.Top="120"></Label>
-        <ComboBox Name="fontComboBox" Canvas.Left="420" Canvas.Top="115" ItemsSource="{Binding fontList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
         
-        <Label Content="样式：" Canvas.Left="370" Canvas.Top="150"></Label>
-        <ComboBox Name="fontStyleComboBox" Canvas.Left="420" Canvas.Top="150" ItemsSource="{Binding fontStyleList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
-        
-        <!-- <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="200" Click="ConfirmButton_OnClick"> -->
-        <!--     <StackPanel Orientation="Horizontal"> -->
-        <!--         <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" /> -->
-        <!--         <TextBlock Text="确定" VerticalAlignment="Center" /> -->
-        <!--     </StackPanel> -->
-        <!-- </Button> -->
-        <!-- <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="200" Click="AbortButton_OnClick"> -->
-        <!--     <StackPanel Orientation="Horizontal"> -->
-        <!--         <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" /> -->
-        <!--         <TextBlock Text="取消" VerticalAlignment="Center" /> -->
-        <!--     </StackPanel> -->
-        <!-- </Button> -->
+        <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="300" Click="ConfirmButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
+                <TextBlock Text="确定" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="300" Click="AbortButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
+                <TextBlock Text="取消" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        <Button HorizontalAlignment="Left" Canvas.Left="440" Canvas.Top="300" Click="SaveFileToButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource save_as_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="保存" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
     </Canvas>
 </Window>
