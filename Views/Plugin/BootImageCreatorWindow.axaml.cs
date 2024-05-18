@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,7 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.Controls;
 using SenhaixFreqWriter.DataModels.Gt12;
 
 namespace SenhaixFreqWriter.Views.Plugin;
@@ -32,9 +34,15 @@ public partial class BootImageCreatorWindow : Window
 
     private bool _stopUpdate;
 
+    private int currentRow = 1;
+
+    private int lastRowCount = 1;
+
     public ObservableCollection<String> fontList { get; set; } = new();
     
     public ObservableCollection<String> fontStyleList { get; set; } = new();
+
+    private List<BootImgCreatorFontComponent> controls = new List<BootImgCreatorFontComponent>();
     public BootImageCreatorWindow(SHX_DEVICE device)
     {
         _dev = device;
@@ -53,22 +61,26 @@ public partial class BootImageCreatorWindow : Window
         }
         InitializeFont();
         InitializeComponent();
+        //TMPLLA
+        var compControl = this.FindControl<BootImgCreatorFontComponent>("CreatorComponent");
+        compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent,(a,b)=>UpdatePreview(compControl),RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.ResetEvent,(a,b)=>UpdatePreview(compControl,true),RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent,(a,b)=>AddText(compControl),RoutingStrategies.Bubble);
+        controls.Add(compControl);
         DataContext = this;
-        fontStyleComboBox.SelectedValue = "加粗";
-        fontComboBox.SelectedValue = "Arial";
     }
     
     // Designer
     public BootImageCreatorWindow()
     {
-        BootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
-        BootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
+        BootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
+        BootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
         WindowHeight = 500;
         InitializeFont();
         InitializeComponent();
         DataContext = this;
-        fontStyleComboBox.SelectedValue = "加粗";
-        fontComboBox.SelectedValue = "Arial";
+        // fontStyleComboBox.SelectedValue = "加粗";
+        // fontComboBox.SelectedValue = "Arial";
     }
 
     private void InitializeFont()
@@ -128,58 +140,69 @@ public partial class BootImageCreatorWindow : Window
         defaultY = BootImgHeight / 2;
     }
 
-    private void UpdatePreview(bool resetCenter = false)
+    private void UpdatePreview(BootImgCreatorFontComponent comp,bool resetCenter = false)
     {
         if (_stopUpdate)
         {
             return;
         }
-        var callsign = call.Text;
-        var backColor = back.Color.ToSKColor();
-        var fontColor = font.Color.ToSKColor();
+        
         SKBitmap bmp = new SKBitmap(BootImgWidth, BootImgHeight);
+        var backColor = back.Color.ToSKColor();
         using (SKCanvas canvas = new SKCanvas(bmp))
         {
             canvas.DrawColor(backColor);
             using (SKPaint sKPaint = new SKPaint())
             {
-                var fontFamily = fontComboBox.SelectedValue == null ? "宋体" : fontComboBox.SelectedValue.ToString();
-                var fontStyle = SKTypefaceStyle.Normal;
-                if (fontStyleComboBox.SelectedValue!=null)
+                foreach (var cmp in controls)
                 {
-                    switch (fontStyleComboBox.SelectedIndex)
+                    var inputed = cmp.call.Text;
+                    var fontColor = cmp.font.Color.ToSKColor();
+                    var fontFamily = cmp.fontComboBox.SelectedValue == null ? "宋体" : cmp.fontComboBox.SelectedValue.ToString();
+                    var fontStyle = SKTypefaceStyle.Normal;
+                    if (cmp.fontStyleComboBox.SelectedValue!=null)
                     {
-                        case 0:
-                            fontStyle = SKTypefaceStyle.Normal;
-                            break;
-                        case 1:
-                            fontStyle = SKTypefaceStyle.Bold;
-                            break;
-                        case 2:
-                            fontStyle = SKTypefaceStyle.Italic; 
-                            break;
-                        case 3:
-                            fontStyle = SKTypefaceStyle.BoldItalic;
-                            break;
+                        switch (cmp.fontStyleComboBox.SelectedIndex)
+                        {
+                            case 0:
+                                fontStyle = SKTypefaceStyle.Normal;
+                                break;
+                            case 1:
+                                fontStyle = SKTypefaceStyle.Bold;
+                                break;
+                            case 2:
+                                fontStyle = SKTypefaceStyle.Italic; 
+                                break;
+                            case 3:
+                                fontStyle = SKTypefaceStyle.BoldItalic;
+                                break;
+                        }
                     }
-                }
-                sKPaint.Color = fontColor;
-                sKPaint.TextSize = (float)sizeSlider.Value;
-                sKPaint.IsAntialias = true;
-                sKPaint.Typeface = SKTypeface.FromFamilyName(fontFamily, fontStyle);
-                if (!resetCenter)
-                {
-                    canvas.DrawText(callsign, (float)sizeSliderX.Value, (float)sizeSliderY.Value, sKPaint);
-                }
-                else
-                {
-                    SKRect size = new SKRect();
-                    sKPaint.MeasureText(callsign, ref size);
-                    float temp = (BootImgWidth - size.Size.Width) / 2;
-                    float temp1 = (BootImgHeight - size.Size.Height) / 2;
-                    sizeSliderX.Value = temp;
-                    sizeSliderY.Value = temp1 - size.Top;
-                    canvas.DrawText(callsign, temp, temp1 - size.Top, sKPaint);
+                    sKPaint.Color = fontColor;
+                    sKPaint.TextSize = (float)cmp.sizeSlider.Value;
+                    sKPaint.IsAntialias = true;
+                    sKPaint.Typeface = SKTypeface.FromFamilyName(fontFamily, fontStyle);
+                    if (!resetCenter)
+                    {
+                        canvas.DrawText(inputed, (float)cmp.sizeSliderX.Value, (float)cmp.sizeSliderY.Value, sKPaint);
+                    }
+                    else
+                    {
+                        if (comp.Equals(cmp))
+                        {
+                            SKRect size = new SKRect();
+                            sKPaint.MeasureText(inputed, ref size);
+                            float temp = (BootImgWidth - size.Size.Width) / 2;
+                            float temp1 = (BootImgHeight - size.Size.Height) / 2;
+                            cmp.sizeSliderX.Value = temp;
+                            cmp.sizeSliderY.Value = temp1 - size.Top;
+                            canvas.DrawText(inputed, temp, temp1 - size.Top, sKPaint);
+                        }
+                        else
+                        {
+                            canvas.DrawText(inputed, (float)cmp.sizeSliderX.Value, (float)cmp.sizeSliderY.Value, sKPaint);
+                        }
+                    }
                 }
             }
         }
@@ -194,33 +217,33 @@ public partial class BootImageCreatorWindow : Window
         }
     }
 
-    private void Call_OnTextChanged(object? sender, TextChangedEventArgs e)
-    {
-        UpdatePreview();
-    }
+    // private void Call_OnTextChanged(object? sender, TextChangedEventArgs e)
+    // {
+    //     UpdatePreview();
+    // }
 
     private void Back_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
         try
         {
-            UpdatePreview();
+            UpdatePreview(null);
         }
         catch
         {
             //ignore!
         }
     }
-    private void Font_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-    {
-        try
-        {
-            UpdatePreview();
-        }
-        catch
-        {
-            //ignore!
-        }
-    }
+    // private void Font_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    // {
+    //     try
+    //     {
+    //         UpdatePreview();
+    //     }
+    //     catch
+    //     {
+    //         //ignore!
+    //     }
+    // }
 
     private void ConfirmButton_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -235,42 +258,42 @@ public partial class BootImageCreatorWindow : Window
         Close();
     }
 
-    private void SizeSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
-    {
-        try
-        {
-            UpdatePreview();
-        }
-        catch
-        {
-            //ignore!
-        }
-    }
-
-    private void FontComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-        try
-        {
-            UpdatePreview();
-        }
-        catch
-        {
-            // in theory only macos throws this...
-            MessageBoxManager.GetMessageBoxStandard("注意", "该字体不受支持...").ShowWindowDialogAsync(this);
-        }
-    }
-
-    private void SetCenterButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        try
-        {
-            UpdatePreview(true);
-        }
-        catch
-        {
-            //
-        }
-    }
+    // private void SizeSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
+    // {
+    //     try
+    //     {
+    //         UpdatePreview();
+    //     }
+    //     catch
+    //     {
+    //         //ignore!
+    //     }
+    // }
+    //
+    // private void FontComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    // {
+    //     try
+    //     {
+    //         UpdatePreview();
+    //     }
+    //     catch
+    //     {
+    //         // in theory only macos throws this...
+    //         MessageBoxManager.GetMessageBoxStandard("注意", "该字体不受支持...").ShowWindowDialogAsync(this);
+    //     }
+    // }
+    //
+    // private void SetCenterButton_OnClick(object? sender, RoutedEventArgs e)
+    // {
+    //     try
+    //     {
+    //         UpdatePreview(true);
+    //     }
+    //     catch
+    //     {
+    //         //
+    //     }
+    // }
 
     private async void SaveFileToButton_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -289,5 +312,25 @@ public partial class BootImageCreatorWindow : Window
             CreatedBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
             stream.Close();
         }
+    }
+
+    private void AddText(BootImgCreatorFontComponent bt)
+    {
+        bt.addButton.IsVisible = false;
+        var newRowDefinition = new RowDefinition() { Height = GridLength.Auto };
+        fullGrid.RowDefinitions.Add(newRowDefinition);
+        var compControl = new BootImgCreatorFontComponent();
+        if (++lastRowCount%4==0)
+        {
+            lastRowCount = 1;
+            currentRow += 1;
+        }
+        Grid.SetRow(compControl,currentRow);
+        Grid.SetColumn(compControl,lastRowCount);
+        fullGrid.Children.Add(compControl);
+        compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent,(a,b)=>UpdatePreview(null),RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.ResetEvent,(a,b)=>UpdatePreview(compControl,true),RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent,(a,b)=>AddText(compControl),RoutingStrategies.Bubble);
+        controls.Add(compControl);
     }
 }

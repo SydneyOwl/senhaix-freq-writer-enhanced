@@ -1,0 +1,67 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
+             xmlns:plugin="clr-namespace:SenhaixFreqWriter.Views.Plugin"
+             x:Class="SenhaixFreqWriter.Controls.BootImgCreatorFontComponent">
+    <Border BorderBrush="Black" BorderThickness="1">
+
+        <Grid Margin="5"
+              ColumnDefinitions="100, Auto,100"
+              RowDefinitions="Auto, Auto, Auto,Auto,Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="输入信息：" />
+            <TextBox Grid.Row="0" Grid.Column="1" Width="80" Name="call" TextChanged="Call_OnTextChanged" Text=""/>
+
+            <Label Grid.Row="0" Grid.Column="2" Content="字体色：" />
+            <colorpicker:ColorButton Grid.Row="0" Grid.Column="3" Color="White" Name="font" PropertyChanged="Font_OnPropertyChanged"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Content="字体：" />
+            <ComboBox Grid.Row="1" Grid.Column="1" Name="fontComboBox" MaxWidth="80" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=fontList}"/>
+
+
+            <Label Grid.Row="1" Grid.Column="2" Content="样式：" />
+            <ComboBox Grid.Row="1" Grid.Column="3" Name="fontStyleComboBox" SelectedIndex="0" SelectionChanged="FontStyleComboBox_OnSelectionChanged" 
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=fontStyleList}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center"
+                        VerticalAlignment="Center"> <!-- 或使用Vertical取决于你的布局需求 -->
+                <Label Content="字号大小：" />
+                <TextBlock Text="{Binding #sizeSlider.Value}"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+            <Slider Name="sizeSlider" Width="200" Maximum="100" Minimum="0" Value="30"
+                    TickFrequency="1" IsSnapToTickEnabled="True" Grid.Row="2" Grid.Column="2" ValueChanged="SizeSlider_OnValueChanged"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center"
+                        VerticalAlignment="Center"> <!-- 或使用Vertical取决于你的布局需求 -->
+                <Label Content="位置(X)：" />
+                <TextBlock Text="{Binding #sizeSliderX.Value}"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+            <Slider Name="sizeSliderX" Width="200" Minimum="0" Value="10"
+                    Maximum="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=BootImgWidth}"
+                    TickFrequency="1" IsSnapToTickEnabled="True" Grid.Row="3" Grid.Column="2" ValueChanged="SizeSliderX_OnValueChanged"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center"
+                        VerticalAlignment="Center"> <!-- 或使用Vertical取决于你的布局需求 -->
+
+                <Label Content="位置(Y)：" />
+                <TextBlock Text="{Binding #sizeSliderY.Value}"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+            <Slider Name="sizeSliderY" Width="200" Minimum="0" Grid.Row="4" Grid.Column="2"
+                    TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SizeSliderY_OnValueChanged"
+                    Maximum="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=BootImgHeight}"
+                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=defaultY}"/>
+
+            <Button Content="居中" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Click="ResetButton_OnClick"/>
+            
+            <Button Name="addButton" Grid.Row="5" Grid.Column="3" Grid.RowSpan="2" Content="增加信息" Click="AddTextButton_OnClick"></Button>
+        </Grid>
+    </Border>
+</UserControl>

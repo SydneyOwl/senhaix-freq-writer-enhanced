@@ -1,77 +1,51 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Width="600" Height="{Binding WindowHeight}"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:BootImageCreatorWindow"
         x:Class="SenhaixFreqWriter.Views.Plugin.BootImageCreatorWindow"
+        xmlns:local="clr-namespace:SenhaixFreqWriter.Controls"  
+        Width="800"
         Title="制作图片"
         xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
         WindowStartupLocation="CenterScreen"
-        CanResize="False">
-    <Canvas>
-        <!-- <Rectangle Height="128" Width="128" Fill="LightGray"  -->
-        <!--            Canvas.Left="30" Canvas.Top="50" /> -->
-        <!-- <Image Height="128" Width="128" -->
-        <!--        Name="bootImage" -->
-        <!--        Canvas.Left="30" Canvas.Top="50" /> -->
-        <Rectangle Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}" Fill="LightGray" 
-                   Canvas.Left="10" Canvas.Top="10" />
-        <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
-               Name="bootImage"
-               Canvas.Left="10" Canvas.Top="10" />
-         
-        <Label Content="图片背景色：" Canvas.Left="260" Canvas.Top="20"></Label>
-        <colorpicker:ColorButton Color="Orange" Canvas.Left="360" Canvas.Top="20" Name="back" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
+        CanResize="False"
+        SizeToContent="WidthAndHeight">
+    <Grid Margin="5"
+          ColumnDefinitions="Auto,Auto,Auto,Auto"
+          RowDefinitions="Auto, Auto,Auto"
+          Name="fullGrid">
+        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="10">
+            <Border BorderBrush="Black" BorderThickness="1" >
+                <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
+                       Name="bootImage"/>
+            </Border>
+        </StackPanel>
         
-        
-        <Border BorderBrush="Black" BorderThickness="1" Width="300" Height="230"
-                Canvas.Left="250" Canvas.Top="55"></Border>
-        <Label Content="输入信息：" Canvas.Left="260" Canvas.Top="70"></Label>
-        <TextBox Canvas.Left="340" Canvas.Top="65" Width="80" Name="call" TextChanged="Call_OnTextChanged" Text=""></TextBox>
-        <Label Content="字体色：" Canvas.Left="430" Canvas.Top="70"></Label>
-        <colorpicker:ColorButton Color="White" Canvas.Left="490" Canvas.Top="70" Name="font" PropertyChanged="Font_OnPropertyChanged"></colorpicker:ColorButton>
-        <Label Content="字体：" Canvas.Left="260" Canvas.Top="120"></Label>
-        <ComboBox Name="fontComboBox" Canvas.Left="320" Canvas.Top="115" MaxWidth="80"
-                  ItemsSource="{Binding fontList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
-        <Label Content="样式：" Canvas.Left="400" Canvas.Top="120"></Label>
-        <ComboBox Name="fontStyleComboBox" Canvas.Left="450" Canvas.Top="115" ItemsSource="{Binding fontStyleList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
-        <Label Content="字号大小：" Canvas.Left="260" Canvas.Top="160"></Label>
-        <TextBlock Text="{Binding #sizeSlider.Value}" 
-                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="162"/>
-        <Slider Name="sizeSlider" Width="150" Maximum="100"  Minimum="0"  Value="30" ValueChanged="SizeSlider_OnValueChanged"
-                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="380" Canvas.Top="147"/>
-        <Label Content="位置(X)：" Canvas.Left="260" Canvas.Top="190"></Label>
-        <TextBlock Text="{Binding #sizeSliderX.Value}" 
-                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="192"/>
-        <Slider Name="sizeSliderX" Width="150" Maximum="{Binding BootImgWidth}"  Minimum="0"  Value="10" ValueChanged="SizeSlider_OnValueChanged"
-                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="380" Canvas.Top="178"/>
-        <Label Content="位置(Y)：" Canvas.Left="260" Canvas.Top="220"></Label>
-        <TextBlock Text="{Binding #sizeSliderY.Value}" 
-                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="222"/>
-        <Slider Name="sizeSliderY" Width="150" Maximum="{Binding BootImgHeight}"  Minimum="0"  Value="{Binding defaultY}" ValueChanged="SizeSlider_OnValueChanged"
-                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="380" Canvas.Top="208"/>
-        <Button Content="居中" Canvas.Left="270" Canvas.Top="250" Click="SetCenterButton_OnClick"></Button>
-        
-        
-        <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="300" Click="ConfirmButton_OnClick">
-            <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
-                <TextBlock Text="确定" VerticalAlignment="Center" />
-            </StackPanel>
-        </Button>
-        <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="300" Click="AbortButton_OnClick">
-            <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
-                <TextBlock Text="取消" VerticalAlignment="Center" />
-            </StackPanel>
-        </Button>
-        <Button HorizontalAlignment="Left" Canvas.Left="440" Canvas.Top="300" Click="SaveFileToButton_OnClick">
-            <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource save_as_regular}" Margin="0,0,10,0" />
-                <TextBlock Text="保存" VerticalAlignment="Center" />
-            </StackPanel>
-        </Button>
-    </Canvas>
+        <local:BootImgCreatorFontComponent Grid.Column="1" Grid.Row="1" Name="CreatorComponent"></local:BootImgCreatorFontComponent>
+        <!-- <DockPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"> -->
+        <!--      -->
+        <!-- </DockPanel> -->
+        <DockPanel Grid.Row="0" Grid.Column="1" Margin="10">
+            <Label Content="图片背景色：" Margin="0,15,0,0"></Label>
+            <colorpicker:ColorButton  Color="Orange"  Name="back" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
+            <Button Margin="10" HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="300" Click="ConfirmButton_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
+                    <TextBlock Text="确定" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Margin="10"  HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="300" Click="AbortButton_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
+                    <TextBlock Text="取消" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Margin="10"  HorizontalAlignment="Left" Canvas.Left="440" Canvas.Top="300" Click="SaveFileToButton_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <PathIcon Data="{StaticResource save_as_regular}" Margin="0,0,10,0" />
+                    <TextBlock Text="保存" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </DockPanel>
+    </Grid>
 </Window>
