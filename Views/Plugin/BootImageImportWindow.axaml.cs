@@ -22,9 +22,9 @@ public partial class BootImageImportWindow : Window
     private SHX_DEVICE _device = SHX_DEVICE.SHX8X00;
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
-    
+
     public int WindowHeight { get; set; }
-    
+
     public string Hint { get; set; }
 
     public BootImageImportWindow(SHX_DEVICE dev)
@@ -45,6 +45,7 @@ public partial class BootImageImportWindow : Window
                 WindowHeight = 390;
                 break;
         }
+
         InitializeComponent();
         DataContext = this;
     }
@@ -71,28 +72,30 @@ public partial class BootImageImportWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", "图片像素格式不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
-        
-        if ((bitmap.Width != Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH || bitmap.Height != Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT)&&_device==SHX_DEVICE.SHX8X00)
+
+        if ((bitmap.Width != Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH ||
+             bitmap.Height != Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT) && _device == SHX_DEVICE.SHX8X00)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
-        
-        if ((bitmap.Width != Constants.Gt12.OTHERS.BOOT_IMG_WIDTH || bitmap.Height != Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT)&&_device==SHX_DEVICE.GT12)
+
+        if ((bitmap.Width != Constants.Gt12.OTHERS.BOOT_IMG_WIDTH ||
+             bitmap.Height != Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT) && _device == SHX_DEVICE.GT12)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
 
         bootImage.Source = new Bitmap(files[0].Path.AbsolutePath);
-        this._bitmap = bitmap;
+        _bitmap = bitmap;
     }
 
     private async void ImportButton_OnClick(object? sender, RoutedEventArgs e)
     {
         _ctx = new CancellationTokenSource();
         pgBar.Value = 0;
-        
+
         if (_bitmap == null)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "请选择图片！").ShowWindowDialogAsync(this);
@@ -106,6 +109,7 @@ public partial class BootImageImportWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
                 return;
             }
+
             start.IsEnabled = false;
             _bootWri = new WriBootImage(_bitmap);
             new Thread(() => { StartWrite8800(_ctx); }).Start();
@@ -152,7 +156,7 @@ public partial class BootImageImportWindow : Window
             // Thread.Sleep(10);
         }
     }
-    
+
     private async void StartWriteGt12(CancellationTokenSource source)
     {
         var res = _bootHid.WriteImg();

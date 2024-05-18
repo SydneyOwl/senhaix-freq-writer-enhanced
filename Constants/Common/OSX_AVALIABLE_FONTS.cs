@@ -514,6 +514,6 @@ public class OSX_AVALIABLE_FONTS
         "Wingdings 2",
         "Wingdings 3",
         "Zapf Dingbats",
-        "Zapfino",
+        "Zapfino"
     };
 }

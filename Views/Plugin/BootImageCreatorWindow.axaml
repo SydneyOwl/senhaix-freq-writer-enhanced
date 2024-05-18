@@ -3,7 +3,7 @@
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:BootImageCreatorWindow"
         x:Class="SenhaixFreqWriter.Views.Plugin.BootImageCreatorWindow"
-        xmlns:local="clr-namespace:SenhaixFreqWriter.Controls"  
+        xmlns:local="clr-namespace:SenhaixFreqWriter.Controls"
         Width="800"
         Title="制作图片"
         xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
@@ -15,33 +15,33 @@
           RowDefinitions="Auto, Auto,Auto"
           Name="fullGrid">
         <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="10">
-            <Border BorderBrush="Black" BorderThickness="1" >
+            <Border BorderBrush="Black" BorderThickness="1">
                 <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
-                       Name="bootImage"/>
+                       Name="bootImage" />
             </Border>
         </StackPanel>
-        
-        <local:BootImgCreatorFontComponent Grid.Column="1" Grid.Row="1" Name="CreatorComponent"></local:BootImgCreatorFontComponent>
+
+        <local:BootImgCreatorFontComponent Grid.Column="1" Grid.Row="1" Name="CreatorComponent" />
         <!-- <DockPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"> -->
         <!--      -->
         <!-- </DockPanel> -->
         <DockPanel Grid.Row="0" Grid.Column="1" Margin="10">
-            <Label Content="图片背景色：" Margin="0,15,0,0"></Label>
-            <colorpicker:ColorButton  Color="Orange"  Name="back" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
-            <Button Margin="10" HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="300" Click="ConfirmButton_OnClick"
+            <Label Content="图片背景色：" Margin="0,15,0,0" />
+            <colorpicker:ColorButton Color="Orange" Name="back" PropertyChanged="Back_OnPropertyChanged" />
+            <Button Margin="10" HorizontalAlignment="Left" Click="ConfirmButton_OnClick"
                     IsVisible="False">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
                     <TextBlock Text="确定" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
-            <Button Margin="10"  HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="300" Click="AbortButton_OnClick">
+            <Button Margin="10" HorizontalAlignment="Left" Click="AbortButton_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
                     <TextBlock Text="取消" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
-            <Button Margin="10"  HorizontalAlignment="Left" Canvas.Left="440" Canvas.Top="300" Click="SaveFileToButton_OnClick">
+            <Button Margin="10" HorizontalAlignment="Left" Click="SaveFileToButton_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource save_as_regular}" Margin="0,0,10,0" />
                     <TextBlock Text="保存" VerticalAlignment="Center" />

@@ -10,9 +10,8 @@
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.MainWindow"
-        WindowStartupLocation="CenterScreen"
-        >
-        <!-- WindowState="Maximized"> -->
+        WindowStartupLocation="CenterScreen">
+    <!-- WindowState="Maximized"> -->
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="文件">
@@ -92,7 +91,7 @@
                 </MenuItem>
                 <MenuItem Header="打星助手" Click="SatMenuItem_OnClick">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource satellite}"/>
+                        <PathIcon Data="{StaticResource satellite}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>

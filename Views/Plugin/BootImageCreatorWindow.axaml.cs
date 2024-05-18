@@ -11,7 +11,6 @@ using Avalonia.Skia;
 using SenhaixFreqWriter.Constants.Common;
 using SkiaSharp;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
-
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
@@ -30,7 +29,7 @@ public partial class BootImageCreatorWindow : Window
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
     public int WindowHeight { get; set; }
-    public float defaultY{ get; set; }
+    public float defaultY { get; set; }
 
     private bool _stopUpdate;
 
@@ -38,11 +37,12 @@ public partial class BootImageCreatorWindow : Window
 
     private int lastRowCount = 1;
 
-    public ObservableCollection<String> fontList { get; set; } = new();
-    
-    public ObservableCollection<String> fontStyleList { get; set; } = new();
+    public ObservableCollection<string> fontList { get; set; } = new();
 
-    private List<BootImgCreatorFontComponent> controls = new List<BootImgCreatorFontComponent>();
+    public ObservableCollection<string> fontStyleList { get; set; } = new();
+
+    private List<BootImgCreatorFontComponent> controls = new();
+
     public BootImageCreatorWindow(SHX_DEVICE device)
     {
         _dev = device;
@@ -59,17 +59,21 @@ public partial class BootImageCreatorWindow : Window
                 WindowHeight = 390;
                 break;
         }
+
         InitializeFont();
         InitializeComponent();
         //TMPLLA
         var compControl = this.FindControl<BootImgCreatorFontComponent>("CreatorComponent");
-        compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent,(a,b)=>UpdatePreview(compControl),RoutingStrategies.Bubble);
-        compControl.AddHandler(BootImgCreatorFontComponent.ResetEvent,(a,b)=>UpdatePreview(compControl,true),RoutingStrategies.Bubble);
-        compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent,(a,b)=>AddText(compControl),RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent, (a, b) => UpdatePreview(compControl),
+            RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.ResetEvent, (a, b) => UpdatePreview(compControl, true),
+            RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent, (a, b) => AddText(compControl),
+            RoutingStrategies.Bubble);
         controls.Add(compControl);
         DataContext = this;
     }
-    
+
     // Designer
     public BootImageCreatorWindow()
     {
@@ -87,51 +91,42 @@ public partial class BootImageCreatorWindow : Window
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            InstalledFontCollection fonts = new InstalledFontCollection();
-            foreach (FontFamily family in fonts.Families)
-            {
-                fontList.Add(family.Name);
-            }
+            var fonts = new InstalledFontCollection();
+            foreach (var family in fonts.Families) fontList.Add(family.Name);
         }
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
             // can't fetch list directly from macos syscall...
             // maybe insert list directly
             foreach (var se in OSX_AVALIABLE_FONTS.OSX_FONT_LIST)
-            {
                 fontList.Add(se);
-            }
-        }
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             var process = new Process();
             process.StartInfo.FileName = "fc-list";
-            process.StartInfo.Arguments = ": family"; 
-            process.StartInfo.UseShellExecute = false; 
-            process.StartInfo.RedirectStandardOutput = true; 
+            process.StartInfo.Arguments = ": family";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = false;
             try
             {
                 process.Start();
-                using (StreamReader reader = process.StandardOutput)
+                using (var reader = process.StandardOutput)
                 {
                     string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        fontList.Add(line.Trim());
-                    }
+                    while ((line = reader.ReadLine()) != null) fontList.Add(line.Trim());
                 }
+
                 process.WaitForExit();
                 if (process.ExitCode != 0)
-                {
                     MessageBoxManager.GetMessageBoxStandard("注意", "获取字体失败!").ShowWindowDialogAsync(this);
-                }
             }
             catch (Exception ex)
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", $"获取字体失败!{ex.Message}").ShowWindowDialogAsync(this);
             }
         }
+
         fontStyleList.Add("正常");
         fontStyleList.Add("加粗");
         fontStyleList.Add("斜体");
@@ -140,28 +135,26 @@ public partial class BootImageCreatorWindow : Window
         defaultY = BootImgHeight / 2;
     }
 
-    private void UpdatePreview(BootImgCreatorFontComponent comp,bool resetCenter = false)
+    private void UpdatePreview(BootImgCreatorFontComponent comp, bool resetCenter = false)
     {
-        if (_stopUpdate)
-        {
-            return;
-        }
-        
-        SKBitmap bmp = new SKBitmap(BootImgWidth, BootImgHeight);
+        if (_stopUpdate) return;
+
+        var bmp = new SKBitmap(BootImgWidth, BootImgHeight);
         var backColor = back.Color.ToSKColor();
-        using (SKCanvas canvas = new SKCanvas(bmp))
+        using (var canvas = new SKCanvas(bmp))
         {
             canvas.DrawColor(backColor);
-            using (SKPaint sKPaint = new SKPaint())
+            using (var sKPaint = new SKPaint())
             {
                 foreach (var cmp in controls)
                 {
                     var inputed = cmp.call.Text;
                     var fontColor = cmp.font.Color.ToSKColor();
-                    var fontFamily = cmp.fontComboBox.SelectedValue == null ? "宋体" : cmp.fontComboBox.SelectedValue.ToString();
+                    var fontFamily = cmp.fontComboBox.SelectedValue == null
+                        ? "宋体"
+                        : cmp.fontComboBox.SelectedValue.ToString();
                     var fontStyle = SKTypefaceStyle.Normal;
-                    if (cmp.fontStyleComboBox.SelectedValue!=null)
-                    {
+                    if (cmp.fontStyleComboBox.SelectedValue != null)
                         switch (cmp.fontStyleComboBox.SelectedIndex)
                         {
                             case 0:
@@ -171,13 +164,13 @@ public partial class BootImageCreatorWindow : Window
                                 fontStyle = SKTypefaceStyle.Bold;
                                 break;
                             case 2:
-                                fontStyle = SKTypefaceStyle.Italic; 
+                                fontStyle = SKTypefaceStyle.Italic;
                                 break;
                             case 3:
                                 fontStyle = SKTypefaceStyle.BoldItalic;
                                 break;
                         }
-                    }
+
                     sKPaint.Color = fontColor;
                     sKPaint.TextSize = (float)cmp.sizeSlider.Value;
                     sKPaint.IsAntialias = true;
@@ -190,22 +183,24 @@ public partial class BootImageCreatorWindow : Window
                     {
                         if (comp.Equals(cmp))
                         {
-                            SKRect size = new SKRect();
+                            var size = new SKRect();
                             sKPaint.MeasureText(inputed, ref size);
-                            float temp = (BootImgWidth - size.Size.Width) / 2;
-                            float temp1 = (BootImgHeight - size.Size.Height) / 2;
+                            var temp = (BootImgWidth - size.Size.Width) / 2;
+                            var temp1 = (BootImgHeight - size.Size.Height) / 2;
                             cmp.sizeSliderX.Value = temp;
                             cmp.sizeSliderY.Value = temp1 - size.Top;
                             canvas.DrawText(inputed, temp, temp1 - size.Top, sKPaint);
                         }
                         else
                         {
-                            canvas.DrawText(inputed, (float)cmp.sizeSliderX.Value, (float)cmp.sizeSliderY.Value, sKPaint);
+                            canvas.DrawText(inputed, (float)cmp.sizeSliderX.Value, (float)cmp.sizeSliderY.Value,
+                                sKPaint);
                         }
                     }
                 }
             }
         }
+
         using (var stream = new MemoryStream())
         {
             bmp.Encode(stream, SKEncodedImageFormat.Png, 100);
@@ -301,7 +296,7 @@ public partial class BootImageCreatorWindow : Window
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "保存配置文件",
-            SuggestedFileName = "boot_image_"+_dev+".png"
+            SuggestedFileName = "boot_image_" + _dev + ".png"
         });
         if (file is not null)
         {
@@ -320,17 +315,21 @@ public partial class BootImageCreatorWindow : Window
         var newRowDefinition = new RowDefinition() { Height = GridLength.Auto };
         fullGrid.RowDefinitions.Add(newRowDefinition);
         var compControl = new BootImgCreatorFontComponent();
-        if (++lastRowCount%4==0)
+        if (++lastRowCount % 4 == 0)
         {
             lastRowCount = 1;
             currentRow += 1;
         }
-        Grid.SetRow(compControl,currentRow);
-        Grid.SetColumn(compControl,lastRowCount);
+
+        Grid.SetRow(compControl, currentRow);
+        Grid.SetColumn(compControl, lastRowCount);
         fullGrid.Children.Add(compControl);
-        compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent,(a,b)=>UpdatePreview(null),RoutingStrategies.Bubble);
-        compControl.AddHandler(BootImgCreatorFontComponent.ResetEvent,(a,b)=>UpdatePreview(compControl,true),RoutingStrategies.Bubble);
-        compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent,(a,b)=>AddText(compControl),RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent, (a, b) => UpdatePreview(null),
+            RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.ResetEvent, (a, b) => UpdatePreview(compControl, true),
+            RoutingStrategies.Bubble);
+        compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent, (a, b) => AddText(compControl),
+            RoutingStrategies.Bubble);
         controls.Add(compControl);
     }
 }

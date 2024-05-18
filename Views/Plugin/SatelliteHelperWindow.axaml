@@ -1,7 +1,5 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="500" Height="550"
         x:Class="SenhaixFreqWriter.Views.Plugin.SatelliteHelperWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
@@ -10,44 +8,46 @@
         CanResize="False"
         WindowStartupLocation="CenterScreen">
     <Canvas>
-        <Label Content="搜索：" Margin="20"></Label>
-        <TextBox Canvas.Top="15" Canvas.Left="70" Width="100" TextChanged="SearchTextBox_OnTextChanged"></TextBox>
-        
-        <Label Content="选择一个卫星：" Canvas.Left="20" Canvas.Top="60"></Label>
+        <Label Content="搜索：" Margin="20" />
+        <TextBox Canvas.Top="15" Canvas.Left="70" Width="100" TextChanged="SearchTextBox_OnTextChanged" />
+
+        <Label Content="选择一个卫星：" Canvas.Left="20" Canvas.Top="60" />
         <ListBox Name="satListBox" ItemsSource="{Binding Namelist}" Height="330"
-                Width="150" Canvas.Top="100" Canvas.Left="20"
-                SelectionChanged="SatListBox_OnSelectionChanged"/>
-        
-        <Label Content="卫星详情：" Canvas.Left="220" Canvas.Top="60"></Label>
+                 Width="150" Canvas.Top="100" Canvas.Left="20"
+                 SelectionChanged="SatListBox_OnSelectionChanged" />
+
+        <Label Content="卫星详情：" Canvas.Left="220" Canvas.Top="60" />
         <TextBox Width="250" Height="130" IsReadOnly="True"
-                 Canvas.Top="100" Canvas.Left="220" Name="selectedSatelliteInfo"></TextBox>
-        
-        <Label Content="选择模式：" Canvas.Left="220" Canvas.Top="240"></Label>
+                 Canvas.Top="100" Canvas.Left="220" Name="selectedSatelliteInfo" />
+
+        <Label Content="选择模式：" Canvas.Left="220" Canvas.Top="240" />
         <ListBox Name="modeListBox" ItemsSource="" Height="160"
                  Width="250" Canvas.Top="270" Canvas.Left="220"
-                 SelectionChanged="ModeListBox_OnSelectionChanged"/>
-        
+                 SelectionChanged="ModeListBox_OnSelectionChanged" />
+
         <Border Width="260" Height="95" BorderBrush="Black" BorderThickness="1"
-                Canvas.Top="440" Canvas.Left="10"></Border>
-        <CheckBox Canvas.Top="470" Canvas.Left="20" IsChecked="True" Name="doppler"></CheckBox>
-        <Label Content="多普勒" Canvas.Top="475" Canvas.Left="40"></Label>
-        
-        <Label Content="U段±" Canvas.Top="450" Canvas.Left="100"></Label>
-        <TextBox Canvas.Top="445" Canvas.Left="145" Name="uoffset" Text="10"></TextBox>
-        <Label Content="kHz" Canvas.Top="450" Canvas.Left="220"></Label>
-        
-        <Label Content="V段±" Canvas.Top="500" Canvas.Left="100"></Label>
-        <TextBox Canvas.Top="495" Canvas.Left="145" Name="voffset" Text="5"></TextBox>
-        <Label Content="kHz" Canvas.Top="500" Canvas.Left="220"></Label>
-        
-        <Button HorizontalAlignment="Left" Canvas.Top="440" Canvas.Left="350" Name="FetchSat" Click="FetchSatDataButton_OnClick">
+                Canvas.Top="440" Canvas.Left="10" />
+        <CheckBox Canvas.Top="470" Canvas.Left="20" IsChecked="True" Name="doppler" />
+        <Label Content="多普勒" Canvas.Top="475" Canvas.Left="40" />
+
+        <Label Content="U段±" Canvas.Top="450" Canvas.Left="100" />
+        <TextBox Canvas.Top="445" Canvas.Left="145" Name="uoffset" Text="10" />
+        <Label Content="kHz" Canvas.Top="450" Canvas.Left="220" />
+
+        <Label Content="V段±" Canvas.Top="500" Canvas.Left="100" />
+        <TextBox Canvas.Top="495" Canvas.Left="145" Name="voffset" Text="5" />
+        <Label Content="kHz" Canvas.Top="500" Canvas.Left="220" />
+
+        <Button HorizontalAlignment="Left" Canvas.Top="440" Canvas.Left="350" Name="FetchSat"
+                Click="FetchSatDataButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource arrow_sync_regular}" Margin="0,0,10,0" />
-                <TextBlock Text="更新星历" VerticalAlignment="Center" Name="FetchSatText"/>
+                <TextBlock Text="更新星历" VerticalAlignment="Center" Name="FetchSatText" />
             </StackPanel>
         </Button>
-        
-        <Button HorizontalAlignment="Left" Canvas.Top="500" Canvas.Left="350" Click="InsertChannelButton_OnClick" Name="insertChannel" IsEnabled="False">
+
+        <Button HorizontalAlignment="Left" Canvas.Top="500" Canvas.Left="350" Click="InsertChannelButton_OnClick"
+                Name="insertChannel" IsEnabled="False">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource insert}" Margin="0,0,10,0" />
                 <TextBlock Text="插入信道" VerticalAlignment="Center" />

@@ -20,13 +20,14 @@ public partial class SatelliteHelperWindow : Window
     private string[] _currentChannel = new string[14];
     public ObservableCollection<string> Namelist { get; set; } = new();
 
-    public List<string> SatelliteList = new List<string>();
-    
+    public List<string> SatelliteList = new();
+
     private JArray _satelliteJson = new();
 
     public delegate void InsertChannelMethod(string rx, string rxDec, string tx, string txDec, string name);
 
     public InsertChannelMethod InsertData;
+
     public SatelliteHelperWindow(InsertChannelMethod func)
     {
         InitializeComponent();
@@ -36,15 +37,12 @@ public partial class SatelliteHelperWindow : Window
         {
             if (!LoadJson())
             {
-                Dispatcher.UIThread.Invoke(() =>
-                {
-                    selectedSatelliteInfo.Text += "正在为您更新卫星数据...\n";   
-                });
-                FetchData(); 
+                Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "正在为您更新卫星数据...\n"; });
+                FetchData();
             }
         });
     }
-    
+
     private bool LoadJson()
     {
         if (!File.Exists("./amsat-all-frequencies.json"))
@@ -52,15 +50,14 @@ public partial class SatelliteHelperWindow : Window
             Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
             return false;
         }
+
         var satelliteData = File.ReadAllText("./amsat-all-frequencies.json");
         if (satelliteData == "")
         {
-            Dispatcher.UIThread.Invoke(()=>
-            {
-                return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n";
-            });
+            Dispatcher.UIThread.Invoke(() => { return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
+
         try
         {
             Dispatcher.UIThread.Invoke(() =>
@@ -70,7 +67,7 @@ public partial class SatelliteHelperWindow : Window
             });
             SatelliteList.Clear();
             Namelist.Clear();
-            List<string> nameListCache = new List<string>();
+            List<string> nameListCache = new();
             _satelliteJson = JArray.Parse(satelliteData);
             foreach (var b in _satelliteJson) nameListCache.Add((string)b["name"]);
             nameListCache = nameListCache.Distinct().ToList();
@@ -83,10 +80,7 @@ public partial class SatelliteHelperWindow : Window
         catch (Exception e)
         {
             Console.WriteLine(e);
-            Dispatcher.UIThread.Invoke(() =>
-            {
-                selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n";
-            });
+            Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
 
@@ -129,7 +123,7 @@ public partial class SatelliteHelperWindow : Window
         var query = from item in _satelliteJson
             where (string)item["name"] == currentSat && (string)item["mode"] == currentMode
             select item;
-        if (!query.Any()){return;}
+        if (!query.Any()) return;
         var sat = query.First()["name"];
         var uplink = query.First()["uplink"];
         var downlink = query.First()["downlink"];
@@ -137,7 +131,8 @@ public partial class SatelliteHelperWindow : Window
         var status = query.First()["status"];
         var satnogId = query.First()["satnogs_id"];
         var tone = MatchTone(Checker(query.First()["mode"]));
-        selectedSatelliteInfo.Text = string.Format("上行频率:{0}\n下行频率：{1}\n亚音：{2}\n呼号：{3}\n状态：{4}\nid:{5}", Checker(uplink),
+        selectedSatelliteInfo.Text = string.Format("上行频率:{0}\n下行频率：{1}\n亚音：{2}\n呼号：{3}\n状态：{4}\nid:{5}",
+            Checker(uplink),
             Checker(downlink), tone, Checker(callsign), Checker(status), Checker(satnogId));
         // 
         _currentChannel = new string[14]
@@ -146,7 +141,7 @@ public partial class SatelliteHelperWindow : Window
             "ON", "1", Checker(sat), "OFF"
         };
     }
-    
+
     private string MatchTone(string mode)
     {
         var pattern = @"(?i)\b(?:tone|ctcss)\s+(\d+(?:\.\d+)?)?(?=hz\b)";
@@ -160,7 +155,7 @@ public partial class SatelliteHelperWindow : Window
             return match.Groups[1].Value;
         return "";
     }
-    
+
     private string Checker(IEnumerable<JToken> res)
     {
         return res.Value<string>() == null ? "" : res.ToString();
@@ -168,10 +163,10 @@ public partial class SatelliteHelperWindow : Window
 
     private void FetchSatDataButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        new Task(()=>{FetchData();}).Start();
+        new Task(() => { FetchData(); }).Start();
     }
 
-    private void FetchData ()
+    private void FetchData()
     {
         var url =
             "https://raw.githubusercontent.com/palewire/amateur-satellite-database/main/data/amsat-all-frequencies.json";
@@ -192,9 +187,7 @@ public partial class SatelliteHelperWindow : Window
         }
         catch (Exception w)
         {
-            Dispatcher.UIThread.Post(() =>{
-                FetchSatText.Text = $"出错：{w.Message},重试中...";
-            });
+            Dispatcher.UIThread.Post(() => { FetchSatText.Text = $"出错：{w.Message},重试中..."; });
             url = proxyPrefix + url;
             try
             {
@@ -205,9 +198,10 @@ public partial class SatelliteHelperWindow : Window
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新完成！").ShowWindowDialogAsync(this);
                 });
             }
-            catch(Exception a)
+            catch (Exception a)
             {
-                Dispatcher.UIThread.Post(() =>{
+                Dispatcher.UIThread.Post(() =>
+                {
                     FetchSatText.Text = $"出错：{a.Message}...";
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新失败....").ShowWindowDialogAsync(this);
                 });
@@ -241,13 +235,14 @@ public partial class SatelliteHelperWindow : Window
         if (_currentChannel[5] == "") _currentChannel[5] = "OFF";
 
         if (int.TryParse(_currentChannel[5], out var number)) _currentChannel[5] = number + ".0";
-        
+
         if (!(CheckIsFloatOrNumber(_currentChannel[2]) &&
               CheckIsFloatOrNumber(_currentChannel[4]) && CheckTones(_currentChannel[5])))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "当前卫星不支持插入！").ShowWindowDialogAsync(this);
             return;
         }
+
         double.TryParse(_currentChannel[2], out var kk);
         _currentChannel[2] = kk.ToString("0.00000");
 
@@ -274,7 +269,8 @@ public partial class SatelliteHelperWindow : Window
                     MessageBoxManager.GetMessageBoxStandard("注意", "多普勒数值有误！").ShowWindowDialogAsync(this);
                     return;
                 }
-                var tmp = (string[])_currentChannel.Clone(); 
+
+                var tmp = (string[])_currentChannel.Clone();
                 _currentChannel[2] = CalcDop(double.Parse(_currentChannel[2]), parsedUnumber, parsedVnumber, -2, 1)
                     .ToString("0.00000");
                 _currentChannel[4] = CalcDop(double.Parse(_currentChannel[4]), parsedUnumber, parsedVnumber, -2, 0)
@@ -321,6 +317,7 @@ public partial class SatelliteHelperWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", $"出错:{ae.Message}！").ShowWindowDialogAsync(this);
         }
     }
+
     private bool CheckIsFloatOrNumber(string value)
     {
         int tempInt;
@@ -346,6 +343,7 @@ public partial class SatelliteHelperWindow : Window
         };
         return ctcss.Contains(value);
     }
+
     private double CalcDop(double band, int uStep, int vStep, int level, int direction)
         //direction==0: uplink
     {

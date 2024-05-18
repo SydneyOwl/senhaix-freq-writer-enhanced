@@ -14,12 +14,13 @@ public partial class BootImgCreatorFontComponent : UserControl
     {
         InitializeComponent();
     }
+
     public static readonly RoutedEvent<RoutedEventArgs> UpdateEvent =
         RoutedEvent.Register<BootImgCreatorFontComponent, RoutedEventArgs>("UpdateEvent", RoutingStrategies.Bubble);
-    
+
     public static readonly RoutedEvent<RoutedEventArgs> ResetEvent =
         RoutedEvent.Register<BootImgCreatorFontComponent, RoutedEventArgs>("ResetEvent", RoutingStrategies.Bubble);
-    
+
     public static readonly RoutedEvent<RoutedEventArgs> AddTextEvent =
         RoutedEvent.Register<BootImgCreatorFontComponent, RoutedEventArgs>("AddTextEvent", RoutingStrategies.Bubble);
 
@@ -32,11 +33,12 @@ public partial class BootImgCreatorFontComponent : UserControl
     {
         RaiseEvent(new RoutedEventArgs(ResetEvent));
     }
-    
+
     public void RaiseAddTextEvent()
     {
         RaiseEvent(new RoutedEventArgs(AddTextEvent));
     }
+
     private void Call_OnTextChanged(object? sender, TextChangedEventArgs e)
     {
         RaiseUpdateEvent();
@@ -46,6 +48,7 @@ public partial class BootImgCreatorFontComponent : UserControl
     {
         RaiseUpdateEvent();
     }
+
     private void FontComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         RaiseUpdateEvent();

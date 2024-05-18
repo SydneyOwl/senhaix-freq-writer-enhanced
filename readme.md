@@ -34,20 +34,22 @@
 |-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
 | 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
 
-[^1]: Windows 7 SP1 is supported with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq) installed.
+[^1]: Windows 7 SP1 is supported
+with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
+installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
 [^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
 目前各版本支持的功能：
 
-| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
-| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-| 蓝牙写频                             | 仅8800；目前只在Windows上可用                           | 仅蓝牙版支持                            | :heavy_minus_sign:           |
-| （以下为支持的插件）                 |                                                         |                                         |                              |
-| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
-| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+|--------------------|------------------------------------------------|------------------------------|-----------------------|
+| 原有的所有功能            | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| 蓝牙写频               | 仅8800；目前只在Windows上可用                           | 仅蓝牙版支持                       | :heavy_minus_sign:    |
+| （以下为支持的插件）         |                                                |                              |                       |
+| 开机画面修改             | :white_check_mark:                             | :white_check_mark:           | :heavy_minus_sign:    |
+| 打星助手               | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
 
 [^4]:该版本自带runtime，无需额外安装
 
@@ -76,9 +78,12 @@
 > [!WARNING]  
 > 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
 
-卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
+卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)
+，参考了[业余无线电 FM 卫星频率表](https://forum.hamcq.cn/d/351)
+进行了多普勒修正。可以在此处查看更多:https://forum.hamcq.cn/d/351
 
-shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector) 以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
+shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble-connector)
+以及 [config-editor](https://github.com/SydneyOwl/shx8800-config-editor)
 
 ## 免责声明
 

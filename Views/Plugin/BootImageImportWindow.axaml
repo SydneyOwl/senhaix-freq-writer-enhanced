@@ -9,12 +9,12 @@
         CanResize="False">
     <Canvas>
         <!-- shx8x00 -->
-        <Rectangle Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}" Fill="LightGray" 
+        <Rectangle Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}" Fill="LightGray"
                    Canvas.Left="30" Canvas.Top="30" />
         <Image Height="{Binding BootImgHeight}" Width="{Binding BootImgWidth}"
                Name="bootImage"
                Canvas.Left="30" Canvas.Top="30" />
-        <Label Foreground="Red" Canvas.Left="10" Canvas.Bottom="15" Content="{Binding Hint}"></Label>
+        <Label Foreground="Red" Canvas.Left="10" Canvas.Bottom="15" Content="{Binding Hint}" />
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="40" Click="CreateImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource draw}" Margin="0,0,10,0" />

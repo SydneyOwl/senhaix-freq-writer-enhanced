@@ -32,7 +32,7 @@ public class HidTools
 
     //TODO: enhance
     public byte[] RxBuffer = new byte[64];
-    
+
     public bool FlagReceiveData;
 
     public delegate Task WriteValueAsync(byte[] value);

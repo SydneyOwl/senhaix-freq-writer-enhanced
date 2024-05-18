@@ -525,26 +525,17 @@ public partial class MainWindow : Window
     {
         new SatelliteHelperWindow(InsertNewChannel).ShowDialog(this);
     }
-    
+
     private void InsertNewChannel(string rx, string dec, string tx, string enc, string name)
     {
         var lastEmptyIndex = -1;
         for (var i = ListItems.Count - 1; i >= 0; i--)
-        {
             if (ListItems[i].AllEmpty())
-            {
                 lastEmptyIndex = i;
-            }
             else
-            {
                 break;
-            }
-        }
 
-        if (lastEmptyIndex == -1)
-        {
-            throw new IndexOutOfRangeException("信道空间已满，无法插入！");
-        }
+        if (lastEmptyIndex == -1) throw new IndexOutOfRangeException("信道空间已满，无法插入！");
 
         var data = new ChannelData
         {
