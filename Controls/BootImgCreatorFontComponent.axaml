@@ -61,7 +61,7 @@
 
             <Button Content="居中" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Click="ResetButton_OnClick"/>
             
-            <Button Name="addButton" Grid.Row="5" Grid.Column="3" Grid.RowSpan="2" Content="增加信息" Click="AddTextButton_OnClick"></Button>
+            <Button Name="addButton" Grid.Row="5" Grid.Column="3" Grid.RowSpan="2" Content="增加文字" Click="AddTextButton_OnClick"></Button>
         </Grid>
     </Border>
 </UserControl>

@@ -180,13 +180,15 @@ public partial class BootImageImportWindow : Window
 
     private async void CreateImageButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var bi = new BootImageCreatorWindow(_device);
-        await bi.ShowDialog(this);
-        if (bi.CreatedBitmap == null)
-        {
-            return;
-        };
-        bootImage.Source = bi.CreatedAvaloniaBitmap;
-        this._bitmap = bi.CreatedBitmap;
+        // fix：#21
+        new BootImageCreatorWindow(_device).Show();
+        // var bi = new BootImageCreatorWindow(_device);
+        // await bi.ShowDialog(this);
+        // if (bi.CreatedBitmap == null)
+        // {
+        //     return;
+        // };
+        // bootImage.Source = bi.CreatedAvaloniaBitmap;
+        // this._bitmap = bi.CreatedBitmap;
     }
 }

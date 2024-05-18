@@ -192,6 +192,9 @@ public partial class SatelliteHelperWindow : Window
         }
         catch (Exception w)
         {
+            Dispatcher.UIThread.Post(() =>{
+                FetchSatText.Text = $"出错：{w.Message},重试中...";
+            });
             url = proxyPrefix + url;
             try
             {
@@ -202,10 +205,10 @@ public partial class SatelliteHelperWindow : Window
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新完成！").ShowWindowDialogAsync(this);
                 });
             }
-            catch
+            catch(Exception a)
             {
-                Dispatcher.UIThread.Post(() =>
-                {
+                Dispatcher.UIThread.Post(() =>{
+                    FetchSatText.Text = $"出错：{a.Message}...";
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新失败....").ShowWindowDialogAsync(this);
                 });
             }
