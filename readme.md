@@ -53,6 +53,10 @@ installed.
 
 [^4]:该版本自带runtime，无需额外安装
 
+![](./readme_image/so50.png)
+
+![](./readme_image/BootImg.png)
+
 ## 编译指引
 
 如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
