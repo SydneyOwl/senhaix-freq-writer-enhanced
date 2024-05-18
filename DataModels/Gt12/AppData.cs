@@ -68,12 +68,12 @@ public class AppData
     {
         using (var streamReader = new StreamReader(s, Encoding.UTF8))
         {
-            var xmls = streamReader.ReadToEnd();
+            var res = streamReader.ReadToEnd();
             AppData tmp;
             try
             {
                 var jsonSerializer = new JsonSerializer();
-                var stringReader = new JsonTextReader(new StringReader(xmls));
+                var stringReader = new JsonTextReader(new StringReader(res));
                 tmp = jsonSerializer.Deserialize<AppData>(stringReader);
                 Instance.Dtmfs = tmp.Dtmfs;
                 Instance.FunCfgs = tmp.FunCfgs;

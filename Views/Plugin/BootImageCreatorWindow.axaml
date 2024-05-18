@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Width="440" Height="{Binding WindowHeight}"
+        Width="600" Height="{Binding WindowHeight}"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:BootImageCreatorWindow"
         x:Class="SenhaixFreqWriter.Views.Plugin.BootImageCreatorWindow"
@@ -25,21 +25,33 @@
         <TextBox Canvas.Left="340" Canvas.Top="65" Width="80" Name="call" TextChanged="Call_OnTextChanged" Text=""></TextBox>
         
         <Label Content="背景色：" Canvas.Left="260" Canvas.Top="120"></Label>
-        <colorpicker:ColorButton Color="Orange" Canvas.Left="320" Canvas.Top="120" Name="back" DataContextChanged="Back_OnDataContextChanged" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
+        <colorpicker:ColorButton Color="Orange" Canvas.Left="320" Canvas.Top="120" Name="back" PropertyChanged="Back_OnPropertyChanged"></colorpicker:ColorButton>
         <Label Content="字体色：" Canvas.Left="260" Canvas.Top="150"></Label>
-        <colorpicker:ColorButton Color="White" Canvas.Left="320" Canvas.Top="150" Name="font" DataContextChanged="Font_OnDataContextChanged" PropertyChanged="Font_OnPropertyChanged"></colorpicker:ColorButton>
+        <colorpicker:ColorButton Color="White" Canvas.Left="320" Canvas.Top="150" Name="font" PropertyChanged="Font_OnPropertyChanged"></colorpicker:ColorButton>
         
-        <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="200" Click="ConfirmButton_OnClick">
-            <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
-                <TextBlock Text="确定" VerticalAlignment="Center" />
-            </StackPanel>
-        </Button>
-        <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="200" Click="AbortButton_OnClick">
-            <StackPanel Orientation="Horizontal">
-                <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
-                <TextBlock Text="取消" VerticalAlignment="Center" />
-            </StackPanel>
-        </Button>
+        <Label Content="字号大小：" Canvas.Left="260" Canvas.Top="190"></Label>
+        <TextBlock Text="{Binding #sizeSlider.Value}" 
+                   HorizontalAlignment="Center" Canvas.Left="335" Canvas.Top="192"/>
+        <Slider Name="sizeSlider" Width="150" Maximum="100"  Minimum="0"  Value="30" ValueChanged="SizeSlider_OnValueChanged"
+                TickFrequency="1" IsSnapToTickEnabled="True" Canvas.Left="260" Canvas.Top="200"/>
+        
+        <Label Content="字体：" Canvas.Left="370" Canvas.Top="120"></Label>
+        <ComboBox Name="fontComboBox" Canvas.Left="420" Canvas.Top="115" ItemsSource="{Binding fontList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
+        
+        <Label Content="样式：" Canvas.Left="370" Canvas.Top="150"></Label>
+        <ComboBox Name="fontStyleComboBox" Canvas.Left="420" Canvas.Top="150" ItemsSource="{Binding fontStyleList}" SelectedIndex="0" SelectionChanged="FontComboBox_OnSelectionChanged"></ComboBox>
+        
+        <!-- <Button HorizontalAlignment="Left" Canvas.Left="260" Canvas.Top="200" Click="ConfirmButton_OnClick"> -->
+        <!--     <StackPanel Orientation="Horizontal"> -->
+        <!--         <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" /> -->
+        <!--         <TextBlock Text="确定" VerticalAlignment="Center" /> -->
+        <!--     </StackPanel> -->
+        <!-- </Button> -->
+        <!-- <Button HorizontalAlignment="Left" Canvas.Left="350" Canvas.Top="200" Click="AbortButton_OnClick"> -->
+        <!--     <StackPanel Orientation="Horizontal"> -->
+        <!--         <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" /> -->
+        <!--         <TextBlock Text="取消" VerticalAlignment="Center" /> -->
+        <!--     </StackPanel> -->
+        <!-- </Button> -->
     </Canvas>
 </Window>

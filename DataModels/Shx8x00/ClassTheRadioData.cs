@@ -4,17 +4,17 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using MsBox.Avalonia;
+using Newtonsoft.Json;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
 [Serializable]
 public class ClassTheRadioData
 {
-    [XmlIgnore] public static ClassTheRadioData Instance;
+    [JsonIgnore] public static ClassTheRadioData Instance;
 
-    [XmlIgnore] public ObservableCollection<ChannelData> ChanData = new();
+    [JsonIgnore] public ObservableCollection<ChannelData> ChanData = new();
 
     //TODO 无法直接反序列化到chanData, 只能这样一下
     public List<ChannelData> Channeldata = new();
@@ -37,7 +37,8 @@ public class ClassTheRadioData
 
     public void SaveToFile(Stream s)
     {
-        var serializer = new XmlSerializer(typeof(ClassTheRadioData));
+        var serializer = new JsonSerializer();
+        serializer.Formatting = Formatting.Indented;
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
             Instance.Channeldata = Instance.ChanData.ToList();
@@ -50,13 +51,13 @@ public class ClassTheRadioData
     {
         using (var streamReader = new StreamReader(s, Encoding.UTF8))
         {
-            var xmls = streamReader.ReadToEnd();
+            var res = streamReader.ReadToEnd();
             ClassTheRadioData tmp;
             try
             {
-                var xmlSerializer = new XmlSerializer(typeof(ClassTheRadioData));
-                var stringReader = new StringReader(xmls);
-                tmp = (ClassTheRadioData)xmlSerializer.Deserialize(stringReader);
+                var jsonSerializer = new JsonSerializer();
+                var stringReader = new JsonTextReader(new StringReader(res));
+                tmp = jsonSerializer.Deserialize<ClassTheRadioData>(stringReader);
                 Instance.FunCfgData = tmp.FunCfgData;
                 Instance.DtmfData = tmp.DtmfData;
                 Instance.OtherImfData = tmp.OtherImfData;

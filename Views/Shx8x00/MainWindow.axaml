@@ -11,7 +11,8 @@
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.MainWindow"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized">
+        >
+        <!-- WindowState="Maximized"> -->
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="文件">
