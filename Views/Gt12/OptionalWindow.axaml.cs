@@ -20,7 +20,7 @@ public partial class OptionalWindow : Window
     }
 
 
-    private void CallsignInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void CallsignInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)
     {
         var textbox = (TextBox)sender;
         var cont = textbox.Text;
@@ -43,7 +43,7 @@ public partial class OptionalWindow : Window
         textbox.Text = textbox.Text.ToUpper();
     }
 
-    private void MDCInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void MDCInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)
     {
         var textbox = (TextBox)sender;
         var cont = textbox.Text;

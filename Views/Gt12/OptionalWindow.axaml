@@ -165,10 +165,10 @@
                           SelectedIndex="{Binding Func.BluetoothAudioGain}" />
                 <Label Content="呼号" Canvas.Top="190" Canvas.Left="280" />
                 <TextBox Canvas.Top="185" Canvas.Left="360" Width="100" Text="{Binding Func.CallSign}"
-                         LostFocus="CallsignInputElement_OnLostFocus" />
+                         TextChanged="CallsignInputElement_OnLostFocus" />
                 <Label Content="SDC-ID" Canvas.Top="240" Canvas.Left="260" />
                 <TextBox Canvas.Top="235" Canvas.Left="360" Width="100" Text="{Binding Mdc.Id}"
-                         LostFocus="MDCInputElement_OnLostFocus" />
+                         TextChanged="MDCInputElement_OnLostFocus" />
             </Canvas>
         </TabItem>
     </TabControl>

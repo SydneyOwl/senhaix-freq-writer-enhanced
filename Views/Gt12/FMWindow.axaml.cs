@@ -74,7 +74,7 @@ public partial class FmWindow : Window
     {
     }
 
-    private void FreqInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void FreqInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)
     {
         var textBox = (TextBox)sender;
         var dataContext = textBox.DataContext as FmObject;
@@ -88,6 +88,10 @@ public partial class FmWindow : Window
             return;
         }
 
+        if (text.Length < 2 || (text.Length==2 && text.StartsWith("10")))
+        {
+            return;
+        }
         text = fmfreq.ToString("0.0");
 
         var array = text.Split('.');
@@ -104,7 +108,7 @@ public partial class FmWindow : Window
             num3 = list[0] * 10;
         }
 
-        if (num3 < 650 || num3 >= 1080)
+        if (num3 < 650 || num3 > 1080)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "频率要在65.0-108.0之间").ShowWindowDialogAsync(this);
             textBox.Text = "";
@@ -115,7 +119,7 @@ public partial class FmWindow : Window
         textBox.Text = text.Insert(text.Length - 1, ".");
     }
 
-    private void currFreqInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void currFreqInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)
     {
         var textBox = (TextBox)sender;
         var text = textBox.Text;
@@ -127,7 +131,10 @@ public partial class FmWindow : Window
             textBox.Text = "";
             return;
         }
-
+        if (text.Length < 2 || (text.Length==2 && text.StartsWith("10")))
+        {
+            return;
+        }
         text = fmfreq.ToString("0.0");
 
         var array = text.Split('.');
@@ -144,7 +151,7 @@ public partial class FmWindow : Window
             num3 = list[0] * 10;
         }
 
-        if (num3 < 650 || num3 >= 1080)
+        if (num3 < 650 || num3 > 1080)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "频率要在65.0-108.0之间").ShowWindowDialogAsync(this);
             textBox.Text = "";

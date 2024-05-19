@@ -25,7 +25,7 @@
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Group}" LostFocus="GroupCodeInputElement_OnLostFocus" />
+                            <TextBox Text="{Binding Group}" TextChanged="GroupCodeInputElement_OnLostFocus" />
                             <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -34,7 +34,7 @@
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding GroupName}" LostFocus="GroupNameInputElement_OnLostFocus" />
+                            <TextBox Text="{Binding GroupName}" TextChanged="GroupNameInputElement_OnLostFocus" />
                             <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -43,7 +43,7 @@
         </DataGrid>
         <Label Content="本机id" Canvas.Bottom="90" Canvas.Left="20" />
         <TextBox Canvas.Bottom="85" Canvas.Left="70" Text="{Binding MyId}"
-                 LostFocus="GroupCodeInputElement_OnLostFocus" />
+                 TextChanged="GroupCodeInputElement_OnLostFocus" />
 
         <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160" />
         <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"

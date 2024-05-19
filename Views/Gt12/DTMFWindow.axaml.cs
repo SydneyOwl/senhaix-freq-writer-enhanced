@@ -91,7 +91,7 @@ public partial class DtmfWindow : Window
         };
     }
 
-    private void GroupCodeInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void GroupCodeInputElement_OnLostFocus(object? sender, TextChangedEventArgs e) 
     {
         var textbox = (TextBox)sender;
         var inputText = textbox.Text;
@@ -111,7 +111,7 @@ public partial class DtmfWindow : Window
             }
     }
 
-    private void GroupNameInputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void GroupNameInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)
     {
         var textbox = (TextBox)sender;
         var inputText = textbox.Text;
