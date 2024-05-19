@@ -31,25 +31,26 @@ public partial class DeviceSelectWindow : Window
             Environment.Exit(0);
             return;
         }
+        
+        if (SETTINGS.debugEnabled)
+        {
+            DebugWindow.GetNewInstance().Show();
+        }
 
         switch (DeviceChooseComboBox.SelectedIndex)
         {
             case 0:
+                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8800");
                 new Shx8x00.MainWindow().Show();
                 break;
             case 1:
+                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
                 new Gt12.MainWindow().Show();
                 break;
             default:
                 new Shx8x00.MainWindow().Show();
                 break;
         }
-
-        if (SETTINGS.debugEnabled)
-        {
-            DebugWindow.GetNewInstance().Show();
-        }
-
         Close();
     }
 

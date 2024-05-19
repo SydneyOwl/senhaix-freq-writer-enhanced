@@ -8,6 +8,7 @@ using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Gt12;
 
@@ -78,6 +79,7 @@ public partial class DtmfWindow : Window
                 if (string.IsNullOrEmpty(Dtmfs[i].Group) || string.IsNullOrEmpty(Dtmfs[i].GroupName))
                 {
                     args.Cancel = true;
+                    DebugWindow.GetInstance().updateDebugContent($"阻止窗口关闭：有空字段");
                     await MessageBoxManager.GetMessageBoxStandard("注意", "未填写完整，不能有为空的字段！")
                         .ShowWindowDialogAsync(this);
                     return;

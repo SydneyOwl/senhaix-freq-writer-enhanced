@@ -12,6 +12,7 @@ using Avalonia.Threading;
 using MsBox.Avalonia;
 using Newtonsoft.Json.Linq;
 using SenhaixFreqWriter.Constants.Common;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Plugin;
 
@@ -47,13 +48,15 @@ public partial class SatelliteHelperWindow : Window
     {
         if (!File.Exists("./amsat-all-frequencies.json"))
         {
+            DebugWindow.GetInstance().updateDebugContent($"未找到json");
             Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
             return false;
         }
 
         var satelliteData = File.ReadAllText("./amsat-all-frequencies.json");
         if (satelliteData == "")
-        {
+        {        
+            DebugWindow.GetInstance().updateDebugContent($"json为空");
             Dispatcher.UIThread.Invoke(() => { return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
@@ -79,7 +82,7 @@ public partial class SatelliteHelperWindow : Window
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            DebugWindow.GetInstance().updateDebugContent($"ERR：{e.Message}");
             Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
@@ -187,6 +190,7 @@ public partial class SatelliteHelperWindow : Window
         }
         catch (Exception w)
         {
+            DebugWindow.GetInstance().updateDebugContent($"下载出错：{w.Message}，ppxy...");
             Dispatcher.UIThread.Post(() => { FetchSatText.Text = $"出错：{w.Message},重试中..."; });
             url = proxyPrefix + url;
             try
@@ -203,6 +207,7 @@ public partial class SatelliteHelperWindow : Window
                 Dispatcher.UIThread.Post(() =>
                 {
                     FetchSatText.Text = $"出错：{a.Message}...";
+                    DebugWindow.GetInstance().updateDebugContent($"下载出错：{w.Message}");
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新失败....").ShowWindowDialogAsync(this);
                 });
             }

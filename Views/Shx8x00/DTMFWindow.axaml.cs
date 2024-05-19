@@ -3,6 +3,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.DataModels.Shx8x00;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Shx8x00;
 
@@ -26,6 +27,8 @@ public partial class DtmfWindow : Window
 
     private void confirm_OnClick(object? sender, RoutedEventArgs e)
     {
+        
+            DebugWindow.GetInstance().updateDebugContent($"ConfClick");
         Close();
     }
 

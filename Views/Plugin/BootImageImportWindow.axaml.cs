@@ -9,6 +9,7 @@ using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
+using SenhaixFreqWriter.Views.Common;
 using SkiaSharp;
 
 namespace SenhaixFreqWriter.Views.Plugin;
@@ -46,6 +47,7 @@ public partial class BootImageImportWindow : Window
                 break;
         }
 
+        DebugWindow.GetInstance().updateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
         InitializeComponent();
         DataContext = this;
     }
@@ -66,13 +68,14 @@ public partial class BootImageImportWindow : Window
         });
         if (files.Count == 0) return;
         var bitmap = SKBitmap.Decode(files[0].Path.AbsolutePath);
-
+        DebugWindow.GetInstance().updateDebugContent($"PicFormat：{bitmap.ColorType}");
         if (!bitmap.ColorType.Equals(SKColorType.Bgra8888) && !bitmap.ColorType.Equals(SKColorType.Rgba8888))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片像素格式不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
 
+        DebugWindow.GetInstance().updateDebugContent($"图片尺寸：{bitmap.Width}*{bitmap.Height}");
         if ((bitmap.Width != Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH ||
              bitmap.Height != Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT) && _device == SHX_DEVICE.SHX8X00)
         {
@@ -133,6 +136,7 @@ public partial class BootImageImportWindow : Window
 
     private async void StartWrite8800(CancellationTokenSource source)
     {
+        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartWrite8800");
         var res = await _bootWri.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
@@ -144,10 +148,13 @@ public partial class BootImageImportWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
             start.IsEnabled = true;
         });
+        
+        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartWrite8800");
     }
 
     private void StartGetProcess8800(CancellationToken token)
     {
+        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartGetProcess8800");
         while (!token.IsCancellationRequested)
         {
             int curPct;
@@ -155,10 +162,12 @@ public partial class BootImageImportWindow : Window
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
             // Thread.Sleep(10);
         }
+        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartGetProcess8800");
     }
 
     private async void StartWriteGt12(CancellationTokenSource source)
-    {
+    {       
+        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartWriteGt12");
         var res = _bootHid.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
@@ -170,16 +179,19 @@ public partial class BootImageImportWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
             start.IsEnabled = true;
         });
+        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartWriteGt12");
     }
 
     private void StartGetProcessGt12(CancellationToken token)
     {
+        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartGetProcessGt12");
         while (!token.IsCancellationRequested)
         {
             int curPct;
             if (!_bootHid.currentProg.TryDequeue(out curPct)) continue;
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
         }
+        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartGetProcessGt12");
     }
 
     private async void CreateImageButton_OnClick(object? sender, RoutedEventArgs e)

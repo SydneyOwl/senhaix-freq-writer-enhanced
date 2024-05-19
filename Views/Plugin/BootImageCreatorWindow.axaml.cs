@@ -18,6 +18,7 @@ using Avalonia.Platform.Storage;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Controls;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Plugin;
 
@@ -59,10 +60,11 @@ public partial class BootImageCreatorWindow : Window
                 WindowHeight = 390;
                 break;
         }
-
+        DebugWindow.GetInstance().updateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
         InitializeFont();
         InitializeComponent();
         //TMPLLA
+        DebugWindow.GetInstance().updateDebugContent($"添加控件");
         var compControl = this.FindControl<BootImgCreatorFontComponent>("CreatorComponent");
         compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent, (a, b) => UpdatePreview(compControl),
             RoutingStrategies.Bubble);
@@ -91,6 +93,7 @@ public partial class BootImageCreatorWindow : Window
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
+            DebugWindow.GetInstance().updateDebugContent($"Windows: ->InstalledFontCollection");
             var fonts = new InstalledFontCollection();
             foreach (var family in fonts.Families) fontList.Add(family.Name);
         }
@@ -98,8 +101,11 @@ public partial class BootImageCreatorWindow : Window
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             // can't fetch list directly from macos syscall...
             // maybe insert list directly
+        {
+            DebugWindow.GetInstance().updateDebugContent($"macOS: ->OSX_AVAILABLE_FONTS.OSX_FONT_LIST");
             foreach (var se in OSX_AVAILABLE_FONTS.OSX_FONT_LIST)
                 fontList.Add(se);
+        }
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             var process = new Process();
@@ -119,10 +125,15 @@ public partial class BootImageCreatorWindow : Window
 
                 process.WaitForExit();
                 if (process.ExitCode != 0)
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"Linux获取字体失败,输出：{fontList[0]}");
                     MessageBoxManager.GetMessageBoxStandard("注意", "获取字体失败!").ShowWindowDialogAsync(this);
+                    fontList.Clear();
+                }
             }
             catch (Exception ex)
             {
+                DebugWindow.GetInstance().updateDebugContent($"Linux获取字体失败：{ex.Message}");
                 MessageBoxManager.GetMessageBoxStandard("注意", $"获取字体失败!{ex.Message}").ShowWindowDialogAsync(this);
             }
         }
@@ -137,8 +148,8 @@ public partial class BootImageCreatorWindow : Window
 
     private void UpdatePreview(BootImgCreatorFontComponent comp, bool resetCenter = false)
     {
+        DebugWindow.GetInstance().updateDebugContent($"触发更新");
         if (_stopUpdate) return;
-
         var bmp = new SKBitmap(BootImgWidth, BootImgHeight);
         var backColor = back.Color.ToSKColor();
         using (var canvas = new SKCanvas(bmp))
@@ -331,5 +342,6 @@ public partial class BootImageCreatorWindow : Window
         compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent, (a, b) => AddText(compControl),
             RoutingStrategies.Bubble);
         controls.Add(compControl);
+        DebugWindow.GetInstance().updateDebugContent($"新增子元素：BootImgCreatorC，行{currentRow}，列{lastRowCount}");
     }
 }
