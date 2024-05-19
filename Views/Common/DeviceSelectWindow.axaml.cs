@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.HID;
 
 namespace SenhaixFreqWriter.Views.Common;
@@ -40,5 +41,10 @@ public partial class DeviceSelectWindow : Window
         }
 
         Close();
+    }
+
+    private void ToggleButton_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
+    {
+        SETTINGS.debugEnabled = ((CheckBox)sender).IsChecked.Value;
     }
 }

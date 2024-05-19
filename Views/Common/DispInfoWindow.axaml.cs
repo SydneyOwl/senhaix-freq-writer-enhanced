@@ -1,18 +1,22 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using SenhaixFreqWriter.Properties;
 
 namespace SenhaixFreqWriter.Views.Common;
 
-public partial class HintWindow : Window
+public partial class DispInfoWindow : Window
 {
-    public HintWindow()
+    public DispInfoWindow()
     {
         InitializeComponent();
     }
 
-    public void SetLabelStatus(string stat)
+    public void SetLabelStatus(string stat,bool debugInfo = false)
     {
-        tbContent.Text += "\n" + stat;
+        if (!debugInfo || (SETTINGS.debugEnabled && debugInfo))
+        {
+            tbContent.Text += "\n" + stat;
+        }
     }
 
     public void SetButtonStatus(bool show)

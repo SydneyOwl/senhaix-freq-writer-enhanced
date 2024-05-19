@@ -465,34 +465,34 @@ public partial class MainWindow : Window
 
     private void ConnectMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        var hint = new HintWindow();
+        var hint = new DispInfoWindow();
         hint.SetLabelStatus("(此为调试功能，正常情况软件会自动连接GT12)");
         hint.SetButtonStatus(false);
         hint.ShowDialog(this);
 
-        hint.SetLabelStatus("-------所有HID设备-------");
+        hint.SetLabelStatus("-------所有HID设备-------" ,true);
         foreach (var hidDevice in HidTools.GetAllHidDevices())
         {
-            hint.SetLabelStatus($"设备名：{hidDevice.GetProductName()}");
+            hint.SetLabelStatus($"设备名：{hidDevice.GetProductName()}" ,true);
             // hint.setLabelStatus($"序列号：{hidDevice.GetSerialNumber()}");
-            hint.SetLabelStatus($"VID：{hidDevice.VendorID}");
-            hint.SetLabelStatus($"PID：{hidDevice.ProductID}");
-            hint.SetLabelStatus($"路径：{hidDevice.DevicePath}");
-            hint.SetLabelStatus("----------------");
+            hint.SetLabelStatus($"VID：{hidDevice.VendorID}" ,true);
+            hint.SetLabelStatus($"PID：{hidDevice.ProductID}" ,true);
+            hint.SetLabelStatus($"路径：{hidDevice.DevicePath}" ,true);
+            hint.SetLabelStatus("----------------" ,true);
         }
 
         if (HidTools.GetInstance().FindAndConnect() == HidStatus.Success)
         {
             hint.SetLabelStatus("连接成功!");
-            hint.SetLabelStatus("-------设备信息-------");
+            hint.SetLabelStatus("-------设备信息-------" ,true);
             var gt12 = HidTools.GetInstance().Gt12Device;
-            hint.SetLabelStatus($"最大输入长度：{gt12.GetMaxInputReportLength()}");
-            hint.SetLabelStatus($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
-            hint.SetLabelStatus($"PID：{gt12.ProductID}");
-            hint.SetLabelStatus($"VID：{gt12.VendorID}");
-            hint.SetLabelStatus($"设备路径：{gt12.DevicePath}");
+            hint.SetLabelStatus($"最大输入长度：{gt12.GetMaxInputReportLength()}" ,true);
+            hint.SetLabelStatus($"最大输出长度：{gt12.GetMaxOutputReportLength()}" ,true);
+            hint.SetLabelStatus($"PID：{gt12.ProductID}" ,true);
+            hint.SetLabelStatus($"VID：{gt12.VendorID}" ,true);
+            hint.SetLabelStatus($"设备路径：{gt12.DevicePath}" ,true);
             // hint.setLabelStatus($"序列号：{gt12.GetSerialNumber()}");
-            hint.SetLabelStatus($"设备名：{gt12.GetProductName()}");
+            hint.SetLabelStatus($"设备名：{gt12.GetProductName()}" ,true);
             // hint.setLabelStatus($"文件系统名：{gt12.GetFileSystemName()}");
             // hint.setLabelStatus($"ReNumber：{gt12.ReleaseNumber}");
         }
@@ -538,7 +538,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        var hint = new HintWindow();
+        var hint = new DispInfoWindow();
         hint.SetLabelStatus("自动搜索中...");
         hint.SetButtonStatus(false);
         hint.ShowDialog(this);

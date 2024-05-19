@@ -98,7 +98,7 @@ public partial class BootImageCreatorWindow : Window
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             // can't fetch list directly from macos syscall...
             // maybe insert list directly
-            foreach (var se in OSX_AVALIABLE_FONTS.OSX_FONT_LIST)
+            foreach (var se in OSX_AVAILABLE_FONTS.OSX_FONT_LIST)
                 fontList.Add(se);
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {

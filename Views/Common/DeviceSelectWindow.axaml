@@ -10,6 +10,7 @@
             <ComboBoxItem Content="森海克斯8800/8600" />
             <ComboBoxItem Content="森海克斯GT12" />
         </ComboBox>
+        <CheckBox Content="全局调试" Canvas.Top="100" Canvas.Left="10" IsCheckedChanged="ToggleButton_OnIsCheckedChanged"></CheckBox>
         <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick">确定</Button>
     </Canvas>
 </Window>

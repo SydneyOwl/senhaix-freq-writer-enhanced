@@ -432,7 +432,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        var hint = new HintWindow();
+        var hint = new DispInfoWindow();
         hint.SetLabelStatus("自动搜索中...");
         hint.SetButtonStatus(false);
         hint.ShowDialog(this);

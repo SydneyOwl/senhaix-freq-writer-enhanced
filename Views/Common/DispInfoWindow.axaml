@@ -1,7 +1,7 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="250" Height="300"
-        x:Class="SenhaixFreqWriter.Views.Common.HintWindow"
+        x:Class="SenhaixFreqWriter.Views.Common.DispInfoWindow"
         Title="HintBT"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
@@ -10,7 +10,8 @@
         BorderThickness="1"
         BorderBrush="Brown"
         Background="BlanchedAlmond"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
     <Canvas>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Width="250" Height="250">
             <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" Width="220" />

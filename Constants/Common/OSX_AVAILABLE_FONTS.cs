@@ -2,7 +2,7 @@
 
 namespace SenhaixFreqWriter.Constants.Common;
 
-public class OSX_AVALIABLE_FONTS
+public class OSX_AVAILABLE_FONTS
 {
     // From: https://developer.apple.com/fonts/system-fonts/
     public static ObservableCollection<string> OSX_FONT_LIST = new()
