@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HidSharp;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
@@ -29,7 +30,6 @@ public class HidTools
 
     public UpdateMainUiThread UpdateLabel;
 
-
     //TODO: enhance
     public byte[] RxBuffer = new byte[64];
 
@@ -47,6 +47,11 @@ public class HidTools
 
     private Mutex _mutexSend = new();
 
+    private void UpdateDebugInfo(string a)
+    {
+        DebugWindow.GetInstance().updateDebugContent(a);
+    }
+    
     public static bool IsShxhidExist()
     {
         return DeviceList.Local.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) != null;
@@ -159,6 +164,7 @@ public class HidTools
             var e = new Report(array[0], array);
             var array1 = new byte[64];
             Array.Copy(e.ReportBuff, 0, array1, 0, 64);
+            UpdateDebugInfo($"收到数据（长度{array1.Length}）：{BitConverter.ToString(array1)}");
             RxBuffer = array1;
             // Console.WriteLine(BitConverter.ToString(rxBuffer));
             FlagReceiveData = true;
@@ -264,6 +270,7 @@ public class HidTools
     {
         var array = new byte[byData.Length];
         Array.Copy(byData, 0, array, 0, byData.Length);
+        UpdateDebugInfo($"发送数据（长度{array.Length}，蓝牙状态{WriteBle!=null}）：{BitConverter.ToString(array)}");
         if (Write(new Report(1, array)) != HidStatus.Success) return false;
         return true;
     }

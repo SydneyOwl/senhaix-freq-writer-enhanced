@@ -14,6 +14,11 @@ public partial class DeviceSelectWindow : Window
 {
     public DeviceSelectWindow()
     {
+        if (DebugWindow.HasInstance())
+        {
+            DebugWindow.GetInstance().Close();
+        }
+        SETTINGS.debugEnabled = false;
         InitializeComponent();
         if (HidTools.IsShxhidExist()) DeviceChooseComboBox.SelectedIndex = 1;
     }
@@ -38,6 +43,11 @@ public partial class DeviceSelectWindow : Window
             default:
                 new Shx8x00.MainWindow().Show();
                 break;
+        }
+
+        if (SETTINGS.debugEnabled)
+        {
+            DebugWindow.GetNewInstance().Show();
         }
 
         Close();

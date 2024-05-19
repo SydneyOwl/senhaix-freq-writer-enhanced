@@ -13,10 +13,15 @@ public partial class DispInfoWindow : Window
 
     public void SetLabelStatus(string stat,bool debugInfo = false)
     {
-        if (!debugInfo || (SETTINGS.debugEnabled && debugInfo))
+        if (!debugInfo)
         {
             tbContent.Text += "\n" + stat;
         }
+        else
+        {
+            DebugWindow.GetInstance().updateDebugContent(stat);
+        }
+        Viewer.ScrollToEnd();
     }
 
     public void SetButtonStatus(bool show)
