@@ -20,7 +20,7 @@ public partial class DeviceSelectWindow : Window
         }
         SETTINGS.debugEnabled = false;
         InitializeComponent();
-        if (HidTools.IsShxhidExist()) DeviceChooseComboBox.SelectedIndex = 1;
+        if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 1;
     }
 
     private async void Device_OnClick(object? sender, RoutedEventArgs e)

@@ -136,7 +136,7 @@ public partial class BootImageImportWindow : Window
 
     private async void StartWrite8800(CancellationTokenSource source)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartWrite8800");
+        DebugWindow.GetInstance().updateDebugContent($"Start WriImg Thread: StartWrite8800");
         var res = await _bootWri.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
@@ -149,12 +149,12 @@ public partial class BootImageImportWindow : Window
             start.IsEnabled = true;
         });
         
-        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartWrite8800");
+        DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartWrite8800");
     }
 
     private void StartGetProcess8800(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartGetProcess8800");
+        DebugWindow.GetInstance().updateDebugContent($"Start WriImg Thread: StartGetProcess8800");
         while (!token.IsCancellationRequested)
         {
             int curPct;
@@ -162,12 +162,12 @@ public partial class BootImageImportWindow : Window
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
             // Thread.Sleep(10);
         }
-        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartGetProcess8800");
+        DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartGetProcess8800");
     }
 
     private async void StartWriteGt12(CancellationTokenSource source)
     {       
-        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartWriteGt12");
+        DebugWindow.GetInstance().updateDebugContent($"Start WriImg Thread: StartWriteGt12");
         var res = _bootHid.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
@@ -179,19 +179,19 @@ public partial class BootImageImportWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
             start.IsEnabled = true;
         });
-        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartWriteGt12");
+        DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartWriteGt12");
     }
 
     private void StartGetProcessGt12(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start Thread: StartGetProcessGt12");
+        DebugWindow.GetInstance().updateDebugContent($"Start WriImg Thread: StartGetProcessGt12");
         while (!token.IsCancellationRequested)
         {
             int curPct;
             if (!_bootHid.currentProg.TryDequeue(out curPct)) continue;
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
         }
-        DebugWindow.GetInstance().updateDebugContent($"Terminate Thread: StartGetProcessGt12");
+        DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartGetProcessGt12");
     }
 
     private async void CreateImageButton_OnClick(object? sender, RoutedEventArgs e)

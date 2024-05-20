@@ -7,6 +7,7 @@ using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
 using SenhaixFreqWriter.Utils.Serial;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Shx8x00;
 
@@ -97,6 +98,7 @@ public partial class ProgressBarWindow : Window
 
     private async void Task_WriteFreq(CancellationToken cancellationToken)
     {
+        DebugWindow.GetInstance().updateDebugContent($"Start WriFreq Thread: WriFreq8800");
         var flag = false;
         _wF = new WriFreq(_sP, _theRadioData, _status);
         MySerialPort.GetInstance().RxData.Clear();
@@ -111,10 +113,12 @@ public partial class ProgressBarWindow : Window
         }
 
         Dispatcher.UIThread.Post(() => HandleWfResult(flag));
+        DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: WriFreq8800");
     }
 
     private void Task_GetProgress(CancellationToken cancellationToken)
     {
+        DebugWindow.GetInstance().updateDebugContent($"Start GetProcess Thread: GetProcess8800");
         var flag = false;
         var num = 3;
         while (_wF == null && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
@@ -175,6 +179,7 @@ public partial class ProgressBarWindow : Window
                     break;
             }
         }
+        DebugWindow.GetInstance().updateDebugContent($"Terminate GetProcess Thread: GetProcess8800");
     }
 
     private void HandleWfResult(bool result)

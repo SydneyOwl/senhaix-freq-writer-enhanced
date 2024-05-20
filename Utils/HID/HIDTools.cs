@@ -52,7 +52,7 @@ public class HidTools
         DebugWindow.GetInstance().updateDebugContent(a);
     }
     
-    public static bool IsShxhidExist()
+    public static bool IsShxGt12HidExist()
     {
         return DeviceList.Local.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) != null;
     }

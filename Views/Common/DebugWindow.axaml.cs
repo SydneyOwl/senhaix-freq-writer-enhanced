@@ -23,8 +23,8 @@ public partial class DebugWindow : Window
         Dispatcher.UIThread.Invoke(() =>
         {
             tbContent.Text += $"[{System.DateTime.Now:yyyy-MM-dd HH:mm:ss}]{content}\n";
+            ScViewer.ScrollToEnd();
         });
-        ScViewer.ScrollToEnd();
     }
     
     public static DebugWindow GetInstance()

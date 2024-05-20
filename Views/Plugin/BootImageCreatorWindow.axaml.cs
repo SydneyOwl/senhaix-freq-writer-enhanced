@@ -148,7 +148,7 @@ public partial class BootImageCreatorWindow : Window
 
     private void UpdatePreview(BootImgCreatorFontComponent comp, bool resetCenter = false)
     {
-        DebugWindow.GetInstance().updateDebugContent($"触发更新");
+        // DebugWindow.GetInstance().updateDebugContent($"触发更新");
         if (_stopUpdate) return;
         var bmp = new SKBitmap(BootImgWidth, BootImgHeight);
         var backColor = back.Color.ToSKColor();
