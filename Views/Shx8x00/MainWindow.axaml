@@ -98,7 +98,7 @@
             <MenuItem Header="其他">
                 <MenuItem Header="主题色">
                     <MenuItem.Icon>
-                        <PathIcon Data="{StaticResource DarkLight}" />
+                        <PathIcon Data="{StaticResource dark_light}" />
                     </MenuItem.Icon>
                     <MenuItem Header="Light" Click="Light_OnClick">
                         <MenuItem.Icon>

@@ -18,7 +18,7 @@
 
         <Label Content="卫星详情：" Canvas.Left="220" Canvas.Top="60" />
         <TextBox Width="250" Height="130" IsReadOnly="True"
-                 Canvas.Top="100" Canvas.Left="220" Name="selectedSatelliteInfo" />
+                 Canvas.Top="100" Canvas.Left="220" Name="selectedSatelliteInfo" TextWrapping="Wrap" />
 
         <Label Content="选择模式：" Canvas.Left="220" Canvas.Top="240" />
         <ListBox Name="modeListBox" ItemsSource="" Height="160"

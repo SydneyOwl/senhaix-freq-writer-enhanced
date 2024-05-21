@@ -91,6 +91,11 @@ public partial class BootImageCreatorWindow : Window
 
     private void InitializeFont()
     {
+        //手动加入中文字体...
+        fontList.Add("宋体");
+        fontList.Add("黑体");
+        fontList.Add("楷体");
+        fontList.Add("仿宋");
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             DebugWindow.GetInstance().updateDebugContent($"Windows: ->InstalledFontCollection");

@@ -1,14 +1,13 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="300" Height="300"
+        CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Common.DebugWindow"
         Title="调试窗口">
     <Canvas>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Width="300"
                       Name="ScViewer" Height="300" Canvas.Left="0" Canvas.Top="0">
-            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" Width="300"/>
+            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" Width="300" Height="300"/>
         </ScrollViewer>
     </Canvas>
 </Window>

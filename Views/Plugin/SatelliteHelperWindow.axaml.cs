@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -181,7 +182,7 @@ public partial class SatelliteHelperWindow : Window
                 FetchSatText.Text = "更新中...";
                 FetchSat.IsEnabled = false;
             });
-            new WebClient().DownloadFile(url, "./amsat-all-frequencies.json");
+            DownloadSatData(url);
             LoadJson();
             Dispatcher.UIThread.Post(() =>
             {
@@ -191,11 +192,15 @@ public partial class SatelliteHelperWindow : Window
         catch (Exception w)
         {
             DebugWindow.GetInstance().updateDebugContent($"下载出错：{w.Message}，ppxy...");
-            Dispatcher.UIThread.Post(() => { FetchSatText.Text = $"出错：{w.Message},重试中..."; });
+            Dispatcher.UIThread.Post(() =>
+            {
+                selectedSatelliteInfo.Text = $"出错：{w.Message},重试中...";
+                FetchSatText.Text = "重试中...";
+            });
             url = proxyPrefix + url;
             try
             {
-                new WebClient().DownloadFile(url, "./amsat-all-frequencies.json");
+                DownloadSatData(url);
                 LoadJson();
                 Dispatcher.UIThread.Post(() =>
                 {
@@ -206,7 +211,7 @@ public partial class SatelliteHelperWindow : Window
             {
                 Dispatcher.UIThread.Post(() =>
                 {
-                    FetchSatText.Text = $"出错：{a.Message}...";
+                    selectedSatelliteInfo.Text = $"出错：{a.Message}...";
                     DebugWindow.GetInstance().updateDebugContent($"下载出错：{w.Message}");
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新失败....").ShowWindowDialogAsync(this);
                 });
@@ -216,6 +221,7 @@ public partial class SatelliteHelperWindow : Window
         {
             Dispatcher.UIThread.Post(() =>
             {
+                selectedSatelliteInfo.Text = "";
                 FetchSat.IsEnabled = true;
                 FetchSatText.Text = "更新星历";
             });
@@ -364,5 +370,24 @@ public partial class SatelliteHelperWindow : Window
         if (direction == 1)
             return band - 0.0005 * uStep * level;
         return band + 0.0005 * uStep * level;
+    }
+
+    private bool DownloadSatData(string url)
+    {
+        var target = new Uri(url);
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("User-Agent","CSharpHttpClient");
+        var resp = httpClient.GetAsync(target).Result;
+        if (resp.IsSuccessStatusCode)
+        {
+            using (var fs = File.Create("./amsat-all-frequencies.json"))
+            {
+                var stm = resp.Content.ReadAsStream();
+                stm.CopyTo(fs);
+                return true;
+            }
+        }
+
+        return false;
     }
 }
