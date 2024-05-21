@@ -25,7 +25,9 @@ namespace SenhaixFreqWriter.Views.Plugin;
 public partial class BootImageCreatorWindow : Window
 {
     public SKBitmap CreatedBitmap;
+    
     public Bitmap CreatedAvaloniaBitmap;
+    
     private SHX_DEVICE _dev;
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
@@ -108,7 +110,7 @@ public partial class BootImageCreatorWindow : Window
             // maybe insert list directly
         {
             DebugWindow.GetInstance().updateDebugContent($"macOS: ->OSX_AVAILABLE_FONTS.OSX_FONT_LIST");
-            foreach (var se in OSX_AVAILABLE_FONTS.OSX_FONT_LIST)
+            foreach (var se in OSX_OPTIONS.OSX_FONT_LIST)
                 fontList.Add(se);
         }
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -316,12 +318,24 @@ public partial class BootImageCreatorWindow : Window
         });
         if (file is not null)
         {
-            var path = new Uri(file.Path.ToString()).LocalPath;
-            await using var stream = await file.OpenWriteAsync();
-            stream.Seek(0L, SeekOrigin.Begin);
-            stream.SetLength(0L);
-            CreatedBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
-            stream.Close();
+            try
+            {
+                await using var stream = await file.OpenWriteAsync();
+                stream.Seek(0L, SeekOrigin.Begin);
+                stream.SetLength(0L);
+                CreatedBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
+                stream.Close();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                DebugWindow.GetInstance().updateDebugContent($"UNAUTHORIAZED");
+                MessageBoxManager.GetMessageBoxStandard("注意", "目标目录无写权限，无法写入！").ShowWindowDialogAsync(this);
+            }
+            catch (Exception f)
+            {
+                DebugWindow.GetInstance().updateDebugContent($"{f.Message}");
+                MessageBoxManager.GetMessageBoxStandard("注意", "出错！").ShowWindowDialogAsync(this);
+            }
         }
     }
 

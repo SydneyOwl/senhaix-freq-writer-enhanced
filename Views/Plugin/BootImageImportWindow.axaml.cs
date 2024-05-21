@@ -68,6 +68,10 @@ public partial class BootImageImportWindow : Window
         });
         if (files.Count == 0) return;
         var bitmap = SKBitmap.Decode(files[0].Path.AbsolutePath);
+        if (bitmap == null)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "出错，请检查您的路径，或软件对图片无读权限！").ShowWindowDialogAsync(this);
+        }
         DebugWindow.GetInstance().updateDebugContent($"PicFormat：{bitmap.ColorType}");
         if (!bitmap.ColorType.Equals(SKColorType.Bgra8888) && !bitmap.ColorType.Equals(SKColorType.Rgba8888))
         {

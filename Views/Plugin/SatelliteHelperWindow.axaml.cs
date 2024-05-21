@@ -13,6 +13,8 @@ using Avalonia.Threading;
 using MsBox.Avalonia;
 using Newtonsoft.Json.Linq;
 using SenhaixFreqWriter.Constants.Common;
+using SenhaixFreqWriter.Properties;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Plugin;
@@ -30,38 +32,62 @@ public partial class SatelliteHelperWindow : Window
 
     public InsertChannelMethod InsertData;
 
+    private string loadedJson = "";
+
+    public SatelliteHelperWindow()
+    {
+        InitializeComponent();
+    }
     public SatelliteHelperWindow(InsertChannelMethod func)
     {
         InitializeComponent();
         InsertData = func;
         DataContext = this;
-        Task.Run(() =>
+        if (!SysFile.CheckDefaultDirectory())
         {
-            if (!LoadJson())
+            Dispatcher.UIThread.Invoke(() =>
             {
-                Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "正在为您更新卫星数据...\n"; });
-                FetchData();
-            }
-        });
+                selectedSatelliteInfo.Text += "无法存储json！切换到Mem模式...\n"; 
+                DebugWindow.GetInstance().updateDebugContent("无法读取json文件！#无法新建目录！切换到Mem模式...");
+            });
+            Task.Run(() => { FetchData(true); });
+        }
+        else
+        {
+            Task.Run(() =>
+            {
+                if (!LoadJson())
+                {
+                    Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "正在为您更新卫星数据...\n"; });
+                    FetchData();
+                }
+            });
+        }
     }
 
-    private bool LoadJson()
+    private bool LoadJson(bool useMem = false)
     {
-        if (!File.Exists("./amsat-all-frequencies.json"))
+        string satelliteData = "";
+        if (useMem)
         {
-            DebugWindow.GetInstance().updateDebugContent($"未找到json");
-            Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
-            return false;
+            satelliteData = loadedJson;
         }
-
-        var satelliteData = File.ReadAllText("./amsat-all-frequencies.json");
-        if (satelliteData == "")
+        else
+        {
+            if (!File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+            {
+                DebugWindow.GetInstance().updateDebugContent($"未找到json");
+                Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
+                return false;
+            }
+            satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
+        }
+        if (string.IsNullOrEmpty(satelliteData))
         {        
             DebugWindow.GetInstance().updateDebugContent($"json为空");
             Dispatcher.UIThread.Invoke(() => { return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
-
         try
         {
             Dispatcher.UIThread.Invoke(() =>
@@ -170,7 +196,7 @@ public partial class SatelliteHelperWindow : Window
         new Task(() => { FetchData(); }).Start();
     }
 
-    private void FetchData()
+    private void FetchData(bool useMem = false)
     {
         var url =
             "https://raw.githubusercontent.com/palewire/amateur-satellite-database/main/data/amsat-all-frequencies.json";
@@ -182,8 +208,8 @@ public partial class SatelliteHelperWindow : Window
                 FetchSatText.Text = "更新中...";
                 FetchSat.IsEnabled = false;
             });
-            DownloadSatData(url);
-            LoadJson();
+            DownloadSatData(url,useMem);
+            LoadJson(useMem);
             Dispatcher.UIThread.Post(() =>
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "更新完成！").ShowWindowDialogAsync(this);
@@ -200,8 +226,8 @@ public partial class SatelliteHelperWindow : Window
             url = proxyPrefix + url;
             try
             {
-                DownloadSatData(url);
-                LoadJson();
+                DownloadSatData(url,useMem);
+                LoadJson(useMem);
                 Dispatcher.UIThread.Post(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新完成！").ShowWindowDialogAsync(this);
@@ -372,7 +398,7 @@ public partial class SatelliteHelperWindow : Window
         return band + 0.0005 * uStep * level;
     }
 
-    private bool DownloadSatData(string url)
+    private bool DownloadSatData(string url,bool useMem = false)
     {
         var target = new Uri(url);
         var httpClient = new HttpClient();
@@ -380,11 +406,18 @@ public partial class SatelliteHelperWindow : Window
         var resp = httpClient.GetAsync(target).Result;
         if (resp.IsSuccessStatusCode)
         {
-            using (var fs = File.Create("./amsat-all-frequencies.json"))
+            if (useMem)
             {
-                var stm = resp.Content.ReadAsStream();
-                stm.CopyTo(fs);
-                return true;
+                loadedJson = resp.Content.ReadAsStringAsync().Result;
+            }
+            else
+            {
+                using (var fs = File.Create($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+                {
+                    var stm = resp.Content.ReadAsStream();
+                    stm.CopyTo(fs);
+                    return true;
+                }
             }
         }
 
