@@ -27,6 +27,7 @@
         <StyleInclude Source="avares://SenhaixFreqWriter/Icons.axaml" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
         <StyleInclude Source="avares://SenhaixFreqWriter/DragDrop.axaml" />
+        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
 
         <Style Selector="DataGridColumnHeader">
             <Setter Property="FontWeight" Value="Bold" />

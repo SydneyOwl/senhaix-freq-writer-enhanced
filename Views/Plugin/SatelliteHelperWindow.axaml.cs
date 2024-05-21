@@ -205,6 +205,7 @@ public partial class SatelliteHelperWindow : Window
         {
             Dispatcher.UIThread.Post(() =>
             {
+                ProgressRing.IsActive = true;
                 FetchSatText.Text = "更新中...";
                 FetchSat.IsEnabled = false;
             });
@@ -247,6 +248,7 @@ public partial class SatelliteHelperWindow : Window
         {
             Dispatcher.UIThread.Post(() =>
             {
+                ProgressRing.IsActive = false;
                 selectedSatelliteInfo.Text = "";
                 FetchSat.IsEnabled = true;
                 FetchSatText.Text = "更新星历";
