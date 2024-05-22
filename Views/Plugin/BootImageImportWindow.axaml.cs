@@ -71,6 +71,7 @@ public partial class BootImageImportWindow : Window
         if (bitmap == null)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "出错，请检查您的路径，或软件对图片无读权限！").ShowWindowDialogAsync(this);
+            return;
         }
         DebugWindow.GetInstance().updateDebugContent($"PicFormat：{bitmap.ColorType}");
         if (!bitmap.ColorType.Equals(SKColorType.Bgra8888) && !bitmap.ColorType.Equals(SKColorType.Rgba8888))

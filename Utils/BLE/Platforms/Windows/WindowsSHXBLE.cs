@@ -17,6 +17,7 @@ using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
+using SenhaixFreqWriter.Views.Common;
 
 namespace shx.Utils.BLE.Platforms.Windows;
 
@@ -452,6 +453,7 @@ public class WindowsShxble : IBluetooth
         if (DeviceMacList.Contains(address)) return;
 
         DeviceMacList.Add(address);
+        DebugWindow.GetInstance().updateDebugContent($"新设备：{address}");
     }
 
     public void TriggerCharacteristicFinish(int size)
