@@ -465,131 +465,32 @@ public partial class MainWindow : Window
 
     private void ConnectMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        var hint = new DispInfoWindow();
-        hint.SetLabelStatus("(此为调试功能，正常情况软件会自动连接GT12)");
-        hint.SetButtonStatus(false);
-        hint.ShowDialog(this);
-
-        hint.SetLabelStatus("-------所有HID设备-------" ,true);
+        DebugWindow.GetInstance().updateDebugContent("-------所有HID设备-------");
         foreach (var hidDevice in HidTools.GetAllHidDevices())
         {
-            hint.SetLabelStatus($"设备名：{hidDevice.GetProductName()}" ,true);
-            // hint.setLabelStatus($"序列号：{hidDevice.GetSerialNumber()}");
-            hint.SetLabelStatus($"VID：{hidDevice.VendorID}" ,true);
-            hint.SetLabelStatus($"PID：{hidDevice.ProductID}" ,true);
-            hint.SetLabelStatus($"路径：{hidDevice.DevicePath}" ,true);
-            hint.SetLabelStatus("----------------" ,true);
+            DebugWindow.GetInstance().updateDebugContent($"设备名：{hidDevice.GetProductName()}");
+            DebugWindow.GetInstance().updateDebugContent($"VID：{hidDevice.VendorID}");
+            DebugWindow.GetInstance().updateDebugContent($"PID：{hidDevice.ProductID}");
+            DebugWindow.GetInstance().updateDebugContent($"路径：{hidDevice.DevicePath}");
+            DebugWindow.GetInstance().updateDebugContent("----------------");
         }
 
         if (HidTools.GetInstance().FindAndConnect() == HidStatus.Success)
         {
-            hint.SetLabelStatus("连接成功!");
-            hint.SetLabelStatus("-------设备信息-------" ,true);
+            MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！").ShowWindowDialogAsync(this);
+            DebugWindow.GetInstance().updateDebugContent("-------设备信息-------");
             var gt12 = HidTools.GetInstance().Gt12Device;
-            hint.SetLabelStatus($"最大输入长度：{gt12.GetMaxInputReportLength()}" ,true);
-            hint.SetLabelStatus($"最大输出长度：{gt12.GetMaxOutputReportLength()}" ,true);
-            hint.SetLabelStatus($"PID：{gt12.ProductID}" ,true);
-            hint.SetLabelStatus($"VID：{gt12.VendorID}" ,true);
-            hint.SetLabelStatus($"设备路径：{gt12.DevicePath}" ,true);
-            // hint.setLabelStatus($"序列号：{gt12.GetSerialNumber()}");
-            hint.SetLabelStatus($"设备名：{gt12.GetProductName()}" ,true);
-            // hint.setLabelStatus($"文件系统名：{gt12.GetFileSystemName()}");
-            // hint.setLabelStatus($"ReNumber：{gt12.ReleaseNumber}");
+            DebugWindow.GetInstance().updateDebugContent($"最大输入长度：{gt12.GetMaxInputReportLength()}");
+            DebugWindow.GetInstance().updateDebugContent($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
+            DebugWindow.GetInstance().updateDebugContent($"PID：{gt12.ProductID}");
+            DebugWindow.GetInstance().updateDebugContent($"VID：{gt12.VendorID}");
+            DebugWindow.GetInstance().updateDebugContent($"设备路径：{gt12.DevicePath}");
+            DebugWindow.GetInstance().updateDebugContent($"设备名：{gt12.GetProductName()}");
         }
         else
         {
-            hint.SetLabelStatus("连接失败！");
+            MessageBoxManager.GetMessageBoxStandard("注意", "连接失败！").ShowWindowDialogAsync(this);
         }
-
-        hint.SetButtonStatus(true);
-    }
-
-    private async void BTMenuItem_OnClick(object? sender, RoutedEventArgs e)
-    {
-        _osBle?.Dispose();
-        _osBle = new GenerticShxble();
-#if WINDOWS
-        _osBle = new WindowsShxble();
-#endif
-        _osBle.SetStatusUpdater(status =>
-        {
-            Dispatcher.UIThread.Post(() =>
-            {
-                if (status)
-                    statusLabel.Content = "连接状态：蓝牙已连接";
-                else
-                    statusLabel.Content = "连接状态：蓝牙未连接";
-            });
-        });
-        // for windows and macoos
-        try
-        {
-            var available = await _osBle.GetBleAvailabilityAsync();
-            // var available = true;
-            if (!available)
-            {
-                MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
-                return;
-            }
-        }
-        catch (Exception ed)
-        {
-            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
-            return;
-        }
-
-        var hint = new DispInfoWindow();
-        hint.SetLabelStatus("自动搜索中...");
-        hint.SetButtonStatus(false);
-        hint.ShowDialog(this);
-
-        if (!await _osBle.ScanForShxAsync())
-        {
-            hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        hint.SetLabelStatus("已找到设备,尝试连接中...");
-        // Get Char.....
-        try
-        {
-            await _osBle.ConnectShxDeviceAsync();
-        }
-#if __LINUX__
-        catch (Tmds.DBus.DBusException)
-        {
-            hint.setLabelStatus("连接失败！\n请在设置-蓝牙中取消对walkie-talkie的连接。\n如果您是初次连接，请在设置中手动配对\nwalkie-talkie并点击配对！");
-            hint.setButtonStatus(true);
-            return;
-        }
-#endif
-        catch (Exception ea)
-        {
-            hint.SetLabelStatus("连接失败！" + ea.Message);
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        // Console.WriteLine("Connected");
-        if (!await _osBle.ConnectShxRwServiceAsync())
-        {
-            hint.SetLabelStatus("未找到写特征\n确认您使用的是GT12");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-
-        if (!await _osBle.ConnectShxRwCharacteristicAsync())
-        {
-            hint.SetLabelStatus("未找到写特征\n确认您使用的是GT12");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        _osBle.RegisterHid();
-        hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
-        hint.SetButtonStatus(true);
     }
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)

@@ -1,13 +1,11 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="300" Height="300"
-        CanResize="False"
+        Width="350" Height="300"
         x:Class="SenhaixFreqWriter.Views.Common.DebugWindow"
-        Title="调试窗口">
-    <Canvas>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Width="300"
-                      Name="ScViewer" Height="300" Canvas.Left="0" Canvas.Top="0">
-            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" Width="300" Height="300"/>
+        Title="双击日志内容保存至文件">
+    <Grid DoubleTapped="LogSaveInputElement_OnDoubleTapped">
+        <ScrollViewer Name="ScViewer" >
+            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap"/>
         </ScrollViewer>
-    </Canvas>
+    </Grid>
 </Window>

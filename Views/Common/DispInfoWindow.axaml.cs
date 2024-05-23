@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 using SenhaixFreqWriter.Properties;
 
 namespace SenhaixFreqWriter.Views.Common;
@@ -16,12 +17,12 @@ public partial class DispInfoWindow : Window
         if (!debugInfo)
         {
             tbContent.Text += "\n" + stat;
+            Viewer.ScrollToEnd();
         }
         else
         {
             DebugWindow.GetInstance().updateDebugContent(stat);
         }
-        Viewer.ScrollToEnd();
     }
 
     public void SetButtonStatus(bool show)

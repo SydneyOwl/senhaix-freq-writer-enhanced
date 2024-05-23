@@ -5,10 +5,12 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using InTheHand.Bluetooth;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -483,26 +485,30 @@ public partial class MainWindow : Window
 
     private async void ConnBLE()
     {
+        var hint = new DispInfoWindow();
+        
+        hint.SetButtonStatus(false);
+        _ = hint.ShowDialog(this);
+        hint.SetLabelStatus("检查蓝牙可用性...");
         try
         {
             var available = await _osBle.GetBleAvailabilityAsync();
             // var available = true;
             if (!available)
             {
-                MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
+                await MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！\n如果您使用RPC方式写频，请确认服务端已开启！").ShowWindowDialogAsync(this);
+                hint.SetButtonStatus(true);
                 return;
             }
         }
         catch (Exception ed)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
+            await MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
+            hint.SetButtonStatus(true);
             return;
         }
-
-        var hint = new DispInfoWindow();
+        
         hint.SetLabelStatus("自动搜索中...");
-        hint.SetButtonStatus(false);
-        hint.ShowDialog(this);
 
         if (!await _osBle.ScanForShxAsync())
         {
@@ -517,14 +523,6 @@ public partial class MainWindow : Window
         {
             await _osBle.ConnectShxDeviceAsync();
         }
-#if __LINUX__
-        catch (Tmds.DBus.DBusException)
-        {
-            hint.setLabelStatus("连接失败！\n请在设置-蓝牙中取消对walkie-talkie的连接。\n如果您是初次连接，请在设置中手动配对\nwalkie-talkie并点击配对！");
-            hint.setButtonStatus(true);
-            return;
-        }
-#endif
         catch (Exception ea)
         {
             hint.SetLabelStatus("连接失败！" + ea.Message);
