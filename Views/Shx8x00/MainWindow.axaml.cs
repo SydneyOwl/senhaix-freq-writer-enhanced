@@ -17,6 +17,7 @@ using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
+using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
@@ -154,7 +155,7 @@ public partial class MainWindow : Window
             return "-1";
         }
 
-        if (freqChk.Length < 9)
+        if (freqChk.Length <= 9)
         {
             for (var j = freqChk.Length; j < 9; j++)
                 freqChk = j != 3 ? freqChk.Insert(j, "0") : freqChk.Insert(j, ".");
@@ -409,84 +410,6 @@ public partial class MainWindow : Window
         for (var i = 0; i < ListItems.Count; i++) ListItems[i].ChanNum = i.ToString();
     }
 
-    private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
-    {
-        _osBle?.Dispose();
-        _osBle = new GenerticShxble();
-#if WINDOWS
-        _osBle = new WindowsShxble();
-#endif
-        try
-        {
-            var available = await _osBle.GetBleAvailabilityAsync();
-            // var available = true;
-            if (!available)
-            {
-                MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
-                return;
-            }
-        }
-        catch (Exception ed)
-        {
-            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
-            return;
-        }
-
-        var hint = new DispInfoWindow();
-        hint.SetLabelStatus("自动搜索中...");
-        hint.SetButtonStatus(false);
-        hint.ShowDialog(this);
-
-        if (!await _osBle.ScanForShxAsync())
-        {
-            hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        hint.SetLabelStatus("已找到设备,尝试连接中...");
-        // Get Char.....
-        try
-        {
-            await _osBle.ConnectShxDeviceAsync();
-        }
-#if __LINUX__
-        catch (Tmds.DBus.DBusException)
-        {
-            hint.setLabelStatus("连接失败！\n请在设置-蓝牙中取消对walkie-talkie的连接。\n如果您是初次连接，请在设置中手动配对\nwalkie-talkie并点击配对！");
-            hint.setButtonStatus(true);
-            return;
-        }
-#endif
-        catch (Exception ea)
-        {
-            hint.SetLabelStatus("连接失败！" + ea.Message);
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        // Console.WriteLine("Connected");
-        if (!await _osBle.ConnectShxRwServiceAsync())
-        {
-            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-
-        if (!await _osBle.ConnectShxRwCharacteristicAsync())
-        {
-            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
-            hint.SetButtonStatus(true);
-
-            return;
-        }
-
-        _osBle.RegisterSerial();
-        hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
-        hint.SetButtonStatus(true);
-        // cable.IsVisible = false;
-    }
 
     private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
     {
@@ -556,5 +479,96 @@ public partial class MainWindow : Window
             ChanName = name
         };
         ListItems[lastEmptyIndex] = data;
+    }
+
+    private async void ConnBLE()
+    {
+        try
+        {
+            var available = await _osBle.GetBleAvailabilityAsync();
+            // var available = true;
+            if (!available)
+            {
+                MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！").ShowWindowDialogAsync(this);
+                return;
+            }
+        }
+        catch (Exception ed)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
+            return;
+        }
+
+        var hint = new DispInfoWindow();
+        hint.SetLabelStatus("自动搜索中...");
+        hint.SetButtonStatus(false);
+        hint.ShowDialog(this);
+
+        if (!await _osBle.ScanForShxAsync())
+        {
+            hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
+            hint.SetButtonStatus(true);
+            return;
+        }
+
+        hint.SetLabelStatus("已找到设备,尝试连接中...");
+        // Get Char.....
+        try
+        {
+            await _osBle.ConnectShxDeviceAsync();
+        }
+#if __LINUX__
+        catch (Tmds.DBus.DBusException)
+        {
+            hint.setLabelStatus("连接失败！\n请在设置-蓝牙中取消对walkie-talkie的连接。\n如果您是初次连接，请在设置中手动配对\nwalkie-talkie并点击配对！");
+            hint.setButtonStatus(true);
+            return;
+        }
+#endif
+        catch (Exception ea)
+        {
+            hint.SetLabelStatus("连接失败！" + ea.Message);
+            hint.SetButtonStatus(true);
+            return;
+        }
+
+        // Console.WriteLine("Connected");
+        if (!await _osBle.ConnectShxRwServiceAsync())
+        {
+            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
+            hint.SetButtonStatus(true);
+            return;
+        }
+
+
+        if (!await _osBle.ConnectShxRwCharacteristicAsync())
+        {
+            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
+            hint.SetButtonStatus(true);
+
+            return;
+        }
+
+        _osBle.RegisterSerial();
+        hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
+        hint.SetButtonStatus(true);
+    }
+
+    private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
+    {
+        _osBle?.Dispose();
+        _osBle = new GenerticShxble();
+#if WINDOWS
+        _osBle = new WindowsShxble();
+#endif
+        ConnBLE();
+        // cable.IsVisible = false;
+    }
+
+    private void RPCBLEMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        _osBle?.Dispose();
+        _osBle = new RPCSHXBLE();
+        ConnBLE();
     }
 }

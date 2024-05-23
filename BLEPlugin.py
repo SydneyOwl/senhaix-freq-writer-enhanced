@@ -123,6 +123,7 @@ server.register_function(ConnectShxRwService,"ConnectShxRwService")
 server.register_function(ConnectShxRwCharacteristic,"ConnectShxRwCharacteristic")
 server.register_function(ReadCachedData,"ReadCachedData")
 server.register_function(WriteData,"WriteData")
+server.register_function(Dispose,"Dispose")
 server.serve_forever()
 
 

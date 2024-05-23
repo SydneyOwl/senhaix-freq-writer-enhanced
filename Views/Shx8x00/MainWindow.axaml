@@ -82,6 +82,11 @@
                         <PathIcon Data="{StaticResource bluetooth_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="蓝牙（RPC）" Click="RPCBLEMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource bluetooth_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="工具">
                 <MenuItem Header="修改开机画面" Click="BootImageMenuItem_OnClick">
