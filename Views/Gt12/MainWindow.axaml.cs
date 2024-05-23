@@ -16,7 +16,6 @@ using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
-using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;

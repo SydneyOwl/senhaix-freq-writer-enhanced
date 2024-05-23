@@ -1,0 +1,71 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Width="800" Height="450"
+        x:Class="SenhaixFreqWriter.Views.Common.BluetoothDeviceSelectionWindow"
+        Title="连接蓝牙"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Common"
+        x:DataType="vm:BluetoothDeviceSelectionWindow"
+        xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        WindowStartupLocation="CenterScreen">
+    <Canvas>
+        <DataGrid Name="btdevice"
+                  GridLinesVisibility="All"
+                  Width="550"
+                  Height="350"
+                  BorderThickness="1" BorderBrush="Black"
+                  CanUserSortColumns="False"
+                  Classes="draggable"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  ItemsSource="{Binding BleInfos }"
+                  RowBackground="{DynamicResource dgBackgroundBrush}"
+                  Canvas.Bottom="10"
+                  Canvas.Left="10"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="设备名" IsReadOnly="True"
+                                    Width="*" Binding="{Binding  DeviceName}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="MAC" IsReadOnly="True"
+                                    Width="*"  Binding="{Binding DeviceMacAddr }">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <CheckBox Content="禁用弱信号限制(win)" Canvas.Right="20" Canvas.Top="60" Name="disableWeakSignal"></CheckBox>
+        <CheckBox Content="禁用ssid过滤" Canvas.Right="67" Canvas.Top="100" Name="disableSSIDF"></CheckBox>
+        <CheckBox Content="RPC调用" Canvas.Right="94" Canvas.Top="140" Name="useRPC" IsCheckedChanged="UseRPC_OnIsCheckedChanged"></CheckBox>
+        <progRing:ProgressRing Width="25" 
+                               Height="25"
+                               IsActive="False"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Foreground="Green"
+                               Canvas.Left="590"
+                               Canvas.Top="250"
+                               Name="ProgressRing1"/>
+        <Button HorizontalAlignment="Left" Canvas.Right="67" Canvas.Top="250" Name="scanButton" Click="ScanButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource scan}" Margin="0,0,10,0" />
+                <TextBlock Text="扫描设备" VerticalAlignment="Center" Name="scanStat"/>
+            </StackPanel>
+        </Button>
+        <progRing:ProgressRing Width="25" 
+                               Height="25"
+                               IsActive="False"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Foreground="Green"
+                               Canvas.Left="590"
+                               Canvas.Top="325"
+                               Name="ProgressRing2"/>
+        <Button HorizontalAlignment="Left" Canvas.Right="67" Canvas.Top="320"  Name="connButton" Click="ConnButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource bluetooth_regular}" Margin="0,0,10,0" />
+                <TextBlock Text="连接设备" Name="connStat" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+    </Canvas>
+</Window>

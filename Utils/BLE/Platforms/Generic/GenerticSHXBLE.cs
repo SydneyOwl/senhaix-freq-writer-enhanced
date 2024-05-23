@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if false
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.Serial;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
+
+// DEPRECATED!
 
 public class GenerticShxble : IBluetooth
 {
@@ -101,3 +104,4 @@ public class GenerticShxble : IBluetooth
         throw new NotImplementedException();
     }
 }
+#endif

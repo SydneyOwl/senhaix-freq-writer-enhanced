@@ -1,11 +1,13 @@
 ﻿#if WINDOWS
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
@@ -134,17 +136,28 @@ public class WindowsShxble : IBluetooth
     /// <summary>
     ///     搜索蓝牙设备
     /// </summary>
-    public void StartBleDeviceWatcher()
+    public void StartBleDeviceWatcher(bool disableWeakSignalRestricton)
     {
         _watcher = new BluetoothLEAdvertisementWatcher();
 
         _watcher.ScanningMode = BluetoothLEScanningMode.Active;
 
-        // only activate the watcher when we're recieving values >= -80
-        _watcher.SignalStrengthFilter.InRangeThresholdInDBm = -80;
+        if (disableWeakSignalRestricton)
+        {
+            // only activate the watcher when we're recieving values >= -80
+            _watcher.SignalStrengthFilter.InRangeThresholdInDBm = -110;
 
-        // stop watching if the value drops below -90 (user walked away)
-        _watcher.SignalStrengthFilter.OutOfRangeThresholdInDBm = -90;
+            // stop watching if the value drops below -90 (user walked away)
+            _watcher.SignalStrengthFilter.OutOfRangeThresholdInDBm = -110;
+        }
+        else
+        {
+            // only activate the watcher when we're recieving values >= -80
+            _watcher.SignalStrengthFilter.InRangeThresholdInDBm = -80;
+
+            // stop watching if the value drops below -90 (user walked away)
+            _watcher.SignalStrengthFilter.OutOfRangeThresholdInDBm = -90;
+        }
 
         // register callback for when we see an advertisements
         _watcher.Received += OnAdvertisementReceived;
@@ -369,7 +382,7 @@ public class WindowsShxble : IBluetooth
         {
             // var msg = "没有发现设备" + e;
             // Console.WriteLine(msg);
-            StartBleDeviceWatcher();
+            StartBleDeviceWatcher(false);
         }
     }
 
@@ -497,10 +510,16 @@ public class WindowsShxble : IBluetooth
     private bool IsBtSupported()
     {
         foreach (var allNetworkInterface in NetworkInterface.GetAllNetworkInterfaces())
+        {
             if (allNetworkInterface.Description.Contains("Bluetooth") ||
                 allNetworkInterface.Description.Contains("bluetooth") ||
-                allNetworkInterface.Description.Contains("蓝牙")) //)
+                allNetworkInterface.Description.Contains("蓝牙"))
+            {
                 return true;
+            }
+        }
+            
+            
 
         return false;
     }
@@ -513,40 +532,63 @@ public class WindowsShxble : IBluetooth
         FindService();
     }
 
-    public async Task<bool> GetBleAvailabilityAsync()
+    public bool GetBleAvailabilityAsync()
     {
         return IsBtSupported();
     }
 
-    public async Task<bool> ScanForShxAsync()
+    public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
+        bool disableSSIDFilter)
     {
         DeviceWatcherChanged += TriggerDeviceWatcherChanged;
         CharacteristicAdded += TriggerCharacteristicAdded;
         CharacteristicFinish += TriggerCharacteristicFinish;
-        StartBleDeviceWatcher();
-        await Task.Delay(7000);
+        StartBleDeviceWatcher(disableWeakSignalRestriction);
+        Thread.Sleep(5000);
         StopBleDeviceWatcher();
+        List<GenerticBLEDeviceInfo> fin = new();
         for (var i = 0; i < DeviceList.Count; i++)
-            if (DeviceList[i].Name.Equals(BleConst.BtnameShx8800))
+        {
+            if (disableSSIDFilter)
             {
-                CurrentShxDevice = DeviceList[i];
-                return true;
+                fin.Add(new GenerticBLEDeviceInfo
+                {
+                    DeviceName = DeviceList[i].Name,
+                    DeviceMacAddr = CalMac(DeviceList[i].BluetoothAddress)
+                });
             }
+            else
+            {
+                if (DeviceList[i].Name.Equals(BleConst.BtnameShx8800))
+                {
+                    fin.Add(new GenerticBLEDeviceInfo
+                    {
+                        DeviceName = DeviceList[i].Name,
+                        DeviceMacAddr = CalMac(DeviceList[i].BluetoothAddress)
+                    });
+                }
+            }
+        }
 
-        return false;
+        return fin;
     }
 
-    public Task ConnectShxDeviceAsync()
+    public void SetDevice(int seq)
     {
-        return Task.Run(() => { });
+        CurrentShxDevice = DeviceList[seq];
     }
 
-    public async Task<bool> ConnectShxRwServiceAsync()
+    public bool ConnectShxDeviceAsync()
     {
         return true;
     }
 
-    public async Task<bool> ConnectShxRwCharacteristicAsync()
+    public bool ConnectShxRwServiceAsync()
+    {
+        return true;
+    }
+
+    public bool ConnectShxRwCharacteristicAsync()
     {
         ConnectDevice(CurrentShxDevice);
         var timeCount = 0;

@@ -10,6 +10,7 @@ RwServiceUuid = "ffe0"
 RwCharacteristicUuid = "ffe1"
 BtnameShx8800 = "walkie-talkie"
 
+peripherals = None
 peripheral = None
 service_uuid = None
 service = None
@@ -33,18 +34,23 @@ def GetBleAvailability():
     return True
 
 def ScanForShx():
-    global peripheral
+    global peripherals
     adapter.scan_for(5000)
     peripherals = adapter.scan_get_results()
+    devList = []
     for i, per in enumerate(peripherals):
-        if per.identifier()==BtnameShx8800:
-            peripheral = per
-            return True
-    return False
+        devList.append({"DeviceName":per.identifier(),"DeviceMacAddr":per.address()})
+    print(devList)
+    return str(devList)
+
+def setDevice(seq):
+    global peripheral
+    peripheral = peripherals[seq]
+    print(seq)
 
 def ConnectShxDevice():
     global mtu
-    if peripheral == None:
+    if peripheral is None:
         return False
     try:
         print(f"Connecting to: {peripheral.identifier()} [{peripheral.address()}]")
@@ -115,13 +121,14 @@ def CallbackOnDataReceived(data:bytes):
 # print(f"ConnShxService: {ConnectShxRwService()}")
 # print(f"ConnShxChar: {ConnectShxRwCharacteristic()}")
 
-server = SimpleXMLRPCServer(("localhost",8563))
+server = SimpleXMLRPCServer(("localhost",8563),allow_none=True)
 server.register_function(GetBleAvailability,"GetBleAvailability")
 server.register_function(ScanForShx,"ScanForShx")
 server.register_function(ConnectShxDevice,"ConnectShxDevice")
 server.register_function(ConnectShxRwService,"ConnectShxRwService")
 server.register_function(ConnectShxRwCharacteristic,"ConnectShxRwCharacteristic")
 server.register_function(ReadCachedData,"ReadCachedData")
+server.register_function(setDevice,"setDevice")
 server.register_function(WriteData,"WriteData")
 server.register_function(DisposeBluetooth,"DisposeBluetooth")
 server.serve_forever()

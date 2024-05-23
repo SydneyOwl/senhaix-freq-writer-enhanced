@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using CookComputing.XmlRpc;
+using Newtonsoft.Json;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
@@ -13,68 +16,48 @@ public class RPCSHXBLE : IBluetooth
     private CancellationTokenSource source = new();
     private IProxyInterface proxy = (IProxyInterface)XmlRpcProxyGen.Create(typeof(IProxyInterface));
     // See BLEPlugin.py
-    public async Task<bool> GetBleAvailabilityAsync()
+    public bool GetBleAvailabilityAsync()
     {
-        try
-        {
-            return proxy.GetBleAvailability();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            // DebugWindow.GetInstance().updateDebugContent("GetBleAvailabilityAsync-无法获取RPC客户端数据！");
-            return false;
-        }
+        return proxy.GetBleAvailability();
     }
 
-    public async Task<bool> ScanForShxAsync()
+    public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
+        bool disableSSIDFilter)
     {
-        try
+        var result = proxy.ScanForShx();
+        Console.WriteLine(result);
+        List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
+        List<GenerticBLEDeviceInfo> fin = new();
+        foreach (var generticBleDeviceInfo in bleDeviceInfo)
         {
-            return proxy.ScanForShx();
+            if (!disableSSIDFilter && generticBleDeviceInfo.DeviceName != Constants.BLE.BleConst.BtnameShx8800)
+            {
+                continue;
+            }
+            fin.Add(generticBleDeviceInfo);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            // DebugWindow.GetInstance().updateDebugContent("GetBleAvailabilityAsync-无法获取RPC客户端数据！");
-            return false;
-        }
+
+        return fin;
     }
 
-    public async Task ConnectShxDeviceAsync()
+    public void SetDevice(int seq)
     {
-        if (!proxy.ConnectShxDevice())
-        {
-            throw new Exception("连接设备失败！");
-        }
+        proxy.setDevice(seq);
     }
 
-    public async Task<bool> ConnectShxRwCharacteristicAsync()
+    public bool ConnectShxDeviceAsync()
     {
-        try
-        {
-            return proxy.ConnectShxRwCharacteristic();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            // DebugWindow.GetInstance().updateDebugContent("GetBleAvailabilityAsync-无法获取RPC客户端数据！");
-            return false;
-        }
+        return proxy.ConnectShxDevice();
     }
 
-    public async Task<bool> ConnectShxRwServiceAsync()
+    public bool ConnectShxRwCharacteristicAsync()
     {
-        try
-        {
-            return proxy.ConnectShxRwService();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            // DebugWindow.GetInstance().updateDebugContent("GetBleAvailabilityAsync-无法获取RPC客户端数据！");
-            return false;
-        }
+        return proxy.ConnectShxRwCharacteristic();
+    }
+
+    public bool ConnectShxRwServiceAsync()
+    {
+        return proxy.ConnectShxRwService();
     }
 
     public void RegisterHid()
@@ -136,7 +119,10 @@ public interface IProxyInterface : IXmlRpcProxy
     bool GetBleAvailability();
     
     [XmlRpcMethod("ScanForShx")]
-    bool ScanForShx();
+    string ScanForShx();
+    
+    [XmlRpcMethod("setDevice")]
+    void setDevice(int seq);
     
     [XmlRpcMethod("ConnectShxDevice")]
     bool ConnectShxDevice();

@@ -4,23 +4,17 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Styling;
-using Avalonia.Threading;
-using InTheHand.Bluetooth;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
-using SenhaixFreqWriter.Utils.BLE.Platforms.Generic;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
-using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
@@ -411,12 +405,7 @@ public partial class MainWindow : Window
     {
         for (var i = 0; i < ListItems.Count; i++) ListItems[i].ChanNum = i.ToString();
     }
-
-
-    private void Characteristic_CharacteristicValueChanged(object sender, GattCharacteristicValueChangedEventArgs e)
-    {
-        foreach (var b in e.Value) MySerialPort.GetInstance().RxData.Enqueue(b);
-    }
+    
 
     private void Dark_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -485,88 +474,75 @@ public partial class MainWindow : Window
 
     private async void ConnBLE()
     {
-        var hint = new DispInfoWindow();
-        
-        hint.SetButtonStatus(false);
-        _ = hint.ShowDialog(this);
-        hint.SetLabelStatus("检查蓝牙可用性...");
-        try
-        {
-            var available = await _osBle.GetBleAvailabilityAsync();
-            // var available = true;
-            if (!available)
-            {
-                await MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！\n如果您使用RPC方式写频，请确认服务端已开启！").ShowWindowDialogAsync(this);
-                hint.SetButtonStatus(true);
-                return;
-            }
-        }
-        catch (Exception ed)
-        {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
-            hint.SetButtonStatus(true);
-            return;
-        }
-        
-        hint.SetLabelStatus("自动搜索中...");
-
-        if (!await _osBle.ScanForShxAsync())
-        {
-            hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        hint.SetLabelStatus("已找到设备,尝试连接中...");
-        // Get Char.....
-        try
-        {
-            await _osBle.ConnectShxDeviceAsync();
-        }
-        catch (Exception ea)
-        {
-            hint.SetLabelStatus("连接失败！" + ea.Message);
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-        // Console.WriteLine("Connected");
-        if (!await _osBle.ConnectShxRwServiceAsync())
-        {
-            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
-            hint.SetButtonStatus(true);
-            return;
-        }
-
-
-        if (!await _osBle.ConnectShxRwCharacteristicAsync())
-        {
-            hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
-            hint.SetButtonStatus(true);
-
-            return;
-        }
-
-        _osBle.RegisterSerial();
-        hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
-        hint.SetButtonStatus(true);
+        // var hint = new DispInfoWindow();
+        //
+        // hint.SetButtonStatus(false);
+        // _ = hint.ShowDialog(this);
+        // hint.SetLabelStatus("检查蓝牙可用性...");
+        // try
+        // {
+        //     var available = await _osBle.GetBleAvailabilityAsync();
+        //     // var available = true;
+        //     if (!available)
+        //     {
+        //         await MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开！\n如果您使用RPC方式写频，请确认服务端已开启！").ShowWindowDialogAsync(this);
+        //         hint.SetButtonStatus(true);
+        //         return;
+        //     }
+        // }
+        // catch (Exception ed)
+        // {
+        //     await MessageBoxManager.GetMessageBoxStandard("注意", "您的系统不受支持或蓝牙未打开:" + ed.Message).ShowWindowDialogAsync(this);
+        //     hint.SetButtonStatus(true);
+        //     return;
+        // }
+        //
+        // hint.SetLabelStatus("自动搜索中...");
+        //
+        // if (!await _osBle.ScanForShxAsync())
+        // {
+        //     hint.SetLabelStatus("未找到设备！\n您可能需要重启软件！");
+        //     hint.SetButtonStatus(true);
+        //     return;
+        // }
+        //
+        // hint.SetLabelStatus("已找到设备,尝试连接中...");
+        // // Get Char.....
+        // try
+        // {
+        //     await _osBle.ConnectShxDeviceAsync();
+        // }
+        // catch (Exception ea)
+        // {
+        //     hint.SetLabelStatus("连接失败！" + ea.Message);
+        //     hint.SetButtonStatus(true);
+        //     return;
+        // }
+        //
+        // // Console.WriteLine("Connected");
+        // if (!await _osBle.ConnectShxRwServiceAsync())
+        // {
+        //     hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
+        //     hint.SetButtonStatus(true);
+        //     return;
+        // }
+        //
+        //
+        // if (!await _osBle.ConnectShxRwCharacteristicAsync())
+        // {
+        //     hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
+        //     hint.SetButtonStatus(true);
+        //
+        //     return;
+        // }
+        //
+        // _osBle.RegisterSerial();
+        // hint.SetLabelStatus("连接成功！\n请点击关闭，并进行读写频");
+        // hint.SetButtonStatus(true);
     }
 
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        _osBle?.Dispose();
-        _osBle = new GenerticShxble();
-#if WINDOWS
-        _osBle = new WindowsShxble();
-#endif
-        ConnBLE();
-        // cable.IsVisible = false;
-    }
-
-    private void RPCBLEMenuItem_OnClick(object? sender, RoutedEventArgs e)
-    {
-        _osBle?.Dispose();
-        _osBle = new RPCSHXBLE();
-        ConnBLE();
+        new BluetoothDeviceSelectionWindow().ShowDialog(this);
     }
 }
