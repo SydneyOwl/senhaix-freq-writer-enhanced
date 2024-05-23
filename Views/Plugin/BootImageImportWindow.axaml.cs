@@ -70,7 +70,7 @@ public partial class BootImageImportWindow : Window
         var bitmap = SKBitmap.Decode(files[0].Path.AbsolutePath);
         if (bitmap == null)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意", "出错，请检查您的路径，或软件对图片无读权限！").ShowWindowDialogAsync(this);
+            MessageBoxManager.GetMessageBoxStandard("注意", "出错，请检查您的路径，应当为纯英文，或软件对图片无读权限！").ShowWindowDialogAsync(this);
             return;
         }
         DebugWindow.GetInstance().updateDebugContent($"PicFormat：{bitmap.ColorType}");

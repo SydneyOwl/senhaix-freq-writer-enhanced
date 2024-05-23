@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using CookComputing.XmlRpc;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
+using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
 public class RPCSHXBLE : IBluetooth
 {
+    private CancellationTokenSource source = new();
     private ProxyInterface proxy = (ProxyInterface)XmlRpcProxyGen.Create(typeof(ProxyInterface));
     // See BLEPlugin.py
     public async Task<bool> GetBleAvailabilityAsync()
@@ -81,17 +84,47 @@ public class RPCSHXBLE : IBluetooth
 
     public void RegisterSerial()
     {
-        throw new System.NotImplementedException();
+        MySerialPort.GetInstance().WriteBle = (value) =>
+        {
+            proxy.WriteData(value);
+            return Task.Run(()=>{});
+        };
+        Task.Run(()=>UpdateRecvQueue(source.Token));
     }
 
     public void Dispose()
     {
-        throw new System.NotImplementedException();
+        try
+        {
+            proxy.Dispose();
+            source.Cancel();
+        }
+        catch
+        {
+            // ignore
+        }
     }
 
     public void SetStatusUpdater(Updater up)
     {
         throw new System.NotImplementedException();
+    }
+
+    private void UpdateRecvQueue(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            var result = proxy.ReadCachedData();
+            if (result == null)
+            {
+                continue;
+            }
+            foreach (var b in result)
+            {
+                var tmp = b;
+                MySerialPort.GetInstance().RxData.Enqueue(tmp);
+            }
+        }
     }
 }
 
@@ -118,4 +151,7 @@ public interface ProxyInterface : IXmlRpcProxy
     
     [XmlRpcMethod("WriteData")]
     bool WriteData(byte[] data);
+    
+    [XmlRpcMethod("Dispose")]
+    void Dispose();
 }
