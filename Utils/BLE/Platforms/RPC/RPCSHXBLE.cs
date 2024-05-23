@@ -11,7 +11,7 @@ namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 public class RPCSHXBLE : IBluetooth
 {
     private CancellationTokenSource source = new();
-    private ProxyInterface proxy = (ProxyInterface)XmlRpcProxyGen.Create(typeof(ProxyInterface));
+    private IProxyInterface proxy = (IProxyInterface)XmlRpcProxyGen.Create(typeof(IProxyInterface));
     // See BLEPlugin.py
     public async Task<bool> GetBleAvailabilityAsync()
     {
@@ -96,7 +96,7 @@ public class RPCSHXBLE : IBluetooth
     {
         try
         {
-            proxy.Dispose();
+            proxy.DisposeBluetooth();
             source.Cancel();
         }
         catch
@@ -126,10 +126,11 @@ public class RPCSHXBLE : IBluetooth
             }
         }
     }
+
 }
 
 [XmlRpcUrl("http://localhost:8563")]
-public interface ProxyInterface : IXmlRpcProxy
+public interface IProxyInterface : IXmlRpcProxy
 {
     [XmlRpcMethod("GetBleAvailability")]
     bool GetBleAvailability();
@@ -152,6 +153,6 @@ public interface ProxyInterface : IXmlRpcProxy
     [XmlRpcMethod("WriteData")]
     bool WriteData(byte[] data);
     
-    [XmlRpcMethod("Dispose")]
-    void Dispose();
+    [XmlRpcMethod("DisposeBluetooth")]
+    void DisposeBluetooth();
 }

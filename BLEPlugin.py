@@ -99,7 +99,7 @@ def WriteData(data:bytes):
         print(repr(e))
         return False
 
-def Dispose():
+def DisposeBluetooth():
     global peripheral,service_uuid,service,characteristic_uuid,characteristic
     peripheral.disconnect()
     service_uuid,service,characteristic_uuid,characteristic = None, None, None, None
@@ -123,7 +123,7 @@ server.register_function(ConnectShxRwService,"ConnectShxRwService")
 server.register_function(ConnectShxRwCharacteristic,"ConnectShxRwCharacteristic")
 server.register_function(ReadCachedData,"ReadCachedData")
 server.register_function(WriteData,"WriteData")
-server.register_function(Dispose,"Dispose")
+server.register_function(DisposeBluetooth,"DisposeBluetooth")
 server.serve_forever()
 
 
