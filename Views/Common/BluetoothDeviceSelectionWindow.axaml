@@ -9,7 +9,7 @@
         x:DataType="vm:BluetoothDeviceSelectionWindow"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         WindowStartupLocation="CenterScreen">
-    <Canvas>
+    <Canvas Background="{DynamicResource dgvBackgroundBrush}">
         <DataGrid Name="btdevice"
                   GridLinesVisibility="All"
                   Width="550"

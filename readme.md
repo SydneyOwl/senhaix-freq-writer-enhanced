@@ -56,13 +56,6 @@ installed.
 
 ### 其他说明
 
-#### 蓝牙
-
-+ 在windows上使用蓝牙功能，无需勾选RPC方式，直接使用即可。（当然也可以用RPC！）
-+ 由于avalonia不支持`maccatalyst`，在linux和mac上使用蓝牙时，需要首先运行python脚本`BLEPluigin.py`，点击"启动RPC服务"，之后在蓝牙连接界面勾选“RPC服务”继续连接即可。
-
-![image-20240524110721618](./readme_image/image-20240524110721618.png)
-
 ### 图片
 
 #### V0.2.2后

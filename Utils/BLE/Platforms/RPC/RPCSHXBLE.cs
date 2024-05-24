@@ -45,7 +45,7 @@ public class RPCSHXBLE : IBluetooth
 
     public void SetDevice(string seq)
     {
-        proxy.setDevice(seq);
+        proxy.SetDevice(seq);
     }
 
     public bool ConnectShxDeviceAsync()
@@ -110,6 +110,7 @@ public class RPCSHXBLE : IBluetooth
                 var tmp = b;
                 MySerialPort.GetInstance().RxData.Enqueue(tmp);
             }
+            Thread.Sleep(100);
         }
     }
 
@@ -124,8 +125,8 @@ public interface IProxyInterface : IXmlRpcProxy
     [XmlRpcMethod("ScanForShx")]
     string ScanForShx();
     
-    [XmlRpcMethod("setDevice")]
-    void setDevice(string seq);
+    [XmlRpcMethod("SetDevice")]
+    void SetDevice(string seq);
     
     [XmlRpcMethod("ConnectShxDevice")]
     bool ConnectShxDevice();

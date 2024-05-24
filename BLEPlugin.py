@@ -1,10 +1,11 @@
-import simplepyble
 from xmlrpc.server import SimpleXMLRPCServer
 import queue
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 import threading
+import sys
+import getopt
 
 """
 From SenhaixFreqWriter->Const
@@ -25,6 +26,13 @@ server = None
 mtu = 23
 
 dataQueue = queue.Queue()
+
+isPyBleAvailable = True
+
+try: 
+    import simplepyble
+except Exception:
+    isPyBleAvailable = False
 
 def GetBleAvailability():
     global adapter
@@ -48,7 +56,7 @@ def ScanForShx():
     insert_log(devList)
     return str(devList)
 
-def setDevice(seq):
+def SetDevice(seq):
     global peripheral
     peripheral = peripherals[int(seq)]
 
@@ -133,7 +141,7 @@ def start_rpc_server(rpc_address):
         server.register_function(ConnectShxRwService, "ConnectShxRwService")
         server.register_function(ConnectShxRwCharacteristic, "ConnectShxRwCharacteristic")
         server.register_function(ReadCachedData, "ReadCachedData")
-        server.register_function(setDevice, "setDevice")
+        server.register_function(SetDevice, "SetDevice")
         server.register_function(WriteData, "WriteData")
         server.register_function(DisposeBluetooth, "DisposeBluetooth")
         server_thread = threading.Thread(target=server.serve_forever)
@@ -162,37 +170,91 @@ def get_rpc_address():
     return rpc_address
 
 def insert_log(data):
-    log_text.insert(tk.END, str(data)+"\n")
-    log_text.see(tk.END)
+    if (use_gui_m):
+        log_text.insert(tk.END, str(data)+"\n")
+        log_text.see(tk.END)
+    else:
+        print(data)
+    
+def try_import():
+    if not isPyBleAvailable:
+        messagebox.showinfo("注意", "请先执行pip install simplepyble!")
+        sys.exit(0)
 
-root = tk.Tk()
-root.title("BLE RPC Server")
-root.geometry("400x300")
+def use_gui():
+    global log_text,start_button,stop_button,rpc_entry
+    root = tk.Tk()
+    root.title("BLE RPC Server")
+    root.geometry("400x300")
 
-# RPC Address
-rpc_frame = tk.Frame(root)
-rpc_frame.pack(pady=10)
+    # RPC Address
+    rpc_frame = tk.Frame(root)
+    rpc_frame.pack(pady=10)
 
-rpc_label = tk.Label(rpc_frame, text="RPC Address:    http://")
-rpc_label.pack(side=tk.LEFT, padx=5)
+    rpc_label = tk.Label(rpc_frame, text="RPC Address:    http://")
+    rpc_label.pack(side=tk.LEFT, padx=5)
 
-rpc_entry = tk.Entry(rpc_frame, width=30)
-rpc_entry.insert(0, "localhost:8563")
-rpc_entry.pack(side=tk.LEFT, padx=5)
+    rpc_entry = tk.Entry(rpc_frame, width=30)
+    rpc_entry.insert(0, "localhost:8563")
+    rpc_entry.pack(side=tk.LEFT, padx=5)
 
-# Start and Stop Buttons
-button_frame = tk.Frame(root)
-button_frame.pack(pady=10)
+    # Start and Stop Buttons
+    button_frame = tk.Frame(root)
+    button_frame.pack(pady=10)
 
-start_button = tk.Button(button_frame, text="启动RPC服务", command=lambda: start_rpc_server(get_rpc_address()))
-start_button.pack(side=tk.LEFT, padx=5)
+    start_button = tk.Button(button_frame, text="启动RPC服务", command=lambda: start_rpc_server(get_rpc_address()))
+    start_button.pack(side=tk.LEFT, padx=5)
 
-stop_button = tk.Button(button_frame, text="停止RPC服务", command=stop_rpc_server)
-stop_button.pack(side=tk.LEFT, padx=5)
+    stop_button = tk.Button(button_frame, text="停止RPC服务", command=stop_rpc_server)
+    stop_button.pack(side=tk.LEFT, padx=5)
 
-stop_button.config(state='disabled')
+    stop_button.config(state='disabled')
 
-log_text = scrolledtext.ScrolledText(root, width=40, height=10)
-log_text.pack(pady=10)
+    log_text = scrolledtext.ScrolledText(root, width=40, height=10)
+    log_text.pack(pady=10)
 
-root.mainloop()
+    root.after(200,try_import)
+
+    root.mainloop()
+
+def use_cli(rpc_address,rpc_port):
+    if not isPyBleAvailable:
+        print("请先执行pip install simplepyble安装所需蓝牙库！")
+        return
+    server = SimpleXMLRPCServer((rpc_address, rpc_port), allow_none=True)
+    server.register_function(GetBleAvailability, "GetBleAvailability")
+    server.register_function(ScanForShx, "ScanForShx")
+    server.register_function(ConnectShxDevice, "ConnectShxDevice")
+    server.register_function(ConnectShxRwService, "ConnectShxRwService")
+    server.register_function(ConnectShxRwCharacteristic, "ConnectShxRwCharacteristic")
+    server.register_function(ReadCachedData, "ReadCachedData")
+    server.register_function(SetDevice, "SetDevice")
+    server.register_function(WriteData, "WriteData")
+    server.register_function(DisposeBluetooth, "DisposeBluetooth")
+    server.serve_forever()
+    
+if __name__ == "__main__":
+    opts,args = getopt.getopt(sys.argv[1:],'hga:p:',['help','gui','rpc-address=','rpc-port='])
+    rpc_address = "localhost"
+    rpc_port = 8563
+    use_gui_m = False
+    for opt_name,opt_value in opts:
+        if opt_name in ('-h','--help'):
+            print("""
+Python BLE RPC Server
+-a/--rpc-address 指定绑定的ip地址
+-p/--rpc-port 指定绑定的端口
+-g/--gui 使用图形模式（macOS上有bug）
+            """)
+            sys.exit(0)
+        if opt_name in ('-a','--rpc-address'):
+            rpc_address = opt_value
+        if opt_name in ('-p','--rpc-port'):
+            rpc_port = opt_value
+        if opt_name in ('-g','--gui'):
+            use_gui_m = True
+    if use_gui_m:
+        use_gui()
+    else:
+        print("Use cli")
+        use_cli(rpc_address,int(rpc_port))
