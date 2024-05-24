@@ -553,6 +553,7 @@ public class WindowsShxble : IBluetooth
             {
                 fin.Add(new GenerticBLEDeviceInfo
                 {
+                    DeviceID = i.ToString(),
                     DeviceName = DeviceList[i].Name,
                     DeviceMacAddr = CalMac(DeviceList[i].BluetoothAddress)
                 });
@@ -563,6 +564,7 @@ public class WindowsShxble : IBluetooth
                 {
                     fin.Add(new GenerticBLEDeviceInfo
                     {
+                        DeviceID = i.ToString(),
                         DeviceName = DeviceList[i].Name,
                         DeviceMacAddr = CalMac(DeviceList[i].BluetoothAddress)
                     });
@@ -573,9 +575,9 @@ public class WindowsShxble : IBluetooth
         return fin;
     }
 
-    public void SetDevice(int seq)
+    public void SetDevice(string seq)
     {
-        CurrentShxDevice = DeviceList[seq];
+        CurrentShxDevice = DeviceList[int.Parse(seq)];
     }
 
     public bool ConnectShxDeviceAsync()

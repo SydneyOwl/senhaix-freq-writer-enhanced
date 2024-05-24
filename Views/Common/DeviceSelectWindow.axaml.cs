@@ -18,7 +18,7 @@ public partial class DeviceSelectWindow : Window
         {
             DebugWindow.GetInstance().Close();
         }
-        SETTINGS.debugEnabled = false;
+        SETTINGS.DEBUG_ENABLED = false;
         InitializeComponent();
         if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 1;
     }
@@ -32,7 +32,7 @@ public partial class DeviceSelectWindow : Window
             return;
         }
         
-        if (SETTINGS.debugEnabled)
+        if (SETTINGS.DEBUG_ENABLED)
         {
             DebugWindow.GetNewInstance().Show();
         }
@@ -56,6 +56,6 @@ public partial class DeviceSelectWindow : Window
 
     private void ToggleButton_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
     {
-        SETTINGS.debugEnabled = ((CheckBox)sender).IsChecked.Value;
+        SETTINGS.DEBUG_ENABLED = ((CheckBox)sender).IsChecked.Value;
     }
 }

@@ -1,6 +1,10 @@
 import simplepyble
 from xmlrpc.server import SimpleXMLRPCServer
 import queue
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import scrolledtext
+import threading
 
 """
 From SenhaixFreqWriter->Const
@@ -16,6 +20,7 @@ service_uuid = None
 service = None
 characteristic_uuid = None
 characteristic = None
+server = None
 
 mtu = 23
 
@@ -24,13 +29,13 @@ dataQueue = queue.Queue()
 def GetBleAvailability():
     global adapter
     adapters = simplepyble.Adapter.get_adapters()
-    if len(adapters)==0:
+    if len(adapters) == 0:
         return False
     adapter = adapters[0]
-    print(f"Selected adapter: {adapter.identifier()} [{adapter.address()}]")
-    adapter.set_callback_on_scan_start(lambda: print("Scan started."))
-    adapter.set_callback_on_scan_stop(lambda: print("Scan complete."))
-    adapter.set_callback_on_scan_found(lambda peripheral: print(f"Found {peripheral.identifier()} [{peripheral.address()}]"))
+    insert_log(f"Selected adapter: {adapter.identifier()} [{adapter.address()}]")
+    adapter.set_callback_on_scan_start(lambda: insert_log("Scan started."))
+    adapter.set_callback_on_scan_stop(lambda: insert_log("Scan complete."))
+    adapter.set_callback_on_scan_found(lambda peripheral: insert_log(f"Found {peripheral.identifier()} [{peripheral.address()}]"))
     return True
 
 def ScanForShx():
@@ -39,27 +44,29 @@ def ScanForShx():
     peripherals = adapter.scan_get_results()
     devList = []
     for i, per in enumerate(peripherals):
-        devList.append({"DeviceName":per.identifier(),"DeviceMacAddr":per.address()})
-    print(devList)
+        devList.append({"DeviceName": per.identifier(), "DeviceMacAddr": per.address(),"DeviceID":str(i)})
+    insert_log(devList)
     return str(devList)
 
 def setDevice(seq):
     global peripheral
-    peripheral = peripherals[seq]
-    print(seq)
+    peripheral = peripherals[int(seq)]
 
 def ConnectShxDevice():
-    global mtu
+    global mtu,dataQueue
+    while not dataQueue.empty():
+        dataQueue.get()
+    DisposeBluetooth()
     if peripheral is None:
         return False
     try:
-        print(f"Connecting to: {peripheral.identifier()} [{peripheral.address()}]")
+        insert_log(f"Connecting to: {peripheral.identifier()} [{peripheral.address()}]")
         peripheral.connect()
         # mtu = peripheral.mtu()
-        print("Successfully connected")
+        insert_log("Successfully connected")
         return True
     except Exception as e:
-        print(repr(e))
+        insert_log(repr(e))
         return False
     
 def ConnectShxRwService():
@@ -68,25 +75,25 @@ def ConnectShxRwService():
     services = peripheral.services()
     for serviced in services:
         serid = serviced.uuid()
-        print(f"Service->{serid}")
         if RwServiceUuid in str(serid):
             service_uuid = serid
             service = serviced
+            insert_log(f"Service Connected")
             return True
     return False
 
 def ConnectShxRwCharacteristic():
-    global characteristic_uuid,characteristic
+    global characteristic_uuid, characteristic
     if service is None: return False
     for characteristicd in service.characteristics():
         chrid = characteristicd.uuid()
-        print(f"characteristic->{chrid}")
         if RwCharacteristicUuid in str(chrid):
             characteristic_uuid = chrid
             characteristic = characteristicd
             # Register Callback here
-            print("Registering notify...")
+            insert_log("Registering notify...")
             peripheral.notify(service_uuid, characteristic_uuid, CallbackOnDataReceived)
+            insert_log("Registeredd notify")
             return True
     return False 
 
@@ -94,7 +101,7 @@ def ReadCachedData():
     try:
         return dataQueue.get_nowait()
     except Exception as e:
-        print(repr(e))
+        insert_log(repr(e))
         return None
 
 def WriteData(data:bytes):
@@ -102,50 +109,90 @@ def WriteData(data:bytes):
         peripheral.write_request(service_uuid, characteristic_uuid, data)
         return True
     except Exception as e:
-        print(repr(e))
+        insert_log(repr(e))
         return False
 
 def DisposeBluetooth():
     global peripheral,service_uuid,service,characteristic_uuid,characteristic
-    peripheral.disconnect()
+    if peripheral is not None:
+        peripheral.disconnect()
     service_uuid,service,characteristic_uuid,characteristic = None, None, None, None
 
-
 def CallbackOnDataReceived(data:bytes):
-    print(f"recv: {data}")
+    insert_log(f"recv: {data}")
     dataQueue.put(data)
-    
-# print(f"BLEAvailability: {GetBleAvailability()}")
-# print(f"SHXFound: {ScanForShx()}")
-# print(f"ConnShx: {ConnectShxDevice()}")
-# print(f"ConnShxService: {ConnectShxRwService()}")
-# print(f"ConnShxChar: {ConnectShxRwCharacteristic()}")
-
-server = SimpleXMLRPCServer(("localhost",8563),allow_none=True)
-server.register_function(GetBleAvailability,"GetBleAvailability")
-server.register_function(ScanForShx,"ScanForShx")
-server.register_function(ConnectShxDevice,"ConnectShxDevice")
-server.register_function(ConnectShxRwService,"ConnectShxRwService")
-server.register_function(ConnectShxRwCharacteristic,"ConnectShxRwCharacteristic")
-server.register_function(ReadCachedData,"ReadCachedData")
-server.register_function(setDevice,"setDevice")
-server.register_function(WriteData,"WriteData")
-server.register_function(DisposeBluetooth,"DisposeBluetooth")
-server.serve_forever()
 
 
+def start_rpc_server(rpc_address):
+    global server
+    try:
+        server = SimpleXMLRPCServer((rpc_address.split(':')[0], int(rpc_address.split(':')[1])), allow_none=True)
+        server.register_function(GetBleAvailability, "GetBleAvailability")
+        server.register_function(ScanForShx, "ScanForShx")
+        server.register_function(ConnectShxDevice, "ConnectShxDevice")
+        server.register_function(ConnectShxRwService, "ConnectShxRwService")
+        server.register_function(ConnectShxRwCharacteristic, "ConnectShxRwCharacteristic")
+        server.register_function(ReadCachedData, "ReadCachedData")
+        server.register_function(setDevice, "setDevice")
+        server.register_function(WriteData, "WriteData")
+        server.register_function(DisposeBluetooth, "DisposeBluetooth")
+        server_thread = threading.Thread(target=server.serve_forever)
+        server_thread.daemon = True
+        server_thread.start()
+        insert_log( "RPC server started.")
+        start_button.config(state='disabled')
+        stop_button.config(state='normal')
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to start RPC server: {str(e)}")
 
+def stop_rpc_server():
+    global server
+    try:
+        server.shutdown()
+        insert_log("RPC server stopped.")
+        start_button.config(state='normal')
+        stop_button.config(state='disabled')
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to stop RPC server: {str(e)}")
 
-# Query the user to pick a service/characteristic pair
-# print("Please select a service/characteristic pair:")
-# for i, (service_uuid, characteristic) in enumerate(service_characteristic_pair):
-#     print(f"{i}: {service_uuid} {characteristic}")
+def get_rpc_address():
+    rpc_address = rpc_entry.get()
+    if not rpc_address:
+        rpc_address = "localhost:8563"
+    return rpc_address
 
-# choice = int(input("Enter choice: "))
-# service_uuid, characteristic_uuid = service_characteristic_pair[choice]
+def insert_log(data):
+    log_text.insert(tk.END, str(data)+"\n")
+    log_text.see(tk.END)
 
-# # Write the content to the characteristic
-# contents = peripheral.read(service_uuid, characteristic_uuid)
-# print(f"Contents: {contents}")
+root = tk.Tk()
+root.title("BLE RPC Server")
+root.geometry("400x300")
 
-# peripheral.disconnect()
+# RPC Address
+rpc_frame = tk.Frame(root)
+rpc_frame.pack(pady=10)
+
+rpc_label = tk.Label(rpc_frame, text="RPC Address:    http://")
+rpc_label.pack(side=tk.LEFT, padx=5)
+
+rpc_entry = tk.Entry(rpc_frame, width=30)
+rpc_entry.insert(0, "localhost:8563")
+rpc_entry.pack(side=tk.LEFT, padx=5)
+
+# Start and Stop Buttons
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
+start_button = tk.Button(button_frame, text="启动RPC服务", command=lambda: start_rpc_server(get_rpc_address()))
+start_button.pack(side=tk.LEFT, padx=5)
+
+stop_button = tk.Button(button_frame, text="停止RPC服务", command=stop_rpc_server)
+stop_button.pack(side=tk.LEFT, padx=5)
+
+stop_button.config(state='disabled')
+
+log_text = scrolledtext.ScrolledText(root, width=40, height=10)
+log_text.pack(pady=10)
+
+root.mainloop()

@@ -28,7 +28,10 @@ public partial class BluetoothDeviceSelectionWindow : Window
     public BluetoothDeviceSelectionWindow()
     {
         InitializeComponent();
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) useRPC.IsChecked = true;
+#if !WINDOWS
+        useRPC.IsChecked = true;
+        useRPC.IsEnabled = false;
+#endif
         DataContext = this;
     }
 
@@ -132,7 +135,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
             });
             try
             {
-                osBLE.SetDevice(btdevice.SelectedIndex);
+                osBLE.SetDevice(BleInfos[btdevice.SelectedIndex].DeviceID);
                 var connDevStat = osBLE.ConnectShxDeviceAsync();
                 if (!connDevStat)
                 {

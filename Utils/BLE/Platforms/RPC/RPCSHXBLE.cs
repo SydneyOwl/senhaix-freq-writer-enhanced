@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CookComputing.XmlRpc;
 using Newtonsoft.Json;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
@@ -25,7 +27,8 @@ public class RPCSHXBLE : IBluetooth
         bool disableSSIDFilter)
     {
         var result = proxy.ScanForShx();
-        Console.WriteLine(result);
+        string pattern = @"(\\[^bfrnt\\/'\""])";
+        result = Regex.Replace(result, pattern, "\\$1");
         List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
         List<GenerticBLEDeviceInfo> fin = new();
         foreach (var generticBleDeviceInfo in bleDeviceInfo)
@@ -40,7 +43,7 @@ public class RPCSHXBLE : IBluetooth
         return fin;
     }
 
-    public void SetDevice(int seq)
+    public void SetDevice(string seq)
     {
         proxy.setDevice(seq);
     }
@@ -112,7 +115,7 @@ public class RPCSHXBLE : IBluetooth
 
 }
 
-[XmlRpcUrl("http://localhost:8563")]
+[XmlRpcUrl(SETTINGS.RPC_URL)]
 public interface IProxyInterface : IXmlRpcProxy
 {
     [XmlRpcMethod("GetBleAvailability")]
@@ -122,7 +125,7 @@ public interface IProxyInterface : IXmlRpcProxy
     string ScanForShx();
     
     [XmlRpcMethod("setDevice")]
-    void setDevice(int seq);
+    void setDevice(string seq);
     
     [XmlRpcMethod("ConnectShxDevice")]
     bool ConnectShxDevice();

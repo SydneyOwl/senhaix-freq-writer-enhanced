@@ -28,7 +28,7 @@
 
 ## 功能说明
 
-运行平台：
+### 运行平台
 
 | -         | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）                                               | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
 |-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
@@ -40,22 +40,42 @@ installed.
 [^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
 [^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
 
-目前各版本支持的功能：
+### 支持的功能
 
-| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-|--------------------|------------------------------------------------|------------------------------|-----------------------|
-| 原有的所有功能            | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 蓝牙写频               | 仅8800；目前只在Windows上可用                           | 仅蓝牙版支持                       | :heavy_minus_sign:    |
-| （以下为支持的插件）         |                                                |                              |                       |
-| 开机画面修改             | :white_check_mark:                             | :white_check_mark:           | :heavy_minus_sign:    |
-| 打星助手               | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频                             | 仅8800；在linux和mac上仅RPC方式可用[^5]                 | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                         |                                         |                              |
+| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
 
 [^4]:该版本自带runtime，无需额外安装
+[^5]:通过Python调用蓝牙
+
+### 其他说明
+
+#### 蓝牙
+
++ 在windows上使用蓝牙功能，无需勾选RPC方式，直接使用即可。（当然也可以用RPC！）
++ 由于avalonia不支持`maccatalyst`，在linux和mac上使用蓝牙时，需要首先运行python脚本`BLEPluigin.py`，点击"启动RPC服务"，之后在蓝牙连接界面勾选“RPC服务”继续连接即可。
+
+![image-20240524110721618](./readme_image/image-20240524110721618.png)
+
+### 图片
+
+#### V0.2.2后
 
 ![](./readme_image/so50.png)
 
 ![](./readme_image/BootImg.png)
+
+#### V0.2.2前
+
+<img src="./readme_image/dep-ble.png" style="zoom:75%;" />
+
+<img src="./readme_image/dep-sat.png" style="zoom:75%;" />
 
 ## 编译指引
 

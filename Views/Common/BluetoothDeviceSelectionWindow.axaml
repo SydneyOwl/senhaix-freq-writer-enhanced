@@ -23,7 +23,7 @@
                   RowBackground="{DynamicResource dgBackgroundBrush}"
                   Canvas.Bottom="10"
                   Canvas.Left="10"
-                  >
+        >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="设备名" IsReadOnly="True"
                                     Width="*" Binding="{Binding  DeviceName}">
