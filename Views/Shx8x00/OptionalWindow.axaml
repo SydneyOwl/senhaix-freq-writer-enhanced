@@ -205,17 +205,17 @@
                 <ComboBox Canvas.Top="-5" Canvas.Left="390" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.MicGain}"
                           SelectedIndex="{Binding Fun.CbBMicGain}" />
-                <Label Canvas.Top="35" Canvas.Left="300" FontSize="13">中继导频频率</Label>
+                <Label Canvas.Top="35" Canvas.Left="300" FontSize="13">*中继导频频率</Label>
                 <ComboBox Canvas.Top="30" Canvas.Left="390" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.RptFrq}"
                           SelectedIndex="{Binding Fun.CbB1750Hz}" />
 
-                <CheckBox Canvas.Top="70" Canvas.Left="300" IsChecked="{Binding Fun.CBAlarmSound}">报警时是否播放声音</CheckBox>
-                <Label Canvas.Top="130" Canvas.Left="300" FontSize="13">报警模式</Label>
+                <CheckBox Canvas.Top="70" Canvas.Left="300" IsChecked="{Binding Fun.CBAlarmSound}">*报警时是否播放声音</CheckBox>
+                <Label Canvas.Top="130" Canvas.Left="300" FontSize="13">*报警模式</Label>
                 <ComboBox Canvas.Top="125" Canvas.Left="400" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.AlarmMode}"
                           SelectedIndex="{Binding Fun.CbBAlarmMode}" />
-                <Label Canvas.Top="180" Canvas.Left="300" FontSize="13">发射结束提示音</Label>
+                <Label Canvas.Top="180" Canvas.Left="300" FontSize="13">*发射结束提示音</Label>
                 <ComboBox Canvas.Top="175" Canvas.Left="400" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.AlarmEnd}"
                           SelectedIndex="{Binding Fun.CbBSoundOfTxEnd}" />
@@ -229,6 +229,8 @@
 
                 <Button Canvas.Top="340" Canvas.Left="330" Width="80" Height="40" Click="restore_OnClick">恢复默认</Button>
                 <Button Canvas.Top="340" Canvas.Left="450" Width="80" Height="40" Click="close_OnClick">确定</Button>
+                
+                <Label Background="Yellow" Canvas.Bottom="0" Canvas.Right="200" Content="带*号的选项仅在8800上有效！"></Label>
             </Canvas>
         </TabItem>
     </TabControl>

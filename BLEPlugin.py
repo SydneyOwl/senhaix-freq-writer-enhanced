@@ -15,6 +15,10 @@ RwServiceUuid = "ffe0"
 RwCharacteristicUuid = "ffe1"
 BtnameShx8800 = "walkie-talkie"
 
+rpc_address = "127.0.0.1"
+rpc_port = 8563
+use_gui_m = False
+
 peripherals = None
 peripheral = None
 service_uuid = None
@@ -107,14 +111,16 @@ def ConnectShxRwCharacteristic():
 
 def ReadCachedData():
     try:
-        return dataQueue.get_nowait()
+        if(dataQueue.empty()):
+            return None
+        return dataQueue.get()
     except Exception as e:
         insert_log(repr(e))
         return None
 
-def WriteData(data:bytes):
+def WriteData(data):
     try:
-        peripheral.write_request(service_uuid, characteristic_uuid, data)
+        peripheral.write_command(service_uuid, characteristic_uuid, data.data)
         return True
     except Exception as e:
         insert_log(repr(e))
@@ -134,7 +140,7 @@ def CallbackOnDataReceived(data:bytes):
 def start_rpc_server(rpc_address):
     global server
     try:
-        server = SimpleXMLRPCServer((rpc_address.split(':')[0], int(rpc_address.split(':')[1])), allow_none=True)
+        server = SimpleXMLRPCServer((rpc_address.split(':')[0], int(rpc_address.split(':')[1])), allow_none=True,logRequests=False)
         server.register_function(GetBleAvailability, "GetBleAvailability")
         server.register_function(ScanForShx, "ScanForShx")
         server.register_function(ConnectShxDevice, "ConnectShxDevice")
@@ -166,11 +172,11 @@ def stop_rpc_server():
 def get_rpc_address():
     rpc_address = rpc_entry.get()
     if not rpc_address:
-        rpc_address = "localhost:8563"
+        rpc_address = "127.0.0.1:8563"
     return rpc_address
 
 def insert_log(data):
-    if (use_gui_m):
+    if use_gui_m:
         log_text.insert(tk.END, str(data)+"\n")
         log_text.see(tk.END)
     else:
@@ -195,7 +201,7 @@ def use_gui():
     rpc_label.pack(side=tk.LEFT, padx=5)
 
     rpc_entry = tk.Entry(rpc_frame, width=30)
-    rpc_entry.insert(0, "localhost:8563")
+    rpc_entry.insert(0, "127.0.0.1:8563")
     rpc_entry.pack(side=tk.LEFT, padx=5)
 
     # Start and Stop Buttons
@@ -221,7 +227,7 @@ def use_cli(rpc_address,rpc_port):
     if not isPyBleAvailable:
         print("请先执行pip install simplepyble安装所需蓝牙库！")
         return
-    server = SimpleXMLRPCServer((rpc_address, rpc_port), allow_none=True)
+    server = SimpleXMLRPCServer((rpc_address, rpc_port), allow_none=True,logRequests=False)
     server.register_function(GetBleAvailability, "GetBleAvailability")
     server.register_function(ScanForShx, "ScanForShx")
     server.register_function(ConnectShxDevice, "ConnectShxDevice")
@@ -234,27 +240,36 @@ def use_cli(rpc_address,rpc_port):
     server.serve_forever()
     
 if __name__ == "__main__":
-    opts,args = getopt.getopt(sys.argv[1:],'hga:p:',['help','gui','rpc-address=','rpc-port='])
-    rpc_address = "localhost"
-    rpc_port = 8563
-    use_gui_m = False
+    opts,args = getopt.getopt(sys.argv[1:],'hcga:p:',['help','cli','gui','rpc-address=','rpc-port='])
+    if len(opts)==0:
+        if sys.platform=="darwin":
+            use_gui_m = False
+            use_cli(rpc_address,int(rpc_port))
+        else:
+            use_gui_m = True
+            use_gui()
+        sys.exit(0)
     for opt_name,opt_value in opts:
         if opt_name in ('-h','--help'):
             print("""
 Python BLE RPC Server
--a/--rpc-address 指定绑定的ip地址
--p/--rpc-port 指定绑定的端口
+-a/--rpc-address 指定绑定的ip地址(命令行)
+-p/--rpc-port 指定绑定的端口(命令行)
 -g/--gui 使用图形模式（macOS上有bug）
+-c/--cli 使用命令行模式
+-h/--help 帮助
             """)
             sys.exit(0)
         if opt_name in ('-a','--rpc-address'):
             rpc_address = opt_value
         if opt_name in ('-p','--rpc-port'):
             rpc_port = opt_value
+        if opt_name in ('-c','--cli'):
+            use_gui_m = False
         if opt_name in ('-g','--gui'):
             use_gui_m = True
     if use_gui_m:
         use_gui()
     else:
-        print("Use cli")
+        print("----------Use cli-----------")
         use_cli(rpc_address,int(rpc_port))
