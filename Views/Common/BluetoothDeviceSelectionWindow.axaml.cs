@@ -174,7 +174,10 @@ public partial class BluetoothDeviceSelectionWindow : Window
             catch (Exception f)
             {
                 Console.WriteLine($"dError:{f.Message}");
-                MessageBoxManager.GetMessageBoxStandard("注意", $"出错：{f.Message}！").ShowWindowDialogAsync(this);
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    MessageBoxManager.GetMessageBoxStandard("注意", $"出错：{f.Message}！").ShowWindowDialogAsync(this);
+                });
             }
             finally
             {

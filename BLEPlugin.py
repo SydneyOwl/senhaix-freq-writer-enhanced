@@ -7,6 +7,7 @@ import threading
 import sys
 import getopt
 import asyncio
+import threading
 
 """
 From SenhaixFreqWriter->Const
@@ -30,9 +31,9 @@ server = None
 
 mtu = 23
 
-dataQueue = queue.Queue()
-
 isPyBleAvailable = True
+
+dataQueue = queue.Queue()
 
 try: 
     import bleak
@@ -47,6 +48,9 @@ def GetBleAvailability():
 
 async def ScanForShx():
     global peripherals
+    while not dataQueue.empty():
+        dataQueue.get()
+    await DisposeBluetooth()
     peripherals = await scanner.discover(timeout=5)
     devList = []
     for i, per in enumerate(peripherals):
@@ -59,10 +63,6 @@ def SetDevice(seq):
     peripheral = bleak.BleakClient(peripherals[int(seq)])
 
 async def ConnectShxDevice():
-    global mtu,dataQueue
-    while not dataQueue.empty():
-        dataQueue.get()
-    await DisposeBluetooth()
     if peripheral is None:
         return False
     try:
@@ -78,7 +78,7 @@ async def ConnectShxDevice():
 async def ConnectShxRwService():
     global service_uuid, service
     if peripheral is None: return False
-    services = await peripheral.get_services()
+    services = peripheral.services
     for serviced in services:
         serid = serviced.uuid
         if RwServiceUuid in str(serid):
@@ -98,23 +98,25 @@ async def ConnectShxRwCharacteristic():
             characteristic = characteristicd
             # Register Callback here
             insert_log("Registering notify...")
-            await peripheral.start_notify(characteristic.uuid, callback=CallbackOnDataReceived)
+            await peripheral.start_notify(chrid, callback=CallbackOnDataReceived)
             insert_log("Registeredd notify")
             return True
     return False 
 
-def ReadCachedData():
+async def ReadCachedData():
     try:
-        if(dataQueue.empty()):
-            return None
-        return dataQueue.get()
+        if (dataQueue.empty()):return None
+        dt = dataQueue.get()
+        insert_log("read:"+str(dt))
+        return dt
     except Exception as e:
         insert_log(repr(e))
         return None
 
 async def WriteData(data):
     try:
-        await peripheral.write_gatt_char(characteristic_uuid, data.data,False)
+        await peripheral.write_gatt_char(characteristic_uuid, data.data, False)
+        insert_log("Write:"+str(data))
         return True
     except Exception as e:
         insert_log(repr(e))
@@ -124,9 +126,9 @@ async def DisposeBluetooth():
     global peripheral,service_uuid,service,characteristic_uuid,characteristic
     if peripheral is not None:
         await peripheral.disconnect()
-    service_uuid,service,characteristic_uuid,characteristic = None, None, None, None
+    service_uuid,service,characteristic_uuid,characteristic,peripheral = None, None, None, None,None
 
-def CallbackOnDataReceived(sender,data:bytearray):
+async def CallbackOnDataReceived(sender,data:bytearray):
     insert_log(f"recv: {data}")
     dataQueue.put(bytes(data))
 
@@ -158,6 +160,9 @@ def stop_rpc_server():
     global server
     try:
         server.shutdown()
+        if peripheral is not None:
+            peripheral.stop_notify(characteristic_uuid)
+            peripheral.disconnect()
         insert_log("RPC server stopped.")
         start_button.config(state='normal')
         stop_button.config(state='disabled')
