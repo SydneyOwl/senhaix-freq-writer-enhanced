@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ble_plugin/logger"
+	"BLEPlugin/logger"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -21,7 +21,6 @@ import (
 const (
 	RwServiceUuid        = "ffe0"
 	RwCharacteristicUuid = "ffe1"
-	BtnameShx8800        = "walkie-talkie"
 )
 
 var (
@@ -158,11 +157,11 @@ func ConnectShxRwCharacteristic() (bool, error) {
 			_ = bleCharacteristic.EnableNotifications(NotifyCallback)
 			// Start Routine: write
 			go func(cx context.Context, bleChan chan []byte) {
-				slog.Infof("写Routine启动")
+				slog.Tracef("写Routine启动")
 				for {
 					select {
 					case <-cx.Done():
-						slog.Infof("写Routine退出")
+						slog.Tracef("写Routine退出")
 						return
 					case sFrame := <-bleChan:
 						if len(sFrame) == 0 {
@@ -203,10 +202,6 @@ func DisposeBluetooth() {
 	}
 }
 
-func test() {
-
-}
-
 func HandlerReturnBoolValue(value bool, err error, c *gin.Context) {
 	errStr := ""
 	if err != nil {
@@ -232,9 +227,8 @@ func HandlerReturnStringValue(value string, err error, c *gin.Context) {
 	})
 }
 
-// 使用RPC1.0规范，弃用了id
-
-func StartRPC() {
+// StartRPC 使用JSONRPC规范
+func StartRPC(addr string) {
 	slog.Info("RPC服务已启动！")
 	gin.SetMode(gin.ReleaseMode)
 	gin.DefaultWriter = io.Discard
@@ -300,7 +294,7 @@ func StartRPC() {
 			})
 		}
 	})
-	slog.Fatal(r.Run("127.0.0.1:8563"))
+	slog.Fatal(r.Run(addr))
 }
 func main() {
 	var BaseCmd = &cobra.Command{
@@ -309,9 +303,11 @@ func main() {
 		Long:  `BLE RPC Server - Connect shx8x00 and c#`,
 		Run: func(cmd *cobra.Command, args []string) {
 			logger.InitLog(Verbose, Vverbose)
-			StartRPC()
+			StartRPC(fmt.Sprintf("%s:%d", rpcAddress, rpcPort))
 		},
 	}
+	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server listening port")
+	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server listening address")
 	BaseCmd.PersistentFlags().BoolVar(&Verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&Vverbose, "vverbose", false, "Print Debug/Trace Level logs")
 	cobra.MousetrapHelpText = ""

@@ -139,7 +139,7 @@ public class WriBootImage
                         comStep = State.HandShakeStep2;
                         break;
                     case State.HandShakeStep2:
-                        if (_sp.BytesToRead >= 1)
+                        if (_sp.BytesToReadFromCache >= 1)
                         {
                             await _sp.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6)
@@ -152,7 +152,7 @@ public class WriBootImage
 
                         break;
                     case State.HandShakeStep3:
-                        if (_sp.BytesToRead >= 8)
+                        if (_sp.BytesToReadFromCache >= 8)
                         {
                             await _sp.ReadByte(bufForData, 0, 8);
                             comStep = State.WriteStep1;
@@ -236,7 +236,7 @@ public class WriBootImage
                         return true;
                     }
                     case State.WriteStep2:
-                        if (_sp.BytesToRead >= 1)
+                        if (_sp.BytesToReadFromCache >= 1)
                         {
                             await _sp.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6)

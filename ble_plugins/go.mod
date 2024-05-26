@@ -1,4 +1,4 @@
-module ble_plugin
+module BLEPlugin
 
 go 1.22
 

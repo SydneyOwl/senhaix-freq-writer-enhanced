@@ -32,8 +32,9 @@ public partial class MainWindow : Window
     private ChannelData _tmpChannel;
 
     private bool _devSwitchFlag = false;
-
-    private IBluetooth _osBle;
+    
+    // 新版的8600
+    private SHX_DEVICE device;
 
     public ObservableCollection<ChannelData> ListItems
     {
@@ -45,9 +46,50 @@ public partial class MainWindow : Window
         }
     }
 
-    public MainWindow()
+    
+    
+    public MainWindow(SHX_DEVICE dev)
+    {
+        device = dev;
+        switch (dev)
+        {
+            case SHX_DEVICE.SHX8X00:
+                CommonMainWindow();
+                break;
+            case SHX_DEVICE.SHX8600_NEW:
+                NewShx8600MainWindow();
+                break;
+        }
+    }
+
+    public void CommonMainWindow()
     {
         InitializeComponent();
+        ChanChoice.TxPwr.Clear();
+        ChanChoice.TxPwr.Add("L");
+        ChanChoice.TxPwr.Add("H");
+        
+        OptionalChoice.TxPwr.Clear();
+        OptionalChoice.TxPwr.Add("高功率");
+        OptionalChoice.TxPwr.Add("低功率");
+        
+        DataContext = this;
+        _listItems.CollectionChanged += CollectionChangedHandler;
+        Closed += OnWindowClosed;
+    }
+    
+    //专为新版8600定制！其实只有发射功率变了
+    public void NewShx8600MainWindow()
+    {
+        InitializeComponent();
+        ChanChoice.TxPwr.Clear();
+        ChanChoice.TxPwr.Add("L");
+        ChanChoice.TxPwr.Add("M");
+        ChanChoice.TxPwr.Add("H");
+        OptionalChoice.TxPwr.Clear();
+        OptionalChoice.TxPwr.Add("高功率");
+        OptionalChoice.TxPwr.Add("中功率");
+        OptionalChoice.TxPwr.Add("低功率");
         DataContext = this;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;

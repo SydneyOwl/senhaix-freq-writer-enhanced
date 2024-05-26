@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.HID;
 
@@ -30,19 +31,23 @@ public partial class DeviceSelectWindow : Window
         }
 
         if (SETTINGS.DEBUG_ENABLED) DebugWindow.GetNewInstance().Show();
-
+        
         switch (DeviceChooseComboBox.SelectedIndex)
         {
             case 0:
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8800");
-                new Shx8x00.MainWindow().Show();
+                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8x00");
+                new Shx8x00.MainWindow(SHX_DEVICE.SHX8X00).Show();
                 break;
             case 1:
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
                 new Gt12.MainWindow().Show();
                 break;
+            case 3:
+                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600新版");
+                new Shx8x00.MainWindow(SHX_DEVICE.SHX8600_NEW).Show();
+                break;
             default:
-                new Shx8x00.MainWindow().Show();
+                new Shx8x00.MainWindow(SHX_DEVICE.SHX8X00).Show();
                 break;
         }
 
