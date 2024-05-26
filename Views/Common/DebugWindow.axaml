@@ -4,8 +4,8 @@
         x:Class="SenhaixFreqWriter.Views.Common.DebugWindow"
         Title="双击日志内容保存至文件">
     <Grid DoubleTapped="LogSaveInputElement_OnDoubleTapped">
-        <ScrollViewer Name="ScViewer" >
-            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap"/>
+        <ScrollViewer Name="ScViewer">
+            <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" />
         </ScrollViewer>
     </Grid>
 </Window>

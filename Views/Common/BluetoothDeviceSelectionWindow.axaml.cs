@@ -67,7 +67,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 if (!checkRPC)
                 {
                     osBLE = new WindowsShxble();
-                }      
+                }
 #endif
                 if (!osBLE.GetBleAvailabilityAsync())
                 {
@@ -83,10 +83,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 var result = osBLE.ScanForShxAsync(checkDisableWeakSignalRestriction, checkDisableSSIDRestriction);
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    foreach (var generticBleDeviceInfo in result)
-                    {
-                        BleInfos.Add(generticBleDeviceInfo);
-                    }
+                    foreach (var generticBleDeviceInfo in result) BleInfos.Add(generticBleDeviceInfo);
                 });
             }
             catch (Exception a)
@@ -107,14 +104,12 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     ProgressRing1.IsActive = false;
                 });
             }
-            
         });
     }
 
 
     private void UseRPC_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
     {
-        
     }
 
     private void ConnButton_OnClick(object? sender, RoutedEventArgs e)
@@ -124,7 +119,10 @@ public partial class BluetoothDeviceSelectionWindow : Window
         {
             if (btdevice.SelectedIndex == -1)
             {
-                Dispatcher.UIThread.Invoke(() => { MessageBoxManager.GetMessageBoxStandard("注意", "未选择设备！").ShowWindowDialogAsync(this); });
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    MessageBoxManager.GetMessageBoxStandard("注意", "未选择设备！").ShowWindowDialogAsync(this);
+                });
                 return;
             }
 
@@ -146,6 +144,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     });
                     return;
                 }
+
                 Dispatcher.UIThread.Invoke(() => { connStat.Text = "连接服务.."; });
                 var connSerStat = osBLE.ConnectShxRwServiceAsync();
                 if (!connSerStat)
@@ -156,6 +155,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     });
                     return;
                 }
+
                 Dispatcher.UIThread.Invoke(() => { connStat.Text = "连接特征.."; });
                 var connChStat = osBLE.ConnectShxRwCharacteristicAsync();
                 if (!connChStat)
@@ -166,6 +166,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     });
                     return;
                 }
+
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！您可以开始写频了！").ShowWindowDialogAsync(this);

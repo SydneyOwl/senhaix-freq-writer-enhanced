@@ -68,7 +68,7 @@ public partial class ProgressBarWindow : Window
         DebugWindow.GetInstance().updateDebugContent($"Start WriFreq Thread: StartWriteGt12");
         var flag = _com.DoIt(token);
         // Console.WriteLine("We've done write!");
-        Dispatcher.UIThread.Post(() => HandleResult(flag));
+        Dispatcher.UIThread.Invoke(() => HandleResult(flag));
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: StartWriteGt12");
     }
 
@@ -83,6 +83,7 @@ public partial class ProgressBarWindow : Window
             Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.Content);
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.Value);
         }
+
         DebugWindow.GetInstance().updateDebugContent($"Terminate GetProcess Thread: GetProcessGt12");
     }
 

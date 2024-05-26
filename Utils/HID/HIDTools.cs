@@ -51,7 +51,7 @@ public class HidTools
     {
         DebugWindow.GetInstance().updateDebugContent(a);
     }
-    
+
     public static bool IsShxGt12HidExist()
     {
         return DeviceList.Local.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) != null;
@@ -270,7 +270,7 @@ public class HidTools
     {
         var array = new byte[byData.Length];
         Array.Copy(byData, 0, array, 0, byData.Length);
-        UpdateDebugInfo($"发送数据（长度{array.Length}，蓝牙状态{WriteBle!=null}）：{BitConverter.ToString(array)}");
+        UpdateDebugInfo($"发送数据（长度{array.Length}，蓝牙状态{WriteBle != null}）：{BitConverter.ToString(array)}");
         if (Write(new Report(1, array)) != HidStatus.Success) return false;
         return true;
     }

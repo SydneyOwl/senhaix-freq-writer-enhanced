@@ -38,6 +38,7 @@ public partial class SatelliteHelperWindow : Window
     {
         InitializeComponent();
     }
+
     public SatelliteHelperWindow(InsertChannelMethod func)
     {
         InitializeComponent();
@@ -47,7 +48,7 @@ public partial class SatelliteHelperWindow : Window
         {
             Dispatcher.UIThread.Invoke(() =>
             {
-                selectedSatelliteInfo.Text += "无法存储json！切换到Mem模式...\n"; 
+                selectedSatelliteInfo.Text += "无法存储json！切换到Mem模式...\n";
                 DebugWindow.GetInstance().updateDebugContent("无法读取json文件！#无法新建目录！切换到Mem模式...");
             });
             Task.Run(() => { FetchData(true); });
@@ -67,7 +68,7 @@ public partial class SatelliteHelperWindow : Window
 
     private bool LoadJson(bool useMem = false)
     {
-        string satelliteData = "";
+        var satelliteData = "";
         if (useMem)
         {
             satelliteData = loadedJson;
@@ -80,14 +81,17 @@ public partial class SatelliteHelperWindow : Window
                 Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
                 return false;
             }
+
             satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
         }
+
         if (string.IsNullOrEmpty(satelliteData))
-        {        
+        {
             DebugWindow.GetInstance().updateDebugContent($"json为空");
             Dispatcher.UIThread.Invoke(() => { return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
+
         try
         {
             Dispatcher.UIThread.Invoke(() =>
@@ -209,7 +213,7 @@ public partial class SatelliteHelperWindow : Window
                 FetchSatText.Text = "更新中...";
                 FetchSat.IsEnabled = false;
             });
-            DownloadSatData(url,useMem);
+            DownloadSatData(url, useMem);
             LoadJson(useMem);
             Dispatcher.UIThread.Post(() =>
             {
@@ -227,7 +231,7 @@ public partial class SatelliteHelperWindow : Window
             url = proxyPrefix + url;
             try
             {
-                DownloadSatData(url,useMem);
+                DownloadSatData(url, useMem);
                 LoadJson(useMem);
                 Dispatcher.UIThread.Post(() =>
                 {
@@ -400,27 +404,23 @@ public partial class SatelliteHelperWindow : Window
         return band + 0.0005 * uStep * level;
     }
 
-    private bool DownloadSatData(string url,bool useMem = false)
+    private bool DownloadSatData(string url, bool useMem = false)
     {
         var target = new Uri(url);
         var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("User-Agent","CSharpHttpClient");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "CSharpHttpClient");
         var resp = httpClient.GetAsync(target).Result;
         if (resp.IsSuccessStatusCode)
         {
             if (useMem)
-            {
                 loadedJson = resp.Content.ReadAsStringAsync().Result;
-            }
             else
-            {
                 using (var fs = File.Create($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
                 {
                     var stm = resp.Content.ReadAsStream();
                     stm.CopyTo(fs);
                     return true;
                 }
-            }
         }
 
         return false;

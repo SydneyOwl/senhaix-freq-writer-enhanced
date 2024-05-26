@@ -229,8 +229,8 @@
 
                 <Button Canvas.Top="340" Canvas.Left="330" Width="80" Height="40" Click="restore_OnClick">恢复默认</Button>
                 <Button Canvas.Top="340" Canvas.Left="450" Width="80" Height="40" Click="close_OnClick">确定</Button>
-                
-                <Label Background="Yellow" Canvas.Bottom="0" Canvas.Right="200" Content="带*号的选项仅在8800上有效！"></Label>
+
+                <Label Background="Yellow" Canvas.Bottom="0" Canvas.Right="200" Content="带*号的选项仅在8800上有效！" />
             </Canvas>
         </TabItem>
     </TabControl>

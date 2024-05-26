@@ -14,7 +14,7 @@ namespace SenhaixFreqWriter.Views.Common;
 public partial class DebugWindow : Window
 {
     private static DebugWindow instance;
-    
+
     private DebugWindow()
     {
         InitializeComponent();
@@ -32,31 +32,28 @@ public partial class DebugWindow : Window
     {
         Dispatcher.UIThread.Invoke(() =>
         {
-            tbContent.Text += $"[{System.DateTime.Now:yyyy-MM-dd HH:mm:ss}]{content}\n";
+            tbContent.Text += $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]{content}\n";
             ScViewer.ScrollToEnd();
         });
     }
-    
+
     public static DebugWindow GetInstance()
     {
-        if (instance == null)
-        {
-            instance = new DebugWindow();
-        }
+        if (instance == null) instance = new DebugWindow();
 
         return instance;
     }
-    
+
     public static DebugWindow GetNewInstance()
     {
         instance?.Close();
         instance = new DebugWindow();
         return instance;
     }
-    
+
     public static bool HasInstance()
     {
-        return instance!=null;
+        return instance != null;
     }
 
     private async void LogSaveInputElement_OnDoubleTapped(object? sender, TappedEventArgs e)

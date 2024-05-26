@@ -46,8 +46,8 @@
                 <TextBlock Text="更新星历" VerticalAlignment="Center" Name="FetchSatText" />
             </StackPanel>
         </Button>
-        
-        <progRing:ProgressRing Width="25" 
+
+        <progRing:ProgressRing Width="25"
                                Height="25"
                                IsActive="False"
                                HorizontalAlignment="Left"
@@ -55,7 +55,7 @@
                                Foreground="Green"
                                Canvas.Left="300"
                                Canvas.Top="13"
-                               Name="ProgressRing"/>
+                               Name="ProgressRing" />
 
         <Button HorizontalAlignment="Left" Canvas.Top="480" Canvas.Left="350" Click="InsertChannelButton_OnClick"
                 Name="insertChannel" IsEnabled="False">

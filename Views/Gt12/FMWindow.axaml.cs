@@ -88,10 +88,7 @@ public partial class FmWindow : Window
             return;
         }
 
-        if (text.Length < 2 || (text.Length==2 && text.StartsWith("10")))
-        {
-            return;
-        }
+        if (text.Length < 2 || (text.Length == 2 && text.StartsWith("10"))) return;
         text = fmfreq.ToString("0.0");
 
         var array = text.Split('.');
@@ -131,10 +128,8 @@ public partial class FmWindow : Window
             textBox.Text = "";
             return;
         }
-        if (text.Length < 2 || (text.Length==2 && text.StartsWith("10")))
-        {
-            return;
-        }
+
+        if (text.Length < 2 || (text.Length == 2 && text.StartsWith("10"))) return;
         text = fmfreq.ToString("0.0");
 
         var array = text.Split('.');

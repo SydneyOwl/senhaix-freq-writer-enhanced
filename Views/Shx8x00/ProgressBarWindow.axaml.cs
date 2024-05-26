@@ -179,6 +179,7 @@ public partial class ProgressBarWindow : Window
                     break;
             }
         }
+
         DebugWindow.GetInstance().updateDebugContent($"Terminate GetProcess Thread: GetProcess8800");
     }
 

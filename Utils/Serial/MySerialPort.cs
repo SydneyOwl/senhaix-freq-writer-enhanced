@@ -95,7 +95,7 @@ public class MySerialPort : SerialPort
                     await WriteBle(tmpData);
                     break;
                 }
-                
+
                 var tmpData1 = tobeWrite.Skip(tmp).Take(singleSize).ToArray();
                 UpdateDebugInfo($"发送数据（长度{tmpData1.Length}，使用蓝牙）：{BitConverter.ToString(tmpData1)}");
                 await WriteBle(tmpData1);

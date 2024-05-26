@@ -73,6 +73,7 @@ public partial class BootImageImportWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", "出错，请检查您的路径，应当为纯英文，或软件对图片无读权限！").ShowWindowDialogAsync(this);
             return;
         }
+
         DebugWindow.GetInstance().updateDebugContent($"PicFormat：{bitmap.ColorType}");
         if (!bitmap.ColorType.Equals(SKColorType.Bgra8888) && !bitmap.ColorType.Equals(SKColorType.Rgba8888))
         {
@@ -153,7 +154,7 @@ public partial class BootImageImportWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
             start.IsEnabled = true;
         });
-        
+
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartWrite8800");
     }
 
@@ -167,11 +168,12 @@ public partial class BootImageImportWindow : Window
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
             // Thread.Sleep(10);
         }
+
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartGetProcess8800");
     }
 
     private async void StartWriteGt12(CancellationTokenSource source)
-    {       
+    {
         DebugWindow.GetInstance().updateDebugContent($"Start WriImg Thread: StartWriteGt12");
         var res = _bootHid.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
@@ -196,6 +198,7 @@ public partial class BootImageImportWindow : Window
             if (!_bootHid.currentProg.TryDequeue(out curPct)) continue;
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
         }
+
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriImg Thread: StartGetProcessGt12");
     }
 

@@ -12,7 +12,7 @@ public partial class DispInfoWindow : Window
         InitializeComponent();
     }
 
-    public void SetLabelStatus(string stat,bool debugInfo = false)
+    public void SetLabelStatus(string stat, bool debugInfo = false)
     {
         if (!debugInfo)
         {

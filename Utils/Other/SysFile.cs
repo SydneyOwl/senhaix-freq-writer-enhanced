@@ -14,15 +14,17 @@ public static class SysFile
             DebugWindow.GetInstance().updateDebugContent($"{SETTINGS.DATA_DIR}已存在");
             return true;
         }
+
         try
         {
-            DirectoryInfo di = Directory.CreateDirectory(SETTINGS.DATA_DIR);
+            var di = Directory.CreateDirectory(SETTINGS.DATA_DIR);
         }
         catch (Exception e)
         {
             DebugWindow.GetInstance().updateDebugContent($"新建失败：{SETTINGS.DATA_DIR}，${e.Message}");
             return false;
         }
+
         return true;
     }
 }

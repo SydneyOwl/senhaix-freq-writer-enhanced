@@ -14,10 +14,7 @@ public partial class DeviceSelectWindow : Window
 {
     public DeviceSelectWindow()
     {
-        if (DebugWindow.HasInstance())
-        {
-            DebugWindow.GetInstance().Close();
-        }
+        if (DebugWindow.HasInstance()) DebugWindow.GetInstance().Close();
         SETTINGS.DEBUG_ENABLED = false;
         InitializeComponent();
         if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 1;
@@ -31,11 +28,8 @@ public partial class DeviceSelectWindow : Window
             Environment.Exit(0);
             return;
         }
-        
-        if (SETTINGS.DEBUG_ENABLED)
-        {
-            DebugWindow.GetNewInstance().Show();
-        }
+
+        if (SETTINGS.DEBUG_ENABLED) DebugWindow.GetNewInstance().Show();
 
         switch (DeviceChooseComboBox.SelectedIndex)
         {
@@ -51,6 +45,7 @@ public partial class DeviceSelectWindow : Window
                 new Shx8x00.MainWindow().Show();
                 break;
         }
+
         Close();
     }
 

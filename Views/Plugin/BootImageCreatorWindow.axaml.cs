@@ -25,9 +25,9 @@ namespace SenhaixFreqWriter.Views.Plugin;
 public partial class BootImageCreatorWindow : Window
 {
     public SKBitmap CreatedBitmap;
-    
+
     public Bitmap CreatedAvaloniaBitmap;
-    
+
     private SHX_DEVICE _dev;
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
@@ -62,6 +62,7 @@ public partial class BootImageCreatorWindow : Window
                 WindowHeight = 390;
                 break;
         }
+
         DebugWindow.GetInstance().updateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
         InitializeFont();
         InitializeComponent();
@@ -108,7 +109,7 @@ public partial class BootImageCreatorWindow : Window
             fontList.Add("楷体");
             fontList.Add("仿宋");
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             DebugWindow.GetInstance().updateDebugContent($"Windows: ->InstalledFontCollection");
@@ -124,6 +125,7 @@ public partial class BootImageCreatorWindow : Window
             foreach (var se in OSX_OPTIONS.OSX_FONT_LIST)
                 fontList.Add(se);
         }
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             var process = new Process();
@@ -328,7 +330,6 @@ public partial class BootImageCreatorWindow : Window
             SuggestedFileName = "boot_image_" + _dev + ".png"
         });
         if (file is not null)
-        {
             try
             {
                 await using var stream = await file.OpenWriteAsync();
@@ -347,7 +348,6 @@ public partial class BootImageCreatorWindow : Window
                 DebugWindow.GetInstance().updateDebugContent($"{f.Message}");
                 MessageBoxManager.GetMessageBoxStandard("注意", "出错！").ShowWindowDialogAsync(this);
             }
-        }
     }
 
     private void AddText(BootImgCreatorFontComponent bt)

@@ -226,6 +226,8 @@ func HandlerReturnStringValue(value string, err error, c *gin.Context) {
 }
 
 func main() {
+	slog.Info("RPC服务已启动！")
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.POST("/", func(c *gin.Context) {
 		bodyBytes, _ := io.ReadAll(c.Request.Body)

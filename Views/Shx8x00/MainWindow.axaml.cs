@@ -405,7 +405,7 @@ public partial class MainWindow : Window
     {
         for (var i = 0; i < ListItems.Count; i++) ListItems[i].ChanNum = i.ToString();
     }
-    
+
 
     private void Dark_OnClick(object? sender, RoutedEventArgs e)
     {
