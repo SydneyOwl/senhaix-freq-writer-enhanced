@@ -1,13 +1,17 @@
 package main
 
 import (
+	"ble_plugin/logger"
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gookit/slog"
+	"github.com/spf13/cobra"
 	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -37,6 +41,9 @@ var (
 
 	ctx        context.Context
 	cancelFunc context.CancelFunc
+
+	Verbose  = false
+	Vverbose = false
 )
 
 type BLEDevice struct {
@@ -225,9 +232,15 @@ func HandlerReturnStringValue(value string, err error, c *gin.Context) {
 	})
 }
 
-func main() {
+// 使用RPC1.0规范，弃用了id
+
+func StartRPC() {
 	slog.Info("RPC服务已启动！")
 	gin.SetMode(gin.ReleaseMode)
+	gin.DefaultWriter = io.Discard
+	if Verbose || Vverbose {
+		gin.DefaultWriter = os.Stdout
+	}
 	r := gin.Default()
 	r.POST("/", func(c *gin.Context) {
 		bodyBytes, _ := io.ReadAll(c.Request.Body)
@@ -288,4 +301,22 @@ func main() {
 		}
 	})
 	slog.Fatal(r.Run("127.0.0.1:8563"))
+}
+func main() {
+	var BaseCmd = &cobra.Command{
+		Use:   "BLE RPC Server",
+		Short: "BLE RPC",
+		Long:  `BLE RPC Server - Connect shx8x00 and c#`,
+		Run: func(cmd *cobra.Command, args []string) {
+			logger.InitLog(Verbose, Vverbose)
+			StartRPC()
+		},
+	}
+	BaseCmd.PersistentFlags().BoolVar(&Verbose, "verbose", false, "Print Debug Level logs")
+	BaseCmd.PersistentFlags().BoolVar(&Vverbose, "vverbose", false, "Print Debug/Trace Level logs")
+	cobra.MousetrapHelpText = ""
+	if err := BaseCmd.Execute(); err != nil {
+		fmt.Printf("程序无法启动: %v", err)
+		os.Exit(-1)
+	}
 }

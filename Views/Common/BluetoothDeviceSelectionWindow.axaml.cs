@@ -11,6 +11,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.BLE;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
@@ -24,10 +25,18 @@ public partial class BluetoothDeviceSelectionWindow : Window
 {
     public ObservableCollection<GenerticBLEDeviceInfo> BleInfos { get; set; } = new();
     public IBluetooth osBLE;
-
+    private SHX_DEVICE dev = SHX_DEVICE.SHX8X00;
+    
     public BluetoothDeviceSelectionWindow()
     {
         InitializeComponent();
+        DataContext = this;
+    }
+
+    public BluetoothDeviceSelectionWindow(SHX_DEVICE shxDevice)
+    {
+        InitializeComponent();
+        dev = shxDevice;
 #if !WINDOWS
         useRPC.IsChecked = true;
         useRPC.IsEnabled = false;
@@ -171,7 +180,14 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！您可以开始写频了！").ShowWindowDialogAsync(this);
                 });
-                osBLE.RegisterSerial();
+                if (dev.Equals(SHX_DEVICE.SHX8X00))
+                {
+                    osBLE.RegisterSerial();
+                }
+                else
+                {
+                    osBLE.RegisterHid();
+                }
             }
             catch (Exception f)
             {

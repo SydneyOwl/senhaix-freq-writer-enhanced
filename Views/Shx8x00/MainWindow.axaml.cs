@@ -543,6 +543,6 @@ public partial class MainWindow : Window
 
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BluetoothDeviceSelectionWindow().ShowDialog(this);
+        new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8X00).ShowDialog(this);
     }
 }

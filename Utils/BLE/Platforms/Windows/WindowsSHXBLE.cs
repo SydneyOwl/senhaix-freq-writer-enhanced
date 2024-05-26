@@ -614,7 +614,7 @@ public class WindowsShxble : IBluetooth
     {
         HidTools.GetInstance().WriteBle = Write;
         Recdate += TriggerRecdataGt12;
-        StatusUpdate(true);
+        // StatusUpdate(true);
     }
 
     public void SetStatusUpdater(Updater up)

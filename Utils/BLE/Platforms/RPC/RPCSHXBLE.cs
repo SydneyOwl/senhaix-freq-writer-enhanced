@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
+using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
@@ -62,7 +63,12 @@ public class RPCSHXBLE : IBluetooth
 
     public void RegisterHid()
     {
-        throw new NotImplementedException();
+        HidTools.GetInstance().WriteBle =  (value) =>
+        {
+            ProxyClass.WriteData(value);
+            return Task.Run(() => { });
+        };;
+        Task.Run(() => UpdateRecvQueueHid(source.Token));
     }
 
     public void RegisterSerial()
@@ -105,6 +111,17 @@ public class RPCSHXBLE : IBluetooth
                 MySerialPort.GetInstance().RxData.Enqueue(tmp);
             }
 
+            Thread.Sleep(100);
+        }
+    }
+    private void UpdateRecvQueueHid(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            var result = ProxyClass.ReadCachedData();
+            if (result == null) continue;
+            HidTools.GetInstance().RxBuffer = result;
+            HidTools.GetInstance().FlagReceiveData = true;
             Thread.Sleep(100);
         }
     }

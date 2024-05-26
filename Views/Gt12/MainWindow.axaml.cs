@@ -532,4 +532,10 @@ public partial class MainWindow : Window
         };
         ListItems[lastEmptyIndex] = data;
     }
+
+    private async void BLEMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        await MessageBoxManager.GetMessageBoxStandard("注意", "GT12的蓝牙写频真的超慢，不知道为啥:(建议用写频线").ShowWindowDialogAsync(this);
+        new BluetoothDeviceSelectionWindow(SHX_DEVICE.GT12).ShowDialog(this);
+    }
 }
