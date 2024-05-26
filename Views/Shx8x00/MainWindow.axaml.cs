@@ -48,18 +48,12 @@ public partial class MainWindow : Window
 
     
     
-    public MainWindow(SHX_DEVICE dev)
+    public MainWindow()
     {
-        device = dev;
-        switch (dev)
-        {
-            case SHX_DEVICE.SHX8X00:
-                CommonMainWindow();
-                break;
-            case SHX_DEVICE.SHX8600_NEW:
-                NewShx8600MainWindow();
-                break;
-        }
+        InitializeComponent();
+        DataContext = this;
+        _listItems.CollectionChanged += CollectionChangedHandler;
+        Closed += OnWindowClosed;
     }
 
     public void CommonMainWindow()

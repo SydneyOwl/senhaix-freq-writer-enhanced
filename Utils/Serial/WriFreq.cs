@@ -458,8 +458,8 @@ internal class WriFreq
                         }
                         else if (EepAddr >= 3072 && EepAddr < 5120)
                         {
-                            var array3 = SetChNaemToHex(_theRadioData.Channeldata[num++].TransList());
-                            var array4 = SetChNaemToHex(_theRadioData.Channeldata[num++].TransList());
+                            var array3 = SetChNameToHex(_theRadioData.Channeldata[num++].TransList());
+                            var array4 = SetChNameToHex(_theRadioData.Channeldata[num++].TransList());
                             for (var k = 0; k < 16; k++)
                             {
                                 array[k + 4] = array3[k];
@@ -1131,10 +1131,29 @@ internal class WriFreq
                 break;
         }
 
-        if (text5 == "H")
-            array[1] = 0;
+        // 在8600新版上还有M选项
+        if (ChanChoice.TxPwr.Count == 2)
+        {
+            if (text5 == "H")
+                array[1] = 0;
+            else
+                array[1] = 1;
+        }
         else
-            array[1] = 1;
+        {
+            if (text5 == "H")
+            {
+                array[1] = 0;
+            }
+            else if (text5 == "M")
+            {
+                array[1] = 1;
+            }
+            else
+            {
+                array[1] = 2;
+            }
+        }
         array[2] = 0;
         if (text == "N") array[2] |= 64;
         if (text7 == "ON") array[2] |= 1;
@@ -1241,7 +1260,7 @@ internal class WriFreq
         return array;
     }
 
-    private byte[] SetChNaemToHex(string[] channelData)
+    private byte[] SetChNameToHex(string[] channelData)
     {
         var array = new byte[16]
         {
@@ -1253,7 +1272,8 @@ internal class WriFreq
             var encoding = Encoding.GetEncoding("gb2312");
             var bytes = encoding.GetBytes(channelData[12]);
             var num = 0;
-            num = bytes.Length > 12 ? 12 : bytes.Length;
+            // 解除长度限制
+            num = bytes.Length > 16 ? 16 : bytes.Length;
             for (var i = 0; i < num; i++) array[i] = bytes[i];
         }
 
@@ -1430,7 +1450,8 @@ internal class WriFreq
         var aSciiEncoding = new ASCIIEncoding();
         var encoding = Encoding.GetEncoding("gb2312");
         var num = 0;
-        while (num < 12 && dat[num] != byte.MaxValue)
+        // 解除长度限制
+        while (num < 16 && dat[num] != byte.MaxValue)
             if (dat[num] >= 161)
             {
                 text += encoding.GetString(dat, num, 2);
