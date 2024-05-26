@@ -21,7 +21,7 @@
 目前适配情况：
 
 + 森海克斯8x00：已开发完成
-+ 森海克斯GT12：**测试中！麻烦使用macos的友台在issues中给下反馈~您可以在beta版本的release中或action中下载**
++ 森海克斯GT12：**mac端仍在测试中！麻烦使用macos的友台在issues中给下反馈~您可以在beta版本的release中或action中下载**
 
 | SHX8X00                      | GT12                         |
 |------------------------------|------------------------------|
@@ -43,30 +43,56 @@ installed.
 
 ### 支持的功能
 
-| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-|--------------------|------------------------------------------------|------------------------------|-----------------------|
-| 原有的所有功能            | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 蓝牙写频               | 仅8800；在linux和mac上仅RPC方式可用[^5]                  | 仅8800、仅蓝牙版支持                 | :heavy_minus_sign:    |
-| （以下为支持的插件）         |                                                |                              |                       |
-| 开机画面修改             | :white_check_mark:                             | :white_check_mark:           | :heavy_minus_sign:    |
-| 打星助手               | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频（试验性）                   | 仅8800；在linux和mac上仅RPC方式可用[^5]                 | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                         |                                         |                              |
+| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
 
 [^4]:该版本自带runtime，无需额外安装
 
-[^5]:实现中
+[^5]:使用go  rpc server实现
 
 ### 其他说明
 
-### 图片
+#### 蓝牙（试验性）
 
-#### V0.2.2后
++ windows上没啥值得注意的，可以不勾选RPC方式写频~（当然勾了也行，需要开启RPC服务端）
++ linux和mac端需要使用`rpc server`写频，具体操作如下：
+  1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
+  2. 直接双击打开编译产物，或者使用命令行指定参数：
+  ```bash
+  $ ./BLEPlugin.exe --help
+  BLE RPC Server - Connect shx8x00 and c#
+  
+  Usage:
+    BLE RPC Server [flags]
+  
+  Flags:
+        --address string   RPC Server listening address (default "127.0.0.1")
+    -h, --help             help for BLE
+        --port int         RPC Server listening port (default 8563)
+        --verbose          Print Debug Level logs
+        --vverbose         Print Debug/Trace Level logs
+  ```
+  3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式，点击搜索并连接；
+  4. 正常读写频即可
+
+  
+  （之后加ci把产物扔到release里面就不用手动编译了）
+
+#### 图片
+
+##### V0.2.2后
 
 ![](./readme_image/so50.png)
 
 ![](./readme_image/BootImg.png)
 
-#### V0.2.2前
+##### V0.2.2前
 
 <img src="./readme_image/dep-ble.png" style="zoom:75%;" />
 
