@@ -71,6 +71,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
 #endif
                 if (!osBLE.GetBleAvailabilityAsync())
                 {
+                    Console.WriteLine("Not available");
                     Dispatcher.UIThread.Invoke(() =>
                     {
                         MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")

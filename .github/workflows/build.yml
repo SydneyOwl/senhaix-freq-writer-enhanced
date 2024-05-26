@@ -52,7 +52,6 @@ jobs:
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin/Release/net6.0-windows10.0.19041.0/win-x64
         mkdir senhaix-universial-freq-writer
         mv publish/* senhaix-universial-freq-writer
-        cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/BLEPlugin.py senhaix-universial-freq-writer
         Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Windows-${tagName}.zip
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
         dotnet restore -r linux-x64
@@ -60,7 +59,6 @@ jobs:
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin\Release\net6.0\linux-x64\
         mkdir senhaix-universial-freq-writer
         mv publish/* senhaix-universial-freq-writer
-        cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/BLEPlugin.py senhaix-universial-freq-writer
         Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Linux-${tagName}.zip
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
         dotnet restore -r osx-x64
@@ -69,7 +67,6 @@ jobs:
         mkdir senhaix-universial-freq-writer
         mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/Asset/shx8800-icons/icon.icns publish/SenhaixFreqWriter.app/Contents/Resources
         mv publish/SenhaixFreqWriter.app senhaix-universial-freq-writer
-        cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/BLEPlugin.py senhaix-universial-freq-writer
         Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-macOS-${tagName}.zip
     
     - name: Upload Artifact
