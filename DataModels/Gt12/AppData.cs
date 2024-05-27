@@ -85,7 +85,7 @@ public class AppData
             }
             catch (Exception e)
             {
-                // Console.WriteLine(e.Message);
+                // DebugWindow.GetInstance().updateDebugContent(e.Message);
                 MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
             }
         }

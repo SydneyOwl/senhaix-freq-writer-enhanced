@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -10,6 +12,7 @@ using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
@@ -17,9 +20,62 @@ public class RPCSHXBLE : IBluetooth
 {
     private CancellationTokenSource source = new();
 
+    private Process rpcServer;
+
     // See BLEPlugin.py
     public bool GetBleAvailabilityAsync()
     {
+        var fileName = "";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            fileName = SETTINGS.WINDOWS_BLE_PLUGIN_PATH;
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            fileName = SETTINGS.LINUX_BLE_PLUGIN_PATH;
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            fileName = SETTINGS.OSX_BLE_PLUGIN_PATH;
+        }
+        if (rpcServer == null || rpcServer.HasExited)
+        {
+            rpcServer = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = fileName,
+                    Arguments =  SETTINGS.RPC_SERVER_PROCESS_ARGS,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                }
+            };
+            rpcServer.OutputDataReceived += (sender, args) =>
+            {
+                DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
+            };
+            rpcServer.ErrorDataReceived += (sender, args) =>
+            {
+                DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
+            };
+            try
+            {
+                if (!rpcServer.Start())
+                {
+                    return false;
+                }
+                rpcServer.BeginOutputReadLine();
+                rpcServer.BeginErrorReadLine();
+            }
+            catch(Exception b)
+            {
+                DebugWindow.GetInstance().updateDebugContent(b.Message);
+                return false;
+            }
+            DebugWindow.GetInstance().updateDebugContent("RPC Start!");
+        }
         return ProxyClass.GetBleAvailability();
     }
 
@@ -86,7 +142,20 @@ public class RPCSHXBLE : IBluetooth
         try
         {
             ProxyClass.DisposeBluetooth();
+            rpcServer?.CancelErrorRead();
+            rpcServer?.CancelOutputRead();
+        }
+        catch
+        {
+            // ignored
+        }
+        try
+        {
             source.Cancel();
+            rpcServer?.Kill();
+            // rpcServer.WaitForExit();
+            rpcServer = null;
+            DebugWindow.GetInstance().updateDebugContent("Killed server!");
         }
         catch
         {
@@ -213,6 +282,6 @@ public class ProxyClass
 
     public static void DisposeBluetooth()
     {
-        return;
+        Post("DisposeBluetooth", "");
     }
 }

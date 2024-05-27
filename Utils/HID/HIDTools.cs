@@ -73,7 +73,7 @@ public class HidTools
 #if WINDOWS
             _instance.DevList.Changed += (sender, args) =>
             {
-                // Console.WriteLine("changed...");
+                // DebugWindow.GetInstance().updateDebugContent("changed...");
                 if (_instance.DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) == null)
                 {
                     _instance.IsDeviceConnected = false;
@@ -98,7 +98,7 @@ public class HidTools
         {
             if (DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid) == null)
             {
-                // Console.WriteLine("Chlose");
+                // DebugWindow.GetInstance().updateDebugContent("Chlose");
                 IsDeviceConnected = false;
                 UpdateLabel(false);
                 // requestReconnect = false;
@@ -123,7 +123,7 @@ public class HidTools
             return HidStatus.Success;
         }
 
-        // Console.WriteLine("alaysz");
+        // DebugWindow.GetInstance().updateDebugContent("alaysz");
         Gt12Device = DevList.GetHidDeviceOrNull(Gt12Hid.Vid, Gt12Hid.Pid);
         if (Gt12Device == null)
         {
@@ -146,7 +146,7 @@ public class HidTools
         }
         else
         {
-            // Console.WriteLine("Not Connected");
+            // DebugWindow.GetInstance().updateDebugContent("Not Connected");
             _mutexSearch.ReleaseMutex();
             return HidStatus.NoDeviceConnected;
         }
@@ -166,13 +166,13 @@ public class HidTools
             Array.Copy(e.ReportBuff, 0, array1, 0, 64);
             UpdateDebugInfo($"收到数据（长度{array1.Length}）：{BitConverter.ToString(array1)}");
             RxBuffer = array1;
-            // Console.WriteLine(BitConverter.ToString(rxBuffer));
+            // DebugWindow.GetInstance().updateDebugContent(BitConverter.ToString(rxBuffer));
             FlagReceiveData = true;
             // Console.Write("Read!");
             BeginAsyncRead();
             // else
             // {
-            //     // Console.WriteLine("stop read...");
+            //     // DebugWindow.GetInstance().updateDebugContent("stop read...");
             //     CloseDevice();
             // }
         }
@@ -182,21 +182,21 @@ public class HidTools
             // {
             //     MessageBoxManager.GetMessageBoxStandard("注意", "出错，请重新插拔设备！").ShowAsync();
             // });
-            // Console.WriteLine("stop read. due to."+e.Message);
+            // DebugWindow.GetInstance().updateDebugContent("stop read. due to."+e.Message);
             // CloseDevice();
         }
     }
 
     private void BeginAsyncRead()
     {
-        // Console.WriteLine("Reading...");
+        // DebugWindow.GetInstance().updateDebugContent("Reading...");
         var array = new byte[InputReportLength];
         var asyncResult = HidStream.BeginRead(array, 0, InputReportLength, ReadCompleted, array);
     }
 
     public HidStatus Write(Report r)
     {
-        // Console.WriteLine("writing...");
+        // DebugWindow.GetInstance().updateDebugContent("writing...");
         _mutexSend.WaitOne();
         try
         {
@@ -233,7 +233,7 @@ public class HidTools
                 // num = r.ReportBuff.Length >= OutputReportLength - 1
                 //     ? OutputReportLength - 1
                 //     : r.ReportBuff.Length;
-                // Console.WriteLine(OutputReportLength);
+                // DebugWindow.GetInstance().updateDebugContent(OutputReportLength);
                 for (var i = 0; i < r.ReportBuff.Length; i++) array[i] = r.ReportBuff[i];
                 HidStream.Write(array, 0, OutputReportLength);
             }
@@ -243,7 +243,7 @@ public class HidTools
         }
         catch (Exception ex)
         {
-            // Console.WriteLine("stop write. due to." + ex.Message);
+            // DebugWindow.GetInstance().updateDebugContent("stop write. due to." + ex.Message);
             // CloseDevice();
             return HidStatus.NoDeviceConnected;
         }
@@ -277,7 +277,7 @@ public class HidTools
 
     public void CloseDevice()
     {
-        // Console.WriteLine("closed...");
+        // DebugWindow.GetInstance().updateDebugContent("closed...");
         Gt12Device = null;
         IsDeviceConnected = false;
         HidStream.Close();

@@ -67,7 +67,7 @@ public partial class ProgressBarWindow : Window
     {
         DebugWindow.GetInstance().updateDebugContent($"Start WriFreq Thread: StartWriteGt12");
         var flag = _com.DoIt(token);
-        // Console.WriteLine("We've done write!");
+        // DebugWindow.GetInstance().updateDebugContent("We've done write!");
         Dispatcher.UIThread.Invoke(() => HandleResult(flag));
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: StartWriteGt12");
     }

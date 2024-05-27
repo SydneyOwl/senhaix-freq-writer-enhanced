@@ -46,10 +46,10 @@ public class MySerialPort : SerialPort
     public async Task PreRead()
     {
         // var data = await characteristic.ReadValueAsync();
-        // Console.WriteLine("Now I Read");
+        // DebugWindow.GetInstance().updateDebugContent("Now I Read");
         // foreach (var b in data)
         // {
-        //     Console.WriteLine(b);
+        //     DebugWindow.GetInstance().updateDebugContent(b);
         // }
         // foreach (var b in data)
         // {
@@ -101,7 +101,7 @@ public class MySerialPort : SerialPort
                 await WriteBle(tmpData1);
                 tmp += singleSize;
             }
-            // Console.WriteLine(tobeWrite.Length);
+            // DebugWindow.GetInstance().updateDebugContent(tobeWrite.Length);
             // await characteristic.WriteValueWithoutResponseAsync(tobeWrite);
         }
     }

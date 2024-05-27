@@ -80,7 +80,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
 #endif
                 if (!osBLE.GetBleAvailabilityAsync())
                 {
-                    Console.WriteLine("Not available");
+                    DebugWindow.GetInstance().updateDebugContent("Not available");
                     Dispatcher.UIThread.Invoke(() =>
                     {
                         MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")
@@ -97,7 +97,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
             }
             catch (Exception a)
             {
-                Console.WriteLine(a.Message);
+                DebugWindow.GetInstance().updateDebugContent(a.Message);
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")
@@ -191,7 +191,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
             }
             catch (Exception f)
             {
-                Console.WriteLine($"dError:{f.Message}");
+                DebugWindow.GetInstance().updateDebugContent($"dError:{f.Message}");
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", $"出错：{f.Message}！").ShowWindowDialogAsync(this);

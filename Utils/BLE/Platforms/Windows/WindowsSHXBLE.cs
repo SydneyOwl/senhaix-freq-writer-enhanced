@@ -169,7 +169,7 @@ public class WindowsShxble : IBluetooth
         // starting watching for advertisements
         _watcher.Start();
 
-        // Console.WriteLine("自动发现设备中..");
+        // DebugWindow.GetInstance().updateDebugContent("自动发现设备中..");
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class WindowsShxble : IBluetooth
         _watcher?.Stop();
         _watcher = null;
         // ForceNewBleInstance();
-        // Console.WriteLine("主动断开连接");
+        // DebugWindow.GetInstance().updateDebugContent("主动断开连接");
         // if (meg != null)
         // {
         //     meg.Text = "蓝牙（未连接）";
@@ -228,7 +228,7 @@ public class WindowsShxble : IBluetooth
             {
                 if (asyncStatus == AsyncStatus.Completed)
                 {
-                    // Console.WriteLine("WRITE");
+                    // DebugWindow.GetInstance().updateDebugContent("WRITE");
                     var a = asyncInfo.GetResults();
                 }
             };
@@ -244,7 +244,7 @@ public class WindowsShxble : IBluetooth
             if (asyncStatus == AsyncStatus.Completed)
             {
                 var services = asyncInfo.GetResults().Services;
-                // Console.WriteLine("GattServices size=" + services.Count);
+                // DebugWindow.GetInstance().updateDebugContent("GattServices size=" + services.Count);
                 foreach (var ser in services) FindCharacteristic(ser);
 
                 CharacteristicFinish?.Invoke(services.Count);
@@ -283,7 +283,7 @@ public class WindowsShxble : IBluetooth
         Array.Reverse(bytes1);
         CurrentDeviceMac = BitConverter.ToString(bytes1, 2, 6).Replace('-', ':').ToLower();
 
-        // Console.WriteLine(gattCharacteristic.CharacteristicProperties);
+        // DebugWindow.GetInstance().updateDebugContent(gattCharacteristic.CharacteristicProperties);
 
         // if (gattCharacteristic.CharacteristicProperties == GattCharacteristicProperties.Write)
         // {
@@ -302,7 +302,7 @@ public class WindowsShxble : IBluetooth
         // if (gattCharacteristic.CharacteristicProperties ==
         //     (GattCharacteristicProperties.Write | GattCharacteristicProperties.Notify))
         // {
-        //     Console.WriteLine("here!");
+        //     DebugWindow.GetInstance().updateDebugContent("here!");
         //     this.CurrentWriteCharacteristic = gattCharacteristic;
         //     this.CurrentNotifyCharacteristic = gattCharacteristic;
         CurrentNotifyCharacteristic.ProtectionLevel = GattProtectionLevel.Plain;
@@ -322,7 +322,7 @@ public class WindowsShxble : IBluetooth
                 {
                     if (asyncInfo.GetResults() == null)
                     {
-                        //Console.WriteLine("没有得到结果集");
+                        //DebugWindow.GetInstance().updateDebugContent("没有得到结果集");
                     }
                     else
                     {
@@ -368,20 +368,20 @@ public class WindowsShxble : IBluetooth
                 {
                     var bleDevice = asyncInfo.GetResults();
                     DeviceList.Add(bleDevice);
-                    // Console.WriteLine(bleDevice);
+                    // DebugWindow.GetInstance().updateDebugContent(bleDevice);
                 }
 
-                // if (asyncStatus == AsyncStatus.Started) Console.WriteLine(asyncStatus.ToString());
+                // if (asyncStatus == AsyncStatus.Started) DebugWindow.GetInstance().updateDebugContent(asyncStatus.ToString());
                 //
-                // if (asyncStatus == AsyncStatus.Canceled) Console.WriteLine(asyncStatus.ToString());
+                // if (asyncStatus == AsyncStatus.Canceled) DebugWindow.GetInstance().updateDebugContent(asyncStatus.ToString());
                 //
-                // if (asyncStatus == AsyncStatus.Error) Console.WriteLine(asyncStatus.ToString());
+                // if (asyncStatus == AsyncStatus.Error) DebugWindow.GetInstance().updateDebugContent(asyncStatus.ToString());
             };
         }
         catch (Exception e)
         {
             // var msg = "没有发现设备" + e;
-            // Console.WriteLine(msg);
+            // DebugWindow.GetInstance().updateDebugContent(msg);
             StartBleDeviceWatcher(false);
         }
     }
@@ -395,18 +395,18 @@ public class WindowsShxble : IBluetooth
             if (!_asyncLock)
             {
                 _asyncLock = true;
-                // Console.WriteLine("设备已断开");
+                // DebugWindow.GetInstance().updateDebugContent("设备已断开");
                 Dispose();
             }
         }
         else
         {
-            // Console.WriteLine("connected");
+            // DebugWindow.GetInstance().updateDebugContent("connected");
             StatusUpdate(true);
             if (!_asyncLock)
             {
                 _asyncLock = true;
-                // Console.WriteLine("设备已连接");
+                // DebugWindow.GetInstance().updateDebugContent("设备已连接");
                 // meg.Text = "蓝牙（已连接）";
             }
         }
@@ -419,7 +419,7 @@ public class WindowsShxble : IBluetooth
     /// <returns></returns>
     private void EnableNotifications(GattCharacteristic characteristic)
     {
-        // Console.WriteLine("收通知对象=" + CurrentDevice.Name + ":" + CurrentDevice.ConnectionStatus);
+        // DebugWindow.GetInstance().updateDebugContent("收通知对象=" + CurrentDevice.Name + ":" + CurrentDevice.ConnectionStatus);
         characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(CharacteristicNotificationType)
             .Completed = (asyncInfo, asyncStatus) =>
         {
@@ -428,7 +428,7 @@ public class WindowsShxble : IBluetooth
                 var status = asyncInfo.GetResults();
                 if (status == GattCommunicationStatus.Unreachable)
                 {
-                    // Console.WriteLine("设备不可用");
+                    // DebugWindow.GetInstance().updateDebugContent("设备不可用");
                     if (CurrentNotifyCharacteristic != null && !_asyncLock)
                         EnableNotifications(CurrentNotifyCharacteristic);
 
@@ -436,7 +436,7 @@ public class WindowsShxble : IBluetooth
                 }
 
                 _asyncLock = false;
-                // Console.WriteLine("设备连接状态" + status);
+                // DebugWindow.GetInstance().updateDebugContent("设备连接状态" + status);
             }
         };
     }
@@ -494,12 +494,12 @@ public class WindowsShxble : IBluetooth
     {
         HidTools.GetInstance().RxBuffer = data;
         HidTools.GetInstance().FlagReceiveData = true;
-        // Console.WriteLine("READ1!");
+        // DebugWindow.GetInstance().updateDebugContent("READ1!");
     }
 
     public void TriggerCharacteristicAdded(GattCharacteristic gatt)
     {
-        // Console.WriteLine(
+        // DebugWindow.GetInstance().updateDebugContent(
         //     "handle:[0x{0}]  char properties:[{1}]  UUID:[{2}]",
         //     gatt.AttributeHandle.ToString("X4"),
         //     gatt.CharacteristicProperties.ToString(),

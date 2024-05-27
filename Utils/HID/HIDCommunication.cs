@@ -136,7 +136,7 @@ public class HidCommunication
                 switch (_step)
                 {
                     case Step.StepHandshake1:
-                        // Console.WriteLine("strp1");
+                        // DebugWindow.GetInstance().updateDebugContent("strp1");
                         byData = Encoding.ASCII.GetBytes("PROGRAMGT12");
                         byData = _helper.LoadPackage(1, 0, byData, (byte)byData.Length);
                         _hid.Send(byData);
@@ -148,7 +148,7 @@ public class HidCommunication
                         _step = Step.StepHandshake2;
                         break;
                     case Step.StepHandshake2:
-                        // Console.WriteLine("strp2");
+                        // DebugWindow.GetInstance().updateDebugContent("strp2");
                         if (_hid.FlagReceiveData)
                         {
                             _hid.FlagReceiveData = false;
@@ -164,7 +164,7 @@ public class HidCommunication
 
                         break;
                     case Step.StepHandshake3:
-                        // Console.WriteLine("strp3");
+                        // DebugWindow.GetInstance().updateDebugContent("strp3");
                         if (_hid.FlagReceiveData)
                         {
                             _hid.FlagReceiveData = false;
@@ -180,7 +180,7 @@ public class HidCommunication
 
                         break;
                     case Step.StepHandshake4:
-                        // Console.WriteLine("strp4");
+                        // DebugWindow.GetInstance().updateDebugContent("strp4");
                         if (!_hid.FlagReceiveData) break;
 
                         _hid.FlagReceiveData = false;
@@ -230,9 +230,9 @@ public class HidCommunication
         byte b = 0;
         var num2 = 0;
 
-        // Console.WriteLine("we're in writing");
+        // DebugWindow.GetInstance().updateDebugContent("we're in writing");
         while (_flagTransmitting && !token.IsCancellationRequested)
-            // Console.WriteLine("wE;RE WRITEING");
+            // DebugWindow.GetInstance().updateDebugContent("wE;RE WRITEING");
             if (!_flagRetry)
             {
                 switch (_step)

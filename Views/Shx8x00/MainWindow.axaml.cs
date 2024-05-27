@@ -32,9 +32,8 @@ public partial class MainWindow : Window
     private ChannelData _tmpChannel;
 
     private bool _devSwitchFlag = false;
-    
-    // 新版的8600
-    private SHX_DEVICE device;
+
+    private BluetoothDeviceSelectionWindow bds;
 
     public ObservableCollection<ChannelData> ListItems
     {
@@ -98,6 +97,7 @@ public partial class MainWindow : Window
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         Close();
+        bds?.osBLE?.Dispose();
         if (!_devSwitchFlag) Environment.Exit(0);
     }
 
@@ -555,7 +555,7 @@ public partial class MainWindow : Window
         //     return;
         // }
         //
-        // // Console.WriteLine("Connected");
+        // // DebugWindow.GetInstance().updateDebugContent("Connected");
         // if (!await _osBle.ConnectShxRwServiceAsync())
         // {
         //     hint.SetLabelStatus("未找到写特征\n确认您使用的是8800");
@@ -579,6 +579,7 @@ public partial class MainWindow : Window
 
     private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8X00).ShowDialog(this);
+        bds = new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8X00);
+        bds.ShowDialog(this);
     }
 }

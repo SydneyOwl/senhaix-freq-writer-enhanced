@@ -108,7 +108,7 @@ public partial class ProgressBarWindow : Window
         }
         catch (Exception e)
         {
-            // Console.WriteLine(e.Message);
+            // DebugWindow.GetInstance().updateDebugContent(e.Message);
             // ignored
         }
 

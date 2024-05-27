@@ -287,6 +287,12 @@ func StartRPC(addr string) {
 				"response": "",
 				"error":    "",
 			})
+		case "DisposeBluetooth":
+			DisposeBluetooth()
+			c.JSON(http.StatusOK, gin.H{
+				"response": "",
+				"error":    "",
+			})
 		default:
 			c.JSON(http.StatusOK, gin.H{
 				"response": "",

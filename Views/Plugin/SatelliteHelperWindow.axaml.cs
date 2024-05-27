@@ -257,7 +257,7 @@ public partial class SatelliteHelperWindow : Window
                 FetchSat.IsEnabled = true;
                 FetchSatText.Text = "更新星历";
             });
-            // Console.WriteLine("Waiting...");
+            // DebugWindow.GetInstance().updateDebugContent("Waiting...");
             // while (!handler.IsCompleted)
             // {
             //     Thread.Sleep(50);

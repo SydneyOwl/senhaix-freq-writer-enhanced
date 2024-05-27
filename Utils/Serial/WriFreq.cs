@@ -713,7 +713,7 @@ internal class WriFreq
             }
             else
             {
-                // Console.WriteLine("Write kk5455");
+                // DebugWindow.GetInstance().updateDebugContent("Write kk5455");
                 if (_timesOfRetry <= 0)
                 {
                     FlagTransmitting = false;
@@ -956,7 +956,7 @@ internal class WriFreq
             }
             else
             {
-                // Console.WriteLine("Retry overrr");
+                // DebugWindow.GetInstance().updateDebugContent("Retry overrr");
                 if (_timesOfRetry <= 0)
                 {
                     FlagTransmitting = false;
