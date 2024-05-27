@@ -3,7 +3,8 @@
 [![downloads](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases?style=for-the-badge)
 [![downloads@latest](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/latest/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases/latest?style=for-the-badge)
 ![version](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
-![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build.yml/badge.svg)
+![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build_ble_plugin.yml/badge.svg)
+![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/build_freqwriter.yml/badge.svg)
 
 > [!important]
 > + 如有必要，请在任何操作前首先进行备份操作！
