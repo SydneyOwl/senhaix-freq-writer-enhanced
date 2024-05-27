@@ -1,4 +1,4 @@
-name: Senhaix Build
+name: Senhaix FreqWriter Build
 
 permissions:
   contents: write
