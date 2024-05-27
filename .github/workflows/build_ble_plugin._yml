@@ -33,7 +33,7 @@ jobs:
       
     - name: Build plugin #为什么不交叉编译？因为我懒
       run: |
-        cd ble_plugins && go mod tidy && go build && mv BLEPlugin BLEPlugin_macos_arm && chmod +x BLEPlugin_macos_arm
+        cd ble_plugins && go mod tidy && go build && mv BLEPlugin BLEPlugin_macos_arm
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -68,7 +68,7 @@ jobs:
       
     - name: Build plugin
       run: |
-        cd ble_plugins && go mod tidy && go build && mv BLEPlugin BLEPlugin_macos_x64 && chmod +x BLEPlugin_macos_x64
+        cd ble_plugins && go mod tidy && go build && mv BLEPlugin BLEPlugin_macos_x64
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -142,7 +142,7 @@ jobs:
     
     - name: Run build
       run: 
-        cd ble_plugins && go mod tidy && go build && mv BLEPlugin BLEPlugin_linux_x64 && chmod +x BLEPlugin_linux_x64
+        cd ble_plugins && go mod tidy && go build && mv BLEPlugin BLEPlugin_linux_x64
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
