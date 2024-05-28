@@ -204,7 +204,6 @@ public partial class SatelliteHelperWindow : Window
     {
         var url =
             "https://raw.githubusercontent.com/palewire/amateur-satellite-database/main/data/amsat-all-frequencies.json";
-        var proxyPrefix = "https://mirror.ghproxy.com/";
         try
         {
             Dispatcher.UIThread.Post(() =>
@@ -228,7 +227,7 @@ public partial class SatelliteHelperWindow : Window
                 selectedSatelliteInfo.Text = $"出错：{w.Message},重试中...";
                 FetchSatText.Text = "重试中...";
             });
-            url = proxyPrefix + url;
+            url = "https://cdn.jsdelivr.net/gh/palewire/amateur-satellite-database/data/amsat-all-frequencies.json";
             try
             {
                 DownloadSatData(url, useMem);
