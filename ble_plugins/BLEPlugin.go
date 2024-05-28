@@ -73,9 +73,6 @@ func GetBleAvailability() (bool, error) {
 	for len(bleRecvChan) > 0 {
 		<-bleRecvChan
 	}
-	for len(bleKeepAliveChan) > 0 {
-		<-bleKeepAliveChan
-	}
 	return true, nil
 }
 
@@ -237,7 +234,7 @@ func HandlerReturnStringValue(value string, err error, c *gin.Context) {
 func StartKeepAliveService() {
 	if enableKeepAlive {
 		bleKeepAliveChan <- struct{}{}
-		go func(cn chan struct{}, ct context.Context) {
+		go func(cn chan struct{}) {
 			slog.Debug("keepalive goroutine started！")
 			for {
 				select {
@@ -246,11 +243,9 @@ func StartKeepAliveService() {
 				case <-time.After(time.Second * 10):
 					slog.Notice("10秒内未收到心跳包，程序退出！")
 					os.Exit(0)
-				case <-ct.Done():
-					return
 				}
 			}
-		}(bleKeepAliveChan, ctx)
+		}(bleKeepAliveChan)
 	}
 }
 
