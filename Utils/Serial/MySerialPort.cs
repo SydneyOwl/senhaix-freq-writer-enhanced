@@ -9,7 +9,7 @@ namespace SenhaixFreqWriter.Utils.Serial;
 
 public class MySerialPort : SerialPort
 {
-    public delegate Task WriteValueAsync(byte[] value);
+    public delegate void WriteValueAsync(byte[] value);
 
     private static MySerialPort _sp;
 
@@ -57,7 +57,7 @@ public class MySerialPort : SerialPort
         // }
     }
 
-    public async Task WriteByte(byte buffer)
+    public void WriteByte(byte buffer)
     {
         if (WriteBle == null)
         {
@@ -66,12 +66,12 @@ public class MySerialPort : SerialPort
         }
         else
         {
-            UpdateDebugInfo($"发送数据（长度1，使用蓝牙）：{buffer}");
-            await WriteBle(new byte[1] { buffer });
+            UpdateDebugInfo($"发送数据（长度1，使用蓝牙）：{buffer}"); 
+            WriteBle(new byte[1] { buffer });
         }
     }
 
-    public async Task WriteByte(byte[] buffer, int offset, int count)
+    public void WriteByte(byte[] buffer, int offset, int count)
     {
         if (WriteBle == null)
         {
@@ -92,13 +92,13 @@ public class MySerialPort : SerialPort
                     var tmpData = tobeWrite.Skip(tmp)
                         .Take(tobeWrite.Length - sendTimes * singleSize).ToArray();
                     UpdateDebugInfo($"发送数据（长度{tmpData.Length}，使用蓝牙）：{BitConverter.ToString(tmpData)}");
-                    await WriteBle(tmpData);
+                    WriteBle(tmpData);
                     break;
                 }
 
                 var tmpData1 = tobeWrite.Skip(tmp).Take(singleSize).ToArray();
                 UpdateDebugInfo($"发送数据（长度{tmpData1.Length}，使用蓝牙）：{BitConverter.ToString(tmpData1)}");
-                await WriteBle(tmpData1);
+                WriteBle(tmpData1);
                 tmp += singleSize;
             }
             // DebugWindow.GetInstance().updateDebugContent(tobeWrite.Length);
@@ -106,7 +106,7 @@ public class MySerialPort : SerialPort
         }
     }
 
-    public async Task ReadByte(byte[] buffer, int offset, int count)
+    public void ReadByte(byte[] buffer, int offset, int count)
     {
         if (WriteBle == null)
         {

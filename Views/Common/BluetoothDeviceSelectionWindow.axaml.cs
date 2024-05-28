@@ -26,7 +26,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
     public ObservableCollection<GenerticBLEDeviceInfo> BleInfos { get; set; } = new();
     public IBluetooth osBLE;
     private SHX_DEVICE dev = SHX_DEVICE.SHX8X00;
-    
+
     public BluetoothDeviceSelectionWindow()
     {
         InitializeComponent();
@@ -40,12 +40,14 @@ public partial class BluetoothDeviceSelectionWindow : Window
 #if !WINDOWS
         useRPC.IsChecked = true;
         useRPC.IsEnabled = false;
+        manualRPC.IsEnabled = true;
 #endif
         DataContext = this;
     }
 
     private void ScanButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        var dispStatus = manualRPC.IsChecked.Value;
         Dispatcher.UIThread.Invoke(() =>
         {
             scanButton.IsEnabled = false;
@@ -56,7 +58,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
             try
             {
                 osBLE?.Dispose();
-                osBLE = new RPCSHXBLE();
+                osBLE = new RPCSHXBLE(dispStatus);
 
                 var checkRPC = false;
                 var checkDisableWeakSignalRestriction = false;
@@ -119,6 +121,15 @@ public partial class BluetoothDeviceSelectionWindow : Window
 
     private void UseRPC_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
     {
+        if (useRPC.IsChecked.Value)
+        {
+            manualRPC.IsEnabled = true;
+        }
+        else
+        {
+            manualRPC.IsEnabled = false;
+            manualRPC.IsChecked = false;
+        }
     }
 
     private void ConnButton_OnClick(object? sender, RoutedEventArgs e)
@@ -181,13 +192,9 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！您可以开始写频了！").ShowWindowDialogAsync(this);
                 });
                 if (dev.Equals(SHX_DEVICE.SHX8X00))
-                {
                     osBLE.RegisterSerial();
-                }
                 else
-                {
                     osBLE.RegisterHid();
-                }
             }
             catch (Exception f)
             {

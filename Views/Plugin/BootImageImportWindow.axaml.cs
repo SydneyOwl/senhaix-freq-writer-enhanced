@@ -143,7 +143,7 @@ public partial class BootImageImportWindow : Window
     private async void StartWrite8800(CancellationTokenSource source)
     {
         DebugWindow.GetInstance().updateDebugContent($"Start WriImg Thread: StartWrite8800");
-        var res = await _bootWri.WriteImg();
+        var res = _bootWri.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>

@@ -58,31 +58,32 @@ installed.
 
 ### 其他说明
 
-#### 蓝牙（试验性）
+#### 蓝牙（试验性，未发布，可在actions中下载）
 
++ 插件默认只编译了x64的版本，需要其他版本请自行编译。
 + windows上没啥值得注意的，可以不勾选RPC方式写频~（当然勾了也行，需要开启RPC服务端）
-+ linux和mac端需要使用`rpc server`写频，具体操作如下：
++ linux和mac端需要使用`rpc server`写频，同样直接写频即可。
++ 对于MAC端，如需把app放到applications文件夹中，请务必首先把蓝牙插件"bleplugin_macos_x64"放到目录"/Users/用户名/Library/Containers/com.sydneyowl/Data"中（没有请新建目录！）
+
+注意：若有**调试需要**，需要手动编译或勾选了“手动控制RPC”，具体操作如下：
   1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
   2. 直接双击打开编译产物，或者使用命令行指定参数：
   ```bash
-  $ ./BLEPlugin.exe --help
-  BLE RPC Server - Connect shx8x00 and c#
-  
-  Usage:
-    BLE RPC Server [flags]
-  
-  Flags:
-        --address string   RPC Server listening address (default "127.0.0.1")
-    -h, --help             help for BLE
-        --port int         RPC Server listening port (default 8563)
-        --verbose          Print Debug Level logs
-        --vverbose         Print Debug/Trace Level logs
-  ```
-  3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式，点击搜索并连接；
-  4. 正常读写频即可
+    BLE RPC Server - Connect shx8x00 and c#
 
-  
-  （之后加ci把产物扔到release里面就不用手动编译了）
+    Usage:
+    BLE RPC Server [flags]
+    
+    Flags:
+    --address string     RPC Server listening address (default "127.0.0.1")
+    --enable-keepalive   enable keepalive(process exit if no keepalive packet is received within 10s)
+    -h, --help               help for BLE
+    --port int           RPC Server listening port (default 8563)
+    --verbose            Print Debug Level logs
+    --vverbose           Print Debug/Trace Level logs
+  ```
+  3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
+  4. 正常读写频即可
 
 #### 图片
 

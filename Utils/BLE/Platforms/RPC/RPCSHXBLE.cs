@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,59 +23,92 @@ public class RPCSHXBLE : IBluetooth
 
     private Process rpcServer;
 
+    private bool manual;
+
+    public RPCSHXBLE(bool useManual)
+    {
+        manual = useManual;
+    }
+
     // See BLEPlugin.py
     public bool GetBleAvailabilityAsync()
     {
-        var fileName = "";
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!manual)
         {
-            fileName = SETTINGS.WINDOWS_BLE_PLUGIN_PATH;
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            fileName = SETTINGS.LINUX_BLE_PLUGIN_PATH;
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            fileName = SETTINGS.OSX_BLE_PLUGIN_PATH;
-        }
-        if (rpcServer == null || rpcServer.HasExited)
-        {
-            rpcServer = new Process
+            var filePath = "";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                StartInfo = new ProcessStartInfo
+                filePath = "./"+SETTINGS.WINDOWS_BLE_PLUGIN_NAME;
+                if (!File.Exists(filePath))
                 {
-                    FileName = fileName,
-                    Arguments =  SETTINGS.RPC_SERVER_PROCESS_ARGS,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    RedirectStandardError = true,
-                    RedirectStandardOutput = true,
-                }
-            };
-            rpcServer.OutputDataReceived += (sender, args) =>
-            {
-                DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
-            };
-            rpcServer.ErrorDataReceived += (sender, args) =>
-            {
-                DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
-            };
-            try
-            {
-                if (!rpcServer.Start())
-                {
+                    DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
-                rpcServer.BeginOutputReadLine();
-                rpcServer.BeginErrorReadLine();
             }
-            catch(Exception b)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                DebugWindow.GetInstance().updateDebugContent(b.Message);
-                return false;
+                filePath = "./"+SETTINGS.LINUX_BLE_PLUGIN_NAME;
+                if (!File.Exists(filePath))
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
+                    return false;
+                }
             }
-            DebugWindow.GetInstance().updateDebugContent("RPC Start!");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                filePath = "./"+SETTINGS.OSX_BLE_PLUGIN_NAME;
+                if (!File.Exists(filePath))
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
+                    filePath = $"{SETTINGS.DATA_DIR}/{SETTINGS.OSX_BLE_PLUGIN_NAME}";
+                    // 在DATADIR里寻找
+                    if (!File.Exists(filePath))
+                    {
+                        DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
+                        return false;
+                    }
+                }
+            }
+            if (rpcServer == null || rpcServer.HasExited)
+            {
+                rpcServer = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = filePath,
+                        Arguments =  SETTINGS.RPC_SERVER_PROCESS_ARGS,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardError = true,
+                        RedirectStandardOutput = true,
+                    }
+                };
+                rpcServer.OutputDataReceived += (sender, args) =>
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
+                };
+                rpcServer.ErrorDataReceived += (sender, args) =>
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
+                };
+                try
+                {
+                    if (!rpcServer.Start())
+                    {
+                        return false;
+                    }
+                    rpcServer.BeginOutputReadLine();
+                    rpcServer.BeginErrorReadLine();
+                    //Send keepalive packets
+                    Task.Run(()=>SendKeepAlive(source.Token));
+                }
+                catch(Exception b)
+                {
+                    DebugWindow.GetInstance().updateDebugContent(b.Message);
+                    return false;
+                }
+                DebugWindow.GetInstance().updateDebugContent("RPC Start!");
+            }
         }
         return ProxyClass.GetBleAvailability();
     }
@@ -122,7 +156,6 @@ public class RPCSHXBLE : IBluetooth
         HidTools.GetInstance().WriteBle =  (value) =>
         {
             ProxyClass.WriteData(value);
-            return Task.Run(() => { });
         };;
         Task.Run(() => UpdateRecvQueueHid(source.Token));
     }
@@ -132,7 +165,6 @@ public class RPCSHXBLE : IBluetooth
         MySerialPort.GetInstance().WriteBle = (value) =>
         {
             ProxyClass.WriteData(value);
-            return Task.Run(() => { });
         };
         Task.Run(() => UpdateRecvQueue(source.Token));
     }
@@ -172,6 +204,7 @@ public class RPCSHXBLE : IBluetooth
     {
         while (!token.IsCancellationRequested)
         {
+            Thread.Sleep(100);
             var result = ProxyClass.ReadCachedData();
             if (result == null) continue;
             foreach (var b in result)
@@ -179,8 +212,6 @@ public class RPCSHXBLE : IBluetooth
                 var tmp = b;
                 MySerialPort.GetInstance().RxData.Enqueue(tmp);
             }
-
-            Thread.Sleep(100);
         }
     }
     private void UpdateRecvQueueHid(CancellationToken token)
@@ -192,6 +223,15 @@ public class RPCSHXBLE : IBluetooth
             HidTools.GetInstance().RxBuffer = result;
             HidTools.GetInstance().FlagReceiveData = true;
             Thread.Sleep(100);
+        }
+    }
+
+    private void SendKeepAlive(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            ProxyClass.KeepAlive();
+            Thread.Sleep(9500);
         }
     }
 }
@@ -283,5 +323,10 @@ public class ProxyClass
     public static void DisposeBluetooth()
     {
         Post("DisposeBluetooth", "");
+    }
+
+    public static void KeepAlive()
+    {
+        Post("KeepAlive", "");
     }
 }

@@ -220,7 +220,7 @@ public class WindowsShxble : IBluetooth
     ///     发送数据接口
     /// </summary>
     /// <returns></returns>
-    public Task Write(byte[] data)
+    public void Write(byte[] data)
     {
         if (CurrentWriteCharacteristic != null)
             CurrentWriteCharacteristic.WriteValueAsync(CryptographicBuffer.CreateFromByteArray(data),
@@ -232,7 +232,6 @@ public class WindowsShxble : IBluetooth
                     var a = asyncInfo.GetResults();
                 }
             };
-        return Task.Run(() => { });
     }
 
     /// 获取蓝牙服务

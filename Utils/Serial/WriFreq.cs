@@ -128,11 +128,11 @@ internal class WriFreq
     {
         FlagTransmitting = true;
         State = State.HandShakeStep1;
-        if (await HandShake(cancellationToken))
+        if ( HandShake(cancellationToken))
         {
             if (_op == OperationType.Read)
             {
-                if (await ReadChData(cancellationToken))
+                if ( ReadChData(cancellationToken))
                 {
                     _sP.CloseSerial();
                     return true;
@@ -144,7 +144,7 @@ internal class WriFreq
 
             if (OperationType.Write == _op)
             {
-                if (await WriteChData(cancellationToken))
+                if ( WriteChData(cancellationToken))
                 {
                     _sP.CloseSerial();
                     return true;
@@ -156,7 +156,7 @@ internal class WriFreq
 
             if (OperationType.ReadConfig == _op)
             {
-                if (await ReadConfigData(cancellationToken))
+                if ( ReadConfigData(cancellationToken))
                 {
                     _sP.CloseSerial();
                     return true;
@@ -168,7 +168,7 @@ internal class WriFreq
 
             if (OperationType.WriteConfig == _op)
             {
-                if (await WriteConfigData(cancellationToken))
+                if ( WriteConfigData(cancellationToken))
                 {
                     _sP.CloseSerial();
                     return true;
@@ -186,7 +186,7 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> HandShake(CancellationToken cancellationToken)
+    private bool HandShake(CancellationToken cancellationToken)
     {
         while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
             if (!_flagRetry)
@@ -194,9 +194,9 @@ internal class WriFreq
                 switch (State)
                 {
                     case State.HandShakeStep1:
-                        await _sP.WriteByte(_hSTable1, 0, _hSTable1.Length);
-                        await _sP.WriteByte(_hStable2ModelType[_modeltype], 0, _hStable2ModelType[_modeltype].Length);
-                        await _sP.WriteByte(85);
+                        _sP.WriteByte(_hSTable1, 0, _hSTable1.Length);
+                        _sP.WriteByte(_hStable2ModelType[_modeltype], 0, _hStable2ModelType[_modeltype].Length);
+                        _sP.WriteByte(85);
                         _timer.Start();
                         ResetRetryCount();
                         State = State.HandShakeStep2;
@@ -204,11 +204,11 @@ internal class WriFreq
                     case State.HandShakeStep2:
                         if (_sP.BytesToReadFromCache >= 1)
                         {
-                            await _sP.ReadByte(_bufForData, 0, 1);
+                            _sP.ReadByte(_bufForData, 0, 1);
                             if (_bufForData[0] == 6)
                             {
                                 ResetRetryCount();
-                                await _sP.WriteByte(70);
+                                _sP.WriteByte(70);
                                 State = State.HandShakeStep3;
                             }
                         }
@@ -217,7 +217,7 @@ internal class WriFreq
                     case State.HandShakeStep3:
                         if (_sP.BytesToReadFromCache >= 8)
                         {
-                            await _sP.ReadByte(_bufForData, 0, 8);
+                            _sP.ReadByte(_bufForData, 0, 8);
                             _timer.Stop();
                             ResetRetryCount();
                             if (_op == OperationType.Read || _op == OperationType.ReadConfig)
@@ -247,7 +247,7 @@ internal class WriFreq
                         State = State.HandShakeStep1;
                         break;
                     case State.HandShakeStep3:
-                        await _sP.WriteByte(70);
+                         _sP.WriteByte(70);
                         break;
                 }
             }
@@ -256,7 +256,7 @@ internal class WriFreq
     }
 
 
-    private async Task<bool> ReadChData(CancellationToken cancellationToken)
+    private bool ReadChData(CancellationToken cancellationToken)
     {
         var array = new byte[4] { 82, 0, 0, 64 };
         var num = 0;
@@ -266,7 +266,7 @@ internal class WriFreq
                 switch (State)
                 {
                     case State.ReadStep1:
-                        await _sP.WriteByte(array, 0, 4);
+                         _sP.WriteByte(array, 0, 4);
                         State = State.ReadStep2;
                         _timer.Start();
                         break;
@@ -275,7 +275,7 @@ internal class WriFreq
                         if (_sP.BytesToReadFromCache < array[3] + 4) break;
                         _timer.Stop();
                         ResetRetryCount();
-                        await _sP.ReadByte(_bufForData, 0, array[3] + 4);
+                         _sP.ReadByte(_bufForData, 0, array[3] + 4);
                         if (_bufForData[1] != array[1] || _bufForData[2] != array[2]) break;
                         var array2 = new byte[4][]
                         {
@@ -398,7 +398,7 @@ internal class WriFreq
                             break;
                         }
 
-                        await _sP.WriteByte(69);
+                         _sP.WriteByte(69);
                         FlagTransmitting = false;
                         return true;
                     }
@@ -419,7 +419,7 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> WriteChData(CancellationToken cancellationToken)
+    private bool WriteChData(CancellationToken cancellationToken)
     {
         var array = new byte[36]
         {
@@ -680,14 +680,14 @@ internal class WriFreq
                             }
                         }
 
-                        await _sP.WriteByte(array, 0, array[3] + 4);
+                         _sP.WriteByte(array, 0, array[3] + 4);
                         _timer.Start();
                         State = State.WriteStep2;
                         break;
                     case State.WriteStep2:
 
                         if (_sP.BytesToReadFromCache < 1) break;
-                        await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
+                         _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
                         if (_bufForData[0] == 6)
                         {
                             _timer.Stop();
@@ -728,7 +728,7 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> ReadConfigData(CancellationToken cancellationToken)
+    private bool ReadConfigData(CancellationToken cancellationToken)
     {
         var array = new byte[4] { 83, 31, 192, 64 };
         EepAddr = 8128;
@@ -738,7 +738,7 @@ internal class WriFreq
                 switch (State)
                 {
                     case State.ReadStep1:
-                        await _sP.WriteByte(array, 0, 4);
+                         _sP.WriteByte(array, 0, 4);
                         State = State.ReadStep2;
                         _timer.Start();
                         break;
@@ -747,7 +747,7 @@ internal class WriFreq
                         if (_sP.BytesToReadFromCache < array[3] + 4) break;
                         _timer.Stop();
                         ResetRetryCount();
-                        await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
+                         _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
                         if (_bufForData[1] != array[1] || _bufForData[2] != array[2]) break;
                         if (EepAddr == 8128)
                         {
@@ -804,13 +804,13 @@ internal class WriFreq
                         }
 
                         _timer.Start();
-                        await _sP.WriteByte(6);
+                         _sP.WriteByte(6);
                         if (EepAddr == 8128)
                         {
                             EepAddr = 7872;
                             array[1] = (byte)(EepAddr >> 8);
                             array[2] = (byte)EepAddr;
-                            await _sP.WriteByte(array, 0, 4);
+                             _sP.WriteByte(array, 0, 4);
                             State = State.ReadStep3;
                             break;
                         }
@@ -823,7 +823,7 @@ internal class WriFreq
                         {
                             _timer.Stop();
                             ResetRetryCount();
-                            await _sP.ReadByte(_bufForData, 0, 1);
+                             _sP.ReadByte(_bufForData, 0, 1);
                             if (_bufForData[0] == 6) State = State.ReadStep2;
                         }
 
@@ -845,7 +845,7 @@ internal class WriFreq
         return false;
     }
 
-    private async Task<bool> WriteConfigData(CancellationToken cancellationToken)
+    private bool WriteConfigData(CancellationToken cancellationToken)
     {
         var array = new byte[20]
         {
@@ -919,16 +919,14 @@ internal class WriFreq
                                 array3[4] = 85;
                             array3[3] = 1;
                         }
-
-
-                        await _sP.WriteByte(array3, 0, array3[3] + 4);
-                        await _sP.WriteByte(array3, 0, array3[3] + 4);
+                        _sP.WriteByte(array3, 0, array3[3] + 4);
+                        _sP.WriteByte(array3, 0, array3[3] + 4);
                         _timer.Start();
                         State = State.WriteStep2;
                         break;
                     case State.WriteStep2:
                         if (_sP.BytesToReadFromCache < 1) break;
-                        await _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
+                         _sP.ReadByte(_bufForData, 0, _sP.BytesToReadFromCache);
                         if (_bufForData[0] != 6) break;
                         _timer.Stop();
                         ResetRetryCount();

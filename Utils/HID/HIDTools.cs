@@ -35,7 +35,7 @@ public class HidTools
 
     public bool FlagReceiveData;
 
-    public delegate Task WriteValueAsync(byte[] value);
+    public delegate void WriteValueAsync(byte[] value);
 
     public WriteValueAsync WriteBle;
 

@@ -24,8 +24,11 @@ const (
 )
 
 var (
-	rpcAddress = "127.0.0.1"
-	rpcPort    = 8563
+	rpcAddress      = "127.0.0.1"
+	rpcPort         = 8563
+	verbose         = false
+	vverbose        = false
+	enableKeepAlive = false
 
 	adapterEnabled    = false
 	devList           = make([]bluetooth.ScanResult, 0)
@@ -37,12 +40,11 @@ var (
 
 	bleRecvChan = make(chan []byte, 10)
 	bleSendChan = make(chan []byte, 10)
+	// 10秒内没有发送心跳包自动退出
+	bleKeepAliveChan = make(chan struct{}, 5)
 
 	ctx        context.Context
 	cancelFunc context.CancelFunc
-
-	Verbose  = false
-	Vverbose = false
 )
 
 type BLEDevice struct {
@@ -65,12 +67,14 @@ func GetBleAvailability() (bool, error) {
 		}
 		adapterEnabled = true
 	}
-	ctx, cancelFunc = context.WithCancel(context.Background())
 	for len(bleSendChan) > 0 {
 		<-bleSendChan
 	}
 	for len(bleRecvChan) > 0 {
 		<-bleRecvChan
+	}
+	for len(bleKeepAliveChan) > 0 {
+		<-bleKeepAliveChan
 	}
 	return true, nil
 }
@@ -188,6 +192,8 @@ func ReadCachedData() []byte {
 		return data
 	case <-ctx.Done():
 		return nil
+	case <-time.After(time.Second * 5):
+		return nil
 	}
 }
 func WriteData(data []byte) {
@@ -200,6 +206,7 @@ func DisposeBluetooth() {
 	if bleConnection != nil {
 		_ = bleConnection.Disconnect()
 	}
+	ctx, cancelFunc = context.WithCancel(context.Background())
 }
 
 func HandlerReturnBoolValue(value bool, err error, c *gin.Context) {
@@ -227,12 +234,33 @@ func HandlerReturnStringValue(value string, err error, c *gin.Context) {
 	})
 }
 
+func StartKeepAliveService() {
+	if enableKeepAlive {
+		bleKeepAliveChan <- struct{}{}
+		go func(cn chan struct{}, ct context.Context) {
+			slog.Debug("keepalive goroutine started！")
+			for {
+				select {
+				case <-cn:
+					continue
+				case <-time.After(time.Second * 10):
+					slog.Notice("10秒内未收到心跳包，程序退出！")
+					os.Exit(0)
+				case <-ct.Done():
+					return
+				}
+			}
+		}(bleKeepAliveChan, ctx)
+	}
+}
+
 // StartRPC 使用JSONRPC规范
 func StartRPC(addr string) {
-	slog.Info("RPC服务已启动！")
+	slog.Info("RPC服务启动！")
+	StartKeepAliveService()
 	gin.SetMode(gin.ReleaseMode)
 	gin.DefaultWriter = io.Discard
-	if Verbose || Vverbose {
+	if verbose || vverbose {
 		gin.DefaultWriter = os.Stdout
 	}
 	r := gin.Default()
@@ -247,6 +275,7 @@ func StartRPC(addr string) {
 			})
 			return
 		}
+		slog.Debug("Calling..." + requestData.Method)
 		switch requestData.Method {
 		case "GetBleAvailability":
 			result, err := GetBleAvailability()
@@ -293,6 +322,12 @@ func StartRPC(addr string) {
 				"response": "",
 				"error":    "",
 			})
+		case "KeepAlive":
+			bleKeepAliveChan <- struct{}{}
+			c.JSON(http.StatusOK, gin.H{
+				"response": "",
+				"error":    "",
+			})
 		default:
 			c.JSON(http.StatusOK, gin.H{
 				"response": "",
@@ -303,19 +338,21 @@ func StartRPC(addr string) {
 	slog.Fatal(r.Run(addr))
 }
 func main() {
+	ctx, cancelFunc = context.WithCancel(context.Background())
 	var BaseCmd = &cobra.Command{
 		Use:   "BLE RPC Server",
 		Short: "BLE RPC",
 		Long:  `BLE RPC Server - Connect shx8x00 and c#`,
 		Run: func(cmd *cobra.Command, args []string) {
-			logger.InitLog(Verbose, Vverbose)
+			logger.InitLog(verbose, vverbose)
 			StartRPC(fmt.Sprintf("%s:%d", rpcAddress, rpcPort))
 		},
 	}
 	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server listening port")
 	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server listening address")
-	BaseCmd.PersistentFlags().BoolVar(&Verbose, "verbose", false, "Print Debug Level logs")
-	BaseCmd.PersistentFlags().BoolVar(&Vverbose, "vverbose", false, "Print Debug/Trace Level logs")
+	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
+	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
+	BaseCmd.PersistentFlags().BoolVar(&enableKeepAlive, "enable-keepalive", false, "enable keepalive(process exit if no keepalive packet is received within 10s)")
 	cobra.MousetrapHelpText = ""
 	if err := BaseCmd.Execute(); err != nil {
 		fmt.Printf("程序无法启动: %v", err)

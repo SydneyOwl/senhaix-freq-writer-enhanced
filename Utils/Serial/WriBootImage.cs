@@ -80,7 +80,7 @@ public class WriBootImage
         cntRetry = 3;
     }
 
-    public async Task<bool> WriteImg()
+    public bool WriteImg()
     {
         comStep = State.HandShakeStep1;
         // Bitmap bitmap2 = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb);
@@ -112,8 +112,7 @@ public class WriBootImage
 
         try
         {
-            if (await HandShake() && await Communication()) return true;
-            return false;
+            return HandShake() && Communication();
         }
         finally
         {
@@ -124,7 +123,7 @@ public class WriBootImage
         // return false;
     }
 
-    public async Task<bool> HandShake()
+    public bool HandShake()
     {
         var array = new byte[1];
         while (true)
@@ -134,18 +133,18 @@ public class WriBootImage
                 {
                     case State.HandShakeStep1:
                         array = Encoding.ASCII.GetBytes("PROGROMSHXU");
-                        await _sp.WriteByte(array, 0, array.Length);
+                        _sp.WriteByte(array, 0, array.Length);
                         OverTimer_Start();
                         comStep = State.HandShakeStep2;
                         break;
                     case State.HandShakeStep2:
                         if (_sp.BytesToReadFromCache >= 1)
                         {
-                            await _sp.ReadByte(bufForData, 0, 1);
+                            _sp.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6)
                             {
                                 array = new byte[1] { 70 };
-                                await _sp.WriteByte(array, 0, 1);
+                                _sp.WriteByte(array, 0, 1);
                                 comStep = State.HandShakeStep3;
                             }
                         }
@@ -154,7 +153,7 @@ public class WriBootImage
                     case State.HandShakeStep3:
                         if (_sp.BytesToReadFromCache >= 8)
                         {
-                            await _sp.ReadByte(bufForData, 0, 8);
+                            _sp.ReadByte(bufForData, 0, 8);
                             comStep = State.WriteStep1;
                             return true;
                         }
@@ -171,18 +170,18 @@ public class WriBootImage
                 if (comStep == State.HandShakeStep2)
                 {
                     array = Encoding.ASCII.GetBytes("PROGROMSHXU");
-                    await _sp.WriteByte(array, 0, array.Length);
+                    _sp.WriteByte(array, 0, array.Length);
                 }
                 else
                 {
-                    await _sp.WriteByte(array, 0, array.Length);
+                    _sp.WriteByte(array, 0, array.Length);
                 }
             }
 
         return false;
     }
 
-    public async Task<bool> Communication()
+    public bool Communication()
     {
         var array = new byte[68]
         {
@@ -226,7 +225,7 @@ public class WriBootImage
                             for (var i = 0; i < 64; i++) array[i + 4] = array2[i];
                             array[1] = (byte)(num2 >> 8);
                             array[2] = (byte)num2;
-                            await _sp.WriteByte(array, 0, 68);
+                            _sp.WriteByte(array, 0, 68);
                             currentProg.Enqueue((int)(num * 100 / byteOfData));
                             comStep = State.WriteStep2;
                             break;
@@ -238,7 +237,7 @@ public class WriBootImage
                     case State.WriteStep2:
                         if (_sp.BytesToReadFromCache >= 1)
                         {
-                            await _sp.ReadByte(bufForData, 0, 1);
+                            _sp.ReadByte(bufForData, 0, 1);
                             if (bufForData[0] == 6)
                             {
                                 num2 += 64;
@@ -257,7 +256,7 @@ public class WriBootImage
                 countOverTime--;
                 cntRetry = 3;
                 flagOverTime = false;
-                await _sp.WriteByte(array, 0, 68);
+                _sp.WriteByte(array, 0, 68);
             }
 
         return false;
