@@ -100,7 +100,7 @@ public class RPCSHXBLE : IBluetooth
                     rpcServer.BeginOutputReadLine();
                     rpcServer.BeginErrorReadLine();
                     //Send keepalive packets
-                    Task.Run(()=>SendKeepAlive(source.Token));
+                    // Task.Run(()=>SendKeepAlive(source.Token));
                 }
                 catch(Exception b)
                 {
@@ -325,8 +325,13 @@ public class ProxyClass
         Post("DisposeBluetooth", "");
     }
 
+    // deprecated
     public static void KeepAlive()
     {
         Post("KeepAlive", "");
+    }
+    public static void TerminatePlugin()
+    {
+        Post("TerminatePlugin", "");
     }
 }

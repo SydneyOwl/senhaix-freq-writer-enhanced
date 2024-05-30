@@ -2,6 +2,7 @@ package main
 
 import (
 	"BLEPlugin/logger"
+	"bytes"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -203,7 +204,11 @@ func DisposeBluetooth() {
 	if bleConnection != nil {
 		_ = bleConnection.Disconnect()
 	}
-	ctx, cancelFunc = context.WithCancel(context.Background())
+	//ctx, cancelFunc = context.WithCancel(context.Background())
+}
+func TerminatePlugin() {
+	slog.Info("收到终止命令")
+	os.Exit(0)
 }
 
 func HandlerReturnBoolValue(value bool, err error, c *gin.Context) {
@@ -231,6 +236,7 @@ func HandlerReturnStringValue(value string, err error, c *gin.Context) {
 	})
 }
 
+// StartKeepAliveService is deprecated
 func StartKeepAliveService() {
 	if enableKeepAlive {
 		bleKeepAliveChan <- struct{}{}
@@ -251,6 +257,13 @@ func StartKeepAliveService() {
 
 // StartRPC 使用JSONRPC规范
 func StartRPC(addr string) {
+	slog.Info("终止其他BLEPlugin进程...")
+	req := RequestJson{
+		Method: "TerminatePlugin",
+		Arg:    "",
+	}
+	data, _ := json.Marshal(&req)
+	_, _ = http.Post("http://127.0.0.1:8563/", "application/json", bytes.NewBuffer(data))
 	slog.Info("RPC服务启动！")
 	StartKeepAliveService()
 	gin.SetMode(gin.ReleaseMode)
@@ -292,6 +305,7 @@ func StartRPC(addr string) {
 			result, err := ConnectShxRwService()
 			HandlerReturnBoolValue(result, err, c)
 		case "ConnectShxRwCharacteristic":
+			ctx, cancelFunc = context.WithCancel(context.Background())
 			result, err := ConnectShxRwCharacteristic()
 			HandlerReturnBoolValue(result, err, c)
 		case "ReadCachedData":
@@ -323,6 +337,12 @@ func StartRPC(addr string) {
 				"response": "",
 				"error":    "",
 			})
+		case "TerminatePlugin":
+			c.JSON(http.StatusOK, gin.H{
+				"response": "",
+				"error":    "",
+			})
+			TerminatePlugin()
 		default:
 			c.JSON(http.StatusOK, gin.H{
 				"response": "",
@@ -333,7 +353,6 @@ func StartRPC(addr string) {
 	slog.Fatal(r.Run(addr))
 }
 func main() {
-	ctx, cancelFunc = context.WithCancel(context.Background())
 	var BaseCmd = &cobra.Command{
 		Use:   "BLE RPC Server",
 		Short: "BLE RPC",
@@ -347,7 +366,7 @@ func main() {
 	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server listening address")
 	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
-	BaseCmd.PersistentFlags().BoolVar(&enableKeepAlive, "enable-keepalive", false, "enable keepalive(process exit if no keepalive packet is received within 10s)")
+	BaseCmd.PersistentFlags().BoolVar(&enableKeepAlive, "enable-keepalive", false, "DEPRECATE IN FUTURE VERSION - enable keepalive(process exit if no keepalive packet is received within 10s)")
 	cobra.MousetrapHelpText = ""
 	if err := BaseCmd.Execute(); err != nil {
 		fmt.Printf("程序无法启动: %v", err)
