@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -40,23 +41,26 @@ public partial class ProgressBarWindow : Window
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        try
+        Task.Run(() =>
         {
-            _tokenSource.Cancel();
-        }
-        catch
-        {
-            //
-        }
-
-        if ((_threadWf != null || _threadProgress != null) && _status == OperationType.Read)
-        {
-            _threadWf.Join();
-            _threadProgress.Join();
-            ClassTheRadioData.GetInstance().ForceNewChannel();
-        }
-
-        Close();
+            try
+            {
+                _tokenSource.Cancel();
+            }
+            catch
+            {
+                //
+            }
+            Dispatcher.UIThread.Invoke(() => CloseButton.IsEnabled = false);
+            if ((_threadWf != null || _threadProgress != null) && _status == OperationType.Read)
+            {
+                Dispatcher.UIThread.Invoke(() => statusLabel.Content = "等待进程结束...");
+                _threadWf.Join();
+                _threadProgress.Join();
+                Dispatcher.UIThread.Invoke(() => ClassTheRadioData.GetInstance().ForceNewChannel());
+            }
+            Dispatcher.UIThread.Invoke(Close);
+        });
     }
 
     private async void Start_OnClick(object? sender, RoutedEventArgs e)
@@ -104,11 +108,11 @@ public partial class ProgressBarWindow : Window
         MySerialPort.GetInstance().RxData.Clear();
         try
         {
-            flag = await _wF.DoIt(cancellationToken);
+            flag = _wF.DoIt(cancellationToken);
         }
         catch (Exception e)
         {
-            // DebugWindow.GetInstance().updateDebugContent(e.Message);
+            DebugWindow.GetInstance().updateDebugContent(e.Message);
             // ignored
         }
 

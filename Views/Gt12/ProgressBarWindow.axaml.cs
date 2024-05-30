@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -125,22 +126,26 @@ public partial class ProgressBarWindow : Window
 
     private void Cancel_OnClick(object? sender, RoutedEventArgs e)
     {
-        try
+        Task.Run(() =>
         {
-            _cancelSource.Cancel();
-        }
-        catch
-        {
-            //ignored
-        }
+            try
+            {
+                _cancelSource.Cancel();
+            }
+            catch
+            {
+                //ignored
+            }
+            Dispatcher.UIThread.Invoke(() => CloseButton.IsEnabled = false);
+            if ((_threadProgress != null || _threadCommunication != null) && _operation == OpType.Read)
+            {
+                Dispatcher.UIThread.Invoke(() => statusLabel.Content = "等待进程结束...");
+                _threadProgress.Join();
+                _threadCommunication.Join();
+                Dispatcher.UIThread.Invoke(() => AppData.ForceNewInstance());
+            }
+            Dispatcher.UIThread.Invoke(Close);
+        });
 
-        if ((_threadProgress != null || _threadCommunication != null) && _operation == OpType.Read)
-        {
-            _threadProgress.Join();
-            _threadCommunication.Join();
-            AppData.ForceNewInstance();
-        }
-
-        Close();
     }
 }

@@ -53,6 +53,7 @@ public partial class MainWindow : Window
         DataContext = this;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
+        DebugWindow.GetInstance().updateDebugContent($"Cuurent Dir:{Directory.GetCurrentDirectory()}");
     }
 
     public void CommonMainWindow()

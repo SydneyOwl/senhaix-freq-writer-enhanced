@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
+using SenhaixFreqWriter.Views.Common;
 using Timer = System.Timers.Timer;
 
 
@@ -124,15 +125,15 @@ internal class WriFreq
         _flagRetry = false;
     }
 
-    public async Task<bool> DoIt(CancellationToken cancellationToken)
+    public bool DoIt(CancellationToken cancellationToken)
     {
         FlagTransmitting = true;
         State = State.HandShakeStep1;
-        if ( HandShake(cancellationToken))
+        if (HandShake(cancellationToken))
         {
             if (_op == OperationType.Read)
             {
-                if ( ReadChData(cancellationToken))
+                if (ReadChData(cancellationToken))
                 {
                     _sP.CloseSerial();
                     return true;
@@ -189,6 +190,7 @@ internal class WriFreq
     private bool HandShake(CancellationToken cancellationToken)
     {
         while (FlagTransmitting && !cancellationToken.IsCancellationRequested)
+        {
             if (!_flagRetry)
             {
                 switch (State)
@@ -251,7 +253,7 @@ internal class WriFreq
                         break;
                 }
             }
-
+        }
         return false;
     }
 
