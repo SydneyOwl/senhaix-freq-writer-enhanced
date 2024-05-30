@@ -21,7 +21,7 @@ using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
 
-namespace shx.Utils.BLE.Platforms.Windows;
+namespace SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 
 public enum MsgType
 {
@@ -31,7 +31,7 @@ public enum MsgType
     BleRecData
 }
 
-public class WindowsShxble : IBluetooth
+public class WindowsSHXBLE : IBluetooth
 {
     public Updater StatusUpdate;
 
@@ -71,7 +71,9 @@ public class WindowsShxble : IBluetooth
 
     private BluetoothLEAdvertisementWatcher _watcher;
 
-    public WindowsShxble()
+    private WindowsSHXBLE instance;
+
+    public WindowsSHXBLE()
     {
         // Dispose();
         DeviceList = new List<BluetoothLEDevice>();
@@ -187,6 +189,14 @@ public class WindowsShxble : IBluetooth
     /// <returns></returns>
     public void Dispose()
     {
+        try
+        {
+            CurrentDevice.ConnectionStatusChanged -= CurrentDevice_ConnectionStatusChanged;
+        }
+        catch
+        {
+            //
+        }
         CurrentDeviceMac = null;
         CurrentService?.Dispose();
         CurrentDevice?.Dispose();

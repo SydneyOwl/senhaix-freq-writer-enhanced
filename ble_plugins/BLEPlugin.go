@@ -353,16 +353,21 @@ func StartRPC(addr string) {
 	slog.Fatal(r.Run(addr))
 }
 func main() {
+	var noColorOutput = false
 	var BaseCmd = &cobra.Command{
 		Use:   "BLE RPC Server",
 		Short: "BLE RPC",
 		Long:  `BLE RPC Server - Connect shx8x00 and c#`,
 		Run: func(cmd *cobra.Command, args []string) {
-			logger.InitLog(verbose, vverbose)
+			logger.InitLog(verbose, vverbose, noColorOutput)
+			if noColorOutput {
+				gin.DisableConsoleColor()
+			}
 			StartRPC(fmt.Sprintf("%s:%d", rpcAddress, rpcPort))
 		},
 	}
 	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server listening port")
+	BaseCmd.PersistentFlags().BoolVar(&noColorOutput, "no-color", false, "No color output in console")
 	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server listening address")
 	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")

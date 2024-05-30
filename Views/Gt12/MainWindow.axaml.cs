@@ -21,7 +21,7 @@ using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 
 #if WINDOWS
-using shx.Utils.BLE.Platforms.Windows;
+using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 #endif
 
 namespace SenhaixFreqWriter.Views.Gt12;

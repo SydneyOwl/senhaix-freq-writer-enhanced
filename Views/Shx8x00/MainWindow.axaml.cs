@@ -19,7 +19,7 @@ using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
-using shx.Utils.BLE.Platforms.Windows;
+using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 #endif
 
 namespace SenhaixFreqWriter.Views.Shx8x00;
@@ -54,20 +54,20 @@ public partial class MainWindow : Window
         DataContext = this;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
-        var dirpath = Directory.GetCurrentDirectory();
-        DebugWindow.GetInstance().updateDebugContent("Directory.GetCurrentDirectory = " + dirpath);
+        // var dirpath = Directory.GetCurrentDirectory();
+        // DebugWindow.GetInstance().updateDebugContent("Directory.GetCurrentDirectory = " + dirpath);
 
 // 通过 AppDomain.CurrentDomain.BaseDirectory 读取根目录
-        var dirpath1 = AppDomain.CurrentDomain.BaseDirectory;
-        DebugWindow.GetInstance().updateDebugContent("AppDomain.CurrentDomain.BaseDirectory = " + dirpath1);
+        // var dirpath1 = AppDomain.CurrentDomain.BaseDirectory;
+        // DebugWindow.GetInstance().updateDebugContent("AppDomain.CurrentDomain.BaseDirectory = " + dirpath1);
 
 // 通过 Environment.CurrentDirectory 来读取根目录
-        var dirpath2 = Environment.CurrentDirectory;
-        DebugWindow.GetInstance().updateDebugContent("Environment.CurrentDirectory = " + dirpath2);
+        // var dirpath2 = Environment.CurrentDirectory;
+        // DebugWindow.GetInstance().updateDebugContent("Environment.CurrentDirectory = " + dirpath2);
 
 // 通过 Assembly.GetExecutingAssembly().Location 来获取运行程序集所在的位置，从而判断根目录
-        var dirpath3 = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        DebugWindow.GetInstance().updateDebugContent("Path.GetDirectoryName Assembly.GetExecutingAssembly().Location = " + dirpath3);
+        // var dirpath3 = Path.(Assembly.GetExecutingAssembly().Location);
+        // DebugWindow.GetInstance().updaGetDirectoryNameteDebugContent("Path.GetDirectoryName Assembly.GetExecutingAssembly().Location = " + dirpath3);
 
 // 通过 AppContext.BaseDirectory 获取根目录
         var dirpath4 = AppContext.BaseDirectory;

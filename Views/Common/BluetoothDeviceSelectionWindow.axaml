@@ -8,6 +8,9 @@
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         WindowStartupLocation="CenterScreen">
     <Canvas Background="{DynamicResource dgvBackgroundBrush}">
+        <Label Name="windowsHint" IsVisible="False"
+               Margin="10" PointerPressed="WindowsHint_OnPointerPressed"
+               Content="Hint：如果在windows下始终找不到目标设备，不妨试着点我重启一下蓝牙~"></Label>
         <DataGrid Name="btdevice"
                   GridLinesVisibility="All"
                   Width="550"

@@ -12,7 +12,6 @@ import threading
 """
 From SenhaixFreqWriter->Const
 For gt12 and shx8800
-
 DEPRECATED! USE BLEPlugin.go INSTEAD!
 """
 RwServiceUuid = "ffe0"

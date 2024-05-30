@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
 
@@ -38,7 +39,7 @@ public class RPCSHXBLE : IBluetooth
             var filePath = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = "./"+SETTINGS.WINDOWS_BLE_PLUGIN_NAME;
+                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.WINDOWS_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
@@ -47,7 +48,7 @@ public class RPCSHXBLE : IBluetooth
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = "./"+SETTINGS.LINUX_BLE_PLUGIN_NAME;
+                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.LINUX_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
@@ -110,13 +111,13 @@ public class RPCSHXBLE : IBluetooth
                 DebugWindow.GetInstance().updateDebugContent("RPC Start!");
             }
         }
-        return ProxyClass.GetBleAvailability();
+        return RPCUtil.ProxyClass.GetBleAvailability();
     }
 
     public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
         bool disableSSIDFilter)
     {
-        var result = ProxyClass.ScanForShx();
+        var result = RPCUtil.ProxyClass.ScanForShx();
         var pattern = @"(\\[^bfrnt\\/'\""])";
         result = Regex.Replace(result, pattern, "\\$1");
         List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
@@ -133,29 +134,29 @@ public class RPCSHXBLE : IBluetooth
 
     public void SetDevice(string seq)
     {
-        ProxyClass.SetDevice(seq);
+        RPCUtil.ProxyClass.SetDevice(seq);
     }
 
     public bool ConnectShxDeviceAsync()
     {
-        return ProxyClass.ConnectShxDevice();
+        return RPCUtil.ProxyClass.ConnectShxDevice();
     }
 
     public bool ConnectShxRwCharacteristicAsync()
     {
-        return ProxyClass.ConnectShxRwCharacteristic();
+        return RPCUtil.ProxyClass.ConnectShxRwCharacteristic();
     }
 
     public bool ConnectShxRwServiceAsync()
     {
-        return ProxyClass.ConnectShxRwService();
+        return RPCUtil.ProxyClass.ConnectShxRwService();
     }
 
     public void RegisterHid()
     {
         HidTools.GetInstance().WriteBle =  (value) =>
         {
-            ProxyClass.WriteData(value);
+            RPCUtil.ProxyClass.WriteData(value);
         };;
         Task.Run(() => UpdateRecvQueueHid(source.Token));
     }
@@ -164,7 +165,7 @@ public class RPCSHXBLE : IBluetooth
     {
         MySerialPort.GetInstance().WriteBle = (value) =>
         {
-            ProxyClass.WriteData(value);
+            RPCUtil.ProxyClass.WriteData(value);
         };
         Task.Run(() => UpdateRecvQueue(source.Token));
     }
@@ -173,7 +174,7 @@ public class RPCSHXBLE : IBluetooth
     {
         try
         {
-            ProxyClass.DisposeBluetooth();
+            RPCUtil.ProxyClass.DisposeBluetooth();
             rpcServer?.CancelErrorRead();
             rpcServer?.CancelOutputRead();
         }
@@ -193,6 +194,7 @@ public class RPCSHXBLE : IBluetooth
         {
             // ignore
         }
+        MySerialPort.GetInstance().WriteBle = null;
     }
 
     public void SetStatusUpdater(Updater up)
@@ -205,7 +207,7 @@ public class RPCSHXBLE : IBluetooth
         while (!token.IsCancellationRequested)
         {
             Thread.Sleep(100);
-            var result = ProxyClass.ReadCachedData();
+            var result = RPCUtil.ProxyClass.ReadCachedData();
             if (result == null) continue;
             foreach (var b in result)
             {
@@ -218,7 +220,7 @@ public class RPCSHXBLE : IBluetooth
     {
         while (!token.IsCancellationRequested)
         {
-            var result = ProxyClass.ReadCachedData();
+            var result = RPCUtil.ProxyClass.ReadCachedData();
             if (result == null) continue;
             HidTools.GetInstance().RxBuffer = result;
             HidTools.GetInstance().FlagReceiveData = true;
@@ -230,108 +232,8 @@ public class RPCSHXBLE : IBluetooth
     {
         while (!token.IsCancellationRequested)
         {
-            ProxyClass.KeepAlive();
+            RPCUtil.ProxyClass.KeepAlive();
             Thread.Sleep(9500);
         }
-    }
-}
-
-// RPC PART
-// 没有想用的库其实
-// 参考了RPC 1.0规范
-
-public class RPCRequest
-{
-    public string method = "";
-    public string arg = "";
-}
-
-public class RPCResponse
-{
-    public string response = "";
-    public string error = "";
-}
-
-public class ProxyClass
-{
-    public static string Post(string method, string arg)
-    {
-        using (var client = new HttpClient()) // 创建HttpClient实例
-        {
-            var data = JsonConvert.SerializeObject(new RPCRequest
-            {
-                method = method,
-                arg = arg
-            });
-            var content =
-                new StringContent(data, Encoding.UTF8, "application/json"); // 创建HttpContent对象，设置Json内容、编码和媒体类型
-            var response = client.PostAsync(SETTINGS.RPC_URL, content).Result; // 发送异步Post请求
-            response.EnsureSuccessStatusCode(); // 确保响应状态码为200-399之间
-            var responseBody = response.Content.ReadAsStringAsync().Result;
-            var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
-            if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
-            return resp.response;
-        }
-    }
-
-    public static bool GetBleAvailability()
-    {
-        var resp = Post("GetBleAvailability", "");
-        return resp == "True";
-    }
-
-    public static string ScanForShx()
-    {
-        var resp = Post("ScanForShx", "");
-        return resp;
-    }
-
-    public static void SetDevice(string seq)
-    {
-        Post("SetDevice", seq);
-    }
-
-    public static bool ConnectShxDevice()
-    {
-        return Post("ConnectShxDevice", "") == "True";
-    }
-
-    public static bool ConnectShxRwService()
-    {
-        return Post("ConnectShxRwService", "") == "True";
-    }
-
-    public static bool ConnectShxRwCharacteristic()
-    {
-        return Post("ConnectShxRwCharacteristic", "") == "True";
-    }
-
-    public static byte[] ReadCachedData()
-    {
-        var encoded = Post("ReadCachedData", "");
-        if (string.IsNullOrEmpty(encoded)) return null;
-        return Convert.FromBase64String(encoded);
-    }
-
-    public static bool WriteData(byte[] data)
-    {
-        var enco = Convert.ToBase64String(data);
-        Post("WriteData", enco);
-        return true;
-    }
-
-    public static void DisposeBluetooth()
-    {
-        Post("DisposeBluetooth", "");
-    }
-
-    // deprecated
-    public static void KeepAlive()
-    {
-        Post("KeepAlive", "");
-    }
-    public static void TerminatePlugin()
-    {
-        Post("TerminatePlugin", "");
     }
 }

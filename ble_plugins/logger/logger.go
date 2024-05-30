@@ -13,10 +13,11 @@ var (
 	VVboseLevels        = slog.Levels{slog.NoticeLevel, slog.InfoLevel, slog.DebugLevel, slog.TraceLevel}
 )
 
-func InitLog(verbose bool, vverbose bool) {
+func InitLog(verbose bool, vverbose bool, colorDisable bool) {
 	slog.Configure(func(l *slog.SugaredLogger) {
 		f := l.Formatter.(*slog.TextFormatter)
 		f.TimeFormat = "2006/01/02 15:04:05"
+		f.EnableColor = !colorDisable
 		if verbose || vverbose {
 			f.SetTemplate(logCodeLineTemplate)
 		} else {

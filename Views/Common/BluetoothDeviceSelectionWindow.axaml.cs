@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.BLE;
@@ -16,7 +19,7 @@ using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
 #if WINDOWS
-using shx.Utils.BLE.Platforms.Windows;
+using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 #endif
 
 namespace SenhaixFreqWriter.Views.Common;
@@ -77,7 +80,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
 #if WINDOWS
                 if (!checkRPC)
                 {
-                    osBLE = new WindowsShxble();
+                    osBLE = new WindowsSHXBLE();
                 }
 #endif
                 if (!osBLE.GetBleAvailabilityAsync())
@@ -94,6 +97,15 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 var result = osBLE.ScanForShxAsync(checkDisableWeakSignalRestriction, checkDisableSSIDRestriction);
                 Dispatcher.UIThread.Invoke(() =>
                 {
+                    
+#if WINDOWS
+                    if (result.Count == 0)
+                    {
+                        windowsHint.Background = Brushes.Salmon;
+                        windowsHint.IsVisible = true;
+                    }
+#endif
+
                     foreach (var generticBleDeviceInfo in result) BleInfos.Add(generticBleDeviceInfo);
                 });
             }
@@ -214,5 +226,14 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 });
             }
         });
+    }
+
+    private void WindowsHint_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        try{
+            Process.Start("control", "bthprops.cpl");
+        }catch{
+            //
+        }
     }
 }
