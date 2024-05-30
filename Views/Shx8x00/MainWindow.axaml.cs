@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -53,7 +54,24 @@ public partial class MainWindow : Window
         DataContext = this;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
-        DebugWindow.GetInstance().updateDebugContent($"Cuurent Dir:{Directory.GetCurrentDirectory()}");
+        var dirpath = Directory.GetCurrentDirectory();
+        DebugWindow.GetInstance().updateDebugContent("Directory.GetCurrentDirectory = " + dirpath);
+
+// 通过 AppDomain.CurrentDomain.BaseDirectory 读取根目录
+        var dirpath1 = AppDomain.CurrentDomain.BaseDirectory;
+        DebugWindow.GetInstance().updateDebugContent("AppDomain.CurrentDomain.BaseDirectory = " + dirpath1);
+
+// 通过 Environment.CurrentDirectory 来读取根目录
+        var dirpath2 = Environment.CurrentDirectory;
+        DebugWindow.GetInstance().updateDebugContent("Environment.CurrentDirectory = " + dirpath2);
+
+// 通过 Assembly.GetExecutingAssembly().Location 来获取运行程序集所在的位置，从而判断根目录
+        var dirpath3 = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        DebugWindow.GetInstance().updateDebugContent("Path.GetDirectoryName Assembly.GetExecutingAssembly().Location = " + dirpath3);
+
+// 通过 AppContext.BaseDirectory 获取根目录
+        var dirpath4 = AppContext.BaseDirectory;
+        DebugWindow.GetInstance().updateDebugContent("AppContext.BaseDirectory = " + dirpath4);
     }
 
     public void CommonMainWindow()

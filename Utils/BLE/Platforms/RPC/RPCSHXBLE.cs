@@ -56,7 +56,7 @@ public class RPCSHXBLE : IBluetooth
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = "./"+SETTINGS.OSX_BLE_PLUGIN_NAME;
+                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.OSX_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
