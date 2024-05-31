@@ -44,43 +44,45 @@ installed.
 ### 支持的功能
 
 | -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
-| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-| 蓝牙写频（试验性）                   | 仅8800；在linux和mac上仅RPC方式可用[^5]                 | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
-| （以下为支持的插件）                 |                                                         |                                         |                              |
-| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
-| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| ------------------------------------ |------------------------------------------------| --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                             | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频（试验性）                   | 仅8800[^5]                                    | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                |                                         |                              |
+| 开机画面修改                         | :white_check_mark:                             | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | :white_check_mark:                             | :white_check_mark:                      | :white_check_mark:           |
 
 [^4]:该版本自带runtime，无需额外安装
 
-[^5]:使用go  rpc server实现
+[^5]:使用go rpc server实现（linux和macOS）
 
 ### 其他说明
 
-#### 蓝牙（试验性，未发布，可在actions中下载）
+#### 蓝牙
 
 + 插件默认只编译了x64的版本，需要其他版本请自行编译。
 + windows上没啥值得注意的，可以不勾选RPC方式写频~（当然勾了也行，需要开启RPC服务端）
 + linux和mac端需要使用`rpc server`写频，同样直接写频即可。
-+ 对于MAC端，如需把app放到applications文件夹中，请务必首先把蓝牙插件"bleplugin_macos_x64"放到目录"/Users/用户名/Library/Containers/com.sydneyowl/Data"中（没有请新建目录！）
 
 注意：若有**调试需要**，需要手动编译或勾选了“手动控制RPC”，具体操作如下：
   1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
   2. 直接双击打开编译产物，或者使用命令行指定参数：
   ```bash
-    BLE RPC Server - Connect shx8x00 and c#
 
-    Usage:
-    BLE RPC Server [flags]
-    
-    Flags:
-    --address string     RPC Server listening address (default "127.0.0.1")
-    --enable-keepalive   enable keepalive(process exit if no keepalive packet is received within 10s)
-    -h, --help               help for BLE
-    --port int           RPC Server listening port (default 8563)
-    --verbose            Print Debug Level logs
-    --vverbose           Print Debug/Trace Level logs
+BLE RPC Server - Connect shx8x00 and c#
+
+Usage:
+  BLE RPC Server [flags]
+
+Flags:
+      --address string     RPC Server listening address (default "127.0.0.1")
+      --enable-keepalive   DEPRECATE IN FUTURE VERSION - enable keepalive(process exit if no keepalive packet is received within 10s)
+  -h, --help               help for BLE
+      --no-color           No color output in console
+      --port int           RPC Server listening port (default 8563)
+      --verbose            Print Debug Level logs
+      --vverbose           Print Debug/Trace Level logs
+
   ```
   3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
   4. 正常读写频即可
@@ -88,6 +90,8 @@ installed.
 #### 图片
 
 ##### V0.2.2后
+
+![](./readme_image/macos.jpg)
 
 ![](./readme_image/so50.png)
 
@@ -112,8 +116,6 @@ installed.
 ## 开发指引
 
 您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
-
-（好吧，其实是实在找不到好用的BLE库了）
 
 ## FAQ
 
@@ -156,14 +158,13 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.2.2` 重写官方winform写频软件，实现跨平台
 
-`v0.3.0(beta)` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题
+`v0.3.0` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题,加入开机画面生成及修改功能，加入打星助手，通过rpc实现了跨平台的蓝牙写频功能支持
 
 ## Thanks...
 
 + `SenHaiX`的原版写频软件
 + `Avalonia` 的跨平台UI方案
-+ `InTheHand.BluetoothLE`的低功耗蓝牙方案
-+ `Linux.Bluetooth`的`D-Bus`方案
++ `tinygo`的ble方案
 + `HIDSharp`的HID交互方案
 + [@rockliuxn](https://github.com/rockliuxn) 提供的图标，以及测试阶段的支持！
 + and more.....
