@@ -28,5 +28,4 @@ public interface IBluetooth
     public void RegisterSerial();
     public void RegisterHid();
     public void Dispose();
-    public void SetStatusUpdater(Updater up);
 }

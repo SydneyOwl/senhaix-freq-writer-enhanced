@@ -22,7 +22,7 @@ public class RPCResponse
     public string error = "";
 }
 
-public class ProxyClass
+public class RPCUtil
 { 
     private static readonly HttpClient client = new HttpClient();
     public static string SendRPCRequest(string method, string arg)

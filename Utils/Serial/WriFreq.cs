@@ -148,9 +148,10 @@ internal class WriFreq
                 if ( WriteChData(cancellationToken))
                 {
                     _sP.CloseSerial();
+                    MySerialPort.GetInstance().WriteBle = null;
                     return true;
                 }
-
+                MySerialPort.GetInstance().WriteBle = null;
                 _sP.CloseSerial();
                 return false;
             }

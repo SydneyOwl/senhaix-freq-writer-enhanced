@@ -5,6 +5,8 @@ go 1.22
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/gookit/slog v0.5.6
+	github.com/gorilla/websocket v1.5.1
+	github.com/spf13/cobra v1.8.0
 	tinygo.org/x/bluetooth v0.7.1-0.20230811122637-4da7f5812480
 )
 
@@ -36,7 +38,6 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/saltosystems/winrt-go v0.0.0-20230710111611-a39229b5054c // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
-	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/tinygo-org/cbgo v0.0.4 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect

@@ -9,6 +9,7 @@ using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.HID;
+using SenhaixFreqWriter.Utils.Other;
 
 namespace SenhaixFreqWriter.Views.Common;
 
@@ -67,7 +68,7 @@ public partial class DeviceSelectWindow : Window
                 new Shx8x00.MainWindow().Show();
                 break;
         }
-
+        WSRPCUtil.GetInstance().StartWSRPC();
         Close();
     }
 

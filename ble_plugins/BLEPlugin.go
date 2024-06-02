@@ -2,16 +2,12 @@ package main
 
 import (
 	"BLEPlugin/logger"
-	"bytes"
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/gookit/slog"
+	"github.com/gorilla/websocket"
 	"github.com/spf13/cobra"
-	"io"
-	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -25,11 +21,10 @@ const (
 )
 
 var (
-	rpcAddress      = "127.0.0.1"
-	rpcPort         = 8563
-	verbose         = false
-	vverbose        = false
-	enableKeepAlive = false
+	rpcAddress = "127.0.0.1"
+	rpcPort    = 8563
+	verbose    = false
+	vverbose   = false
 
 	adapterEnabled    = false
 	devList           = make([]bluetooth.ScanResult, 0)
@@ -41,8 +36,7 @@ var (
 
 	bleRecvChan = make(chan []byte, 10)
 	bleSendChan = make(chan []byte, 10)
-	// 10秒内没有发送心跳包自动退出
-	bleKeepAliveChan = make(chan struct{}, 5)
+	doneChan    = make(chan struct{})
 
 	ctx        context.Context
 	cancelFunc context.CancelFunc
@@ -57,6 +51,10 @@ type BLEDevice struct {
 type RequestJson struct {
 	Method string `json:"method"`
 	Arg    string `json:"arg"`
+}
+type ResponseJSON struct {
+	Response string `json:"response"`
+	Error    string `json:"error"`
 }
 
 func GetBleAvailability() (bool, error) {
@@ -146,7 +144,7 @@ func ConnectShxRwService() (bool, error) {
 	slog.Errorf("未找到服务！")
 	return false, err
 }
-func ConnectShxRwCharacteristic() (bool, error) {
+func ConnectShxRwCharacteristic(conn *websocket.Conn) (bool, error) {
 	chs, err := bleService.DiscoverCharacteristics(nil)
 	if err != nil {
 		slog.Errorf("无法发现特征:%v", err)
@@ -173,6 +171,17 @@ func ConnectShxRwCharacteristic() (bool, error) {
 					}
 				}
 			}(ctx, bleSendChan)
+			go func(cx context.Context, c *websocket.Conn) {
+				slog.Trace("回写二进制启动！")
+				for {
+					select {
+					case data := <-bleRecvChan:
+						HandlerReturnBinaryValue(data, c)
+					case <-cx.Done():
+						return
+					}
+				}
+			}(ctx, conn)
 			return true, nil
 		}
 	}
@@ -184,16 +193,6 @@ func NotifyCallback(data []byte) {
 	bleRecvChan <- data
 }
 
-func ReadCachedData() []byte {
-	select {
-	case data := <-bleRecvChan:
-		return data
-	case <-ctx.Done():
-		return nil
-	case <-time.After(time.Second * 5):
-		return nil
-	}
-}
 func WriteData(data []byte) {
 	bleSendChan <- data
 }
@@ -211,7 +210,7 @@ func TerminatePlugin() {
 	os.Exit(0)
 }
 
-func HandlerReturnBoolValue(value bool, err error, c *gin.Context) {
+func HandlerReturnBoolValue(value bool, err error, c *websocket.Conn) {
 	errStr := ""
 	if err != nil {
 		errStr = err.Error()
@@ -220,137 +219,103 @@ func HandlerReturnBoolValue(value bool, err error, c *gin.Context) {
 	if value {
 		resp = "True"
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"response": resp,
-		"error":    errStr,
+	err = c.WriteJSON(ResponseJSON{
+		Response: resp,
+		Error:    errStr,
 	})
+	if err != nil {
+		slog.Errorf("出错：%v", err)
+		close(doneChan)
+	}
 }
-func HandlerReturnStringValue(value string, err error, c *gin.Context) {
+func HandlerReturnStringValue(value string, err error, c *websocket.Conn) {
 	errStr := ""
 	if err != nil {
 		errStr = err.Error()
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"response": value,
-		"error":    errStr,
+	err = c.WriteJSON(ResponseJSON{
+		Response: value,
+		Error:    errStr,
 	})
+	if err != nil {
+		slog.Errorf("出错：%v", err)
+		close(doneChan)
+	}
 }
 
-// StartKeepAliveService is deprecated
-func StartKeepAliveService() {
-	if enableKeepAlive {
-		bleKeepAliveChan <- struct{}{}
-		go func(cn chan struct{}) {
-			slog.Debug("keepalive goroutine started！")
-			for {
-				select {
-				case <-cn:
-					continue
-				case <-time.After(time.Second * 10):
-					slog.Notice("10秒内未收到心跳包，程序退出！")
-					os.Exit(0)
-				}
-			}
-		}(bleKeepAliveChan)
+func HandlerReturnBinaryValue(value []byte, c *websocket.Conn) {
+	err := c.WriteMessage(websocket.BinaryMessage, value)
+	if err != nil {
+		slog.Errorf("出错：%v", err)
+		close(doneChan)
 	}
 }
 
 // StartRPC 使用JSONRPC规范
 func StartRPC(addr string) {
-	slog.Info("终止其他BLEPlugin进程...")
-	req := RequestJson{
-		Method: "TerminatePlugin",
-		Arg:    "",
+	c, _, err := websocket.DefaultDialer.Dial(addr, nil)
+	if err != nil {
+		slog.Fatalf("无法连接到服务器：%v", err)
+		return
 	}
-	data, _ := json.Marshal(&req)
-	_, _ = http.Post("http://127.0.0.1:8563/", "application/json", bytes.NewBuffer(data))
+	defer c.Close()
 	slog.Info("RPC服务启动！")
-	StartKeepAliveService()
-	gin.SetMode(gin.ReleaseMode)
-	gin.DefaultWriter = io.Discard
-	if verbose || vverbose {
-		gin.DefaultWriter = os.Stdout
-	}
-	r := gin.Default()
-	r.POST("/", func(c *gin.Context) {
-		bodyBytes, _ := io.ReadAll(c.Request.Body)
-		var requestData = RequestJson{}
-		if err := json.Unmarshal(bodyBytes, &requestData); err != nil {
-			slog.Errorf("出错：%s", err.Error())
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    err.Error(),
-			})
-			return
-		}
-		slog.Debug("Calling..." + requestData.Method)
-		switch requestData.Method {
-		case "GetBleAvailability":
-			result, err := GetBleAvailability()
-			HandlerReturnBoolValue(result, err, c)
-		case "ScanForShx":
-			result, err := ScanForShx()
-			HandlerReturnStringValue(result, err, c)
-		case "SetDevice":
-			seq, _ := strconv.Atoi(requestData.Arg)
-			SetDevice(seq)
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    "",
-			})
-		case "ConnectShxDevice":
-			result, err := ConnectShxDevice()
-			HandlerReturnBoolValue(result, err, c)
-		case "ConnectShxRwService":
-			result, err := ConnectShxRwService()
-			HandlerReturnBoolValue(result, err, c)
-		case "ConnectShxRwCharacteristic":
-			ctx, cancelFunc = context.WithCancel(context.Background())
-			result, err := ConnectShxRwCharacteristic()
-			HandlerReturnBoolValue(result, err, c)
-		case "ReadCachedData":
-			result := ReadCachedData()
-			bs64 := ""
-			if result != nil {
-				bs64 = base64.StdEncoding.EncodeToString(result)
+
+	go func() {
+		slog.Trace("RPC main 启动！")
+		defer close(doneChan)
+		for {
+			mt, data, err := c.ReadMessage()
+			if err != nil {
+				slog.Errorf("读取错误：%v", err)
+				return
 			}
-			HandlerReturnStringValue(bs64, nil, c)
-		case "WriteData":
-			var dec []byte
-			if requestData.Arg != "" {
-				dec, _ = base64.StdEncoding.DecodeString(requestData.Arg)
+			// 需写入的数据
+			if mt == websocket.BinaryMessage {
+				WriteData(data)
+				HandlerReturnBoolValue(true, nil, c)
+				continue
 			}
-			WriteData(dec)
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    "",
-			})
-		case "DisposeBluetooth":
-			DisposeBluetooth()
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    "",
-			})
-		case "KeepAlive":
-			bleKeepAliveChan <- struct{}{}
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    "",
-			})
-		case "TerminatePlugin":
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    "",
-			})
-			TerminatePlugin()
-		default:
-			c.JSON(http.StatusOK, gin.H{
-				"response": "",
-				"error":    "无效的调用",
-			})
+			var requestData = RequestJson{}
+			if err := json.Unmarshal(data, &requestData); err != nil {
+				slog.Errorf("出错：%s", err.Error())
+				return
+			}
+			slog.Debug("Calling..." + requestData.Method)
+			switch requestData.Method {
+			case "GetBleAvailability":
+				result, err := GetBleAvailability()
+				HandlerReturnBoolValue(result, err, c)
+			case "ScanForShx":
+				result, err := ScanForShx()
+				HandlerReturnStringValue(result, err, c)
+			case "SetDevice":
+				seq, _ := strconv.Atoi(requestData.Arg)
+				SetDevice(seq)
+				HandlerReturnStringValue("", nil, c)
+			case "ConnectShxDevice":
+				result, err := ConnectShxDevice()
+				HandlerReturnBoolValue(result, err, c)
+			case "ConnectShxRwService":
+				result, err := ConnectShxRwService()
+				HandlerReturnBoolValue(result, err, c)
+			case "ConnectShxRwCharacteristic":
+				ctx, cancelFunc = context.WithCancel(context.Background())
+				result, err := ConnectShxRwCharacteristic(c)
+				HandlerReturnBoolValue(result, err, c)
+			case "DisposeBluetooth":
+				DisposeBluetooth()
+				HandlerReturnStringValue("", nil, c)
+			case "TerminatePlugin":
+				HandlerReturnStringValue("", nil, c)
+				TerminatePlugin()
+			default:
+				HandlerReturnStringValue("调用无效", nil, c)
+			}
 		}
-	})
-	slog.Fatal(r.Run(addr))
+	}()
+	<-doneChan
+	slog.Info("RPC Client退出")
 }
 func main() {
 	var noColorOutput = false
@@ -360,10 +325,7 @@ func main() {
 		Long:  `BLE RPC Server - Connect shx8x00 and c#`,
 		Run: func(cmd *cobra.Command, args []string) {
 			logger.InitLog(verbose, vverbose, noColorOutput)
-			if noColorOutput {
-				gin.DisableConsoleColor()
-			}
-			StartRPC(fmt.Sprintf("%s:%d", rpcAddress, rpcPort))
+			StartRPC(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
 		},
 	}
 	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server listening port")
@@ -371,7 +333,6 @@ func main() {
 	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server listening address")
 	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
-	BaseCmd.PersistentFlags().BoolVar(&enableKeepAlive, "enable-keepalive", false, "DEPRECATE IN FUTURE VERSION - enable keepalive(process exit if no keepalive packet is received within 10s)")
 	cobra.MousetrapHelpText = ""
 	if err := BaseCmd.Execute(); err != nil {
 		fmt.Printf("程序无法启动: %v", err)

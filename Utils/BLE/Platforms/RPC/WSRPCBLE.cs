@@ -18,17 +18,19 @@ using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
-public class RPCSHXBLE : IBluetooth
+public class WSRPCBLE : IBluetooth
 {
-    private CancellationTokenSource source = new();
-
     private Process rpcServer;
 
     private bool manual;
 
-    public RPCSHXBLE(bool useManual)
+    private WSRPCUtil wsrpc ;
+
+    public WSRPCBLE(bool useManual)
     {
         manual = useManual;
+        wsrpc = WSRPCUtil.GetInstance();
+        wsrpc.StartWSRPC();
     }
 
     // See BLEPlugin.py
@@ -109,15 +111,17 @@ public class RPCSHXBLE : IBluetooth
                     return false;
                 }
                 DebugWindow.GetInstance().updateDebugContent("RPC Start!");
+                // 等待一秒
+                Thread.Sleep(1000);
             }
         }
-        return RPCUtil.GetBleAvailability();
+        return wsrpc.GetBleAvailability();
     }
 
     public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
         bool disableSSIDFilter)
     {
-        var result = RPCUtil.ScanForShx();
+        var result = wsrpc.ScanForShx();
         var pattern = @"(\\[^bfrnt\\/'\""])";
         result = Regex.Replace(result, pattern, "\\$1");
         List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
@@ -134,47 +138,46 @@ public class RPCSHXBLE : IBluetooth
 
     public void SetDevice(string seq)
     {
-        RPCUtil.SetDevice(seq);
+        wsrpc.SetDevice(seq);
     }
 
     public bool ConnectShxDeviceAsync()
     {
-        return RPCUtil.ConnectShxDevice();
+        return wsrpc.ConnectShxDevice();
     }
 
     public bool ConnectShxRwCharacteristicAsync()
     {
-        return RPCUtil.ConnectShxRwCharacteristic();
+        return wsrpc.ConnectShxRwCharacteristic();
     }
 
     public bool ConnectShxRwServiceAsync()
     {
-        return RPCUtil.ConnectShxRwService();
+        return wsrpc.ConnectShxRwService();
     }
 
     public void RegisterHid()
     {
         HidTools.GetInstance().WriteBle =  (value) =>
         {
-            RPCUtil.WriteData(value);
-        };;
-        Task.Run(() => UpdateRecvQueueHid(source.Token));
+            wsrpc.WriteData(value);
+        };
     }
 
     public void RegisterSerial()
     {
         MySerialPort.GetInstance().WriteBle = (value) =>
         {
-            RPCUtil.WriteData(value);
+            wsrpc.WriteData(value);
         };
-        Task.Run(() => UpdateRecvQueue(source.Token));
     }
 
     public void Dispose()
     {
         try
         {
-            RPCUtil.DisposeBluetooth();
+            wsrpc.DisposeBluetooth();
+            wsrpc.Shutdown();
             rpcServer?.CancelErrorRead();
             rpcServer?.CancelOutputRead();
         }
@@ -184,7 +187,6 @@ public class RPCSHXBLE : IBluetooth
         }
         try
         {
-            source.Cancel();
             rpcServer?.Kill();
             // rpcServer.WaitForExit();
             rpcServer = null;
@@ -202,37 +204,11 @@ public class RPCSHXBLE : IBluetooth
         throw new NotImplementedException();
     }
 
-    private void UpdateRecvQueue(CancellationToken token)
-    {
-        while (!token.IsCancellationRequested)
-        {
-            Thread.Sleep(100);
-            var result = RPCUtil.ReadCachedData();
-            if (result == null) continue;
-            foreach (var b in result)
-            {
-                var tmp = b;
-                MySerialPort.GetInstance().RxData.Enqueue(tmp);
-            }
-        }
-    }
-    private void UpdateRecvQueueHid(CancellationToken token)
-    {
-        while (!token.IsCancellationRequested)
-        {
-            var result = RPCUtil.ReadCachedData();
-            if (result == null) continue;
-            HidTools.GetInstance().RxBuffer = result;
-            HidTools.GetInstance().FlagReceiveData = true;
-            Thread.Sleep(100);
-        }
-    }
-
     private void SendKeepAlive(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            RPCUtil.KeepAlive();
+            wsrpc.KeepAlive();
             Thread.Sleep(9500);
         }
     }

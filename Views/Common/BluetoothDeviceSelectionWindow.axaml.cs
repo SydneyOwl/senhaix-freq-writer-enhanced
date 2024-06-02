@@ -17,6 +17,7 @@ using SenhaixFreqWriter.Constants.BLE;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
+using SenhaixFreqWriter.Utils.Other;
 
 #if WINDOWS
 using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
@@ -51,6 +52,8 @@ public partial class BluetoothDeviceSelectionWindow : Window
     private void ScanButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var dispStatus = manualRPC.IsChecked.Value;
+        osBLE?.Dispose();
+        osBLE = new WSRPCBLE(dispStatus);
         Dispatcher.UIThread.Invoke(() =>
         {
             scanButton.IsEnabled = false;
@@ -60,9 +63,6 @@ public partial class BluetoothDeviceSelectionWindow : Window
         {
             try
             {
-                osBLE?.Dispose();
-                osBLE = new RPCSHXBLE(dispStatus);
-
                 var checkRPC = false;
                 var checkDisableWeakSignalRestriction = false;
                 var checkDisableSSIDRestriction = false;
