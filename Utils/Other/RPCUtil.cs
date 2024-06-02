@@ -6,10 +6,6 @@ using SenhaixFreqWriter.Properties;
 
 namespace SenhaixFreqWriter.Utils.Other;
 
-public class RPCUtil
-{
-    
-
 // RPC PART
 // 没有想用的库其实
 // 参考了RPC 1.0规范
@@ -27,25 +23,23 @@ public class RPCResponse
 }
 
 public class ProxyClass
-{
+{ 
+    private static readonly HttpClient client = new HttpClient();
     public static string SendRPCRequest(string method, string arg)
     {
-        using (var client = new HttpClient()) // 创建HttpClient实例
+        var data = JsonConvert.SerializeObject(new RPCRequest
         {
-            var data = JsonConvert.SerializeObject(new RPCRequest
-            {
-                method = method,
-                arg = arg
-            });
-            var content =
-                new StringContent(data, Encoding.UTF8, "application/json");
-            var response = client.PostAsync(SETTINGS.RPC_URL, content).Result;
-            response.EnsureSuccessStatusCode(); // 确保响应状态码为200-399之间
-            var responseBody = response.Content.ReadAsStringAsync().Result;
-            var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
-            if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
-            return resp.response;
-        }
+            method = method,
+            arg = arg
+        });
+        var content =
+            new StringContent(data, Encoding.UTF8, "application/json");
+        var response = client.PostAsync(SETTINGS.RPC_URL, content).Result;
+        response.EnsureSuccessStatusCode(); // 确保响应状态码为200-399之间
+        var responseBody = response.Content.ReadAsStringAsync().Result;
+        var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
+        if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
+        return resp.response;
     }
 
     public static bool GetBleAvailability()
@@ -109,5 +103,4 @@ public class ProxyClass
     {
         SendRPCRequest("TerminatePlugin", "");
     }
-}
 }

@@ -111,13 +111,13 @@ public class RPCSHXBLE : IBluetooth
                 DebugWindow.GetInstance().updateDebugContent("RPC Start!");
             }
         }
-        return RPCUtil.ProxyClass.GetBleAvailability();
+        return ProxyClass.GetBleAvailability();
     }
 
     public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
         bool disableSSIDFilter)
     {
-        var result = RPCUtil.ProxyClass.ScanForShx();
+        var result = ProxyClass.ScanForShx();
         var pattern = @"(\\[^bfrnt\\/'\""])";
         result = Regex.Replace(result, pattern, "\\$1");
         List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
@@ -134,29 +134,29 @@ public class RPCSHXBLE : IBluetooth
 
     public void SetDevice(string seq)
     {
-        RPCUtil.ProxyClass.SetDevice(seq);
+        ProxyClass.SetDevice(seq);
     }
 
     public bool ConnectShxDeviceAsync()
     {
-        return RPCUtil.ProxyClass.ConnectShxDevice();
+        return ProxyClass.ConnectShxDevice();
     }
 
     public bool ConnectShxRwCharacteristicAsync()
     {
-        return RPCUtil.ProxyClass.ConnectShxRwCharacteristic();
+        return ProxyClass.ConnectShxRwCharacteristic();
     }
 
     public bool ConnectShxRwServiceAsync()
     {
-        return RPCUtil.ProxyClass.ConnectShxRwService();
+        return ProxyClass.ConnectShxRwService();
     }
 
     public void RegisterHid()
     {
         HidTools.GetInstance().WriteBle =  (value) =>
         {
-            RPCUtil.ProxyClass.WriteData(value);
+            ProxyClass.WriteData(value);
         };;
         Task.Run(() => UpdateRecvQueueHid(source.Token));
     }
@@ -165,7 +165,7 @@ public class RPCSHXBLE : IBluetooth
     {
         MySerialPort.GetInstance().WriteBle = (value) =>
         {
-            RPCUtil.ProxyClass.WriteData(value);
+            ProxyClass.WriteData(value);
         };
         Task.Run(() => UpdateRecvQueue(source.Token));
     }
@@ -174,7 +174,7 @@ public class RPCSHXBLE : IBluetooth
     {
         try
         {
-            RPCUtil.ProxyClass.DisposeBluetooth();
+            ProxyClass.DisposeBluetooth();
             rpcServer?.CancelErrorRead();
             rpcServer?.CancelOutputRead();
         }
@@ -207,7 +207,7 @@ public class RPCSHXBLE : IBluetooth
         while (!token.IsCancellationRequested)
         {
             Thread.Sleep(100);
-            var result = RPCUtil.ProxyClass.ReadCachedData();
+            var result = ProxyClass.ReadCachedData();
             if (result == null) continue;
             foreach (var b in result)
             {
@@ -220,7 +220,7 @@ public class RPCSHXBLE : IBluetooth
     {
         while (!token.IsCancellationRequested)
         {
-            var result = RPCUtil.ProxyClass.ReadCachedData();
+            var result = ProxyClass.ReadCachedData();
             if (result == null) continue;
             HidTools.GetInstance().RxBuffer = result;
             HidTools.GetInstance().FlagReceiveData = true;
@@ -232,7 +232,7 @@ public class RPCSHXBLE : IBluetooth
     {
         while (!token.IsCancellationRequested)
         {
-            RPCUtil.ProxyClass.KeepAlive();
+            ProxyClass.KeepAlive();
             Thread.Sleep(9500);
         }
     }

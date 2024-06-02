@@ -118,6 +118,8 @@ public partial class ProgressBarWindow : Window
 
         Dispatcher.UIThread.Post(() => HandleWfResult(flag));
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: WriFreq8800");
+        DebugWindow.GetInstance().updateDebugContent($"Disposing bluetooth..");
+        MySerialPort.GetInstance().WriteBle = null;
     }
 
     private void Task_GetProgress(CancellationToken cancellationToken)
