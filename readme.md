@@ -11,7 +11,7 @@
     及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**
     ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
     下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
-> + 开启“全局调试”功能将降低写频速度，如无需要请勿开启！
+> + “全局调试”功能仅用于开发使用，可能降低写频速度，如无需要建议不要开启！
 
 ## 简介
 
@@ -31,9 +31,9 @@
 
 ### 运行平台
 
-| -         | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）                                               | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
-|-----------|------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu（只试过这个） 16.04, 18.04, 20.04+ / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
+| -                | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------- |
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu 16.04, 18.04, 20.04+ 或其他Linux发行版 / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上             |
 
 [^1]: Windows 7 SP1 is supported
 with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
@@ -89,7 +89,7 @@ Flags:
 
 #### 图片
 
-##### V0.2.2后
+##### v0.2.2后
 
 ![](./readme_image/macos.jpg)
 
@@ -97,7 +97,9 @@ Flags:
 
 ![](./readme_image/BootImg.png)
 
-##### V0.2.2前
+---
+
+##### v0.2.2前
 
 <img src="./readme_image/dep-ble.png" style="zoom:75%;" />
 
@@ -115,7 +117,29 @@ Flags:
 
 ## 开发指引
 
-您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
++ 您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
+
++ 您可以自行修改SETTINGS.cs中的内容，手动启用不稳定的功能：
+
+  ```csharp
+  // 禁止在调试读写频时输出传输的数据
+  public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
+  // 卫星数据默认目录
+  public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+      ? $"/Users/{Environment.UserName}/Library/Containers/com.sydneyowl/Data"
+      : ".";
+  // RPC插件默认开启的服务地址
+  public const string RPC_URL = "http://127.0.0.1:8563/";
+  // 各操作系统版本的插件名称
+  public static string WINDOWS_BLE_PLUGIN_NAME = "BLEPlugin_windows_x64.exe";
+  
+  public static string OSX_BLE_PLUGIN_NAME = "BLEPlugin_macos_x64";
+  
+  public static string LINUX_BLE_PLUGIN_NAME = "BLEPlugin_linux_x64";
+  
+  // RPC服务端的启动参数，可用--help查看；输出仅在开启调试功能时能看到！
+  public static string RPC_SERVER_PROCESS_ARGS = "--verbose --no-color";
+  ```
 
 ## FAQ
 

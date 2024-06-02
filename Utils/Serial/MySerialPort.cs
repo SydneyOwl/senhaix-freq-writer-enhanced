@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading.Tasks;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.Serial;
@@ -19,9 +20,12 @@ public class MySerialPort : SerialPort
 
     public int BtDeviceMtu { get; set; } = 23;
 
-    private void UpdateDebugInfo(string a)
+    private void UpdateChanDebugInfo(string a)
     {
-        DebugWindow.GetInstance().updateDebugContent(a);
+        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT)
+        {
+            DebugWindow.GetInstance().updateDebugContent(a);
+        }
     }
 
     public int BytesToReadFromCache
@@ -61,12 +65,12 @@ public class MySerialPort : SerialPort
     {
         if (WriteBle == null)
         {
-            UpdateDebugInfo($"发送数据（长度1，使用串口）：{buffer}");
+            UpdateChanDebugInfo($"发送数据（长度1，使用串口）：{buffer}");
             Write(new byte[1] { buffer }, 0, 1);
         }
         else
         {
-            UpdateDebugInfo($"发送数据（长度1，使用蓝牙）：{buffer}"); 
+            UpdateChanDebugInfo($"发送数据（长度1，使用蓝牙）：{buffer}"); 
             WriteBle(new byte[1] { buffer });
         }
     }
@@ -75,7 +79,7 @@ public class MySerialPort : SerialPort
     {
         if (WriteBle == null)
         {
-            UpdateDebugInfo($"发送数据（长度{buffer.Length}，使用串口）：{BitConverter.ToString(buffer)}");
+            UpdateChanDebugInfo($"发送数据（长度{buffer.Length}，使用串口）：{BitConverter.ToString(buffer)}");
             Write(buffer, offset, count);
         }
         else
@@ -91,13 +95,13 @@ public class MySerialPort : SerialPort
                 {
                     var tmpData = tobeWrite.Skip(tmp)
                         .Take(tobeWrite.Length - sendTimes * singleSize).ToArray();
-                    UpdateDebugInfo($"发送数据（长度{tmpData.Length}，使用蓝牙）：{BitConverter.ToString(tmpData)}");
+                    UpdateChanDebugInfo($"发送数据（长度{tmpData.Length}，使用蓝牙）：{BitConverter.ToString(tmpData)}");
                     WriteBle(tmpData);
                     break;
                 }
 
                 var tmpData1 = tobeWrite.Skip(tmp).Take(singleSize).ToArray();
-                UpdateDebugInfo($"发送数据（长度{tmpData1.Length}，使用蓝牙）：{BitConverter.ToString(tmpData1)}");
+                UpdateChanDebugInfo($"发送数据（长度{tmpData1.Length}，使用蓝牙）：{BitConverter.ToString(tmpData1)}");
                 WriteBle(tmpData1);
                 tmp += singleSize;
             }
@@ -110,14 +114,14 @@ public class MySerialPort : SerialPort
     {
         if (WriteBle == null)
         {
-            UpdateDebugInfo($"收到数据（串口，长度{buffer.Length}）：{BitConverter.ToString(buffer)}");
+            UpdateChanDebugInfo($"收到数据（串口，长度{buffer.Length}）：{BitConverter.ToString(buffer)}");
             Read(buffer, offset, count);
         }
         else
         {
             var tmp = new byte[count];
             for (var z = 0; z < count; z++) tmp[z] = _rxData.Dequeue();
-            UpdateDebugInfo($"收到数据（蓝牙，长度{tmp.Length}）：{BitConverter.ToString(tmp)}");
+            UpdateChanDebugInfo($"收到数据（蓝牙，长度{tmp.Length}）：{BitConverter.ToString(tmp)}");
             tmp.CopyTo(buffer, 0);
         }
     }

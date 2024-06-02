@@ -25,8 +25,6 @@ public partial class ProgressBarWindow : Window
 
     private HidCommunication _com;
 
-    private bool _stopUpdateValue = false;
-
     private bool _opRes;
 
     private CancellationTokenSource _cancelSource;
@@ -40,7 +38,6 @@ public partial class ProgressBarWindow : Window
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        _stopUpdateValue = false;
         if (!_opRes && !HidTools.GetInstance().IsDeviceConnected && HidTools.GetInstance().WriteBle == null)
         {
             await MessageBoxManager.GetMessageBoxStandard("注意", "请连接写频线！").ShowWindowDialogAsync(this);
@@ -67,7 +64,16 @@ public partial class ProgressBarWindow : Window
     private void Task_Communication(CancellationToken token)
     {
         DebugWindow.GetInstance().updateDebugContent($"Start WriFreq Thread: StartWriteGt12");
-        var flag = _com.DoIt(token);
+        var flag = false;
+        try
+        {
+            flag = _com.DoIt(token);
+        }
+        catch (Exception a)
+        {
+            DebugWindow.GetInstance().updateDebugContent(a.Message);
+            // Console.Write(a);
+        }
         // DebugWindow.GetInstance().updateDebugContent("We've done write!");
         Dispatcher.UIThread.Invoke(() => HandleResult(flag));
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: StartWriteGt12");
@@ -76,7 +82,7 @@ public partial class ProgressBarWindow : Window
     private void Task_Progress(CancellationToken token)
     {
         DebugWindow.GetInstance().updateDebugContent($"Start GetProcess Thread: GetProcessGt12");
-        while (!_stopUpdateValue && !token.IsCancellationRequested)
+        while (!token.IsCancellationRequested)
         {
             // Thread.Sleep(10);
             ProgressBarValue pgv;
@@ -90,6 +96,14 @@ public partial class ProgressBarWindow : Window
 
     private void HandleResult(bool result)
     {
+        try
+        {
+            _cancelSource.Cancel();
+        }
+        catch
+        {
+            // ignored
+        }
         if (result)
         {
             statusLabel.Content = "完成！";
@@ -111,16 +125,6 @@ public partial class ProgressBarWindow : Window
         {
             StartButton.Content = "重试";
             CloseButton.IsEnabled = true;
-        }
-
-        _stopUpdateValue = true;
-        try
-        {
-            _cancelSource.Cancel();
-        }
-        catch
-        {
-            // ignored
         }
     }
 

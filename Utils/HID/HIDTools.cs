@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HidSharp;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.HID;
@@ -47,9 +48,12 @@ public class HidTools
 
     private Mutex _mutexSend = new();
 
-    private void UpdateDebugInfo(string a)
+    private void UpdateChanDebugInfo(string a)
     {
-        DebugWindow.GetInstance().updateDebugContent(a);
+        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT)
+        {
+            DebugWindow.GetInstance().updateDebugContent(a);
+        }
     }
 
     public static bool IsShxGt12HidExist()
@@ -135,6 +139,7 @@ public class HidTools
         InputReportLength = Gt12Device.GetMaxInputReportLength();
         if (Gt12Device.TryOpen(out HidStream))
         {
+            HidStream.WriteTimeout = 5000;
             HidStream.ReadTimeout = Timeout.Infinite;
             // Loop reading...
             BeginAsyncRead();
@@ -164,7 +169,7 @@ public class HidTools
             var e = new Report(array[0], array);
             var array1 = new byte[64];
             Array.Copy(e.ReportBuff, 0, array1, 0, 64);
-            UpdateDebugInfo($"收到数据（长度{array1.Length}）：{BitConverter.ToString(array1)}");
+            UpdateChanDebugInfo($"收到数据（长度{array1.Length}）：{BitConverter.ToString(array1)}");
             RxBuffer = array1;
             // DebugWindow.GetInstance().updateDebugContent(BitConverter.ToString(rxBuffer));
             FlagReceiveData = true;
@@ -270,7 +275,7 @@ public class HidTools
     {
         var array = new byte[byData.Length];
         Array.Copy(byData, 0, array, 0, byData.Length);
-        UpdateDebugInfo($"发送数据（长度{array.Length}，蓝牙状态{WriteBle != null}）：{BitConverter.ToString(array)}");
+        UpdateChanDebugInfo($"发送数据（长度{array.Length}，蓝牙状态{WriteBle != null}）：{BitConverter.ToString(array)}");
         if (Write(new Report(1, array)) != HidStatus.Success) return false;
         return true;
     }

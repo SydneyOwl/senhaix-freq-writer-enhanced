@@ -6,7 +6,10 @@ namespace SenhaixFreqWriter.Properties;
 
 public static class SETTINGS
 {
-    public static bool DEBUG_ENABLED;
+    public static bool DEBUG_ENABLED = false;
+
+    // 禁止在调试读写频时输出传输的数据
+    public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
 
     public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
         ? $"/Users/{Environment.UserName}/Library/Containers/com.sydneyowl/Data"
