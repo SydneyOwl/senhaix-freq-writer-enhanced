@@ -20,20 +20,16 @@ public class WSRPCUtil
 
     public static WSRPCUtil GetInstance()
     {
-        if (instance == null)
-        {
-            instance = new WSRPCUtil();
-        }
+        if (instance == null) instance = new WSRPCUtil();
 
         return instance;
     }
+
     public WSRPCUtil()
     {
-        FleckLog.LogAction = (level, message, ex) => {
-            if (level > LogLevel.Info)
-            {
-                DebugWindow.GetInstance().updateDebugContent(message);
-            }
+        FleckLog.LogAction = (level, message, ex) =>
+        {
+            if (level > LogLevel.Info) DebugWindow.GetInstance().updateDebugContent(message);
         };
         // StartWSRPC();
     }
@@ -46,34 +42,24 @@ public class WSRPCUtil
             arg = arg
         });
         var exc = currentClient.Send(data).Exception;
-        if ( exc!= null)
-        {
-            throw exc;
-        }
-        while (NormalDataQueue.Count==0)
-        {
-            Thread.Sleep(10);
-        }
+        if (exc != null) throw exc;
+        while (NormalDataQueue.Count == 0) Thread.Sleep(10);
         var responseBody = NormalDataQueue.Dequeue();
         var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
         if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
         return resp.response;
     }
+
     private void SendRPCRequest(byte[] arg)
     {
         var exc = currentClient.Send(arg).Exception;
-        if ( exc!= null)
-        {
-            throw exc;
-        }
-        while (NormalDataQueue.Count==0)
-        {
-            Thread.Sleep(10);
-        }
+        if (exc != null) throw exc;
+        while (NormalDataQueue.Count == 0) Thread.Sleep(10);
         var responseBody = NormalDataQueue.Dequeue();
         var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
         if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
     }
+
     public void StartWSRPC()
     {
         // wsServer?.Dispose();
@@ -129,7 +115,7 @@ public class WSRPCUtil
                     DebugWindow.GetInstance().updateDebugContent($"客户端已连接:{socket.ConnectionInfo.Id}");
                 };
             });
-            
+
             DebugWindow.GetInstance().updateDebugContent("ws已启动！");
         }
         catch (Exception b)
@@ -138,7 +124,7 @@ public class WSRPCUtil
         }
     }
 
-    public  bool GetBleAvailability()
+    public bool GetBleAvailability()
     {
         var resp = SendRPCRequest("GetBleAvailability", "");
         return resp == "True";
@@ -150,7 +136,7 @@ public class WSRPCUtil
         return resp;
     }
 
-    public  void SetDevice(string seq)
+    public void SetDevice(string seq)
     {
         SendRPCRequest("SetDevice", seq);
     }

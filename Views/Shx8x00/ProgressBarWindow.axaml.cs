@@ -51,6 +51,7 @@ public partial class ProgressBarWindow : Window
             {
                 //
             }
+
             Dispatcher.UIThread.Invoke(() => CloseButton.IsEnabled = false);
             if ((_threadWf != null || _threadProgress != null) && _status == OperationType.Read)
             {
@@ -59,6 +60,7 @@ public partial class ProgressBarWindow : Window
                 _threadProgress.Join();
                 Dispatcher.UIThread.Invoke(() => ClassTheRadioData.GetInstance().ForceNewChannel());
             }
+
             Dispatcher.UIThread.Invoke(Close);
         });
     }

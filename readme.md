@@ -31,9 +31,9 @@
 
 ### 运行平台
 
-| -                | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------- |
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu 16.04, 18.04, 20.04+ 或其他Linux发行版 / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上             |
+| -         | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）                                                    | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
+|-----------|-----------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
+| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu 16.04, 18.04, 20.04+ 或其他Linux发行版 / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
 
 [^1]: Windows 7 SP1 is supported
 with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
@@ -43,14 +43,14 @@ installed.
 
 ### 支持的功能
 
-| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-| ------------------------------------ |------------------------------------------------| --------------------------------------- | ---------------------------- |
-| 原有的所有功能                       | :white_check_mark:                             | :white_check_mark:                      | :white_check_mark:           |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:                      | :white_check_mark:           |
-| 蓝牙写频（试验性）                   | 仅8800[^5]                                    | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
-| （以下为支持的插件）                 |                                                |                                         |                              |
-| 开机画面修改                         | :white_check_mark:                             | :white_check_mark:                      | :heavy_minus_sign:           |
-| 打星助手                             | :white_check_mark:                             | :white_check_mark:                      | :white_check_mark:           |
+| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+|--------------------|------------------------------------------------|------------------------------|-----------------------|
+| 原有的所有功能            | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| 蓝牙写频（试验性）          | 仅8800[^5]                                      | 仅8800、仅蓝牙版支持                 | :heavy_minus_sign:    |
+| （以下为支持的插件）         |                                                |                              |                       |
+| 开机画面修改             | :white_check_mark:                             | :white_check_mark:           | :heavy_minus_sign:    |
+| 打星助手               | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
 
 [^4]:该版本自带runtime，无需额外安装
 
@@ -65,8 +65,10 @@ installed.
 + linux和mac端需要使用`rpc server`写频，同样直接写频即可。
 
 注意：若有**调试需要**，需要手动编译或勾选了“手动控制RPC”，具体操作如下：
-  1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
-  2. 直接双击打开编译产物，或者使用命令行指定参数：
+
+1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
+2. 直接双击打开编译产物，或者使用命令行指定参数：
+
   ```bash
 
 BLE RPC Server - Connect shx8x00 and c#
@@ -84,8 +86,9 @@ Flags:
       --vverbose           Print Debug/Trace Level logs
 
   ```
-  3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
-  4. 正常读写频即可
+
+3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
+4. 正常读写频即可
 
 #### 图片
 

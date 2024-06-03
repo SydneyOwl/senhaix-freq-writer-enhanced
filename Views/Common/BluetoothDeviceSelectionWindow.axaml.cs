@@ -97,7 +97,6 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 var result = osBLE.ScanForShxAsync(checkDisableWeakSignalRestriction, checkDisableSSIDRestriction);
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    
 #if WINDOWS
                     if (result.Count == 0)
                     {
@@ -230,9 +229,12 @@ public partial class BluetoothDeviceSelectionWindow : Window
 
     private void WindowsHint_OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        try{
+        try
+        {
             Process.Start("control", "bthprops.cpl");
-        }catch{
+        }
+        catch
+        {
             //
         }
     }

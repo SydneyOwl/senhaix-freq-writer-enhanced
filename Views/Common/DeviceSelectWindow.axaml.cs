@@ -33,14 +33,14 @@ public partial class DeviceSelectWindow : Window
         }
 
         if (SETTINGS.DEBUG_ENABLED) DebugWindow.GetNewInstance().Show();
-        
+
         switch (DeviceChooseComboBox.SelectedIndex)
         {
             case 0:
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("H");
-        
+
                 OptionalChoice.TxPwr.Clear();
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("低功率");
@@ -56,7 +56,7 @@ public partial class DeviceSelectWindow : Window
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("M");
                 ChanChoice.TxPwr.Add("H");
-        
+
                 OptionalChoice.TxPwr.Clear();
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("中功率");
@@ -68,6 +68,7 @@ public partial class DeviceSelectWindow : Window
                 new Shx8x00.MainWindow().Show();
                 break;
         }
+
         WSRPCUtil.GetInstance().StartWSRPC();
         Close();
     }

@@ -22,10 +22,7 @@ public class MySerialPort : SerialPort
 
     private void UpdateChanDebugInfo(string a)
     {
-        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT)
-        {
-            DebugWindow.GetInstance().updateDebugContent(a);
-        }
+        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
     }
 
     public int BytesToReadFromCache
@@ -70,7 +67,7 @@ public class MySerialPort : SerialPort
         }
         else
         {
-            UpdateChanDebugInfo($"发送数据（长度1，使用蓝牙）：{buffer}"); 
+            UpdateChanDebugInfo($"发送数据（长度1，使用蓝牙）：{buffer}");
             WriteBle(new byte[1] { buffer });
         }
     }

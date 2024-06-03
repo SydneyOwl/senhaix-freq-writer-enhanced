@@ -39,7 +39,7 @@ public class ChanChoice
         "Yes",
         "No"
     };
-    
+
     public static ObservableCollection<string> TxPwr_NewShx8600 = new()
     {
         "L",

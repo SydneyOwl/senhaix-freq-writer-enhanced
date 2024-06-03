@@ -74,6 +74,7 @@ public partial class ProgressBarWindow : Window
             DebugWindow.GetInstance().updateDebugContent(a.Message);
             // Console.Write(a);
         }
+
         // DebugWindow.GetInstance().updateDebugContent("We've done write!");
         Dispatcher.UIThread.Invoke(() => HandleResult(flag));
         DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: StartWriteGt12");
@@ -104,6 +105,7 @@ public partial class ProgressBarWindow : Window
         {
             // ignored
         }
+
         if (result)
         {
             statusLabel.Content = "完成！";
@@ -140,6 +142,7 @@ public partial class ProgressBarWindow : Window
             {
                 //ignored
             }
+
             Dispatcher.UIThread.Invoke(() => CloseButton.IsEnabled = false);
             if ((_threadProgress != null || _threadCommunication != null) && _operation == OpType.Read)
             {
@@ -148,8 +151,8 @@ public partial class ProgressBarWindow : Window
                 _threadCommunication.Join();
                 Dispatcher.UIThread.Invoke(() => AppData.ForceNewInstance());
             }
+
             Dispatcher.UIThread.Invoke(Close);
         });
-
     }
 }

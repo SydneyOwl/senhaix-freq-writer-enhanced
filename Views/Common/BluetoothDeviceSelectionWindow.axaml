@@ -10,7 +10,7 @@
     <Canvas Background="{DynamicResource dgvBackgroundBrush}">
         <Label Name="windowsHint" IsVisible="False"
                Margin="10" PointerPressed="WindowsHint_OnPointerPressed"
-               Content="Hint：如果在windows下始终找不到目标设备，不妨试着点我重启一下蓝牙~"></Label>
+               Content="Hint：如果在windows下始终找不到目标设备，不妨试着点我重启一下蓝牙~" />
         <DataGrid Name="btdevice"
                   GridLinesVisibility="All"
                   Width="550"
@@ -36,7 +36,7 @@
         <CheckBox Content="禁用ssid过滤" Canvas.Right="67" Canvas.Top="100" Name="disableSSIDF" />
         <CheckBox Content="RPC调用" Canvas.Right="94" Canvas.Top="140" Name="useRPC"
                   IsCheckedChanged="UseRPC_OnIsCheckedChanged" />
-        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="180" Name="manualRPC" IsEnabled="False"/>
+        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="180" Name="manualRPC" IsEnabled="False" />
         <progRing:ProgressRing Width="25"
                                Height="25"
                                IsActive="False"

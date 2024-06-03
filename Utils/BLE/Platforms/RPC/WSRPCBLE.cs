@@ -24,7 +24,7 @@ public class WSRPCBLE : IBluetooth
 
     private bool manual;
 
-    private WSRPCUtil wsrpc ;
+    private WSRPCUtil wsrpc;
 
     public WSRPCBLE(bool useManual)
     {
@@ -41,25 +41,27 @@ public class WSRPCBLE : IBluetooth
             var filePath = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.WINDOWS_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.WINDOWS_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
             }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.LINUX_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.LINUX_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
             }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.OSX_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.OSX_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
@@ -72,6 +74,7 @@ public class WSRPCBLE : IBluetooth
                     }
                 }
             }
+
             if (rpcClient == null || rpcClient.HasExited)
             {
                 rpcClient = new Process
@@ -79,11 +82,11 @@ public class WSRPCBLE : IBluetooth
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = filePath,
-                        Arguments =  SETTINGS.RPC_CLIENT_PROCESS_ARGS,
+                        Arguments = SETTINGS.RPC_CLIENT_PROCESS_ARGS,
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardError = true,
-                        RedirectStandardOutput = true,
+                        RedirectStandardOutput = true
                     }
                 };
                 rpcClient.OutputDataReceived += (sender, args) =>
@@ -96,25 +99,24 @@ public class WSRPCBLE : IBluetooth
                 };
                 try
                 {
-                    if (!rpcClient.Start())
-                    {
-                        return false;
-                    }
+                    if (!rpcClient.Start()) return false;
                     rpcClient.BeginOutputReadLine();
                     rpcClient.BeginErrorReadLine();
                     //Send keepalive packets
                     // Task.Run(()=>SendKeepAlive(source.Token));
                 }
-                catch(Exception b)
+                catch (Exception b)
                 {
                     DebugWindow.GetInstance().updateDebugContent(b.Message);
                     return false;
                 }
+
                 DebugWindow.GetInstance().updateDebugContent("RPC Start!");
                 // 等待一秒
                 Thread.Sleep(1000);
             }
         }
+
         return wsrpc.GetBleAvailability();
     }
 
@@ -158,18 +160,12 @@ public class WSRPCBLE : IBluetooth
 
     public void RegisterHid()
     {
-        HidTools.GetInstance().WriteBle =  (value) =>
-        {
-            wsrpc.WriteData(value);
-        };
+        HidTools.GetInstance().WriteBle = (value) => { wsrpc.WriteData(value); };
     }
 
     public void RegisterSerial()
     {
-        MySerialPort.GetInstance().WriteBle = (value) =>
-        {
-            wsrpc.WriteData(value);
-        };
+        MySerialPort.GetInstance().WriteBle = (value) => { wsrpc.WriteData(value); };
     }
 
     public void Dispose()
@@ -185,6 +181,7 @@ public class WSRPCBLE : IBluetooth
         {
             // ignored
         }
+
         try
         {
             rpcClient?.Kill();
@@ -196,6 +193,7 @@ public class WSRPCBLE : IBluetooth
         {
             // ignore
         }
+
         MySerialPort.GetInstance().WriteBle = null;
     }
 

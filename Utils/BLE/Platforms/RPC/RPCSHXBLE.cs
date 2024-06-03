@@ -25,7 +25,7 @@ public class RPCSHXBLE : IBluetooth
     private Process rpcServer;
 
     private bool manual;
-    
+
     public RPCSHXBLE(bool useManual)
     {
         manual = useManual;
@@ -39,25 +39,27 @@ public class RPCSHXBLE : IBluetooth
             var filePath = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.WINDOWS_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.WINDOWS_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
             }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.LINUX_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.LINUX_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
             }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = Path.Join(AppContext.BaseDirectory,SETTINGS.OSX_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.OSX_BLE_PLUGIN_NAME);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
@@ -70,6 +72,7 @@ public class RPCSHXBLE : IBluetooth
                     }
                 }
             }
+
             if (rpcServer == null || rpcServer.HasExited)
             {
                 rpcServer = new Process
@@ -77,11 +80,11 @@ public class RPCSHXBLE : IBluetooth
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = filePath,
-                        Arguments =  SETTINGS.RPC_CLIENT_PROCESS_ARGS,
+                        Arguments = SETTINGS.RPC_CLIENT_PROCESS_ARGS,
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardError = true,
-                        RedirectStandardOutput = true,
+                        RedirectStandardOutput = true
                     }
                 };
                 rpcServer.OutputDataReceived += (sender, args) =>
@@ -94,23 +97,22 @@ public class RPCSHXBLE : IBluetooth
                 };
                 try
                 {
-                    if (!rpcServer.Start())
-                    {
-                        return false;
-                    }
+                    if (!rpcServer.Start()) return false;
                     rpcServer.BeginOutputReadLine();
                     rpcServer.BeginErrorReadLine();
                     //Send keepalive packets
                     // Task.Run(()=>SendKeepAlive(source.Token));
                 }
-                catch(Exception b)
+                catch (Exception b)
                 {
                     DebugWindow.GetInstance().updateDebugContent(b.Message);
                     return false;
                 }
+
                 DebugWindow.GetInstance().updateDebugContent("RPC Start!");
             }
         }
+
         return RPCUtil.GetBleAvailability();
     }
 
@@ -154,19 +156,14 @@ public class RPCSHXBLE : IBluetooth
 
     public void RegisterHid()
     {
-        HidTools.GetInstance().WriteBle =  (value) =>
-        {
-            RPCUtil.WriteData(value);
-        };;
+        HidTools.GetInstance().WriteBle = (value) => { RPCUtil.WriteData(value); };
+        ;
         Task.Run(() => UpdateRecvQueueHid(source.Token));
     }
 
     public void RegisterSerial()
     {
-        MySerialPort.GetInstance().WriteBle = (value) =>
-        {
-            RPCUtil.WriteData(value);
-        };
+        MySerialPort.GetInstance().WriteBle = (value) => { RPCUtil.WriteData(value); };
         Task.Run(() => UpdateRecvQueue(source.Token));
     }
 
@@ -182,6 +179,7 @@ public class RPCSHXBLE : IBluetooth
         {
             // ignored
         }
+
         try
         {
             source.Cancel();
@@ -194,6 +192,7 @@ public class RPCSHXBLE : IBluetooth
         {
             // ignore
         }
+
         MySerialPort.GetInstance().WriteBle = null;
     }
 
@@ -216,6 +215,7 @@ public class RPCSHXBLE : IBluetooth
             }
         }
     }
+
     private void UpdateRecvQueueHid(CancellationToken token)
     {
         while (!token.IsCancellationRequested)

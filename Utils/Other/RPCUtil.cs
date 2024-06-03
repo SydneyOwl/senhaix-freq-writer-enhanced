@@ -23,8 +23,9 @@ public class RPCResponse
 }
 
 public class RPCUtil
-{ 
-    private static readonly HttpClient client = new HttpClient();
+{
+    private static readonly HttpClient client = new();
+
     public static string SendRPCRequest(string method, string arg)
     {
         var data = JsonConvert.SerializeObject(new RPCRequest

@@ -46,8 +46,7 @@ public partial class MainWindow : Window
         }
     }
 
-    
-    
+
     public MainWindow()
     {
         InitializeComponent();
@@ -80,16 +79,16 @@ public partial class MainWindow : Window
         ChanChoice.TxPwr.Clear();
         ChanChoice.TxPwr.Add("L");
         ChanChoice.TxPwr.Add("H");
-        
+
         OptionalChoice.TxPwr.Clear();
         OptionalChoice.TxPwr.Add("高功率");
         OptionalChoice.TxPwr.Add("低功率");
-        
+
         DataContext = this;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
     }
-    
+
     //专为新版8600定制！其实只有发射功率变了
     public void NewShx8600MainWindow()
     {

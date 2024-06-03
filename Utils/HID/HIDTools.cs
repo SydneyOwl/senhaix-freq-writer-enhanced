@@ -50,10 +50,7 @@ public class HidTools
 
     private void UpdateChanDebugInfo(string a)
     {
-        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT)
-        {
-            DebugWindow.GetInstance().updateDebugContent(a);
-        }
+        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
     }
 
     public static bool IsShxGt12HidExist()
