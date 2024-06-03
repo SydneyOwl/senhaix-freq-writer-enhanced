@@ -14,10 +14,10 @@ public class ClassTheRadioData
 {
     [JsonIgnore] public static ClassTheRadioData Instance;
 
-    [JsonIgnore] public ObservableCollection<ChannelData> ChanData = new();
+    [JsonIgnore] public ObservableCollection<ChannelData> ObsChanData = new();
 
     //TODO 无法直接反序列化到chanData, 只能这样一下
-    public List<ChannelData> Channeldata = new();
+    public List<ChannelData> ChanneldataList = new();
 
     public DtmfData DtmfData = new();
 
@@ -31,7 +31,7 @@ public class ClassTheRadioData
         {
             var data = new ChannelData();
             data.ChanNum = i.ToString();
-            ChanData.Add(data);
+            ObsChanData.Add(data);
         }
     }
 
@@ -41,7 +41,7 @@ public class ClassTheRadioData
         serializer.Formatting = Formatting.Indented;
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
-            Instance.Channeldata = Instance.ChanData.ToList();
+            Instance.ChanneldataList = Instance.ObsChanData.ToList();
             serializer.Serialize(streamWriter, Instance);
         }
     }
@@ -61,11 +61,11 @@ public class ClassTheRadioData
                 Instance.FunCfgData = tmp.FunCfgData;
                 Instance.DtmfData = tmp.DtmfData;
                 Instance.OtherImfData = tmp.OtherImfData;
-                Instance.ChanData.Clear();
-                foreach (var cd in tmp.Channeldata)
+                Instance.ObsChanData.Clear();
+                foreach (var cd in tmp.ChanneldataList)
                 {
                     if (!cd.AllEmpty()) cd.IsVisable = true;
-                    Instance.ChanData.Add(cd);
+                    Instance.ObsChanData.Add(cd);
                 }
             }
             catch
@@ -85,13 +85,13 @@ public class ClassTheRadioData
 
     public void ForceNewChannel()
     {
-        Instance.ChanData.Clear();
+        Instance.ObsChanData.Clear();
         for (var i = 0; i < 128; i++)
         {
             var chan = new ChannelData();
             chan.ChanNum = i.ToString();
             chan.IsVisable = false;
-            Instance.ChanData.Add(chan);
+            Instance.ObsChanData.Add(chan);
         }
     }
 }

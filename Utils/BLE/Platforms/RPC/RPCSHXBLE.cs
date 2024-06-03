@@ -25,7 +25,7 @@ public class RPCSHXBLE : IBluetooth
     private Process rpcServer;
 
     private bool manual;
-
+    
     public RPCSHXBLE(bool useManual)
     {
         manual = useManual;
@@ -77,7 +77,7 @@ public class RPCSHXBLE : IBluetooth
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = filePath,
-                        Arguments =  SETTINGS.RPC_SERVER_PROCESS_ARGS,
+                        Arguments =  SETTINGS.RPC_CLIENT_PROCESS_ARGS,
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardError = true,

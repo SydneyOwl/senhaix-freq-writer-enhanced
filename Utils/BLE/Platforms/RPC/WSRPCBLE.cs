@@ -20,7 +20,7 @@ namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
 public class WSRPCBLE : IBluetooth
 {
-    private Process rpcServer;
+    private Process rpcClient;
 
     private bool manual;
 
@@ -72,36 +72,36 @@ public class WSRPCBLE : IBluetooth
                     }
                 }
             }
-            if (rpcServer == null || rpcServer.HasExited)
+            if (rpcClient == null || rpcClient.HasExited)
             {
-                rpcServer = new Process
+                rpcClient = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = filePath,
-                        Arguments =  SETTINGS.RPC_SERVER_PROCESS_ARGS,
+                        Arguments =  SETTINGS.RPC_CLIENT_PROCESS_ARGS,
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true,
                     }
                 };
-                rpcServer.OutputDataReceived += (sender, args) =>
+                rpcClient.OutputDataReceived += (sender, args) =>
                 {
                     DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
                 };
-                rpcServer.ErrorDataReceived += (sender, args) =>
+                rpcClient.ErrorDataReceived += (sender, args) =>
                 {
                     DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
                 };
                 try
                 {
-                    if (!rpcServer.Start())
+                    if (!rpcClient.Start())
                     {
                         return false;
                     }
-                    rpcServer.BeginOutputReadLine();
-                    rpcServer.BeginErrorReadLine();
+                    rpcClient.BeginOutputReadLine();
+                    rpcClient.BeginErrorReadLine();
                     //Send keepalive packets
                     // Task.Run(()=>SendKeepAlive(source.Token));
                 }
@@ -178,8 +178,8 @@ public class WSRPCBLE : IBluetooth
         {
             wsrpc.DisposeBluetooth();
             wsrpc.Shutdown();
-            rpcServer?.CancelErrorRead();
-            rpcServer?.CancelOutputRead();
+            rpcClient?.CancelErrorRead();
+            rpcClient?.CancelOutputRead();
         }
         catch
         {
@@ -187,9 +187,9 @@ public class WSRPCBLE : IBluetooth
         }
         try
         {
-            rpcServer?.Kill();
+            rpcClient?.Kill();
             // rpcServer.WaitForExit();
-            rpcServer = null;
+            rpcClient = null;
             DebugWindow.GetInstance().updateDebugContent("Killed server!");
         }
         catch

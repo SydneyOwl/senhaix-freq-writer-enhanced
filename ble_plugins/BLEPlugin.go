@@ -144,7 +144,7 @@ func ConnectShxRwService() (bool, error) {
 	slog.Errorf("未找到服务！")
 	return false, err
 }
-func ConnectShxRwCharacteristic(conn *websocket.Conn) (bool, error) {
+func ConnectShxRwCharacteristic() (bool, error) {
 	chs, err := bleService.DiscoverCharacteristics(nil)
 	if err != nil {
 		slog.Errorf("无法发现特征:%v", err)
@@ -155,33 +155,6 @@ func ConnectShxRwCharacteristic(conn *websocket.Conn) (bool, error) {
 			bleCharacteristic = v
 			slog.Infof("已发现特征！")
 			_ = bleCharacteristic.EnableNotifications(NotifyCallback)
-			// Start Routine: write
-			go func(cx context.Context, bleChan chan []byte) {
-				slog.Tracef("写Routine启动")
-				for {
-					select {
-					case <-cx.Done():
-						slog.Tracef("写Routine退出")
-						return
-					case sFrame := <-bleChan:
-						if len(sFrame) == 0 {
-							continue
-						}
-						_, _ = bleCharacteristic.WriteWithoutResponse(sFrame)
-					}
-				}
-			}(ctx, bleSendChan)
-			go func(cx context.Context, c *websocket.Conn) {
-				slog.Trace("回写二进制启动！")
-				for {
-					select {
-					case data := <-bleRecvChan:
-						HandlerReturnBinaryValue(data, c)
-					case <-cx.Done():
-						return
-					}
-				}
-			}(ctx, conn)
 			return true, nil
 		}
 	}
@@ -251,6 +224,40 @@ func HandlerReturnBinaryValue(value []byte, c *websocket.Conn) {
 	}
 }
 
+func StartWriteBack(ctx context.Context, conn *websocket.Conn) {
+	go func(cx context.Context, c *websocket.Conn) {
+		slog.Trace("回写二进制响应启动！")
+		defer slog.Trace("回写二进制响应退出！")
+
+		for {
+			select {
+			case data := <-bleRecvChan:
+				HandlerReturnBinaryValue(data, c)
+			case <-cx.Done():
+				return
+			}
+		}
+	}(ctx, conn)
+}
+
+func StartBleWrite(ctx context.Context, bleSendChan chan []byte) {
+	go func(cx context.Context, bleChan chan []byte) {
+		slog.Tracef("写BLE Routine启动")
+		for {
+			select {
+			case <-cx.Done():
+				slog.Tracef("写BLE Routine退出")
+				return
+			case sFrame := <-bleChan:
+				if len(sFrame) == 0 {
+					continue
+				}
+				_, _ = bleCharacteristic.WriteWithoutResponse(sFrame)
+			}
+		}
+	}(ctx, bleSendChan)
+}
+
 // StartRPC 使用JSONRPC规范
 func StartRPC(addr string) {
 	c, _, err := websocket.DefaultDialer.Dial(addr, nil)
@@ -258,7 +265,12 @@ func StartRPC(addr string) {
 		slog.Fatalf("无法连接到服务器：%v", err)
 		return
 	}
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			// just ignore
+		}
+	}(c)
 	slog.Info("RPC服务启动！")
 
 	go func() {
@@ -301,7 +313,9 @@ func StartRPC(addr string) {
 				HandlerReturnBoolValue(result, err, c)
 			case "ConnectShxRwCharacteristic":
 				ctx, cancelFunc = context.WithCancel(context.Background())
-				result, err := ConnectShxRwCharacteristic(c)
+				result, err := ConnectShxRwCharacteristic()
+				StartWriteBack(ctx, c)
+				StartBleWrite(ctx, bleSendChan)
 				HandlerReturnBoolValue(result, err, c)
 			case "DisposeBluetooth":
 				DisposeBluetooth()

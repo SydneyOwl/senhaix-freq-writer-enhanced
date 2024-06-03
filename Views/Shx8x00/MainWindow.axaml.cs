@@ -26,7 +26,7 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class MainWindow : Window
 {
-    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ChanData;
+    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
 
@@ -42,7 +42,7 @@ public partial class MainWindow : Window
         set
         {
             _listItems = value;
-            ClassTheRadioData.GetInstance().ChanData = value;
+            ClassTheRadioData.GetInstance().ObsChanData = value;
         }
     }
 
@@ -334,7 +334,7 @@ public partial class MainWindow : Window
     private async void readChannel_OnClick(object? sendser, RoutedEventArgs e)
     {
         var tmp = ClassTheRadioData.GetInstance();
-        tmp.Channeldata = tmp.ChanData.ToList();
+        tmp.ChanneldataList = tmp.ObsChanData.ToList();
         await new ProgressBarWindow(OperationType.Read).ShowDialog(this);
     }
 
@@ -342,13 +342,13 @@ public partial class MainWindow : Window
     {
         var flag = false;
         var tmp = ClassTheRadioData.GetInstance();
-        tmp.Channeldata = tmp.ChanData.ToList();
+        tmp.ChanneldataList = tmp.ObsChanData.ToList();
         // 检查信道
         for (var a = 0; a < ListItems.Count; a++)
         {
             if (ListItems[a].AllEmpty() || ListItems[a].Filled()) continue;
             // 不写入不完整的信道
-            tmp.Channeldata[a] = new ChannelData();
+            tmp.ChanneldataList[a] = new ChannelData();
             flag = true;
         }
 
@@ -358,7 +358,7 @@ public partial class MainWindow : Window
             var result = await box.ShowWindowDialogAsync(this);
             if (result == ButtonResult.No)
             {
-                tmp.Channeldata = tmp.ChanData.ToList();
+                tmp.ChanneldataList = tmp.ObsChanData.ToList();
                 return;
             }
         }

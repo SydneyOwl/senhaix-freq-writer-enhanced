@@ -308,10 +308,10 @@ internal class WriFreq
                         }
                         else if (EepAddr >= 3072 && EepAddr < 5120)
                         {
-                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[0]));
-                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[1]));
-                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[2]));
-                            _theRadioData.Channeldata[num++].ChangeByNum(12, GetTheNameOfCh(array2[3]));
+                            _theRadioData.ChanneldataList[num++].ChangeByNum(12, GetTheNameOfCh(array2[0]));
+                            _theRadioData.ChanneldataList[num++].ChangeByNum(12, GetTheNameOfCh(array2[1]));
+                            _theRadioData.ChanneldataList[num++].ChangeByNum(12, GetTheNameOfCh(array2[2]));
+                            _theRadioData.ChanneldataList[num++].ChangeByNum(12, GetTheNameOfCh(array2[3]));
                         }
                         else if (EepAddr == 6656)
                         {
@@ -447,8 +447,8 @@ internal class WriFreq
                     case State.WriteStep1:
                         if (EepAddr < 2048)
                         {
-                            var cHImfStrToHex = GetCHImf_StrToHex(_theRadioData.Channeldata[num++].TransList());
-                            var cHImfStrToHex2 = GetCHImf_StrToHex(_theRadioData.Channeldata[num++].TransList());
+                            var cHImfStrToHex = GetCHImf_StrToHex(_theRadioData.ChanneldataList[num++].TransList());
+                            var cHImfStrToHex2 = GetCHImf_StrToHex(_theRadioData.ChanneldataList[num++].TransList());
                             for (var j = 0; j < 16; j++)
                             {
                                 array[j + 4] = cHImfStrToHex[j];
@@ -461,8 +461,8 @@ internal class WriFreq
                         }
                         else if (EepAddr >= 3072 && EepAddr < 5120)
                         {
-                            var array3 = SetChNameToHex(_theRadioData.Channeldata[num++].TransList());
-                            var array4 = SetChNameToHex(_theRadioData.Channeldata[num++].TransList());
+                            var array3 = SetChNameToHex(_theRadioData.ChanneldataList[num++].TransList());
+                            var array4 = SetChNameToHex(_theRadioData.ChanneldataList[num++].TransList());
                             for (var k = 0; k < 16; k++)
                             {
                                 array[k + 4] = array3[k];
@@ -1298,10 +1298,10 @@ internal class WriFreq
     {
         if (dat[0] == byte.MaxValue)
         {
-            for (var i = 0; i < 13; i++) theRadioData.Channeldata[noCh].ChangeByNum(i, null);
+            for (var i = 0; i < 13; i++) theRadioData.ChanneldataList[noCh].ChangeByNum(i, null);
             // theRadioData.ChannelData[NO_CH][i] = null;
             // theRadioData.ChannelData[NO_CH][0] = NO_CH.ToString();
-            theRadioData.Channeldata[noCh].ChangeByNum(0, noCh.ToString());
+            theRadioData.ChanneldataList[noCh].ChangeByNum(0, noCh.ToString());
         }
         else
         {
@@ -1327,8 +1327,8 @@ internal class WriFreq
             dat[6],
             dat[7]
         };
-        theRadioData.Channeldata[noCh].ChangeByNum(2, CaculateFreq_HexToStr(dat2));
-        theRadioData.Channeldata[noCh].ChangeByNum(4, CaculateFreq_HexToStr(dat3));
+        theRadioData.ChanneldataList[noCh].ChangeByNum(2, CaculateFreq_HexToStr(dat2));
+        theRadioData.ChanneldataList[noCh].ChangeByNum(4, CaculateFreq_HexToStr(dat3));
         // channelDat[2] = CaculateFreq_HexToStr(dat2);
         // channelDat[4] = CaculateFreq_HexToStr(dat3);
     }
@@ -1359,16 +1359,16 @@ internal class WriFreq
             dat[11]
         };
         if (GetTypeOfSubaudio_HexToStr(array[1]) == SubaudioType.Ctcss)
-            theRadioData.Channeldata[noCh].ChangeByNum(3, CaculateCTCSS_HexToStr(array));
+            theRadioData.ChanneldataList[noCh].ChangeByNum(3, CaculateCTCSS_HexToStr(array));
         // channelDat[3] = CaculateCTCSS_HexToStr(array);
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(3, CaculateCDCSS_HexToStr(array));
+            theRadioData.ChanneldataList[noCh].ChangeByNum(3, CaculateCDCSS_HexToStr(array));
         // channelDat[3] = CaculateCDCSS_HexToStr(array);
         if (GetTypeOfSubaudio_HexToStr(array2[1]) == SubaudioType.Ctcss)
-            theRadioData.Channeldata[noCh].ChangeByNum(5, CaculateCTCSS_HexToStr(array2));
+            theRadioData.ChanneldataList[noCh].ChangeByNum(5, CaculateCTCSS_HexToStr(array2));
         // channelDat[5] = CaculateCTCSS_HexToStr(array2);
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(5, CaculateCDCSS_HexToStr(array2));
+            theRadioData.ChanneldataList[noCh].ChangeByNum(5, CaculateCDCSS_HexToStr(array2));
         // channelDat[5] = CaculateCDCSS_HexToStr(array2);
     }
 
@@ -1401,47 +1401,47 @@ internal class WriFreq
     private void GetChOtherImf(ClassTheRadioData theRadioData, int noCh, byte[] dat)
     {
         if (dat[12] >= 15) dat[12] = 0;
-        theRadioData.Channeldata[noCh].ChangeByNum(11, (dat[12] + 1).ToString());
+        theRadioData.ChanneldataList[noCh].ChangeByNum(11, (dat[12] + 1).ToString());
         // channelDat[11] = (dat[12] + 1).ToString();
         var array = new string[4] { "OFF", "BOT", "EOT", "BOTH" };
         if (dat[13] > 3) dat[13] = 0;
-        theRadioData.Channeldata[noCh].ChangeByNum(8, array[dat[13]]);
+        theRadioData.ChanneldataList[noCh].ChangeByNum(8, array[dat[13]]);
         // channelDat[8] = array[dat[13]];
         var array2 = new string[2] { "H", "L" };
         if (dat[14] > 1) dat[14] = 0;
-        theRadioData.Channeldata[noCh].ChangeByNum(6, array2[dat[14]]);
+        theRadioData.ChanneldataList[noCh].ChangeByNum(6, array2[dat[14]]);
 
         // channelDat[6] = array2[dat[14]];
 
         if ((dat[15] & 0x40) == 64)
-            theRadioData.Channeldata[noCh].ChangeByNum(7, "N");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(7, "N");
         // channelDat[7] = "N";
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(7, "W");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(7, "W");
         // channelDat[7] = "W";
         if ((dat[15] & 8) == 8)
-            theRadioData.Channeldata[noCh].ChangeByNum(9, "ON");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(9, "ON");
         // channelDat[9] = "ON";
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(9, "OFF");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(9, "OFF");
         // channelDat[9] = "OFF";
         if ((dat[15] & 4) == 4)
-            theRadioData.Channeldata[noCh].ChangeByNum(10, "ON");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(10, "ON");
         // channelDat[10] = "ON";
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(10, "OFF");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(10, "OFF");
         // channelDat[10] = "OFF";
         if ((dat[15] & 2) == 2)
-            theRadioData.Channeldata[noCh].ChangeByNum(1, "Yes");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(1, "Yes");
         // channelDat[1] = "Yes";
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(1, "No");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(1, "No");
         // channelDat[1] = "No";
         if ((dat[15] & 1) == 1)
-            theRadioData.Channeldata[noCh].ChangeByNum(13, "ON");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(13, "ON");
         // channelDat[13] = "ON";
         else
-            theRadioData.Channeldata[noCh].ChangeByNum(13, "OFF");
+            theRadioData.ChanneldataList[noCh].ChangeByNum(13, "OFF");
         // channelDat[13] = "OFF";
     }
 
