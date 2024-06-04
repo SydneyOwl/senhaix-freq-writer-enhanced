@@ -342,9 +342,9 @@ func main() {
 			StartRPC(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
 		},
 	}
-	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server listening port")
+	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server port")
 	BaseCmd.PersistentFlags().BoolVar(&noColorOutput, "no-color", false, "No color output in console")
-	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server listening address")
+	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server address")
 	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
 	cobra.MousetrapHelpText = ""

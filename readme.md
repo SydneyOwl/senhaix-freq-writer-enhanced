@@ -43,14 +43,14 @@ installed.
 
 ### 支持的功能
 
-| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-|--------------------|------------------------------------------------|------------------------------|-----------------------|
-| 原有的所有功能            | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
-| 蓝牙写频（试验性）          | 仅8800[^5]                                      | 仅8800、仅蓝牙版支持                 | :heavy_minus_sign:    |
-| （以下为支持的插件）         |                                                |                              |                       |
-| 开机画面修改             | :white_check_mark:                             | :white_check_mark:           | :heavy_minus_sign:    |
-| 打星助手               | :white_check_mark:                             | :white_check_mark:           | :white_check_mark:    |
+| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频（试验性）                   | 仅8800[^5]                                              | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                         |                                         |                              |
+| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
 
 [^4]:该版本自带runtime，无需额外安装
 
@@ -63,32 +63,6 @@ installed.
 + 插件默认只编译了x64的版本，需要其他版本请自行编译。
 + windows上没啥值得注意的，可以不勾选RPC方式写频~（当然勾了也行，需要开启RPC服务端）
 + linux和mac端需要使用`rpc server`写频，同样直接写频即可。
-
-注意：若有**调试需要**，需要手动编译或勾选了“手动控制RPC”，具体操作如下：
-
-1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
-2. 直接双击打开编译产物，或者使用命令行指定参数：
-
-  ```bash
-
-BLE RPC Server - Connect shx8x00 and c#
-
-Usage:
-  BLE RPC Server [flags]
-
-Flags:
-      --address string     RPC Server listening address (default "127.0.0.1")
-      --enable-keepalive   DEPRECATE IN FUTURE VERSION - enable keepalive(process exit if no keepalive packet is received within 10s)
-  -h, --help               help for BLE
-      --no-color           No color output in console
-      --port int           RPC Server listening port (default 8563)
-      --verbose            Print Debug Level logs
-      --vverbose           Print Debug/Trace Level logs
-
-  ```
-
-3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
-4. 正常读写频即可
 
 #### 图片
 
@@ -144,6 +118,33 @@ Flags:
   public static string RPC_SERVER_PROCESS_ARGS = "--verbose --no-color";
   ```
 
++ 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
+
+  1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
+     + 在windows上编译，需要gcc编译器
+     + 在macOS上编译，需要安装xcode
+     + 在linux上编译，需要bluez
+  2. 直接双击打开编译产物，或者使用命令行指定参数：
+
+    ```bash
+  BLE RPC Server - Connect shx8x00 and c#
+  
+  Usage:
+    BLE RPC Server [flags]
+  
+  Flags:
+        --address string     RPC Server address (default "127.0.0.1")
+    -h, --help               help for BLE
+        --no-color           No color output in console
+        --port int           RPC Server port (default 8563)
+        --verbose            Print Debug Level logs
+        --vverbose           Print Debug/Trace Level logs
+  
+    ```
+
+  3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
+  4. 正常读写频即可
+
 ## FAQ
 
 + linux平台上写频需要`sudo`！
@@ -186,6 +187,8 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.2.2` 重写官方winform写频软件，实现跨平台
 
 `v0.3.0` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题,加入开机画面生成及修改功能，加入打星助手，通过rpc实现了跨平台的蓝牙写频功能支持
+
+`v0.3.1`优化使用插件的写频速度（linux和macOS），目前接近写频线速度
 
 ## Thanks...
 
