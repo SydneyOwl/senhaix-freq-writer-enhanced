@@ -91,11 +91,10 @@ public partial class AboutWindow : Window
                 var curTagTimeParsed = DateTime.Parse(currentTagTime);
                 // 转UTC
                 curTagTimeParsed = curTagTimeParsed.ToUniversalTime();
-
-                // string tagName = ((string)releaseJson["tag_name"]).Replace("v","").Split("-")[0];
-                // string currentTag = Properties.VERSION.Version.Replace("v","").Split("-")[0];
-                var result = tagTimeParsed.CompareTo(curTagTimeParsed);
-                if (result > 0)
+                
+                double minuteSpan=Math.Abs(new TimeSpan(tagTimeParsed.Ticks-curTagTimeParsed.Ticks).TotalMinutes);
+                
+                if (minuteSpan > 10)
                     MessageBoxManager.GetMessageBoxStandard("注意", "有新版本可用~").ShowWindowDialogAsync(this);
                 else
                     MessageBoxManager.GetMessageBoxStandard("注意", "您已是最新版~").ShowWindowDialogAsync(this);

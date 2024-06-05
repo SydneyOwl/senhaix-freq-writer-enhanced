@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -75,14 +76,33 @@ public partial class SatelliteHelperWindow : Window
         }
         else
         {
-            if (!File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                DebugWindow.GetInstance().updateDebugContent($"未找到json");
-                Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
-                return false;
+                if (!File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"未找到json");
+                    Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
+                    return false;
+                }
+                satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
             }
-
-            satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
+            else
+            {
+                // 更新都是更新到DATA_DIR，只有当用户没点过更新的话才使用包里附带的
+                if (File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+                {
+                    satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
+                }else if(File.Exists(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json")))
+                {
+                    satelliteData = File.ReadAllText(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json"));
+                }
+                else
+                {
+                    DebugWindow.GetInstance().updateDebugContent($"未找到json");
+                    Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
+                    return false;
+                }
+            }
         }
 
         if (string.IsNullOrEmpty(satelliteData))
