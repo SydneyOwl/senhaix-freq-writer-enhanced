@@ -194,6 +194,10 @@ public partial class SatelliteHelperWindow : Window
             "", "Yes", Checker(downlink), "OFF", Checker(uplink), tone, "H", "W", "OFF", "OFF",
             "ON", "1", Checker(sat), "OFF"
         };
+        centerTx.Text = Checker(uplink);
+        centerRx.Text = Checker(downlink);
+        satchanname.Text = Checker(sat);
+        sattone.Text = tone;
     }
 
     private string MatchTone(string mode)
@@ -286,7 +290,11 @@ public partial class SatelliteHelperWindow : Window
 
     private void InsertChannelButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        ModeListBox_OnSelectionChanged(null, null);
+        // ModeListBox_OnSelectionChanged(null, null);
+        _currentChannel[2] = centerRx.Text;
+        _currentChannel[4] = centerTx.Text;
+        _currentChannel[5] = sattone.Text;
+        _currentChannel[12] = satchanname.Text;
         // 直接从之前的winform移植来的，不想改了
         if (_currentChannel[2] == "")
             if (CheckIsFloatOrNumber(_currentChannel[4]))
@@ -306,9 +314,19 @@ public partial class SatelliteHelperWindow : Window
         }
 
         double.TryParse(_currentChannel[2], out var kk);
+        if (kk > 520 || kk < 100)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "频率范围有误！").ShowWindowDialogAsync(this);
+            return;
+        }
         _currentChannel[2] = kk.ToString("0.00000");
 
         double.TryParse(_currentChannel[4], out kk);
+        if (kk > 520 || kk < 100)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "频率范围有误！").ShowWindowDialogAsync(this);
+            return;
+        }
         _currentChannel[4] = kk.ToString("0.00000");
 
         try
@@ -382,15 +400,7 @@ public partial class SatelliteHelperWindow : Window
 
     private bool CheckIsFloatOrNumber(string value)
     {
-        int tempInt;
-        if (int.TryParse(value, out tempInt)) return true;
-
-        // 浮点数验证
-        double tempDouble;
-        if (double.TryParse(value, out tempDouble)) return true;
-
-        // 如果既不是整数也不是浮点数，则返回false
-        return false;
+        return int.TryParse(value, out _) || double.TryParse(value, out _);
     }
 
     private bool CheckTones(string value)

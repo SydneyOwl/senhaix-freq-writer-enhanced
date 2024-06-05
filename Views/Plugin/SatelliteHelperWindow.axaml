@@ -1,6 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="500" Height="550"
+        Width="530" Height="680"
         x:Class="SenhaixFreqWriter.Views.Plugin.SatelliteHelperWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:SatelliteHelperWindow"
@@ -14,32 +14,50 @@
 
         <Label Content="选择一个卫星：" Canvas.Left="20" Canvas.Top="60" />
         <ListBox Name="satListBox" ItemsSource="{Binding Namelist}" Height="330"
-                 Width="150" Canvas.Top="100" Canvas.Left="20"
+                 Width="180" Canvas.Top="100" Canvas.Left="20"
                  SelectionChanged="SatListBox_OnSelectionChanged" />
 
-        <Label Content="卫星详情：" Canvas.Left="220" Canvas.Top="60" />
+        <Label Content="卫星详情：" Canvas.Left="250" Canvas.Top="60" />
         <TextBox Width="250" Height="130" IsReadOnly="True"
-                 Canvas.Top="100" Canvas.Left="220" Name="selectedSatelliteInfo" TextWrapping="Wrap" />
+                 Canvas.Top="100" Canvas.Left="250" Name="selectedSatelliteInfo" TextWrapping="Wrap" />
 
-        <Label Content="选择模式：" Canvas.Left="220" Canvas.Top="240" />
+        <Label Content="选择模式：" Canvas.Left="250" Canvas.Top="240" />
         <ListBox Name="modeListBox" ItemsSource="" Height="160"
-                 Width="250" Canvas.Top="270" Canvas.Left="220"
+                 Width="250" Canvas.Top="270" Canvas.Left="250"
                  SelectionChanged="ModeListBox_OnSelectionChanged" />
 
         <Border Width="260" Height="95" BorderBrush="Black" BorderThickness="1"
-                Canvas.Top="440" Canvas.Left="10" />
-        <CheckBox Canvas.Top="470" Canvas.Left="20" IsChecked="True" Name="doppler" />
-        <Label Content="多普勒" Canvas.Top="475" Canvas.Left="40" />
+                Canvas.Top="480" Canvas.Left="10" />
+        <CheckBox Canvas.Top="510" Canvas.Left="20" IsChecked="True" Name="doppler" />
+        <Label Content="多普勒" Canvas.Top="510" Canvas.Left="40" />
 
-        <Label Content="U段±" Canvas.Top="450" Canvas.Left="100" />
-        <TextBox Canvas.Top="445" Canvas.Left="145" Name="uoffset" Text="10" />
-        <Label Content="kHz" Canvas.Top="450" Canvas.Left="220" />
+        <Label Content="U段±" Canvas.Top="490" Canvas.Left="100" />
+        <TextBox Canvas.Top="485" Canvas.Left="145" Name="uoffset" Text="10" />
+        <Label Content="kHz" Canvas.Top="490" Canvas.Left="220" />
 
-        <Label Content="V段±" Canvas.Top="500" Canvas.Left="100" />
-        <TextBox Canvas.Top="495" Canvas.Left="145" Name="voffset" Text="5" />
-        <Label Content="kHz" Canvas.Top="500" Canvas.Left="220" />
+        <Label Content="V段±" Canvas.Top="540" Canvas.Left="100" />
+        <TextBox Canvas.Top="535" Canvas.Left="145" Name="voffset" Text="5" />
+        <Label Content="kHz" Canvas.Top="540" Canvas.Left="220" />
+        
+        <Border Width="210" Height="155" BorderBrush="Black" BorderThickness="1"
+                Canvas.Top="450" Canvas.Left="290" />
+        
+        <Label Content="(手动覆盖)" Canvas.Top="440" Canvas.Left="300" Background="MistyRose"></Label>
+        <Label Content="上行频率" Canvas.Top="470" Canvas.Left="300" />
+        <TextBox Canvas.Top="465" Canvas.Left="375" Name="centerTx" Width="85" />
+        <Label Content="MHz" Canvas.Top="470" Canvas.Left="460" />
+        
+        <Label Content="下行频率" Canvas.Top="500" Canvas.Left="300" />
+        <TextBox Canvas.Top="495" Canvas.Left="375" Name="centerRx" Width="85" />
+        <Label Content="MHz" Canvas.Top="500" Canvas.Left="460" />
+        
+        <Label Content="信道名" Canvas.Top="530" Canvas.Left="300" />
+        <TextBox Canvas.Top="525" Canvas.Left="375" Name="satchanname" Width="100"/>
 
-        <Button HorizontalAlignment="Left" Canvas.Top="10" Canvas.Left="350" Name="FetchSat"
+        <Label Content="亚音" Canvas.Top="560" Canvas.Left="300" />
+        <TextBox Canvas.Top="555" Canvas.Left="375" Name="sattone" Watermark="不填写即为无"/>
+        
+        <Button HorizontalAlignment="Left" Canvas.Bottom="20" Canvas.Left="100" Name="FetchSat"
                 Click="FetchSatDataButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource arrow_sync_regular}" Margin="0,0,10,0" />
@@ -53,11 +71,11 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
                                Foreground="Green"
-                               Canvas.Left="300"
-                               Canvas.Top="13"
+                               Canvas.Left="60"
+                               Canvas.Bottom="25"
                                Name="ProgressRing" />
 
-        <Button HorizontalAlignment="Left" Canvas.Top="480" Canvas.Left="350" Click="InsertChannelButton_OnClick"
+        <Button HorizontalAlignment="Left" Canvas.Bottom="20" Canvas.Left="350" Click="InsertChannelButton_OnClick"
                 Name="insertChannel" IsEnabled="False">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource insert}" Margin="0,0,10,0" />
