@@ -17,8 +17,7 @@ public partial class DeviceSelectWindow : Window
 {
     public DeviceSelectWindow()
     {
-        if (DebugWindow.HasInstance()) DebugWindow.GetInstance().Close();
-        SETTINGS.DEBUG_ENABLED = false;
+        // if (DebugWindow.HasInstance()) DebugWindow.GetInstance().Close();
         InitializeComponent();
         if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 1;
     }
@@ -31,8 +30,6 @@ public partial class DeviceSelectWindow : Window
             Environment.Exit(0);
             return;
         }
-
-        if (SETTINGS.DEBUG_ENABLED) DebugWindow.GetNewInstance().Show();
 
         switch (DeviceChooseComboBox.SelectedIndex)
         {
@@ -71,10 +68,5 @@ public partial class DeviceSelectWindow : Window
 
         WSRPCUtil.GetInstance().StartWSRPC();
         Close();
-    }
-
-    private void ToggleButton_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
-    {
-        SETTINGS.DEBUG_ENABLED = ((CheckBox)sender).IsChecked.Value;
     }
 }

@@ -6,8 +6,6 @@ namespace SenhaixFreqWriter.Properties;
 
 public static class SETTINGS
 {
-    public static bool DEBUG_ENABLED = false;
-
     public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
 
     public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)

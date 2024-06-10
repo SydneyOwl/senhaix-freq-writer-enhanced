@@ -12,7 +12,6 @@
             <Separator />
             <ComboBoxItem Content="森海克斯8600(新版，8w功率)" />
         </ComboBox>
-        <CheckBox Content="全局调试" Canvas.Top="100" Canvas.Left="10" IsCheckedChanged="ToggleButton_OnIsCheckedChanged" />
         <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick">确定</Button>
     </Canvas>
 </Window>

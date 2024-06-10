@@ -116,6 +116,11 @@
                         <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="打开调试窗口" Click="OpenDebugMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource channel_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="关于" Click="About_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource person_feedback_regular}" />

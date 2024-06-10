@@ -21,12 +21,26 @@ public partial class DebugWindow : Window
         updateDebugContent("开始调试");
         updateDebugContent($"操作系统：{Environment.OSVersion}");
         updateDebugContent($"是否64位：{Environment.Is64BitOperatingSystem}");
+        Closing += (sender, args) =>
+        {
+            args.Cancel = true;
+            Hide();
+        };
     }
 
     // public DebugWindow()
     // {
     //     InitializeComponent();
     // }
+
+    public override void Show()
+    {
+        if (this.IsActive)
+        {
+            return;
+        }
+        base.Show();
+    }
 
     public void updateDebugContent(string content)
     {

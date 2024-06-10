@@ -199,8 +199,10 @@ public class WindowsSHXBLE : IBluetooth
         }
         CurrentDeviceMac = null;
         CurrentService?.Dispose();
+        CurrentShxDevice?.Dispose();
         CurrentDevice?.Dispose();
         CurrentDevice = null;
+        CurrentShxDevice = null;
         CurrentService = null;
         CurrentWriteCharacteristic = null;
         CurrentNotifyCharacteristic = null;

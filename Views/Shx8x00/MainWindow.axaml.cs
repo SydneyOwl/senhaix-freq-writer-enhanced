@@ -600,4 +600,9 @@ public partial class MainWindow : Window
         bds = new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8X00);
         bds.ShowDialog(this);
     }
+
+    private void OpenDebugMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        DebugWindow.GetInstance().Show();
+    }
 }
