@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="350" Height="300"
         x:Class="SenhaixFreqWriter.Views.Common.DebugWindow"
-        Title="双击日志内容保存至文件">
+        Title="双击日志内容保存至文件"
+        Topmost="True">
     <Grid DoubleTapped="LogSaveInputElement_OnDoubleTapped">
         <ScrollViewer Name="ScViewer">
             <SelectableTextBlock Name="tbContent" TextWrapping="Wrap" />
