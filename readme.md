@@ -124,26 +124,26 @@ installed.
      + 在windows上编译，需要gcc编译器
      + 在macOS上编译，需要安装xcode
      + 在linux上编译，需要bluez
-  2. 直接双击打开编译产物，或者使用命令行指定参数：
-
+  2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
+  3. 直接双击打开编译产物，或者使用命令行指定参数：
+  
     ```bash
-  BLE RPC Server - Connect shx8x00 and c#
+  BLE RPC Client - Connect shx8x00 and c#
   
   Usage:
-    BLE RPC Server [flags]
+    BLE RPC Client [flags]
   
   Flags:
-        --address string     RPC Server address (default "127.0.0.1")
-    -h, --help               help for BLE
-        --no-color           No color output in console
-        --port int           RPC Server port (default 8563)
-        --verbose            Print Debug Level logs
-        --vverbose           Print Debug/Trace Level logs
-  
+        --address string   RPC Client address (default "127.0.0.1")
+    -h, --help             help for BLE
+        --no-color         No color output in console
+        --port int         RPC Client port (default 8563)
+        --run-test         Execute test
+        --verbose          Print Debug Level logs
+        --vverbose         Print Debug/Trace Level logs
     ```
-
-  3. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“，点击搜索并连接；
-  4. 正常读写频即可
+  4. 在写频软件中点击蓝牙搜索，正常读频写频即可
+  
 
 ## FAQ
 

@@ -23,8 +23,12 @@ const (
 var (
 	rpcAddress = "127.0.0.1"
 	rpcPort    = 8563
-	verbose    = false
-	vverbose   = false
+
+	noColorOutput = false
+	runTest       = false
+
+	verbose  = false
+	vverbose = false
 
 	adapterEnabled    = false
 	devList           = make([]bluetooth.ScanResult, 0)
@@ -331,22 +335,86 @@ func StartRPC(addr string) {
 	<-doneChan
 	slog.Info("RPC Client退出")
 }
+func StartTest(addr string) {
+	slog.Info("开始测试蓝牙插件...")
+	slog.Noticef("--------测试1")
+	slog.Info("测试 GetBleAvailability...")
+	avail, err := GetBleAvailability()
+	if err != nil {
+		slog.Fatalf("蓝牙不可用:%v,程序退出...", err)
+		return
+	}
+	slog.Noticef("蓝牙可用性：%v", avail)
+	slog.Info("测试 ScanForShx...")
+	res, err := ScanForShx()
+	if err != nil {
+		slog.Fatal("扫描出错：%v!", err)
+		return
+	}
+	slog.Noticef("扫描结果: %v", res)
+	scanRes := false
+	for i, v := range devList {
+		if v.LocalName() == "walkie-talkie" {
+			targetDevice = devList[i]
+			scanRes = true
+			break
+		}
+	}
+	if !scanRes {
+		slog.Notice("未找到森海克斯设备，程序退出！")
+		return
+	}
+	slog.Info("已找到设备，正在测试ConnectShxDevice...")
+	result, err := ConnectShxDevice()
+	if err != nil {
+		slog.Fatal("连接出错：%v!", err)
+		return
+	}
+	slog.Noticef("连接结果: %v", result)
+	slog.Info("正在测试ConnectShxRwService...")
+	result, err = ConnectShxRwService()
+	if err != nil {
+		slog.Fatal("连接出错：%v!", err)
+		return
+	}
+	slog.Noticef("连接结果: %v", result)
+	slog.Info("正在测试ConnectShxRwCharacteristic...")
+	result, err = ConnectShxRwCharacteristic()
+	if err != nil {
+		slog.Fatal("连接出错：%v!", err)
+		return
+	}
+	slog.Noticef("连接结果: %v", result)
+	slog.Noticef("--------测试1结束")
+	slog.Noticef("--------测试2")
+	_, _, err = websocket.DefaultDialer.Dial(addr, nil)
+	if err != nil {
+		slog.Fatalf("无法连接到服务器：%v", err)
+		return
+	}
+	slog.Noticef("连接成功！")
+	slog.Noticef("--------测试2结束")
+}
 func main() {
-	var noColorOutput = false
 	var BaseCmd = &cobra.Command{
-		Use:   "BLE RPC Server",
+		Use:   "BLE RPC Client",
 		Short: "BLE RPC",
-		Long:  `BLE RPC Server - Connect shx8x00 and c#`,
+		Long:  `BLE RPC Client - Connect shx8x00 and c#`,
 		Run: func(cmd *cobra.Command, args []string) {
 			logger.InitLog(verbose, vverbose, noColorOutput)
+			if runTest {
+				StartTest(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
+				return
+			}
 			StartRPC(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
 		},
 	}
-	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server port")
+	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Client port")
 	BaseCmd.PersistentFlags().BoolVar(&noColorOutput, "no-color", false, "No color output in console")
-	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server address")
+	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Client address")
 	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
+	BaseCmd.PersistentFlags().BoolVar(&runTest, "run-test", false, "Execute test")
 	cobra.MousetrapHelpText = ""
 	if err := BaseCmd.Execute(); err != nil {
 		fmt.Printf("程序无法启动: %v", err)
