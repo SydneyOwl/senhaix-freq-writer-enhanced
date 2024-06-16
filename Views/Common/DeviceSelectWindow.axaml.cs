@@ -45,10 +45,6 @@ public partial class DeviceSelectWindow : Window
                 new Shx8x00.MainWindow().Show();
                 break;
             case 1:
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
-                new Gt12.MainWindow().Show();
-                break;
-            case 3:
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("M");
@@ -60,6 +56,10 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Add("低功率");
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600新版");
                 new Shx8x00.MainWindow().Show();
+                break;
+            case 2:
+                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
+                new Gt12.MainWindow().Show();
                 break;
             default:
                 new Shx8x00.MainWindow().Show();

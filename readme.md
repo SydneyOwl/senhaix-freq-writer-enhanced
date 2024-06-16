@@ -11,7 +11,6 @@
     及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**
     ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
     下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
-> + “全局调试”功能仅用于开发使用，可能降低写频速度，如无需要建议不要开启！
 
 ## 简介
 
@@ -31,30 +30,22 @@
 
 ### 运行平台
 
-| -         | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）                                                    | 森海克斯8800/8600 winform版（停止维护）                  | GT-12 winform版（停止维护） |
-|-----------|-----------------------------------------------------------------------------------------------|-----------------------------------------------|----------------------|
-| 支持的平台(理论) | windows7 sp1及以上[^1] / Ubuntu 16.04, 18.04, 20.04+ 或其他Linux发行版 / macOS 10.15+ (x64, Arm64)[^2] | 蓝牙版支持windows 8及以上[^3]，无蓝牙版支持windows xp sp2及以上 | windows 8及以上         |
+下面列出的是测试通过的平台，其他系统或发行版请自行尝试：
 
-[^1]: Windows 7 SP1 is supported
-with [Extended Security Updates](https://learn.microsoft.com/troubleshoot/windows-client/windows-7-eos-faq/windows-7-extended-security-updates-faq)
-installed.
-[^2]: .NET 6 is supported in the Rosetta 2 x64 emulator.
-[^3]:低于win10可能无法使用蓝牙写频（仅支持8800），且可能需要安装runtime
+| -              | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）           | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
+| -------------- |------------------------------------------------------| ------------------------------------------------------------ | --------------------------- |
+| 测试通过的平台 | windows10及以上 / Ubuntu 20.04 / macOS 14+ (x64, Arm64) | 蓝牙版支持windows 10及以上，无蓝牙版支持windows xp sp2及以上 | windows 10及以上            |
 
 ### 支持的功能
 
-| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）[^4] | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-| ------------------------------------ | ------------------------------------------------------- | --------------------------------------- | ---------------------------- |
-| 原有的所有功能                       | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-| 蓝牙写频（试验性）                   | 仅8800[^5]                                              | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
-| （以下为支持的插件）                 |                                                         |                                         |                              |
-| 开机画面修改                         | :white_check_mark:                                      | :white_check_mark:                      | :heavy_minus_sign:           |
-| 打星助手                             | :white_check_mark:                                      | :white_check_mark:                      | :white_check_mark:           |
-
-[^4]:该版本自带runtime，无需额外安装
-
-[^5]:使用go rpc server实现（linux和macOS）
+| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS） | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+| ------------------------------------ | --------------------------------------------------- | --------------------------------------- | ---------------------------- |
+| 原有的所有功能                       | :white_check_mark:                                  | :white_check_mark:                      | :white_check_mark:           |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                  | :white_check_mark:                      | :white_check_mark:           |
+| 蓝牙写频（试验性）                   | 仅8800                                              | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
+| （以下为支持的插件）                 |                                                     |                                         |                              |
+| 开机画面修改                         | :white_check_mark:                                  | :white_check_mark:                      | :heavy_minus_sign:           |
+| 打星助手                             | :white_check_mark:                                  | :white_check_mark:                      | :white_check_mark:           |
 
 ### 其他说明
 
@@ -99,7 +90,7 @@ installed.
 + 您可以自行修改SETTINGS.cs中的内容，手动启用不稳定的功能：
 
   ```csharp
-  // 禁止在调试读写频时输出传输的数据
+  // 是否禁止在调试读写频时输出传输的数据，如禁用该选项可能极大降低HID读写速度！
   public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
   // 卫星数据默认目录
   public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
@@ -114,8 +105,8 @@ installed.
   
   public static string LINUX_BLE_PLUGIN_NAME = "BLEPlugin_linux_x64";
   
-  // RPC服务端的启动参数，可用--help查看；输出仅在开启调试功能时能看到！
-  public static string RPC_SERVER_PROCESS_ARGS = "--verbose --no-color";
+  // RPC客户端的启动参数，可用--help查看；输出仅在开启调试功能时能看到！
+  public static string RPC_CLIENT_PROCESS_ARGS = "--verbose --no-color";
   ```
 
 + 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
@@ -148,6 +139,9 @@ installed.
 ## FAQ
 
 + linux平台上写频需要`sudo`！
++ 若在macOS上无法使用，可能需要首先执行`xattr -cr SenhaixFreqWriter.app`!
+  + 如在macOS上（在macOS13及以下可能出现该问题）仍无法正常使用蓝牙功能，请首先打开写频软件，在蓝牙界面勾选“手动控制RPC”，之后执行`chmod +x 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64 && 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64`，最后正常读写频即可。
+
 
 ## 其他
 
@@ -188,7 +182,9 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.3.0` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题,加入开机画面生成及修改功能，加入打星助手，通过rpc实现了跨平台的蓝牙写频功能支持
 
-`v0.3.1`优化使用插件的写频速度（linux和macOS），目前接近写频线速度
+`v0.3.1` 优化使用插件的写频速度（linux和macOS），目前接近写频线速度
+
+`v0.3.2` 打星助手支持自定义多普勒参数
 
 ## Thanks...
 
