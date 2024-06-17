@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SkiaSharp;
 
@@ -12,31 +9,30 @@ namespace SenhaixFreqWriter.Utils.Serial;
 
 public class WriBootImage
 {
-    private SKBitmap image;
+    private readonly MySerialPort _sp = MySerialPort.GetInstance();
+
+    private readonly byte[] bufferBmpData = new byte[1048576];
+
+    private readonly byte[] bufForData = new byte[2048];
+
+    private uint byteOfData;
+
+    private int cntRetry;
+
+    private State comStep = State.HandShakeStep1;
+
+    private int countOverTime;
+
+    public ConcurrentQueue<int> currentProg = new();
+
+    private bool flagOverTime;
+    private readonly SKBitmap image;
 
     private Timer overTimer;
 
     private Timer rxOverTimer;
 
     private string STR_HANDSHAKE = "PROGRAM";
-
-    private State comStep = State.HandShakeStep1;
-
-    private byte[] bufForData = new byte[2048];
-
-    private bool flagOverTime = false;
-
-    private int countOverTime = 0;
-
-    private int cntRetry = 0;
-
-    private byte[] bufferBmpData = new byte[1048576];
-
-    private uint byteOfData = 0u;
-
-    private MySerialPort _sp = MySerialPort.GetInstance();
-
-    public ConcurrentQueue<int> currentProg = new();
 
     public WriBootImage(SKBitmap img)
     {

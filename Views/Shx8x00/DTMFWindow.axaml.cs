@@ -9,13 +9,13 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class DtmfWindow : Window
 {
-    public DtmfData Dtmf { get; set; } = ClassTheRadioData.GetInstance().DtmfData;
-
     public DtmfWindow()
     {
         InitializeComponent();
         DataContext = this;
     }
+
+    public DtmfData Dtmf { get; set; } = ClassTheRadioData.GetInstance().DtmfData;
 
     private void restore_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -27,7 +27,7 @@ public partial class DtmfWindow : Window
 
     private void confirm_OnClick(object? sender, RoutedEventArgs e)
     {
-        DebugWindow.GetInstance().updateDebugContent($"ConfClick");
+        DebugWindow.GetInstance().updateDebugContent("ConfClick");
         Close();
     }
 

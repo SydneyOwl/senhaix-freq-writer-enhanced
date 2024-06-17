@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Gt12;
-using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Gt12;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
@@ -17,17 +14,16 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class ProgressBarWindow : Window
 {
+    private CancellationTokenSource _cancelSource;
+
+    private readonly HidCommunication _com;
+
+    private readonly OpType _operation;
+
+    private bool _opRes;
     private Thread _threadCommunication;
 
     private Thread _threadProgress;
-
-    private OpType _operation;
-
-    private HidCommunication _com;
-
-    private bool _opRes;
-
-    private CancellationTokenSource _cancelSource;
 
     public ProgressBarWindow(OpType op)
     {
@@ -63,7 +59,7 @@ public partial class ProgressBarWindow : Window
 
     private void Task_Communication(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start WriFreq Thread: StartWriteGt12");
+        DebugWindow.GetInstance().updateDebugContent("Start WriFreq Thread: StartWriteGt12");
         var flag = false;
         try
         {
@@ -77,12 +73,12 @@ public partial class ProgressBarWindow : Window
 
         // DebugWindow.GetInstance().updateDebugContent("We've done write!");
         Dispatcher.UIThread.Invoke(() => HandleResult(flag));
-        DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: StartWriteGt12");
+        DebugWindow.GetInstance().updateDebugContent("Terminate WriFreq Thread: StartWriteGt12");
     }
 
     private void Task_Progress(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start GetProcess Thread: GetProcessGt12");
+        DebugWindow.GetInstance().updateDebugContent("Start GetProcess Thread: GetProcessGt12");
         while (!token.IsCancellationRequested)
         {
             // Thread.Sleep(10);
@@ -92,7 +88,7 @@ public partial class ProgressBarWindow : Window
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.Value);
         }
 
-        DebugWindow.GetInstance().updateDebugContent($"Terminate GetProcess Thread: GetProcessGt12");
+        DebugWindow.GetInstance().updateDebugContent("Terminate GetProcess Thread: GetProcessGt12");
     }
 
     private void HandleResult(bool result)

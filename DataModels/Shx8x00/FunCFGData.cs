@@ -10,16 +10,6 @@ public partial class FunCfgData : ObservableObject
 
     [ObservableProperty] private bool _cBAutoLock;
 
-    [ObservableProperty] private bool _cBFmRadioEnable = true;
-
-    [ObservableProperty] private bool _cBLockKeyBoard;
-
-    [ObservableProperty] private bool _cBSoundOfBi = true;
-
-    [ObservableProperty] private bool _cBStopSendOnBusy;
-
-    [ObservableProperty] private bool _cBTdr;
-
     [ObservableProperty] private int _cbB1750Hz = 2;
 
     [ObservableProperty] private int _cbBABand;
@@ -29,6 +19,8 @@ public partial class FunCfgData : ObservableObject
     [ObservableProperty] private int _cbBAFhss;
 
     [ObservableProperty] private int _cbBAFreqStep = 5;
+
+    [ObservableProperty] private int _cbBAlarmMode = 1;
 
     [ObservableProperty] private int _cbBAPower;
 
@@ -40,9 +32,9 @@ public partial class FunCfgData : ObservableObject
 
     [ObservableProperty] private string _cbBATxQt = "OFF";
 
-    [ObservableProperty] private int _cbBAlarmMode = 1;
-
     [ObservableProperty] private int _cbBAutoBackLight = 5;
+
+    [ObservableProperty] private int _cbBBackgroundColor;
 
     [ObservableProperty] private int _cbBBBand;
 
@@ -61,8 +53,6 @@ public partial class FunCfgData : ObservableObject
     [ObservableProperty] private int _cbBBSignalingEnCoder;
 
     [ObservableProperty] private string _cbBBTxQt = "OFF";
-
-    [ObservableProperty] private int _cbBBackgroundColor;
 
     [ObservableProperty] private int _cbBChADisplayMode = 1;
 
@@ -115,6 +105,16 @@ public partial class FunCfgData : ObservableObject
     [ObservableProperty] private int _cbBWorkModeA;
 
     [ObservableProperty] private int _cbBWorkModeB;
+
+    [ObservableProperty] private bool _cBFmRadioEnable = true;
+
+    [ObservableProperty] private bool _cBLockKeyBoard;
+
+    [ObservableProperty] private bool _cBSoundOfBi = true;
+
+    [ObservableProperty] private bool _cBStopSendOnBusy;
+
+    [ObservableProperty] private bool _cBTdr;
 
     [ObservableProperty] private string _tBACurFreq = "146.02500";
 

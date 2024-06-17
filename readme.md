@@ -32,20 +32,20 @@
 
 下面列出的是测试通过的平台，其他系统或发行版请自行尝试：
 
-| -              | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）           | 森海克斯8800/8600 winform版（停止维护）                      | GT-12 winform版（停止维护） |
-| -------------- |------------------------------------------------------| ------------------------------------------------------------ | --------------------------- |
-| 测试通过的平台 | windows10及以上 / Ubuntu 20.04 / macOS 14+ (x64, Arm64) | 蓝牙版支持windows 10及以上，无蓝牙版支持windows xp sp2及以上 | windows 10及以上            |
+| -       | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）               | GT-12 winform版（停止维护） |
+|---------|-----------------------------------------------------|--------------------------------------------|----------------------|
+| 测试通过的平台 | windows10及以上 / Ubuntu 20.04 / macOS 14 (x64, Arm64) | 蓝牙版支持windows 10及以上，无蓝牙版支持windows xp sp2及以上 | windows 10及以上        |
 
 ### 支持的功能
 
-| -                                    | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS） | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-| ------------------------------------ | --------------------------------------------------- | --------------------------------------- | ---------------------------- |
-| 原有的所有功能                       | :white_check_mark:                                  | :white_check_mark:                      | :white_check_mark:           |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                                  | :white_check_mark:                      | :white_check_mark:           |
-| 蓝牙写频（试验性）                   | 仅8800                                              | 仅8800、仅蓝牙版支持                    | :heavy_minus_sign:           |
-| （以下为支持的插件）                 |                                                     |                                         |                              |
-| 开机画面修改                         | :white_check_mark:                                  | :white_check_mark:                      | :heavy_minus_sign:           |
-| 打星助手                             | :white_check_mark:                                  | :white_check_mark:                      | :white_check_mark:           |
+| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS） | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
+|--------------------|--------------------------------------------|------------------------------|-----------------------|
+| 原有的所有功能            | :white_check_mark:                         | :white_check_mark:           | :white_check_mark:    |
+| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                         | :white_check_mark:           | :white_check_mark:    |
+| 蓝牙写频（试验性）          | 仅8800                                      | 仅8800、仅蓝牙版支持                 | :heavy_minus_sign:    |
+| （以下为支持的插件）         |                                            |                              |                       |
+| 开机画面修改             | :white_check_mark:                         | :white_check_mark:           | :heavy_minus_sign:    |
+| 打星助手               | :white_check_mark:                         | :white_check_mark:           | :white_check_mark:    |
 
 ### 其他说明
 
@@ -111,13 +111,13 @@
 
 + 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
 
-  1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
-     + 在windows上编译，需要gcc编译器
-     + 在macOS上编译，需要安装xcode
-     + 在linux上编译，需要bluez
-  2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
-  3. 直接双击打开编译产物，或者使用命令行指定参数：
-  
+    1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
+        + 在windows上编译，需要gcc编译器
+        + 在macOS上编译，需要安装xcode
+        + 在linux上编译，需要bluez
+    2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
+    3. 直接双击打开编译产物，或者使用命令行指定参数：
+
     ```bash
   BLE RPC Client - Connect shx8x00 and c#
   
@@ -133,15 +133,15 @@
         --verbose          Print Debug Level logs
         --vverbose         Print Debug/Trace Level logs
     ```
-  4. 在写频软件中点击蓝牙搜索，正常读频写频即可
-  
+    4. 在写频软件中点击蓝牙搜索，正常读频写频即可
 
 ## FAQ
 
 + linux平台上写频需要`sudo`！
 + 若在macOS上无法使用，可能需要首先执行`xattr -cr SenhaixFreqWriter.app`!
-  + 如在macOS上（在macOS13及以下可能出现该问题）仍无法正常使用蓝牙功能，请首先打开写频软件，在蓝牙界面勾选“手动控制RPC”，之后执行`chmod +x 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64 && 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64`，最后正常读写频即可。
-
+    +
+  如在macOS上（在macOS13及以下可能出现该问题）仍无法正常使用蓝牙功能，请首先打开写频软件，在蓝牙界面勾选“手动控制RPC”，之后执行`chmod +x 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64 && 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64`
+  ，最后正常读写频即可。
 
 ## 其他
 
@@ -183,8 +183,6 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.3.0` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题,加入开机画面生成及修改功能，加入打星助手，通过rpc实现了跨平台的蓝牙写频功能支持
 
 `v0.3.1` 优化使用插件的写频速度（linux和macOS），目前接近写频线速度
-
-`v0.3.2` 打星助手支持自定义多普勒参数
 
 ## Thanks...
 

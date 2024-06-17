@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Xml.Serialization;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 
@@ -9,6 +8,8 @@ namespace SenhaixFreqWriter.DataModels.Gt12;
 
 public class AppData
 {
+    [JsonIgnore] public static AppData Instance;
+
     public string[] BankName = new string[30]
     {
         "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八", "区域九", "区域十",
@@ -23,16 +24,6 @@ public class AppData
     public Mdc1200 Mdcs = new();
     public VfoInfos Vfos = new();
 
-    [JsonIgnore] public static AppData Instance;
-
-    public static AppData GetInstance()
-    {
-        if (Instance != null) return Instance;
-
-        Instance = new AppData();
-        return Instance;
-    }
-
     public AppData()
     {
         for (var i = 0; i < 30; i++)
@@ -45,6 +36,14 @@ public class AppData
                 ChannelList[i][j] = rmp;
             }
         }
+    }
+
+    public static AppData GetInstance()
+    {
+        if (Instance != null) return Instance;
+
+        Instance = new AppData();
+        return Instance;
     }
 
     public static AppData ForceNewInstance()

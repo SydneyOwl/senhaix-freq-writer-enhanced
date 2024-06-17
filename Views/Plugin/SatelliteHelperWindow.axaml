@@ -38,25 +38,25 @@
         <Label Content="V段±" Canvas.Top="540" Canvas.Left="100" />
         <TextBox Canvas.Top="535" Canvas.Left="145" Name="voffset" Text="5" />
         <Label Content="kHz" Canvas.Top="540" Canvas.Left="220" />
-        
+
         <Border Width="210" Height="155" BorderBrush="Black" BorderThickness="1"
                 Canvas.Top="450" Canvas.Left="290" />
-        
-        <Label Content="(手动覆盖)" Canvas.Top="440" Canvas.Left="300" Background="MistyRose"></Label>
+
+        <Label Content="(手动覆盖)" Canvas.Top="440" Canvas.Left="300" Background="MistyRose" />
         <Label Content="上行频率" Canvas.Top="470" Canvas.Left="300" />
         <TextBox Canvas.Top="465" Canvas.Left="375" Name="centerTx" Width="85" />
         <Label Content="MHz" Canvas.Top="470" Canvas.Left="460" />
-        
+
         <Label Content="下行频率" Canvas.Top="500" Canvas.Left="300" />
         <TextBox Canvas.Top="495" Canvas.Left="375" Name="centerRx" Width="85" />
         <Label Content="MHz" Canvas.Top="500" Canvas.Left="460" />
-        
+
         <Label Content="信道名" Canvas.Top="530" Canvas.Left="300" />
-        <TextBox Canvas.Top="525" Canvas.Left="375" Name="satchanname" Width="100"/>
+        <TextBox Canvas.Top="525" Canvas.Left="375" Name="satchanname" Width="100" />
 
         <Label Content="亚音" Canvas.Top="560" Canvas.Left="300" />
-        <TextBox Canvas.Top="555" Canvas.Left="375" Name="sattone" Watermark="不填写即为无"/>
-        
+        <TextBox Canvas.Top="555" Canvas.Left="375" Name="sattone" Watermark="不填写即为无" />
+
         <Button HorizontalAlignment="Left" Canvas.Bottom="20" Canvas.Left="100" Name="FetchSat"
                 Click="FetchSatDataButton_OnClick">
             <StackPanel Orientation="Horizontal">

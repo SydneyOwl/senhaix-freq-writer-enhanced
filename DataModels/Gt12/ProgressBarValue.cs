@@ -2,8 +2,8 @@
 
 public class ProgressBarValue
 {
-    public int Value;
     public string Content;
+    public int Value;
 
     public ProgressBarValue(int value, string content)
     {

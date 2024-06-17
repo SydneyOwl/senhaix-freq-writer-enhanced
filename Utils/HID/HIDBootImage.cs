@@ -1,63 +1,58 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using System.Timers;
 using SenhaixFreqWriter.Constants.Gt12;
-using SenhaixFreqWriter.DataModels.Gt12;
 using SkiaSharp;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
 public class HIDBootImage
 {
-    private SKBitmap img = null;
+    private int address;
 
-    private Timer overTimer;
+    private int blockOfErase;
 
-    private HID_BOOTIMAGE_STATUS comStep = HID_BOOTIMAGE_STATUS.Step_HandShake;
+    // private ComInfoIssue progressUpdate = new ComInfoIssue();
+
+    private readonly byte[] bufferBmpData = new byte[1048576];
 
     private byte[] bufForData = new byte[2048];
 
-    private int packageID = 0;
+    private uint byteOfData;
 
-    private Stream s_out = null;
+    private int cntPackages;
 
-    private int address = 0;
+    private HID_BOOTIMAGE_STATUS comStep = HID_BOOTIMAGE_STATUS.Step_HandShake;
 
-    private int blockOfErase = 0;
-
-    private int totalPackages = 0;
-
-    private int cntPackages = 0;
-
-    private int packageLength = 0;
+    private int countOverTime;
 
     private string curFilePath = "";
 
-    private bool flagOverTime = false;
+    public ConcurrentQueue<int> currentProg = new();
 
-    private int countOverTime = 0;
+    private bool flagOverTime;
 
-    private int progressValue = 0;
+    private DataHelper helper;
+
+    private readonly HidTools hid = HidTools.GetInstance();
+    private readonly SKBitmap img;
+
+    private Timer overTimer;
+
+    private int packageID;
+
+    private int packageLength;
 
     private string progressText = "";
 
     private string progressTextHead = "";
 
-    // private ComInfoIssue progressUpdate = new ComInfoIssue();
+    private int progressValue;
 
-    private byte[] bufferBmpData = new byte[1048576];
+    private Stream s_out = null;
 
-    private uint byteOfData = 0u;
-
-    private HidTools hid = HidTools.GetInstance();
-
-    private DataHelper helper;
-
-    public ConcurrentQueue<int> currentProg = new();
+    private int totalPackages;
 
 
     // public ComInfoIssue ProgressUpdate

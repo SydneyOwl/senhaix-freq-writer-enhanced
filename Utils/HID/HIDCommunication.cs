@@ -41,13 +41,13 @@ public class HidCommunication
         "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I", "D754I"
     };
 
-    public AppData AppData = AppData.GetInstance();
-
     // private bool flagReceiveData;
 
     private bool _flagRetry;
 
     private bool _flagTransmitting;
+
+    private readonly HidTools _hid = HidTools.GetInstance();
 
     private string _progressCont = "";
 
@@ -61,7 +61,7 @@ public class HidCommunication
 
     private byte _timesOfRetry = 5;
 
-    private HidTools _hid = HidTools.GetInstance();
+    public AppData AppData = AppData.GetInstance();
 
     public ConcurrentQueue<ProgressBarValue> StatusQueue = new();
 

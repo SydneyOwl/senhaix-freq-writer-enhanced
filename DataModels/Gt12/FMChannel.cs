@@ -10,6 +10,6 @@ public partial class FmChannel : ObservableObject
 
 public partial class FmObject : ObservableObject
 {
-    [ObservableProperty] private int _id;
     [ObservableProperty] private string _freq = "";
+    [ObservableProperty] private int _id;
 }

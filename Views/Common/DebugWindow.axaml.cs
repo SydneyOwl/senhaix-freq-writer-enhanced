@@ -1,13 +1,10 @@
 ﻿using System;
 using System.IO;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MsBox.Avalonia;
-using SenhaixFreqWriter.DataModels.Gt12;
 
 namespace SenhaixFreqWriter.Views.Common;
 
@@ -35,10 +32,7 @@ public partial class DebugWindow : Window
 
     public override void Show()
     {
-        if (this.IsActive)
-        {
-            return;
-        }
+        if (IsActive) return;
         base.Show();
     }
 

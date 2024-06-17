@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -14,8 +13,6 @@ using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
-using SenhaixFreqWriter.Utils.BLE.Interfaces;
-using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
@@ -26,25 +23,14 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class MainWindow : Window
 {
+    private bool _devSwitchFlag;
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
 
     private ChannelData _tmpChannel;
 
-    private bool _devSwitchFlag = false;
-
     private BluetoothDeviceSelectionWindow bds;
-
-    public ObservableCollection<ChannelData> ListItems
-    {
-        get => _listItems;
-        set
-        {
-            _listItems = value;
-            ClassTheRadioData.GetInstance().ObsChanData = value;
-        }
-    }
 
 
     public MainWindow()
@@ -71,6 +57,16 @@ public partial class MainWindow : Window
 // 通过 AppContext.BaseDirectory 获取根目录
         var dirpath4 = AppContext.BaseDirectory;
         DebugWindow.GetInstance().updateDebugContent("AppContext.BaseDirectory = " + dirpath4);
+    }
+
+    public ObservableCollection<ChannelData> ListItems
+    {
+        get => _listItems;
+        set
+        {
+            _listItems = value;
+            ClassTheRadioData.GetInstance().ObsChanData = value;
+        }
     }
 
     public void CommonMainWindow()

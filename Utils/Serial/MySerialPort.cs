@@ -20,11 +20,6 @@ public class MySerialPort : SerialPort
 
     public int BtDeviceMtu { get; set; } = 23;
 
-    private void UpdateChanDebugInfo(string a)
-    {
-        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
-    }
-
     public int BytesToReadFromCache
     {
         get
@@ -43,6 +38,11 @@ public class MySerialPort : SerialPort
 
 
     public string TargetPort { get; set; } = "";
+
+    private void UpdateChanDebugInfo(string a)
+    {
+        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
+    }
 
     public async Task PreRead()
     {

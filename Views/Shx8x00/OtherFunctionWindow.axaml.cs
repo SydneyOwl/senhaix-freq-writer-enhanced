@@ -1,25 +1,20 @@
-﻿using System;
-using System.Linq;
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
-using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OtherFunctionWindow : Window
 {
-    public OtherImfData Imf { get; set; } = ClassTheRadioData.GetInstance().OtherImfData;
-
     public OtherFunctionWindow()
     {
         InitializeComponent();
         DataContext = this;
     }
+
+    public OtherImfData Imf { get; set; } = ClassTheRadioData.GetInstance().OtherImfData;
 
     private async void WriteConfig_OnClick(object? sender, RoutedEventArgs e)
     {

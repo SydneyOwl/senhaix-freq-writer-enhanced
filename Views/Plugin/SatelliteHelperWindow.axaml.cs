@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -13,7 +12,6 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using Newtonsoft.Json.Linq;
-using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Views.Common;
@@ -22,18 +20,17 @@ namespace SenhaixFreqWriter.Views.Plugin;
 
 public partial class SatelliteHelperWindow : Window
 {
-    private string[] _currentChannel = new string[14];
-    public ObservableCollection<string> Namelist { get; set; } = new();
+    public delegate void InsertChannelMethod(string rx, string rxDec, string tx, string txDec, string name);
 
-    public List<string> SatelliteList = new();
+    private string[] _currentChannel = new string[14];
 
     private JArray _satelliteJson = new();
-
-    public delegate void InsertChannelMethod(string rx, string rxDec, string tx, string txDec, string name);
 
     public InsertChannelMethod InsertData;
 
     private string loadedJson = "";
+
+    public List<string> SatelliteList = new();
 
     public SatelliteHelperWindow()
     {
@@ -67,6 +64,8 @@ public partial class SatelliteHelperWindow : Window
         }
     }
 
+    public ObservableCollection<string> Namelist { get; set; } = new();
+
     private bool LoadJson(bool useMem = false)
     {
         var satelliteData = "";
@@ -80,10 +79,11 @@ public partial class SatelliteHelperWindow : Window
             {
                 if (!File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"未找到json");
+                    DebugWindow.GetInstance().updateDebugContent("未找到json");
                     Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
                     return false;
                 }
+
                 satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
             }
             else
@@ -92,13 +92,14 @@ public partial class SatelliteHelperWindow : Window
                 if (File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
                 {
                     satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
-                }else if(File.Exists(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json")))
+                }
+                else if (File.Exists(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json")))
                 {
                     satelliteData = File.ReadAllText(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json"));
                 }
                 else
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"未找到json");
+                    DebugWindow.GetInstance().updateDebugContent("未找到json");
                     Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
                     return false;
                 }
@@ -107,7 +108,7 @@ public partial class SatelliteHelperWindow : Window
 
         if (string.IsNullOrEmpty(satelliteData))
         {
-            DebugWindow.GetInstance().updateDebugContent($"json为空");
+            DebugWindow.GetInstance().updateDebugContent("json为空");
             Dispatcher.UIThread.Invoke(() => { return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
@@ -319,6 +320,7 @@ public partial class SatelliteHelperWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", "频率范围有误！").ShowWindowDialogAsync(this);
             return;
         }
+
         _currentChannel[2] = kk.ToString("0.00000");
 
         double.TryParse(_currentChannel[4], out kk);
@@ -327,6 +329,7 @@ public partial class SatelliteHelperWindow : Window
             MessageBoxManager.GetMessageBoxStandard("注意", "频率范围有误！").ShowWindowDialogAsync(this);
             return;
         }
+
         _currentChannel[4] = kk.ToString("0.00000");
 
         try

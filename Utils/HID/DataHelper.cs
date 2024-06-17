@@ -6,15 +6,15 @@ public class DataHelper
 {
     private ushort _args;
 
-    public byte Command;
-
     private ushort _crc;
-
-    public HidErrors ErrorCode;
 
     private byte _header = 170;
 
     private byte _lenOfPackage;
+
+    public byte Command;
+
+    public HidErrors ErrorCode;
 
     public byte[] Payload = new byte[56];
 

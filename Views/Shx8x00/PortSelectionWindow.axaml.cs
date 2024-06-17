@@ -10,19 +10,6 @@ public partial class PortSelectionWindow : Window
 {
     private string _portName = MySerialPort.GetInstance().TargetPort;
 
-    public ObservableCollection<string> PortList { get; set; }
-
-    public string PortName
-    {
-        get => _portName;
-        set
-        {
-            if (string.IsNullOrEmpty(value)) return;
-
-            _portName = value;
-        }
-    }
-
     public PortSelectionWindow()
     {
         string[] portNames = SerialPort.GetPortNames();
@@ -35,6 +22,19 @@ public partial class PortSelectionWindow : Window
 
         InitializeComponent();
         DataContext = this;
+    }
+
+    public ObservableCollection<string> PortList { get; set; }
+
+    public string PortName
+    {
+        get => _portName;
+        set
+        {
+            if (string.IsNullOrEmpty(value)) return;
+
+            _portName = value;
+        }
     }
 
     private void confirm_OnClick(object? sender, RoutedEventArgs e)

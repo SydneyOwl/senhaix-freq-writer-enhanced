@@ -20,13 +20,13 @@ public partial class ProgressBarWindow : Window
 
     private readonly ClassTheRadioData _theRadioData;
 
-    private CancellationTokenSource _tokenSource;
-
     private bool _opRes;
 
     private Thread _threadProgress;
 
     private Thread _threadWf;
+
+    private CancellationTokenSource _tokenSource;
 
     private WriFreq _wF;
 
@@ -104,7 +104,7 @@ public partial class ProgressBarWindow : Window
 
     private async void Task_WriteFreq(CancellationToken cancellationToken)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start WriFreq Thread: WriFreq8800");
+        DebugWindow.GetInstance().updateDebugContent("Start WriFreq Thread: WriFreq8800");
         var flag = false;
         _wF = new WriFreq(_sP, _theRadioData, _status);
         MySerialPort.GetInstance().RxData.Clear();
@@ -119,14 +119,14 @@ public partial class ProgressBarWindow : Window
         }
 
         Dispatcher.UIThread.Post(() => HandleWfResult(flag));
-        DebugWindow.GetInstance().updateDebugContent($"Terminate WriFreq Thread: WriFreq8800");
+        DebugWindow.GetInstance().updateDebugContent("Terminate WriFreq Thread: WriFreq8800");
         // DebugWindow.GetInstance().updateDebugContent($"Disposing bluetooth..");
         // MySerialPort.GetInstance().WriteBle = null;
     }
 
     private void Task_GetProgress(CancellationToken cancellationToken)
     {
-        DebugWindow.GetInstance().updateDebugContent($"Start GetProcess Thread: GetProcess8800");
+        DebugWindow.GetInstance().updateDebugContent("Start GetProcess Thread: GetProcess8800");
         var flag = false;
         var num = 3;
         while (_wF == null && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
@@ -188,7 +188,7 @@ public partial class ProgressBarWindow : Window
             }
         }
 
-        DebugWindow.GetInstance().updateDebugContent($"Terminate GetProcess Thread: GetProcess8800");
+        DebugWindow.GetInstance().updateDebugContent("Terminate GetProcess Thread: GetProcess8800");
     }
 
     private void HandleWfResult(bool result)

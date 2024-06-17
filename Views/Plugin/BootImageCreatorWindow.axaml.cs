@@ -2,49 +2,38 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Avalonia.Skia;
+using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Common;
+using SenhaixFreqWriter.Constants.Shx8x00;
+using SenhaixFreqWriter.Controls;
+using SenhaixFreqWriter.Views.Common;
 using SkiaSharp;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Runtime.InteropServices;
-using Avalonia.Platform.Storage;
-using MsBox.Avalonia;
-using SenhaixFreqWriter.Controls;
-using SenhaixFreqWriter.DataModels.Gt12;
-using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Plugin;
 
 public partial class BootImageCreatorWindow : Window
 {
-    public SKBitmap CreatedBitmap;
-
-    public Bitmap CreatedAvaloniaBitmap;
-
-    private SHX_DEVICE _dev;
-    public int BootImgWidth { get; set; }
-    public int BootImgHeight { get; set; }
-    public int WindowHeight { get; set; }
-    public float defaultY { get; set; }
+    private readonly SHX_DEVICE _dev;
 
     private bool _stopUpdate;
+
+    private readonly List<BootImgCreatorFontComponent> controls = new();
+
+    public Bitmap CreatedAvaloniaBitmap;
+    public SKBitmap CreatedBitmap;
 
     private int currentRow = 1;
 
     private int lastRowCount = 1;
-
-    public ObservableCollection<string> fontList { get; set; } = new();
-
-    public ObservableCollection<string> fontStyleList { get; set; } = new();
-
-    private List<BootImgCreatorFontComponent> controls = new();
 
     public BootImageCreatorWindow(SHX_DEVICE device)
     {
@@ -52,8 +41,8 @@ public partial class BootImageCreatorWindow : Window
         switch (_dev)
         {
             case SHX_DEVICE.SHX8X00:
-                BootImgWidth = Constants.Shx8x00.OTHERS.BOOT_IMG_WIDTH;
-                BootImgHeight = Constants.Shx8x00.OTHERS.BOOT_IMG_HEIGHT;
+                BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
+                BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
                 WindowHeight = 500;
                 break;
             case SHX_DEVICE.GT12:
@@ -67,7 +56,7 @@ public partial class BootImageCreatorWindow : Window
         InitializeFont();
         InitializeComponent();
         //TMPLLA
-        DebugWindow.GetInstance().updateDebugContent($"添加控件");
+        DebugWindow.GetInstance().updateDebugContent("添加控件");
         var compControl = this.FindControl<BootImgCreatorFontComponent>("CreatorComponent");
         compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent, (a, b) => UpdatePreview(compControl),
             RoutingStrategies.Bubble);
@@ -92,6 +81,15 @@ public partial class BootImageCreatorWindow : Window
         // fontComboBox.SelectedValue = "Arial";
     }
 
+    public int BootImgWidth { get; set; }
+    public int BootImgHeight { get; set; }
+    public int WindowHeight { get; set; }
+    public float defaultY { get; set; }
+
+    public ObservableCollection<string> fontList { get; set; } = new();
+
+    public ObservableCollection<string> fontStyleList { get; set; } = new();
+
     private void InitializeFont()
     {
         //手动加入中文字体...
@@ -112,7 +110,7 @@ public partial class BootImageCreatorWindow : Window
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            DebugWindow.GetInstance().updateDebugContent($"Windows: ->InstalledFontCollection");
+            DebugWindow.GetInstance().updateDebugContent("Windows: ->InstalledFontCollection");
             var fonts = new InstalledFontCollection();
             foreach (var family in fonts.Families) fontList.Add(family.Name);
         }
@@ -121,7 +119,7 @@ public partial class BootImageCreatorWindow : Window
             // can't fetch list directly from macos syscall...
             // maybe insert list directly
         {
-            DebugWindow.GetInstance().updateDebugContent($"macOS: ->OSX_AVAILABLE_FONTS.OSX_FONT_LIST");
+            DebugWindow.GetInstance().updateDebugContent("macOS: ->OSX_AVAILABLE_FONTS.OSX_FONT_LIST");
             foreach (var se in OSX_OPTIONS.OSX_FONT_LIST)
                 fontList.Add(se);
         }
@@ -340,7 +338,7 @@ public partial class BootImageCreatorWindow : Window
             }
             catch (UnauthorizedAccessException)
             {
-                DebugWindow.GetInstance().updateDebugContent($"UNAUTHORIAZED");
+                DebugWindow.GetInstance().updateDebugContent("UNAUTHORIAZED");
                 MessageBoxManager.GetMessageBoxStandard("注意", "目标目录无写权限，无法写入！").ShowWindowDialogAsync(this);
             }
             catch (Exception f)
@@ -353,7 +351,7 @@ public partial class BootImageCreatorWindow : Window
     private void AddText(BootImgCreatorFontComponent bt)
     {
         bt.addButton.IsVisible = false;
-        var newRowDefinition = new RowDefinition() { Height = GridLength.Auto };
+        var newRowDefinition = new RowDefinition { Height = GridLength.Auto };
         fullGrid.RowDefinitions.Add(newRowDefinition);
         var compControl = new BootImgCreatorFontComponent();
         if (++lastRowCount % 4 == 0)

@@ -6,8 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using Newtonsoft.Json.Linq;
+using Version = SenhaixFreqWriter.Properties.Version;
 
 namespace SenhaixFreqWriter.Views.Common;
 
@@ -51,13 +51,11 @@ public partial class AboutWindow : Window
                 }
                 else
                 {
-                    return;
                 }
             }
         }
         catch
         {
-            return;
         }
     }
 
@@ -77,7 +75,7 @@ public partial class AboutWindow : Window
 
             if (response.IsSuccessStatusCode)
             {
-                var currentTagTime = Properties.Version.BuildTime;
+                var currentTagTime = Version.BuildTime;
                 if (currentTagTime.Equals("@BUILD_TIME@"))
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "此版本未被发行！").ShowWindowDialogAsync(this);
@@ -91,9 +89,9 @@ public partial class AboutWindow : Window
                 var curTagTimeParsed = DateTime.Parse(currentTagTime);
                 // 转UTC
                 curTagTimeParsed = curTagTimeParsed.ToUniversalTime();
-                
-                double minuteSpan=Math.Abs(new TimeSpan(tagTimeParsed.Ticks-curTagTimeParsed.Ticks).TotalMinutes);
-                
+
+                var minuteSpan = Math.Abs(new TimeSpan(tagTimeParsed.Ticks - curTagTimeParsed.Ticks).TotalMinutes);
+
                 if (minuteSpan > 10)
                     MessageBoxManager.GetMessageBoxStandard("注意", "有新版本可用~").ShowWindowDialogAsync(this);
                 else

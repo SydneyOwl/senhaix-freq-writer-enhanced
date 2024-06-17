@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SenhaixFreqWriter.Constants.BLE;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
@@ -20,11 +18,10 @@ namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
 public class WSRPCBLE : IBluetooth
 {
+    private readonly bool manual;
     private Process rpcClient;
 
-    private bool manual;
-
-    private WSRPCUtil wsrpc;
+    private readonly WSRPCUtil wsrpc;
 
     public WSRPCBLE(bool useManual)
     {
@@ -126,12 +123,12 @@ public class WSRPCBLE : IBluetooth
         var result = wsrpc.ScanForShx();
         var pattern = @"(\\[^bfrnt\\/'\""])";
         result = Regex.Replace(result, pattern, "\\$1");
-        List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
+        var bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
         List<GenerticBLEDeviceInfo> fin = new();
         foreach (var generticBleDeviceInfo in bleDeviceInfo)
         {
             if (!disableSSIDFilter &&
-                generticBleDeviceInfo.DeviceName != Constants.BLE.BleConst.BtnameShx8800) continue;
+                generticBleDeviceInfo.DeviceName != BleConst.BtnameShx8800) continue;
             fin.Add(generticBleDeviceInfo);
         }
 
@@ -160,12 +157,12 @@ public class WSRPCBLE : IBluetooth
 
     public void RegisterHid()
     {
-        HidTools.GetInstance().WriteBle = (value) => { wsrpc.WriteData(value); };
+        HidTools.GetInstance().WriteBle = value => { wsrpc.WriteData(value); };
     }
 
     public void RegisterSerial()
     {
-        MySerialPort.GetInstance().WriteBle = (value) => { wsrpc.WriteData(value); };
+        MySerialPort.GetInstance().WriteBle = value => { wsrpc.WriteData(value); };
     }
 
     public void Dispose()

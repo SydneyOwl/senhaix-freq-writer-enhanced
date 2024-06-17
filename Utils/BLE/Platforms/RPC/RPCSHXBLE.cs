@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SenhaixFreqWriter.Constants.BLE;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
@@ -20,11 +19,10 @@ namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
 public class RPCSHXBLE : IBluetooth
 {
-    private CancellationTokenSource source = new();
+    private readonly bool manual;
 
     private Process rpcServer;
-
-    private bool manual;
+    private readonly CancellationTokenSource source = new();
 
     public RPCSHXBLE(bool useManual)
     {
@@ -122,12 +120,12 @@ public class RPCSHXBLE : IBluetooth
         var result = RPCUtil.ScanForShx();
         var pattern = @"(\\[^bfrnt\\/'\""])";
         result = Regex.Replace(result, pattern, "\\$1");
-        List<GenerticBLEDeviceInfo> bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
+        var bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
         List<GenerticBLEDeviceInfo> fin = new();
         foreach (var generticBleDeviceInfo in bleDeviceInfo)
         {
             if (!disableSSIDFilter &&
-                generticBleDeviceInfo.DeviceName != Constants.BLE.BleConst.BtnameShx8800) continue;
+                generticBleDeviceInfo.DeviceName != BleConst.BtnameShx8800) continue;
             fin.Add(generticBleDeviceInfo);
         }
 
@@ -156,14 +154,14 @@ public class RPCSHXBLE : IBluetooth
 
     public void RegisterHid()
     {
-        HidTools.GetInstance().WriteBle = (value) => { RPCUtil.WriteData(value); };
+        HidTools.GetInstance().WriteBle = value => { RPCUtil.WriteData(value); };
         ;
         Task.Run(() => UpdateRecvQueueHid(source.Token));
     }
 
     public void RegisterSerial()
     {
-        MySerialPort.GetInstance().WriteBle = (value) => { RPCUtil.WriteData(value); };
+        MySerialPort.GetInstance().WriteBle = value => { RPCUtil.WriteData(value); };
         Task.Run(() => UpdateRecvQueue(source.Token));
     }
 

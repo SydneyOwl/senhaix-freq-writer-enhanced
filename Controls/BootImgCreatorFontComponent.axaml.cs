@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 
 namespace SenhaixFreqWriter.Controls;
 
 public partial class BootImgCreatorFontComponent : UserControl
 {
-    public BootImgCreatorFontComponent()
-    {
-        InitializeComponent();
-    }
-
     public static readonly RoutedEvent<RoutedEventArgs> UpdateEvent =
         RoutedEvent.Register<BootImgCreatorFontComponent, RoutedEventArgs>("UpdateEvent", RoutingStrategies.Bubble);
 
@@ -23,6 +15,11 @@ public partial class BootImgCreatorFontComponent : UserControl
 
     public static readonly RoutedEvent<RoutedEventArgs> AddTextEvent =
         RoutedEvent.Register<BootImgCreatorFontComponent, RoutedEventArgs>("AddTextEvent", RoutingStrategies.Bubble);
+
+    public BootImgCreatorFontComponent()
+    {
+        InitializeComponent();
+    }
 
     public void RaiseUpdateEvent()
     {

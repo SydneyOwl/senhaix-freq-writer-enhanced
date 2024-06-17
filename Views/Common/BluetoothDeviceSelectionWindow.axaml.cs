@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.Threading;
 using MsBox.Avalonia;
-using SenhaixFreqWriter.Constants.BLE;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
-using SenhaixFreqWriter.Utils.Other;
-
 #if WINDOWS
 using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 #endif
@@ -27,9 +18,8 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class BluetoothDeviceSelectionWindow : Window
 {
-    public ObservableCollection<GenerticBLEDeviceInfo> BleInfos { get; set; } = new();
+    private readonly SHX_DEVICE dev = SHX_DEVICE.SHX8X00;
     public IBluetooth osBLE;
-    private SHX_DEVICE dev = SHX_DEVICE.SHX8X00;
 
     public BluetoothDeviceSelectionWindow()
     {
@@ -48,6 +38,8 @@ public partial class BluetoothDeviceSelectionWindow : Window
 #endif
         DataContext = this;
     }
+
+    public ObservableCollection<GenerticBLEDeviceInfo> BleInfos { get; set; } = new();
 
     private void ScanButton_OnClick(object? sender, RoutedEventArgs e)
     {

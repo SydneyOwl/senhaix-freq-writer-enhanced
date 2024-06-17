@@ -12,14 +12,14 @@ namespace SenhaixFreqWriter.Utils.Other;
 
 public class RPCRequest
 {
-    public string method = "";
     public string arg = "";
+    public string method = "";
 }
 
 public class RPCResponse
 {
-    public string response = "";
     public string error = "";
+    public string response = "";
 }
 
 public class RPCUtil

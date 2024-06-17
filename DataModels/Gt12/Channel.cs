@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -13,6 +12,8 @@ public partial class Channel : ObservableObject
     // Useless member: id
     private int _id;
 
+    [XmlIgnore] [ObservableProperty] private bool _isVisable;
+
     [ObservableProperty] private string _name = "";
     [ObservableProperty] private int _pttid;
     [ObservableProperty] private string _rxFreq = "";
@@ -24,8 +25,6 @@ public partial class Channel : ObservableObject
     [ObservableProperty] private string _strTxCtsDcs = "OFF";
     [ObservableProperty] private string _txFreq = "";
     [ObservableProperty] private int _txPower;
-
-    [XmlIgnore] [ObservableProperty] private bool _isVisable;
 
     public Channel()
     {

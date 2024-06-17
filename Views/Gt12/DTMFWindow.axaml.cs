@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.DataModels.Gt12;
 using SenhaixFreqWriter.Views.Common;
 
@@ -16,11 +12,45 @@ public partial class DtmfWindow : Window
 {
     private ObservableCollection<DtmpObject> _dtmfs = new();
 
-    private int _wordTime = AppData.GetInstance().Dtmfs.WordTime;
-
     private int _idleTime = AppData.GetInstance().Dtmfs.IdleTime;
 
     private string _myId = AppData.GetInstance().Dtmfs.LocalId;
+
+    private int _wordTime = AppData.GetInstance().Dtmfs.WordTime;
+
+    public DtmfWindow()
+    {
+        InitializeComponent();
+        DataContext = this;
+        var dtmfOrig = AppData.GetInstance().Dtmfs;
+        for (var i = 0; i < 20; i++)
+        {
+            var tmp = new DtmpObject();
+            tmp.Id = (i + 1).ToString();
+            tmp.GroupName = dtmfOrig.GroupName[i];
+            tmp.Group = dtmfOrig.Group[i];
+            Dtmfs.Add(tmp);
+        }
+
+        Closing += async (sender, args) =>
+        {
+            for (var i = 0; i < 20; i++)
+                if (string.IsNullOrEmpty(Dtmfs[i].Group) || string.IsNullOrEmpty(Dtmfs[i].GroupName))
+                {
+                    args.Cancel = true;
+                    DebugWindow.GetInstance().updateDebugContent("阻止窗口关闭：有空字段");
+                    await MessageBoxManager.GetMessageBoxStandard("注意", "未填写完整，不能有为空的字段！")
+                        .ShowWindowDialogAsync(this);
+                    return;
+                }
+
+            for (var j = 0; j < 20; j++)
+            {
+                AppData.GetInstance().Dtmfs.Group[j] = Dtmfs[j].Group;
+                AppData.GetInstance().Dtmfs.GroupName[j] = Dtmfs[j].GroupName;
+            }
+        };
+    }
 
     public int WordTime
     {
@@ -57,40 +87,6 @@ public partial class DtmfWindow : Window
     {
         get => _dtmfs;
         set => _dtmfs = value ?? throw new ArgumentNullException(nameof(value));
-    }
-
-    public DtmfWindow()
-    {
-        InitializeComponent();
-        DataContext = this;
-        var dtmfOrig = AppData.GetInstance().Dtmfs;
-        for (var i = 0; i < 20; i++)
-        {
-            var tmp = new DtmpObject();
-            tmp.Id = (i + 1).ToString();
-            tmp.GroupName = dtmfOrig.GroupName[i];
-            tmp.Group = dtmfOrig.Group[i];
-            Dtmfs.Add(tmp);
-        }
-
-        Closing += async (sender, args) =>
-        {
-            for (var i = 0; i < 20; i++)
-                if (string.IsNullOrEmpty(Dtmfs[i].Group) || string.IsNullOrEmpty(Dtmfs[i].GroupName))
-                {
-                    args.Cancel = true;
-                    DebugWindow.GetInstance().updateDebugContent($"阻止窗口关闭：有空字段");
-                    await MessageBoxManager.GetMessageBoxStandard("注意", "未填写完整，不能有为空的字段！")
-                        .ShowWindowDialogAsync(this);
-                    return;
-                }
-
-            for (var j = 0; j < 20; j++)
-            {
-                AppData.GetInstance().Dtmfs.Group[j] = Dtmfs[j].Group;
-                AppData.GetInstance().Dtmfs.GroupName[j] = Dtmfs[j].GroupName;
-            }
-        };
     }
 
     private void GroupCodeInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)

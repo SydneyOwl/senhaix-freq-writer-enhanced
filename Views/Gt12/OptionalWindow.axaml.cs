@@ -1,8 +1,4 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.DataModels.Gt12;
 
@@ -10,14 +6,14 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class OptionalWindow : Window
 {
-    public Function Func { get; set; } = AppData.GetInstance().FunCfgs;
-    public Mdc1200 Mdc { get; set; } = AppData.GetInstance().Mdcs;
-
     public OptionalWindow()
     {
         InitializeComponent();
         DataContext = this;
     }
+
+    public Function Func { get; set; } = AppData.GetInstance().FunCfgs;
+    public Mdc1200 Mdc { get; set; } = AppData.GetInstance().Mdcs;
 
 
     private void CallsignInputElement_OnLostFocus(object? sender, TextChangedEventArgs e)

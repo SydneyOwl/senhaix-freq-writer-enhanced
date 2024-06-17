@@ -7,13 +7,13 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OptionalWindow : Window
 {
-    public FunCfgData Fun { get; set; } = ClassTheRadioData.GetInstance().FunCfgData;
-
     public OptionalWindow()
     {
         InitializeComponent();
         DataContext = this;
     }
+
+    public FunCfgData Fun { get; set; } = ClassTheRadioData.GetInstance().FunCfgData;
 
     private void close_OnClick(object? sender, RoutedEventArgs e)
     {

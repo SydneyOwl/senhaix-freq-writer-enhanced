@@ -57,7 +57,7 @@ public partial class Dtmf : ObservableObject
 
 public partial class DtmpObject : ObservableObject
 {
-    [ObservableProperty] private string _id;
     [ObservableProperty] private string _group;
     [ObservableProperty] private string _groupName;
+    [ObservableProperty] private string _id;
 }

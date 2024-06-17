@@ -19,7 +19,6 @@ using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
-
 #if WINDOWS
 using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 #endif
@@ -28,17 +27,15 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class MainWindow : Window
 {
-    public ObservableCollection<Channel> ListItems { get; set; } = new();
+    private Channel _copiedChannel;
 
-    public int CurrentArea = 0;
-
-    private bool _devSwitchFlag = false;
+    private bool _devSwitchFlag;
 
     private string _filePath = "";
 
-    private Channel _copiedChannel;
-
     private IBluetooth _osBle;
+
+    public int CurrentArea;
 
     public MainWindow()
     {
@@ -63,6 +60,8 @@ public partial class MainWindow : Window
         };
         HidTools.GetInstance().FindAndConnect();
     }
+
+    public ObservableCollection<Channel> ListItems { get; set; } = new();
 
 
     private void About_OnClick(object? sender, RoutedEventArgs e)

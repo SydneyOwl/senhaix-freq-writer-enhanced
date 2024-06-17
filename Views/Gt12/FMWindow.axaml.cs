@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.DataModels.Gt12;
 
@@ -14,23 +9,6 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class FmWindow : Window
 {
-    private ObservableCollection<FmObject> _fmchannels = new();
-
-    private string _curFreq = AppData.GetInstance().Fms.CurFreq.ToString()
-        .Insert(AppData.GetInstance().Fms.CurFreq.ToString().Length - 1, ".");
-
-    public ObservableCollection<FmObject> Fmchannels
-    {
-        get => _fmchannels;
-        set => _fmchannels = value;
-    }
-
-    public string CurFreq
-    {
-        get => _curFreq;
-        set => _curFreq = value;
-    }
-
     public FmWindow()
     {
         InitializeComponent();
@@ -64,6 +42,11 @@ public partial class FmWindow : Window
             AppData.GetInstance().Fms.CurFreq = int.Parse(CurFreq.Replace(".", ""));
         };
     }
+
+    public ObservableCollection<FmObject> Fmchannels { get; set; } = new();
+
+    public string CurFreq { get; set; } = AppData.GetInstance().Fms.CurFreq.ToString()
+        .Insert(AppData.GetInstance().Fms.CurFreq.ToString().Length - 1, ".");
 
     private void CalcSeq()
     {

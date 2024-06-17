@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using Fleck;
 using Newtonsoft.Json;
@@ -13,17 +11,10 @@ namespace SenhaixFreqWriter.Utils.Other;
 
 public class WSRPCUtil
 {
-    private Queue<string> NormalDataQueue = new();
-    private WebSocketServer wsServer = null;
-    private IWebSocketConnection currentClient = null;
     private static WSRPCUtil instance;
-
-    public static WSRPCUtil GetInstance()
-    {
-        if (instance == null) instance = new WSRPCUtil();
-
-        return instance;
-    }
+    private IWebSocketConnection currentClient;
+    private readonly Queue<string> NormalDataQueue = new();
+    private WebSocketServer wsServer;
 
     public WSRPCUtil()
     {
@@ -32,6 +23,13 @@ public class WSRPCUtil
             if (level > LogLevel.Info) DebugWindow.GetInstance().updateDebugContent(message);
         };
         // StartWSRPC();
+    }
+
+    public static WSRPCUtil GetInstance()
+    {
+        if (instance == null) instance = new WSRPCUtil();
+
+        return instance;
     }
 
     private string SendRPCRequest(string method, string arg)
@@ -85,7 +83,7 @@ public class WSRPCUtil
                     }
 
                     currentClient = socket;
-                    currentClient.OnError = (err) =>
+                    currentClient.OnError = err =>
                     {
                         DebugWindow.GetInstance().updateDebugContent($"出错:{err.Message}");
                         currentClient.Close();
@@ -97,12 +95,12 @@ public class WSRPCUtil
                         currentClient.Close();
                         currentClient = null;
                     };
-                    currentClient.OnMessage = (msg) =>
+                    currentClient.OnMessage = msg =>
                     {
                         // DebugWindow.GetInstance().updateDebugContent($"OnMessage Recv:{msg}");
                         NormalDataQueue.Enqueue(msg);
                     };
-                    currentClient.OnBinary = (data) =>
+                    currentClient.OnBinary = data =>
                     {
                         // DebugWindow.GetInstance().updateDebugContent($"OnBinary Recv:{BitConverter.ToString(data)}");
                         if (data == null) return;

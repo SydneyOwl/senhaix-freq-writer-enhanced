@@ -13,40 +13,39 @@ namespace SenhaixFreqWriter.Utils.HID;
 
 public class HidTools
 {
-    public HidDevice Gt12Device;
+    public delegate void UpdateMainUiThread(bool connected);
 
-    public int OutputReportLength;
-
-    public int InputReportLength;
-
-    public HidStream HidStream;
+    public delegate void WriteValueAsync(byte[] value);
 
     private static HidTools _instance;
 
-    public bool IsDeviceConnected = false;
+    private readonly Mutex _mutexSearch = new();
+
+    private readonly Mutex _mutexSend = new();
+
+    private readonly CancellationTokenSource _pollTokenSource = new();
+
+    public int BtDeviceMtu = 23;
 
     public DeviceList DevList;
 
-    public delegate void UpdateMainUiThread(bool connected);
+    public bool FlagReceiveData;
+    public HidDevice Gt12Device;
 
-    public UpdateMainUiThread UpdateLabel;
+    public HidStream HidStream;
+
+    public int InputReportLength;
+
+    public bool IsDeviceConnected;
+
+    public int OutputReportLength;
 
     //TODO: enhance
     public byte[] RxBuffer = new byte[64];
 
-    public bool FlagReceiveData;
-
-    public delegate void WriteValueAsync(byte[] value);
+    public UpdateMainUiThread UpdateLabel;
 
     public WriteValueAsync WriteBle;
-
-    public int BtDeviceMtu = 23;
-
-    private CancellationTokenSource _pollTokenSource = new();
-
-    private Mutex _mutexSearch = new();
-
-    private Mutex _mutexSend = new();
 
     private void UpdateChanDebugInfo(string a)
     {
@@ -146,12 +145,10 @@ public class HidTools
             _mutexSearch.ReleaseMutex();
             return HidStatus.Success;
         }
-        else
-        {
-            // DebugWindow.GetInstance().updateDebugContent("Not Connected");
-            _mutexSearch.ReleaseMutex();
-            return HidStatus.NoDeviceConnected;
-        }
+
+        // DebugWindow.GetInstance().updateDebugContent("Not Connected");
+        _mutexSearch.ReleaseMutex();
+        return HidStatus.NoDeviceConnected;
     }
 
     private void ReadCompleted(IAsyncResult iResult)

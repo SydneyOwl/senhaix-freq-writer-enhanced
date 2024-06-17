@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
-using SenhaixFreqWriter.Views.Common;
 using Timer = System.Timers.Timer;
 
 
@@ -68,21 +65,21 @@ internal class WriFreq
 
     private readonly ClassTheRadioData _theRadioData;
 
+    private bool _flagRetry;
+
+    private int _numOfChannel = 0;
+
     private State _state = State.HandShakeStep1;
+
+    private Timer _timer;
+
+    private byte _timesOfRetry = 5;
 
     public ConcurrentQueue<State> CurrentProgress = new();
 
     public ushort EepAddr;
 
-    private bool _flagRetry;
-
     public bool FlagTransmitting;
-
-    private int _numOfChannel = 0;
-
-    private Timer _timer;
-
-    private byte _timesOfRetry = 5;
 
     public WriFreq(MySerialPort sP, ClassTheRadioData theRadioData, OperationType op)
     {

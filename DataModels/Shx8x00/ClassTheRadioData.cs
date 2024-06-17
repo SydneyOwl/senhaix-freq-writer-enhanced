@@ -14,14 +14,14 @@ public class ClassTheRadioData
 {
     [JsonIgnore] public static ClassTheRadioData Instance;
 
-    [JsonIgnore] public ObservableCollection<ChannelData> ObsChanData = new();
-
     //TODO 无法直接反序列化到chanData, 只能这样一下
     public List<ChannelData> ChanneldataList = new();
 
     public DtmfData DtmfData = new();
 
     public FunCfgData FunCfgData = new();
+
+    [JsonIgnore] public ObservableCollection<ChannelData> ObsChanData = new();
 
     public OtherImfData OtherImfData = new();
 

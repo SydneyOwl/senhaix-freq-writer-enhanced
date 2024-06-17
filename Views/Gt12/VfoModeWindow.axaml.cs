@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Avalonia;
+﻿using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
@@ -12,13 +9,13 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class VfoModeWindow : Window
 {
-    public VfoInfos VfoInfos { get; set; } = AppData.GetInstance().Vfos;
-
     public VfoModeWindow()
     {
         InitializeComponent();
         DataContext = this;
     }
+
+    public VfoInfos VfoInfos { get; set; } = AppData.GetInstance().Vfos;
 
     private void currentFreq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
