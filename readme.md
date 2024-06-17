@@ -139,8 +139,7 @@
 
 + linux平台上写频需要`sudo`！
 + 若在macOS上无法使用，可能需要首先执行`xattr -cr SenhaixFreqWriter.app`!
-    +
-  如在macOS上（在macOS13及以下可能出现该问题）仍无法正常使用蓝牙功能，请首先打开写频软件，在蓝牙界面勾选“手动控制RPC”，之后执行`chmod +x 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64 && 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64`
+    - 如在macOS上（在macOS13及以下可能出现该问题）仍无法正常使用蓝牙功能，请首先打开写频软件，在蓝牙界面勾选“手动控制RPC”，之后执行`chmod +x 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64 && 放置软件的位置/SenhaixFreqWriter.app/Contents/MacOS/BLEPlugin_macos_x64`
   ，最后正常读写频即可。
 
 ## 其他
