@@ -17,6 +17,7 @@ using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
+// 已废弃
 public class RPCSHXBLE : IBluetooth
 {
     private readonly bool manual;

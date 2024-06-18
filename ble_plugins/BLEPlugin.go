@@ -26,6 +26,8 @@ var (
 
 	noColorOutput = false
 	runTest       = false
+	// 由RPC Server端，即写频软件端自动调用，而不是手动打开
+	insideCall = false
 
 	verbose  = false
 	vverbose = false
@@ -267,6 +269,7 @@ func StartRPC(addr string) {
 	c, _, err := websocket.DefaultDialer.Dial(addr, nil)
 	if err != nil {
 		slog.Fatalf("无法连接到服务器：%v", err)
+		slog.Notice("如果您通过手动方式调用插件，请先打开写频软件再打开本插件！")
 		return
 	}
 	defer func(c *websocket.Conn) {
@@ -402,6 +405,13 @@ func main() {
 		Long:  `BLE RPC Client - Connect shx8x00 and c#`,
 		Run: func(cmd *cobra.Command, args []string) {
 			logger.InitLog(verbose, vverbose, noColorOutput)
+			defer func() {
+				if !insideCall {
+					// 等待用户确认退出
+					fmt.Println("程序结束，按回车键退出...")
+					_, _ = fmt.Scanln()
+				}
+			}()
 			if runTest {
 				StartTest(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
 				return
@@ -409,12 +419,13 @@ func main() {
 			StartRPC(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
 		},
 	}
-	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Client port")
+	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server port")
 	BaseCmd.PersistentFlags().BoolVar(&noColorOutput, "no-color", false, "No color output in console")
-	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Client address")
+	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server address")
 	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&runTest, "run-test", false, "Execute test")
+	BaseCmd.PersistentFlags().BoolVar(&insideCall, "inside-call", false, "Call from rpc server")
 	cobra.MousetrapHelpText = ""
 	if err := BaseCmd.Execute(); err != nil {
 		fmt.Printf("程序无法启动: %v", err)

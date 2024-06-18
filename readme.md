@@ -125,10 +125,10 @@
     BLE RPC Client [flags]
   
   Flags:
-        --address string   RPC Client address (default "127.0.0.1")
+        --address string   RPC Server address (default "127.0.0.1")
     -h, --help             help for BLE
         --no-color         No color output in console
-        --port int         RPC Client port (default 8563)
+        --port int         RPC Server port (default 8563)
         --run-test         Execute test
         --verbose          Print Debug Level logs
         --vverbose         Print Debug/Trace Level logs

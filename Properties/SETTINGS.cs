@@ -21,5 +21,5 @@ public static class SETTINGS
 
     public static string LINUX_BLE_PLUGIN_NAME = "BLEPlugin_linux_x64";
 
-    public static string RPC_CLIENT_PROCESS_ARGS = "--verbose --no-color";
+    public static string RPC_CLIENT_PROCESS_ARGS = "--verbose --no-color --inside-call";
 }
