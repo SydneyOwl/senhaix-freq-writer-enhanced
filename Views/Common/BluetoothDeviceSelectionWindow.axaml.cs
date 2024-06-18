@@ -11,6 +11,7 @@ using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 #if WINDOWS
+using Avalonia.Media;
 using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
 #endif
 
