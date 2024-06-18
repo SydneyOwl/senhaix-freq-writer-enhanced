@@ -154,6 +154,7 @@ public partial class BootImageImportWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "成功！").ShowWindowDialogAsync(this);
             else
                 MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
+            // 不用ResetBLE，因为更改开机图片不变更蓝牙状态
             start.IsEnabled = true;
         });
 

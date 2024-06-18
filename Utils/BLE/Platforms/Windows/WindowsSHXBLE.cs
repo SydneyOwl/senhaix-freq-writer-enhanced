@@ -33,7 +33,6 @@ public enum MsgType
 
 public class WindowsSHXBLE : IBluetooth
 {
-    public Updater StatusUpdate;
 
     /// <summary>
     ///     获取特征委托
@@ -402,7 +401,6 @@ public class WindowsSHXBLE : IBluetooth
     {
         if (sender.ConnectionStatus == BluetoothConnectionStatus.Disconnected && CurrentDeviceMac != null)
         {
-            StatusUpdate(false);
             if (!_asyncLock)
             {
                 _asyncLock = true;
@@ -412,8 +410,6 @@ public class WindowsSHXBLE : IBluetooth
         }
         else
         {
-            // DebugWindow.GetInstance().updateDebugContent("connected");
-            StatusUpdate(true);
             if (!_asyncLock)
             {
                 _asyncLock = true;
@@ -626,11 +622,6 @@ public class WindowsSHXBLE : IBluetooth
         HidTools.GetInstance().WriteBle = Write;
         Recdate += TriggerRecdataGt12;
         // StatusUpdate(true);
-    }
-
-    public void SetStatusUpdater(Updater up)
-    {
-        StatusUpdate = up;
     }
 }
 #endif

@@ -194,11 +194,6 @@ public class WSRPCBLE : IBluetooth
         MySerialPort.GetInstance().WriteBle = null;
     }
 
-    public void SetStatusUpdater(Updater up)
-    {
-        throw new NotImplementedException();
-    }
-
     private void SendKeepAlive(CancellationToken token)
     {
         while (!token.IsCancellationRequested)

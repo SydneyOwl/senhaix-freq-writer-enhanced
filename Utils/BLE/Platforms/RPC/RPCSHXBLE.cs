@@ -194,10 +194,6 @@ public class RPCSHXBLE : IBluetooth
         MySerialPort.GetInstance().WriteBle = null;
     }
 
-    public void SetStatusUpdater(Updater up)
-    {
-        throw new NotImplementedException();
-    }
 
     private void UpdateRecvQueue(CancellationToken token)
     {

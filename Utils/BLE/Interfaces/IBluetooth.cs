@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SenhaixFreqWriter.Utils.BLE.Interfaces;
 
-public delegate void Updater(bool status);
-
 public partial class GenerticBLEDeviceInfo : ObservableObject
 {
     [ObservableProperty] private string _deviceID = "";
