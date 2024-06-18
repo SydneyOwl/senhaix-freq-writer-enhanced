@@ -132,7 +132,7 @@
         --run-test         Execute test
         --verbose          Print Debug Level logs
         --vverbose         Print Debug/Trace Level logs
-    ```
+  ```
     4. 在写频软件中点击蓝牙搜索，正常读频写频即可
 
 ## FAQ
@@ -140,8 +140,8 @@
 + linux平台上写频需要`sudo`！
 + 若在macOS上无法使用，可能需要首先执行`xattr -cr SenhaixFreqWriter.app`!
     - 如在macOS上（在macOS13及以下可能出现该问题）无法正常使用蓝牙功能，请按如下步骤操作：
-    1. 下载Release中的“macOS蓝牙写频助手”；
-    2. 打开写频软件后双击运行“macOS蓝牙写频助手” ；
+    1. 下载Release中的“macOS-ble-helper”；
+    2. 打开写频软件后双击运行“macOS-ble-helper” ；
     3. 正常使用蓝牙读写频即可
 
 ## 其他
@@ -184,6 +184,8 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 `v0.3.0` 加入对GT12的支持,修复了8800写频软件中亚音读取错误的问题,加入开机画面生成及修改功能，加入打星助手，通过rpc实现了跨平台的蓝牙写频功能支持
 
 `v0.3.1` 优化使用插件的写频速度（linux和macOS），目前接近写频线速度
+
+`v0.3.2` 允许打星助手自定义信道名称、频率及亚音；升级Avalonia
 
 ## Thanks...
 

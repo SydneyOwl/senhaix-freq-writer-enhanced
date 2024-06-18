@@ -33,8 +33,9 @@ jobs:
       
     - name: Build plugin
       run: |
-        cd ble_plugins && go mod tidy && go build && cp BLEPlugin BLEPlugin_macos_x64 && cp BLEPlugin macOS蓝牙写频助手 && chmod +x macOS蓝牙写频助手 && \
-        echo "仅在无法正常使用蓝牙写频功能时使用！" > 说明.txt && zip macOS蓝牙写频助手.zip macOS蓝牙写频助手 说明.txt
+        cd ble_plugins && go mod tidy && go build && cp BLEPlugin BLEPlugin_macos_x64 && cp BLEPlugin macOS-ble-helper && chmod +x macOS-ble-helper && \
+        echo "仅在无法正常使用蓝牙写频功能时使用！\n使用说明：\n1. 下载Release中的“macOS-ble-helper”；\n2. 打开写频软件后双击运行“macOS-ble-helper” ；\n3. 正常使用蓝牙读写频即可" > 说明.txt && \
+        zip _macOS-ble-helper.zip macOS-ble-helper 说明.txt
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -46,7 +47,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: ./ble_plugins/macOS蓝牙写频助手.zip
+        files: ./ble_plugins/_macOS-ble-helper.zip
 
   build_windows_plugin:
     runs-on: windows-latest
