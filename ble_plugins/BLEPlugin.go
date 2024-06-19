@@ -11,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"tinygo.org/x/bluetooth"
 )
@@ -46,6 +47,8 @@ var (
 
 	ctx        context.Context
 	cancelFunc context.CancelFunc
+
+	writeWSMutex sync.Mutex
 )
 
 type BLEDevice struct {
@@ -190,6 +193,8 @@ func TerminatePlugin() {
 }
 
 func HandlerReturnBoolValue(value bool, err error, c *websocket.Conn) {
+	writeWSMutex.Lock()
+	defer writeWSMutex.Unlock()
 	errStr := ""
 	if err != nil {
 		errStr = err.Error()
@@ -208,6 +213,8 @@ func HandlerReturnBoolValue(value bool, err error, c *websocket.Conn) {
 	}
 }
 func HandlerReturnStringValue(value string, err error, c *websocket.Conn) {
+	writeWSMutex.Lock()
+	defer writeWSMutex.Unlock()
 	errStr := ""
 	if err != nil {
 		errStr = err.Error()
@@ -223,6 +230,8 @@ func HandlerReturnStringValue(value string, err error, c *websocket.Conn) {
 }
 
 func HandlerReturnBinaryValue(value []byte, c *websocket.Conn) {
+	writeWSMutex.Lock()
+	defer writeWSMutex.Unlock()
 	err := c.WriteMessage(websocket.BinaryMessage, value)
 	if err != nil {
 		slog.Errorf("出错：%v", err)
