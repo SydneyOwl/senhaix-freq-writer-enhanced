@@ -134,7 +134,7 @@ func ConnectShxDevice() (bool, error) {
 		return false, err
 	}
 	slog.Infof("连接成功！")
-	bleConnection = &conn
+	bleConnection = conn
 	return true, nil
 }
 func ConnectShxRwService() (bool, error) {
