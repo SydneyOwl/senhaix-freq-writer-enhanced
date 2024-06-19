@@ -112,7 +112,7 @@
 + 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
 
     1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
-        + 在windows上编译，~~需要gcc编译器~~v0.3.2及以后不再需要gcc
+        + 在windows上编译，需要gcc编译器
         + 在macOS上编译，需要安装xcode
         + 在linux上编译，需要bluez
     2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
