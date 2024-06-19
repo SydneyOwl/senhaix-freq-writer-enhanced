@@ -32,10 +32,10 @@ public partial class BluetoothDeviceSelectionWindow : Window
     {
         InitializeComponent();
         dev = shxDevice;
-#if !WINDOWS
         useRPC.IsChecked = true;
-        useRPC.IsEnabled = false;
         manualRPC.IsEnabled = true;
+#if !WINDOWS
+        useRPC.IsEnabled = false;
 #endif
         DataContext = this;
     }
