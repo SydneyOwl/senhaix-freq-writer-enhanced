@@ -30,7 +30,7 @@
 
 ### 运行平台
 
-下面列出的是测试通过的平台，其他系统或发行版请自行尝试：
+下面列出的是测试通过的平台，其他系统或发行版请自行尝试；也欢迎您在issue中告知可正常使用的系统版本！
 
 | -       | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）               | GT-12 winform版（停止维护） |
 |---------|-----------------------------------------------------|--------------------------------------------|----------------------|
@@ -52,22 +52,22 @@
 #### 蓝牙
 
 + 插件默认只编译了x64的版本，需要其他版本请自行编译。
-+ windows上没啥值得注意的，可以不勾选RPC方式写频~（当然勾了也行）
++ windows上没啥值得注意的，可以不勾选RPC方式写频（当然勾了也行，事实上更建议勾选）
 + linux和mac端同样直接写频即可，默认已勾选RPC
 
 #### 图片
 
 ##### v0.2.2后
 
-![](./readme_image/macos.jpg)
-
 ![](./readme_image/so50.png)
 
 ![](./readme_image/BootImg.png)
 
+![](./readme_image/macos.jpg)
+
 ---
 
-##### v0.2.2前
+##### v0.2.2前（不再维护）
 
 <img src="./readme_image/dep-ble.png" style="zoom:75%;" />
 
@@ -87,7 +87,7 @@
 
 + 您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
 
-+ 您可以自行修改SETTINGS.cs中的内容，手动启用不稳定的功能：
++ 您可以自行修改SETTINGS.cs中的内容，手动启用不稳定的功能或修改默认设置：
 
   ```csharp
   // 是否禁止在调试读写频时输出传输的数据，如禁用该选项可能极大降低HID读写速度！
@@ -106,7 +106,7 @@
   public static string LINUX_BLE_PLUGIN_NAME = "BLEPlugin_linux_x64";
   
   // RPC客户端的启动参数，可用--help查看；输出仅在开启调试功能时能看到！
-  public static string RPC_CLIENT_PROCESS_ARGS = "--verbose --no-color";
+  public static string RPC_CLIENT_PROCESS_ARGS = "--verbose --no-color --inside-call";
   ```
 
 + 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
@@ -127,22 +127,24 @@
   Flags:
         --address string   RPC Server address (default "127.0.0.1")
     -h, --help             help for BLE
+        --inside-call      Call from rpc server
         --no-color         No color output in console
         --port int         RPC Server port (default 8563)
         --run-test         Execute test
         --verbose          Print Debug Level logs
         --vverbose         Print Debug/Trace Level logs
+  
   ```
     4. 在写频软件中点击蓝牙搜索，正常读频写频即可
 
 ## FAQ
 
 + linux平台上写频需要`sudo`！
-+ 若在macOS上无法使用，可能需要首先执行`xattr -cr SenhaixFreqWriter.app`!
-    - 如在macOS上（在macOS13及以下可能出现该问题）无法正常使用蓝牙功能，请按如下步骤操作：
++ 如果在macOS上出现提示"无法打开，因为它来自身份不明的开发者"，请在`设置-隐私与安全性-安全性`中手动允许应用运行。或者在命令行中执行命令：`xattr -cr （.app包的路径）`。
++ 如在macOS上（在macOS13及以下可能出现该问题）无法正常使用蓝牙功能，请按如下步骤操作：
     1. 下载Release中的“macOS-ble-helper”；
     2. 打开写频软件后双击运行“macOS-ble-helper” ；
-    3. 正常使用蓝牙读写频即可
+    3. 勾选“手动调用RPC”后正常使用蓝牙读写频即可。
 
 ## 其他
 
@@ -185,13 +187,13 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.3.1` 优化使用插件的写频速度（linux和macOS），目前接近写频线速度
 
-`v0.3.2` 允许打星助手自定义信道名称、频率及亚音；升级Avalonia
+`v0.3.2` 允许打星助手自定义信道名称、频率及亚音，升级Avalonia版本，蓝牙插件性能改进
 
 ## Thanks...
 
 + `SenHaiX`的原版写频软件
 + `Avalonia` 的跨平台UI方案
-+ `tinygo`的ble方案
++ `tinygo`的BLE方案
 + `HIDSharp`的HID交互方案
 + [@rockliuxn](https://github.com/rockliuxn) 提供的图标，以及测试阶段的支持！
 + and more.....
