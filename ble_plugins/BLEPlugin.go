@@ -273,7 +273,6 @@ func StartBleWrite(ctx context.Context, bleSendChan chan []byte) {
 	}(ctx, bleSendChan)
 }
 
-// StartRPC 使用JSONRPC规范
 func StartRPC(addr string) {
 	c, _, err := websocket.DefaultDialer.Dial(addr, nil)
 	if err != nil {
@@ -428,13 +427,13 @@ func main() {
 			StartRPC(fmt.Sprintf("ws://%s:%d/rpc", rpcAddress, rpcPort))
 		},
 	}
-	BaseCmd.PersistentFlags().IntVar(&rpcPort, "port", 8563, "RPC Server port")
-	BaseCmd.PersistentFlags().BoolVar(&noColorOutput, "no-color", false, "No color output in console")
-	BaseCmd.PersistentFlags().StringVar(&rpcAddress, "address", "127.0.0.1", "RPC Server address")
-	BaseCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Print Debug Level logs")
+	BaseCmd.PersistentFlags().IntVarP(&rpcPort, "port", "p", 8563, "RPC Server port")
+	BaseCmd.PersistentFlags().BoolVarP(&noColorOutput, "no-color", "n", false, "No color output in console")
+	BaseCmd.PersistentFlags().StringVarP(&rpcAddress, "address", "a", "127.0.0.1", "RPC Server address")
+	BaseCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Print Debug Level logs")
 	BaseCmd.PersistentFlags().BoolVar(&vverbose, "vverbose", false, "Print Debug/Trace Level logs")
-	BaseCmd.PersistentFlags().BoolVar(&runTest, "run-test", false, "Execute test")
-	BaseCmd.PersistentFlags().BoolVar(&insideCall, "inside-call", false, "Call from rpc server")
+	BaseCmd.PersistentFlags().BoolVarP(&runTest, "run-test", "t", false, "Execute test")
+	BaseCmd.PersistentFlags().BoolVarP(&insideCall, "inside-call", "i", false, "Call from rpc server")
 	cobra.MousetrapHelpText = ""
 	if err := BaseCmd.Execute(); err != nil {
 		fmt.Printf("程序无法启动: %v", err)

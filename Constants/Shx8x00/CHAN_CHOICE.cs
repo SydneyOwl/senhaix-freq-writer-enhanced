@@ -56,7 +56,7 @@ public class ChanChoice
     public static ObservableCollection<string> Bandwidth = new()
     {
         "W",
-        "H"
+        "N"
     };
 
     public static ObservableCollection<string> Pttid = new()
