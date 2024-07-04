@@ -2,6 +2,7 @@
 
 public enum SHX_DEVICE
 {
-    SHX8X00,
+    SHX8X00,// 旧版8600和8800
+    SHX8600_NEW,
     GT12
 }

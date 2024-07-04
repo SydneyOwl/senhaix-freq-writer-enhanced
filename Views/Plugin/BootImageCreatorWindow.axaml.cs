@@ -40,6 +40,7 @@ public partial class BootImageCreatorWindow : Window
         _dev = device;
         switch (_dev)
         {
+            case SHX_DEVICE.SHX8600_NEW:
             case SHX_DEVICE.SHX8X00:
                 BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
                 BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;

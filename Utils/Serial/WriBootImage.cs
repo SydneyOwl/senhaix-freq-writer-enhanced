@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Threading;
 using System.Timers;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
+using SenhaixFreqWriter.Views.Common;
 using SkiaSharp;
+using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.Serial;
 
@@ -20,12 +24,17 @@ public class WriBootImage
     private int cntRetry;
 
     private State comStep = State.HandShakeStep1;
+    
+    private NImgStep NComStep = NImgStep.Step_HandShake;
 
     private int countOverTime;
 
     public ConcurrentQueue<int> currentProg = new();
 
     private bool flagOverTime;
+    
+    private bool flagReceivePackageOver = false;
+    
     private readonly SKBitmap image;
 
     private Timer overTimer;
@@ -34,8 +43,27 @@ public class WriBootImage
 
     private string STR_HANDSHAKE = "PROGRAM";
 
-    public WriBootImage(SKBitmap img)
+    private int progressValue = 0;
+    
+    private int packageLength = 0;
+    
+    private int address = 0;
+    
+    private int blockOfErase = 0;
+    
+    private int byteOfPackage = 0;
+    
+    private int totalPackages = 0;
+
+    private int cntPackages = 0;
+    
+    private int packageID = 0;
+    
+    private SHX_DEVICE _device;
+
+    public WriBootImage(SHX_DEVICE device, SKBitmap img)
     {
+        _device = device;
         image = img;
         TimerInit();
         comStep = State.HandShakeStep1;
@@ -59,10 +87,12 @@ public class WriBootImage
 
     private void RxOverTimer_Elapsed(object sender, ElapsedEventArgs e)
     {
+	    flagReceivePackageOver = true;
     }
 
     private void OverTimer_Elapsed(object sender, ElapsedEventArgs e)
     {
+	    flagOverTime = true;
         if (cntRetry > 0)
             cntRetry--;
         else
@@ -108,7 +138,16 @@ public class WriBootImage
 
         try
         {
-            return HandShake() && Communication();
+	        if (_device == SHX_DEVICE.SHX8X00)
+	        {
+		        DebugWindow.GetInstance().updateDebugContent("使用普通8x00");
+		        return HandShake() && Communication();
+	        }
+	        else
+	        {
+		        DebugWindow.GetInstance().updateDebugContent("使用新版8600");
+		        return NHandShake() && NCommunication();
+	        }
         }
         finally
         {
@@ -257,4 +296,314 @@ public class WriBootImage
 
         return false;
     }
+    
+    
+    
+    
+    // 迷惑的8600_NEW
+    public bool NHandShake()
+	{
+		byte[] array = new byte[1];
+		while (true)
+		{
+			if (!flagOverTime)
+			{
+				switch (NComStep)
+				{
+				case NImgStep.Step_HandShake_Jump1:
+					array = Encoding.ASCII.GetBytes("PROGROMSHXU");
+					_sp.WriteByte(array, 0, array.Length);
+					NComStep = NImgStep.Step_HandShake_Jump2;
+					OverTimer_Start();
+					break;
+				case NImgStep.Step_HandShake_Jump2:
+					if (_sp.BytesToReadFromCache >= 1)
+					{
+						_sp.ReadByte(bufForData, 0, 1);
+						if (bufForData[0] == 6)
+						{
+							bufForData[0] = 68;
+							_sp.WriteByte(bufForData, 0, 1);
+							NComStep = NImgStep.Step_HandShake;
+							overTimer.Stop();
+							_sp.CloseSerial();
+							_sp.BaudRate = 115200;
+							_sp.Open();
+							Thread.Sleep(100);
+							return true;
+						}
+					}
+					break;
+				}
+			}
+			else
+			{
+				if (countOverTime <= 0)
+				{
+					break;
+				}
+				countOverTime--;
+				flagOverTime = false;
+				NImgStep NImgStep = NComStep;
+				if (NImgStep == NImgStep.Step_HandShake_Jump2)
+				{
+					_sp.WriteByte(array, 0, array.Length);
+				}
+				overTimer.Start();
+				flagReceivePackageOver = false;
+			}
+		}
+		_sp.CloseSerial();
+		return false;
+	}
+
+	public bool NCommunication()
+	{
+		int num = 0;
+		while (true)
+		{
+			if (!flagOverTime)
+			{
+				switch (NComStep)
+				{
+				case NImgStep.Step_HandShake:
+				{
+					byte[] array = Encoding.ASCII.GetBytes(STR_HANDSHAKE);
+					packageLength = LoadPackage(NCommandType.CMD_HANDSHAKE, 0, array.Length, array);
+					_sp.WriteByte(bufForData, 0, packageLength);
+					OverTimer_Start();
+					NComStep = NImgStep.Step_Receive_1;
+					currentProg.Enqueue(3);
+					break;
+				}
+				case NImgStep.Step_Over:
+				{
+					byte[] array = Encoding.ASCII.GetBytes("Over");
+					packageLength = LoadPackage(NCommandType.CMD_OVER, 0, array.Length, array);
+					_sp.WriteByte(bufForData, 0, packageLength);
+					currentProg.Enqueue(100);
+					Thread.Sleep(100);
+					_sp.CloseSerial();
+					return true;
+				}
+				case NImgStep.Step_SetFontAddress:
+				case NImgStep.Step_SetImageAddress:
+				case NImgStep.Step_SetVoiceAddress:
+				{
+					byte[] array = new byte[4];
+					array[3] = (byte)((uint)(address >> 24) & 0xFFu);
+					array[2] = (byte)((uint)(address >> 16) & 0xFFu);
+					array[1] = (byte)((uint)(address >> 8) & 0xFFu);
+					array[0] = (byte)((uint)address & 0xFFu);
+					packageLength = LoadPackage(NCommandType.CMD_SETADDRESS, 0, array.Length, array);
+					_sp.WriteByte(bufForData, 0, packageLength);
+					OverTimer_Start();
+					NComStep = NImgStep.Step_Receive_1;
+					break;
+				}
+				case NImgStep.Step_Erase:
+				{
+					int num2 = 17668;
+					byte[] array = new byte[6];
+					array[3] = (byte)((uint)(address >> 24) & 0xFFu);
+					array[2] = (byte)((uint)(address >> 16) & 0xFFu);
+					array[1] = (byte)((uint)(address >> 8) & 0xFFu);
+					array[0] = (byte)((uint)address & 0xFFu);
+					array[4] = (byte)((uint)(blockOfErase >> 8) & 0xFFu);
+					array[5] = (byte)((uint)blockOfErase & 0xFFu);
+					packageLength = LoadPackage(NCommandType.CMD_ERASE, num2, 6, array);
+					_sp.WriteByte(bufForData, 0, packageLength);
+					OverTimer_Start();
+					NComStep = NImgStep.Step_Receive_1;
+					break;
+				}
+				case NImgStep.Step_Data:
+				{
+					byte[] array = new byte[1024];
+					Array.Copy(bufferBmpData, num, array, 0, 1024);
+					if (num <= byteOfData)
+					{
+						packageLength = LoadPackage(NCommandType.CMD_WRITE, packageID, 1024, array);
+						_sp.WriteByte(bufForData, 0, packageLength);
+						OverTimer_Start();
+						NComStep = NImgStep.Step_Receive_1;
+						num += 1024;
+					}
+					else
+					{
+						NComStep = NImgStep.Step_Over;
+					}
+					break;
+				}
+				case NImgStep.Step_Receive_1:
+					if (_sp.BytesToReadFromCache >= 1)
+					{
+						_sp.ReadByte(bufForData, 0, 1);
+						if (bufForData[0] == 165)
+						{
+							NComStep = NImgStep.Step_Receive_2;
+							flagReceivePackageOver = false;
+							byteOfPackage = _sp.BytesToReadFromCache;
+							rxOverTimer.Start();
+						}
+					}
+					break;
+				case NImgStep.Step_Receive_2:
+					if (flagReceivePackageOver)
+					{
+						flagReceivePackageOver = false;
+						_sp.ReadByte(bufForData, 1, _sp.BytesToReadFromCache);
+						byte[] array = AnalysisPackage(bufForData);
+						overTimer.Stop();
+						if (array == null)
+						{
+							break;
+						}
+						if (array[0] == 89 && array.Length == 1)
+						{
+							switch (bufForData[1])
+							{
+							case 2:
+								address = 65536;
+								blockOfErase = 1;
+								currentProg.Enqueue(progressValue);
+								packageID = 0;
+								cntPackages = (int)(byteOfData / 1024);
+								if (byteOfData % 1024 != 0)
+								{
+									cntPackages++;
+								}
+								totalPackages = cntPackages;
+								NComStep = NImgStep.Step_Erase;
+								break;
+							case 3:
+								NComStep = NImgStep.Step_Data;
+								break;
+							case 87:
+								cntPackages--;
+								if (cntPackages == 0)
+								{
+									NComStep = NImgStep.Step_Over;
+									break;
+								}
+								packageID++;
+								progressValue = packageID * 100 / totalPackages;
+								currentProg.Enqueue(progressValue);
+								NComStep = NImgStep.Step_Data;
+								break;
+							case 4:
+								NComStep = NImgStep.Step_SetImageAddress;
+								break;
+							}
+						}
+						else
+						{
+							NComStep = NImgStep.Step_Over;
+						}
+					}
+					else if (byteOfPackage != _sp.BytesToReadFromCache)
+					{
+						byteOfPackage = _sp.BytesToReadFromCache;
+						rxOverTimer.Stop();
+						rxOverTimer.Start();
+					}
+					break;
+				}
+				continue;
+			}
+			if (countOverTime <= 0)
+			{
+				break;
+			}
+			countOverTime--;
+			flagOverTime = false;
+			if (NComStep == NImgStep.Step_Receive_1 || NComStep == NImgStep.Step_Receive_2)
+			{
+				switch (bufForData[1])
+				{
+				case 2:
+					NComStep = NImgStep.Step_HandShake;
+					break;
+				case 3:
+					NComStep = NImgStep.Step_SetFontAddress;
+					break;
+				case 4:
+					NComStep = NImgStep.Step_Erase;
+					break;
+				case 87:
+					_sp.WriteByte(bufForData, 0, packageLength);
+					overTimer.Start();
+					flagReceivePackageOver = false;
+					NComStep = NImgStep.Step_Receive_1;
+					break;
+				}
+			}
+		}
+		_sp.CloseSerial();
+		return false;
+	}
+	
+	private int LoadPackage(NCommandType cmd, int packageID, int len, byte[] dat)
+	{
+		bufForData[0] = 165;
+		bufForData[1] = (byte)cmd;
+		bufForData[2] = (byte)((uint)(packageID >> 8) & 0xFFu);
+		bufForData[3] = (byte)((uint)packageID & 0xFFu);
+		bufForData[4] = (byte)((uint)(len >> 8) & 0xFFu);
+		bufForData[5] = (byte)((uint)len & 0xFFu);
+		for (int i = 0; i < len; i++)
+		{
+			bufForData[6 + i] = dat[i];
+		}
+		int num = CrcValidation(bufForData, 1, 5 + len);
+		bufForData[6 + len] = (byte)((uint)(num >> 8) & 0xFFu);
+		bufForData[6 + len + 1] = (byte)((uint)num & 0xFFu);
+		return 6 + len + 2;
+	}
+
+	private byte[] AnalysisPackage(byte[] buffer)
+	{
+		int num = 0;
+		num = buffer[4];
+		num <<= 8;
+		num |= buffer[5];
+		byte[] array;
+		if (num != 0)
+		{
+			array = new byte[num];
+			for (int i = 0; i < num; i++)
+			{
+				array[i] = buffer[6 + i];
+			}
+			int num2 = buffer[6 + num];
+			num2 <<= 8;
+			num2 |= buffer[6 + num + 1];
+			int num3 = CrcValidation(buffer, 1, num + 5) & 0xFFFF;
+			if (num2 != num3)
+			{
+				array = null;
+			}
+		}
+		else
+		{
+			array = null;
+		}
+		return array;
+	}
+
+	private int CrcValidation(byte[] dat, int offset, int count)
+	{
+		int num = 0;
+		for (int i = 0; i < count; i++)
+		{
+			int num2 = dat[i + offset];
+			num ^= num2 << 8;
+			for (int j = 0; j < 8; j++)
+			{
+				num = (((num & 0x8000) != 32768) ? (num << 1) : ((num << 1) ^ 0x1021));
+			}
+		}
+		return num;
+	}
+    
 }

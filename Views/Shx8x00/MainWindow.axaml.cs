@@ -24,6 +24,7 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 public partial class MainWindow : Window
 {
     private bool _devSwitchFlag;
+    
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
@@ -32,11 +33,13 @@ public partial class MainWindow : Window
 
     private BluetoothDeviceSelectionWindow bds;
 
-
-    public MainWindow()
+    private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8X00;
+    
+    public MainWindow(SHX_DEVICE shx)
     {
         InitializeComponent();
         DataContext = this;
+        shxDevice = shx;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
         DebugWindow.GetInstance().updateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
@@ -50,39 +53,6 @@ public partial class MainWindow : Window
             _listItems = value;
             ClassTheRadioData.GetInstance().ObsChanData = value;
         }
-    }
-
-    public void CommonMainWindow()
-    {
-        InitializeComponent();
-        ChanChoice.TxPwr.Clear();
-        ChanChoice.TxPwr.Add("L");
-        ChanChoice.TxPwr.Add("H");
-
-        OptionalChoice.TxPwr.Clear();
-        OptionalChoice.TxPwr.Add("高功率");
-        OptionalChoice.TxPwr.Add("低功率");
-
-        DataContext = this;
-        _listItems.CollectionChanged += CollectionChangedHandler;
-        Closed += OnWindowClosed;
-    }
-
-    //专为新版8600定制！其实只有发射功率变了
-    public void NewShx8600MainWindow()
-    {
-        InitializeComponent();
-        ChanChoice.TxPwr.Clear();
-        ChanChoice.TxPwr.Add("L");
-        ChanChoice.TxPwr.Add("M");
-        ChanChoice.TxPwr.Add("H");
-        OptionalChoice.TxPwr.Clear();
-        OptionalChoice.TxPwr.Add("高功率");
-        OptionalChoice.TxPwr.Add("中功率");
-        OptionalChoice.TxPwr.Add("低功率");
-        DataContext = this;
-        _listItems.CollectionChanged += CollectionChangedHandler;
-        Closed += OnWindowClosed;
     }
 
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
@@ -465,7 +435,7 @@ public partial class MainWindow : Window
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BootImageImportWindow(SHX_DEVICE.SHX8X00).ShowDialog(this);
+        new BootImageImportWindow(shxDevice).ShowDialog(this);
     }
 
     private void SatMenuItem_OnClick(object? sender, RoutedEventArgs e)

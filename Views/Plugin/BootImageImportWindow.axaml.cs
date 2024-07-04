@@ -21,13 +21,14 @@ public partial class BootImageImportWindow : Window
     private HIDBootImage _bootHid;
     private WriBootImage _bootWri;
     private CancellationTokenSource _ctx;
-    private readonly SHX_DEVICE _device = SHX_DEVICE.SHX8X00;
+    private SHX_DEVICE _device = SHX_DEVICE.SHX8X00;
 
     public BootImageImportWindow(SHX_DEVICE dev)
     {
         _device = dev;
         switch (dev)
         {
+            case SHX_DEVICE.SHX8600_NEW:
             case SHX_DEVICE.SHX8X00:
                 BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
                 BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
@@ -122,7 +123,7 @@ public partial class BootImageImportWindow : Window
             }
 
             start.IsEnabled = false;
-            _bootWri = new WriBootImage(_bitmap);
+            _bootWri = new WriBootImage(_device,_bitmap);
             new Thread(() => { StartWrite8800(_ctx); }).Start();
             new Thread(() => { StartGetProcess8800(_ctx.Token); }).Start();
         }

@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Other;
@@ -39,7 +40,7 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("低功率");
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8x00");
-                new MainWindow().Show();
+                new MainWindow(SHX_DEVICE.SHX8X00).Show();
                 break;
             case 1:
                 ChanChoice.TxPwr.Clear();
@@ -52,14 +53,14 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Add("中功率");
                 OptionalChoice.TxPwr.Add("低功率");
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600新版");
-                new MainWindow().Show();
+                new MainWindow(SHX_DEVICE.SHX8600_NEW).Show();
                 break;
             case 2:
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
                 new Gt12.MainWindow().Show();
                 break;
             default:
-                new MainWindow().Show();
+                new MainWindow(SHX_DEVICE.SHX8X00).Show();
                 break;
         }
 
