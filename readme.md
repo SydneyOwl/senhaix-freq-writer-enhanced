@@ -197,14 +197,23 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.3.2` 允许打星助手自定义信道名称、频率及亚音，升级Avalonia版本，蓝牙插件性能改进
 
-## Thanks...
+## 致谢
 
 + `SenHaiX`的原版写频软件
+
 + `Avalonia` 的跨平台UI方案
+
 + `tinygo`的BLE方案
+
 + `HIDSharp`的HID交互方案
+
 + [@rockliuxn](https://github.com/rockliuxn) 提供的图标，以及测试阶段的支持！
-+ and more.....
+
++ 提出issues和PRs的各位用户，感谢你们！
+
++ Jetbrains的Open Source License
+
+   ![](./readme_image/rider.svg)![](./readme_image/goland.svg)
 
 ## 许可证
 
@@ -236,3 +245,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <https://unlicense.org>
 ```
+
+
+
