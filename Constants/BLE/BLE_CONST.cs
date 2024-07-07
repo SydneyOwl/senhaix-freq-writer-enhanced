@@ -7,7 +7,6 @@ public class BleConst
     public static string BtnameShx8800 = "walkie-talkie";
 
     public static int BtScanTimeout = 10;
-
     public static string ManufacturerCharacteristicUuid = "2a29";
     public static string FirmwareRevisionCharacteristicUuid = "2a26";
     public static string ModelNumberCharacteristicUuid = "2a24";
