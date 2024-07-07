@@ -33,7 +33,7 @@ public partial class MainWindow : Window
 
     private BluetoothDeviceSelectionWindow bds;
 
-    private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8X00;
+    private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8600;
     
     public MainWindow(SHX_DEVICE shx)
     {
@@ -260,7 +260,7 @@ public partial class MainWindow : Window
 
     private void option_OnClick(object? sender, RoutedEventArgs e)
     {
-        new OptionalWindow().ShowDialog(this);
+        new OptionalWindow(shxDevice).ShowDialog(this);
     }
 
     private async void open_OnClick(object? sender, RoutedEventArgs e)
@@ -544,9 +544,14 @@ public partial class MainWindow : Window
         // hint.SetButtonStatus(true);
     }
 
-    private async void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
+    private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        bds = new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8X00);
+        if (shxDevice != SHX_DEVICE.SHX8800)
+        { 
+            MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙功能仅8800可用！").ShowWindowDialogAsync(this);
+            return;
+        }
+        bds = new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800);
         bds.ShowDialog(this);
     }
 

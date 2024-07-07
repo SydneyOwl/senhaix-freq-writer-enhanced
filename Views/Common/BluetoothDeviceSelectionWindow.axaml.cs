@@ -19,7 +19,7 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class BluetoothDeviceSelectionWindow : Window
 {
-    private readonly SHX_DEVICE dev = SHX_DEVICE.SHX8X00;
+    private readonly SHX_DEVICE dev = SHX_DEVICE.SHX8800;
     public IBluetooth osBLE;
 
     public BluetoothDeviceSelectionWindow()
@@ -198,7 +198,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！您可以开始写频了！").ShowWindowDialogAsync(this);
                 });
-                if (dev.Equals(SHX_DEVICE.SHX8X00))
+                if (dev.Equals(SHX_DEVICE.SHX8800))
                     osBLE.RegisterSerial();
                 else
                     osBLE.RegisterHid();

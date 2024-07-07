@@ -1,17 +1,43 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using MsBox.Avalonia;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.DataModels.Shx8x00;
 
 namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OptionalWindow : Window
 {
+    private SHX_DEVICE _device = SHX_DEVICE.SHX8600;
+    public OptionalWindow(SHX_DEVICE device)
+    {
+        _device = device;
+        InitializeComponent();
+        if (device == SHX_DEVICE.SHX8800)
+        {
+            alarmEndCombo.IsEnabled = true;
+            alarmModeCombo.IsEnabled = true;
+            alarmSoundCombo.IsEnabled = true;
+            rptFrqCombo.IsEnabled = true;
+        }
+        else
+        {
+            // 在8600和pro上该项不可用，强制覆盖
+            Fun.CbB1750Hz = 0;
+        }
+        DataContext = this;
+    }
+    
     public OptionalWindow()
     {
         InitializeComponent();
+        alarmEndCombo.IsEnabled = true;
+        alarmModeCombo.IsEnabled = true;
+        alarmSoundCombo.IsEnabled = true;
+        rptFrqCombo.IsEnabled = true;
         DataContext = this;
     }
+
 
     public FunCfgData Fun { get; set; } = ClassTheRadioData.GetInstance().FunCfgData;
 
@@ -23,7 +49,7 @@ public partial class OptionalWindow : Window
     private void restore_OnClick(object? sender, RoutedEventArgs e)
     {
         ClassTheRadioData.GetInstance().FunCfgData = new FunCfgData();
-        var tmp = new OptionalWindow();
+        var tmp = new OptionalWindow(_device);
         Close();
         tmp.Show();
     }

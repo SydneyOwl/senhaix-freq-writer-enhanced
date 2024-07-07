@@ -7,8 +7,9 @@
     <Canvas>
         <Label Canvas.Top="20" Canvas.Left="10">选择设备:</Label>
         <ComboBox Canvas.Top="50" Canvas.Left="35" Width="235" Name="DeviceChooseComboBox" SelectedIndex="0">
-            <ComboBoxItem Content="森海克斯8800/8600(5w功率)" />
-            <ComboBoxItem Content="森海克斯8600(8w功率)" />
+            <ComboBoxItem Content="森海克斯8800" />
+            <ComboBoxItem Content="森海克斯8600" />
+            <ComboBoxItem Content="森海克斯8600pro" />
             <ComboBoxItem Content="森海克斯GT12" />
         </ComboBox>
         <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick">确定</Button>

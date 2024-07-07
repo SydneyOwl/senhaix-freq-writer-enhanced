@@ -521,6 +521,7 @@ internal class WriFreq
                                 array[31] = 0;
                             array[32] = (byte)_theRadioData.FunCfgData.CbBPowerOnMsg;
                             array[33] = 0;
+                            // 8800和pro此项始终为0
                             array[34] = (byte)_theRadioData.FunCfgData.CbB1750Hz;
                             array[35] = 128;
                         }

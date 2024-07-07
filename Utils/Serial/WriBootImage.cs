@@ -138,7 +138,7 @@ public class WriBootImage
 
         try
         {
-	        if (_device == SHX_DEVICE.SHX8X00)
+	        if (_device == SHX_DEVICE.SHX8600 || _device == SHX_DEVICE.SHX8800)
 	        {
 		        DebugWindow.GetInstance().updateDebugContent("使用普通8x00");
 		        return HandShake() && Communication();

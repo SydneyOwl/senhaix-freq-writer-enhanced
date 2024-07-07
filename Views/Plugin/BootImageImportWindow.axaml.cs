@@ -21,15 +21,16 @@ public partial class BootImageImportWindow : Window
     private HIDBootImage _bootHid;
     private WriBootImage _bootWri;
     private CancellationTokenSource _ctx;
-    private SHX_DEVICE _device = SHX_DEVICE.SHX8X00;
+    private SHX_DEVICE _device = SHX_DEVICE.SHX8600;
 
     public BootImageImportWindow(SHX_DEVICE dev)
     {
         _device = dev;
         switch (dev)
         {
-            case SHX_DEVICE.SHX8600_NEW:
-            case SHX_DEVICE.SHX8X00:
+            case SHX_DEVICE.SHX8600:
+            case SHX_DEVICE.SHX8600PRO:
+            case SHX_DEVICE.SHX8800:
                 BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
                 BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
                 Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
@@ -86,7 +87,7 @@ public partial class BootImageImportWindow : Window
 
         DebugWindow.GetInstance().updateDebugContent($"图片尺寸：{bitmap.Width}*{bitmap.Height}");
         if ((bitmap.Width != OTHERS.BOOT_IMG_WIDTH ||
-             bitmap.Height != OTHERS.BOOT_IMG_HEIGHT) && _device == SHX_DEVICE.SHX8X00)
+             bitmap.Height != OTHERS.BOOT_IMG_HEIGHT) && (_device != SHX_DEVICE.GT12))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
@@ -114,7 +115,7 @@ public partial class BootImageImportWindow : Window
             return;
         }
 
-        if (_device == SHX_DEVICE.SHX8X00)
+        if (_device !=SHX_DEVICE.GT12)
         {
             if (MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
             {
