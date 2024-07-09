@@ -125,8 +125,8 @@ public partial class BootImageImportWindow : Window
 
             start.IsEnabled = false;
             _bootWri = new WriBootImage(_device,_bitmap);
-            new Thread(() => { StartWrite8800(_ctx); }).Start();
-            new Thread(() => { StartGetProcess8800(_ctx.Token); }).Start();
+            new Thread(() => { StartWrite8x00(_ctx); }).Start();
+            new Thread(() => { StartGetProcess8x00(_ctx.Token); }).Start();
         }
 
         if (_device == SHX_DEVICE.GT12)
@@ -144,9 +144,9 @@ public partial class BootImageImportWindow : Window
         }
     }
 
-    private async void StartWrite8800(CancellationTokenSource source)
+    private async void StartWrite8x00(CancellationTokenSource source)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWrite8800");
+        DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWrite8x00");
         var res = _bootWri.WriteImg();
         Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
         source.Cancel();
@@ -160,10 +160,10 @@ public partial class BootImageImportWindow : Window
             start.IsEnabled = true;
         });
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartWrite8800");
+        DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartWrite8x00");
     }
 
-    private void StartGetProcess8800(CancellationToken token)
+    private void StartGetProcess8x00(CancellationToken token)
     {
         DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartGetProcess8800");
         while (!token.IsCancellationRequested)

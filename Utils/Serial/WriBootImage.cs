@@ -65,7 +65,14 @@ public class WriBootImage
     {
         _device = device;
         image = img;
-        TimerInit();
+        if (device != SHX_DEVICE.SHX8600PRO)
+        {
+	        TimerInit();
+        }
+        else
+        {
+	        TimerInitPro();
+        }
         comStep = State.HandShakeStep1;
         _sp.OpenSerial();
     }
@@ -84,6 +91,20 @@ public class WriBootImage
         rxOverTimer.AutoReset = false;
         rxOverTimer.Enabled = true;
     }
+    
+    private void TimerInitPro()
+    {
+	    overTimer = new Timer();
+	    overTimer.Elapsed += OverTimer_Elapsed;
+	    overTimer.Interval = 1000.0;
+	    overTimer.AutoReset = false;
+	    overTimer.Enabled = true;
+	    rxOverTimer = new Timer();
+	    rxOverTimer.Elapsed += RxOverTimer_Elapsed;
+	    rxOverTimer.Interval = 30.0;
+	    rxOverTimer.AutoReset = false;
+	    rxOverTimer.Enabled = true;
+    }
 
     private void RxOverTimer_Elapsed(object sender, ElapsedEventArgs e)
     {
@@ -92,16 +113,23 @@ public class WriBootImage
 
     private void OverTimer_Elapsed(object sender, ElapsedEventArgs e)
     {
-	    flagOverTime = true;
-        if (cntRetry > 0)
-            cntRetry--;
-        else
-            flagOverTime = true;
+	    if (_device == SHX_DEVICE.SHX8600PRO)
+	    {
+		    flagOverTime = true;
+	    }
+	    else
+	    {
+		    if (cntRetry > 0)
+			    cntRetry--;
+		    else
+			    flagOverTime = true;
+	    }
     }
 
     private void OverTimer_Start()
     {
         overTimer.Start();
+        flagReceivePackageOver = false;
         countOverTime = 5;
         cntRetry = 3;
     }
@@ -148,6 +176,11 @@ public class WriBootImage
 		        DebugWindow.GetInstance().updateDebugContent("使用新版8600");
 		        return NHandShake() && NCommunication();
 	        }
+        }
+        catch (Exception ae)
+        {
+	        DebugWindow.GetInstance().updateDebugContent($"写图片出错：{ae.Message}");
+	        return false;
         }
         finally
         {

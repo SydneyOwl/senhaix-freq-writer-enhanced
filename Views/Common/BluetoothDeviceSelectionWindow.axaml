@@ -69,5 +69,6 @@
                 <TextBlock Text="连接设备" Name="connStat" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
+        <Label Content="*请把手台放在离电脑近一些的位置" Canvas.Right="10" Canvas.Top="400"></Label>
     </Canvas>
 </Window>
