@@ -65,16 +65,18 @@ public class WriBootImage
     {
         _device = device;
         image = img;
+        comStep = State.HandShakeStep1;
+        NComStep = NImgStep.Step_HandShake;
         if (device != SHX_DEVICE.SHX8600PRO)
         {
 	        TimerInit();
+	        _sp.OpenSerial();
         }
         else
         {
 	        TimerInitPro();
+	        _sp.OpenSerialPro();
         }
-        comStep = State.HandShakeStep1;
-        _sp.OpenSerial();
     }
 
 
@@ -137,6 +139,7 @@ public class WriBootImage
     public bool WriteImg()
     {
         comStep = State.HandShakeStep1;
+        NComStep = NImgStep.Step_HandShake_Jump1;
         // Bitmap bitmap2 = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb);
         // for (int i = 0; i < image.Width; i++)
         // {
@@ -330,10 +333,6 @@ public class WriBootImage
         return false;
     }
     
-    
-    
-    
-    // 迷惑的8600_NEW
     public bool NHandShake()
 	{
 		byte[] array = new byte[1];
@@ -359,9 +358,9 @@ public class WriBootImage
 							_sp.WriteByte(bufForData, 0, 1);
 							NComStep = NImgStep.Step_HandShake;
 							overTimer.Stop();
-							_sp.CloseSerial();
-							_sp.BaudRate = 115200;
-							_sp.Open();
+							// _sp.CloseSerial();
+							// _sp.BaudRate = 115200;
+							// _sp.Open();
 							Thread.Sleep(100);
 							return true;
 						}

@@ -146,6 +146,24 @@ public class MySerialPort : SerialPort
             _sp.Open();
         }
     }
+    
+    
+    // 8600pro的串口
+    public void OpenSerialPro()
+    {
+        _sp.PortName = TargetPort;
+        _sp.BaudRate = 9600;
+        _sp.DataBits = 8;
+        _sp.StopBits = StopBits.One;
+        _sp.Parity = Parity.None;
+        _sp.ReadBufferSize = 10240;
+        _sp.WriteBufferSize = 10240;
+        _sp.DtrEnable = true;
+        _sp.RtsEnable = true;
+        _sp.ReadTimeout = 4000;
+        _sp.WriteTimeout = 4000;
+        _sp.Open();
+    }
 
     public void CloseSerial()
     {

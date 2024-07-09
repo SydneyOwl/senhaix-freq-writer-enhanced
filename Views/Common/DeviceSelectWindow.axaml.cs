@@ -17,7 +17,7 @@ public partial class DeviceSelectWindow : Window
     {
         // if (DebugWindow.HasInstance()) DebugWindow.GetInstance().Close();
         InitializeComponent();
-        if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 2;
+        if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 3;
     }
 
     private async void Device_OnClick(object? sender, RoutedEventArgs e)
