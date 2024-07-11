@@ -215,7 +215,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 + Jetbrains的Open Source License
 
-   ![](./readme_image/rider.svg)![](./readme_image/goland.svg)
+   ![](./readme_image/rider.svg)     ![](./readme_image/goland.svg)
 
 ## 许可证
 

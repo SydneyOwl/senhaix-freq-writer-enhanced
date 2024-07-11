@@ -433,8 +433,12 @@ public partial class MainWindow : Window
         new OtherFunctionWindow().ShowDialog(this);
     }
 
-    private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    private async void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
+        if (shxDevice == SHX_DEVICE.SHX8600PRO)
+        {
+            await MessageBoxManager.GetMessageBoxStandard("注意", "8600pro的开机图片导入功能未经测试，如写入失败请使用官方软件重新导入；如果有任何问题欢迎提出issue！").ShowWindowDialogAsync(this);
+        }
         new BootImageImportWindow(shxDevice).ShowDialog(this);
     }
 
