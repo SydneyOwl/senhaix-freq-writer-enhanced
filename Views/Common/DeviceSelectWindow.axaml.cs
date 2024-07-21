@@ -51,7 +51,6 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("低功率");
                 
-                
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600");
                 new MainWindow(SHX_DEVICE.SHX8600).Show();
                 break;

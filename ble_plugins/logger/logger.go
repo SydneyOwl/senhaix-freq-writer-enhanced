@@ -8,9 +8,9 @@ var (
 	logTemplate         = "[{{datetime}}] [{{level}}] {{message}}\n"
 	logCodeLineTemplate = "[{{datetime}}] [{{level}}] {{message}} (from:{{caller}})\n"
 
-	DefaultNormalLevels = slog.Levels{slog.NoticeLevel, slog.InfoLevel}
-	VerboseLevels       = slog.Levels{slog.NoticeLevel, slog.InfoLevel, slog.DebugLevel}
-	VVboseLevels        = slog.Levels{slog.NoticeLevel, slog.InfoLevel, slog.DebugLevel, slog.TraceLevel}
+	defaultLevels = slog.Levels{slog.NoticeLevel, slog.InfoLevel}
+	verboseLevels  = slog.Levels{slog.NoticeLevel, slog.InfoLevel, slog.DebugLevel}
+	vverboseLevels = slog.Levels{slog.NoticeLevel, slog.InfoLevel, slog.DebugLevel, slog.TraceLevel}
 )
 
 func InitLog(verbose bool, vverbose bool, colorDisable bool) {
@@ -25,12 +25,12 @@ func InitLog(verbose bool, vverbose bool, colorDisable bool) {
 		}
 		// slog config
 	})
-	logLevel := DefaultNormalLevels
+	logLevel := defaultLevels
 	if verbose {
-		logLevel = VerboseLevels
+		logLevel = verboseLevels
 	}
 	if vverbose {
-		logLevel = VVboseLevels
+		logLevel = vverboseLevels
 	}
 	slog.SetLogLevel(logLevel[len(logLevel)-1])
 }
