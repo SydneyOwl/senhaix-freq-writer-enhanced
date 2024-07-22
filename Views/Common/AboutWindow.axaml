@@ -18,11 +18,14 @@
         <Label Canvas.Top="50" Canvas.Right="0" Name="macos">macOS</Label>
 
         <Label Canvas.Right="148" Canvas.Top="75"> 版本号：</Label>
-        <Label Content="{x:Static constants:Version.VersionTag}" Canvas.Left="250" Canvas.Top="75" />
+        <!-- <Label Content="{x:Static constants:Version.VersionTag}" Canvas.Left="250" Canvas.Top="75" /> -->
+        <Label Name="MVersionTag" Canvas.Left="250" Canvas.Top="75" />
         <Label Canvas.Right="162" Canvas.Top="100"> 提交：</Label>
-        <Label Content="{x:Static constants:Version.GitCommitHash}" Canvas.Left="240" Canvas.Top="100" />
+        <!-- <Label Content="{x:Static constants:Version.GitCommitHash}" Canvas.Left="240" Canvas.Top="100" /> -->
+        <Label Name="MGitCommitHash" Canvas.Left="240" Canvas.Top="100" />
         <Label Canvas.Right="134" Canvas.Top="125"> 编译时间：</Label>
-        <Label Content="{x:Static constants:Version.BuildTime}" Canvas.Right="0" Canvas.Top="125" />
+        <!-- <Label Content="{x:Static constants:Version.BuildTime}" Canvas.Right="0" Canvas.Top="125" /> -->
+        <Label Name="MBuildTime" Canvas.Right="0" Canvas.Top="125" />
 
         <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="10" Click="RepoButton_OnClick">
             <StackPanel Orientation="Horizontal">

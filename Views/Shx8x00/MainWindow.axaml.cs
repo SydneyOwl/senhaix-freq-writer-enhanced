@@ -4,10 +4,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
@@ -34,15 +37,31 @@ public partial class MainWindow : Window
     private BluetoothDeviceSelectionWindow bds;
 
     private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8600;
+
+    private CancellationTokenSource cancelTips;
     
     public MainWindow(SHX_DEVICE shx)
     {
         InitializeComponent();
+        cancelTips = new CancellationTokenSource();
+        Task.Run(()=>updateTips(cancelTips.Token));
         DataContext = this;
         shxDevice = shx;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
         DebugWindow.GetInstance().updateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
+    }
+
+    private async void updateTips(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)];
+            });
+            await Task.Delay(5000,CancellationToken.None);
+        }
     }
 
     public ObservableCollection<ChannelData> ListItems
@@ -63,6 +82,7 @@ public partial class MainWindow : Window
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
+        cancelTips.Cancel();
         Close();
         bds?.osBLE?.Dispose();
         if (!_devSwitchFlag) Environment.Exit(0);
