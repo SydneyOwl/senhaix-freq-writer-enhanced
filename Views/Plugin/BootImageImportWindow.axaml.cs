@@ -23,6 +23,16 @@ public partial class BootImageImportWindow : Window
     private CancellationTokenSource _ctx;
     private SHX_DEVICE _device = SHX_DEVICE.SHX8600;
 
+    public BootImageImportWindow()
+    {
+        BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
+        BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
+        Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
+        WindowHeight = 200;
+        InitializeComponent();
+        DataContext = this;
+    }
+
     public BootImageImportWindow(SHX_DEVICE dev)
     {
         _device = dev;
@@ -124,6 +134,7 @@ public partial class BootImageImportWindow : Window
             }
 
             start.IsEnabled = false;
+            stop.IsEnabled = true;
             _bootWri = new WriBootImage(_device,_bitmap);
             new Thread(() => { StartWrite8x00(_ctx); }).Start();
             new Thread(() => { StartGetProcess8x00(_ctx.Token); }).Start();
@@ -135,6 +146,7 @@ public partial class BootImageImportWindow : Window
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
                 start.IsEnabled = true;
+                stop.IsEnabled = false;
                 return;
             }
 
@@ -148,16 +160,21 @@ public partial class BootImageImportWindow : Window
     {
         DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWrite8x00");
         var res = _bootWri.WriteImg();
-        Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            start.IsEnabled = true;
+            stop.IsEnabled = false;
+        });
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
             if (res)
-                MessageBoxManager.GetMessageBoxStandard("注意", "成功！").ShowWindowDialogAsync(this);
+                MessageBoxManager.GetMessageBoxStandard("注意", "导入成功！").ShowWindowDialogAsync(this);
             else
-                MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
+                MessageBoxManager.GetMessageBoxStandard("注意", "导入失败！").ShowWindowDialogAsync(this);
             // 不用ResetBLE，因为更改开机图片不变更蓝牙状态
             start.IsEnabled = true;
+            stop.IsEnabled = false;
         });
 
         DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartWrite8x00");
@@ -181,15 +198,20 @@ public partial class BootImageImportWindow : Window
     {
         DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWriteGt12");
         var res = _bootHid.WriteImg();
-        Dispatcher.UIThread.Invoke(() => { start.IsEnabled = true; });
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            start.IsEnabled = true;
+            stop.IsEnabled = false;
+        });
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
             if (res)
-                MessageBoxManager.GetMessageBoxStandard("注意", "成功！").ShowWindowDialogAsync(this);
+                MessageBoxManager.GetMessageBoxStandard("注意", "导入成功！").ShowWindowDialogAsync(this);
             else
-                MessageBoxManager.GetMessageBoxStandard("注意", "失败！").ShowWindowDialogAsync(this);
+                MessageBoxManager.GetMessageBoxStandard("注意", "导入失败！").ShowWindowDialogAsync(this);
             start.IsEnabled = true;
+            stop.IsEnabled = false;
         });
         DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartWriteGt12");
     }
@@ -219,5 +241,11 @@ public partial class BootImageImportWindow : Window
         // };
         // bootImage.Source = bi.CreatedAvaloniaBitmap;
         // this._bitmap = bi.CreatedBitmap;
+    }
+
+    private void StopImportImg_OnClick(object? sender, RoutedEventArgs e)
+    {
+        _bootWri?.CancelWriteImg();
+        _bootHid?.CancelWriteImg();
     }
 }

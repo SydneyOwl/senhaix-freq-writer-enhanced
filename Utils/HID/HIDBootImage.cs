@@ -1,9 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Timers;
 using SenhaixFreqWriter.Constants.Gt12;
 using SkiaSharp;
+using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
@@ -54,6 +56,8 @@ public class HIDBootImage
 
     private int totalPackages;
 
+    private CancellationTokenSource wriImgTokenSource;
+
 
     // public ComInfoIssue ProgressUpdate
     // {
@@ -96,6 +100,7 @@ public class HIDBootImage
 
     public bool WriteImg()
     {
+        wriImgTokenSource = new CancellationTokenSource();
         TimerInit();
         comStep = HID_BOOTIMAGE_STATUS.Step_HandShake_Jump1;
         helper = new DataHelper();
@@ -103,10 +108,15 @@ public class HIDBootImage
         return false;
     }
 
+    public void CancelWriteImg()
+    {
+        wriImgTokenSource.Cancel();
+    }
+
     public bool HandShake()
     {
         var byData = new byte[10];
-        while (true)
+        while (!wriImgTokenSource.Token.IsCancellationRequested)
             if (!flagOverTime)
             {
                 switch (comStep)
@@ -215,7 +225,7 @@ public class HIDBootImage
             bufferBmpData[byteOfData++] = (byte)(num6 >> 8);
         }
 
-        while (true)
+        while (!wriImgTokenSource.Token.IsCancellationRequested)
             if (!flagOverTime)
             {
                 switch (comStep)

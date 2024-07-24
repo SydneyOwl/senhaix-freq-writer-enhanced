@@ -61,6 +61,8 @@ public class WriBootImage
     
     private SHX_DEVICE _device;
 
+    private CancellationTokenSource wriImgTokenSource;
+
     public WriBootImage(SHX_DEVICE device, SKBitmap img)
     {
         _device = device;
@@ -136,8 +138,14 @@ public class WriBootImage
         cntRetry = 3;
     }
 
+    public void CancelWriteImg()
+    {
+	    wriImgTokenSource.Cancel();
+    }
+
     public bool WriteImg()
     {
+	    wriImgTokenSource = new CancellationTokenSource();
         comStep = State.HandShakeStep1;
         NComStep = NImgStep.Step_HandShake_Jump1;
         // Bitmap bitmap2 = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb);
@@ -197,7 +205,7 @@ public class WriBootImage
     public bool HandShake()
     {
         var array = new byte[1];
-        while (true)
+        while (!wriImgTokenSource.Token.IsCancellationRequested)
             if (!flagOverTime)
             {
                 switch (comStep)
@@ -267,7 +275,7 @@ public class WriBootImage
         var flag = true;
         var num = 0;
         var num2 = 0;
-        while (true)
+        while (!wriImgTokenSource.Token.IsCancellationRequested)
             if (!flagOverTime)
             {
                 switch (comStep)
@@ -336,7 +344,7 @@ public class WriBootImage
     public bool NHandShake()
 	{
 		byte[] array = new byte[1];
-		while (true)
+		while (!wriImgTokenSource.Token.IsCancellationRequested)
 		{
 			if (!flagOverTime)
 			{
@@ -361,6 +369,7 @@ public class WriBootImage
 							// _sp.CloseSerial();
 							// _sp.BaudRate = 115200;
 							// _sp.Open();
+							DebugWindow.GetInstance().updateDebugContent("Successfully handshake!");
 							Thread.Sleep(100);
 							return true;
 						}
@@ -392,7 +401,7 @@ public class WriBootImage
 	public bool NCommunication()
 	{
 		int num = 0;
-		while (true)
+		while (!wriImgTokenSource.Token.IsCancellationRequested)
 		{
 			if (!flagOverTime)
 			{

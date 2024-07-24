@@ -34,6 +34,13 @@
                 <TextBlock Text="开始导入" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
+        <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="160" Click="StopImportImg_OnClick"
+                Name="stop" IsEnabled="False">
+            <StackPanel Orientation="Horizontal">
+                <!-- <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" /> -->
+                <TextBlock Text="取消" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
         <ProgressBar Canvas.Bottom="0" Value="0" Width="400" Name="pgBar" />
     </Canvas>
 </Window>
