@@ -56,6 +56,11 @@ public partial class BootImageImportWindow : Window
 
         DebugWindow.GetInstance().updateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
         InitializeComponent();
+        Closed += (sender, args) =>
+        {
+            _bootWri?.CancelWriteImg();
+            _bootHid?.CancelWriteImg();
+        };
         DataContext = this;
     }
 
@@ -168,6 +173,10 @@ public partial class BootImageImportWindow : Window
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
+            if (!this.IsActive)
+            {
+                return;
+            }
             if (res)
                 MessageBoxManager.GetMessageBoxStandard("注意", "导入成功！").ShowWindowDialogAsync(this);
             else
@@ -206,6 +215,10 @@ public partial class BootImageImportWindow : Window
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
+            if (!this.IsActive)
+            {
+                return;
+            }
             if (res)
                 MessageBoxManager.GetMessageBoxStandard("注意", "导入成功！").ShowWindowDialogAsync(this);
             else

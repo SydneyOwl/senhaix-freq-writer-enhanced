@@ -367,10 +367,14 @@ public class WriBootImage
 							NComStep = NImgStep.Step_HandShake;
 							overTimer.Stop();
 							// _sp.CloseSerial();
-							// _sp.BaudRate = 115200;
-							// _sp.Open();
-							DebugWindow.GetInstance().updateDebugContent("Successfully handshake!");
+							// Thread.Sleep(100);
+							// _sp.OpenSerialProWithHigherBaudrate();
+							// OVERRIDE SETTINGS
+							_sp.Close();
+							_sp.BaudRate = 115200;
+							_sp.Open();
 							Thread.Sleep(100);
+							DebugWindow.GetInstance().updateDebugContent("Successfully handshake!");
 							return true;
 						}
 					}
@@ -401,6 +405,7 @@ public class WriBootImage
 	public bool NCommunication()
 	{
 		int num = 0;
+		int readFailedTimes = 0;
 		while (!wriImgTokenSource.Token.IsCancellationRequested)
 		{
 			if (!flagOverTime)
@@ -409,6 +414,7 @@ public class WriBootImage
 				{
 				case NImgStep.Step_HandShake:
 				{
+					DebugWindow.GetInstance().updateDebugContent("NImgStep.Step_HandShake");
 					byte[] array = Encoding.ASCII.GetBytes(STR_HANDSHAKE);
 					packageLength = LoadPackage(NCommandType.CMD_HANDSHAKE, 0, array.Length, array);
 					_sp.WriteByte(bufForData, 0, packageLength);
@@ -419,6 +425,7 @@ public class WriBootImage
 				}
 				case NImgStep.Step_Over:
 				{
+					DebugWindow.GetInstance().updateDebugContent("NImgStep.Step_Over");
 					byte[] array = Encoding.ASCII.GetBytes("Over");
 					packageLength = LoadPackage(NCommandType.CMD_OVER, 0, array.Length, array);
 					_sp.WriteByte(bufForData, 0, packageLength);
@@ -431,6 +438,7 @@ public class WriBootImage
 				case NImgStep.Step_SetImageAddress:
 				case NImgStep.Step_SetVoiceAddress:
 				{
+					DebugWindow.GetInstance().updateDebugContent("NImgStep.3set");
 					byte[] array = new byte[4];
 					array[3] = (byte)((uint)(address >> 24) & 0xFFu);
 					array[2] = (byte)((uint)(address >> 16) & 0xFFu);
@@ -444,6 +452,7 @@ public class WriBootImage
 				}
 				case NImgStep.Step_Erase:
 				{
+					DebugWindow.GetInstance().updateDebugContent("NImgStep.erase");
 					int num2 = 17668;
 					byte[] array = new byte[6];
 					array[3] = (byte)((uint)(address >> 24) & 0xFFu);
@@ -460,6 +469,7 @@ public class WriBootImage
 				}
 				case NImgStep.Step_Data:
 				{
+					DebugWindow.GetInstance().updateDebugContent("NImgStep.data");
 					byte[] array = new byte[1024];
 					Array.Copy(bufferBmpData, num, array, 0, 1024);
 					if (num <= byteOfData)
@@ -477,8 +487,11 @@ public class WriBootImage
 					break;
 				}
 				case NImgStep.Step_Receive_1:
+					DebugWindow.GetInstance().updateDebugContent($"NImgStep.recv1:{readFailedTimes}");
 					if (_sp.BytesToReadFromCache >= 1)
 					{
+						readFailedTimes = 0;
+						DebugWindow.GetInstance().updateDebugContent("Gonna read something out...");
 						_sp.ReadByte(bufForData, 0, 1);
 						if (bufForData[0] == 165)
 						{
@@ -488,8 +501,20 @@ public class WriBootImage
 							rxOverTimer.Start();
 						}
 					}
+					else
+					{
+						readFailedTimes++;
+						// or more..
+						Thread.Sleep(5);
+						if (readFailedTimes > 200)
+						{
+							_sp.CloseSerial();
+							return false;
+						}
+					}
 					break;
 				case NImgStep.Step_Receive_2:
+					DebugWindow.GetInstance().updateDebugContent("NImgStep.recv2");
 					if (flagReceivePackageOver)
 					{
 						flagReceivePackageOver = false;

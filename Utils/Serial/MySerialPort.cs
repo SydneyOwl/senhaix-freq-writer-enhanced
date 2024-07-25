@@ -164,6 +164,22 @@ public class MySerialPort : SerialPort
         _sp.WriteTimeout = 4000;
         _sp.Open();
     }
+    
+    public void OpenSerialProWithHigherBaudrate()
+    {
+        _sp.PortName = TargetPort;
+        _sp.BaudRate = 115200;
+        _sp.DataBits = 8;
+        _sp.StopBits = StopBits.One;
+        _sp.Parity = Parity.None;
+        _sp.ReadBufferSize = 10240;
+        _sp.WriteBufferSize = 10240;
+        _sp.DtrEnable = true;
+        _sp.RtsEnable = true;
+        _sp.ReadTimeout = 4000;
+        _sp.WriteTimeout = 4000;
+        _sp.Open();
+    }
 
     public void CloseSerial()
     {
