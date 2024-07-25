@@ -241,7 +241,7 @@ public partial class MainWindow : Window
         });
         if (file is not null)
         {
-            _savePath = new Uri(file.Path.ToString()).LocalPath;
+            _savePath = file.Path.LocalPath;
             await using var stream = await file.OpenWriteAsync();
             stream.Seek(0L, SeekOrigin.Begin);
             stream.SetLength(0L);
@@ -455,10 +455,10 @@ public partial class MainWindow : Window
 
     private async void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (shxDevice == SHX_DEVICE.SHX8600PRO)
-        {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "8600pro的开机图片导入功能未经测试，如写入失败请使用官方软件重新导入；如果有任何问题欢迎提出issue！").ShowWindowDialogAsync(this);
-        }
+        // if (shxDevice == SHX_DEVICE.SHX8600PRO)
+        // {
+        //     await MessageBoxManager.GetMessageBoxStandard("注意", "8600pro的开机图片导入功能未经测试，如写入失败请使用官方软件重新导入；如果有任何问题欢迎提出issue！").ShowWindowDialogAsync(this);
+        // }
         new BootImageImportWindow(shxDevice).ShowDialog(this);
     }
 

@@ -447,7 +447,7 @@ public partial class MainWindow : Window
         });
         if (file is not null)
         {
-            _filePath = new Uri(file.Path.ToString()).LocalPath;
+            _filePath = file.Path.LocalPath;
             await using var stream = await file.OpenWriteAsync();
             stream.Seek(0L, SeekOrigin.Begin);
             stream.SetLength(0L);

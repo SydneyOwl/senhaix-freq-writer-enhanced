@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -86,7 +87,7 @@ public partial class BootImageImportWindow : Window
             }
         });
         if (files.Count == 0) return;
-        var bitmap = SKBitmap.Decode(files[0].Path.AbsolutePath);
+        var bitmap = SKBitmap.Decode(files[0].Path.LocalPath);
         if (bitmap == null)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "出错，请检查您的路径，应当为纯英文，或软件对图片无读权限！").ShowWindowDialogAsync(this);
@@ -115,7 +116,7 @@ public partial class BootImageImportWindow : Window
             return;
         }
 
-        bootImage.Source = new Bitmap(files[0].Path.AbsolutePath);
+        bootImage.Source = new Bitmap(files[0].Path.LocalPath);
         _bitmap = bitmap;
     }
 
@@ -140,7 +141,17 @@ public partial class BootImageImportWindow : Window
 
             start.IsEnabled = false;
             stop.IsEnabled = true;
-            _bootWri = new WriBootImage(_device,_bitmap);
+            try
+            {
+                _bootWri = new WriBootImage(_device,_bitmap);
+            }
+            catch (Exception aa)
+            {
+                await MessageBoxManager.GetMessageBoxStandard("注意",$"检查手台连接：{aa.Message}").ShowWindowDialogAsync(this);
+                start.IsEnabled = true;
+                stop.IsEnabled = false;
+                return;
+            }
             new Thread(() => { StartWrite8x00(_ctx); }).Start();
             new Thread(() => { StartGetProcess8x00(_ctx.Token); }).Start();
         }
