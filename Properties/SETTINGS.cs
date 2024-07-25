@@ -9,6 +9,7 @@ public static class SETTINGS
     public const string RPC_URL = "http://127.0.0.1:8563/";
 
     public const string WS_RPC_URL = "ws://127.0.0.1:8563/rpc";
+    
     public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
 
     public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ public class WSRPCBLE : IBluetooth
         wsrpc.StartWSRPC();
     }
 
-    // See BLEPlugin.py
+    // See BLEPlugin.go
     public bool GetBleAvailabilityAsync()
     {
         if (!manual)
@@ -82,6 +83,7 @@ public class WSRPCBLE : IBluetooth
                         Arguments = SETTINGS.RPC_CLIENT_PROCESS_ARGS,
                         UseShellExecute = false,
                         CreateNoWindow = true,
+                        StandardOutputEncoding = Encoding.UTF8,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true
                     }
