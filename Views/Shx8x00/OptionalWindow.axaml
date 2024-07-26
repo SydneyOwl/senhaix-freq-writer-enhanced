@@ -208,24 +208,26 @@
                 <Label Canvas.Top="35" Canvas.Left="300" FontSize="13">*中继导频频率</Label>
                 <ComboBox Canvas.Top="30" Canvas.Left="390" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.RptFrq}"
-                          SelectedIndex="{Binding Fun.CbB1750Hz}" 
+                          SelectedIndex="{Binding Fun.CbB1750Hz}"
                           IsEnabled="False"
-                          Name="rptFrqCombo"/>
+                          Name="rptFrqCombo" />
 
                 <CheckBox Canvas.Top="70" Canvas.Left="300" IsChecked="{Binding Fun.CBAlarmSound}" IsEnabled="False"
-                          Name="alarmSoundCombo">*报警时是否播放声音</CheckBox>
+                          Name="alarmSoundCombo">
+                    *报警时是否播放声音
+                </CheckBox>
                 <Label Canvas.Top="130" Canvas.Left="300" FontSize="13">*报警模式</Label>
                 <ComboBox Canvas.Top="125" Canvas.Left="400" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.AlarmMode}"
-                          SelectedIndex="{Binding Fun.CbBAlarmMode}" 
+                          SelectedIndex="{Binding Fun.CbBAlarmMode}"
                           IsEnabled="False"
-                          Name="alarmModeCombo"/>
+                          Name="alarmModeCombo" />
                 <Label Canvas.Top="180" Canvas.Left="300" FontSize="13">*发射结束提示音</Label>
                 <ComboBox Canvas.Top="175" Canvas.Left="400" Width="150"
                           ItemsSource="{x:Static constants:OptionalChoice.AlarmEnd}"
-                          SelectedIndex="{Binding Fun.CbBSoundOfTxEnd}" 
+                          SelectedIndex="{Binding Fun.CbBSoundOfTxEnd}"
                           IsEnabled="False"
-                          Name="alarmEndCombo"/>
+                          Name="alarmEndCombo" />
 
                 <CheckBox Canvas.Top="220" Canvas.Left="300" IsChecked="{Binding Fun.CBTdr}">启动双守</CheckBox>
                 <CheckBox Canvas.Top="220" Canvas.Left="400" IsChecked="{Binding Fun.CBFmRadioEnable}">FM收音机</CheckBox>

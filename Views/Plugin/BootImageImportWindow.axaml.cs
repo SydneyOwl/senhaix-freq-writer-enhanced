@@ -103,7 +103,7 @@ public partial class BootImageImportWindow : Window
 
         DebugWindow.GetInstance().updateDebugContent($"图片尺寸：{bitmap.Width}*{bitmap.Height}");
         if ((bitmap.Width != OTHERS.BOOT_IMG_WIDTH ||
-             bitmap.Height != OTHERS.BOOT_IMG_HEIGHT) && (_device != SHX_DEVICE.GT12))
+             bitmap.Height != OTHERS.BOOT_IMG_HEIGHT) && _device != SHX_DEVICE.GT12)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
@@ -131,7 +131,7 @@ public partial class BootImageImportWindow : Window
             return;
         }
 
-        if (_device !=SHX_DEVICE.GT12)
+        if (_device != SHX_DEVICE.GT12)
         {
             if (MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
             {
@@ -143,15 +143,16 @@ public partial class BootImageImportWindow : Window
             stop.IsEnabled = true;
             try
             {
-                _bootWri = new WriBootImage(_device,_bitmap);
+                _bootWri = new WriBootImage(_device, _bitmap);
             }
             catch (Exception aa)
             {
-                await MessageBoxManager.GetMessageBoxStandard("注意",$"检查手台连接：{aa.Message}").ShowWindowDialogAsync(this);
+                await MessageBoxManager.GetMessageBoxStandard("注意", $"检查手台连接：{aa.Message}").ShowWindowDialogAsync(this);
                 start.IsEnabled = true;
                 stop.IsEnabled = false;
                 return;
             }
+
             new Thread(() => { StartWrite8x00(_ctx); }).Start();
             new Thread(() => { StartGetProcess8x00(_ctx.Token); }).Start();
         }
@@ -184,10 +185,7 @@ public partial class BootImageImportWindow : Window
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
-            if (!this.IsActive)
-            {
-                return;
-            }
+            if (!IsActive) return;
             if (res)
                 MessageBoxManager.GetMessageBoxStandard("注意", "导入成功！").ShowWindowDialogAsync(this);
             else
@@ -226,10 +224,7 @@ public partial class BootImageImportWindow : Window
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
-            if (!this.IsActive)
-            {
-                return;
-            }
+            if (!IsActive) return;
             if (res)
                 MessageBoxManager.GetMessageBoxStandard("注意", "导入成功！").ShowWindowDialogAsync(this);
             else

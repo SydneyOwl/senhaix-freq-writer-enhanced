@@ -38,14 +38,14 @@ public partial class MainWindow : Window
     private IBluetooth _osBle;
 
     public int CurrentArea;
-        
+
     private CancellationTokenSource cancelTips;
 
     public MainWindow()
     {
         InitializeComponent();
         cancelTips = new CancellationTokenSource();
-        Task.Run(()=>updateTips(cancelTips.Token));
+        Task.Run(() => updateTips(cancelTips.Token));
         DataContext = this;
         SetArea(0);
         ListItems.CollectionChanged += CollectionChangedHandler;
@@ -68,19 +68,16 @@ public partial class MainWindow : Window
     }
 
     public ObservableCollection<Channel> ListItems { get; set; } = new();
-    
+
     private async void updateTips(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            Dispatcher.UIThread.Invoke(() =>
-            {
-                tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)];
-            });
-            await Task.Delay(5000,CancellationToken.None);
+            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)]; });
+            await Task.Delay(5000, CancellationToken.None);
         }
     }
-    
+
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
         var aboutWindow = new AboutWindow();

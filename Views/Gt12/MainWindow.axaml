@@ -153,7 +153,7 @@
             <!-- <StackPanel Orientation="Horizontal"> -->
             <!-- <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" /> -->
             <!-- <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock> -->
-            <TextBlock Foreground="Blue" Name="tipBlock"></TextBlock>
+            <TextBlock Foreground="Blue" Name="tipBlock" />
             <!-- </StackPanel> -->
         </Border>
         <Border Height="40" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"

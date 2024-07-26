@@ -36,7 +36,8 @@
         <CheckBox Content="禁用ssid过滤" Canvas.Right="67" Canvas.Top="100" Name="disableSSIDF" />
         <CheckBox Content="RPC调用" Canvas.Right="94" Canvas.Top="140" Name="useRPC"
                   IsCheckedChanged="UseRPC_OnIsCheckedChanged" />
-        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="180" Name="manualRPC" IsEnabled="False" IsCheckedChanged="ManualRPC_OnIsCheckedChanged" />
+        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="180" Name="manualRPC" IsEnabled="False"
+                  IsCheckedChanged="ManualRPC_OnIsCheckedChanged" />
         <progRing:ProgressRing Width="25"
                                Height="25"
                                IsActive="False"
@@ -69,6 +70,6 @@
                 <TextBlock Text="连接设备" Name="connStat" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        <Label Content="*请把手台放在离电脑近一些的位置" Canvas.Right="10" Canvas.Top="400"></Label>
+        <Label Content="*请把手台放在离电脑近一些的位置" Canvas.Right="10" Canvas.Top="400" />
     </Canvas>
 </Window>

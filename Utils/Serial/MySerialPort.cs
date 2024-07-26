@@ -146,8 +146,8 @@ public class MySerialPort : SerialPort
             _sp.Open();
         }
     }
-    
-    
+
+
     // 8600pro的串口
     public void OpenSerialPro()
     {
@@ -164,7 +164,7 @@ public class MySerialPort : SerialPort
         _sp.WriteTimeout = 4000;
         _sp.Open();
     }
-    
+
     public void OpenSerialProWithHigherBaudrate()
     {
         _sp.PortName = TargetPort;

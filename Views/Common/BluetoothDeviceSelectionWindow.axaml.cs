@@ -45,10 +45,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
     private void ScanButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var dispStatus = manualRPC.IsChecked.Value;
-        if (!dispStatus)
-        {
-            osBLE?.Dispose();
-        }
+        if (!dispStatus) osBLE?.Dispose();
         osBLE = new WSRPCBLE(dispStatus);
         Dispatcher.UIThread.Invoke(() =>
         {

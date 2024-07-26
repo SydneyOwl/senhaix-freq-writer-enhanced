@@ -4,8 +4,7 @@
         CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Common.AboutWindow"
         Title="关于"
-        WindowStartupLocation="CenterScreen"
-        xmlns:constants="clr-namespace:SenhaixFreqWriter.Properties">
+        WindowStartupLocation="CenterScreen">
     <Canvas>
         <Image Height="150" Canvas.Top="30" Canvas.Left="20"
                Source="avares://SenhaixFreqWriter/Asset/shx8800-icons/1024x1024.png" />
@@ -33,9 +32,9 @@
                 <TextBlock Text="仓库" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        
-        <Label Canvas.Right="90" Canvas.Top="169"> 欢迎提出issues和PR，也可以在此处获取更新-></Label>
-        
+
+        <Label Canvas.Right="90" Canvas.Top="169"> 欢迎提出issues和PRs，也可以在此处获取更新-></Label>
+
         <!-- <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="100" Click="UpdateButton_OnClick"> -->
         <!--     <StackPanel Orientation="Horizontal"> -->
         <!--         <PathIcon Data="{StaticResource arrow_up_regular}" Margin="0,0,10,0" /> -->

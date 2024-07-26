@@ -27,7 +27,7 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 public partial class MainWindow : Window
 {
     private bool _devSwitchFlag;
-    
+
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
@@ -39,12 +39,12 @@ public partial class MainWindow : Window
     private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8600;
 
     private CancellationTokenSource cancelTips;
-    
+
     public MainWindow(SHX_DEVICE shx)
     {
         InitializeComponent();
         cancelTips = new CancellationTokenSource();
-        Task.Run(()=>updateTips(cancelTips.Token));
+        Task.Run(() => updateTips(cancelTips.Token));
         DataContext = this;
         shxDevice = shx;
         _listItems.CollectionChanged += CollectionChangedHandler;
@@ -56,11 +56,8 @@ public partial class MainWindow : Window
     {
         while (!token.IsCancellationRequested)
         {
-            Dispatcher.UIThread.Invoke(() =>
-            {
-                tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)];
-            });
-            await Task.Delay(5000,CancellationToken.None);
+            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)]; });
+            await Task.Delay(5000, CancellationToken.None);
         }
     }
 
@@ -571,10 +568,11 @@ public partial class MainWindow : Window
     private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
         if (shxDevice != SHX_DEVICE.SHX8800)
-        { 
+        {
             MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙功能仅8800可用！").ShowWindowDialogAsync(this);
             return;
         }
+
         bds = new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800);
         bds.ShowDialog(this);
     }

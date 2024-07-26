@@ -55,6 +55,8 @@
 + windows上若不勾选RPC方式写频，则使用的是c#的WinRT api
 + linux和mac端只能使用RPC方式写频，此方式通过客户端（见ble_plugin）的帮助实现蓝牙写频
 
+![](./readme_image/plugin.png)
+
 #### 图片
 
 ##### v0.2.2后
@@ -143,7 +145,8 @@
 
 + windows上若无法正常使用蓝牙写频功能，可以试着反勾选“RPC方式”后重试
 
-+ 如果在macOS上出现提示"无法打开，因为它来自身份不明的开发者"，请在`设置-隐私与安全性-安全性`中手动允许应用运行。或者在命令行中执行命令：`xattr -cr （.app包的路径）`。
++ 如果在macOS上出现提示"无法打开，因为它来自身份不明的开发者"，请在`设置-隐私与安全性-安全性`
+  中手动允许应用运行。或者在命令行中执行命令：`xattr -cr （.app包的路径）`。
 
     <img src="./readme_image/setting.jpg" style="zoom:33%;" />
 
@@ -151,7 +154,7 @@
     1. 下载Release中的“macOS-ble-helper”；
     2. 打开写频软件后双击运行“macOS-ble-helper” ；
     3. 勾选“手动调用RPC”后正常使用蓝牙读写频即可。
-    
+
     <img src="./readme_image/bt-allow.jpg" style="zoom:25%;" />
 
 ## 其他
@@ -215,7 +218,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 + Jetbrains的Open Source License
 
-   ![](./readme_image/rider.svg)     ![](./readme_image/goland.svg)
+  ![](./readme_image/rider.svg)     ![](./readme_image/goland.svg)
 
 ## 许可证
 

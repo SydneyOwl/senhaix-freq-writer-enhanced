@@ -9,6 +9,7 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 public partial class OptionalWindow : Window
 {
     private SHX_DEVICE _device = SHX_DEVICE.SHX8600;
+
     public OptionalWindow(SHX_DEVICE device)
     {
         _device = device;
@@ -25,9 +26,10 @@ public partial class OptionalWindow : Window
             // 在8600和pro上该项不可用，强制覆盖
             Fun.CbB1750Hz = 0;
         }
+
         DataContext = this;
     }
-    
+
     public OptionalWindow()
     {
         InitializeComponent();

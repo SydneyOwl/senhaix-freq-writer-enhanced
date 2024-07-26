@@ -36,7 +36,7 @@ isPyBleAvailable = True
 
 dataQueue = queue.Queue()
 
-try: 
+try:
     import bleak
 except Exception:
     isPyBleAvailable = False
@@ -47,6 +47,7 @@ def GetBleAvailability():
     scanner = bleak.BleakScanner()
     return True
 
+
 async def ScanForShx():
     global peripherals
     while not dataQueue.empty():
@@ -55,13 +56,16 @@ async def ScanForShx():
     peripherals = await scanner.discover(timeout=5)
     devList = []
     for i, per in enumerate(peripherals):
-        devList.append({"DeviceName": per.name if per.name is not None else "", "DeviceMacAddr": per.address,"DeviceID":str(i)})
+        devList.append(
+            {"DeviceName": per.name if per.name is not None else "", "DeviceMacAddr": per.address, "DeviceID": str(i)})
     insert_log(devList)
     return str(devList)
+
 
 def SetDevice(seq):
     global peripheral
     peripheral = bleak.BleakClient(peripherals[int(seq)])
+
 
 async def ConnectShxDevice():
     if peripheral is None:
@@ -75,7 +79,8 @@ async def ConnectShxDevice():
     except Exception as e:
         insert_log(repr(e))
         return False
-    
+
+
 async def ConnectShxRwService():
     global service_uuid, service
     if peripheral is None: return False
@@ -88,6 +93,7 @@ async def ConnectShxRwService():
             insert_log(f"Service Connected")
             return True
     return False
+
 
 async def ConnectShxRwCharacteristic():
     global characteristic_uuid, characteristic
@@ -102,34 +108,38 @@ async def ConnectShxRwCharacteristic():
             await peripheral.start_notify(chrid, callback=CallbackOnDataReceived)
             insert_log("Registeredd notify")
             return True
-    return False 
+    return False
+
 
 async def ReadCachedData():
     try:
-        if (dataQueue.empty()):return None
+        if (dataQueue.empty()): return None
         dt = dataQueue.get()
-        insert_log("read:"+str(dt))
+        insert_log("read:" + str(dt))
         return dt
     except Exception as e:
         insert_log(repr(e))
         return None
 
+
 async def WriteData(data):
     try:
         await peripheral.write_gatt_char(characteristic_uuid, data.data, False)
-        insert_log("Write:"+str(data))
+        insert_log("Write:" + str(data))
         return True
     except Exception as e:
         insert_log(repr(e))
         return False
 
+
 async def DisposeBluetooth():
-    global peripheral,service_uuid,service,characteristic_uuid,characteristic
+    global peripheral, service_uuid, service, characteristic_uuid, characteristic
     if peripheral is not None:
         await peripheral.disconnect()
-    service_uuid,service,characteristic_uuid,characteristic,peripheral = None, None, None, None,None
+    service_uuid, service, characteristic_uuid, characteristic, peripheral = None, None, None, None, None
 
-async def CallbackOnDataReceived(sender,data:bytearray):
+
+async def CallbackOnDataReceived(sender, data: bytearray):
     insert_log(f"recv: {data}")
     dataQueue.put(bytes(data))
 
@@ -138,24 +148,27 @@ def start_rpc_server(rpc_address):
     global server
     try:
         loop = asyncio.get_event_loop()
-        server = SimpleXMLRPCServer((rpc_address.split(':')[0], int(rpc_address.split(':')[1])), allow_none=True,logRequests=False)
+        server = SimpleXMLRPCServer((rpc_address.split(':')[0], int(rpc_address.split(':')[1])), allow_none=True,
+                                    logRequests=False)
         server.register_function(GetBleAvailability, "GetBleAvailability")
         server.register_function(lambda: loop.run_until_complete(ScanForShx()), "ScanForShx")
         server.register_function(lambda: loop.run_until_complete(ConnectShxDevice()), "ConnectShxDevice")
         server.register_function(lambda: loop.run_until_complete(ConnectShxRwService()), "ConnectShxRwService")
-        server.register_function(lambda: loop.run_until_complete(ConnectShxRwCharacteristic()), "ConnectShxRwCharacteristic")
+        server.register_function(lambda: loop.run_until_complete(ConnectShxRwCharacteristic()),
+                                 "ConnectShxRwCharacteristic")
         server.register_function(ReadCachedData, "ReadCachedData")
         server.register_function(SetDevice, "SetDevice")
         server.register_function(lambda data: loop.run_until_complete(WriteData(data)), "WriteData")
-        server.register_function(lambda : loop.run_until_complete(DisposeBluetooth), "DisposeBluetooth")
+        server.register_function(lambda: loop.run_until_complete(DisposeBluetooth), "DisposeBluetooth")
         server_thread = threading.Thread(target=server.serve_forever)
         server_thread.daemon = True
         server_thread.start()
-        insert_log( "RPC server started.")
+        insert_log("RPC server started.")
         start_button.config(state='disabled')
         stop_button.config(state='normal')
     except Exception as e:
         messagebox.showerror("Error", f"Failed to start RPC server: {str(e)}")
+
 
 def stop_rpc_server():
     global server
@@ -170,26 +183,30 @@ def stop_rpc_server():
     except Exception as e:
         messagebox.showerror("Error", f"Failed to stop RPC server: {str(e)}")
 
+
 def get_rpc_address():
     rpc_address = rpc_entry.get()
     if not rpc_address:
         rpc_address = "127.0.0.1:8563"
     return rpc_address
 
+
 def insert_log(data):
     if use_gui_m:
-        log_text.insert(tk.END, str(data)+"\n")
+        log_text.insert(tk.END, str(data) + "\n")
         log_text.see(tk.END)
     else:
         print(data)
-    
+
+
 def try_import():
     if not isPyBleAvailable:
         messagebox.showinfo("注意", "请先执行pip install bleak!")
         sys.exit(0)
 
+
 def use_gui():
-    global log_text,start_button,stop_button,rpc_entry
+    global log_text, start_button, stop_button, rpc_entry
     root = tk.Tk()
     root.title("BLE RPC Server")
     root.geometry("400x300")
@@ -220,39 +237,42 @@ def use_gui():
     log_text = scrolledtext.ScrolledText(root, width=40, height=10)
     log_text.pack(pady=10)
 
-    root.after(200,try_import)
+    root.after(200, try_import)
 
     root.mainloop()
 
-def use_cli(rpc_address,rpc_port):
+
+def use_cli(rpc_address, rpc_port):
     if not isPyBleAvailable:
         insert_log("请先执行pip install simplepyble安装所需蓝牙库！")
         return
     loop = asyncio.get_event_loop()
-    server = SimpleXMLRPCServer((rpc_address, rpc_port), allow_none=True,logRequests=False)
+    server = SimpleXMLRPCServer((rpc_address, rpc_port), allow_none=True, logRequests=False)
     server.register_function(GetBleAvailability, "GetBleAvailability")
     server.register_function(lambda: loop.run_until_complete(ScanForShx()), "ScanForShx")
     server.register_function(lambda: loop.run_until_complete(ConnectShxDevice()), "ConnectShxDevice")
     server.register_function(lambda: loop.run_until_complete(ConnectShxRwService()), "ConnectShxRwService")
-    server.register_function(lambda: loop.run_until_complete(ConnectShxRwCharacteristic()), "ConnectShxRwCharacteristic")
+    server.register_function(lambda: loop.run_until_complete(ConnectShxRwCharacteristic()),
+                             "ConnectShxRwCharacteristic")
     server.register_function(ReadCachedData, "ReadCachedData")
     server.register_function(SetDevice, "SetDevice")
     server.register_function(lambda data: loop.run_until_complete(WriteData(data)), "WriteData")
-    server.register_function(lambda : loop.run_until_complete(DisposeBluetooth), "DisposeBluetooth")
+    server.register_function(lambda: loop.run_until_complete(DisposeBluetooth), "DisposeBluetooth")
     server.serve_forever()
-    
+
+
 if __name__ == "__main__":
-    opts,args = getopt.getopt(sys.argv[1:],'hcga:p:',['help','cli','gui','rpc-address=','rpc-port='])
-    if len(opts)==0:
-        if sys.platform=="darwin":
+    opts, args = getopt.getopt(sys.argv[1:], 'hcga:p:', ['help', 'cli', 'gui', 'rpc-address=', 'rpc-port='])
+    if len(opts) == 0:
+        if sys.platform == "darwin":
             use_gui_m = False
-            use_cli(rpc_address,int(rpc_port))
+            use_cli(rpc_address, int(rpc_port))
         else:
             use_gui_m = True
             use_gui()
         sys.exit(0)
-    for opt_name,opt_value in opts:
-        if opt_name in ('-h','--help'):
+    for opt_name, opt_value in opts:
+        if opt_name in ('-h', '--help'):
             insert_log("""
 Python BLE RPC Server
 -a/--rpc-address 指定绑定的ip地址(命令行)
@@ -262,16 +282,16 @@ Python BLE RPC Server
 -h/--help 帮助
             """)
             sys.exit(0)
-        if opt_name in ('-a','--rpc-address'):
+        if opt_name in ('-a', '--rpc-address'):
             rpc_address = opt_value
-        if opt_name in ('-p','--rpc-port'):
+        if opt_name in ('-p', '--rpc-port'):
             rpc_port = opt_value
-        if opt_name in ('-c','--cli'):
+        if opt_name in ('-c', '--cli'):
             use_gui_m = False
-        if opt_name in ('-g','--gui'):
+        if opt_name in ('-g', '--gui'):
             use_gui_m = True
     if use_gui_m:
         use_gui()
     else:
         insert_log("----------Use cli-----------")
-        use_cli(rpc_address,int(rpc_port))
+        use_cli(rpc_address, int(rpc_port))
