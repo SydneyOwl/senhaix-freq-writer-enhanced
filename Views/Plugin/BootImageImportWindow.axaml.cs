@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.Utils.HID;
@@ -131,16 +132,18 @@ public partial class BootImageImportWindow : Window
             return;
         }
 
+        start.IsEnabled = false;
+        stop.IsEnabled = true;
         if (_device != SHX_DEVICE.GT12)
         {
             if (MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
             {
+                start.IsEnabled = true;
+                stop.IsEnabled = false;
                 MessageBoxManager.GetMessageBoxStandard("注意", "请连接蓝牙或写频线！").ShowWindowDialogAsync(this);
                 return;
             }
 
-            start.IsEnabled = false;
-            stop.IsEnabled = true;
             try
             {
                 _bootWri = new WriBootImage(_device, _bitmap);
@@ -177,11 +180,6 @@ public partial class BootImageImportWindow : Window
     {
         DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWrite8x00");
         var res = _bootWri.WriteImg();
-        Dispatcher.UIThread.Invoke(() =>
-        {
-            start.IsEnabled = true;
-            stop.IsEnabled = false;
-        });
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
@@ -216,11 +214,6 @@ public partial class BootImageImportWindow : Window
     {
         DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWriteGt12");
         var res = _bootHid.WriteImg();
-        Dispatcher.UIThread.Invoke(() =>
-        {
-            start.IsEnabled = true;
-            stop.IsEnabled = false;
-        });
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
         {
@@ -262,8 +255,11 @@ public partial class BootImageImportWindow : Window
         // this._bitmap = bi.CreatedBitmap;
     }
 
-    private void StopImportImg_OnClick(object? sender, RoutedEventArgs e)
+    private async void StopImportImg_OnClick(object? sender, RoutedEventArgs e)
     {
+        var box =  MessageBoxManager.GetMessageBoxStandard("注意", "取消写入可能造成图片显示不完整，您要继续吗？",ButtonEnum.YesNo);
+        var result = await box.ShowWindowDialogAsync(this);
+        if (result == ButtonResult.No) return;
         _bootWri?.CancelWriteImg();
         _bootHid?.CancelWriteImg();
     }
