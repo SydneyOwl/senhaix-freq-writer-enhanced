@@ -1,12 +1,13 @@
-# 森海克斯修改版写频软件 说明
+# 森海克斯写频软件修改版
 
-[![downloads](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases?style=for-the-badge)
-[![downloads@latest](https://img.shields.io/github/downloads/SydneyOwl/shx8x00-freq-writer-enhanced/latest/total)](https://github.com/SydneyOwl/shx8x00-freq-writer-enhanced/releases/latest?style=for-the-badge)
-![version](https://img.shields.io/github/v/tag/sydneyowl/shx8x00-freq-writer-enhanced?label=version&style=flat-square?style=for-the-badge)
-![senhaix](https://github.com/sydneyowl/senhaix-freq-writer-enhanced/actions/workflows/SenhaixFreqWriterBuild.yml/badge.svg)
+![Static Badge](https://img.shields.io/badge/.NET-6-purple?style=for-the-badge) ![Static Badge](https://img.shields.io/badge/Go-1.22-blue?style=for-the-badge)
+
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/sydneyowl/senhaix-freq-writer-enhanced/SenhaixFreqWriterBuild.yml?style=for-the-badge) ![GitHub Release](https://img.shields.io/github/v/release/sydneyowl/senhaix-freq-writer-enhanced?style=for-the-badge) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/sydneyowl/senhaix-freq-writer-enhanced/total?style=for-the-badge) ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/sydneyowl/senhaix-freq-writer-enhanced/latest/total?style=for-the-badge)
 
 > [!important]
-> + 如有必要，请在任何操作前首先进行备份操作！
+> 
+> + 请在使用软件前先进行备份操作！
 > + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`
     及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**
     ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
