@@ -1,0 +1,51 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="400" Height="550"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        x:Class="SenhaixFreqWriter.Views.Shx8800Pro.DtmfWindow"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Shx8800Pro"
+        x:DataType="vm:DtmfWindow"
+        xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8800Pro"
+        Title="DTMF设置">
+    <Canvas>
+        <DataGrid Margin="20" Name="FMDataGrid"
+                  GridLinesVisibility="All"
+                  BorderThickness="1" BorderBrush="Gray"
+                  CanUserSortColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  ItemsSource="{Binding Dtmfs}"
+                  Height="400"
+                  Width="350"
+                  RowBackground="{DynamicResource dgBackgroundBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTemplateColumn Header="码" IsReadOnly="False"
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Group}" TextChanged="GroupCodeInputElement_OnLostFocus" />
+                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="本机id" Canvas.Bottom="90" Canvas.Left="15" />
+        <TextBox Canvas.Bottom="85" Canvas.Left="90" Text="{Binding MyId}"
+                 TextChanged="GroupCodeInputElement_OnLostFocus" />
+        
+        <Label Content="发送本机id" Canvas.Bottom="50" Canvas.Left="15" />
+        <ComboBox Canvas.Bottom="45" Canvas.Left="90" ItemsSource="{x:Static constants:DtmfChoice.SendID}"
+                  SelectedIndex="{Binding PttID}" />
+
+        <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160" />
+        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
+                  SelectedIndex="{Binding WordTime}" />
+
+        <Label Content="DTMF码间断时间" Canvas.Bottom="50" Canvas.Left="160" />
+        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
+                  SelectedIndex="{Binding IdleTime}" />
+    </Canvas>
+</Window>

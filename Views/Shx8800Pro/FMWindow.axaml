@@ -1,0 +1,38 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="400" Height="450"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        x:Class="SenhaixFreqWriter.Views.Shx8800Pro.FmWindow"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Shx8800Pro"
+        x:DataType="vm:FmWindow"
+        Title="收音机">
+    <Canvas>
+        <DataGrid Margin="20" Name="FMDataGrid"
+                  GridLinesVisibility="All"
+                  BorderThickness="1" BorderBrush="Gray"
+                  CanUserSortColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserReorderColumns="True"
+                  ItemsSource="{Binding Fmchannels}"
+                  Height="350"
+                  Width="350"
+                  RowBackground="{DynamicResource dgBackgroundBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTemplateColumn Header="频点" IsReadOnly="False"
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" />
+                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="当前频率:" Canvas.Bottom="20" Canvas.Left="20" />
+        <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}"
+                 TextChanged="currFreqInputElement_OnLostFocus" />
+    </Canvas>
+</Window>

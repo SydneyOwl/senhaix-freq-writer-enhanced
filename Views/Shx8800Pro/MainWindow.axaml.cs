@@ -375,17 +375,17 @@ public partial class MainWindow : Window
 
     private void OptionalMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        // new OptionalWindow().ShowDialog(this);
+        new OptionalWindow().ShowDialog(this);
     }
 
     private void FMMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        // new FmWindow().ShowDialog(this);
+        new FmWindow().ShowDialog(this);
     }
 
     private void DTMFMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        // new DtmfWindow().ShowDialog(this);
+        new DtmfWindow().ShowDialog(this);
     }
 
     private async void NewFileMenuItem_OnClick(object? sender, RoutedEventArgs e)
@@ -423,7 +423,7 @@ public partial class MainWindow : Window
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "保存配置文件",
-            SuggestedFileName = "Backup-GT12-" + ts + ".dat"
+            SuggestedFileName = "Backup-shx8800pro-" + ts + ".dat"
         });
         if (file is not null)
         {
@@ -496,12 +496,6 @@ public partial class MainWindow : Window
             Name = name
         };
         ListItems[lastEmptyIndex] = data;
-    }
-
-    private async void BLEMenuItem_OnClick(object? sender, RoutedEventArgs e)
-    {
-        await MessageBoxManager.GetMessageBoxStandard("注意", "GT12的蓝牙写频真的超慢，不知道为啥:(建议用写频线").ShowWindowDialogAsync(this);
-        new BluetoothDeviceSelectionWindow(SHX_DEVICE.GT12).ShowDialog(this);
     }
 
     private void DebugWindowMenuItem_OnClick(object? sender, RoutedEventArgs e)

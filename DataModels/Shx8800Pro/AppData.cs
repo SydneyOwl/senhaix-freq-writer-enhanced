@@ -10,11 +10,9 @@ public class AppData
 {
     [JsonIgnore] public static AppData Instance;
 
-    public string[] BankName = new string[30]
+    public string[] BankName = new string[8]
     {
-        "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八", "区域九", "区域十",
-        "区域十一", "区域十二", "区域十三", "区域十四", "区域十五", "区域十六", "区域十七", "区域十八", "区域十九", "区域二十",
-        "区域二十一", "区域二十二", "区域二十三", "区域二十四", "区域二十五", "区域二十六", "区域二十七", "区域二十八", "区域二十九", "区域三十"
+        "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八",
     };//
 
     public Channel[][] ChannelList = new Channel[8][];//

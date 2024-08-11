@@ -4,8 +4,8 @@ namespace SenhaixFreqWriter.DataModels.Shx8800Pro;
 
 public partial class Dtmf : ObservableObject
 {
-    [ObservableProperty] private string[] _group = new string[20];
-    [ObservableProperty] private string[] _groupName = new string[20];
+    [ObservableProperty] private string[] _group = new string[15];
+    [ObservableProperty] private string[] _groupName = new string[15]; //seems useless...
     [ObservableProperty] private int _idleTime = 1;
     [ObservableProperty] private string _localId = "100";
     [ObservableProperty] private int _wordTime = 1;
@@ -43,16 +43,6 @@ public partial class Dtmf : ObservableObject
         GroupName[13] = "成员14";
         Group[14] = "115";
         GroupName[14] = "成员15";
-        Group[15] = "116";
-        GroupName[15] = "成员16";
-        Group[16] = "117";
-        GroupName[16] = "成员17";
-        Group[17] = "118";
-        GroupName[17] = "成员18";
-        Group[18] = "119";
-        GroupName[18] = "成员19";
-        Group[19] = "120";
-        GroupName[19] = "成员20";
     }
 }
 
