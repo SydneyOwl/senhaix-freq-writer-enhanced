@@ -19,9 +19,6 @@ using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
-#if WINDOWS
-using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
-#endif
 
 namespace SenhaixFreqWriter.Views.Shx8800Pro;
 
@@ -498,5 +495,9 @@ public partial class MainWindow : Window
     private void DebugWindowMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         DebugWindow.GetInstance().Show();
+    }
+    private void portSel_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new PortSelectionWindow().ShowDialog(this);
     }
 }

@@ -76,6 +76,18 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="读写频方式设置">
+                <MenuItem Header="写频线" Click="portSel_OnClick" Name="cable">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource usb_stick_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!-- <MenuItem Header="蓝牙" Click="MenuConnectBT_OnClick"> -->
+                <!--     <MenuItem.Icon> -->
+                <!--         <PathIcon Data="{StaticResource bluetooth_regular}" /> -->
+                <!--     </MenuItem.Icon> -->
+                <!-- </MenuItem> -->
+            </MenuItem>
             <MenuItem Header="工具">
                 <MenuItem Header="修改开机画面" Click="BootImageMenuItem_OnClick">
                     <MenuItem.Icon>

@@ -26,11 +26,14 @@ public partial class ProgressBarWindow : Window
 
     private Thread _threadProgress;
 
+    private MySerialPort port;
+
     public ProgressBarWindow(OpType op)
     {
         _operation = op;
         InitializeComponent();
-        _com = new WriFreq8800Pro(op);
+        port = MySerialPort.GetInstance();
+        _com = new WriFreq8800Pro(port,op);
     }
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
@@ -48,6 +51,7 @@ public partial class ProgressBarWindow : Window
             return;
         }
 
+        port.OpenSerial();
         _cancelSource = new CancellationTokenSource();
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
@@ -70,6 +74,10 @@ public partial class ProgressBarWindow : Window
         {
             DebugWindow.GetInstance().updateDebugContent(a.Message);
             // Console.Write(a);
+        }
+        finally
+        {
+            port.CloseSerial();
         }
 
         // DebugWindow.GetInstance().updateDebugContent("We've done write!");

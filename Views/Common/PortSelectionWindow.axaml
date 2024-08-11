@@ -1,9 +1,9 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="300" Height="150"
-        x:Class="SenhaixFreqWriter.Views.Shx8x00.PortSelectionWindow"
+        x:Class="SenhaixFreqWriter.Views.Common.PortSelectionWindow"
         Title="端口"
-        xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
+        xmlns:vm="using:SenhaixFreqWriter.Views.Common"
         x:DataType="vm:PortSelectionWindow"
         WindowStartupLocation="CenterScreen">
     <Canvas>

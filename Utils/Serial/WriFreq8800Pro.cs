@@ -65,9 +65,9 @@ public class WriFreq8800Pro
 
 	public ConcurrentQueue<ProgressBarValue> statusQueue = new();
 
-	public WriFreq8800Pro(OpType opType)
+	public WriFreq8800Pro(MySerialPort port, OpType opType)
 	{
-		this.port = MySerialPort.GetInstance();
+		this.port = port;
 		this.opType = opType;
 		this.appData = AppData.GetInstance();
 		helper = new DataHelper();
@@ -135,7 +135,7 @@ public class WriFreq8800Pro
 				{
 					case Step.StepHandshake1:
 						array = Encoding.ASCII.GetBytes("PROGRAMSHXPU");
-						port.Write(array, 0, array.Length);
+						port.WriteByte(array, 0, array.Length);
 						progressVal = 0;
 						progressCont = "握手...";
 						statusQueue.Enqueue(new ProgressBarValue(progressVal,progressCont));
@@ -144,13 +144,13 @@ public class WriFreq8800Pro
 						step = Step.StepHandshake2;
 						break;
 					case Step.StepHandshake2:
-						if (port.BytesToRead >= 1)
+						if (port.BytesToReadFromCache >= 1)
 						{
-							port.Read(rxBuffer, 0, 1);
+							port.ReadByte(rxBuffer, 0, 1);
 							if (rxBuffer[0] == 6)
 							{
 								array = new byte[1] { 70 };
-								port.Write(array, 0, array.Length);
+								port.WriteByte(array, 0, array.Length);
 								resetRetryCount();
 								step = Step.StepHandshake3;
 							}
@@ -158,9 +158,9 @@ public class WriFreq8800Pro
 
 						break;
 					case Step.StepHandshake3:
-						if (port.BytesToRead >= 16)
+						if (port.BytesToReadFromCache >= 16)
 						{
-							port.Read(rxBuffer, 0, 16);
+							port.ReadByte(rxBuffer, 0, 16);
 							timer.Stop();
 							resetRetryCount();
 							progressVal = 0;
@@ -190,7 +190,7 @@ public class WriFreq8800Pro
 
 				timesOfRetry--;
 				flagRetry = false;
-				port.Write(array, 0, array.Length);
+				port.WriteByte(array, 0, array.Length);
 			}
 		}
 
@@ -346,7 +346,7 @@ public class WriFreq8800Pro
 						}
 
 						array = helper.LoadPackage(87, num, array2, (byte)array2.Length);
-						port.Write(array, 0, array.Length);
+						port.WriteByte(array, 0, array.Length);
 						timer.Start();
 						progressVal = num * 100 / 45056;
 						if (progressVal > 100)
@@ -358,12 +358,12 @@ public class WriFreq8800Pro
 						step = Step.StepWrite2;
 						break;
 					case Step.StepWrite2:
-						if (port.BytesToRead < 1)
+						if (port.BytesToReadFromCache < 1)
 						{
 							break;
 						}
 
-						port.Read(rxBuffer, 0, 1);
+						port.ReadByte(rxBuffer, 0, 1);
 						if (rxBuffer[0] == 6)
 						{
 							timer.Stop();
@@ -408,7 +408,7 @@ public class WriFreq8800Pro
 
 				timesOfRetry--;
 				flagRetry = false;
-				port.Write(array, 0, array.Length);
+				port.WriteByte(array, 0, array.Length);
 			}
 		}
 
@@ -701,7 +701,7 @@ public class WriFreq8800Pro
 							(byte)num,
 							64
 						};
-						port.Write(array2, 0, array2.Length);
+						port.WriteByte(array2, 0, array2.Length);
 						progressVal = num * 100 / 45056;
 						if (progressVal > 100)
 						{
@@ -716,14 +716,14 @@ public class WriFreq8800Pro
 						break;
 					case Step.StepRead2:
 					{
-						if (port.BytesToRead < 68)
+						if (port.BytesToReadFromCache < 68)
 						{
 							break;
 						}
 
 						timer.Stop();
 						resetRetryCount();
-						port.Read(rxBuffer, 0, port.BytesToRead);
+						port.ReadByte(rxBuffer, 0, port.BytesToReadFromCache);
 						byte b = (byte)(num >> 8);
 						byte b2 = (byte)num;
 						if (rxBuffer[1] != b || rxBuffer[2] != b2)
@@ -889,7 +889,7 @@ public class WriFreq8800Pro
 						progressCont = "完成";
 						statusQueue.Enqueue(new ProgressBarValue(progressVal,progressCont));
 						array2 = new byte[1] { 69 };
-						port.Write(array2, 0, array2.Length);
+						port.WriteByte(array2, 0, array2.Length);
 						flagTransmitting = false;
 						return true;
 					}
@@ -906,7 +906,7 @@ public class WriFreq8800Pro
 
 				timesOfRetry--;
 				flagRetry = false;
-				port.Write(array2, 0, array2.Length);
+				port.WriteByte(array2, 0, array2.Length);
 			}
 		}
 

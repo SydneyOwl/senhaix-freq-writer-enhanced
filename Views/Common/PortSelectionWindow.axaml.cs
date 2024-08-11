@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using SenhaixFreqWriter.Utils.Serial;
 
-namespace SenhaixFreqWriter.Views.Shx8x00;
+namespace SenhaixFreqWriter.Views.Common;
 
 public partial class PortSelectionWindow : Window
 {
