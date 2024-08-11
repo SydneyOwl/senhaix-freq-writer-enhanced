@@ -17,7 +17,6 @@ using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
-using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
@@ -33,8 +32,6 @@ public partial class MainWindow : Window
     private bool _devSwitchFlag;
 
     private string _filePath = "";
-
-    private IBluetooth _osBle;
 
     public int CurrentArea;
 
@@ -130,14 +127,14 @@ public partial class MainWindow : Window
 
     private async void readChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        // await new ProgressBarWindow(OpType.Read).ShowDialog(this);
-        // SetArea(0);
+        await new ProgressBarWindow(OpType.Read).ShowDialog(this);
+        SetArea(0);
     }
 
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        // await new ProgressBarWindow(OpType.Write).ShowDialog(this);
-        // SetArea(0);
+        await new ProgressBarWindow(OpType.Write).ShowDialog(this);
+        SetArea(0);
     }
 
     private void foreChan_OnClick(object? sender, RoutedEventArgs e)
@@ -460,7 +457,7 @@ public partial class MainWindow : Window
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BootImageImportWindow(SHX_DEVICE.GT12).ShowDialog(this);
+        new BootImageImportWindow(SHX_DEVICE.SHX8800PRO).ShowDialog(this);
     }
 
     private void SatMenuItem_OnClick(object? sender, RoutedEventArgs e)
