@@ -3,6 +3,7 @@
              xmlns:behaviors="clr-namespace:SenhaixFreqWriter.Behaviors"
              xmlns:m="clr-namespace:SenhaixFreqWriter.DataModels.Shx8x00"
              xmlns:mgt12="clr-namespace:SenhaixFreqWriter.DataModels.Gt12"
+             xmlns:mShx8800Pro="clr-namespace:SenhaixFreqWriter.DataModels.Shx8800Pro"
              x:Class="SenhaixFreqWriter.App"
              RequestedThemeVariant="Default">
     <NativeMenu.Menu>
@@ -66,5 +67,6 @@
         </ResourceDictionary>
         <behaviors:DataGridDnd x:Key="DataGridDndBfNamedId" x:TypeArguments="m:ChannelData" />
         <behaviors:DataGridDnd x:Key="DataGridDndGt12" x:TypeArguments="mgt12:Channel" />
+        <behaviors:DataGridDnd x:Key="DataGridDndShx8800Pro" x:TypeArguments="mShx8800Pro:Channel" />
     </Application.Resources>
 </Application>

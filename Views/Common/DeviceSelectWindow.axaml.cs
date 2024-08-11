@@ -43,6 +43,10 @@ public partial class DeviceSelectWindow : Window
                 new MainWindow(SHX_DEVICE.SHX8800).Show();
                 break;
             case 1:
+                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8800新版");
+                new Shx8800Pro.MainWindow().Show();
+                break;
+            case 2:
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("H");
@@ -54,7 +58,7 @@ public partial class DeviceSelectWindow : Window
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600");
                 new MainWindow(SHX_DEVICE.SHX8600).Show();
                 break;
-            case 2:
+            case 3:
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("M");
@@ -67,7 +71,7 @@ public partial class DeviceSelectWindow : Window
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600新版");
                 new MainWindow(SHX_DEVICE.SHX8600PRO).Show();
                 break;
-            case 3:
+            case 4:
                 DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
                 new Gt12.MainWindow().Show();
                 break;
