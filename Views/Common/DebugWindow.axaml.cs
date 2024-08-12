@@ -38,7 +38,7 @@ public partial class DebugWindow : Window
 
     public void updateDebugContent(string content)
     {
-        Dispatcher.UIThread.Post(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             tbContent.Text += $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]{content}\n";
             ScViewer.ScrollToEnd();

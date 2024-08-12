@@ -5,6 +5,7 @@ using System.Threading;
 using System.Timers;
 using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
+using SenhaixFreqWriter.Views.Common;
 using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.Serial;
@@ -134,6 +135,7 @@ public class WriFreq8800Pro
 				switch (step)
 				{
 					case Step.StepHandshake1:
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepHandshake1");
 						array = Encoding.ASCII.GetBytes("PROGRAMSHXPU");
 						port.WriteByte(array, 0, array.Length);
 						progressVal = 0;
@@ -144,6 +146,7 @@ public class WriFreq8800Pro
 						step = Step.StepHandshake2;
 						break;
 					case Step.StepHandshake2:
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepHandshake2");
 						if (port.BytesToReadFromCache >= 1)
 						{
 							port.ReadByte(rxBuffer, 0, 1);
@@ -158,6 +161,7 @@ public class WriFreq8800Pro
 
 						break;
 					case Step.StepHandshake3:
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepHandshake3");
 						if (port.BytesToReadFromCache >= 16)
 						{
 							port.ReadByte(rxBuffer, 0, 16);
@@ -210,6 +214,7 @@ public class WriFreq8800Pro
 				switch (step)
 				{
 					case Step.StepWrite1:
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepWrite1");
 						if (num < 16384)
 						{
 							byte[] channelInfos = GetChannelInfos(num2++);
@@ -358,6 +363,7 @@ public class WriFreq8800Pro
 						step = Step.StepWrite2;
 						break;
 					case Step.StepWrite2:
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepWrite2");
 						if (port.BytesToReadFromCache < 1)
 						{
 							break;
@@ -694,6 +700,7 @@ public class WriFreq8800Pro
 				switch (step)
 				{
 					case Step.StepRead1:
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepRead1");
 						array2 = new byte[4]
 						{
 							82,
@@ -716,6 +723,7 @@ public class WriFreq8800Pro
 						break;
 					case Step.StepRead2:
 					{
+						DebugWindow.GetInstance().updateDebugContent("Now: Step.StepRead2");
 						if (port.BytesToReadFromCache < 68)
 						{
 							break;

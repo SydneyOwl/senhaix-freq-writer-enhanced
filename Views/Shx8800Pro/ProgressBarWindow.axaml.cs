@@ -51,15 +51,27 @@ public partial class ProgressBarWindow : Window
             return;
         }
 
-        port.OpenSerial();
-        _cancelSource = new CancellationTokenSource();
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;
         progressBar.Value = 0;
-        _threadCommunication = new Thread(() => Task_Communication(_cancelSource.Token));
-        _threadCommunication.Start();
-        _threadProgress = new Thread(() => Task_Progress(_cancelSource.Token));
-        _threadProgress.Start();
+        try
+        {
+            port.OpenSerial();
+            _cancelSource = new CancellationTokenSource();
+            _threadCommunication = new Thread(() => Task_Communication(_cancelSource.Token));
+            _threadCommunication.Start();
+            _threadProgress = new Thread(() => Task_Progress(_cancelSource.Token));
+            _threadProgress.Start();
+        }
+        catch (Exception aa)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意", "请检查端口选择是否正确，以及写频线是否正确连接！").ShowWindowDialogAsync(this);
+            DebugWindow.GetInstance().updateDebugContent(aa.Message);
+            StartButton.IsEnabled = true;
+            CloseButton.IsEnabled = true;
+            progressBar.Value = 0;
+            port.CloseSerial();
+        }
     }
 
     private void Task_Communication(CancellationToken token)
