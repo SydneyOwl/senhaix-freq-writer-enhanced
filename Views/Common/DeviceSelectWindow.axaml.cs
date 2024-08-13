@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.HID;
 using SenhaixFreqWriter.Utils.Other;
+using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Shx8x00;
 
 namespace SenhaixFreqWriter.Views.Common;
@@ -28,6 +31,22 @@ public partial class DeviceSelectWindow : Window
             Environment.Exit(0);
             return;
         }
+        
+        // 提前帮用户选好端口
+        _ = Task.Run(()=>
+        {
+            if (SETTINGS.SELECT_PORT_IN_ADVANCE)
+            {
+                try
+                {
+                    MySerialPort.GetInstance().selectSerialInAdvance();
+                }
+                catch(Exception qq)
+                {
+                    DebugWindow.GetInstance().updateDebugContent(qq.Message);
+                }
+            }
+        });
 
         switch (DeviceChooseComboBox.SelectedIndex)
         {

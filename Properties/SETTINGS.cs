@@ -10,7 +10,9 @@ public static class SETTINGS
 
     public const string WS_RPC_URL = "ws://127.0.0.1:8563/rpc";
 
-    public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
+    public static bool SELECT_PORT_IN_ADVANCE = true;
+
+    public static bool ENABLE_DEBUG_CHAN_DATA_OUTPUT = false;
 
     public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
         ? $"/Users/{Environment.UserName}/Library/Containers/com.sydneyowl/Data"

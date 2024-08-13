@@ -978,6 +978,8 @@ public class WriFreq8800Pro
 		}
 
 		appData.ChannelList[num][num2].RxFreq = CaculateFreq_HexToStr(dat, 0);
+		if (!string.IsNullOrEmpty(appData.ChannelList[num][num2].RxFreq))
+			appData.ChannelList[num][num2].IsVisable = true;
 		if (dat[4] != byte.MaxValue && dat[5] != byte.MaxValue)
 		{
 			appData.ChannelList[num][num2].TxFreq = CaculateFreq_HexToStr(dat, 4);

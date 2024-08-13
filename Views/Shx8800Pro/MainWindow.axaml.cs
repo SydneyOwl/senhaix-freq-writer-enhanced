@@ -500,4 +500,8 @@ public partial class MainWindow : Window
     {
         new PortSelectionWindow().ShowDialog(this);
     }
+    private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800).ShowDialog(this);
+    }
 }

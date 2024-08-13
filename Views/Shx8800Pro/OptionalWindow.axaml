@@ -35,20 +35,16 @@
                 <ComboBox Canvas.Top="215" Canvas.Left="110" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.VoxDelay}"
                           SelectedIndex="{Binding Func.VoxDlyTime}" />
-                <Label Content="A段区域" Canvas.Top="260" Canvas.Left="10" />
+                <Label Content="双守功能" Canvas.Top="260" Canvas.Left="10" />
                 <ComboBox Canvas.Top="255" Canvas.Left="110" Width="100"
-                          ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
-                          SelectedIndex="{Binding Func.CurBankA}" />
-                <Label Content="双守功能" Canvas.Top="300" Canvas.Left="10" />
-                <ComboBox Canvas.Top="295" Canvas.Left="110" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DoubleWait}"
                           SelectedIndex="{Binding Func.DualStandby}" />
-                <Label Content="中继倒频频率" Canvas.Top="340" Canvas.Left="10" />
-                <ComboBox Canvas.Top="335" Canvas.Left="110" Width="100"
+                <Label Content="中继倒频频率" Canvas.Top="300" Canvas.Left="10" />
+                <ComboBox Canvas.Top="295" Canvas.Left="110" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Tone}"
                           SelectedIndex="{Binding Func.Tone}" />
-                <Label Content="侧音开关" Canvas.Top="380" Canvas.Left="10" />
-                <ComboBox Canvas.Top="375" Canvas.Left="110" Width="100"
+                <Label Content="侧音开关" Canvas.Top="340" Canvas.Left="10" />
+                <ComboBox Canvas.Top="335" Canvas.Left="110" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SideTone}"
                           SelectedIndex="{Binding Func.SideTone}" />
 
@@ -84,12 +80,8 @@
                 <ComboBox Canvas.Top="295" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Fm}"
                           SelectedIndex="{Binding Func.FmEnable}" />
-                <Label Content="B段区域" Canvas.Top="340" Canvas.Left="230" />
+                <Label Content="键盘锁定时间" Canvas.Top="340" Canvas.Left="230" />
                 <ComboBox Canvas.Top="335" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
-                          SelectedIndex="{Binding Func.CurBankB}" />
-                <Label Content="键盘锁定时间" Canvas.Top="380" Canvas.Left="230" />
-                <ComboBox Canvas.Top="375" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.AutoLock}"
                           SelectedIndex="{Binding Func.AutoLock}" />
                 <Label Content="菜单退出时间" Canvas.Top="20" Canvas.Left="450" />
@@ -121,20 +113,29 @@
 
         <TabItem Header="其它">
             <Canvas>
-                <Label Content="A段显示模式" Canvas.Top="20" Canvas.Left="10" />
+                <Label Content="A段区域" Canvas.Top="20" Canvas.Left="10" />
                 <ComboBox Canvas.Top="15" Canvas.Left="130" Width="100"
+                          ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
+                          SelectedIndex="{Binding Func.CurBankA}" />
+                <Label Content="A段显示模式" Canvas.Top="60" Canvas.Left="10" />
+                <ComboBox Canvas.Top="55" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChADisType}" />
-                <Label Content="A段工作模式" Canvas.Top="60" Canvas.Left="10" />
-                <ComboBox Canvas.Top="55" Canvas.Left="130" Width="100"
+                <Label Content="A段工作模式" Canvas.Top="100" Canvas.Left="10" />
+                <ComboBox Canvas.Top="95" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChAWorkmode}" />
-                <Label Content="B段显示模式" Canvas.Top="100" Canvas.Left="10" />
-                <ComboBox Canvas.Top="95" Canvas.Left="130" Width="100"
+                
+                <Label Content="B段区域" Canvas.Top="140" Canvas.Left="10" />
+                <ComboBox Canvas.Top="135" Canvas.Left="130" Width="100"
+                          ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
+                          SelectedIndex="{Binding Func.CurBankB}" />
+                <Label Content="B段显示模式" Canvas.Top="180" Canvas.Left="10" />
+                <ComboBox Canvas.Top="175" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChBDisType}" />
-                <Label Content="B段工作模式" Canvas.Top="140" Canvas.Left="10" />
-                <ComboBox Canvas.Top="135" Canvas.Left="130" Width="100"
+                <Label Content="B段工作模式" Canvas.Top="220" Canvas.Left="10" />
+                <ComboBox Canvas.Top="215" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChBWorkmode}" />
                 

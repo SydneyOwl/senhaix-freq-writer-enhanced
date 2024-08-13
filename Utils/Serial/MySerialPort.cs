@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
+using System.Management;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Views.Common;
@@ -41,7 +43,7 @@ public class MySerialPort : SerialPort
 
     private void UpdateChanDebugInfo(string a)
     {
-        if (!SETTINGS.DISABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
+        if (SETTINGS.ENABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
     }
 
     public async Task PreRead()
@@ -57,7 +59,76 @@ public class MySerialPort : SerialPort
         //     rxData.Enqueue(b);
         // }
     }
+    
+    private static List<ManagementBaseObject> WinGetSerialDevices()
+    {
+        List<ManagementBaseObject> list = new List<ManagementBaseObject>();
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return new List<ManagementBaseObject>();
+        }
+        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher
+                   ("select * from Win32_PnPEntity where Name like '%(COM%'"))
+        {
+            var hardInfos = searcher.Get();
+            foreach (var hardInfo in hardInfos)
+            {
+                if (hardInfo.Properties["Name"].Value != null)
+                {
+                    list.Add(hardInfo);
+                }
+            }
+        }
+        return list;
+    }
 
+    // 仅通过名称筛选
+    private string winSelectSerialByName()
+    {
+        var comList = WinGetSerialDevices();
+        for (var i = 0; i < comList.Count; i++)
+        {
+            var cachedName = comList[i].Properties["Name"].Value.ToString();
+            if (cachedName.Contains("USB-SERIAL") || cachedName.Contains("CH340") || cachedName.Contains("PL2303") ||
+                cachedName.Contains("FT232"))
+            {
+                return cachedName.Split("(").Last().Split(")")[0];
+            }
+        }
+        return "";
+    }
+    
+    private string macOSSelectSerialByName()
+    {
+        string[] portNames = GetPortNames();
+        for (var i = 0; i < portNames.Length; i++)
+        {
+             if (portNames[i].Contains("/dev/cu.usbserial"))
+             {
+                 return portNames[i];
+             }
+        }
+        return "";
+    }
+
+    private string SelectSerialByName()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return winSelectSerialByName();
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return macOSSelectSerialByName();
+        }
+        return "";
+    }
+
+    public void selectSerialInAdvance()
+    {
+        TargetPort = SelectSerialByName();
+    }
+    
     public void WriteByte(byte buffer)
     {
         if (WriteBle == null)
