@@ -149,7 +149,7 @@ public class MySerialPort : SerialPort
 
 
     // 8600pro的串口
-    public void OpenSerialPro()
+    public void OpenSerial8600Pro()
     {
         _sp.PortName = TargetPort;
         _sp.BaudRate = 9600;
@@ -162,6 +162,31 @@ public class MySerialPort : SerialPort
         _sp.RtsEnable = true;
         _sp.ReadTimeout = 4000;
         _sp.WriteTimeout = 4000;
+        _sp.Open();
+    }
+    
+    public void OpenSerial8800Pro()
+    {
+        // _sp.PortName = TargetPort;
+        // _sp.BaudRate = 9600;
+        // _sp.DataBits = 8;
+        // _sp.StopBits = StopBits.One;
+        // _sp.Parity = Parity.None;
+        // _sp.ReadBufferSize = 10240;
+        // _sp.WriteBufferSize = 10240;
+        // _sp.DtrEnable = true;
+        // _sp.RtsEnable = true;
+        // _sp.ReadTimeout = 4000;
+        // _sp.WriteTimeout = 4000;
+        _sp.PortName = TargetPort;
+        _sp.BaudRate = 115200;
+        _sp.DataBits = 8;
+        _sp.Parity = Parity.None;
+        _sp.StopBits = StopBits.One;
+        _sp.WriteBufferSize = 102400;
+        _sp.ReadBufferSize = 102400;
+        _sp.RtsEnable = true;
+        _sp.DtrEnable = true;
         _sp.Open();
     }
 

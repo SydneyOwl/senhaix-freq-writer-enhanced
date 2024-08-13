@@ -56,7 +56,7 @@ public partial class ProgressBarWindow : Window
         progressBar.Value = 0;
         try
         {
-            port.OpenSerial();
+            port.OpenSerial8800Pro();
             _cancelSource = new CancellationTokenSource();
             _threadCommunication = new Thread(() => Task_Communication(_cancelSource.Token));
             _threadCommunication.Start();

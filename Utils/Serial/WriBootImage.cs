@@ -69,10 +69,14 @@ public class WriBootImage
         image = img;
         comStep = State.HandShakeStep1;
         NComStep = NImgStep.Step_HandShake;
-        if (device is SHX_DEVICE.SHX8600PRO or SHX_DEVICE.SHX8800PRO)
+        if (device is SHX_DEVICE.SHX8600PRO)
         {
             TimerInitPro();
-            _sp.OpenSerialPro();
+            _sp.OpenSerial8600Pro();
+        }else if (device is SHX_DEVICE.SHX8800PRO)
+        {
+            TimerInitPro();
+            _sp.OpenSerial8800Pro();
         }
         else
         {
