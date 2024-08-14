@@ -83,32 +83,45 @@ public class MySerialPort : SerialPort
     }
 
     // 仅通过名称筛选
+    // 同时存在两个USB串口，则不予选择
     private string winSelectSerialByName()
     {
         var comList = WinGetSerialDevices();
+        var ccName = "";
         for (var i = 0; i < comList.Count; i++)
         {
             var cachedName = comList[i].Properties["Name"].Value.ToString();
             if (cachedName.Contains("USB-SERIAL") || cachedName.Contains("CH340") || cachedName.Contains("PL2303") ||
                 cachedName.Contains("FT232"))
             {
-                return cachedName.Split("(").Last().Split(")")[0];
+                if (ccName != "")
+                {
+                    return "";
+                }
+                ccName = cachedName.Split("(").Last().Split(")")[0];
             }
         }
-        return "";
+
+        return ccName;
     }
     
+    // 同时存在两个USB串口，则不予选择
     private string macOSSelectSerialByName()
     {
         string[] portNames = GetPortNames();
+        var ccName = "";
         for (var i = 0; i < portNames.Length; i++)
         {
              if (portNames[i].Contains("/dev/cu.usbserial"))
              {
-                 return portNames[i];
+                 if (ccName != "")
+                 {
+                     return "";
+                 }
+                 ccName = portNames[i];
              }
         }
-        return "";
+        return ccName;
     }
 
     private string SelectSerialByName()
