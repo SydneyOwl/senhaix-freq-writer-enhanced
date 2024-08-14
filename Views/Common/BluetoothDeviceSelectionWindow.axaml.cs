@@ -195,7 +195,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！您可以开始写频了！").ShowWindowDialogAsync(this);
                 });
-                if (dev.Equals(SHX_DEVICE.SHX8800))
+                if (dev is SHX_DEVICE.SHX8800 or SHX_DEVICE.SHX8800PRO)
                     osBLE.RegisterSerial();
                 else
                     osBLE.RegisterHid();

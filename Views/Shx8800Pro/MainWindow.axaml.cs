@@ -502,6 +502,6 @@ public partial class MainWindow : Window
     }
     private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800).ShowDialog(this);
+        new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800PRO).ShowDialog(this);
     }
 }
