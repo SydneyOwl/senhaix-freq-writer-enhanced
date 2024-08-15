@@ -47,9 +47,11 @@ public class HidTools
 
     public WriteValueAsync WriteBle;
 
+    private SETTINGS Settings = SETTINGS.Load();
+
     private void UpdateChanDebugInfo(string a)
     {
-        if (SETTINGS.ENABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
+        if (Settings.EnableDebugChanDataOutput) DebugWindow.GetInstance().updateDebugContent(a);
     }
 
     public static bool IsShxGt12HidExist()

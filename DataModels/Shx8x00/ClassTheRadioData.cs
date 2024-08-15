@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
+using SenhaixFreqWriter.DataModels.Interfaces;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
 [Serializable]
-public class ClassTheRadioData
+public class ClassTheRadioData  : IBackupable
 {
     [JsonIgnore] public static ClassTheRadioData Instance;
 

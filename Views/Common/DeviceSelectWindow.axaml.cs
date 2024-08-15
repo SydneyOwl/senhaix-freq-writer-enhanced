@@ -16,10 +16,13 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class DeviceSelectWindow : Window
 {
+    private SETTINGS Settings = SETTINGS.Load();
     public DeviceSelectWindow()
     {
         // if (DebugWindow.HasInstance()) DebugWindow.GetInstance().Close();
         InitializeComponent();
+        SysFile.CheckDefaultDirectory();
+        SysFile.CheckBackupDirectory();
         if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 3;
     }
 
@@ -35,7 +38,7 @@ public partial class DeviceSelectWindow : Window
         // 提前帮用户选好端口
         _ = Task.Run(()=>
         {
-            if (SETTINGS.SELECT_PORT_IN_ADVANCE)
+            if (Settings.EnableDebugChanDataOutput)
             {
                 try
                 {

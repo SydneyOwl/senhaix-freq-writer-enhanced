@@ -31,6 +31,8 @@ public partial class SatelliteHelperWindow : Window
     private string loadedJson = "";
 
     public List<string> SatelliteList = new();
+    
+    private SETTINGS Settings = SETTINGS.Load();
 
     public SatelliteHelperWindow()
     {
@@ -77,21 +79,21 @@ public partial class SatelliteHelperWindow : Window
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                if (!File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+                if (!File.Exists($"{Settings.DataDir}/amsat-all-frequencies.json"))
                 {
                     DebugWindow.GetInstance().updateDebugContent("未找到json");
                     Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
                     return false;
                 }
 
-                satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
+                satelliteData = File.ReadAllText($"{Settings.DataDir}/amsat-all-frequencies.json");
             }
             else
             {
                 // 更新都是更新到DATA_DIR，只有当用户没点过更新的话才使用包里附带的
-                if (File.Exists($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+                if (File.Exists($"{Settings.DataDir}/amsat-all-frequencies.json"))
                 {
-                    satelliteData = File.ReadAllText($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json");
+                    satelliteData = File.ReadAllText($"{Settings.DataDir}/amsat-all-frequencies.json");
                 }
                 else if (File.Exists(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json")))
                 {
@@ -447,7 +449,7 @@ public partial class SatelliteHelperWindow : Window
             if (useMem)
                 loadedJson = resp.Content.ReadAsStringAsync().Result;
             else
-                using (var fs = File.Create($"{SETTINGS.DATA_DIR}/amsat-all-frequencies.json"))
+                using (var fs = File.Create($"{Settings.DataDir}/amsat-all-frequencies.json"))
                 {
                     var stm = resp.Content.ReadAsStream();
                     stm.CopyTo(fs);

@@ -7,6 +7,8 @@ using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
+using SenhaixFreqWriter.Properties;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
 
@@ -50,6 +52,8 @@ public partial class ProgressBarWindow : Window
             Close();
             return;
         }
+
+        SysFile.CreateBackup(AppData.GetInstance());
 
         StartButton.IsEnabled = false;
         CloseButton.IsEnabled = true;

@@ -3,10 +3,11 @@ using System.IO;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
+using SenhaixFreqWriter.DataModels.Interfaces;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
-public class AppData
+public class AppData : IBackupable
 {
     [JsonIgnore] public static AppData Instance;
 

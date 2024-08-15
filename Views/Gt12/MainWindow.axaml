@@ -35,6 +35,11 @@
                         <PathIcon Data="{StaticResource save_as_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="设置" Click="SettingMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource setting}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="退出" Click="ExitMenuItem_OnClick">
                     <MenuItem.Icon>

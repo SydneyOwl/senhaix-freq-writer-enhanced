@@ -17,8 +17,10 @@ using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.HID;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
@@ -40,12 +42,17 @@ public partial class MainWindow : Window
     public int CurrentArea;
 
     private CancellationTokenSource cancelTips;
+    
+    private CancellationTokenSource cancelBackup;
 
     public MainWindow()
     {
         InitializeComponent();
         cancelTips = new CancellationTokenSource();
+        cancelBackup = new CancellationTokenSource();
         Task.Run(() => updateTips(cancelTips.Token));
+        Task.Run(() => updateBackup(cancelBackup.Token));
+        // 开始自动备份
         DataContext = this;
         SetArea(0);
         ListItems.CollectionChanged += CollectionChangedHandler;
@@ -77,6 +84,15 @@ public partial class MainWindow : Window
             await Task.Delay(5000, CancellationToken.None);
         }
     }
+    
+    private async void updateBackup(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            SysFile.CreateBackup(AppData.GetInstance());
+            await Task.Delay(SETTINGS.Load().BackupInterval*1000, CancellationToken.None);
+        }
+    }
 
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -86,6 +102,8 @@ public partial class MainWindow : Window
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
+        cancelTips.Cancel();
+        cancelBackup.Cancel();
         Close();
         if (!_devSwitchFlag) Environment.Exit(0);
     }
@@ -555,5 +573,9 @@ public partial class MainWindow : Window
     private void DebugWindowMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         DebugWindow.GetInstance().Show();
+    }
+    private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new SettingsWindow().ShowDialog(this);
     }
 }

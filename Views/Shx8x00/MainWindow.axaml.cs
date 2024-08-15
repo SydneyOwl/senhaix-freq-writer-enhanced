@@ -16,6 +16,8 @@ using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
+using SenhaixFreqWriter.Properties;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 #if WINDOWS
@@ -39,12 +41,16 @@ public partial class MainWindow : Window
     private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8600;
 
     private CancellationTokenSource cancelTips;
+    
+    private CancellationTokenSource cancelBackup;
 
     public MainWindow(SHX_DEVICE shx)
     {
         InitializeComponent();
         cancelTips = new CancellationTokenSource();
+        cancelBackup = new CancellationTokenSource();
         Task.Run(() => updateTips(cancelTips.Token));
+        Task.Run(() => updateBackup(cancelBackup.Token));
         DataContext = this;
         shxDevice = shx;
         _listItems.CollectionChanged += CollectionChangedHandler;
@@ -60,6 +66,15 @@ public partial class MainWindow : Window
             await Task.Delay(5000, CancellationToken.None);
         }
     }
+    private async void updateBackup(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+                SysFile.CreateBackup(ClassTheRadioData.GetInstance());
+            await Task.Delay(SETTINGS.Load().BackupInterval*1000, CancellationToken.None);
+        }
+    }
+    
 
     public ObservableCollection<ChannelData> ListItems
     {
@@ -80,6 +95,7 @@ public partial class MainWindow : Window
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         cancelTips.Cancel();
+        cancelBackup.Cancel();
         Close();
         bds?.osBLE?.Dispose();
         if (!_devSwitchFlag) Environment.Exit(0);
@@ -580,5 +596,9 @@ public partial class MainWindow : Window
     private void OpenDebugMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         DebugWindow.GetInstance().Show();
+    }
+    private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new SettingsWindow().ShowDialog(this);
     }
 }

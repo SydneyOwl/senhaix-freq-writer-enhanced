@@ -20,6 +20,7 @@ public class MySerialPort : SerialPort
 
     public WriteValueAsync WriteBle;
 
+    private SETTINGS Settings = SETTINGS.Load();
     public int BtDeviceMtu { get; set; } = 23;
 
     public int BytesToReadFromCache
@@ -43,7 +44,7 @@ public class MySerialPort : SerialPort
 
     private void UpdateChanDebugInfo(string a)
     {
-        if (SETTINGS.ENABLE_DEBUG_CHAN_DATA_OUTPUT) DebugWindow.GetInstance().updateDebugContent(a);
+        if (Settings.EnableDebugChanDataOutput) DebugWindow.GetInstance().updateDebugContent(a);
     }
 
     public async Task PreRead()

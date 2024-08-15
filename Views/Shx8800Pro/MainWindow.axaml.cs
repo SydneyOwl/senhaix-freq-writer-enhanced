@@ -17,6 +17,8 @@ using MsBox.Avalonia.Enums;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
+using SenhaixFreqWriter.Properties;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Views.Common;
 using SenhaixFreqWriter.Views.Plugin;
 
@@ -33,12 +35,16 @@ public partial class MainWindow : Window
     public int CurrentArea;
 
     private CancellationTokenSource cancelTips;
+    
+    private CancellationTokenSource cancelBackup;
 
     public MainWindow()
     {
         InitializeComponent();
         cancelTips = new CancellationTokenSource();
+        cancelBackup = new CancellationTokenSource();
         Task.Run(() => updateTips(cancelTips.Token));
+        Task.Run(() => updateBackup(cancelBackup.Token));
         DataContext = this;
         SetArea(0);
         ListItems.CollectionChanged += CollectionChangedHandler;
@@ -55,7 +61,14 @@ public partial class MainWindow : Window
             await Task.Delay(5000, CancellationToken.None);
         }
     }
-
+    private async void updateBackup(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            SysFile.CreateBackup(AppData.GetInstance());
+            await Task.Delay(SETTINGS.Load().BackupInterval*1000, CancellationToken.None);
+        }
+    }
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
         var aboutWindow = new AboutWindow();
@@ -503,5 +516,10 @@ public partial class MainWindow : Window
     private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
         new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800PRO).ShowDialog(this);
+    }
+
+    private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        new SettingsWindow().ShowDialog(this);
     }
 }

@@ -23,6 +23,7 @@ public class WSRPCBLE : IBluetooth
     private Process rpcClient;
 
     private readonly WSRPCUtil wsrpc;
+    private SETTINGS Settings = SETTINGS.Load();
 
     public WSRPCBLE(bool useManual)
     {
@@ -39,7 +40,7 @@ public class WSRPCBLE : IBluetooth
             var filePath = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.WINDOWS_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, Settings.WindowsBlePluginName);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
@@ -49,7 +50,7 @@ public class WSRPCBLE : IBluetooth
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.LINUX_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, Settings.LinuxBlePluginName);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
@@ -59,11 +60,11 @@ public class WSRPCBLE : IBluetooth
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = Path.Join(AppContext.BaseDirectory, SETTINGS.OSX_BLE_PLUGIN_NAME);
+                filePath = Path.Join(AppContext.BaseDirectory, Settings.OsXBlePluginName);
                 if (!File.Exists(filePath))
                 {
                     DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
-                    filePath = $"{SETTINGS.DATA_DIR}/{SETTINGS.OSX_BLE_PLUGIN_NAME}";
+                    filePath = $"{Settings.DataDir}/{Settings.OsXBlePluginName}";
                     // 在DATADIR里寻找
                     if (!File.Exists(filePath))
                     {
@@ -80,7 +81,7 @@ public class WSRPCBLE : IBluetooth
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = filePath,
-                        Arguments = SETTINGS.RPC_CLIENT_PROCESS_ARGS,
+                        Arguments = Settings.RpcClientProcessArgs,
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         StandardOutputEncoding = Encoding.UTF8,

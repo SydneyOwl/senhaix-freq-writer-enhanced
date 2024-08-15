@@ -9,12 +9,26 @@ using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.Other;
 
+public class RPCRequest
+{
+    public string arg = "";
+    public string method = "";
+}
+
+public class RPCResponse
+{
+    public string error = "";
+    public string response = "";
+}
+
 public class WSRPCUtil
 {
     private static WSRPCUtil instance;
     private IWebSocketConnection currentClient;
     private readonly Queue<string> NormalDataQueue = new();
     private WebSocketServer wsServer;
+    private SETTINGS Settings = SETTINGS.Load();
+    
 
     public WSRPCUtil()
     {
@@ -70,7 +84,7 @@ public class WSRPCUtil
 
         try
         {
-            wsServer = new WebSocketServer(SETTINGS.WS_RPC_URL);
+            wsServer = new WebSocketServer(Settings.WsRpcUrl);
             wsServer.Start(socket =>
             {
                 socket.OnOpen = () =>

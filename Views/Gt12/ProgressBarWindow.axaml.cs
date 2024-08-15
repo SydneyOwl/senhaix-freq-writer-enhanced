@@ -7,7 +7,9 @@ using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Gt12;
+using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.HID;
+using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Gt12;
@@ -46,6 +48,7 @@ public partial class ProgressBarWindow : Window
             Close();
             return;
         }
+        SysFile.CreateBackup(AppData.GetInstance());
 
         _cancelSource = new CancellationTokenSource();
         StartButton.IsEnabled = false;
