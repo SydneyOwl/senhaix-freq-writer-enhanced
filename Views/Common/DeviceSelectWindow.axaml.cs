@@ -38,7 +38,7 @@ public partial class DeviceSelectWindow : Window
         // 提前帮用户选好端口
         _ = Task.Run(()=>
         {
-            if (Settings.EnableDebugChanDataOutput)
+            if (Settings.EnableSelectPortInAdvance)
             {
                 try
                 {
