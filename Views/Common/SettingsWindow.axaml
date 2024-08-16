@@ -10,10 +10,11 @@
         WindowStartupLocation="CenterScreen">
         <Canvas Margin="10">
                 <CheckBox Content="自动备份" IsChecked="{Binding Settings.EnableAutoBackup}"></CheckBox>
-                <Label Content="- 备份周期（s）:" Canvas.Left="30" Canvas.Top="35"></Label>
-                <TextBox Canvas.Left="145" Canvas.Top="30" Text="{Binding Settings.BackupInterval}"></TextBox>
-                <Label Content=", 最大数量:" Canvas.Left="210" Canvas.Top="35"></Label>
-                <TextBox Canvas.Left="290" Canvas.Top="30" Text="{Binding Settings.MaxBackupNumber}"></TextBox>
+                <Label Content="- 备份周期（s）:" Canvas.Left="30" Canvas.Top="40"></Label>
+                <TextBox Canvas.Left="145" Canvas.Top="35" Text="{Binding Settings.BackupInterval}"></TextBox>
+                <Label Content=", 最大数量:" Canvas.Left="210" Canvas.Top="40"></Label>
+                <TextBox Canvas.Left="290" Canvas.Top="35" Text="{Binding Settings.MaxBackupNumber}"></TextBox>
+                <Button Content="打开备份目录" Canvas.Left="100" Click="OpenBackupButton_OnClick"></Button>
                 
                 <CheckBox Content="启用端口自动选择" Canvas.Top="70" IsChecked="{Binding Settings.EnableSelectPortInAdvance}"></CheckBox>
                 <CheckBox Content="启用详细调试输出" Canvas.Top="110" IsChecked="{Binding Settings.EnableDebugChanDataOutput}"></CheckBox>

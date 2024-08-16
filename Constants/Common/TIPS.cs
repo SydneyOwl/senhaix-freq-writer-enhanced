@@ -9,7 +9,7 @@ namespace SenhaixFreqWriter.Constants.Common;
 public class TIPS
 {
     
-    private static string backupRootPath = Path.Join(SETTINGS.Load().DataDir, "backup");
+    private static string backupRootPath = SETTINGS.Load().GetBackupPath();
     public static List<string> TipList = new()
     {
         "Tips: 对信道进行拖动或清空等操作后序号可能会出现序号异常或字段被清空等问题，此时上下拉动右侧滚动条刷新界面即可！",

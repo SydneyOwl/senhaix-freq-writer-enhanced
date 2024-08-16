@@ -11,7 +11,7 @@ namespace SenhaixFreqWriter.Utils.Other;
 public class SysFile
 {
     private static string defaultRootPath = SETTINGS.Load().DataDir; 
-    private static string backupRootPath = Path.Join(SETTINGS.Load().DataDir, "backup");
+    private static string backupRootPath = SETTINGS.Load().GetBackupPath();
 
 
     private static bool dirCheck(string path)

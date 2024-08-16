@@ -24,16 +24,22 @@ public partial class SETTINGS :ObservableObject
     
     // public string BackupRootPath = Path.Join(Load().DataDir, "backup");
     
-    private static readonly string FilePath = Path.Join(AppContext.BaseDirectory, "settings.json");
+    // 设置的json不能变更位置
+    private static readonly string SettingJsonFilePath = Path.Join(AppContext.BaseDirectory, "settings.json");
 
     public SETTINGS() { }
 
+    public string GetBackupPath()
+    {
+        return Path.Join(DataDir, "backup");
+    }
+
     public static SETTINGS Load()
     {
-        if (!File.Exists(FilePath))
+        if (!File.Exists(SettingJsonFilePath))
             return new SETTINGS(); // Return default settings if file does not exist
 
-        var json = File.ReadAllText(FilePath);
+        var json = File.ReadAllText(SettingJsonFilePath);
         var res = JsonSerializer.Deserialize<SETTINGS>(json);
         if (res == null)
         {
@@ -60,6 +66,6 @@ public partial class SETTINGS :ObservableObject
     public void Save()
     {
         var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(FilePath, json);
+        File.WriteAllText(SettingJsonFilePath, json);
     }
 }

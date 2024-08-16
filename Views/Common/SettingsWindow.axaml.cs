@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using Avalonia;
@@ -79,11 +80,41 @@ public partial class SettingsWindow : Window
         {
             AllowMultiple = false
         });
+        if (files.Count == 0)
+        {
+            return;
+        }
         Settings.DataDir = files[0].Path.LocalPath;
     }
 
     private void AbortButton_OnClick(object? sender, RoutedEventArgs e)
     {
         Close();
+    }
+
+    private void OpenBackupButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.Start("explorer.exe", $"\"{Settings.GetBackupPath()}\"");
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("nautilus", $"\"{Settings.GetBackupPath()}\"");
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", $"\"{Settings.GetBackupPath()}\"");
+            }
+        }
+        catch (Exception ee)
+        {
+            MessageBoxManager.GetMessageBoxStandard("注意","打开失败！"+ee.Message).ShowWindowDialogAsync(this);
+            DebugWindow.GetInstance().updateDebugContent(ee.Message);
+        }
     }
 }
