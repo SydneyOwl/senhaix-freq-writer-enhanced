@@ -15,7 +15,7 @@ public partial class SETTINGS :ObservableObject
     [ObservableProperty] private bool enableDebugChanDataOutput = false;
     [ObservableProperty] private bool enableAutoBackup = true;
     [ObservableProperty] private int backupInterval = 180;
-    [ObservableProperty] private int maxBackupNumber = 200;
+    [ObservableProperty] private int maxBackupNumber = 300;
     [ObservableProperty] private string dataDir= AppContext.BaseDirectory;
     [ObservableProperty] private string windowsBlePluginName = "BLEPlugin_windows_x64.exe";
     [ObservableProperty] private string osXBlePluginName  = "BLEPlugin_macos_x64";

@@ -7,6 +7,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using MsBox.Avalonia;
 using Newtonsoft.Json.Linq;
+using SenhaixFreqWriter.Constants.Common;
 using Version = SenhaixFreqWriter.Properties.Version;
 
 namespace SenhaixFreqWriter.Views.Common;
@@ -16,9 +17,9 @@ public partial class AboutWindow : Window
     public AboutWindow()
     {
         InitializeComponent();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) windows.Background = Brushes.BlanchedAlmond;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) linux.Background = Brushes.BlanchedAlmond;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) macos.Background = Brushes.BlanchedAlmond;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) windows.Background = Brushes.BurlyWood;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) linux.Background = Brushes.BurlyWood;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) macos.Background = Brushes.BurlyWood;
         MVersionTag.Content = Version.VersionTag == "@TAG_NAME@" ? "（内部版本）" : Version.VersionTag;
         MGitCommitHash.Content = Version.GitCommitHash == "@COMMIT_HASH@" ? "（内部版本）" : Version.GitCommitHash;
         MBuildTime.Content = Version.BuildTime == "@BUILD_TIME@" ? "（内部版本）" : Version.BuildTime;
@@ -109,5 +110,13 @@ public partial class AboutWindow : Window
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "无法获取最新版本信息~").ShowWindowDialogAsync(this);
         }
+    }
+
+    private void AckButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var thanks = $@"感谢以下友台对软件开发的大力支持：
+{THANKSLIST.ToThankUString()}
+名单可能多有遗漏之处，请见谅，并请及时告知！";
+        MessageBoxManager.GetMessageBoxStandard("注意",thanks).ShowWindowDialogAsync(this);
     }
 }

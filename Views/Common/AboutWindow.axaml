@@ -32,8 +32,14 @@
                 <TextBlock Text="仓库" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-
-        <Label Canvas.Right="90" Canvas.Top="169"> 欢迎提出issues和PRs，也可以在此处获取更新-></Label>
+        
+        <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="120" Click="AckButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource thank}" Margin="0,0,10,0" />
+                <TextBlock Text="致谢" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        
 
         <!-- <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="100" Click="UpdateButton_OnClick"> -->
         <!--     <StackPanel Orientation="Horizontal"> -->
