@@ -26,7 +26,7 @@
                  Width="250" Canvas.Top="270" Canvas.Left="250"
                  SelectionChanged="ModeListBox_OnSelectionChanged" />
 
-        <Border Width="260" Height="95" BorderBrush="Black" BorderThickness="1"
+        <Border Width="260" Height="95" BorderBrush="{StaticResource borderBrush}" BorderThickness="1"
                 Canvas.Top="480" Canvas.Left="10" />
         <CheckBox Canvas.Top="510" Canvas.Left="20" IsChecked="True" Name="doppler" />
         <Label Content="多普勒" Canvas.Top="510" Canvas.Left="40" />
@@ -39,7 +39,7 @@
         <TextBox Canvas.Top="535" Canvas.Left="145" Name="voffset" Text="5" />
         <Label Content="kHz" Canvas.Top="540" Canvas.Left="220" />
 
-        <Border Width="210" Height="155" BorderBrush="Black" BorderThickness="1"
+        <Border Width="210" Height="155" BorderBrush="{StaticResource borderBrush}" BorderThickness="1"
                 Canvas.Top="450" Canvas.Left="290" />
 
         <Label Content="(手动覆盖)" Canvas.Top="440" Canvas.Left="300" Background="BurlyWood" />

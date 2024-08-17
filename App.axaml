@@ -43,17 +43,19 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key='btBackgroundBrush'>DarkGray</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>DarkGray</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgvBackgroundBrush'>LightGray</SolidColorBrush>
-                    <SolidColorBrush x:Key='tbBackgroundBrush'>LightSlateGray</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgBackgroundBrush'>LightSlateGray</SolidColorBrush>
+                    <SolidColorBrush x:Key='btBackgroundBrush'>#121212</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#536271</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#3E4C5E</SolidColorBrush>
+                    <SolidColorBrush x:Key='tbBackgroundBrush'>#536271</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>BurlyWood</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgBackgroundBrush'>#3E4C5E</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key='btBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
                     <SolidColorBrush x:Key='pgBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
                     <SolidColorBrush x:Key='dgvBackgroundBrush'>White</SolidColorBrush>
                     <SolidColorBrush x:Key='tbBackgroundBrush'>SkyBlue</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>Black</SolidColorBrush>
                     <SolidColorBrush x:Key='dgBackgroundBrush'>White</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Default">
@@ -61,6 +63,7 @@
                     <SolidColorBrush x:Key='pgBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
                     <SolidColorBrush x:Key='dgvBackgroundBrush'>White</SolidColorBrush>
                     <SolidColorBrush x:Key='tbBackgroundBrush'>SkyBlue</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>Black</SolidColorBrush>
                     <SolidColorBrush x:Key='dgBackgroundBrush'>White</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>

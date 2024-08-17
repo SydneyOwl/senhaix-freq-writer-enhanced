@@ -10,71 +10,71 @@
         Title="DTMF参数"
         KeyDown="Input_OnKeyDown">
     <Canvas>
-        <Border Height="200" Width="380" Margin="10" BorderThickness="1" BorderBrush="Black" />
-        <Label Canvas.Top="0" Canvas.Left="20" Background="White">编码码组：</Label>
-        <Label Canvas.Top="30" Canvas.Left="20" Background="White">1：</Label>
+        <Border Height="200" Width="380" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
+        <Label Canvas.Top="0" Canvas.Left="20" Background="BurlyWood">编码码组：</Label>
+        <Label Canvas.Top="30" Canvas.Left="20" >1：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf1}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="65" Canvas.Left="20" Background="White">2：</Label>
+        <Label Canvas.Top="65" Canvas.Left="20" >2：</Label>
         <TextBox Canvas.Top="60" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf2}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="100" Canvas.Left="20" Background="White">3：</Label>
+        <Label Canvas.Top="100" Canvas.Left="20">3：</Label>
         <TextBox Canvas.Top="95" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf3}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="135" Canvas.Left="20" Background="White">4：</Label>
+        <Label Canvas.Top="135" Canvas.Left="20">4：</Label>
         <TextBox Canvas.Top="130" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf4}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="170" Canvas.Left="20" Background="White">5：</Label>
+        <Label Canvas.Top="170" Canvas.Left="20">5：</Label>
         <TextBox Canvas.Top="165" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf5}"
                  TextChanged="TextBox_OnTextChanged" />
 
-        <Label Canvas.Top="30" Canvas.Left="130" Background="White">6：</Label>
+        <Label Canvas.Top="30" Canvas.Left="130" >6：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf6}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="65" Canvas.Left="130" Background="White">7：</Label>
+        <Label Canvas.Top="65" Canvas.Left="130" >7：</Label>
         <TextBox Canvas.Top="60" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf7}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="100" Canvas.Left="130" Background="White">8：</Label>
+        <Label Canvas.Top="100" Canvas.Left="130" >8：</Label>
         <TextBox Canvas.Top="95" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf8}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="135" Canvas.Left="130" Background="White">9：</Label>
+        <Label Canvas.Top="135" Canvas.Left="130" >9：</Label>
         <TextBox Canvas.Top="130" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf9}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="170" Canvas.Left="130" Background="White">10：</Label>
+        <Label Canvas.Top="170" Canvas.Left="130" >10：</Label>
         <TextBox Canvas.Top="165" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmfA}"
                  TextChanged="TextBox_OnTextChanged" />
 
-        <Label Canvas.Top="30" Canvas.Left="250" Background="White">11：</Label>
+        <Label Canvas.Top="30" Canvas.Left="250" >11：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfB}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="65" Canvas.Left="250" Background="White">12：</Label>
+        <Label Canvas.Top="65" Canvas.Left="250" >12：</Label>
         <TextBox Canvas.Top="60" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfC}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="100" Canvas.Left="250" Background="White">13：</Label>
+        <Label Canvas.Top="100" Canvas.Left="250" >13：</Label>
         <TextBox Canvas.Top="95" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfD}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="135" Canvas.Left="250" Background="White">14：</Label>
+        <Label Canvas.Top="135" Canvas.Left="250" >14：</Label>
         <TextBox Canvas.Top="130" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfE}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="170" Canvas.Left="250" Background="White">15：</Label>
+        <Label Canvas.Top="170" Canvas.Left="250" >15：</Label>
         <TextBox Canvas.Top="165" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfF}"
                  TextChanged="TextBox_OnTextChanged" />
 
-        <Border Height="160" Width="180" BorderThickness="1" BorderBrush="Black"
+        <Border Height="160" Width="180" BorderThickness="1" BorderBrush="{StaticResource borderBrush}"
                 Canvas.Left="10" Canvas.Top="220" />
-        <Label Canvas.Top="210" Canvas.Left="20" Background="White">本机ID码：</Label>
+        <Label Canvas.Top="210" Canvas.Left="20" Background="BurlyWood">本机ID码：</Label>
         <TextBox Canvas.Top="250" Canvas.Left="50" Width="100" Text="{Binding Dtmf.TheIdOfLocalHost}"
                  TextChanged="idhost_OnTextChanged" />
         <CheckBox Canvas.Top="290" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttPressed}">按下PTT时发送</CheckBox>
         <CheckBox Canvas.Top="320" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttReleased}">松开PTT时发送</CheckBox>
 
         <Border Height="160" Width="180"
-                Canvas.Right="10" Canvas.Top="220" BorderThickness="1" BorderBrush="Black" />
-        <Label Canvas.Top="240" Canvas.Left="215" Background="White" FontSize="13">发送DTMF码时码持续时间：</Label>
+                Canvas.Right="10" Canvas.Top="220" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
+        <Label Canvas.Top="240" Canvas.Left="215" FontSize="13">发送DTMF码时码持续时间：</Label>
         <ComboBox Canvas.Left="245" Canvas.Top="265" Width="90"
                   ItemsSource="{x:Static constants:DtmfChoice.StopOrLastTime}"
                   SelectedIndex="{Binding Dtmf.LastTimeSend}" />
-        <Label Canvas.Top="310" Canvas.Left="215" Background="White" FontSize="13">发送DTMF码时码间断时间：</Label>
+        <Label Canvas.Top="310" Canvas.Left="215" FontSize="13">发送DTMF码时码间断时间：</Label>
         <ComboBox Canvas.Left="245" Canvas.Top="335" Width="90"
                   ItemsSource="{x:Static constants:DtmfChoice.StopOrLastTime}"
                   SelectedIndex="{Binding Dtmf.LastTimeStop}" />

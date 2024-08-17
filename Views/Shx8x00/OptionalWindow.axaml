@@ -57,7 +57,7 @@
                           SelectedIndex="{Binding Fun.CbBSaveMode}" />
 
                 <Label Canvas.Top="-10" Canvas.Left="230" Background="BurlyWood">A段模式</Label>
-                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="220" BorderBrush="Black"
+                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="220" BorderBrush="{StaticResource borderBrush}"
                         BorderThickness="1" />
                 <Label Canvas.Top="15" Canvas.Left="230">当前频率(MHz)</Label>
                 <TextBox Canvas.Top="10" Canvas.Left="340" Text="{Binding Fun.TBACurFreq}"
@@ -103,7 +103,7 @@
                           SelectedIndex="{Binding Fun.CbBAFhss}" />
                 <!-- ///////////////////////////////////////////////////////////////// -->
                 <Label Canvas.Top="-10" Canvas.Left="500" Background="BurlyWood">B段模式</Label>
-                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="480" BorderBrush="Black"
+                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="480" BorderBrush="{StaticResource borderBrush}"
                         BorderThickness="1" />
                 <Label Canvas.Top="15" Canvas.Left="490">当前频率(MHz)</Label>
                 <TextBox Canvas.Top="10" Canvas.Left="600" Text="{Binding Fun.TBBCurFreq}"

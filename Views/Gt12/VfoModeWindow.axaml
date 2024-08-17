@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         CanResize="False">
     <Canvas>
-        <Border Height="550" Width="300" Margin="10" BorderThickness="1" BorderBrush="Black" />
+        <Border Height="550" Width="300" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
         <Label Content="VFO A" Background="BurlyWood" FontSize="20" Canvas.Left="20" />
         <Label Content="频率" FontSize="15" Canvas.Left="20" Canvas.Top="50" />
         <TextBox Canvas.Left="100" Canvas.Top="45" Width="150"
@@ -58,7 +58,7 @@
         <TextBox Canvas.Left="100" Canvas.Top="485" Width="150" Height="30" Text="{Binding VfoInfos.VfoAOffset}"
                  LostFocus="freqOffset_OnLostFocus" />
 
-        <Border Height="550" Width="300" Margin="10" BorderThickness="1" BorderBrush="Black" Canvas.Left="350" />
+        <Border Height="550" Width="300" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" Canvas.Left="350" />
         <Label Content="VFO B" Background="BurlyWood" FontSize="20" Canvas.Left="370" />
         <Label Content="频率" FontSize="15" Canvas.Left="370" Canvas.Top="50" />
         <TextBox Canvas.Left="450" Canvas.Top="45" Width="150" Height="30"
