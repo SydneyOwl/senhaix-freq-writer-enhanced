@@ -222,7 +222,7 @@ jobs:
         zip -r $targetName senhaix-universial-freq-writer
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: SenhaixFreqWriterArtifacts
         path: SenhaixFreqWriterArtifacts/*.zip
