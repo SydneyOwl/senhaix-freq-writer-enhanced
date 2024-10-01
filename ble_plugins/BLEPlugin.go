@@ -277,6 +277,8 @@ func StartRPC(addr string) {
 	c, _, err := websocket.DefaultDialer.Dial(addr, nil)
 	if err != nil {
 		slog.Fatalf("无法连接到服务器：%v", err)
+		slog.Notice("如您需要进行信道编辑等操作，您应该打开主程序，即SenhaixFreqWriter（.exe）！")
+		slog.Notice("正常情况下您无需手动打开插件，主程序会自动调用！")
 		slog.Notice("如果您通过手动方式调用插件，请先打开写频软件再打开本插件！")
 		return
 	}
