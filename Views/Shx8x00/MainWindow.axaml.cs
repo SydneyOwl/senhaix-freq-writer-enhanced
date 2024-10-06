@@ -206,7 +206,7 @@ public partial class MainWindow : Window
         {
             ushort num7 = 125;
             var num8 = num5 / num7;
-            freqChk = (num8 * num7).ToString();
+            freqChk = (num8 * num7).ToString().Insert(3,".");
         }
 
         return freqChk;
