@@ -39,20 +39,21 @@ public partial class DeviceSelectWindow : Window
         // 提前帮用户选好端口
         _ = Task.Run(() =>
         {
-            if (_settings.EnableSelectPortInAdvance)
-                try
-                {
-                    MySerialPort.GetInstance().SelectSerialInAdvance();
-                }
-                catch (Exception qq)
-                {
-                    DebugWindow.GetInstance().UpdateDebugContent(qq.Message);
-                }
+            if (!_settings.EnableSelectPortInAdvance) return;
+            try
+            {
+                MySerialPort.GetInstance().SelectSerialInAdvance();
+            }
+            catch (Exception qq)
+            {
+                DebugWindow.GetInstance().UpdateDebugContent(qq.Message);
+            }
         });
 
         switch (DeviceChooseComboBox.SelectedIndex)
         {
             case 0:
+                DataModels.Shx8x00.ClassTheRadioData.Instance = null!;
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("H");
@@ -64,10 +65,12 @@ public partial class DeviceSelectWindow : Window
                 new MainWindow(ShxDevice.Shx8800).Show();
                 break;
             case 1:
+                DataModels.Shx8800Pro.AppData.Instance = null!;
                 DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8800新版");
                 new Shx8800Pro.MainWindow().Show();
                 break;
             case 2:
+                DataModels.Shx8x00.ClassTheRadioData.Instance = null!;
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("H");
@@ -80,6 +83,7 @@ public partial class DeviceSelectWindow : Window
                 new MainWindow(ShxDevice.Shx8600).Show();
                 break;
             case 3:
+                DataModels.Shx8x00.ClassTheRadioData.Instance = null!;
                 ChanChoice.TxPwr.Clear();
                 ChanChoice.TxPwr.Add("L");
                 ChanChoice.TxPwr.Add("M");
@@ -93,10 +97,12 @@ public partial class DeviceSelectWindow : Window
                 new MainWindow(ShxDevice.Shx8600Pro).Show();
                 break;
             case 4:
+                DataModels.Gt12.AppData.Instance = null!;
                 DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯GT12");
                 new Gt12.MainWindow().Show();
                 break;
             default:
+                DataModels.Shx8x00.ClassTheRadioData.Instance = null!;
                 new MainWindow(ShxDevice.Shx8600).Show();
                 break;
         }

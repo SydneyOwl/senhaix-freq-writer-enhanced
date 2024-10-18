@@ -473,7 +473,7 @@ public class WindowsSHXBLE : IBluetooth
         if (DeviceMacList.Contains(address)) return;
 
         DeviceMacList.Add(address);
-        DebugWindow.GetInstance().updateDebugContent($"新设备：{address}");
+        DebugWindow.GetInstance().UpdateDebugContent($"新设备：{address}");
     }
 
     public void TriggerCharacteristicFinish(int size)
@@ -544,7 +544,7 @@ public class WindowsSHXBLE : IBluetooth
         return IsBtSupported();
     }
 
-    public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
+    public List<GenerticBleDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
         bool disableSSIDFilter)
     {
         DeviceWatcherChanged += TriggerDeviceWatcherChanged;
@@ -553,14 +553,14 @@ public class WindowsSHXBLE : IBluetooth
         StartBleDeviceWatcher(disableWeakSignalRestriction);
         Thread.Sleep(5000);
         StopBleDeviceWatcher();
-        List<GenerticBLEDeviceInfo> fin = new();
+        List<GenerticBleDeviceInfo> fin = new();
         for (var i = 0; i < DeviceList.Count; i++)
         {
             if (disableSSIDFilter)
             {
-                fin.Add(new GenerticBLEDeviceInfo
+                fin.Add(new GenerticBleDeviceInfo
                 {
-                    DeviceID = i.ToString(),
+                    DeviceId = i.ToString(),
                     DeviceName = DeviceList[i].Name,
                     DeviceMacAddr = CalMac(DeviceList[i].BluetoothAddress)
                 });
@@ -569,9 +569,9 @@ public class WindowsSHXBLE : IBluetooth
             {
                 if (DeviceList[i].Name.Equals(BleConst.BtnameShx8800))
                 {
-                    fin.Add(new GenerticBLEDeviceInfo
+                    fin.Add(new GenerticBleDeviceInfo
                     {
-                        DeviceID = i.ToString(),
+                        DeviceId = i.ToString(),
                         DeviceName = DeviceList[i].Name,
                         DeviceMacAddr = CalMac(DeviceList[i].BluetoothAddress)
                     });

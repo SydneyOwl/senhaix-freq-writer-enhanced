@@ -23,7 +23,6 @@ public partial class DtmfWindow : Window
     public DtmfWindow()
     {
         InitializeComponent();
-        DataContext = this;
         var dtmfOrig = AppData.GetInstance().Dtmfs;
         for (var i = 0; i < 15; i++)
         {
@@ -31,27 +30,18 @@ public partial class DtmfWindow : Window
             tmp.Id = (i + 1).ToString();
             tmp.GroupName = dtmfOrig.GroupName[i];
             tmp.Group = dtmfOrig.Group[i];
-            Dtmfs.Add(tmp);
+            _dtmfs.Add(tmp);
         }
 
-        // Closing += async (sender, args) =>
-        // {
-        //     for (var i = 0; i < 20; i++)
-        //         if (string.IsNullOrEmpty(Dtmfs[i].Group) || string.IsNullOrEmpty(Dtmfs[i].GroupName))
-        //         {
-        //             args.Cancel = true;
-        //             DebugWindow.GetInstance().updateDebugContent("阻止窗口关闭：有空字段");
-        //             await MessageBoxManager.GetMessageBoxStandard("注意", "未填写完整，不能有为空的字段！")
-        //                 .ShowWindowDialogAsync(this);
-        //             return;
-        //         }
-        //
-        //     for (var j = 0; j < 20; j++)
-        //     {
-        //         AppData.GetInstance().Dtmfs.Group[j] = Dtmfs[j].Group;
-        //         AppData.GetInstance().Dtmfs.GroupName[j] = Dtmfs[j].GroupName;
-        //     }
-        // };
+        DataContext = this;
+        Closing += (sender, args) =>
+        {
+            var length = AppData.GetInstance().Dtmfs.Group.Length;
+            for (int i = 0; i < length; i++)
+            {
+                AppData.GetInstance().Dtmfs.Group[i] = Dtmfs[i].Group;
+            }
+        };
     }
 
     public int PttId
@@ -108,7 +98,7 @@ public partial class DtmfWindow : Window
         if (inputText.Length > 8)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "最多8位！").ShowWindowDialogAsync(this);
-            textbox.Text = "";
+            textbox.Text = "#EDIT#";
             return;
         }
 
@@ -116,7 +106,7 @@ public partial class DtmfWindow : Window
             if ((c < '0' || c > '9') && (c < 'A' || c > 'D') && c != '*' && c != '#')
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "码只能是数字、大写字母以及*#").ShowWindowDialogAsync(this);
-                textbox.Text = "";
+                textbox.Text = "#EDIT#";
                 return;
             }
     }

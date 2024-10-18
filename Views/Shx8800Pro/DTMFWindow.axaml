@@ -9,7 +9,7 @@
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8800Pro"
         Title="DTMF设置">
     <Canvas>
-        <DataGrid Margin="20" Name="FMDataGrid"
+        <DataGrid Margin="20" Name="DTMFDataGrid"
                   GridLinesVisibility="All"
                   BorderThickness="1" BorderBrush="Gray"
                   CanUserSortColumns="False"

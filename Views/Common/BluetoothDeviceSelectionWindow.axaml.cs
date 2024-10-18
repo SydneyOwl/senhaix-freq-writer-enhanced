@@ -71,9 +71,9 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     BleInfos.Clear();
                 });
 #if WINDOWS
-                if (!checkRPC)
+                if (!checkRpc)
                 {
-                    osBLE = new WindowsSHXBLE();
+                    OsBle = new WindowsSHXBLE();
                 }
 #endif
                 if (!OsBle.GetBleAvailabilityAsync())
