@@ -7,24 +7,20 @@
 > [!important]
 >
 > + 请在使用软件前先进行备份操作！
-> + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`
-    及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**
-    ），但如果您有需要，仍然可以从[此处](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/tag/v0.2.2)
-    下载最后一个支持的版本，文件名为`xxx-Freq-Writer-v0.2.2.zip`。
 
 ## 简介
 
 该写频软件使用`net6.0`+`Avalonia`
-重构了森海克斯8600/8600pro/8800/GT12的原官方写频软件，并合并入一个软件中，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
+重构了森海克斯8600(pro)/8800(pro)/GT12的原官方写频软件，并合并入一个软件中，提供对Windows、Linux、macOS三端的支持，在实现官方软件提供的所有功能基础上同时加入了其他功能，例如高级信道编辑以及蓝牙写频等。
 
 目前适配情况：
 
 + 森海克斯8800/8800pro/8600/8600pro：完成
 + 森海克斯GT12：**mac端仍在测试中！如果您使用macos，欢迎在issues中提出改进意见~**
 
-| SHX8X00                      | GT12                         |
-|------------------------------|------------------------------|
-| ![](./readme_image/8x00.png) | ![](./readme_image/gt12.png) |
+| SHX8600/8600pro/8800                   | SHX8800pro                                                | SHXGT12                                                  |
+| -------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- |
+| <img src="./readme_image/8x00.png"  /> | <img src="./readme_image/8800p.png" style="zoom:150%;" /> | <img src="./readme_image/gt12.png" style="zoom:150%;" /> |
 
 ## 功能说明
 
@@ -32,20 +28,17 @@
 
 下面列出的是测试通过的平台，其他系统或发行版请自行尝试；也欢迎您在issue中告知可正常使用的系统版本！
 
-| -       | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS）          | 森海克斯8800/8600 winform版（停止维护）               | GT-12 winform版（停止维护） |
-|---------|-----------------------------------------------------|--------------------------------------------|----------------------|
-| 测试通过的平台 | windows10及以上 / Ubuntu 20.04 / macOS 14 (x64, Arm64) | 蓝牙版支持windows 10及以上，无蓝牙版支持windows xp sp2及以上 | windows 10及以上        |
++ windows10及以上
++ Ubuntu 20.04
++ macOS 14 (x64, Arm64)
 
 ### 支持的功能
 
-| -                  | 森海克斯8800/8600/GT12通用版（Windows/Linux/macOS） | 森海克斯8800/8600 winform版（停止维护） | GT-12  winform版（停止维护） |
-|--------------------|--------------------------------------------|------------------------------|-----------------------|
-| 原有的所有功能            | :white_check_mark:                         | :white_check_mark:           | :white_check_mark:    |
-| 高级信道编辑（顺序调整、复制粘贴等） | :white_check_mark:                         | :white_check_mark:           | :white_check_mark:    |
-| 蓝牙写频（试验性）          | 仅8800                                      | 仅8800、仅蓝牙版支持                 | :heavy_minus_sign:    |
-| （以下为支持的插件）         |                                            |                              |                       |
-| 开机画面修改             | :white_check_mark:                         | :white_check_mark:           | :heavy_minus_sign:    |
-| 打星助手               | :white_check_mark:                         | :white_check_mark:           | :white_check_mark:    |
++ 原有的所有功能
++ 高级信道编辑（顺序调整、复制粘贴等）
++ 蓝牙写频（仅8800）
++ 开机画面修改
++ 打星助手
 
 ### 其他说明
 
@@ -67,14 +60,6 @@
 
 ![](./readme_image/macos.jpg)
 
----
-
-##### v0.2.2前（此版本不再维护）
-
-<img src="./readme_image/dep-ble.png" style="zoom: 75%;" />
-
-<img src="./readme_image/dep-sat.png" style="zoom: 67%;" />
-
 ## 编译指引
 
 如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
@@ -88,28 +73,6 @@
 ## 开发指引
 
 + 您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
-
-+ 您可以自行修改SETTINGS.cs中的内容，手动启用不稳定的功能或修改默认设置：
-
-  ```csharp
-  // 是否禁止在调试读写频时输出传输的数据，如禁用该选项可能极大降低HID读写速度！
-  public static bool DISABLE_DEBUG_CHAN_DATA_OUTPUT = true;
-  // 卫星数据默认目录
-  public static string DATA_DIR = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-      ? $"/Users/{Environment.UserName}/Library/Containers/com.sydneyowl/Data"
-      : ".";
-  // RPC插件默认开启的服务地址
-  public const string RPC_URL = "http://127.0.0.1:8563/";
-  // 各操作系统版本的插件名称
-  public static string WINDOWS_BLE_PLUGIN_NAME = "BLEPlugin_windows_x64.exe";
-  
-  public static string OSX_BLE_PLUGIN_NAME = "BLEPlugin_macos_x64";
-  
-  public static string LINUX_BLE_PLUGIN_NAME = "BLEPlugin_linux_x64";
-  
-  // RPC客户端的启动参数，可用--help查看；输出仅在开启调试功能时能看到！
-  public static string RPC_CLIENT_PROCESS_ARGS = "--verbose --no-color --inside-call";
-  ```
 
 + 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
 
@@ -206,7 +169,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.4.1` 修复Issue #18(编辑内容的时候程序卡死并崩溃); 修复当频率小数部分不为125的倍数时自动修正错误的问题
 
-`v0.4.2(TODO)` 修复8800 VFO页面碰撞中设置闪退问题；修复切换到同种设备后数据仍然存在的问题；修复8800pro的DTMF设置无法保存的问题；
+`v0.4.2(TODO)` 修复8800 VFO页面设置闪退问题；修复切换到同种设备后数据仍然存在的问题；修复8800pro的DTMF设置无法保存的问题；
 
 ## 致谢
 
@@ -222,7 +185,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 + 提出issues和PRs的各位用户，感谢你们！
 
-+ Jetbrains的Open Source License
++ JetBrains的`Open Source License`
 
   ![](./readme_image/rider.svg)     ![](./readme_image/goland.svg)
 
