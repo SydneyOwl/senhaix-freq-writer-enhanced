@@ -115,8 +115,8 @@ public partial class AboutWindow : Window
     private void AckButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var thanks = $@"感谢以下友台对软件开发的大力支持：
-{THANKSLIST.ToThankUString()}
+{Thankslist.ToThankUString()}
 名单可能多有遗漏之处，请见谅，并请及时告知！";
-        MessageBoxManager.GetMessageBoxStandard("注意",thanks).ShowWindowDialogAsync(this);
+        MessageBoxManager.GetMessageBoxStandard("注意", thanks).ShowWindowDialogAsync(this);
     }
 }

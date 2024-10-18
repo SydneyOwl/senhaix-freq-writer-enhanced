@@ -36,45 +36,46 @@ public partial class MainWindow : Window
 
     private ChannelData _tmpChannel;
 
-    private BluetoothDeviceSelectionWindow bds;
+    private BluetoothDeviceSelectionWindow _bds;
 
-    private SHX_DEVICE shxDevice = SHX_DEVICE.SHX8600;
+    private ShxDevice _shxDevice = ShxDevice.Shx8600;
 
-    private CancellationTokenSource cancelTips;
-    
-    private CancellationTokenSource cancelBackup;
+    private CancellationTokenSource _cancelTips;
 
-    public MainWindow(SHX_DEVICE shx)
+    private CancellationTokenSource _cancelBackup;
+
+    public MainWindow(ShxDevice shx)
     {
         InitializeComponent();
-        cancelTips = new CancellationTokenSource();
-        cancelBackup = new CancellationTokenSource();
-        Task.Run(() => updateTips(cancelTips.Token));
-        Task.Run(() => updateBackup(cancelBackup.Token));
+        _cancelTips = new CancellationTokenSource();
+        _cancelBackup = new CancellationTokenSource();
+        Task.Run(() => UpdateTips(_cancelTips.Token));
+        Task.Run(() => UpdateBackup(_cancelBackup.Token));
         DataContext = this;
-        shxDevice = shx;
+        _shxDevice = shx;
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
-        DebugWindow.GetInstance().updateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
+        DebugWindow.GetInstance().UpdateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
     }
 
-    private async void updateTips(CancellationToken token)
+    private async void UpdateTips(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)]; });
+            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = Tips.TipList[new Random().Next(Tips.TipList.Count)]; });
             await Task.Delay(5000, CancellationToken.None);
         }
     }
-    private async void updateBackup(CancellationToken token)
+
+    private async void UpdateBackup(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-                SysFile.CreateBackup(ClassTheRadioData.GetInstance());
-            await Task.Delay(SETTINGS.Load().BackupInterval*1000, CancellationToken.None);
+            SysFile.CreateBackup(ClassTheRadioData.GetInstance());
+            await Task.Delay(Settings.Load().BackupInterval * 1000, CancellationToken.None);
         }
     }
-    
+
 
     public ObservableCollection<ChannelData> ListItems
     {
@@ -94,10 +95,10 @@ public partial class MainWindow : Window
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
-        cancelTips.Cancel();
-        cancelBackup.Cancel();
+        _cancelTips.Cancel();
+        _cancelBackup.Cancel();
         Close();
-        bds?.osBLE?.Dispose();
+        _bds?.OsBle?.Dispose();
         if (!_devSwitchFlag) Environment.Exit(0);
     }
 
@@ -206,7 +207,7 @@ public partial class MainWindow : Window
         {
             ushort num7 = 125;
             var num8 = num5 / num7;
-            freqChk = (num8 * num7).ToString().Insert(3,".");
+            freqChk = (num8 * num7).ToString().Insert(3, ".");
         }
 
         return freqChk;
@@ -293,7 +294,7 @@ public partial class MainWindow : Window
 
     private void option_OnClick(object? sender, RoutedEventArgs e)
     {
-        new OptionalWindow(shxDevice).ShowDialog(this);
+        new OptionalWindow(_shxDevice).ShowDialog(this);
     }
 
     private async void open_OnClick(object? sender, RoutedEventArgs e)
@@ -472,7 +473,7 @@ public partial class MainWindow : Window
         // {
         //     await MessageBoxManager.GetMessageBoxStandard("注意", "8600pro的开机图片导入功能未经测试，如写入失败请使用官方软件重新导入；如果有任何问题欢迎提出issue！").ShowWindowDialogAsync(this);
         // }
-        new BootImageImportWindow(shxDevice).ShowDialog(this);
+        new BootImageImportWindow(_shxDevice).ShowDialog(this);
     }
 
     private void SatMenuItem_OnClick(object? sender, RoutedEventArgs e)
@@ -512,7 +513,7 @@ public partial class MainWindow : Window
         ListItems[lastEmptyIndex] = data;
     }
 
-    private async void ConnBLE()
+    private async void ConnBle()
     {
         // var hint = new DispInfoWindow();
         //
@@ -583,20 +584,21 @@ public partial class MainWindow : Window
 
     private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (shxDevice != SHX_DEVICE.SHX8800)
+        if (_shxDevice != ShxDevice.Shx8800)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙功能仅8800可用！").ShowWindowDialogAsync(this);
             return;
         }
 
-        bds = new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800);
-        bds.ShowDialog(this);
+        _bds = new BluetoothDeviceSelectionWindow(ShxDevice.Shx8800);
+        _bds.ShowDialog(this);
     }
 
     private void OpenDebugMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         DebugWindow.GetInstance().Show();
     }
+
     private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         new SettingsWindow().ShowDialog(this);

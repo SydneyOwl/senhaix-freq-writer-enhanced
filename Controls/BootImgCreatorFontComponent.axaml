@@ -24,13 +24,13 @@
             <Label Grid.Row="1" Grid.Column="0" Content="字体：" />
             <ComboBox Grid.Row="1" Grid.Column="1" Name="fontComboBox" MaxWidth="80" SelectedIndex="0"
                       SelectionChanged="FontComboBox_OnSelectionChanged"
-                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=fontList}" />
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=FontList}" />
 
 
             <Label Grid.Row="1" Grid.Column="2" Content="样式：" />
             <ComboBox Grid.Row="1" Grid.Column="3" Name="fontStyleComboBox" SelectedIndex="0"
                       SelectionChanged="FontStyleComboBox_OnSelectionChanged"
-                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=fontStyleList}" />
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=FontStyleList}" />
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center"
                         VerticalAlignment="Center"> <!-- 或使用Vertical取决于你的布局需求 -->
                 <Label Content="字号大小：" />
@@ -62,7 +62,7 @@
             <Slider Name="sizeSliderY" Width="200" Minimum="0" Grid.Row="4" Grid.Column="2"
                     TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SizeSliderY_OnValueChanged"
                     Maximum="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=BootImgHeight}"
-                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=defaultY}" />
+                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=DefaultY}" />
 
             <Button Content="居中" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Click="ResetButton_OnClick" />
 

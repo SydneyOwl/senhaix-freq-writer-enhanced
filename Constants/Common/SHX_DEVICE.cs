@@ -1,10 +1,10 @@
 ﻿namespace SenhaixFreqWriter.Constants.Common;
 
-public enum SHX_DEVICE
+public enum ShxDevice
 {
-    SHX8800,
-    SHX8800PRO,
-    SHX8600,
-    SHX8600PRO,
-    GT12
+    Shx8800,
+    Shx8800Pro,
+    Shx8600,
+    Shx8600Pro,
+    Gt12
 }

@@ -53,8 +53,8 @@ public partial class DtmfWindow : Window
         //     }
         // };
     }
-    
-    public int PttID
+
+    public int PttId
     {
         get => _pttid;
         set

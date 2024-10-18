@@ -41,17 +41,17 @@ public partial class MainWindow : Window
 
     public int CurrentArea;
 
-    private CancellationTokenSource cancelTips;
-    
-    private CancellationTokenSource cancelBackup;
+    private CancellationTokenSource _cancelTips;
+
+    private CancellationTokenSource _cancelBackup;
 
     public MainWindow()
     {
         InitializeComponent();
-        cancelTips = new CancellationTokenSource();
-        cancelBackup = new CancellationTokenSource();
-        Task.Run(() => updateTips(cancelTips.Token));
-        Task.Run(() => updateBackup(cancelBackup.Token));
+        _cancelTips = new CancellationTokenSource();
+        _cancelBackup = new CancellationTokenSource();
+        Task.Run(() => UpdateTips(_cancelTips.Token));
+        Task.Run(() => UpdateBackup(_cancelBackup.Token));
         // 开始自动备份
         DataContext = this;
         SetArea(0);
@@ -76,21 +76,21 @@ public partial class MainWindow : Window
 
     public ObservableCollection<Channel> ListItems { get; set; } = new();
 
-    private async void updateTips(CancellationToken token)
+    private async void UpdateTips(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)]; });
+            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = Tips.TipList[new Random().Next(Tips.TipList.Count)]; });
             await Task.Delay(5000, CancellationToken.None);
         }
     }
-    
-    private async void updateBackup(CancellationToken token)
+
+    private async void UpdateBackup(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
             SysFile.CreateBackup(AppData.GetInstance());
-            await Task.Delay(SETTINGS.Load().BackupInterval*1000, CancellationToken.None);
+            await Task.Delay(Settings.Load().BackupInterval * 1000, CancellationToken.None);
         }
     }
 
@@ -102,8 +102,8 @@ public partial class MainWindow : Window
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
-        cancelTips.Cancel();
-        cancelBackup.Cancel();
+        _cancelTips.Cancel();
+        _cancelBackup.Cancel();
         Close();
         if (!_devSwitchFlag) Environment.Exit(0);
     }
@@ -495,27 +495,27 @@ public partial class MainWindow : Window
 
     private void ConnectMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        DebugWindow.GetInstance().updateDebugContent("-------所有HID设备-------");
+        DebugWindow.GetInstance().UpdateDebugContent("-------所有HID设备-------");
         foreach (var hidDevice in HidTools.GetAllHidDevices())
         {
-            DebugWindow.GetInstance().updateDebugContent($"设备名：{hidDevice.GetProductName()}");
-            DebugWindow.GetInstance().updateDebugContent($"VID：{hidDevice.VendorID}");
-            DebugWindow.GetInstance().updateDebugContent($"PID：{hidDevice.ProductID}");
-            DebugWindow.GetInstance().updateDebugContent($"路径：{hidDevice.DevicePath}");
-            DebugWindow.GetInstance().updateDebugContent("----------------");
+            DebugWindow.GetInstance().UpdateDebugContent($"设备名：{hidDevice.GetProductName()}");
+            DebugWindow.GetInstance().UpdateDebugContent($"VID：{hidDevice.VendorID}");
+            DebugWindow.GetInstance().UpdateDebugContent($"PID：{hidDevice.ProductID}");
+            DebugWindow.GetInstance().UpdateDebugContent($"路径：{hidDevice.DevicePath}");
+            DebugWindow.GetInstance().UpdateDebugContent("----------------");
         }
 
         if (HidTools.GetInstance().FindAndConnect() == HidStatus.Success)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！").ShowWindowDialogAsync(this);
-            DebugWindow.GetInstance().updateDebugContent("-------设备信息-------");
+            DebugWindow.GetInstance().UpdateDebugContent("-------设备信息-------");
             var gt12 = HidTools.GetInstance().Gt12Device;
-            DebugWindow.GetInstance().updateDebugContent($"最大输入长度：{gt12.GetMaxInputReportLength()}");
-            DebugWindow.GetInstance().updateDebugContent($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
-            DebugWindow.GetInstance().updateDebugContent($"PID：{gt12.ProductID}");
-            DebugWindow.GetInstance().updateDebugContent($"VID：{gt12.VendorID}");
-            DebugWindow.GetInstance().updateDebugContent($"设备路径：{gt12.DevicePath}");
-            DebugWindow.GetInstance().updateDebugContent($"设备名：{gt12.GetProductName()}");
+            DebugWindow.GetInstance().UpdateDebugContent($"最大输入长度：{gt12.GetMaxInputReportLength()}");
+            DebugWindow.GetInstance().UpdateDebugContent($"最大输出长度：{gt12.GetMaxOutputReportLength()}");
+            DebugWindow.GetInstance().UpdateDebugContent($"PID：{gt12.ProductID}");
+            DebugWindow.GetInstance().UpdateDebugContent($"VID：{gt12.VendorID}");
+            DebugWindow.GetInstance().UpdateDebugContent($"设备路径：{gt12.DevicePath}");
+            DebugWindow.GetInstance().UpdateDebugContent($"设备名：{gt12.GetProductName()}");
         }
         else
         {
@@ -525,7 +525,7 @@ public partial class MainWindow : Window
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BootImageImportWindow(SHX_DEVICE.GT12).ShowDialog(this);
+        new BootImageImportWindow(ShxDevice.Gt12).ShowDialog(this);
     }
 
     private void SatMenuItem_OnClick(object? sender, RoutedEventArgs e)
@@ -567,13 +567,14 @@ public partial class MainWindow : Window
     private async void BLEMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         await MessageBoxManager.GetMessageBoxStandard("注意", "GT12的蓝牙写频真的超慢，不知道为啥:(建议用写频线").ShowWindowDialogAsync(this);
-        new BluetoothDeviceSelectionWindow(SHX_DEVICE.GT12).ShowDialog(this);
+        new BluetoothDeviceSelectionWindow(ShxDevice.Gt12).ShowDialog(this);
     }
 
     private void DebugWindowMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         DebugWindow.GetInstance().Show();
     }
+
     private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         new SettingsWindow().ShowDialog(this);

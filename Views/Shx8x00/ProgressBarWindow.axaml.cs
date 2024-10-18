@@ -82,7 +82,7 @@ public partial class ProgressBarWindow : Window
             return;
         }
 
-            SysFile.CreateBackup(ClassTheRadioData.GetInstance());
+        SysFile.CreateBackup(ClassTheRadioData.GetInstance());
 
         _tokenSource = new CancellationTokenSource();
 
@@ -108,7 +108,7 @@ public partial class ProgressBarWindow : Window
 
     private async void Task_WriteFreq(CancellationToken cancellationToken)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriFreq Thread: WriFreq8800");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriFreq Thread: WriFreq8800");
         var flag = false;
         _wF = new WriFreq(_sP, _theRadioData, _status);
         MySerialPort.GetInstance().RxData.Clear();
@@ -118,19 +118,19 @@ public partial class ProgressBarWindow : Window
         }
         catch (Exception e)
         {
-            DebugWindow.GetInstance().updateDebugContent(e.Message);
+            DebugWindow.GetInstance().UpdateDebugContent(e.Message);
             // ignored
         }
 
         Dispatcher.UIThread.Post(() => HandleWfResult(flag));
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriFreq Thread: WriFreq8800");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriFreq Thread: WriFreq8800");
         // DebugWindow.GetInstance().updateDebugContent($"Disposing bluetooth..");
         // MySerialPort.GetInstance().WriteBle = null;
     }
 
     private void Task_GetProgress(CancellationToken cancellationToken)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start GetProcess Thread: GetProcess8800");
+        DebugWindow.GetInstance().UpdateDebugContent("Start GetProcess Thread: GetProcess8800");
         var flag = false;
         var num = 3;
         while (_wF == null && !cancellationToken.IsCancellationRequested) Thread.Sleep(1);
@@ -192,7 +192,7 @@ public partial class ProgressBarWindow : Window
             }
         }
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate GetProcess Thread: GetProcess8800");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate GetProcess Thread: GetProcess8800");
     }
 
     private void HandleWfResult(bool result)

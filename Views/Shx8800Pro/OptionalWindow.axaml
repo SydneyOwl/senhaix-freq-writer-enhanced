@@ -94,7 +94,7 @@
                           SelectedIndex="{Binding Func.Backlight}" />
                 <Label Content="语音提示开关" Canvas.Top="100" Canvas.Left="450" />
                 <ComboBox Canvas.Top="95" Canvas.Left="550" Width="100"
-                          ItemsSource="{x:Static constants:FunctionChoice.VoiceSW}"
+                          ItemsSource="{x:Static constants:FunctionChoice.VoiceSw}"
                           SelectedIndex="{Binding Func.VoiceSw}" />
                 <Label Content="发码延迟" Canvas.Top="140" Canvas.Left="450" />
                 <ComboBox Canvas.Top="135" Canvas.Left="550" Width="100"
@@ -125,7 +125,7 @@
                 <ComboBox Canvas.Top="95" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChAWorkmode}" />
-                
+
                 <Label Content="B段区域" Canvas.Top="140" Canvas.Left="10" />
                 <ComboBox Canvas.Top="135" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
@@ -138,7 +138,7 @@
                 <ComboBox Canvas.Top="215" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChBWorkmode}" />
-                
+
                 <Label Content="侧键2短按" Canvas.Top="260" Canvas.Left="10" />
                 <ComboBox Canvas.Top="255" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"

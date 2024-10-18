@@ -6,7 +6,7 @@ namespace SenhaixFreqWriter.DataModels.Shx8800Pro;
 
 public partial class Channel : ObservableObject
 {
-    [ObservableProperty] private int _bandwide;//
+    [ObservableProperty] private int _bandwide; //
 
     [ObservableProperty]
     // Useless member: id
@@ -14,16 +14,16 @@ public partial class Channel : ObservableObject
 
     [XmlIgnore] [ObservableProperty] private bool _isVisable;
 
-    [ObservableProperty] private string _name = "";//
-    [ObservableProperty] private int _pttid;//
-    [ObservableProperty] private string _rxFreq = "";//
-    [ObservableProperty] private int _scanAdd;//
-    [ObservableProperty] private int _signalGroup;//
+    [ObservableProperty] private string _name = ""; //
+    [ObservableProperty] private int _pttid; //
+    [ObservableProperty] private string _rxFreq = ""; //
+    [ObservableProperty] private int _scanAdd; //
+    [ObservableProperty] private int _signalGroup; //
     [ObservableProperty] private int _busyLock;
-    [ObservableProperty] private string _strRxCtsDcs = "OFF";//
-    [ObservableProperty] private string _strTxCtsDcs = "OFF";//
-    [ObservableProperty] private string _txFreq = "";//
-    [ObservableProperty] private int _txPower;//
+    [ObservableProperty] private string _strRxCtsDcs = "OFF"; //
+    [ObservableProperty] private string _strTxCtsDcs = "OFF"; //
+    [ObservableProperty] private string _txFreq = ""; //
+    [ObservableProperty] private int _txPower; //
 
     public Channel()
     {

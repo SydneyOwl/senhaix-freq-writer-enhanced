@@ -20,44 +20,44 @@ namespace SenhaixFreqWriter.Views.Plugin;
 public partial class BootImageImportWindow : Window
 {
     private SKBitmap _bitmap;
-    private HIDBootImage _bootHid;
+    private HidBootImage _bootHid;
     private WriBootImage _bootWri;
     private CancellationTokenSource _ctx;
-    private SHX_DEVICE _device = SHX_DEVICE.SHX8600;
+    private ShxDevice _device = ShxDevice.Shx8600;
 
     public BootImageImportWindow()
     {
-        BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
-        BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
+        BootImgWidth = Others.BootImgWidth;
+        BootImgHeight = Others.BootImgHeight;
         Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
         WindowHeight = 200;
         InitializeComponent();
         DataContext = this;
     }
 
-    public BootImageImportWindow(SHX_DEVICE dev)
+    public BootImageImportWindow(ShxDevice dev)
     {
         _device = dev;
         switch (dev)
         {
-            case SHX_DEVICE.SHX8600:
-            case SHX_DEVICE.SHX8600PRO:
-            case SHX_DEVICE.SHX8800PRO:
-            case SHX_DEVICE.SHX8800:
-                BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
-                BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
+            case ShxDevice.Shx8600:
+            case ShxDevice.Shx8600Pro:
+            case ShxDevice.Shx8800Pro:
+            case ShxDevice.Shx8800:
+                BootImgWidth = Others.BootImgWidth;
+                BootImgHeight = Others.BootImgHeight;
                 Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
                 WindowHeight = 200;
                 break;
-            case SHX_DEVICE.GT12:
-                BootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
-                BootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
+            case ShxDevice.Gt12:
+                BootImgWidth = Constants.Gt12.Others.BootImgWidth;
+                BootImgHeight = Constants.Gt12.Others.BootImgHeight;
                 Hint = $"尺寸限制：{BootImgWidth}x{BootImgHeight}，建议bmp格式";
                 WindowHeight = 390;
                 break;
         }
 
-        DebugWindow.GetInstance().updateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
+        DebugWindow.GetInstance().UpdateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
         InitializeComponent();
         Closed += (sender, args) =>
         {
@@ -96,23 +96,23 @@ public partial class BootImageImportWindow : Window
             return;
         }
 
-        DebugWindow.GetInstance().updateDebugContent($"PicFormat：{bitmap.ColorType}");
+        DebugWindow.GetInstance().UpdateDebugContent($"PicFormat：{bitmap.ColorType}");
         if (!bitmap.ColorType.Equals(SKColorType.Bgra8888) && !bitmap.ColorType.Equals(SKColorType.Rgba8888))
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片像素格式不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
 
-        DebugWindow.GetInstance().updateDebugContent($"图片尺寸：{bitmap.Width}*{bitmap.Height}");
-        if ((bitmap.Width != OTHERS.BOOT_IMG_WIDTH ||
-             bitmap.Height != OTHERS.BOOT_IMG_HEIGHT) && _device != SHX_DEVICE.GT12)
+        DebugWindow.GetInstance().UpdateDebugContent($"图片尺寸：{bitmap.Width}*{bitmap.Height}");
+        if ((bitmap.Width != Others.BootImgWidth ||
+             bitmap.Height != Others.BootImgHeight) && _device != ShxDevice.Gt12)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
         }
 
-        if ((bitmap.Width != Constants.Gt12.OTHERS.BOOT_IMG_WIDTH ||
-             bitmap.Height != Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT) && _device == SHX_DEVICE.GT12)
+        if ((bitmap.Width != Constants.Gt12.Others.BootImgWidth ||
+             bitmap.Height != Constants.Gt12.Others.BootImgHeight) && _device == ShxDevice.Gt12)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "图片尺寸不符合要求！").ShowWindowDialogAsync(this);
             return;
@@ -135,7 +135,7 @@ public partial class BootImageImportWindow : Window
 
         start.IsEnabled = false;
         stop.IsEnabled = true;
-        if (_device != SHX_DEVICE.GT12)
+        if (_device != ShxDevice.Gt12)
         {
             if (MySerialPort.GetInstance().TargetPort == "" && MySerialPort.GetInstance().WriteBle == null)
             {
@@ -157,11 +157,11 @@ public partial class BootImageImportWindow : Window
                 return;
             }
 
-            new Thread(() => { StartWrite8x00(_ctx); }).Start();
-            new Thread(() => { StartGetProcess8x00(_ctx.Token); }).Start();
+            new Thread(() => { StartWrite8X00(_ctx); }).Start();
+            new Thread(() => { StartGetProcess8X00(_ctx.Token); }).Start();
         }
 
-        if (_device == SHX_DEVICE.GT12)
+        if (_device == ShxDevice.Gt12)
         {
             if (!HidTools.GetInstance().IsDeviceConnected && HidTools.GetInstance().WriteBle == null)
             {
@@ -171,15 +171,15 @@ public partial class BootImageImportWindow : Window
                 return;
             }
 
-            _bootHid = new HIDBootImage(_bitmap);
+            _bootHid = new HidBootImage(_bitmap);
             new Thread(() => { StartWriteGt12(_ctx); }).Start();
             new Thread(() => { StartGetProcessGt12(_ctx.Token); }).Start();
         }
     }
 
-    private async void StartWrite8x00(CancellationTokenSource source)
+    private async void StartWrite8X00(CancellationTokenSource source)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWrite8x00");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriImg Thread: StartWrite8x00");
         var res = _bootWri.WriteImg();
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
@@ -194,26 +194,26 @@ public partial class BootImageImportWindow : Window
             stop.IsEnabled = false;
         });
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartWrite8x00");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriImg Thread: StartWrite8x00");
     }
 
-    private void StartGetProcess8x00(CancellationToken token)
+    private void StartGetProcess8X00(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartGetProcess8800");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriImg Thread: StartGetProcess8800");
         while (!token.IsCancellationRequested)
         {
             int curPct;
-            if (!_bootWri.currentProg.TryDequeue(out curPct)) continue;
+            if (!_bootWri.CurrentProg.TryDequeue(out curPct)) continue;
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
             // Thread.Sleep(10);
         }
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartGetProcess8800");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriImg Thread: StartGetProcess8800");
     }
 
     private async void StartWriteGt12(CancellationTokenSource source)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartWriteGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriImg Thread: StartWriteGt12");
         var res = _bootHid.WriteImg();
         source.Cancel();
         Dispatcher.UIThread.Invoke(() =>
@@ -226,20 +226,20 @@ public partial class BootImageImportWindow : Window
             start.IsEnabled = true;
             stop.IsEnabled = false;
         });
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartWriteGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriImg Thread: StartWriteGt12");
     }
 
     private void StartGetProcessGt12(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriImg Thread: StartGetProcessGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriImg Thread: StartGetProcessGt12");
         while (!token.IsCancellationRequested)
         {
             int curPct;
-            if (!_bootHid.currentProg.TryDequeue(out curPct)) continue;
+            if (!_bootHid.CurrentProg.TryDequeue(out curPct)) continue;
             Dispatcher.UIThread.Post(() => { pgBar.Value = curPct; });
         }
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriImg Thread: StartGetProcessGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriImg Thread: StartGetProcessGt12");
     }
 
     private async void CreateImageButton_OnClick(object? sender, RoutedEventArgs e)
@@ -258,7 +258,7 @@ public partial class BootImageImportWindow : Window
 
     private async void StopImportImg_OnClick(object? sender, RoutedEventArgs e)
     {
-        var box =  MessageBoxManager.GetMessageBoxStandard("注意", "取消写入可能造成图片显示不完整，您要继续吗？",ButtonEnum.YesNo);
+        var box = MessageBoxManager.GetMessageBoxStandard("注意", "取消写入可能造成图片显示不完整，您要继续吗？", ButtonEnum.YesNo);
         var result = await box.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;
         _bootWri?.CancelWriteImg();

@@ -28,11 +28,11 @@ public partial class SatelliteHelperWindow : Window
 
     public InsertChannelMethod InsertData;
 
-    private string loadedJson = "";
+    private string _loadedJson = "";
 
     public List<string> SatelliteList = new();
-    
-    private SETTINGS Settings = SETTINGS.Load();
+
+    private Settings _settings = Settings.Load();
 
     public SatelliteHelperWindow()
     {
@@ -49,7 +49,7 @@ public partial class SatelliteHelperWindow : Window
             Dispatcher.UIThread.Invoke(() =>
             {
                 selectedSatelliteInfo.Text += "无法存储json！切换到Mem模式...\n";
-                DebugWindow.GetInstance().updateDebugContent("无法读取json文件！#无法新建目录！切换到Mem模式...");
+                DebugWindow.GetInstance().UpdateDebugContent("无法读取json文件！#无法新建目录！切换到Mem模式...");
             });
             Task.Run(() => { FetchData(true); });
         }
@@ -73,27 +73,27 @@ public partial class SatelliteHelperWindow : Window
         var satelliteData = "";
         if (useMem)
         {
-            satelliteData = loadedJson;
+            satelliteData = _loadedJson;
         }
         else
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                if (!File.Exists($"{Settings.DataDir}/amsat-all-frequencies.json"))
+                if (!File.Exists($"{_settings.DataDir}/amsat-all-frequencies.json"))
                 {
-                    DebugWindow.GetInstance().updateDebugContent("未找到json");
+                    DebugWindow.GetInstance().UpdateDebugContent("未找到json");
                     Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
                     return false;
                 }
 
-                satelliteData = File.ReadAllText($"{Settings.DataDir}/amsat-all-frequencies.json");
+                satelliteData = File.ReadAllText($"{_settings.DataDir}/amsat-all-frequencies.json");
             }
             else
             {
                 // 更新都是更新到DATA_DIR，只有当用户没点过更新的话才使用包里附带的
-                if (File.Exists($"{Settings.DataDir}/amsat-all-frequencies.json"))
+                if (File.Exists($"{_settings.DataDir}/amsat-all-frequencies.json"))
                 {
-                    satelliteData = File.ReadAllText($"{Settings.DataDir}/amsat-all-frequencies.json");
+                    satelliteData = File.ReadAllText($"{_settings.DataDir}/amsat-all-frequencies.json");
                 }
                 else if (File.Exists(Path.Join(AppContext.BaseDirectory, "amsat-all-frequencies.json")))
                 {
@@ -101,7 +101,7 @@ public partial class SatelliteHelperWindow : Window
                 }
                 else
                 {
-                    DebugWindow.GetInstance().updateDebugContent("未找到json");
+                    DebugWindow.GetInstance().UpdateDebugContent("未找到json");
                     Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "未找到卫星数据,请点击更新星历！\n"; });
                     return false;
                 }
@@ -110,7 +110,7 @@ public partial class SatelliteHelperWindow : Window
 
         if (string.IsNullOrEmpty(satelliteData))
         {
-            DebugWindow.GetInstance().updateDebugContent("json为空");
+            DebugWindow.GetInstance().UpdateDebugContent("json为空");
             Dispatcher.UIThread.Invoke(() => { return selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
@@ -136,7 +136,7 @@ public partial class SatelliteHelperWindow : Window
         }
         catch (Exception e)
         {
-            DebugWindow.GetInstance().updateDebugContent($"ERR：{e.Message}");
+            DebugWindow.GetInstance().UpdateDebugContent($"ERR：{e.Message}");
             Dispatcher.UIThread.Invoke(() => { selectedSatelliteInfo.Text += "卫星数据无效,请点击更新星历！\n"; });
             return false;
         }
@@ -248,7 +248,7 @@ public partial class SatelliteHelperWindow : Window
         }
         catch (Exception w)
         {
-            DebugWindow.GetInstance().updateDebugContent($"下载出错：{w.Message}，ppxy...");
+            DebugWindow.GetInstance().UpdateDebugContent($"下载出错：{w.Message}，ppxy...");
             Dispatcher.UIThread.Post(() =>
             {
                 selectedSatelliteInfo.Text = $"出错：{w.Message},重试中...";
@@ -269,7 +269,7 @@ public partial class SatelliteHelperWindow : Window
                 Dispatcher.UIThread.Post(() =>
                 {
                     selectedSatelliteInfo.Text = $"出错：{a.Message}...";
-                    DebugWindow.GetInstance().updateDebugContent($"下载出错：{w.Message}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"下载出错：{w.Message}");
                     MessageBoxManager.GetMessageBoxStandard("注意", "更新失败....").ShowWindowDialogAsync(this);
                 });
             }
@@ -447,9 +447,9 @@ public partial class SatelliteHelperWindow : Window
         if (resp.IsSuccessStatusCode)
         {
             if (useMem)
-                loadedJson = resp.Content.ReadAsStringAsync().Result;
+                _loadedJson = resp.Content.ReadAsStringAsync().Result;
             else
-                using (var fs = File.Create($"{Settings.DataDir}/amsat-all-frequencies.json"))
+                using (var fs = File.Create($"{_settings.DataDir}/amsat-all-frequencies.json"))
                 {
                     var stm = resp.Content.ReadAsStream();
                     stm.CopyTo(fs);

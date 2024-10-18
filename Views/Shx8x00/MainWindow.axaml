@@ -156,7 +156,8 @@
                 </Button>
             </StackPanel>
         </Border>
-        <Border Height="25" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
+        <Border Height="25" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"
+                DockPanel.Dock="Bottom">
             <!-- <StackPanel Orientation="Horizontal"> -->
             <!-- <Label Foreground="MediumBlue" Content="{x:Static verConstants:Version.VersionTag}" /> -->
             <!-- <TextBlock Foreground="MediumBlue">|https://github.com/SydneyOwl/senhaix-freq-writer-enhanced|</TextBlock> -->

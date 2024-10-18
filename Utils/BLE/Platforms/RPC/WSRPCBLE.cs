@@ -17,71 +17,71 @@ using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 
-public class WSRPCBLE : IBluetooth
+public class Wsrpcble : IBluetooth
 {
-    private readonly bool manual;
-    private Process rpcClient;
+    private readonly bool _manual;
+    private Process _rpcClient;
 
-    private readonly WSRPCUtil wsrpc;
-    private SETTINGS Settings = SETTINGS.Load();
+    private readonly WsrpcUtil _wsrpc;
+    private Settings _settings = Settings.Load();
 
-    public WSRPCBLE(bool useManual)
+    public Wsrpcble(bool useManual)
     {
-        manual = useManual;
-        wsrpc = WSRPCUtil.GetInstance();
-        wsrpc.StartWSRPC();
+        _manual = useManual;
+        _wsrpc = WsrpcUtil.GetInstance();
+        _wsrpc.StartWsrpc();
     }
 
     // See BLEPlugin.go
     public bool GetBleAvailabilityAsync()
     {
-        if (!manual)
+        if (!_manual)
         {
             var filePath = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Join(AppContext.BaseDirectory, Settings.WindowsBlePluginName);
+                filePath = Path.Join(AppContext.BaseDirectory, _settings.WindowsBlePluginName);
                 if (!File.Exists(filePath))
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = Path.Join(AppContext.BaseDirectory, Settings.LinuxBlePluginName);
+                filePath = Path.Join(AppContext.BaseDirectory, _settings.LinuxBlePluginName);
                 if (!File.Exists(filePath))
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"未找到文件：{filePath}");
                     return false;
                 }
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = Path.Join(AppContext.BaseDirectory, Settings.OsXBlePluginName);
+                filePath = Path.Join(AppContext.BaseDirectory, _settings.OsXBlePluginName);
                 if (!File.Exists(filePath))
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
-                    filePath = $"{Settings.DataDir}/{Settings.OsXBlePluginName}";
+                    DebugWindow.GetInstance().UpdateDebugContent($"未找到文件：{filePath}");
+                    filePath = $"{_settings.DataDir}/{_settings.OsXBlePluginName}";
                     // 在DATADIR里寻找
                     if (!File.Exists(filePath))
                     {
-                        DebugWindow.GetInstance().updateDebugContent($"未找到文件：{filePath}");
+                        DebugWindow.GetInstance().UpdateDebugContent($"未找到文件：{filePath}");
                         return false;
                     }
                 }
             }
 
-            if (rpcClient == null || rpcClient.HasExited)
+            if (_rpcClient == null || _rpcClient.HasExited)
             {
-                rpcClient = new Process
+                _rpcClient = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = filePath,
-                        Arguments = Settings.RpcClientProcessArgs,
+                        Arguments = _settings.RpcClientProcessArgs,
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         StandardOutputEncoding = Encoding.UTF8,
@@ -89,48 +89,48 @@ public class WSRPCBLE : IBluetooth
                         RedirectStandardOutput = true
                     }
                 };
-                rpcClient.OutputDataReceived += (sender, args) =>
+                _rpcClient.OutputDataReceived += (sender, args) =>
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"RPC Server: {args.Data}");
                 };
-                rpcClient.ErrorDataReceived += (sender, args) =>
+                _rpcClient.ErrorDataReceived += (sender, args) =>
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"RPC Server: {args.Data}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"RPC Server: {args.Data}");
                 };
                 try
                 {
-                    if (!rpcClient.Start()) return false;
-                    rpcClient.BeginOutputReadLine();
-                    rpcClient.BeginErrorReadLine();
+                    if (!_rpcClient.Start()) return false;
+                    _rpcClient.BeginOutputReadLine();
+                    _rpcClient.BeginErrorReadLine();
                     //Send keepalive packets
                     // Task.Run(()=>SendKeepAlive(source.Token));
                 }
                 catch (Exception b)
                 {
-                    DebugWindow.GetInstance().updateDebugContent(b.Message);
+                    DebugWindow.GetInstance().UpdateDebugContent(b.Message);
                     return false;
                 }
 
-                DebugWindow.GetInstance().updateDebugContent("RPC Start!");
+                DebugWindow.GetInstance().UpdateDebugContent("RPC Start!");
                 // 等待一秒
                 Thread.Sleep(1000);
             }
         }
 
-        return wsrpc.GetBleAvailability();
+        return _wsrpc.GetBleAvailability();
     }
 
-    public List<GenerticBLEDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
-        bool disableSSIDFilter)
+    public List<GenerticBleDeviceInfo> ScanForShxAsync(bool disableWeakSignalRestriction,
+        bool disableSsidFilter)
     {
-        var result = wsrpc.ScanForShx();
+        var result = _wsrpc.ScanForShx();
         var pattern = @"(\\[^bfrnt\\/'\""])";
         result = Regex.Replace(result, pattern, "\\$1");
-        var bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBLEDeviceInfo>>(result);
-        List<GenerticBLEDeviceInfo> fin = new();
+        var bleDeviceInfo = JsonConvert.DeserializeObject<List<GenerticBleDeviceInfo>>(result);
+        List<GenerticBleDeviceInfo> fin = new();
         foreach (var generticBleDeviceInfo in bleDeviceInfo)
         {
-            if (!disableSSIDFilter &&
+            if (!disableSsidFilter &&
                 generticBleDeviceInfo.DeviceName != BleConst.BtnameShx8800) continue;
             fin.Add(generticBleDeviceInfo);
         }
@@ -140,42 +140,42 @@ public class WSRPCBLE : IBluetooth
 
     public void SetDevice(string seq)
     {
-        wsrpc.SetDevice(seq);
+        _wsrpc.SetDevice(seq);
     }
 
     public bool ConnectShxDeviceAsync()
     {
-        return wsrpc.ConnectShxDevice();
+        return _wsrpc.ConnectShxDevice();
     }
 
     public bool ConnectShxRwCharacteristicAsync()
     {
-        return wsrpc.ConnectShxRwCharacteristic();
+        return _wsrpc.ConnectShxRwCharacteristic();
     }
 
     public bool ConnectShxRwServiceAsync()
     {
-        return wsrpc.ConnectShxRwService();
+        return _wsrpc.ConnectShxRwService();
     }
 
     public void RegisterHid()
     {
-        HidTools.GetInstance().WriteBle = value => { wsrpc.WriteData(value); };
+        HidTools.GetInstance().WriteBle = value => { _wsrpc.WriteData(value); };
     }
 
     public void RegisterSerial()
     {
-        MySerialPort.GetInstance().WriteBle = value => { wsrpc.WriteData(value); };
+        MySerialPort.GetInstance().WriteBle = value => { _wsrpc.WriteData(value); };
     }
 
     public void Dispose()
     {
         try
         {
-            wsrpc.DisposeBluetooth();
-            wsrpc.Shutdown();
-            rpcClient?.CancelErrorRead();
-            rpcClient?.CancelOutputRead();
+            _wsrpc.DisposeBluetooth();
+            _wsrpc.Shutdown();
+            _rpcClient?.CancelErrorRead();
+            _rpcClient?.CancelOutputRead();
         }
         catch
         {
@@ -184,10 +184,10 @@ public class WSRPCBLE : IBluetooth
 
         try
         {
-            rpcClient?.Kill();
+            _rpcClient?.Kill();
             // rpcServer.WaitForExit();
-            rpcClient = null;
-            DebugWindow.GetInstance().updateDebugContent("Killed server!");
+            _rpcClient = null;
+            DebugWindow.GetInstance().UpdateDebugContent("Killed server!");
         }
         catch
         {
@@ -201,7 +201,7 @@ public class WSRPCBLE : IBluetooth
     {
         while (!token.IsCancellationRequested)
         {
-            wsrpc.KeepAlive();
+            _wsrpc.KeepAlive();
             Thread.Sleep(9500);
         }
     }

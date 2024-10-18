@@ -32,14 +32,14 @@
                 <TextBlock Text="仓库" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        
+
         <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="120" Click="AckButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource thank}" Margin="0,0,10,0" />
                 <TextBlock Text="致谢" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        
+
 
         <!-- <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="100" Click="UpdateButton_OnClick"> -->
         <!--     <StackPanel Orientation="Horizontal"> -->

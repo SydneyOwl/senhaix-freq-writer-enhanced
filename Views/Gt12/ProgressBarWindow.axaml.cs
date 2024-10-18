@@ -48,6 +48,7 @@ public partial class ProgressBarWindow : Window
             Close();
             return;
         }
+
         SysFile.CreateBackup(AppData.GetInstance());
 
         _cancelSource = new CancellationTokenSource();
@@ -62,7 +63,7 @@ public partial class ProgressBarWindow : Window
 
     private void Task_Communication(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriFreq Thread: StartWriteGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriFreq Thread: StartWriteGt12");
         var flag = false;
         try
         {
@@ -70,18 +71,18 @@ public partial class ProgressBarWindow : Window
         }
         catch (Exception a)
         {
-            DebugWindow.GetInstance().updateDebugContent(a.Message);
+            DebugWindow.GetInstance().UpdateDebugContent(a.Message);
             // Console.Write(a);
         }
 
         // DebugWindow.GetInstance().updateDebugContent("We've done write!");
         Dispatcher.UIThread.Invoke(() => HandleResult(flag));
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriFreq Thread: StartWriteGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriFreq Thread: StartWriteGt12");
     }
 
     private void Task_Progress(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start GetProcess Thread: GetProcessGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Start GetProcess Thread: GetProcessGt12");
         while (!token.IsCancellationRequested)
         {
             // Thread.Sleep(10);
@@ -91,7 +92,7 @@ public partial class ProgressBarWindow : Window
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.Value);
         }
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate GetProcess Thread: GetProcessGt12");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate GetProcess Thread: GetProcessGt12");
     }
 
     private void HandleResult(bool result)

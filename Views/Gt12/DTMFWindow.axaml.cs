@@ -38,7 +38,7 @@ public partial class DtmfWindow : Window
                 if (string.IsNullOrEmpty(Dtmfs[i].Group) || string.IsNullOrEmpty(Dtmfs[i].GroupName))
                 {
                     args.Cancel = true;
-                    DebugWindow.GetInstance().updateDebugContent("阻止窗口关闭：有空字段");
+                    DebugWindow.GetInstance().UpdateDebugContent("阻止窗口关闭：有空字段");
                     await MessageBoxManager.GetMessageBoxStandard("注意", "未填写完整，不能有为空的字段！")
                         .ShowWindowDialogAsync(this);
                     return;

@@ -16,7 +16,8 @@ namespace SenhaixFreqWriter.Views.Common;
 public partial class SettingsWindow : Window
 {
     // 有空再改
-    public SETTINGS Settings { get; set; } = SETTINGS.Load();
+    public Settings Settings { get; set; } = Settings.Load();
+
     public SettingsWindow()
     {
         InitializeComponent();
@@ -27,17 +28,9 @@ public partial class SettingsWindow : Window
         // rpcURLTextbox.Text = SETTINGS.WS_RPC_URL;
         // dataPathTextbox.Text = SETTINGS.DATA_DIR;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
             btPluginNameTextbox.Text = Settings.WindowsBlePluginName;
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            btPluginNameTextbox.Text = Settings.LinuxBlePluginName;
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            btPluginNameTextbox.Text = Settings.OsXBlePluginName;
-        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) btPluginNameTextbox.Text = Settings.LinuxBlePluginName;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) btPluginNameTextbox.Text = Settings.OsXBlePluginName;
         // btPluginArgsTextbox.Text = SETTINGS.RPC_CLIENT_PROCESS_ARGS;
         DataContext = this;
     }
@@ -58,17 +51,9 @@ public partial class SettingsWindow : Window
         // SETTINGS.DATA_DIR = dataPathTextbox.Text;
         // SETTINGS.RPC_CLIENT_PROCESS_ARGS = btPluginArgsTextbox.Text;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        { 
             Settings.WindowsBlePluginName = btPluginNameTextbox.Text;
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            Settings.LinuxBlePluginName = btPluginNameTextbox.Text;
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            Settings.OsXBlePluginName = btPluginNameTextbox.Text;
-        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) Settings.LinuxBlePluginName = btPluginNameTextbox.Text;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) Settings.OsXBlePluginName = btPluginNameTextbox.Text;
         Settings.Save();
         Close();
     }
@@ -80,10 +65,7 @@ public partial class SettingsWindow : Window
         {
             AllowMultiple = false
         });
-        if (files.Count == 0)
-        {
-            return;
-        }
+        if (files.Count == 0) return;
         Settings.DataDir = files[0].Path.LocalPath;
     }
 
@@ -97,24 +79,18 @@ public partial class SettingsWindow : Window
         try
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
                 Process.Start("explorer.exe", $"\"{Settings.GetBackupPath()}\"");
-            }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
                 Process.Start("nautilus", $"\"{Settings.GetBackupPath()}\"");
-            }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
                 Process.Start("open", $"\"{Settings.GetBackupPath()}\"");
-            }
         }
         catch (Exception ee)
         {
-            MessageBoxManager.GetMessageBoxStandard("注意","打开失败！"+ee.Message).ShowWindowDialogAsync(this);
-            DebugWindow.GetInstance().updateDebugContent(ee.Message);
+            MessageBoxManager.GetMessageBoxStandard("注意", "打开失败！" + ee.Message).ShowWindowDialogAsync(this);
+            DebugWindow.GetInstance().UpdateDebugContent(ee.Message);
         }
     }
 }

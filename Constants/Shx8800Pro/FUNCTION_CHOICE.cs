@@ -16,15 +16,15 @@ public class FunctionChoice
 
     public static ObservableCollection<string> SaveMode = new()
     {
-        "关", "普通省电","超级省电","深度省电"
+        "关", "普通省电", "超级省电", "深度省电"
     };
 
     public static ObservableCollection<string> Vox = new()
     {
         "高灵敏度", "中灵敏度", "低灵敏度"
     };
-    
-    public static ObservableCollection<string> VoiceSW = new()
+
+    public static ObservableCollection<string> VoiceSw = new()
     {
         "关", "开"
     };
@@ -47,7 +47,7 @@ public class FunctionChoice
 
     public static ObservableCollection<string> SideTone = new()
     {
-        "关", "按键侧音","身份码侧音","两者"
+        "关", "按键侧音", "身份码侧音", "两者"
     };
 
     public static ObservableCollection<string> TailClear = new()
@@ -69,7 +69,7 @@ public class FunctionChoice
     {
         "关", "开"
     };
-    
+
     public static ObservableCollection<string> BtMicGain = new()
     {
         "1", "2", "3", "4", "5"
@@ -89,10 +89,10 @@ public class FunctionChoice
     {
         "现场报警", "发射报警音", "发射报警码"
     };
-    
+
     public static ObservableCollection<string> SosVoice = new()
     {
-        "关","开"
+        "关", "开"
     };
 
     public static ObservableCollection<string> KeyLock = new()

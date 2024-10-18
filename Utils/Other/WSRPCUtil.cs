@@ -9,112 +9,112 @@ using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Utils.Other;
 
-public class RPCRequest
+public class RpcRequest
 {
-    public string arg = "";
-    public string method = "";
+    public string Arg = "";
+    public string Method = "";
 }
 
-public class RPCResponse
+public class RpcResponse
 {
-    public string error = "";
-    public string response = "";
+    public string Error = "";
+    public string Response = "";
 }
 
-public class WSRPCUtil
+public class WsrpcUtil
 {
-    private static WSRPCUtil instance;
-    private IWebSocketConnection currentClient;
-    private readonly Queue<string> NormalDataQueue = new();
-    private WebSocketServer wsServer;
-    private SETTINGS Settings = SETTINGS.Load();
-    
+    private static WsrpcUtil _instance;
+    private IWebSocketConnection _currentClient;
+    private readonly Queue<string> _normalDataQueue = new();
+    private WebSocketServer _wsServer;
+    private Settings _settings = Settings.Load();
 
-    public WSRPCUtil()
+
+    public WsrpcUtil()
     {
         FleckLog.LogAction = (level, message, ex) =>
         {
-            if (level > LogLevel.Info) DebugWindow.GetInstance().updateDebugContent(message);
+            if (level > LogLevel.Info) DebugWindow.GetInstance().UpdateDebugContent(message);
         };
         // StartWSRPC();
     }
 
-    public static WSRPCUtil GetInstance()
+    public static WsrpcUtil GetInstance()
     {
-        if (instance == null) instance = new WSRPCUtil();
+        if (_instance == null) _instance = new WsrpcUtil();
 
-        return instance;
+        return _instance;
     }
 
-    private string SendRPCRequest(string method, string arg)
+    private string SendRpcRequest(string method, string arg)
     {
-        var data = JsonConvert.SerializeObject(new RPCRequest
+        var data = JsonConvert.SerializeObject(new RpcRequest
         {
-            method = method,
-            arg = arg
+            Method = method,
+            Arg = arg
         });
-        var exc = currentClient.Send(data).Exception;
+        var exc = _currentClient.Send(data).Exception;
         if (exc != null) throw exc;
-        while (NormalDataQueue.Count == 0) Thread.Sleep(10);
-        var responseBody = NormalDataQueue.Dequeue();
-        var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
-        if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
-        return resp.response;
+        while (_normalDataQueue.Count == 0) Thread.Sleep(10);
+        var responseBody = _normalDataQueue.Dequeue();
+        var resp = JsonConvert.DeserializeObject<RpcResponse>(responseBody);
+        if (!string.IsNullOrEmpty(resp.Error)) throw new Exception(resp.Error);
+        return resp.Response;
     }
 
-    private void SendRPCRequest(byte[] arg)
+    private void SendRpcRequest(byte[] arg)
     {
-        var exc = currentClient.Send(arg).Exception;
+        var exc = _currentClient.Send(arg).Exception;
         if (exc != null) throw exc;
-        while (NormalDataQueue.Count == 0) Thread.Sleep(10);
-        var responseBody = NormalDataQueue.Dequeue();
-        var resp = JsonConvert.DeserializeObject<RPCResponse>(responseBody);
-        if (!string.IsNullOrEmpty(resp.error)) throw new Exception(resp.error);
+        while (_normalDataQueue.Count == 0) Thread.Sleep(10);
+        var responseBody = _normalDataQueue.Dequeue();
+        var resp = JsonConvert.DeserializeObject<RpcResponse>(responseBody);
+        if (!string.IsNullOrEmpty(resp.Error)) throw new Exception(resp.Error);
     }
 
-    public void StartWSRPC()
+    public void StartWsrpc()
     {
         // wsServer?.Dispose();
         // currentClient = null;
-        if (wsServer != null)
+        if (_wsServer != null)
         {
-            DebugWindow.GetInstance().updateDebugContent("ws已启动过！");
+            DebugWindow.GetInstance().UpdateDebugContent("ws已启动过！");
             return;
         }
 
         try
         {
-            wsServer = new WebSocketServer(Settings.WsRpcUrl);
-            wsServer.Start(socket =>
+            _wsServer = new WebSocketServer(_settings.WsRpcUrl);
+            _wsServer.Start(socket =>
             {
                 socket.OnOpen = () =>
                 {
-                    if (currentClient != null)
+                    if (_currentClient != null)
                     {
-                        DebugWindow.GetInstance().updateDebugContent("拒绝连接");
+                        DebugWindow.GetInstance().UpdateDebugContent("拒绝连接");
                         socket.Close();
                         return;
                     }
 
-                    currentClient = socket;
-                    currentClient.OnError = err =>
+                    _currentClient = socket;
+                    _currentClient.OnError = err =>
                     {
-                        DebugWindow.GetInstance().updateDebugContent($"出错:{err.Message}");
-                        currentClient.Close();
-                        currentClient = null;
+                        DebugWindow.GetInstance().UpdateDebugContent($"出错:{err.Message}");
+                        _currentClient.Close();
+                        _currentClient = null;
                     };
-                    currentClient.OnClose = () =>
+                    _currentClient.OnClose = () =>
                     {
-                        DebugWindow.GetInstance().updateDebugContent($"客户端已断开:{socket.ConnectionInfo.Id}");
-                        currentClient.Close();
-                        currentClient = null;
+                        DebugWindow.GetInstance().UpdateDebugContent($"客户端已断开:{socket.ConnectionInfo.Id}");
+                        _currentClient.Close();
+                        _currentClient = null;
                     };
-                    currentClient.OnMessage = msg =>
+                    _currentClient.OnMessage = msg =>
                     {
                         // DebugWindow.GetInstance().updateDebugContent($"OnMessage Recv:{msg}");
-                        NormalDataQueue.Enqueue(msg);
+                        _normalDataQueue.Enqueue(msg);
                     };
-                    currentClient.OnBinary = data =>
+                    _currentClient.OnBinary = data =>
                     {
                         // DebugWindow.GetInstance().updateDebugContent($"OnBinary Recv:{BitConverter.ToString(data)}");
                         if (data == null) return;
@@ -124,77 +124,77 @@ public class WSRPCUtil
                             MySerialPort.GetInstance().RxData.Enqueue(tmp);
                         }
                     };
-                    DebugWindow.GetInstance().updateDebugContent($"客户端已连接:{socket.ConnectionInfo.Id}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"客户端已连接:{socket.ConnectionInfo.Id}");
                 };
             });
 
-            DebugWindow.GetInstance().updateDebugContent("ws已启动！");
+            DebugWindow.GetInstance().UpdateDebugContent("ws已启动！");
         }
         catch (Exception b)
         {
-            DebugWindow.GetInstance().updateDebugContent($"启动WS服务器失败：{b.Message}");
+            DebugWindow.GetInstance().UpdateDebugContent($"启动WS服务器失败：{b.Message}");
         }
     }
 
     public bool GetBleAvailability()
     {
-        var resp = SendRPCRequest("GetBleAvailability", "");
+        var resp = SendRpcRequest("GetBleAvailability", "");
         return resp == "True";
     }
 
     public string ScanForShx()
     {
-        var resp = SendRPCRequest("ScanForShx", "");
+        var resp = SendRpcRequest("ScanForShx", "");
         return resp;
     }
 
     public void SetDevice(string seq)
     {
-        SendRPCRequest("SetDevice", seq);
+        SendRpcRequest("SetDevice", seq);
     }
 
     public bool ConnectShxDevice()
     {
-        return SendRPCRequest("ConnectShxDevice", "") == "True";
+        return SendRpcRequest("ConnectShxDevice", "") == "True";
     }
 
     public bool ConnectShxRwService()
     {
-        return SendRPCRequest("ConnectShxRwService", "") == "True";
+        return SendRpcRequest("ConnectShxRwService", "") == "True";
     }
 
     public bool ConnectShxRwCharacteristic()
     {
-        return SendRPCRequest("ConnectShxRwCharacteristic", "") == "True";
+        return SendRpcRequest("ConnectShxRwCharacteristic", "") == "True";
     }
 
     public bool WriteData(byte[] data)
     {
-        SendRPCRequest(data);
+        SendRpcRequest(data);
         return true;
     }
 
     public void DisposeBluetooth()
     {
-        SendRPCRequest("DisposeBluetooth", "");
+        SendRpcRequest("DisposeBluetooth", "");
     }
 
     // deprecated
     public void KeepAlive()
     {
-        SendRPCRequest("KeepAlive", "");
+        SendRpcRequest("KeepAlive", "");
     }
 
     public void TerminatePlugin()
     {
-        SendRPCRequest("TerminatePlugin", "");
+        SendRpcRequest("TerminatePlugin", "");
     }
 
     public void Shutdown()
     {
-        currentClient?.Close();
+        _currentClient?.Close();
         // wsServer?.Dispose();
         // wsServer = null;
-        currentClient = null;
+        _currentClient = null;
     }
 }

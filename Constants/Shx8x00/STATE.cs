@@ -16,17 +16,17 @@ public enum State
 // 新版8600写开机画面
 public enum NImgStep
 {
-    Step_HandShake_Jump1,
-    Step_HandShake_Jump2,
-    Step_HandShake_Jump3,
-    Step_HandShake_Jump4,
-    Step_HandShake,
-    Step_SetFontAddress,
-    Step_SetImageAddress,
-    Step_SetVoiceAddress,
-    Step_Erase,
-    Step_Data,
-    Step_Receive_1,
-    Step_Receive_2,
-    Step_Over
+    StepHandShakeJump1,
+    StepHandShakeJump2,
+    StepHandShakeJump3,
+    StepHandShakeJump4,
+    StepHandShake,
+    StepSetFontAddress,
+    StepSetImageAddress,
+    StepSetVoiceAddress,
+    StepErase,
+    StepData,
+    StepReceive1,
+    StepReceive2,
+    StepOver
 }

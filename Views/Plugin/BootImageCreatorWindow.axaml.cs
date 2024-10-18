@@ -22,44 +22,44 @@ namespace SenhaixFreqWriter.Views.Plugin;
 
 public partial class BootImageCreatorWindow : Window
 {
-    private readonly SHX_DEVICE _dev;
+    private readonly ShxDevice _dev;
 
     private bool _stopUpdate;
 
-    private readonly List<BootImgCreatorFontComponent> controls = new();
+    private readonly List<BootImgCreatorFontComponent> _controls = new();
 
     public Bitmap CreatedAvaloniaBitmap;
     public SKBitmap CreatedBitmap;
 
-    private int currentRow = 1;
+    private int _currentRow = 1;
 
-    private int lastRowCount = 1;
+    private int _lastRowCount = 1;
 
-    public BootImageCreatorWindow(SHX_DEVICE device)
+    public BootImageCreatorWindow(ShxDevice device)
     {
         _dev = device;
         switch (_dev)
         {
-            case SHX_DEVICE.SHX8600PRO:
-            case SHX_DEVICE.SHX8800PRO:
-            case SHX_DEVICE.SHX8600:
-            case SHX_DEVICE.SHX8800:
-                BootImgWidth = OTHERS.BOOT_IMG_WIDTH;
-                BootImgHeight = OTHERS.BOOT_IMG_HEIGHT;
+            case ShxDevice.Shx8600Pro:
+            case ShxDevice.Shx8800Pro:
+            case ShxDevice.Shx8600:
+            case ShxDevice.Shx8800:
+                BootImgWidth = Others.BootImgWidth;
+                BootImgHeight = Others.BootImgHeight;
                 WindowHeight = 500;
                 break;
-            case SHX_DEVICE.GT12:
-                BootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
-                BootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
+            case ShxDevice.Gt12:
+                BootImgWidth = Constants.Gt12.Others.BootImgWidth;
+                BootImgHeight = Constants.Gt12.Others.BootImgHeight;
                 WindowHeight = 390;
                 break;
         }
 
-        DebugWindow.GetInstance().updateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
+        DebugWindow.GetInstance().UpdateDebugContent($"尺寸：{BootImgWidth}*{BootImgHeight}");
         InitializeFont();
         InitializeComponent();
         //TMPLLA
-        DebugWindow.GetInstance().updateDebugContent("添加控件");
+        DebugWindow.GetInstance().UpdateDebugContent("添加控件");
         var compControl = this.FindControl<BootImgCreatorFontComponent>("CreatorComponent");
         compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent, (a, b) => UpdatePreview(compControl),
             RoutingStrategies.Bubble);
@@ -67,15 +67,15 @@ public partial class BootImageCreatorWindow : Window
             RoutingStrategies.Bubble);
         compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent, (a, b) => AddText(compControl),
             RoutingStrategies.Bubble);
-        controls.Add(compControl);
+        _controls.Add(compControl);
         DataContext = this;
     }
 
     // Designer
     public BootImageCreatorWindow()
     {
-        BootImgWidth = Constants.Gt12.OTHERS.BOOT_IMG_WIDTH;
-        BootImgHeight = Constants.Gt12.OTHERS.BOOT_IMG_HEIGHT;
+        BootImgWidth = Constants.Gt12.Others.BootImgWidth;
+        BootImgHeight = Constants.Gt12.Others.BootImgHeight;
         WindowHeight = 500;
         InitializeFont();
         InitializeComponent();
@@ -87,44 +87,44 @@ public partial class BootImageCreatorWindow : Window
     public int BootImgWidth { get; set; }
     public int BootImgHeight { get; set; }
     public int WindowHeight { get; set; }
-    public float defaultY { get; set; }
+    public float DefaultY { get; set; }
 
-    public ObservableCollection<string> fontList { get; set; } = new();
+    public ObservableCollection<string> FontList { get; set; } = new();
 
-    public ObservableCollection<string> fontStyleList { get; set; } = new();
+    public ObservableCollection<string> FontStyleList { get; set; } = new();
 
     private void InitializeFont()
     {
         //手动加入中文字体...
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            fontList.Add("华文宋体");
-            fontList.Add("华文黑体");
-            fontList.Add("华文楷体");
-            fontList.Add("华文仿宋");
+            FontList.Add("华文宋体");
+            FontList.Add("华文黑体");
+            FontList.Add("华文楷体");
+            FontList.Add("华文仿宋");
         }
         else
         {
-            fontList.Add("宋体");
-            fontList.Add("黑体");
-            fontList.Add("楷体");
-            fontList.Add("仿宋");
+            FontList.Add("宋体");
+            FontList.Add("黑体");
+            FontList.Add("楷体");
+            FontList.Add("仿宋");
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            DebugWindow.GetInstance().updateDebugContent("Windows: ->InstalledFontCollection");
+            DebugWindow.GetInstance().UpdateDebugContent("Windows: ->InstalledFontCollection");
             var fonts = new InstalledFontCollection();
-            foreach (var family in fonts.Families) fontList.Add(family.Name);
+            foreach (var family in fonts.Families) FontList.Add(family.Name);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             // can't fetch list directly from macos syscall...
             // maybe insert list directly
         {
-            DebugWindow.GetInstance().updateDebugContent("macOS: ->OSX_AVAILABLE_FONTS.OSX_FONT_LIST");
-            foreach (var se in OSX_OPTIONS.OSX_FONT_LIST)
-                fontList.Add(se);
+            DebugWindow.GetInstance().UpdateDebugContent("macOS: ->OSX_AVAILABLE_FONTS.OSX_FONT_LIST");
+            foreach (var se in OsxOptions.OsxFontList)
+                FontList.Add(se);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -141,30 +141,30 @@ public partial class BootImageCreatorWindow : Window
                 using (var reader = process.StandardOutput)
                 {
                     string line;
-                    while ((line = reader.ReadLine()) != null) fontList.Add(line.Trim());
+                    while ((line = reader.ReadLine()) != null) FontList.Add(line.Trim());
                 }
 
                 process.WaitForExit();
                 if (process.ExitCode != 0)
                 {
-                    DebugWindow.GetInstance().updateDebugContent($"Linux获取字体失败,输出：{fontList[0]}");
+                    DebugWindow.GetInstance().UpdateDebugContent($"Linux获取字体失败,输出：{FontList[0]}");
                     MessageBoxManager.GetMessageBoxStandard("注意", "获取字体失败!").ShowWindowDialogAsync(this);
-                    fontList.Clear();
+                    FontList.Clear();
                 }
             }
             catch (Exception ex)
             {
-                DebugWindow.GetInstance().updateDebugContent($"Linux获取字体失败：{ex.Message}");
+                DebugWindow.GetInstance().UpdateDebugContent($"Linux获取字体失败：{ex.Message}");
                 MessageBoxManager.GetMessageBoxStandard("注意", $"获取字体失败!{ex.Message}").ShowWindowDialogAsync(this);
             }
         }
 
-        fontStyleList.Add("正常");
-        fontStyleList.Add("加粗");
-        fontStyleList.Add("斜体");
-        fontStyleList.Add("加粗斜体");
+        FontStyleList.Add("正常");
+        FontStyleList.Add("加粗");
+        FontStyleList.Add("斜体");
+        FontStyleList.Add("加粗斜体");
 
-        defaultY = BootImgHeight / 2;
+        DefaultY = BootImgHeight / 2;
     }
 
     private void UpdatePreview(BootImgCreatorFontComponent comp, bool resetCenter = false)
@@ -178,7 +178,7 @@ public partial class BootImageCreatorWindow : Window
             canvas.DrawColor(backColor);
             using (var sKPaint = new SKPaint())
             {
-                foreach (var cmp in controls)
+                foreach (var cmp in _controls)
                 {
                     var inputed = cmp.call.Text;
                     var fontColor = cmp.font.Color.ToSKColor();
@@ -341,12 +341,12 @@ public partial class BootImageCreatorWindow : Window
             }
             catch (UnauthorizedAccessException)
             {
-                DebugWindow.GetInstance().updateDebugContent("UNAUTHORIAZED");
+                DebugWindow.GetInstance().UpdateDebugContent("UNAUTHORIAZED");
                 MessageBoxManager.GetMessageBoxStandard("注意", "目标目录无写权限，无法写入！").ShowWindowDialogAsync(this);
             }
             catch (Exception f)
             {
-                DebugWindow.GetInstance().updateDebugContent($"{f.Message}");
+                DebugWindow.GetInstance().UpdateDebugContent($"{f.Message}");
                 MessageBoxManager.GetMessageBoxStandard("注意", "出错！").ShowWindowDialogAsync(this);
             }
     }
@@ -357,14 +357,14 @@ public partial class BootImageCreatorWindow : Window
         var newRowDefinition = new RowDefinition { Height = GridLength.Auto };
         fullGrid.RowDefinitions.Add(newRowDefinition);
         var compControl = new BootImgCreatorFontComponent();
-        if (++lastRowCount % 4 == 0)
+        if (++_lastRowCount % 4 == 0)
         {
-            lastRowCount = 1;
-            currentRow += 1;
+            _lastRowCount = 1;
+            _currentRow += 1;
         }
 
-        Grid.SetRow(compControl, currentRow);
-        Grid.SetColumn(compControl, lastRowCount);
+        Grid.SetRow(compControl, _currentRow);
+        Grid.SetColumn(compControl, _lastRowCount);
         fullGrid.Children.Add(compControl);
         compControl.AddHandler(BootImgCreatorFontComponent.UpdateEvent, (a, b) => UpdatePreview(null),
             RoutingStrategies.Bubble);
@@ -372,7 +372,7 @@ public partial class BootImageCreatorWindow : Window
             RoutingStrategies.Bubble);
         compControl.AddHandler(BootImgCreatorFontComponent.AddTextEvent, (a, b) => AddText(compControl),
             RoutingStrategies.Bubble);
-        controls.Add(compControl);
-        DebugWindow.GetInstance().updateDebugContent($"新增子元素：BootImgCreatorC，行{currentRow}，列{lastRowCount}");
+        _controls.Add(compControl);
+        DebugWindow.GetInstance().UpdateDebugContent($"新增子元素：BootImgCreatorC，行{_currentRow}，列{_lastRowCount}");
     }
 }

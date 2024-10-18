@@ -40,7 +40,7 @@ public class ChanChoice
         "No"
     };
 
-    public static ObservableCollection<string> TxPwr_NewShx8600 = new()
+    public static ObservableCollection<string> TxPwrNewShx8600 = new()
     {
         "L",
         "M",

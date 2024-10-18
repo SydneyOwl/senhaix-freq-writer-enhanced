@@ -1,7 +1,7 @@
 ﻿namespace SenhaixFreqWriter.Constants.Gt12;
 
-public class OTHERS
+public class Others
 {
-    public static int BOOT_IMG_WIDTH = 240;
-    public static int BOOT_IMG_HEIGHT = 320;
+    public static int BootImgWidth = 240;
+    public static int BootImgHeight = 320;
 }

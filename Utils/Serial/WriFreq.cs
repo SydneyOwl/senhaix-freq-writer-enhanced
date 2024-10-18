@@ -533,11 +533,11 @@ internal class WriFreq
                         }
                         else if (EepAddr == 6720)
                         {
-                            var array5 = SetDataVfoFreq(_theRadioData.FunCfgData.TBACurFreq);
-                            var array6 = SetDataVfoqt(_theRadioData.FunCfgData.CbBARxQt,
-                                _theRadioData.FunCfgData.CbBATxQt);
+                            var array5 = SetDataVfoFreq(_theRadioData.FunCfgData.TBaCurFreq);
+                            var array6 = SetDataVfoqt(_theRadioData.FunCfgData.CbBaRxQt,
+                                _theRadioData.FunCfgData.CbBaTxQt);
                             var array7 = SetDataVfoCfgA(_theRadioData);
-                            var array8 = SetDataVfoRemainFreq(_theRadioData.FunCfgData.TBARemainFreq);
+                            var array8 = SetDataVfoRemainFreq(_theRadioData.FunCfgData.TBaRemainFreq);
                             for (var l = 0; l < 4; l++)
                             {
                                 array[l + 4] = array5[l];
@@ -550,11 +550,11 @@ internal class WriFreq
                         }
                         else if (EepAddr == 6752)
                         {
-                            var array9 = SetDataVfoFreq(_theRadioData.FunCfgData.TBBCurFreq);
-                            var array10 = SetDataVfoqt(_theRadioData.FunCfgData.CbBBRxQt,
-                                _theRadioData.FunCfgData.CbBBTxQt);
+                            var array9 = SetDataVfoFreq(_theRadioData.FunCfgData.TBbCurFreq);
+                            var array10 = SetDataVfoqt(_theRadioData.FunCfgData.CbBbRxQt,
+                                _theRadioData.FunCfgData.CbBbTxQt);
                             var array11 = SetDataVfoCfgB(_theRadioData);
-                            var array12 = SetDataVfoRemainFreq(_theRadioData.FunCfgData.TBBRemainFreq);
+                            var array12 = SetDataVfoRemainFreq(_theRadioData.FunCfgData.TBbRemainFreq);
                             for (var num2 = 0; num2 < 4; num2++)
                             {
                                 array[num2 + 4] = array9[num2];
@@ -1212,46 +1212,46 @@ internal class WriFreq
     private byte[] SetDataVfoCfgA(ClassTheRadioData theRadioData)
     {
         var array = new byte[6] { 0, 0, 0, 0, 0, 0 };
-        if (theRadioData.FunCfgData.CbBARemainDir != 0)
+        if (theRadioData.FunCfgData.CbBaRemainDir != 0)
         {
-            if (theRadioData.FunCfgData.CbBARemainDir == 1)
+            if (theRadioData.FunCfgData.CbBaRemainDir == 1)
                 array[0] = 16;
             else
                 array[0] = 32;
         }
 
         array[0] &= 240;
-        array[0] += (byte)theRadioData.FunCfgData.CbBASignalingEnCoder;
+        array[0] += (byte)theRadioData.FunCfgData.CbBaSignalingEnCoder;
         array[1] = 0;
-        array[2] = (byte)theRadioData.FunCfgData.CbBAPower;
+        array[2] = (byte)theRadioData.FunCfgData.CbBaPower;
         array[3] = 0;
-        if (theRadioData.FunCfgData.CbBAChBand == 1) array[3] |= 64;
-        if (theRadioData.FunCfgData.CbBAFhss == 1) array[3] |= 1;
-        array[4] = (byte)theRadioData.FunCfgData.CbBABand;
-        array[5] = (byte)theRadioData.FunCfgData.CbBAFreqStep;
+        if (theRadioData.FunCfgData.CbBaChBand == 1) array[3] |= 64;
+        if (theRadioData.FunCfgData.CbBaFhss == 1) array[3] |= 1;
+        array[4] = (byte)theRadioData.FunCfgData.CbBaBand;
+        array[5] = (byte)theRadioData.FunCfgData.CbBaFreqStep;
         return array;
     }
 
     private byte[] SetDataVfoCfgB(ClassTheRadioData theRadioData)
     {
         var array = new byte[6] { 0, 0, 0, 0, 0, 0 };
-        if (theRadioData.FunCfgData.CbBBRemainDir != 0)
+        if (theRadioData.FunCfgData.CbBbRemainDir != 0)
         {
-            if (theRadioData.FunCfgData.CbBBRemainDir == 1)
+            if (theRadioData.FunCfgData.CbBbRemainDir == 1)
                 array[0] = 16;
             else
                 array[0] = 32;
         }
 
         array[0] &= 240;
-        array[0] += (byte)theRadioData.FunCfgData.CbBBSignalingEnCoder;
+        array[0] += (byte)theRadioData.FunCfgData.CbBbSignalingEnCoder;
         array[1] = 0;
-        array[2] = (byte)theRadioData.FunCfgData.CbBBPower;
+        array[2] = (byte)theRadioData.FunCfgData.CbBbPower;
         array[3] = 0;
-        if (theRadioData.FunCfgData.CbBBChBand == 1) array[3] |= 64;
-        if (theRadioData.FunCfgData.CbBBFhss == 1) array[3] |= 1;
-        array[4] = (byte)theRadioData.FunCfgData.CbBBBand;
-        array[5] = (byte)theRadioData.FunCfgData.CbBBFreqStep;
+        if (theRadioData.FunCfgData.CbBbChBand == 1) array[3] |= 64;
+        if (theRadioData.FunCfgData.CbBbFhss == 1) array[3] |= 1;
+        array[4] = (byte)theRadioData.FunCfgData.CbBbBand;
+        array[5] = (byte)theRadioData.FunCfgData.CbBbFreqStep;
         return array;
     }
 
@@ -1653,18 +1653,18 @@ internal class WriFreq
             dat2[10]
         };
         var array = new string[2];
-        theRadioData.FunCfgData.TBACurFreq = GetVFO_CurFreq(dat3);
+        theRadioData.FunCfgData.TBaCurFreq = GetVFO_CurFreq(dat3);
         array = GetVF0_QTImf(dat4);
-        theRadioData.FunCfgData.CbBARxQt = array[0];
-        theRadioData.FunCfgData.CbBATxQt = array[1];
-        theRadioData.FunCfgData.CbBARemainDir = GetVFO_DirOfRemainFreq(dat[14]);
-        theRadioData.FunCfgData.CbBASignalingEnCoder = GetVFO_SignalingCode(dat[14]);
-        theRadioData.FunCfgData.CbBAPower = dat2[0];
-        theRadioData.FunCfgData.CbBAChBand = GetVFO_BandWide(dat2[1]);
-        theRadioData.FunCfgData.CbBAFhss = GetVFO_Fhss(dat2[1]);
-        theRadioData.FunCfgData.CbBABand = dat2[2];
-        theRadioData.FunCfgData.CbBAFreqStep = dat2[3] % 8;
-        theRadioData.FunCfgData.TBARemainFreq = GetVFO_RemainFreq(dat5);
+        theRadioData.FunCfgData.CbBaRxQt = array[0];
+        theRadioData.FunCfgData.CbBaTxQt = array[1];
+        theRadioData.FunCfgData.CbBaRemainDir = GetVFO_DirOfRemainFreq(dat[14]);
+        theRadioData.FunCfgData.CbBaSignalingEnCoder = GetVFO_SignalingCode(dat[14]);
+        theRadioData.FunCfgData.CbBaPower = dat2[0];
+        theRadioData.FunCfgData.CbBaChBand = GetVFO_BandWide(dat2[1]);
+        theRadioData.FunCfgData.CbBaFhss = GetVFO_Fhss(dat2[1]);
+        theRadioData.FunCfgData.CbBaBand = dat2[2];
+        theRadioData.FunCfgData.CbBaFreqStep = dat2[3] % 8;
+        theRadioData.FunCfgData.TBaRemainFreq = GetVFO_RemainFreq(dat5);
     }
 
     private void GetVFO_B_Parameter(ClassTheRadioData theRadioData, byte[] dat, byte[] dat2)
@@ -1698,18 +1698,18 @@ internal class WriFreq
             dat2[10]
         };
         var array = new string[2];
-        theRadioData.FunCfgData.TBBCurFreq = GetVFO_CurFreq(dat3);
+        theRadioData.FunCfgData.TBbCurFreq = GetVFO_CurFreq(dat3);
         array = GetVF0_QTImf(dat4);
-        theRadioData.FunCfgData.CbBBRxQt = array[0];
-        theRadioData.FunCfgData.CbBBTxQt = array[1];
-        theRadioData.FunCfgData.CbBBRemainDir = GetVFO_DirOfRemainFreq(dat[14]);
-        theRadioData.FunCfgData.CbBBSignalingEnCoder = GetVFO_SignalingCode(dat[14]);
-        theRadioData.FunCfgData.CbBBPower = dat2[0];
-        theRadioData.FunCfgData.CbBBChBand = GetVFO_BandWide(dat2[1]);
-        theRadioData.FunCfgData.CbBBFhss = GetVFO_Fhss(dat2[1]);
-        theRadioData.FunCfgData.CbBBBand = dat2[2];
-        theRadioData.FunCfgData.CbBBFreqStep = dat2[3] % 8;
-        theRadioData.FunCfgData.TBBRemainFreq = GetVFO_RemainFreq(dat5);
+        theRadioData.FunCfgData.CbBbRxQt = array[0];
+        theRadioData.FunCfgData.CbBbTxQt = array[1];
+        theRadioData.FunCfgData.CbBbRemainDir = GetVFO_DirOfRemainFreq(dat[14]);
+        theRadioData.FunCfgData.CbBbSignalingEnCoder = GetVFO_SignalingCode(dat[14]);
+        theRadioData.FunCfgData.CbBbPower = dat2[0];
+        theRadioData.FunCfgData.CbBbChBand = GetVFO_BandWide(dat2[1]);
+        theRadioData.FunCfgData.CbBbFhss = GetVFO_Fhss(dat2[1]);
+        theRadioData.FunCfgData.CbBbBand = dat2[2];
+        theRadioData.FunCfgData.CbBbFreqStep = dat2[3] % 8;
+        theRadioData.FunCfgData.TBbRemainFreq = GetVFO_RemainFreq(dat5);
     }
 
     private short HexToInt(byte data)

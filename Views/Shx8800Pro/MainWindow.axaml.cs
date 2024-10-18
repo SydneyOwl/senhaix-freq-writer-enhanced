@@ -34,17 +34,17 @@ public partial class MainWindow : Window
 
     public int CurrentArea;
 
-    private CancellationTokenSource cancelTips;
-    
-    private CancellationTokenSource cancelBackup;
+    private CancellationTokenSource _cancelTips;
+
+    private CancellationTokenSource _cancelBackup;
 
     public MainWindow()
     {
         InitializeComponent();
-        cancelTips = new CancellationTokenSource();
-        cancelBackup = new CancellationTokenSource();
-        Task.Run(() => updateTips(cancelTips.Token));
-        Task.Run(() => updateBackup(cancelBackup.Token));
+        _cancelTips = new CancellationTokenSource();
+        _cancelBackup = new CancellationTokenSource();
+        Task.Run(() => UpdateTips(_cancelTips.Token));
+        Task.Run(() => UpdateBackup(_cancelBackup.Token));
         DataContext = this;
         SetArea(0);
         ListItems.CollectionChanged += CollectionChangedHandler;
@@ -53,22 +53,24 @@ public partial class MainWindow : Window
 
     public ObservableCollection<Channel> ListItems { get; set; } = new();
 
-    private async void updateTips(CancellationToken token)
+    private async void UpdateTips(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = TIPS.TipList[new Random().Next(TIPS.TipList.Count)]; });
+            Dispatcher.UIThread.Invoke(() => { tipBlock.Text = Tips.TipList[new Random().Next(Tips.TipList.Count)]; });
             await Task.Delay(5000, CancellationToken.None);
         }
     }
-    private async void updateBackup(CancellationToken token)
+
+    private async void UpdateBackup(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
             SysFile.CreateBackup(AppData.GetInstance());
-            await Task.Delay(SETTINGS.Load().BackupInterval*1000, CancellationToken.None);
+            await Task.Delay(Settings.Load().BackupInterval * 1000, CancellationToken.None);
         }
     }
+
     private void About_OnClick(object? sender, RoutedEventArgs e)
     {
         var aboutWindow = new AboutWindow();
@@ -467,7 +469,7 @@ public partial class MainWindow : Window
 
     private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BootImageImportWindow(SHX_DEVICE.SHX8800PRO).ShowDialog(this);
+        new BootImageImportWindow(ShxDevice.Shx8800Pro).ShowDialog(this);
     }
 
     private void SatMenuItem_OnClick(object? sender, RoutedEventArgs e)
@@ -509,13 +511,15 @@ public partial class MainWindow : Window
     {
         DebugWindow.GetInstance().Show();
     }
+
     private void portSel_OnClick(object? sender, RoutedEventArgs e)
     {
         new PortSelectionWindow().ShowDialog(this);
     }
+
     private void MenuConnectBT_OnClick(object? sender, RoutedEventArgs e)
     {
-        new BluetoothDeviceSelectionWindow(SHX_DEVICE.SHX8800PRO).ShowDialog(this);
+        new BluetoothDeviceSelectionWindow(ShxDevice.Shx8800Pro).ShowDialog(this);
     }
 
     private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)

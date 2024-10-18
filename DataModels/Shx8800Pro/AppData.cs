@@ -13,15 +13,15 @@ public class AppData : IBackupable
 
     public string[] BankName = new string[8]
     {
-        "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八",
-    };//
+        "区域一", "区域二", "区域三", "区域四", "区域五", "区域六", "区域七", "区域八"
+    }; //
 
-    public Channel[][] ChannelList = new Channel[8][];//
-    public Dtmf Dtmfs = new();//
-    public FmChannel Fms = new();//
-    public Function FunCfgs = new();//
-    public Mdc1200 Mdcs = new();//
-    public VfoInfos Vfos = new();//
+    public Channel[][] ChannelList = new Channel[8][]; //
+    public Dtmf Dtmfs = new(); //
+    public FmChannel Fms = new(); //
+    public Function FunCfgs = new(); //
+    public Mdc1200 Mdcs = new(); //
+    public VfoInfos Vfos = new(); //
 
     public AppData()
     {

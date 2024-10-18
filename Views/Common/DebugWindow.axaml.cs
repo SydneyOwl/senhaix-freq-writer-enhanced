@@ -10,14 +10,14 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class DebugWindow : Window
 {
-    private static DebugWindow instance;
+    private static DebugWindow _instance;
 
     private DebugWindow()
     {
         InitializeComponent();
-        updateDebugContent("开始调试");
-        updateDebugContent($"操作系统：{Environment.OSVersion}");
-        updateDebugContent($"是否64位：{Environment.Is64BitOperatingSystem}");
+        UpdateDebugContent("开始调试");
+        UpdateDebugContent($"操作系统：{Environment.OSVersion}");
+        UpdateDebugContent($"是否64位：{Environment.Is64BitOperatingSystem}");
         Closing += (sender, args) =>
         {
             args.Cancel = true;
@@ -36,7 +36,7 @@ public partial class DebugWindow : Window
         base.Show();
     }
 
-    public void updateDebugContent(string content)
+    public void UpdateDebugContent(string content)
     {
         Dispatcher.UIThread.Invoke(() =>
         {
@@ -47,21 +47,21 @@ public partial class DebugWindow : Window
 
     public static DebugWindow GetInstance()
     {
-        if (instance == null) instance = new DebugWindow();
+        if (_instance == null) _instance = new DebugWindow();
 
-        return instance;
+        return _instance;
     }
 
     public static DebugWindow GetNewInstance()
     {
-        instance?.Close();
-        instance = new DebugWindow();
-        return instance;
+        _instance?.Close();
+        _instance = new DebugWindow();
+        return _instance;
     }
 
     public static bool HasInstance()
     {
-        return instance != null;
+        return _instance != null;
     }
 
     private async void LogSaveInputElement_OnDoubleTapped(object? sender, TappedEventArgs e)
@@ -78,7 +78,7 @@ public partial class DebugWindow : Window
             var filePath = new Uri(file.Path.ToString()).LocalPath;
             try
             {
-                File.WriteAllText(filePath, instance.tbContent.Text);
+                File.WriteAllText(filePath, _instance.tbContent.Text);
             }
             catch
             {

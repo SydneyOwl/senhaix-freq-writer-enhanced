@@ -20,7 +20,7 @@ public class MySerialPort : SerialPort
 
     public WriteValueAsync WriteBle;
 
-    private SETTINGS Settings = SETTINGS.Load();
+    private Settings _settings = Settings.Load();
     public int BtDeviceMtu { get; set; } = 23;
 
     public int BytesToReadFromCache
@@ -44,7 +44,7 @@ public class MySerialPort : SerialPort
 
     private void UpdateChanDebugInfo(string a)
     {
-        if (Settings.EnableDebugChanDataOutput) DebugWindow.GetInstance().updateDebugContent(a);
+        if (_settings.EnableDebugChanDataOutput) DebugWindow.GetInstance().UpdateDebugContent(a);
     }
 
     public async Task PreRead()
@@ -60,32 +60,26 @@ public class MySerialPort : SerialPort
         //     rxData.Enqueue(b);
         // }
     }
-    
+
     private static List<ManagementBaseObject> WinGetSerialDevices()
     {
-        List<ManagementBaseObject> list = new List<ManagementBaseObject>();
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return new List<ManagementBaseObject>();
-        }
-        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher
+        List<ManagementBaseObject> list = new();
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return new List<ManagementBaseObject>();
+        using (var searcher = new ManagementObjectSearcher
                    ("select * from Win32_PnPEntity where Name like '%(COM%'"))
         {
             var hardInfos = searcher.Get();
             foreach (var hardInfo in hardInfos)
-            {
                 if (hardInfo.Properties["Name"].Value != null)
-                {
                     list.Add(hardInfo);
-                }
-            }
         }
+
         return list;
     }
 
     // 仅通过名称筛选
     // 同时存在两个USB串口，则不予选择
-    private string winSelectSerialByName()
+    private string WinSelectSerialByName()
     {
         var comList = WinGetSerialDevices();
         var ccName = "";
@@ -95,54 +89,41 @@ public class MySerialPort : SerialPort
             if (cachedName.Contains("USB-SERIAL") || cachedName.Contains("CH340") || cachedName.Contains("PL2303") ||
                 cachedName.Contains("FT232"))
             {
-                if (ccName != "")
-                {
-                    return "";
-                }
+                if (ccName != "") return "";
                 ccName = cachedName.Split("(").Last().Split(")")[0];
             }
         }
 
         return ccName;
     }
-    
+
     // 同时存在两个USB串口，则不予选择
-    private string macOSSelectSerialByName()
+    private string MacOsSelectSerialByName()
     {
         string[] portNames = GetPortNames();
         var ccName = "";
         for (var i = 0; i < portNames.Length; i++)
-        {
-             if (portNames[i].Contains("/dev/cu.usbserial"))
-             {
-                 if (ccName != "")
-                 {
-                     return "";
-                 }
-                 ccName = portNames[i];
-             }
-        }
+            if (portNames[i].Contains("/dev/cu.usbserial"))
+            {
+                if (ccName != "") return "";
+                ccName = portNames[i];
+            }
+
         return ccName;
     }
 
     private string SelectSerialByName()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return winSelectSerialByName();
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            return macOSSelectSerialByName();
-        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return WinSelectSerialByName();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return MacOsSelectSerialByName();
         return "";
     }
 
-    public void selectSerialInAdvance()
+    public void SelectSerialInAdvance()
     {
         TargetPort = SelectSerialByName();
     }
-    
+
     public void WriteByte(byte buffer)
     {
         if (WriteBle == null)
@@ -252,7 +233,7 @@ public class MySerialPort : SerialPort
             _sp.Open();
         }
     }
-    
+
     public void OpenSerial8800Pro()
     {
         if (WriteBle == null)

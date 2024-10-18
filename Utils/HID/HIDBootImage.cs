@@ -9,54 +9,54 @@ using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.HID;
 
-public class HIDBootImage
+public class HidBootImage
 {
-    private int address;
+    private int _address;
 
-    private int blockOfErase;
+    private int _blockOfErase;
 
     // private ComInfoIssue progressUpdate = new ComInfoIssue();
 
-    private readonly byte[] bufferBmpData = new byte[1048576];
+    private readonly byte[] _bufferBmpData = new byte[1048576];
 
-    private byte[] bufForData = new byte[2048];
+    private byte[] _bufForData = new byte[2048];
 
-    private uint byteOfData;
+    private uint _byteOfData;
 
-    private int cntPackages;
+    private int _cntPackages;
 
-    private HID_BOOTIMAGE_STATUS comStep = HID_BOOTIMAGE_STATUS.Step_HandShake;
+    private HidBootimageStatus _comStep = HidBootimageStatus.StepHandShake;
 
-    private int countOverTime;
+    private int _countOverTime;
 
-    private string curFilePath = "";
+    private string _curFilePath = "";
 
-    public ConcurrentQueue<int> currentProg = new();
+    public ConcurrentQueue<int> CurrentProg = new();
 
-    private bool flagOverTime;
+    private bool _flagOverTime;
 
-    private DataHelper helper;
+    private DataHelper _helper;
 
-    private readonly HidTools hid = HidTools.GetInstance();
-    private readonly SKBitmap img;
+    private readonly HidTools _hid = HidTools.GetInstance();
+    private readonly SKBitmap _img;
 
-    private Timer overTimer;
+    private Timer _overTimer;
 
-    private int packageID;
+    private int _packageId;
 
-    private int packageLength;
+    private int _packageLength;
 
-    private string progressText = "";
+    private string _progressText = "";
 
-    private string progressTextHead = "";
+    private string _progressTextHead = "";
 
-    private int progressValue;
+    private int _progressValue;
 
-    private Stream s_out = null;
+    private Stream _sOut = null;
 
-    private int totalPackages;
+    private int _totalPackages;
 
-    private CancellationTokenSource wriImgTokenSource;
+    private CancellationTokenSource _wriImgTokenSource;
 
 
     // public ComInfoIssue ProgressUpdate
@@ -71,104 +71,104 @@ public class HIDBootImage
     // 	}
     // }
 
-    public HIDBootImage(SKBitmap img)
+    public HidBootImage(SKBitmap img)
     {
-        this.img = img;
+        _img = img;
     }
 
     private void TimerInit()
     {
-        overTimer = new Timer();
-        overTimer.Elapsed += OverTimer_Elapsed;
-        overTimer.Interval = 5000.0;
-        overTimer.AutoReset = false;
-        overTimer.Enabled = true;
+        _overTimer = new Timer();
+        _overTimer.Elapsed += OverTimer_Elapsed;
+        _overTimer.Interval = 5000.0;
+        _overTimer.AutoReset = false;
+        _overTimer.Enabled = true;
     }
 
     private void OverTimer_Elapsed(object sender, ElapsedEventArgs e)
     {
-        flagOverTime = true;
+        _flagOverTime = true;
     }
 
     private void OverTimer_Start()
     {
-        overTimer.Stop();
-        overTimer.Start();
-        flagOverTime = false;
-        countOverTime = 5;
+        _overTimer.Stop();
+        _overTimer.Start();
+        _flagOverTime = false;
+        _countOverTime = 5;
     }
 
     public bool WriteImg()
     {
-        wriImgTokenSource = new CancellationTokenSource();
+        _wriImgTokenSource = new CancellationTokenSource();
         TimerInit();
-        comStep = HID_BOOTIMAGE_STATUS.Step_HandShake_Jump1;
-        helper = new DataHelper();
+        _comStep = HidBootimageStatus.StepHandShakeJump1;
+        _helper = new DataHelper();
         if (HandShake() && Communication()) return true;
         return false;
     }
 
     public void CancelWriteImg()
     {
-        wriImgTokenSource.Cancel();
+        _wriImgTokenSource.Cancel();
     }
 
     public bool HandShake()
     {
         var byData = new byte[10];
-        while (!wriImgTokenSource.Token.IsCancellationRequested)
-            if (!flagOverTime)
+        while (!_wriImgTokenSource.Token.IsCancellationRequested)
+            if (!_flagOverTime)
             {
-                switch (comStep)
+                switch (_comStep)
                 {
-                    case HID_BOOTIMAGE_STATUS.Step_HandShake_Jump1:
+                    case HidBootimageStatus.StepHandShakeJump1:
                         byData = Encoding.ASCII.GetBytes("PROGRAMGT12");
-                        byData = helper.LoadPackage(1, 0, byData, (byte)byData.Length);
-                        hid.Send(byData);
-                        comStep = HID_BOOTIMAGE_STATUS.Step_HandShake_Jump2;
+                        byData = _helper.LoadPackage(1, 0, byData, (byte)byData.Length);
+                        _hid.Send(byData);
+                        _comStep = HidBootimageStatus.StepHandShakeJump2;
                         OverTimer_Start();
                         break;
-                    case HID_BOOTIMAGE_STATUS.Step_HandShake_Jump2:
-                        if (hid.FlagReceiveData)
+                    case HidBootimageStatus.StepHandShakeJump2:
+                        if (_hid.FlagReceiveData)
                         {
-                            hid.FlagReceiveData = false;
-                            helper.AnalyzePackage(hid.RxBuffer);
-                            if (helper.ErrorCode == HidErrors.ErNone)
+                            _hid.FlagReceiveData = false;
+                            _helper.AnalyzePackage(_hid.RxBuffer);
+                            if (_helper.ErrorCode == HidErrors.ErNone)
                             {
-                                byData = helper.LoadPackage(2, 0, null, 1);
-                                hid.Send(byData);
+                                byData = _helper.LoadPackage(2, 0, null, 1);
+                                _hid.Send(byData);
                                 OverTimer_Start();
-                                comStep = HID_BOOTIMAGE_STATUS.Step_HandShake_Jump3;
+                                _comStep = HidBootimageStatus.StepHandShakeJump3;
                                 // Console.Write("Handshake2!");
                             }
                         }
 
                         break;
-                    case HID_BOOTIMAGE_STATUS.Step_HandShake_Jump3:
-                        if (hid.FlagReceiveData)
+                    case HidBootimageStatus.StepHandShakeJump3:
+                        if (_hid.FlagReceiveData)
                         {
-                            hid.FlagReceiveData = false;
-                            helper.AnalyzePackage(hid.RxBuffer);
-                            if (helper.ErrorCode == HidErrors.ErNone)
+                            _hid.FlagReceiveData = false;
+                            _helper.AnalyzePackage(_hid.RxBuffer);
+                            if (_helper.ErrorCode == HidErrors.ErNone)
                             {
-                                byData = helper.LoadPackage(16, 0, null, 1);
-                                hid.Send(byData);
+                                byData = _helper.LoadPackage(16, 0, null, 1);
+                                _hid.Send(byData);
                                 OverTimer_Start();
-                                comStep = HID_BOOTIMAGE_STATUS.Step_HandShake_Jump4;
+                                _comStep = HidBootimageStatus.StepHandShakeJump4;
                                 // Console.Write("Handshake3!");
                             }
                         }
 
                         break;
-                    case HID_BOOTIMAGE_STATUS.Step_HandShake_Jump4:
-                        if (hid.FlagReceiveData)
+                    case HidBootimageStatus.StepHandShakeJump4:
+                        if (_hid.FlagReceiveData)
                         {
-                            hid.FlagReceiveData = false;
-                            helper.AnalyzePackage(hid.RxBuffer);
-                            if (helper.ErrorCode == HidErrors.ErNone)
+                            _hid.FlagReceiveData = false;
+                            _helper.AnalyzePackage(_hid.RxBuffer);
+                            if (_helper.ErrorCode == HidErrors.ErNone)
                             {
-                                overTimer.Stop();
-                                comStep = HID_BOOTIMAGE_STATUS.Step_HandShake;
+                                _overTimer.Stop();
+                                _comStep = HidBootimageStatus.StepHandShake;
                                 // Console.Write("Handshake4!");
                                 return true;
                             }
@@ -179,15 +179,15 @@ public class HIDBootImage
             }
             else
             {
-                if (countOverTime <= 0) break;
-                overTimer.Stop();
-                overTimer.Start();
-                countOverTime--;
-                flagOverTime = false;
-                hid.Send(byData);
+                if (_countOverTime <= 0) break;
+                _overTimer.Stop();
+                _overTimer.Start();
+                _countOverTime--;
+                _flagOverTime = false;
+                _hid.Send(byData);
             }
 
-        overTimer.Stop();
+        _overTimer.Stop();
         return false;
     }
 
@@ -209,142 +209,142 @@ public class HIDBootImage
         // }
         // int width = bitmap2.Width;
         // int height = bitmap2.Height;
-        byteOfData = 0u;
-        for (var k = 0; k < bufferBmpData.Length; k++) bufferBmpData[k] = byte.MaxValue;
+        _byteOfData = 0u;
+        for (var k = 0; k < _bufferBmpData.Length; k++) _bufferBmpData[k] = byte.MaxValue;
         // if (bitmap2.PixelFormat == PixelFormat.Format24bppRgb)
         // {
-        for (var l = 0; l < img.Height; l++)
-        for (var m = 0; m < img.Width; m++)
+        for (var l = 0; l < _img.Height; l++)
+        for (var m = 0; m < _img.Width; m++)
         {
-            var pixel = img.GetPixel(m, l);
+            var pixel = _img.GetPixel(m, l);
             var num3 = pixel.Red >> 3;
             var num4 = pixel.Green >> 2;
             var num5 = pixel.Blue >> 3;
             var num6 = (num3 << 11) | (num4 << 5) | num5;
-            bufferBmpData[byteOfData++] = (byte)num6;
-            bufferBmpData[byteOfData++] = (byte)(num6 >> 8);
+            _bufferBmpData[_byteOfData++] = (byte)num6;
+            _bufferBmpData[_byteOfData++] = (byte)(num6 >> 8);
         }
 
-        while (!wriImgTokenSource.Token.IsCancellationRequested)
-            if (!flagOverTime)
+        while (!_wriImgTokenSource.Token.IsCancellationRequested)
+            if (!_flagOverTime)
             {
-                switch (comStep)
+                switch (_comStep)
                 {
-                    case HID_BOOTIMAGE_STATUS.Step_HandShake:
+                    case HidBootimageStatus.StepHandShake:
                         // Console.Write("Step_HandShake");
-                        address = 851968;
-                        blockOfErase = 3;
-                        progressValue = 0;
-                        currentProg.Enqueue(progressValue);
+                        _address = 851968;
+                        _blockOfErase = 3;
+                        _progressValue = 0;
+                        CurrentProg.Enqueue(_progressValue);
                         // progressUpdate.IssueProgressValue(progressValue);
-                        packageID = 0;
-                        cntPackages = (int)(byteOfData / 1024);
-                        if (byteOfData % 1024 != 0) cntPackages++;
-                        totalPackages = cntPackages;
-                        comStep = HID_BOOTIMAGE_STATUS.Step_Erase;
+                        _packageId = 0;
+                        _cntPackages = (int)(_byteOfData / 1024);
+                        if (_byteOfData % 1024 != 0) _cntPackages++;
+                        _totalPackages = _cntPackages;
+                        _comStep = HidBootimageStatus.StepErase;
                         break;
-                    case HID_BOOTIMAGE_STATUS.Step_SetAddress:
+                    case HidBootimageStatus.StepSetAddress:
                     {
                         // Console.Write("Step_SetAddress");
-                        bufForData = new byte[1080];
-                        packageLength = 0;
+                        _bufForData = new byte[1080];
+                        _packageLength = 0;
                         for (var n = 0; n < 1024; n++)
                         {
-                            if (num + packageLength >= byteOfData) break;
-                            bufForData[n] = bufferBmpData[num + n];
-                            packageLength++;
+                            if (num + _packageLength >= _byteOfData) break;
+                            _bufForData[n] = _bufferBmpData[num + n];
+                            _packageLength++;
                         }
 
-                        num += packageLength;
-                        if (packageLength > 0)
+                        num += _packageLength;
+                        if (_packageLength > 0)
                         {
-                            num2 = DataHelper.CrcValidation(bufForData, 0, 1024);
+                            num2 = DataHelper.CrcValidation(_bufForData, 0, 1024);
                             array2 = new byte[6];
-                            array2[3] = (byte)((uint)(address >> 24) & 0xFFu);
-                            array2[2] = (byte)((uint)(address >> 16) & 0xFFu);
-                            array2[1] = (byte)((uint)(address >> 8) & 0xFFu);
-                            array2[0] = (byte)((uint)address & 0xFFu);
+                            array2[3] = (byte)((uint)(_address >> 24) & 0xFFu);
+                            array2[2] = (byte)((uint)(_address >> 16) & 0xFFu);
+                            array2[1] = (byte)((uint)(_address >> 8) & 0xFFu);
+                            array2[0] = (byte)((uint)_address & 0xFFu);
                             array2[4] = 4;
                             array2[5] = 0;
-                            array = helper.LoadPackage(18, 0, array2, 6);
-                            hid.Send(array);
+                            array = _helper.LoadPackage(18, 0, array2, 6);
+                            _hid.Send(array);
                             OverTimer_Start();
-                            comStep = HID_BOOTIMAGE_STATUS.Step_Receive_1;
+                            _comStep = HidBootimageStatus.StepReceive1;
                             break;
                         }
 
-                        array = helper.LoadPackage(69, 0, null, 0);
-                        hid.Send(array);
-                        overTimer.Stop();
+                        array = _helper.LoadPackage(69, 0, null, 0);
+                        _hid.Send(array);
+                        _overTimer.Stop();
                         return true;
                     }
-                    case HID_BOOTIMAGE_STATUS.Step_Erase:
+                    case HidBootimageStatus.StepErase:
                     {
                         // Console.Write("Step_Erase");
                         ushort args = 17668;
                         array2 = new byte[6];
-                        array2[3] = (byte)((uint)(address >> 24) & 0xFFu);
-                        array2[2] = (byte)((uint)(address >> 16) & 0xFFu);
-                        array2[1] = (byte)((uint)(address >> 8) & 0xFFu);
-                        array2[0] = (byte)((uint)address & 0xFFu);
-                        array2[4] = (byte)((uint)(blockOfErase >> 8) & 0xFFu);
-                        array2[5] = (byte)((uint)blockOfErase & 0xFFu);
-                        array = helper.LoadPackage(19, args, array2, 6);
-                        hid.Send(array);
+                        array2[3] = (byte)((uint)(_address >> 24) & 0xFFu);
+                        array2[2] = (byte)((uint)(_address >> 16) & 0xFFu);
+                        array2[1] = (byte)((uint)(_address >> 8) & 0xFFu);
+                        array2[0] = (byte)((uint)_address & 0xFFu);
+                        array2[4] = (byte)((uint)(_blockOfErase >> 8) & 0xFFu);
+                        array2[5] = (byte)((uint)_blockOfErase & 0xFFu);
+                        array = _helper.LoadPackage(19, args, array2, 6);
+                        _hid.Send(array);
                         OverTimer_Start();
-                        comStep = HID_BOOTIMAGE_STATUS.Step_Receive_1;
+                        _comStep = HidBootimageStatus.StepReceive1;
                         break;
                     }
-                    case HID_BOOTIMAGE_STATUS.Step_Data1:
+                    case HidBootimageStatus.StepData1:
                     {
                         // Console.Write("Step_Data1");
                         // Console.Write(BitConverter.ToString(bufForData));
                         array = new byte[59];
                         for (var num7 = 0; num7 < 18; num7++)
                         {
-                            for (var num8 = 0; num8 < 59; num8++) array[num8] = bufForData[num7 * 59 + num8];
-                            array = helper.LoadImgDataPackage(5, (ushort)num7, array, 59);
-                            hid.Send(array);
+                            for (var num8 = 0; num8 < 59; num8++) array[num8] = _bufForData[num7 * 59 + num8];
+                            array = _helper.LoadImgDataPackage(5, (ushort)num7, array, 59);
+                            _hid.Send(array);
                         }
 
                         OverTimer_Start();
-                        comStep = HID_BOOTIMAGE_STATUS.Step_Data2;
+                        _comStep = HidBootimageStatus.StepData2;
                         break;
                     }
-                    case HID_BOOTIMAGE_STATUS.Step_Data2:
+                    case HidBootimageStatus.StepData2:
                         // Console.Write("Step_Data2");
                         array = new byte[2]
                         {
                             (byte)((uint)num2 & 0xFFu),
                             (byte)((uint)(num2 >> 8) & 0xFFu)
                         };
-                        array = helper.LoadPackage(6, 0, array, 2);
-                        hid.Send(array);
+                        array = _helper.LoadPackage(6, 0, array, 2);
+                        _hid.Send(array);
                         OverTimer_Start();
-                        comStep = HID_BOOTIMAGE_STATUS.Step_Receive_1;
+                        _comStep = HidBootimageStatus.StepReceive1;
                         break;
-                    case HID_BOOTIMAGE_STATUS.Step_Receive_1:
+                    case HidBootimageStatus.StepReceive1:
                         // Console.Write("Step_Receive_1");
-                        if (!hid.FlagReceiveData) break;
-                        hid.FlagReceiveData = false;
-                        helper.AnalyzePackage(hid.RxBuffer);
-                        if (helper.ErrorCode == HidErrors.ErNone)
+                        if (!_hid.FlagReceiveData) break;
+                        _hid.FlagReceiveData = false;
+                        _helper.AnalyzePackage(_hid.RxBuffer);
+                        if (_helper.ErrorCode == HidErrors.ErNone)
                         {
-                            switch (helper.Command)
+                            switch (_helper.Command)
                             {
                                 case 19:
-                                    comStep = HID_BOOTIMAGE_STATUS.Step_SetAddress;
+                                    _comStep = HidBootimageStatus.StepSetAddress;
                                     break;
                                 case 18:
-                                    comStep = HID_BOOTIMAGE_STATUS.Step_Data1;
+                                    _comStep = HidBootimageStatus.StepData1;
                                     break;
                                 case 6:
-                                    address += 1024;
-                                    packageID++;
-                                    progressValue = packageID * 100 / totalPackages;
-                                    currentProg.Enqueue(progressValue);
+                                    _address += 1024;
+                                    _packageId++;
+                                    _progressValue = _packageId * 100 / _totalPackages;
+                                    CurrentProg.Enqueue(_progressValue);
                                     // progressUpdate.IssueProgressValue(progressValue);
-                                    comStep = HID_BOOTIMAGE_STATUS.Step_SetAddress;
+                                    _comStep = HidBootimageStatus.StepSetAddress;
                                     break;
                             }
 
@@ -356,15 +356,15 @@ public class HIDBootImage
             }
             else
             {
-                if (countOverTime <= 0) break;
-                overTimer.Stop();
-                overTimer.Start();
-                countOverTime--;
-                flagOverTime = false;
-                hid.Send(array);
+                if (_countOverTime <= 0) break;
+                _overTimer.Stop();
+                _overTimer.Start();
+                _countOverTime--;
+                _flagOverTime = false;
+                _hid.Send(array);
             }
 
-        overTimer.Stop();
+        _overTimer.Stop();
         return false;
     }
     // MessageBox.Show("格式错误!", "错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
@@ -373,7 +373,7 @@ public class HIDBootImage
 
     public void DataReceived(object sender, byte[] e)
     {
-        hid.RxBuffer = e;
-        hid.FlagReceiveData = true;
+        _hid.RxBuffer = e;
+        _hid.FlagReceiveData = true;
     }
 }

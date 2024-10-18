@@ -57,96 +57,98 @@
                           SelectedIndex="{Binding Fun.CbBSaveMode}" />
 
                 <Label Canvas.Top="-10" Canvas.Left="230" Background="BurlyWood">A段模式</Label>
-                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="220" BorderBrush="{StaticResource borderBrush}"
+                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="220"
+                        BorderBrush="{StaticResource borderBrush}"
                         BorderThickness="1" />
                 <Label Canvas.Top="15" Canvas.Left="230">当前频率(MHz)</Label>
-                <TextBox Canvas.Top="10" Canvas.Left="340" Text="{Binding Fun.TBACurFreq}"
+                <TextBox Canvas.Top="10" Canvas.Left="340" Text="{Binding Fun.TBaCurFreq}"
                          LostFocus="A_Freq_OnLostFocus" />
 
                 <Label Canvas.Top="50" Canvas.Left="230">发射功率</Label>
                 <ComboBox Canvas.Top="45" Canvas.Left="340" ItemsSource="{x:Static constants:OptionalChoice.TxPwr}"
-                          SelectedIndex="{Binding Fun.CbBAPower}" />
+                          SelectedIndex="{Binding Fun.CbBaPower}" />
 
                 <Label Canvas.Top="85" Canvas.Left="230">接收亚音</Label>
                 <ComboBox Canvas.Top="80" Canvas.Left="340" ItemsSource="{x:Static constants:OptionalChoice.RxCtcss}"
-                          SelectedValue="{Binding Fun.CbBARxQt}" />
+                          SelectedValue="{Binding Fun.CbBaRxQt}" />
 
                 <Label Canvas.Top="120" Canvas.Left="230">发射亚音</Label>
                 <ComboBox Canvas.Top="115" Canvas.Left="340" ItemsSource="{x:Static constants:OptionalChoice.TxCtcss}"
-                          SelectedValue="{Binding Fun.CbBATxQt}" />
+                          SelectedValue="{Binding Fun.CbBaTxQt}" />
 
                 <Label Canvas.Top="155" Canvas.Left="230">信道带宽</Label>
                 <ComboBox Canvas.Top="150" Canvas.Left="340"
                           ItemsSource="{x:Static constants:OptionalChoice.BandWidth}"
-                          SelectedIndex="{Binding Fun.CbBABand}" />
+                          SelectedIndex="{Binding Fun.CbBaBand}" />
 
                 <Label Canvas.Top="190" Canvas.Left="230">步进频率</Label>
                 <ComboBox Canvas.Top="185" Canvas.Left="340" ItemsSource="{x:Static constants:OptionalChoice.Step}"
-                          SelectedIndex="{Binding Fun.CbBAFreqStep}" />
+                          SelectedIndex="{Binding Fun.CbBaFreqStep}" />
 
                 <Label Canvas.Top="225" Canvas.Left="230">频差方向</Label>
                 <ComboBox Canvas.Top="220" Canvas.Left="340"
                           ItemsSource="{x:Static constants:OptionalChoice.StepDirection}"
-                          SelectedIndex="{Binding Fun.CbBARemainDir}" />
+                          SelectedIndex="{Binding Fun.CbBaRemainDir}" />
 
                 <Label Canvas.Top="260" Canvas.Left="230">频差频率(MHz)</Label>
-                <TextBox Canvas.Top="255" Canvas.Left="340" Text="{Binding Fun.TBARemainFreq}"
+                <TextBox Canvas.Top="255" Canvas.Left="340" Text="{Binding Fun.TBaRemainFreq}"
                          LostFocus="A_RmFq_OnLostFocus" />
 
                 <Label Canvas.Top="295" Canvas.Left="230">信令编码</Label>
                 <ComboBox Canvas.Top="290" Canvas.Left="340"
                           ItemsSource="{x:Static constants:OptionalChoice.SignCode}"
-                          SelectedIndex="{Binding Fun.CbBASignalingEnCoder}" />
+                          SelectedIndex="{Binding Fun.CbBaSignalingEnCoder}" />
 
                 <Label Canvas.Top="330" Canvas.Left="230">加密</Label>
                 <ComboBox Canvas.Top="325" Canvas.Left="340" ItemsSource="{x:Static constants:OptionalChoice.Encrypt}"
-                          SelectedIndex="{Binding Fun.CbBAFhss}" />
+                          SelectedIndex="{Binding Fun.CbBaFhss}" />
                 <!-- ///////////////////////////////////////////////////////////////// -->
                 <Label Canvas.Top="-10" Canvas.Left="500" Background="BurlyWood">B段模式</Label>
-                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="480" BorderBrush="{StaticResource borderBrush}"
+                <Border Height="380" Width="240" Canvas.Top="-10" Canvas.Left="480"
+                        BorderBrush="{StaticResource borderBrush}"
                         BorderThickness="1" />
                 <Label Canvas.Top="15" Canvas.Left="490">当前频率(MHz)</Label>
-                <TextBox Canvas.Top="10" Canvas.Left="600" Text="{Binding Fun.TBBCurFreq}"
+                <TextBox Canvas.Top="10" Canvas.Left="600" Text="{Binding Fun.TBbCurFreq}"
                          LostFocus="B_Freq_OnLostFocus" />
 
                 <Label Canvas.Top="50" Canvas.Left="490">发射功率</Label>
                 <ComboBox Canvas.Top="45" Canvas.Left="600" ItemsSource="{x:Static constants:OptionalChoice.TxPwr}"
-                          SelectedIndex="{Binding Fun.CbBBPower}" />
+                          SelectedIndex="{Binding Fun.CbBbPower}" />
 
                 <Label Canvas.Top="85" Canvas.Left="490">接收亚音</Label>
                 <ComboBox Canvas.Top="80" Canvas.Left="600" ItemsSource="{x:Static constants:OptionalChoice.RxCtcss}"
-                          SelectedValue="{Binding Fun.CbBBRxQt}" />
+                          SelectedValue="{Binding Fun.CbBbRxQt}" />
 
                 <Label Canvas.Top="120" Canvas.Left="490">发射亚音</Label>
                 <ComboBox Canvas.Top="115" Canvas.Left="600" ItemsSource="{x:Static constants:OptionalChoice.TxCtcss}"
-                          SelectedValue="{Binding Fun.CbBBTxQt}" />
+                          SelectedValue="{Binding Fun.CbBbTxQt}" />
 
                 <Label Canvas.Top="155" Canvas.Left="490">信道带宽</Label>
                 <ComboBox Canvas.Top="150" Canvas.Left="600"
                           ItemsSource="{x:Static constants:OptionalChoice.BandWidth}"
-                          SelectedIndex="{Binding Fun.CbBBBand}" />
+                          SelectedIndex="{Binding Fun.CbBbBand}" />
 
                 <Label Canvas.Top="190" Canvas.Left="490">步进频率</Label>
                 <ComboBox Canvas.Top="185" Canvas.Left="600" ItemsSource="{x:Static constants:OptionalChoice.Step}"
-                          SelectedIndex="{Binding Fun.CbBBFreqStep}" />
+                          SelectedIndex="{Binding Fun.CbBbFreqStep}" />
 
                 <Label Canvas.Top="225" Canvas.Left="490">频差方向</Label>
                 <ComboBox Canvas.Top="220" Canvas.Left="600"
                           ItemsSource="{x:Static constants:OptionalChoice.StepDirection}"
-                          SelectedIndex="{Binding Fun.CbBBRemainDir}" />
+                          SelectedIndex="{Binding Fun.CbBbRemainDir}" />
 
                 <Label Canvas.Top="260" Canvas.Left="490">频差频率(MHz)</Label>
-                <TextBox Canvas.Top="255" Canvas.Left="600" Text="{Binding Fun.TBBRemainFreq}"
+                <TextBox Canvas.Top="255" Canvas.Left="600" Text="{Binding Fun.TBbRemainFreq}"
                          LostFocus="B_RmFq_OnLostFocus" />
 
                 <Label Canvas.Top="295" Canvas.Left="490">信令编码</Label>
                 <ComboBox Canvas.Top="290" Canvas.Left="600"
                           ItemsSource="{x:Static constants:OptionalChoice.SignCode}"
-                          SelectedIndex="{Binding Fun.CbBBSignalingEnCoder}" />
+                          SelectedIndex="{Binding Fun.CbBbSignalingEnCoder}" />
 
                 <Label Canvas.Top="330" Canvas.Left="490">加密</Label>
                 <ComboBox Canvas.Top="325" Canvas.Left="600" ItemsSource="{x:Static constants:OptionalChoice.Encrypt}"
-                          SelectedIndex="{Binding Fun.CbBBFhss}" />
+                          SelectedIndex="{Binding Fun.CbBbFhss}" />
             </Canvas>
         </TabItem>
         <TabItem Header="高级">

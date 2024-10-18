@@ -2,11 +2,10 @@
 
 ![Static Badge](https://img.shields.io/badge/.NET-6-purple?style=for-the-badge) ![Static Badge](https://img.shields.io/badge/Go-1.22-blue?style=for-the-badge)
 
-
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/sydneyowl/senhaix-freq-writer-enhanced/SenhaixFreqWriterBuild.yml?style=for-the-badge) ![GitHub Release](https://img.shields.io/github/v/release/sydneyowl/senhaix-freq-writer-enhanced?style=for-the-badge) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/sydneyowl/senhaix-freq-writer-enhanced/total?style=for-the-badge) ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/sydneyowl/senhaix-freq-writer-enhanced/latest/total?style=for-the-badge)
 
 > [!important]
-> 
+>
 > + 请在使用软件前先进行备份操作！
 > + 本项目旨在为**森海克斯8x00以及gt12**提供一个**跨平台**写频方案，因此从`v0.2.2`
     及以后将停止维护winform版本（windows单平台）的写频软件 （**如无重大错误不再更新**

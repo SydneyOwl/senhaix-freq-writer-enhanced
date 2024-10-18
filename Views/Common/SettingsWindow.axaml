@@ -1,38 +1,36 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:common="clr-namespace:SenhaixFreqWriter.Views.Common"
         Width="380" Height="400"
         x:Class="SenhaixFreqWriter.Views.Common.SettingsWindow"
         x:DataType="common:SettingsWindow"
         Title="设置"
         WindowStartupLocation="CenterScreen">
-        <Canvas Margin="10">
-                <CheckBox Content="自动备份" IsChecked="{Binding Settings.EnableAutoBackup}"></CheckBox>
-                <Label Content="- 备份周期（s）:" Canvas.Left="30" Canvas.Top="40"></Label>
-                <TextBox Canvas.Left="145" Canvas.Top="35" Text="{Binding Settings.BackupInterval}"></TextBox>
-                <Label Content=", 最大数量:" Canvas.Left="210" Canvas.Top="40"></Label>
-                <TextBox Canvas.Left="290" Canvas.Top="35" Text="{Binding Settings.MaxBackupNumber}"></TextBox>
-                <Button Content="打开备份目录" Canvas.Left="100" Click="OpenBackupButton_OnClick"></Button>
-                
-                <CheckBox Content="启用端口自动选择" Canvas.Top="70" IsChecked="{Binding Settings.EnableSelectPortInAdvance}"></CheckBox>
-                <CheckBox Content="启用详细调试输出" Canvas.Top="110" IsChecked="{Binding Settings.EnableDebugChanDataOutput}"></CheckBox>
-                
-                <Label Content="RPC URL：" Canvas.Top="150"></Label>
-                <TextBox Canvas.Top="145" Canvas.Left="80" Width="180" Text="{Binding Settings.RpcUrl}"></TextBox>
-                
-                <Label Content="数据存储目录：" Canvas.Top="190"></Label>
-                <TextBox Canvas.Top="185" Canvas.Left="110" Width="150" Text="{Binding Settings.DataDir}"></TextBox>
-                <Button Content="选择" Canvas.Left="270" Canvas.Top="185" Click="ChoosePathButton_OnClick"></Button>
-                
-                <Label Content="蓝牙插件名称：" Canvas.Top="235"></Label>
-                <TextBox Canvas.Top="230" Canvas.Left="110" Width="150" Name="btPluginNameTextbox"></TextBox>
-                
-                <Label Content="插件参数：" Canvas.Top="275"></Label>
-                <TextBox Canvas.Top="270" Canvas.Left="110" Width="150" Text="{Binding Settings.RpcClientProcessArgs}"></TextBox>
-                
-                <Button Content="确定" Canvas.Top="330" Canvas.Left="100"  Click="SaveConfButton_OnClick"></Button>
-                <Button Content="取消" Canvas.Top="330" Canvas.Left="200"  Click="AbortButton_OnClick"></Button>
-        </Canvas>
+    <Canvas Margin="10">
+        <CheckBox Content="自动备份" IsChecked="{Binding Settings.EnableAutoBackup}" />
+        <Label Content="- 备份周期（s）:" Canvas.Left="30" Canvas.Top="40" />
+        <TextBox Canvas.Left="145" Canvas.Top="35" Text="{Binding Settings.BackupInterval}" />
+        <Label Content=", 最大数量:" Canvas.Left="210" Canvas.Top="40" />
+        <TextBox Canvas.Left="290" Canvas.Top="35" Text="{Binding Settings.MaxBackupNumber}" />
+        <Button Content="打开备份目录" Canvas.Left="100" Click="OpenBackupButton_OnClick" />
+
+        <CheckBox Content="启用端口自动选择" Canvas.Top="70" IsChecked="{Binding Settings.EnableSelectPortInAdvance}" />
+        <CheckBox Content="启用详细调试输出" Canvas.Top="110" IsChecked="{Binding Settings.EnableDebugChanDataOutput}" />
+
+        <Label Content="RPC URL：" Canvas.Top="150" />
+        <TextBox Canvas.Top="145" Canvas.Left="80" Width="180" Text="{Binding Settings.RpcUrl}" />
+
+        <Label Content="数据存储目录：" Canvas.Top="190" />
+        <TextBox Canvas.Top="185" Canvas.Left="110" Width="150" Text="{Binding Settings.DataDir}" />
+        <Button Content="选择" Canvas.Left="270" Canvas.Top="185" Click="ChoosePathButton_OnClick" />
+
+        <Label Content="蓝牙插件名称：" Canvas.Top="235" />
+        <TextBox Canvas.Top="230" Canvas.Left="110" Width="150" Name="btPluginNameTextbox" />
+
+        <Label Content="插件参数：" Canvas.Top="275" />
+        <TextBox Canvas.Top="270" Canvas.Left="110" Width="150" Text="{Binding Settings.RpcClientProcessArgs}" />
+
+        <Button Content="确定" Canvas.Top="330" Canvas.Left="100" Click="SaveConfButton_OnClick" />
+        <Button Content="取消" Canvas.Top="330" Canvas.Left="200" Click="AbortButton_OnClick" />
+    </Canvas>
 </Window>

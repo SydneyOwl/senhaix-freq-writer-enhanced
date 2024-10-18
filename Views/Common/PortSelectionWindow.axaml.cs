@@ -69,6 +69,6 @@ macOS:
     1、确认您已安装好写频线的驱动（ch340可不用安装）；
     2、移除其他使用串口的设备；
     3、点击下拉框，选择带“cu”的选项，例如：/dev/cu.usbserial-210即可；";
-        MessageBoxManager.GetMessageBoxStandard("注意",helpText).ShowWindowDialogAsync(this);
+        MessageBoxManager.GetMessageBoxStandard("注意", helpText).ShowWindowDialogAsync(this);
     }
 }

@@ -11,7 +11,7 @@ using SenhaixFreqWriter.DataModels.Interfaces;
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
 [Serializable]
-public class ClassTheRadioData  : IBackupable
+public class ClassTheRadioData : IBackupable
 {
     [JsonIgnore] public static ClassTheRadioData Instance;
 

@@ -18,7 +18,7 @@ public class ChanChoice
     {
         "删除", "添加"
     };
-    
+
     public static ObservableCollection<string> BusyLock = new()
     {
         "关", "开"

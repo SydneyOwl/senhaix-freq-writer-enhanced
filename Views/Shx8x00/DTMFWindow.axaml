@@ -12,10 +12,10 @@
     <Canvas>
         <Border Height="200" Width="380" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
         <Label Canvas.Top="0" Canvas.Left="20" Background="BurlyWood">编码码组：</Label>
-        <Label Canvas.Top="30" Canvas.Left="20" >1：</Label>
+        <Label Canvas.Top="30" Canvas.Left="20">1：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf1}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="65" Canvas.Left="20" >2：</Label>
+        <Label Canvas.Top="65" Canvas.Left="20">2：</Label>
         <TextBox Canvas.Top="60" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf2}"
                  TextChanged="TextBox_OnTextChanged" />
         <Label Canvas.Top="100" Canvas.Left="20">3：</Label>
@@ -28,35 +28,35 @@
         <TextBox Canvas.Top="165" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf5}"
                  TextChanged="TextBox_OnTextChanged" />
 
-        <Label Canvas.Top="30" Canvas.Left="130" >6：</Label>
+        <Label Canvas.Top="30" Canvas.Left="130">6：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf6}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="65" Canvas.Left="130" >7：</Label>
+        <Label Canvas.Top="65" Canvas.Left="130">7：</Label>
         <TextBox Canvas.Top="60" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf7}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="100" Canvas.Left="130" >8：</Label>
+        <Label Canvas.Top="100" Canvas.Left="130">8：</Label>
         <TextBox Canvas.Top="95" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf8}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="135" Canvas.Left="130" >9：</Label>
+        <Label Canvas.Top="135" Canvas.Left="130">9：</Label>
         <TextBox Canvas.Top="130" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmf9}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="170" Canvas.Left="130" >10：</Label>
+        <Label Canvas.Top="170" Canvas.Left="130">10：</Label>
         <TextBox Canvas.Top="165" Canvas.Left="160" Text="{Binding Dtmf.GroupOfDtmfA}"
                  TextChanged="TextBox_OnTextChanged" />
 
-        <Label Canvas.Top="30" Canvas.Left="250" >11：</Label>
+        <Label Canvas.Top="30" Canvas.Left="250">11：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfB}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="65" Canvas.Left="250" >12：</Label>
+        <Label Canvas.Top="65" Canvas.Left="250">12：</Label>
         <TextBox Canvas.Top="60" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfC}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="100" Canvas.Left="250" >13：</Label>
+        <Label Canvas.Top="100" Canvas.Left="250">13：</Label>
         <TextBox Canvas.Top="95" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfD}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="135" Canvas.Left="250" >14：</Label>
+        <Label Canvas.Top="135" Canvas.Left="250">14：</Label>
         <TextBox Canvas.Top="130" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfE}"
                  TextChanged="TextBox_OnTextChanged" />
-        <Label Canvas.Top="170" Canvas.Left="250" >15：</Label>
+        <Label Canvas.Top="170" Canvas.Left="250">15：</Label>
         <TextBox Canvas.Top="165" Canvas.Left="280" Text="{Binding Dtmf.GroupOfDtmfF}"
                  TextChanged="TextBox_OnTextChanged" />
 

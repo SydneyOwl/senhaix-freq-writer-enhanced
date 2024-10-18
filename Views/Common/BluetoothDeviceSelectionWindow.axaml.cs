@@ -19,8 +19,8 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class BluetoothDeviceSelectionWindow : Window
 {
-    private readonly SHX_DEVICE dev = SHX_DEVICE.SHX8800;
-    public IBluetooth osBLE;
+    private readonly ShxDevice _dev = ShxDevice.Shx8800;
+    public IBluetooth OsBle;
 
     public BluetoothDeviceSelectionWindow()
     {
@@ -28,10 +28,10 @@ public partial class BluetoothDeviceSelectionWindow : Window
         DataContext = this;
     }
 
-    public BluetoothDeviceSelectionWindow(SHX_DEVICE shxDevice)
+    public BluetoothDeviceSelectionWindow(ShxDevice shxDevice)
     {
         InitializeComponent();
-        dev = shxDevice;
+        _dev = shxDevice;
         useRPC.IsChecked = true;
         manualRPC.IsEnabled = true;
 #if !WINDOWS
@@ -40,13 +40,13 @@ public partial class BluetoothDeviceSelectionWindow : Window
         DataContext = this;
     }
 
-    public ObservableCollection<GenerticBLEDeviceInfo> BleInfos { get; set; } = new();
+    public ObservableCollection<GenerticBleDeviceInfo> BleInfos { get; set; } = new();
 
     private void ScanButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var dispStatus = manualRPC.IsChecked.Value;
-        if (!dispStatus) osBLE?.Dispose();
-        osBLE = new WSRPCBLE(dispStatus);
+        if (!dispStatus) OsBle?.Dispose();
+        OsBle = new Wsrpcble(dispStatus);
         Dispatcher.UIThread.Invoke(() =>
         {
             scanButton.IsEnabled = false;
@@ -56,14 +56,14 @@ public partial class BluetoothDeviceSelectionWindow : Window
         {
             try
             {
-                var checkRPC = false;
+                var checkRpc = false;
                 var checkDisableWeakSignalRestriction = false;
-                var checkDisableSSIDRestriction = false;
+                var checkDisableSsidRestriction = false;
 
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    checkRPC = useRPC.IsChecked.Value;
-                    checkDisableSSIDRestriction = disableSSIDF.IsChecked.Value;
+                    checkRpc = useRPC.IsChecked.Value;
+                    checkDisableSsidRestriction = disableSSIDF.IsChecked.Value;
                     checkDisableWeakSignalRestriction = disableWeakSignal.IsChecked.Value;
                     scanButton.IsEnabled = false;
                     scanStat.Text = "扫描中...";
@@ -76,9 +76,9 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     osBLE = new WindowsSHXBLE();
                 }
 #endif
-                if (!osBLE.GetBleAvailabilityAsync())
+                if (!OsBle.GetBleAvailabilityAsync())
                 {
-                    DebugWindow.GetInstance().updateDebugContent("Not available");
+                    DebugWindow.GetInstance().UpdateDebugContent("Not available");
                     Dispatcher.UIThread.Invoke(() =>
                     {
                         MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")
@@ -87,7 +87,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                     return;
                 }
 
-                var result = osBLE.ScanForShxAsync(checkDisableWeakSignalRestriction, checkDisableSSIDRestriction);
+                var result = OsBle.ScanForShxAsync(checkDisableWeakSignalRestriction, checkDisableSsidRestriction);
                 Dispatcher.UIThread.Invoke(() =>
                 {
 #if WINDOWS
@@ -103,7 +103,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
             }
             catch (Exception a)
             {
-                DebugWindow.GetInstance().updateDebugContent(a.Message);
+                DebugWindow.GetInstance().UpdateDebugContent(a.Message);
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")
@@ -158,8 +158,8 @@ public partial class BluetoothDeviceSelectionWindow : Window
             });
             try
             {
-                osBLE.SetDevice(BleInfos[btdevice.SelectedIndex].DeviceID);
-                var connDevStat = osBLE.ConnectShxDeviceAsync();
+                OsBle.SetDevice(BleInfos[btdevice.SelectedIndex].DeviceId);
+                var connDevStat = OsBle.ConnectShxDeviceAsync();
                 if (!connDevStat)
                 {
                     Dispatcher.UIThread.Invoke(() =>
@@ -170,7 +170,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 }
 
                 Dispatcher.UIThread.Invoke(() => { connStat.Text = "连接服务.."; });
-                var connSerStat = osBLE.ConnectShxRwServiceAsync();
+                var connSerStat = OsBle.ConnectShxRwServiceAsync();
                 if (!connSerStat)
                 {
                     Dispatcher.UIThread.Invoke(() =>
@@ -181,7 +181,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 }
 
                 Dispatcher.UIThread.Invoke(() => { connStat.Text = "连接特征.."; });
-                var connChStat = osBLE.ConnectShxRwCharacteristicAsync();
+                var connChStat = OsBle.ConnectShxRwCharacteristicAsync();
                 if (!connChStat)
                 {
                     Dispatcher.UIThread.Invoke(() =>
@@ -195,14 +195,14 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", "连接成功！您可以开始写频了！").ShowWindowDialogAsync(this);
                 });
-                if (dev is SHX_DEVICE.SHX8800 or SHX_DEVICE.SHX8800PRO)
-                    osBLE.RegisterSerial();
+                if (_dev is ShxDevice.Shx8800 or ShxDevice.Shx8800Pro)
+                    OsBle.RegisterSerial();
                 else
-                    osBLE.RegisterHid();
+                    OsBle.RegisterHid();
             }
             catch (Exception f)
             {
-                DebugWindow.GetInstance().updateDebugContent($"dError:{f.Message}");
+                DebugWindow.GetInstance().UpdateDebugContent($"dError:{f.Message}");
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     MessageBoxManager.GetMessageBoxStandard("注意", $"出错：{f.Message}！").ShowWindowDialogAsync(this);
@@ -234,6 +234,6 @@ public partial class BluetoothDeviceSelectionWindow : Window
 
     private void ManualRPC_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
     {
-        osBLE?.Dispose();
+        OsBle?.Dispose();
     }
 }

@@ -15,9 +15,9 @@
         <Button Canvas.Top="49" Canvas.Left="200" Click="Button_OnClick">
             <PathIcon Data="{StaticResource arrow_sync_regular}" />
         </Button>
-        
+
         <Button Canvas.Top="100" Canvas.Left="170" Click="HelpChoose_OnClick">如何选择？</Button>
-        
+
         <Button Canvas.Top="100" Canvas.Left="25" Click="confirm_OnClick">确定</Button>
         <Button Canvas.Top="100" Canvas.Left="100" Click="abortd_OnClick">取消</Button>
     </Canvas>

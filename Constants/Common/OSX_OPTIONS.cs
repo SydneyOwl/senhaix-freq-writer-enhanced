@@ -2,10 +2,10 @@
 
 namespace SenhaixFreqWriter.Constants.Common;
 
-public class OSX_OPTIONS
+public class OsxOptions
 {
     // From: https://developer.apple.com/fonts/system-fonts/
-    public static ObservableCollection<string> OSX_FONT_LIST = new()
+    public static ObservableCollection<string> OsxFontList = new()
     {
         "Academy Engraved LET Plain:1.0",
         "Al Bayan Bold",

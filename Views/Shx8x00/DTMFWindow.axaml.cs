@@ -27,7 +27,7 @@ public partial class DtmfWindow : Window
 
     private void confirm_OnClick(object? sender, RoutedEventArgs e)
     {
-        DebugWindow.GetInstance().updateDebugContent("ConfClick");
+        DebugWindow.GetInstance().UpdateDebugContent("ConfClick");
         Close();
     }
 

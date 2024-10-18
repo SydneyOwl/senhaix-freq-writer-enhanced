@@ -8,13 +8,13 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OptionalWindow : Window
 {
-    private SHX_DEVICE _device = SHX_DEVICE.SHX8600;
+    private ShxDevice _device = ShxDevice.Shx8600;
 
-    public OptionalWindow(SHX_DEVICE device)
+    public OptionalWindow(ShxDevice device)
     {
         _device = device;
         InitializeComponent();
-        if (device == SHX_DEVICE.SHX8800)
+        if (device == ShxDevice.Shx8800)
         {
             alarmEndCombo.IsEnabled = true;
             alarmModeCombo.IsEnabled = true;
@@ -179,25 +179,25 @@ public partial class OptionalWindow : Window
     private void A_Freq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.GetInstance().FunCfgData.TBACurFreq = ParseCurFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBaCurFreq = ParseCurFreq(textBox.Text);
     }
 
     private void B_Freq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.GetInstance().FunCfgData.TBBCurFreq = ParseCurFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBbCurFreq = ParseCurFreq(textBox.Text);
     }
 
 
     private void A_RmFq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.GetInstance().FunCfgData.TBARemainFreq = ParsePinFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBaRemainFreq = ParsePinFreq(textBox.Text);
     }
 
     private void B_RmFq_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         var textBox = (TextBox)sender;
-        ClassTheRadioData.GetInstance().FunCfgData.TBBRemainFreq = ParsePinFreq(textBox.Text);
+        ClassTheRadioData.GetInstance().FunCfgData.TBbRemainFreq = ParsePinFreq(textBox.Text);
     }
 }

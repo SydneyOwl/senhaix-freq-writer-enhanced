@@ -10,15 +10,15 @@ namespace SenhaixFreqWriter.Utils.Other;
 
 public class SysFile
 {
-    private static string defaultRootPath = SETTINGS.Load().DataDir; 
-    private static string backupRootPath = SETTINGS.Load().GetBackupPath();
+    private static string _defaultRootPath = Settings.Load().DataDir;
+    private static string _backupRootPath = Settings.Load().GetBackupPath();
 
 
-    private static bool dirCheck(string path)
+    private static bool DirCheck(string path)
     {
         if (Directory.Exists(path))
         {
-            DebugWindow.GetInstance().updateDebugContent($"{path}已存在");
+            DebugWindow.GetInstance().UpdateDebugContent($"{path}已存在");
             return true;
         }
 
@@ -28,40 +28,37 @@ public class SysFile
         }
         catch (Exception e)
         {
-            DebugWindow.GetInstance().updateDebugContent($"新建失败：{path}，${e.Message}");
+            DebugWindow.GetInstance().UpdateDebugContent($"新建失败：{path}，${e.Message}");
             return false;
         }
 
         return true;
     }
+
     public static bool CheckDefaultDirectory()
     {
-        return dirCheck(defaultRootPath);
+        return DirCheck(_defaultRootPath);
     }
+
     public static bool CheckBackupDirectory()
     {
-        return dirCheck(backupRootPath);
+        return DirCheck(_backupRootPath);
     }
-    
+
     public static void CreateBackup<T>(T data) where T : IBackupable
     {
-        if (!SETTINGS.Load().EnableAutoBackup)
-        {
-            return;
-        }
+        if (!Settings.Load().EnableAutoBackup) return;
         try
         {
             // 如果总备份数大于，则删除最后一个
-            DirectoryInfo dirInfo = new DirectoryInfo(backupRootPath);
+            var dirInfo = new DirectoryInfo(_backupRootPath);
             var datInfo = dirInfo.GetFiles("*.dat");
-            Array.Sort(datInfo,(x, y) =>
+            Array.Sort(datInfo, (x, y) =>
                 x.LastWriteTime.CompareTo(y.LastWriteTime));
-            for (int i = 0; i < datInfo.Length - SETTINGS.Load().MaxBackupNumber;i++)
-            {
-                datInfo[i].Delete();
-            }
-            string identifier = GetIdentifier<T>();
-            string filePath = Path.Join(backupRootPath, $"Autobackup-{identifier}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.dat");
+            for (var i = 0; i < datInfo.Length - Settings.Load().MaxBackupNumber; i++) datInfo[i].Delete();
+            var identifier = GetIdentifier<T>();
+            var filePath = Path.Join(_backupRootPath,
+                $"Autobackup-{identifier}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.dat");
 
             using (Stream stream = new FileStream(filePath, FileMode.OpenOrCreate))
             {
@@ -70,13 +67,12 @@ public class SysFile
                 data.SaveToFile(stream);
             }
         }
-        catch(Exception aa)
+        catch (Exception aa)
         {
-            DebugWindow.GetInstance().updateDebugContent(aa.Message);
+            DebugWindow.GetInstance().UpdateDebugContent(aa.Message);
         }
-        
     }
-    
+
     private static string GetIdentifier<T>()
     {
         if (typeof(T) == typeof(AppData))

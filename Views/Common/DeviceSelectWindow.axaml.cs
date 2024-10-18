@@ -16,7 +16,8 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class DeviceSelectWindow : Window
 {
-    private SETTINGS Settings = SETTINGS.Load();
+    private Settings _settings = Settings.Load();
+
     public DeviceSelectWindow()
     {
         // if (DebugWindow.HasInstance()) DebugWindow.GetInstance().Close();
@@ -34,21 +35,19 @@ public partial class DeviceSelectWindow : Window
             Environment.Exit(0);
             return;
         }
-        
+
         // 提前帮用户选好端口
-        _ = Task.Run(()=>
+        _ = Task.Run(() =>
         {
-            if (Settings.EnableSelectPortInAdvance)
-            {
+            if (_settings.EnableSelectPortInAdvance)
                 try
                 {
-                    MySerialPort.GetInstance().selectSerialInAdvance();
+                    MySerialPort.GetInstance().SelectSerialInAdvance();
                 }
-                catch(Exception qq)
+                catch (Exception qq)
                 {
-                    DebugWindow.GetInstance().updateDebugContent(qq.Message);
+                    DebugWindow.GetInstance().UpdateDebugContent(qq.Message);
                 }
-            }
         });
 
         switch (DeviceChooseComboBox.SelectedIndex)
@@ -61,11 +60,11 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Clear();
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("低功率");
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8800");
-                new MainWindow(SHX_DEVICE.SHX8800).Show();
+                DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8800");
+                new MainWindow(ShxDevice.Shx8800).Show();
                 break;
             case 1:
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8800新版");
+                DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8800新版");
                 new Shx8800Pro.MainWindow().Show();
                 break;
             case 2:
@@ -77,8 +76,8 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("低功率");
 
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600");
-                new MainWindow(SHX_DEVICE.SHX8600).Show();
+                DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8600");
+                new MainWindow(ShxDevice.Shx8600).Show();
                 break;
             case 3:
                 ChanChoice.TxPwr.Clear();
@@ -90,19 +89,19 @@ public partial class DeviceSelectWindow : Window
                 OptionalChoice.TxPwr.Add("高功率");
                 OptionalChoice.TxPwr.Add("中功率");
                 OptionalChoice.TxPwr.Add("低功率");
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯8600新版");
-                new MainWindow(SHX_DEVICE.SHX8600PRO).Show();
+                DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8600新版");
+                new MainWindow(ShxDevice.Shx8600Pro).Show();
                 break;
             case 4:
-                DebugWindow.GetInstance().updateDebugContent("用户选择森海克斯GT12");
+                DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯GT12");
                 new Gt12.MainWindow().Show();
                 break;
             default:
-                new MainWindow(SHX_DEVICE.SHX8600).Show();
+                new MainWindow(ShxDevice.Shx8600).Show();
                 break;
         }
 
-        WSRPCUtil.GetInstance().StartWSRPC();
+        WsrpcUtil.GetInstance().StartWsrpc();
         Close();
     }
 }

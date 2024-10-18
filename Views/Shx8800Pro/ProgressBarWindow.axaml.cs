@@ -23,19 +23,19 @@ public partial class ProgressBarWindow : Window
     private readonly OpType _operation;
 
     private bool _opRes;
-    
+
     private Thread _threadCommunication;
 
     private Thread _threadProgress;
 
-    private MySerialPort port;
+    private MySerialPort _port;
 
     public ProgressBarWindow(OpType op)
     {
         _operation = op;
         InitializeComponent();
-        port = MySerialPort.GetInstance();
-        _com = new WriFreq8800Pro(port,op);
+        _port = MySerialPort.GetInstance();
+        _com = new WriFreq8800Pro(_port, op);
     }
 
     private async void StartButton_OnClick(object? sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ public partial class ProgressBarWindow : Window
         progressBar.Value = 0;
         try
         {
-            port.OpenSerial8800Pro();
+            _port.OpenSerial8800Pro();
             _cancelSource = new CancellationTokenSource();
             _threadCommunication = new Thread(() => Task_Communication(_cancelSource.Token));
             _threadCommunication.Start();
@@ -70,17 +70,17 @@ public partial class ProgressBarWindow : Window
         catch (Exception aa)
         {
             MessageBoxManager.GetMessageBoxStandard("注意", "请检查端口选择是否正确，以及写频线是否正确连接！").ShowWindowDialogAsync(this);
-            DebugWindow.GetInstance().updateDebugContent(aa.Message);
+            DebugWindow.GetInstance().UpdateDebugContent(aa.Message);
             StartButton.IsEnabled = true;
             CloseButton.IsEnabled = true;
             progressBar.Value = 0;
-            port.CloseSerial();
+            _port.CloseSerial();
         }
     }
 
     private void Task_Communication(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start WriFreq Thread: StartWrite8800Pro");
+        DebugWindow.GetInstance().UpdateDebugContent("Start WriFreq Thread: StartWrite8800Pro");
         var flag = false;
         try
         {
@@ -88,32 +88,32 @@ public partial class ProgressBarWindow : Window
         }
         catch (Exception a)
         {
-            DebugWindow.GetInstance().updateDebugContent(a.Message);
+            DebugWindow.GetInstance().UpdateDebugContent(a.Message);
             // Console.Write(a);
         }
         finally
         {
-            port.CloseSerial();
+            _port.CloseSerial();
         }
 
         // DebugWindow.GetInstance().updateDebugContent("We've done write!");
         Dispatcher.UIThread.Invoke(() => HandleResult(flag));
-        DebugWindow.GetInstance().updateDebugContent("Terminate WriFreq Thread: StartWrite8800Pro");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate WriFreq Thread: StartWrite8800Pro");
     }
 
     private void Task_Progress(CancellationToken token)
     {
-        DebugWindow.GetInstance().updateDebugContent("Start GetProcess Thread: GetProcess8800Pro");
+        DebugWindow.GetInstance().UpdateDebugContent("Start GetProcess Thread: GetProcess8800Pro");
         while (!token.IsCancellationRequested)
         {
             // Thread.Sleep(10);
             ProgressBarValue pgv;
-            if (!_com.statusQueue.TryDequeue(out pgv)) continue;
+            if (!_com.StatusQueue.TryDequeue(out pgv)) continue;
             Dispatcher.UIThread.Post(() => statusLabel.Content = pgv.Content);
             Dispatcher.UIThread.Post(() => progressBar.Value = pgv.Value);
         }
 
-        DebugWindow.GetInstance().updateDebugContent("Terminate GetProcess Thread: GetProcess8800Pro");
+        DebugWindow.GetInstance().UpdateDebugContent("Terminate GetProcess Thread: GetProcess8800Pro");
     }
 
     private void HandleResult(bool result)
