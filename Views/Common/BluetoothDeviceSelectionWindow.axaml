@@ -1,20 +1,22 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="800" Height="450"
+        Width="650" Height="400"
         x:Class="SenhaixFreqWriter.Views.Common.BluetoothDeviceSelectionWindow"
         Title="连接蓝牙"
         xmlns:vm="using:SenhaixFreqWriter.Views.Common"
         x:DataType="vm:BluetoothDeviceSelectionWindow"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        CanResize="False"
         WindowStartupLocation="CenterScreen">
     <Canvas Background="{DynamicResource dgvBackgroundBrush}">
         <Label Name="windowsHint" IsVisible="False"
-               Margin="10" PointerPressed="WindowsHint_OnPointerPressed"
+               Margin="20" PointerPressed="WindowsHint_OnPointerPressed"
+               Background="PeachPuff"
                Content="Hint：如果在windows下始终找不到目标设备，不妨试着点我重启一下蓝牙~" />
         <DataGrid Name="btdevice"
                   GridLinesVisibility="All"
-                  Width="550"
-                  Height="350"
+                  Width="350"
+                  Height="300"
                   BorderThickness="1" BorderBrush="Black"
                   CanUserSortColumns="False"
                   Classes="draggable"
@@ -32,11 +34,11 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <CheckBox Content="禁用弱信号限制(win)" Canvas.Right="20" Canvas.Top="60" Name="disableWeakSignal" />
-        <CheckBox Content="禁用ssid过滤" Canvas.Right="67" Canvas.Top="100" Name="disableSSIDF" />
-        <CheckBox Content="RPC调用" Canvas.Right="94" Canvas.Top="140" Name="useRPC"
+        <CheckBox Content="禁用弱信号限制(win)" Canvas.Right="20" Canvas.Top="80" Name="disableWeakSignal" />
+        <CheckBox Content="禁用ssid过滤" Canvas.Right="67" Canvas.Top="120" Name="disableSSIDF" />
+        <CheckBox Content="RPC调用" Canvas.Right="94" Canvas.Top="160" Name="useRPC"
                   IsCheckedChanged="UseRPC_OnIsCheckedChanged" />
-        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="180" Name="manualRPC" IsEnabled="False"
+        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="200" Name="manualRPC" IsEnabled="False"
                   IsCheckedChanged="ManualRPC_OnIsCheckedChanged" />
         <progRing:ProgressRing Width="25"
                                Height="25"
@@ -47,7 +49,7 @@
                                Canvas.Left="590"
                                Canvas.Top="250"
                                Name="ProgressRing1" />
-        <Button HorizontalAlignment="Left" Canvas.Right="67" Canvas.Top="250" Name="scanButton"
+        <Button HorizontalAlignment="Left" Canvas.Right="67" Canvas.Top="260" Name="scanButton"
                 Click="ScanButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource scan}" Margin="0,0,10,0" />
@@ -70,6 +72,6 @@
                 <TextBlock Text="连接设备" Name="connStat" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
-        <Label Content="*请把手台放在离电脑近一些的位置" Canvas.Right="10" Canvas.Top="400" />
+        <Label Content="*请把手台放在离电脑近一些的位置" Canvas.Left="10" Canvas.Top="50" />
     </Canvas>
 </Window>
