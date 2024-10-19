@@ -1,36 +1,43 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:common="clr-namespace:SenhaixFreqWriter.Views.Common"
-        Width="380" Height="400"
+        Width="380" Height="420"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         x:Class="SenhaixFreqWriter.Views.Common.SettingsWindow"
         x:DataType="common:SettingsWindow"
-        Title="设置"
+        Title="{x:Static p:Resources.settings}"
         WindowStartupLocation="CenterScreen">
     <Canvas Margin="10">
-        <CheckBox Content="自动备份" IsChecked="{Binding Settings.EnableAutoBackup}" />
-        <Label Content="- 备份周期（s）:" Canvas.Left="30" Canvas.Top="40" />
+        <CheckBox Content="{x:Static p:Resources.auto_backup}" IsChecked="{Binding Settings.EnableAutoBackup}" />
+        <Label Content="{x:Static p:Resources.backup_period}" Canvas.Left="30" Canvas.Top="40" />
         <TextBox Canvas.Left="145" Canvas.Top="35" Text="{Binding Settings.BackupInterval}" />
-        <Label Content=", 最大数量:" Canvas.Left="210" Canvas.Top="40" />
+        <Label Content="{x:Static p:Resources.max_backups}" Canvas.Left="210" Canvas.Top="40" />
         <TextBox Canvas.Left="290" Canvas.Top="35" Text="{Binding Settings.MaxBackupNumber}" />
-        <Button Content="打开备份目录" Canvas.Left="100" Click="OpenBackupButton_OnClick" />
+        <Button Content="{x:Static p:Resources.open_backup_dir}" Canvas.Left="120" Click="OpenBackupButton_OnClick" />
 
-        <CheckBox Content="启用端口自动选择" Canvas.Top="70" IsChecked="{Binding Settings.EnableSelectPortInAdvance}" />
-        <CheckBox Content="启用详细调试输出" Canvas.Top="110" IsChecked="{Binding Settings.EnableDebugChanDataOutput}" />
+        <CheckBox Content="{x:Static p:Resources.auto_port_sel}" Canvas.Top="70" IsChecked="{Binding Settings.EnableSelectPortInAdvance}" />
+        <CheckBox Content="{x:Static p:Resources.detailed_log}" Canvas.Top="110" IsChecked="{Binding Settings.EnableDebugChanDataOutput}" />
 
         <Label Content="RPC URL：" Canvas.Top="150" />
         <TextBox Canvas.Top="145" Canvas.Left="80" Width="180" Text="{Binding Settings.RpcUrl}" />
 
-        <Label Content="数据存储目录：" Canvas.Top="190" />
+        <Label Content="{x:Static p:Resources.storage_dir}" Canvas.Top="190" />
         <TextBox Canvas.Top="185" Canvas.Left="110" Width="150" Text="{Binding Settings.DataDir}" />
-        <Button Content="选择" Canvas.Left="270" Canvas.Top="185" Click="ChoosePathButton_OnClick" />
+        <Button Content="{x:Static p:Resources.choose}" Canvas.Left="270" Canvas.Top="185" Click="ChoosePathButton_OnClick" />
 
-        <Label Content="蓝牙插件名称：" Canvas.Top="235" />
+        <Label Content="{x:Static p:Resources.bt_plugin_name}" Canvas.Top="235" />
         <TextBox Canvas.Top="230" Canvas.Left="110" Width="150" Name="btPluginNameTextbox" />
 
-        <Label Content="插件参数：" Canvas.Top="275" />
+        <Label Content="{x:Static p:Resources.bt_plugin_args}" Canvas.Top="275" />
         <TextBox Canvas.Top="270" Canvas.Left="110" Width="150" Text="{Binding Settings.RpcClientProcessArgs}" />
+        
+        <Label Content="{x:Static p:Resources.switch_language}" Canvas.Top="315" />
+        <ComboBox Canvas.Top="310" Canvas.Left="110" Width="150" Name="LanguageChooseComboBox" SelectedIndex="{Binding Settings.LanguageIndex}">
+            <ComboBoxItem Content="{x:Static p:Resources.chinese}" />
+            <ComboBoxItem Content="{x:Static p:Resources.english}" />
+        </ComboBox>
 
-        <Button Content="确定" Canvas.Top="330" Canvas.Left="100" Click="SaveConfButton_OnClick" />
-        <Button Content="取消" Canvas.Top="330" Canvas.Left="200" Click="AbortButton_OnClick" />
+        <Button Content="{x:Static p:Resources.confirm}" Canvas.Top="370" Canvas.Left="100" Click="SaveConfButton_OnClick" />
+        <Button Content="{x:Static p:Resources.abort}" Canvas.Top="370" Canvas.Left="200" Click="AbortButton_OnClick" />
     </Canvas>
 </Window>

@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="app_name" xml:space="preserve">
+        <value>SenhaixFreqWriter</value>
+    </data>
+    <data name="version" xml:space="preserve">
+        <value>Version:</value>
+    </data>
+    <data name="commit" xml:space="preserve">
+        <value>Commit: </value>
+    </data>
+    <data name="compile_time" xml:space="preserve">
+        <value>Compile Time: </value>
+    </data>
+    <data name="internal_version" xml:space="preserve">
+        <value>(Internal Version)</value>
+    </data>
+    <data name="thanksto" xml:space="preserve">
+        <value>Thanks to...</value>
+    </data>
+    <data name="repo" xml:space="preserve">
+        <value>Repo</value>
+    </data>
+    <data name="hint_bt" xml:space="preserve">
+        <value>Hint: If you can’t find the target device on Windows, try restarting Bluetooth by clicking me~</value>
+    </data>
+    <data name="ssid" xml:space="preserve">
+        <value>Device Name</value>
+    </data>
+    <data name="disable_weak_signal" xml:space="preserve">
+        <value>Disable weak signal restriction (Windows)</value>
+    </data>
+    <data name="disable_ssid_filter" xml:space="preserve">
+        <value>Disable SSID filtering</value>
+    </data>
+    <data name="rpc_call" xml:space="preserve">
+        <value>RPC Call</value>
+    </data>
+    <data name="manual_call" xml:space="preserve">
+        <value>- Manually call plugin(advanced)</value>
+    </data>
+    <data name="conn_bt" xml:space="preserve">
+        <value>Connect to device</value>
+    </data>
+    <data name="scan_bt" xml:space="preserve">
+        <value>Scan device</value>
+    </data>
+    <data name="bt_connection" xml:space="preserve">
+        <value>Connect bluetooth</value>
+    </data>
+    <data name="about" xml:space="preserve">
+        <value>About</value>
+    </data>
+    <data name="choose_device" xml:space="preserve">
+        <value>Choose Device</value>
+    </data>
+    <data name="warning" xml:space="preserve">
+        <value>Warning</value>
+    </data>
+    <data name="sudo" xml:space="preserve">
+        <value>Please open with sudo!</value>
+    </data>
+    <data name="confirm" xml:space="preserve">
+        <value>Confirm</value>
+    </data>
+    <data name="port" xml:space="preserve">
+        <value>Port</value>
+    </data>
+    <data name="choose_port" xml:space="preserve">
+        <value>Choose Port</value>
+    </data>
+    <data name="how2choose" xml:space="preserve">
+        <value>How to choose?</value>
+    </data>
+    <data name="abort" xml:space="preserve">
+        <value>Abort</value>
+    </data>
+    <data name="choose_help" xml:space="preserve">
+        <value>If you have connected the programming cable before starting the software and there are no other USB serial devices, the software should have automatically selected the port for you.
+If the software did not select the port automatically, please follow these steps to choose the serial port:
+
+Windows:
+
+Make sure you have installed the corresponding driver for the programming cable.
+Open Device Manager and look for your programming cable under the "Ports" section; the name should be something like "USB-SERIAL CH340 (COM12)."
+Return to the software and select the corresponding port from the drop-down menu.
+macOS:
+
+Ensure that you have installed the driver for the programming cable (the CH340 driver does not need to be installed).
+Disconnect other devices using serial ports.
+Click the drop-down menu and select the option that includes "cu," for example: /dev/cu.usbserial-210.</value>
+    </data>
+    <data name="settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="failed" xml:space="preserve">
+        <value>Failed!</value>
+    </data>
+    <data name="auto_backup" xml:space="preserve">
+        <value>Auto backup: </value>
+    </data>
+    <data name="backup_period" xml:space="preserve">
+        <value>-backup period</value>
+    </data>
+    <data name="max_backups" xml:space="preserve">
+        <value>, max backups:</value>
+    </data>
+    <data name="open_backup_dir" xml:space="preserve">
+        <value>Open dir</value>
+    </data>
+    <data name="auto_port_sel" xml:space="preserve">
+        <value>Enable automatic port selection</value>
+    </data>
+    <data name="detailed_log" xml:space="preserve">
+        <value>Enable detailed debug output</value>
+    </data>
+    <data name="storage_dir" xml:space="preserve">
+        <value>Data dir:</value>
+    </data>
+    <data name="choose" xml:space="preserve">
+        <value>choose</value>
+    </data>
+    <data name="bt_plugin_name" xml:space="preserve">
+        <value>BtPlugin Name:</value>
+    </data>
+    <data name="bt_plugin_args" xml:space="preserve">
+        <value>Plugin args:</value>
+    </data>
+    <data name="switch_language" xml:space="preserve">
+        <value>Language: </value>
+    </data>
+    <data name="chinese" xml:space="preserve">
+        <value>Chinese</value>
+    </data>
+    <data name="english" xml:space="preserve">
+        <value>English</value>
+    </data>
+</root>

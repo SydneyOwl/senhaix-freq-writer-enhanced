@@ -1,18 +1,19 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="300" Height="150"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         x:Class="SenhaixFreqWriter.Views.Common.DeviceSelectWindow"
-        Title="选择设备"
+        Title="{x:Static p:Resources.choose_device}"
         WindowStartupLocation="CenterScreen">
     <Canvas>
-        <Label Canvas.Top="20" Canvas.Left="10">选择设备:</Label>
+        <Label Canvas.Top="20" Canvas.Left="10" Content="{x:Static p:Resources.choose_device}"/>
         <ComboBox Canvas.Top="50" Canvas.Left="50" Width="200" Name="DeviceChooseComboBox" SelectedIndex="0">
-            <ComboBoxItem Content="森海克斯8800" />
-            <ComboBoxItem Content="森海克斯8800pro" />
-            <ComboBoxItem Content="森海克斯8600" />
-            <ComboBoxItem Content="森海克斯8600pro" />
-            <ComboBoxItem Content="森海克斯GT12" />
+            <ComboBoxItem Content="SHX8800" />
+            <ComboBoxItem Content="SHX8800pro" />
+            <ComboBoxItem Content="SHX8600" />
+            <ComboBoxItem Content="SHX8600pro" />
+            <ComboBoxItem Content="SHX-GT12" />
         </ComboBox>
-        <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick">确定</Button>
+        <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick" Content="{x:Static p:Resources.confirm}"/>
     </Canvas>
 </Window>

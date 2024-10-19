@@ -1,8 +1,9 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="650" Height="400"
+        Width="700" Height="400"
         x:Class="SenhaixFreqWriter.Views.Common.BluetoothDeviceSelectionWindow"
-        Title="连接蓝牙"
+        Title="{x:Static p:Resources.bt_connection}"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         xmlns:vm="using:SenhaixFreqWriter.Views.Common"
         x:DataType="vm:BluetoothDeviceSelectionWindow"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
@@ -12,7 +13,7 @@
         <Label Name="windowsHint" IsVisible="False"
                Margin="20" PointerPressed="WindowsHint_OnPointerPressed"
                Background="PeachPuff"
-               Content="Hint：如果在windows下始终找不到目标设备，不妨试着点我重启一下蓝牙~" />
+               Content="{x:Static p:Resources.hint_bt}" />
         <DataGrid Name="btdevice"
                   GridLinesVisibility="All"
                   Width="350"
@@ -27,18 +28,18 @@
                   Canvas.Bottom="10"
                   Canvas.Left="10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="设备名" IsReadOnly="True"
+                <DataGridTextColumn Header="{x:Static p:Resources.ssid}" IsReadOnly="True"
                                     Width="*" Binding="{Binding  DeviceName}" />
                 <DataGridTextColumn Header="MAC" IsReadOnly="True"
                                     Width="*" Binding="{Binding DeviceMacAddr }" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <CheckBox Content="禁用弱信号限制(win)" Canvas.Right="20" Canvas.Top="80" Name="disableWeakSignal" />
-        <CheckBox Content="禁用ssid过滤" Canvas.Right="67" Canvas.Top="120" Name="disableSSIDF" />
-        <CheckBox Content="RPC调用" Canvas.Right="94" Canvas.Top="160" Name="useRPC"
+        <CheckBox Content="{x:Static p:Resources.disable_weak_signal}" Canvas.Left="400" Canvas.Top="80" Name="disableWeakSignal" />
+        <CheckBox Content="{x:Static p:Resources.disable_ssid_filter}" Canvas.Left="400" Canvas.Top="120" Name="disableSSIDF" />
+        <CheckBox Content="{x:Static p:Resources.rpc_call}" Canvas.Left="400" Canvas.Top="160" Name="useRPC"
                   IsCheckedChanged="UseRPC_OnIsCheckedChanged" />
-        <CheckBox Content="-  手动控制服务端" Canvas.Right="12" Canvas.Top="200" Name="manualRPC" IsEnabled="False"
+        <CheckBox Content="{x:Static p:Resources.manual_call}" Canvas.Left="450" Canvas.Top="200" Name="manualRPC" IsEnabled="False"
                   IsCheckedChanged="ManualRPC_OnIsCheckedChanged" />
         <progRing:ProgressRing Width="25"
                                Height="25"
@@ -49,11 +50,11 @@
                                Canvas.Left="590"
                                Canvas.Top="250"
                                Name="ProgressRing1" />
-        <Button HorizontalAlignment="Left" Canvas.Right="67" Canvas.Top="260" Name="scanButton"
+        <Button HorizontalAlignment="Left" Canvas.Left="450" Canvas.Top="260" Name="scanButton"
                 Click="ScanButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource scan}" Margin="0,0,10,0" />
-                <TextBlock Text="扫描设备" VerticalAlignment="Center" Name="scanStat" />
+                <TextBlock Text="{x:Static p:Resources.scan_bt}" VerticalAlignment="Center" Name="scanStat" />
             </StackPanel>
         </Button>
         <progRing:ProgressRing Width="25"
@@ -65,11 +66,11 @@
                                Canvas.Left="590"
                                Canvas.Top="325"
                                Name="ProgressRing2" />
-        <Button HorizontalAlignment="Left" Canvas.Right="67" Canvas.Top="320" Name="connButton"
+        <Button HorizontalAlignment="Left" Canvas.Left="450" Canvas.Top="320" Name="connButton"
                 Click="ConnButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource bluetooth_regular}" Margin="0,0,10,0" />
-                <TextBlock Text="连接设备" Name="connStat" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.conn_bt}" Name="connStat" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Label Content="*请把手台放在离电脑近一些的位置" Canvas.Left="10" Canvas.Top="50" />

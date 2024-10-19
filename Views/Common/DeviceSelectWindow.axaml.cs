@@ -31,7 +31,7 @@ public partial class DeviceSelectWindow : Window
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && !Environment.UserName.Equals("root"))
         {
-            await MessageBoxManager.GetMessageBoxStandard("注意", "请以sudo权限打开软件!").ShowWindowDialogAsync(this);
+            await MessageBoxManager.GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("sudo")).ShowWindowDialogAsync(this);
             Environment.Exit(0);
             return;
         }

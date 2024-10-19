@@ -3,12 +3,13 @@
         Width="400" Height="200"
         CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Common.AboutWindow"
-        Title="关于"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
+        Title="{x:Static p:Resources.about}"
         WindowStartupLocation="CenterScreen">
     <Canvas>
         <Image Height="150" Canvas.Top="30" Canvas.Left="20"
                Source="avares://SenhaixFreqWriter/Asset/shx8800-icons/1024x1024.png" />
-        <TextBlock Margin="220,30,0,20" FontWeight="Bold">森海克斯通用写频软件</TextBlock>
+        <TextBlock Margin="220,30,0,20" FontWeight="Bold" Text="{x:Static p:Resources.app_name}"></TextBlock>
         <Label Canvas.Top="50" Canvas.Right="180">For</Label>
         <Label Canvas.Top="50" Canvas.Right="110" Name="windows">Windows</Label>
         <Label Canvas.Top="50" Canvas.Right="100">/</Label>
@@ -16,27 +17,27 @@
         <Label Canvas.Top="50" Canvas.Right="52">/</Label>
         <Label Canvas.Top="50" Canvas.Right="0" Name="macos">macOS</Label>
 
-        <Label Canvas.Right="148" Canvas.Top="75"> 版本号：</Label>
+        <Label Canvas.Right="148" Canvas.Top="75" Content="{x:Static p:Resources.version}"/>
         <!-- <Label Content="{x:Static constants:Version.VersionTag}" Canvas.Left="250" Canvas.Top="75" /> -->
         <Label Name="MVersionTag" Canvas.Left="250" Canvas.Top="75" />
-        <Label Canvas.Right="162" Canvas.Top="100"> 提交：</Label>
+        <Label Canvas.Right="162" Canvas.Top="100" Content="{x:Static p:Resources.commit}"/>
         <!-- <Label Content="{x:Static constants:Version.GitCommitHash}" Canvas.Left="240" Canvas.Top="100" /> -->
         <Label Name="MGitCommitHash" Canvas.Left="240" Canvas.Top="100" />
-        <Label Canvas.Right="134" Canvas.Top="125"> 编译时间：</Label>
+        <Label Canvas.Right="134" Canvas.Top="125" Content="{x:Static p:Resources.compile_time}"/>
         <!-- <Label Content="{x:Static constants:Version.BuildTime}" Canvas.Right="0" Canvas.Top="125" /> -->
         <Label Name="MBuildTime" Canvas.Right="0" Canvas.Top="125" />
 
         <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="10" Click="RepoButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource git}" Margin="0,0,10,0" />
-                <TextBlock Text="仓库" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.repo}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
 
         <Button HorizontalAlignment="Left" Canvas.Bottom="10" Canvas.Right="120" Click="AckButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource thank}" Margin="0,0,10,0" />
-                <TextBlock Text="致谢" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.thanksto}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
 

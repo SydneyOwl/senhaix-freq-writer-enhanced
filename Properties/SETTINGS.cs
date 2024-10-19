@@ -15,6 +15,7 @@ public partial class Settings : ObservableObject
     [ObservableProperty] private bool _enableSelectPortInAdvance = true;
     [ObservableProperty] private bool _enableDebugChanDataOutput = false;
     [ObservableProperty] private bool _enableAutoBackup = true;
+    [ObservableProperty] private int _languageIndex = 0;
     [ObservableProperty] private int _backupInterval = 200;
     [ObservableProperty] private int _maxBackupNumber = 150;
     [ObservableProperty] private string _dataDir = AppContext.BaseDirectory;
