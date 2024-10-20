@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using SenhaixFreqWriter.Utils.Other;
 
 namespace SenhaixFreqWriter.Constants.Gt12;
 
@@ -37,12 +38,12 @@ public class VfoChoice
 
     public static ObservableCollection<string> BusyLock = new()
     {
-        "关", "开"
+        Language.GetString("off"),  Language.GetString("on")
     };
 
     public static ObservableCollection<string> SigSys = new()
     {
-        "无", "SDC", "DTMF"
+        Language.GetString("none"), "SDC", "DTMF"
     };
 
     public static ObservableCollection<string> Direction = new()
@@ -63,12 +64,16 @@ public class VfoChoice
 
     public static ObservableCollection<string> Bandwidth = new()
     {
-        "宽", "窄"
+        Language.GetString("wide"),
+        Language.GetString("narrow")
     };
 
     public static ObservableCollection<string> Power = new()
     {
-        "高", "中", "低"
+        Language.GetString("pwr_high"),
+        Language.GetString("pwr_mid"),
+        Language.GetString("pwr_low")
+        // "高", "中", "低"
     };
 
     public static ObservableCollection<string> Sqmode = new()
@@ -78,6 +83,10 @@ public class VfoChoice
 
     public static ObservableCollection<string> Pttid = new()
     {
-        "无", "发射开始", "发射结束", "两者"
+        Language.GetString("none"), 
+        Language.GetString("tx_start"), 
+        Language.GetString("tx_end"), 
+        Language.GetString("both"), 
+        // "无", "发射开始", "发射结束", "两者"
     };
 }

@@ -145,9 +145,504 @@ macOS:
         <value>简体中文</value>
     </data>
     <data name="english" xml:space="preserve">
-        <value>英语</value>
+        <value>英语（翻译中...）</value>
     </data>
     <data name="switch_language" xml:space="preserve">
-        <value>语言：</value>
+        <value>语言(需重启软件)</value>
+    </data>
+    <data name="pwr_high" xml:space="preserve">
+        <value>高功率</value>
+    </data>
+    <data name="pwr_mid" xml:space="preserve">
+        <value>中功率</value>
+    </data>
+    <data name="pwr_low" xml:space="preserve">
+        <value>低功率</value>
+    </data>
+    <data name="wide" xml:space="preserve">
+        <value>宽</value>
+    </data>
+    <data name="narrow" xml:space="preserve">
+        <value>窄</value>
+    </data>
+    <data name="delete" xml:space="preserve">
+        <value>删除</value>
+    </data>
+    <data name="press_ptt" xml:space="preserve">
+        <value>按下PTT</value>
+    </data>
+    <data name="none" xml:space="preserve">
+        <value>无</value>
+    </data>
+    <data name="release_ptt" xml:space="preserve">
+        <value>松开PTT</value>
+    </data>
+    <data name="on" xml:space="preserve">
+        <value>开</value>
+    </data>
+    <data name="add" xml:space="preserve">
+        <value>添加</value>
+    </data>
+    <data name="press_and_release_ptt" xml:space="preserve">
+        <value>按下和松开PTT</value>
+    </data>
+    <data name="high_sensitivity" xml:space="preserve">
+        <value>高灵敏度</value>
+    </data>
+    <data name="off" xml:space="preserve">
+        <value>关</value>
+    </data>
+    <data name="mid_sensitivity" xml:space="preserve">
+        <value>中灵敏度</value>
+    </data>
+    <data name="low_sensitivity" xml:space="preserve">
+        <value>低灵敏度</value>
+    </data>
+    <data name="default_msg" xml:space="preserve">
+        <value>预设信息</value>
+    </data>
+    <data name="bat_volt" xml:space="preserve">
+        <value>电池电压</value>
+    </data>
+    <data name="beep" xml:space="preserve">
+        <value>Beep音</value>
+    </data>
+    <data name="voice" xml:space="preserve">
+        <value>语音</value>
+    </data>
+    <data name="all" xml:space="preserve">
+        <value>全部</value>
+    </data>
+    <data name="low_gain" xml:space="preserve">
+        <value>低增益</value>
+    </data>
+    <data name="mid_gain" xml:space="preserve">
+        <value>中增益</value>
+    </data>
+    <data name="high_gain" xml:space="preserve">
+        <value>高增益</value>
+    </data>
+    <data name="time_scan" xml:space="preserve">
+        <value>时间扫描</value>
+    </data>
+    <data name="carrier_scan" xml:space="preserve">
+        <value>载波扫描</value>
+    </data>
+    <data name="search_scan" xml:space="preserve">
+        <value>搜索扫描</value>
+    </data>
+    <data name="send_sos_code" xml:space="preserve">
+        <value>发射报警码</value>
+    </data>
+    <data name="send_sos_voice" xml:space="preserve">
+        <value>发射报警音</value>
+    </data>
+    <data name="live_sos" xml:space="preserve">
+        <value>现场报警</value>
+    </data>
+    <data name="allow" xml:space="preserve">
+        <value>允许</value>
+    </data>
+    <data name="forbid" xml:space="preserve">
+        <value>禁止</value>
+    </data>
+    <data name="normal_open" xml:space="preserve">
+        <value>常开</value>
+    </data>
+    <data name="chan_name" xml:space="preserve">
+        <value>信道名称</value>
+    </data>
+    <data name="chan_num" xml:space="preserve">
+        <value>信道号</value>
+    </data>
+    <data name="freq" xml:space="preserve">
+        <value>频率</value>
+    </data>
+    <data name="chan_mode" xml:space="preserve">
+        <value>信道模式</value>
+    </data>
+    <data name="freq_mode" xml:space="preserve">
+        <value>频率模式</value>
+    </data>
+    <data name="switch_pwr" xml:space="preserve">
+        <value>功率切换</value>
+    </data>
+    <data name="fm" xml:space="preserve">
+        <value>收音机</value>
+    </data>
+    <data name="listen" xml:space="preserve">
+        <value>监听</value>
+    </data>
+    <data name="scan_freq" xml:space="preserve">
+        <value>扫频</value>
+    </data>
+    <data name="sos" xml:space="preserve">
+        <value>报警</value>
+    </data>
+    <data name="weather" xml:space="preserve">
+        <value>天气预报</value>
+    </data>
+    <data name="scan" xml:space="preserve">
+        <value>扫描</value>
+    </data>
+    <data name="vox" xml:space="preserve">
+        <value>声控开关</value>
+    </data>
+    <data name="remote_tone_scan" xml:space="preserve">
+        <value>远程扫描亚音</value>
+    </data>
+    <data name="tx_start" xml:space="preserve">
+        <value>发射开始</value>
+    </data>
+    <data name="tx_end" xml:space="preserve">
+        <value>发射结束</value>
+    </data>
+    <data name="both" xml:space="preserve">
+        <value>两者</value>
+    </data>
+    <data name="chan_num_and_chan_name" xml:space="preserve">
+        <value>信道号+信道名称</value>
+    </data>
+    <data name="chan_num_and_freq" xml:space="preserve">
+        <value>信道号+频率</value>
+    </data>
+    <data name="key_sidetone" xml:space="preserve">
+        <value>按键侧音</value>
+    </data>
+    <data name="idcode_sidetone" xml:space="preserve">
+        <value>发身份码侧音</value>
+    </data>
+    <data name="key_and_idcode_sidetone" xml:space="preserve">
+        <value>按键侧音+发身份码</value>
+    </data>
+    <data name="tx_on_release" xml:space="preserve">
+        <value>松开发码</value>
+    </data>
+    <data name="tx_on_press" xml:space="preserve">
+        <value>按下发码</value>
+    </data>
+    <data name="tx_on_both" xml:space="preserve">
+        <value>两者均发</value>
+    </data>
+    <data name="default_img1" xml:space="preserve">
+        <value>预设图片1</value>
+    </data>
+    <data name="default_img2" xml:space="preserve">
+        <value>预设图片2</value>
+    </data>
+    <data name="default_word" xml:space="preserve">
+        <value>预设字符</value>
+    </data>
+    <data name="normal_pwr_save" xml:space="preserve">
+        <value>普通省电</value>
+    </data>
+    <data name="super_pwr_save" xml:space="preserve">
+        <value>超级省电</value>
+    </data>
+    <data name="deep_pwr_save" xml:space="preserve">
+        <value>深度省电</value>
+    </data>
+    <data name="name" xml:space="preserve">
+        <value>名称</value>
+    </data>
+    <data name="serial_no" xml:space="preserve">
+        <value>序号</value>
+    </data>
+    <data name="code" xml:space="preserve">
+        <value>码</value>
+    </data>
+    <data name="my_id" xml:space="preserve">
+        <value>本机id</value>
+    </data>
+    <data name="dtmf_last_time" xml:space="preserve">
+        <value>DTMF码持续时间</value>
+    </data>
+    <data name="dtmf_break_time" xml:space="preserve">
+        <value>DTMF码间断时间</value>
+    </data>
+    <data name="current_freq" xml:space="preserve">
+        <value>当前频率：</value>
+    </data>
+    <data name="file" xml:space="preserve">
+        <value>文件</value>
+    </data>
+    <data name="new_cfg" xml:space="preserve">
+        <value>新建</value>
+    </data>
+    <data name="open" xml:space="preserve">
+        <value>打开</value>
+    </data>
+    <data name="saveas" xml:space="preserve">
+        <value>另存为</value>
+    </data>
+    <data name="save" xml:space="preserve">
+        <value>保存</value>
+    </data>
+    <data name="window" xml:space="preserve">
+        <value>窗口</value>
+    </data>
+    <data name="optional_function" xml:space="preserve">
+        <value>可选功能</value>
+    </data>
+    <data name="dtmf" xml:space="preserve">
+        <value>双音多频DTMF</value>
+    </data>
+    <data name="exit" xml:space="preserve">
+        <value>退出</value>
+    </data>
+    <data name="write_chan" xml:space="preserve">
+        <value>写入信道到手台</value>
+    </data>
+    <data name="read_chan" xml:space="preserve">
+        <value>从手台读取信道</value>
+    </data>
+    <data name="rw_freq" xml:space="preserve">
+        <value>读写频</value>
+    </data>
+    <data name="modify_boot_img" xml:space="preserve">
+        <value>修改开机画面</value>
+    </data>
+    <data name="sat_helper" xml:space="preserve">
+        <value>打星助手</value>
+    </data>
+    <data name="others" xml:space="preserve">
+        <value>其他</value>
+    </data>
+    <data name="theme_color" xml:space="preserve">
+        <value>主题色</value>
+    </data>
+    <data name="tools" xml:space="preserve">
+        <value>工具</value>
+    </data>
+    <data name="switch_device" xml:space="preserve">
+        <value>切换设备</value>
+    </data>
+    <data name="debug_function" xml:space="preserve">
+        <value>调试功能</value>
+    </data>
+    <data name="open_debug_window" xml:space="preserve">
+        <value>打开调试窗口</value>
+    </data>
+    <data name="fetch_hid" xml:space="preserve">
+        <value>获取HID信息</value>
+    </data>
+    <data name="read_freq" xml:space="preserve">
+        <value>读频</value>
+    </data>
+    <data name="write_freq" xml:space="preserve">
+        <value>写频</value>
+    </data>
+    <data name="no_connected_status" xml:space="preserve">
+        <value>连接状态：未连接</value>
+    </data>
+    <data name="prev_area" xml:space="preserve">
+        <value>上一区域</value>
+    </data>
+    <data name="next_area" xml:space="preserve">
+        <value>下一区域</value>
+    </data>
+    <data name="skip" xml:space="preserve">
+        <value>跳转</value>
+    </data>
+    <data name="cut" xml:space="preserve">
+        <value>剪切</value>
+    </data>
+    <data name="copy" xml:space="preserve">
+        <value>复制</value>
+    </data>
+    <data name="paste" xml:space="preserve">
+        <value>粘贴</value>
+    </data>
+    <data name="clear_sel_chan" xml:space="preserve">
+        <value>清空选中的信道</value>
+    </data>
+    <data name="del_chan" xml:space="preserve">
+        <value>删除该信道</value>
+    </data>
+    <data name="ins_chan" xml:space="preserve">
+        <value>插入空信道</value>
+    </data>
+    <data name="combine_chan" xml:space="preserve">
+        <value>合并非空信道</value>
+    </data>
+    <data name="chan" xml:space="preserve">
+        <value>信道</value>
+    </data>
+    <data name="rx_freq" xml:space="preserve">
+        <value>接收频率</value>
+    </data>
+    <data name="tone_dec" xml:space="preserve">
+        <value>亚音解码</value>
+    </data>
+    <data name="skip_to_area" xml:space="preserve">
+        <value>跳转到区域：</value>
+    </data>
+    <data name="tx_freq" xml:space="preserve">
+        <value>发射频率</value>
+    </data>
+    <data name="tone_enc" xml:space="preserve">
+        <value>亚音编码</value>
+    </data>
+    <data name="bandwidth" xml:space="preserve">
+        <value>带宽</value>
+    </data>
+    <data name="power" xml:space="preserve">
+        <value>功率</value>
+    </data>
+    <data name="area_name" xml:space="preserve">
+        <value>区域名称：</value>
+    </data>
+    <data name="scan_add" xml:space="preserve">
+        <value>扫描添加</value>
+    </data>
+    <data name="signalling" xml:space="preserve">
+        <value>信令</value>
+    </data>
+    <data name="mute_mode" xml:space="preserve">
+        <value>静音方式</value>
+    </data>
+    <data name="signalling_code" xml:space="preserve">
+        <value>信令码</value>
+    </data>
+    <data name="sql_level" xml:space="preserve">
+        <value>静噪等级</value>
+    </data>
+    <data name="tx_timeout" xml:space="preserve">
+        <value>发射超时</value>
+    </data>
+    <data name="pwr_save_mode" xml:space="preserve">
+        <value>省电模式</value>
+    </data>
+    <data name="vox_switch" xml:space="preserve">
+        <value>声控开关</value>
+    </data>
+    <data name="vox_level" xml:space="preserve">
+        <value>声控等级</value>
+    </data>
+    <data name="vox_delay" xml:space="preserve">
+        <value>声控延时</value>
+    </data>
+    <data name="dual_listen" xml:space="preserve">
+        <value>双守功能</value>
+    </data>
+    <data name="rev_rpt_freq" xml:space="preserve">
+        <value>中继倒频频率</value>
+    </data>
+    <data name="tone_switch" xml:space="preserve">
+        <value>侧音开关</value>
+    </data>
+    <data name="tail_clear" xml:space="preserve">
+        <value>尾音消除</value>
+    </data>
+    <data name="boot_disp" xml:space="preserve">
+        <value>开机显示方式</value>
+    </data>
+    <data name="remind_voice" xml:space="preserve">
+        <value>提示音</value>
+    </data>
+    <data name="scan_mode" xml:space="preserve">
+        <value>扫描模式</value>
+    </data>
+    <data name="sos_mode" xml:space="preserve">
+        <value>报警模式</value>
+    </data>
+    <data name="keyboard_lock" xml:space="preserve">
+        <value>键盘锁定</value>
+    </data>
+    <data name="mic_gain" xml:space="preserve">
+        <value>麦克风增益</value>
+    </data>
+    <data name="current_area" xml:space="preserve">
+        <value>当前区域</value>
+    </data>
+    <data name="keyboard_lock_time" xml:space="preserve">
+        <value>键盘锁定时间</value>
+    </data>
+    <data name="menu_exit_time" xml:space="preserve">
+        <value>菜单退出时间</value>
+    </data>
+    <data name="bglight_time" xml:space="preserve">
+        <value>背光时间</value>
+    </data>
+    <data name="bglight_level" xml:space="preserve">
+        <value>背光亮度</value>
+    </data>
+    <data name="tx_code_delay" xml:space="preserve">
+        <value>发码延迟</value>
+    </data>
+    <data name="tx_end_sound" xml:space="preserve">
+        <value>发射结束提示音</value>
+    </data>
+    <data name="a_band_disp_mode" xml:space="preserve">
+        <value>A段显示模式</value>
+    </data>
+    <data name="a_band_work_mode" xml:space="preserve">
+        <value>A段工作模式</value>
+    </data>
+    <data name="b_band_disp_mode" xml:space="preserve">
+        <value>B段显示模式</value>
+    </data>
+    <data name="b_band_work_mode" xml:space="preserve">
+        <value>B段工作模式</value>
+    </data>
+    <data name="key_1_short_press" xml:space="preserve">
+        <value>侧键1短按</value>
+    </data>
+    <data name="key_1_long_press" xml:space="preserve">
+        <value>侧键1长按</value>
+    </data>
+    <data name="key_2_short_press" xml:space="preserve">
+        <value>侧键2短按</value>
+    </data>
+    <data name="key_2_long_press" xml:space="preserve">
+        <value>侧键2长按</value>
+    </data>
+    <data name="pass_rpt_tail_clear" xml:space="preserve">
+        <value>过中继尾音消除</value>
+    </data>
+    <data name="pass_rpt_tail_detect" xml:space="preserve">
+        <value>过中继尾音检测</value>
+    </data>
+    <data name="boot_img_disp_time" xml:space="preserve">
+        <value>开机显示时间</value>
+    </data>
+    <data name="bt_voice_gain" xml:space="preserve">
+        <value>蓝牙音频增益</value>
+    </data>
+    <data name="status" xml:space="preserve">
+        <value>状态：</value>
+    </data>
+    <data name="callsign" xml:space="preserve">
+        <value>呼号</value>
+    </data>
+    <data name="wait_order" xml:space="preserve">
+        <value>等待指令...</value>
+    </data>
+    <data name="start" xml:space="preserve">
+        <value>开始</value>
+    </data>
+    <data name="rx_tone" xml:space="preserve">
+        <value>接收亚音</value>
+    </data>
+    <data name="tx_tone" xml:space="preserve">
+        <value>发射亚音</value>
+    </data>
+    <data name="sig_system" xml:space="preserve">
+        <value>信令系统</value>
+    </data>
+    <data name="step" xml:space="preserve">
+        <value>步进频率</value>
+    </data>
+    <data name="busy_lock" xml:space="preserve">
+        <value>繁忙锁定</value>
+    </data>
+    <data name="sig_encode" xml:space="preserve">
+        <value>信令编码</value>
+    </data>
+    <data name="freq_offset_dir" xml:space="preserve">
+        <value>频差方向</value>
+    </data>
+    <data name="freq_offset" xml:space="preserve">
+        <value>频差频率</value>
     </data>
 </root>

@@ -59,8 +59,8 @@ public partial class DeviceSelectWindow : Window
                 ChanChoice.TxPwr.Add("H");
 
                 OptionalChoice.TxPwr.Clear();
-                OptionalChoice.TxPwr.Add("高功率");
-                OptionalChoice.TxPwr.Add("低功率");
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_high"));
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_low"));
                 DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8800");
                 new MainWindow(ShxDevice.Shx8800).Show();
                 break;
@@ -76,8 +76,8 @@ public partial class DeviceSelectWindow : Window
                 ChanChoice.TxPwr.Add("H");
 
                 OptionalChoice.TxPwr.Clear();
-                OptionalChoice.TxPwr.Add("高功率");
-                OptionalChoice.TxPwr.Add("低功率");
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_high"));
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_low"));
 
                 DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8600");
                 new MainWindow(ShxDevice.Shx8600).Show();
@@ -90,9 +90,9 @@ public partial class DeviceSelectWindow : Window
                 ChanChoice.TxPwr.Add("H");
 
                 OptionalChoice.TxPwr.Clear();
-                OptionalChoice.TxPwr.Add("高功率");
-                OptionalChoice.TxPwr.Add("中功率");
-                OptionalChoice.TxPwr.Add("低功率");
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_high"));
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_mid"));
+                OptionalChoice.TxPwr.Add(Language.GetString("pwr_low"));
                 DebugWindow.GetInstance().UpdateDebugContent("用户选择森海克斯8600新版");
                 new MainWindow(ShxDevice.Shx8600Pro).Show();
                 break;

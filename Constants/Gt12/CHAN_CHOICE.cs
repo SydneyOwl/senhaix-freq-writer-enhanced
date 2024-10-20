@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using SenhaixFreqWriter.Utils.Other;
 
 namespace SenhaixFreqWriter.Constants.Gt12;
 
@@ -6,17 +7,21 @@ public class ChanChoice
 {
     public static ObservableCollection<string> Power = new()
     {
-        "高", "中", "低"
+        Language.GetString("pwr_high"),
+        Language.GetString("pwr_mid"),
+        Language.GetString("pwr_low")
     };
 
     public static ObservableCollection<string> Bandwidth = new()
     {
-        "宽", "窄"
+        Language.GetString("wide"),
+        Language.GetString("narrow")
     };
 
     public static ObservableCollection<string> Scanadd = new()
     {
-        "删除", "添加"
+        Language.GetString("delete"),
+        Language.GetString("add")
     };
 
     public static ObservableCollection<string> SigSys = new()
@@ -31,7 +36,11 @@ public class ChanChoice
 
     public static ObservableCollection<string> Pttid = new()
     {
-        "无", "按下PTT", "松开PTT", "按下和松开PTT"
+        Language.GetString("none"), 
+        Language.GetString("press_ptt"), 
+        Language.GetString("release_ptt"), 
+        Language.GetString("press_and_release_ptt"), 
+        // "按下PTT", "松开PTT", "按下和松开PTT"
     };
 
     public static ObservableCollection<string> SigGrp = new()

@@ -60,6 +60,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Band A Display Mode.
+        /// </summary>
+        public static string a_band_disp_mode {
+            get {
+                return ResourceManager.GetString("a_band_disp_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band A Work Mode.
+        /// </summary>
+        public static string a_band_work_mode {
+            get {
+                return ResourceManager.GetString("a_band_work_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abort.
         /// </summary>
         public static string abort {
@@ -78,11 +96,47 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string add {
+            get {
+                return ResourceManager.GetString("add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string all {
+            get {
+                return ResourceManager.GetString("all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow.
+        /// </summary>
+        public static string allow {
+            get {
+                return ResourceManager.GetString("allow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SenhaixFreqWriter.
         /// </summary>
         public static string app_name {
             get {
                 return ResourceManager.GetString("app_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Area Name:.
+        /// </summary>
+        public static string area_name {
+            get {
+                return ResourceManager.GetString("area_name", resourceCulture);
             }
         }
         
@@ -105,11 +159,101 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Band B Display Mode.
+        /// </summary>
+        public static string b_band_disp_mode {
+            get {
+                return ResourceManager.GetString("b_band_disp_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band B Work Mode.
+        /// </summary>
+        public static string b_band_work_mode {
+            get {
+                return ResourceManager.GetString("b_band_work_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -backup period.
         /// </summary>
         public static string backup_period {
             get {
                 return ResourceManager.GetString("backup_period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bandwidth.
+        /// </summary>
+        public static string bandwidth {
+            get {
+                return ResourceManager.GetString("bandwidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Battery voltage.
+        /// </summary>
+        public static string bat_volt {
+            get {
+                return ResourceManager.GetString("bat_volt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beep.
+        /// </summary>
+        public static string beep {
+            get {
+                return ResourceManager.GetString("beep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backlight Brightness.
+        /// </summary>
+        public static string bglight_level {
+            get {
+                return ResourceManager.GetString("bglight_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backlight time.
+        /// </summary>
+        public static string bglight_time {
+            get {
+                return ResourceManager.GetString("bglight_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup Display Mode.
+        /// </summary>
+        public static string boot_disp {
+            get {
+                return ResourceManager.GetString("boot_disp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup Display Time.
+        /// </summary>
+        public static string boot_img_disp_time {
+            get {
+                return ResourceManager.GetString("boot_img_disp_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Both.
+        /// </summary>
+        public static string both {
+            get {
+                return ResourceManager.GetString("both", resourceCulture);
             }
         }
         
@@ -137,6 +281,96 @@ namespace SenhaixFreqWriter.Properties {
         public static string bt_plugin_name {
             get {
                 return ResourceManager.GetString("bt_plugin_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bluetooth Audio Gain.
+        /// </summary>
+        public static string bt_voice_gain {
+            get {
+                return ResourceManager.GetString("bt_voice_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Busy lock.
+        /// </summary>
+        public static string busy_lock {
+            get {
+                return ResourceManager.GetString("busy_lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Callsign.
+        /// </summary>
+        public static string callsign {
+            get {
+                return ResourceManager.GetString("callsign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Carrier scan.
+        /// </summary>
+        public static string carrier_scan {
+            get {
+                return ResourceManager.GetString("carrier_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel.
+        /// </summary>
+        public static string chan {
+            get {
+                return ResourceManager.GetString("chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel Mode.
+        /// </summary>
+        public static string chan_mode {
+            get {
+                return ResourceManager.GetString("chan_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel Name.
+        /// </summary>
+        public static string chan_name {
+            get {
+                return ResourceManager.GetString("chan_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel No..
+        /// </summary>
+        public static string chan_num {
+            get {
+                return ResourceManager.GetString("chan_num", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel No. + name.
+        /// </summary>
+        public static string chan_num_and_chan_name {
+            get {
+                return ResourceManager.GetString("chan_num_and_chan_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel No. + freq.
+        /// </summary>
+        public static string chan_num_and_freq {
+            get {
+                return ResourceManager.GetString("chan_num_and_freq", resourceCulture);
             }
         }
         
@@ -192,6 +426,33 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear selected channel.
+        /// </summary>
+        public static string clear_sel_chan {
+            get {
+                return ResourceManager.GetString("clear_sel_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code.
+        /// </summary>
+        public static string code {
+            get {
+                return ResourceManager.GetString("code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Merge Non-Empty Channels.
+        /// </summary>
+        public static string combine_chan {
+            get {
+                return ResourceManager.GetString("combine_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Commit: .
         /// </summary>
         public static string commit {
@@ -228,6 +489,114 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string copy {
+            get {
+                return ResourceManager.GetString("copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current area.
+        /// </summary>
+        public static string current_area {
+            get {
+                return ResourceManager.GetString("current_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current freq:.
+        /// </summary>
+        public static string current_freq {
+            get {
+                return ResourceManager.GetString("current_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        public static string cut {
+            get {
+                return ResourceManager.GetString("cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug.
+        /// </summary>
+        public static string debug_function {
+            get {
+                return ResourceManager.GetString("debug_function", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deep Power Saving.
+        /// </summary>
+        public static string deep_pwr_save {
+            get {
+                return ResourceManager.GetString("deep_pwr_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default img1.
+        /// </summary>
+        public static string default_img1 {
+            get {
+                return ResourceManager.GetString("default_img1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default img2.
+        /// </summary>
+        public static string default_img2 {
+            get {
+                return ResourceManager.GetString("default_img2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        public static string default_msg {
+            get {
+                return ResourceManager.GetString("default_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default word.
+        /// </summary>
+        public static string default_word {
+            get {
+                return ResourceManager.GetString("default_word", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string del_chan {
+            get {
+                return ResourceManager.GetString("del_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string delete {
+            get {
+                return ResourceManager.GetString("delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable detailed debug output.
         /// </summary>
         public static string detailed_log {
@@ -255,6 +624,42 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dual Tone Multi-Frequency (DTMF).
+        /// </summary>
+        public static string dtmf {
+            get {
+                return ResourceManager.GetString("dtmf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DTMF Code Intertone Time.
+        /// </summary>
+        public static string dtmf_break_time {
+            get {
+                return ResourceManager.GetString("dtmf_break_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DTMF Code Duration.
+        /// </summary>
+        public static string dtmf_last_time {
+            get {
+                return ResourceManager.GetString("dtmf_last_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dual Watch.
+        /// </summary>
+        public static string dual_listen {
+            get {
+                return ResourceManager.GetString("dual_listen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string english {
@@ -264,11 +669,110 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string exit {
+            get {
+                return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed!.
         /// </summary>
         public static string failed {
             get {
                 return ResourceManager.GetString("failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obtain HID Information.
+        /// </summary>
+        public static string fetch_hid {
+            get {
+                return ResourceManager.GetString("fetch_hid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string file {
+            get {
+                return ResourceManager.GetString("file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FM.
+        /// </summary>
+        public static string fm {
+            get {
+                return ResourceManager.GetString("fm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forbid.
+        /// </summary>
+        public static string forbid {
+            get {
+                return ResourceManager.GetString("forbid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frequency.
+        /// </summary>
+        public static string freq {
+            get {
+                return ResourceManager.GetString("freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Freq mode.
+        /// </summary>
+        public static string freq_mode {
+            get {
+                return ResourceManager.GetString("freq_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Freq offset.
+        /// </summary>
+        public static string freq_offset {
+            get {
+                return ResourceManager.GetString("freq_offset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Freq offset dir.
+        /// </summary>
+        public static string freq_offset_dir {
+            get {
+                return ResourceManager.GetString("freq_offset_dir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High gain.
+        /// </summary>
+        public static string high_gain {
+            get {
+                return ResourceManager.GetString("high_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High sensitivity.
+        /// </summary>
+        public static string high_sensitivity {
+            get {
+                return ResourceManager.GetString("high_sensitivity", resourceCulture);
             }
         }
         
@@ -291,11 +795,137 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transmit ID Code Side Tone.
+        /// </summary>
+        public static string idcode_sidetone {
+            get {
+                return ResourceManager.GetString("idcode_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert empty channel.
+        /// </summary>
+        public static string ins_chan {
+            get {
+                return ResourceManager.GetString("ins_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (Internal Version).
         /// </summary>
         public static string internal_version {
             get {
                 return ResourceManager.GetString("internal_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long-press key1.
+        /// </summary>
+        public static string key_1_long_press {
+            get {
+                return ResourceManager.GetString("key_1_long_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short-press key1.
+        /// </summary>
+        public static string key_1_short_press {
+            get {
+                return ResourceManager.GetString("key_1_short_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long-press key2.
+        /// </summary>
+        public static string key_2_long_press {
+            get {
+                return ResourceManager.GetString("key_2_long_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short-press key2.
+        /// </summary>
+        public static string key_2_short_press {
+            get {
+                return ResourceManager.GetString("key_2_short_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keypad Side Tone + Transmit ID Code.
+        /// </summary>
+        public static string key_and_idcode_sidetone {
+            get {
+                return ResourceManager.GetString("key_and_idcode_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keypad Side Tone.
+        /// </summary>
+        public static string key_sidetone {
+            get {
+                return ResourceManager.GetString("key_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyboard lock.
+        /// </summary>
+        public static string keyboard_lock {
+            get {
+                return ResourceManager.GetString("keyboard_lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyboard locktime.
+        /// </summary>
+        public static string keyboard_lock_time {
+            get {
+                return ResourceManager.GetString("keyboard_lock_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listen.
+        /// </summary>
+        public static string listen {
+            get {
+                return ResourceManager.GetString("listen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Live sos.
+        /// </summary>
+        public static string live_sos {
+            get {
+                return ResourceManager.GetString("live_sos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low gain.
+        /// </summary>
+        public static string low_gain {
+            get {
+                return ResourceManager.GetString("low_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low sensitivity.
+        /// </summary>
+        public static string low_sensitivity {
+            get {
+                return ResourceManager.GetString("low_sensitivity", resourceCulture);
             }
         }
         
@@ -318,11 +948,227 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu Exit Time.
+        /// </summary>
+        public static string menu_exit_time {
+            get {
+                return ResourceManager.GetString("menu_exit_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIc gain.
+        /// </summary>
+        public static string mic_gain {
+            get {
+                return ResourceManager.GetString("mic_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium gain.
+        /// </summary>
+        public static string mid_gain {
+            get {
+                return ResourceManager.GetString("mid_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium sensitivity.
+        /// </summary>
+        public static string mid_sensitivity {
+            get {
+                return ResourceManager.GetString("mid_sensitivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify Startup Screen.
+        /// </summary>
+        public static string modify_boot_img {
+            get {
+                return ResourceManager.GetString("modify_boot_img", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mute mode.
+        /// </summary>
+        public static string mute_mode {
+            get {
+                return ResourceManager.GetString("mute_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device ID.
+        /// </summary>
+        public static string my_id {
+            get {
+                return ResourceManager.GetString("my_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string name {
+            get {
+                return ResourceManager.GetString("name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Narrow.
+        /// </summary>
+        public static string narrow {
+            get {
+                return ResourceManager.GetString("narrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string new_cfg {
+            get {
+                return ResourceManager.GetString("new_cfg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next area.
+        /// </summary>
+        public static string next_area {
+            get {
+                return ResourceManager.GetString("next_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status: NOT CONNECTED.
+        /// </summary>
+        public static string no_connected_status {
+            get {
+                return ResourceManager.GetString("no_connected_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string none {
+            get {
+                return ResourceManager.GetString("none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal Open.
+        /// </summary>
+        public static string normal_open {
+            get {
+                return ResourceManager.GetString("normal_open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal Power Saving.
+        /// </summary>
+        public static string normal_pwr_save {
+            get {
+                return ResourceManager.GetString("normal_pwr_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OFF.
+        /// </summary>
+        public static string off {
+            get {
+                return ResourceManager.GetString("off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ON.
+        /// </summary>
+        public static string on {
+            get {
+                return ResourceManager.GetString("on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string open {
+            get {
+                return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open dir.
         /// </summary>
         public static string open_backup_dir {
             get {
                 return ResourceManager.GetString("open_backup_dir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open debug window.
+        /// </summary>
+        public static string open_debug_window {
+            get {
+                return ResourceManager.GetString("open_debug_window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optional.
+        /// </summary>
+        public static string optional_function {
+            get {
+                return ResourceManager.GetString("optional_function", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Others.
+        /// </summary>
+        public static string others {
+            get {
+                return ResourceManager.GetString("others", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eliminate Repeater Tail Tone.
+        /// </summary>
+        public static string pass_rpt_tail_clear {
+            get {
+                return ResourceManager.GetString("pass_rpt_tail_clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeater Tail Tone Detection.
+        /// </summary>
+        public static string pass_rpt_tail_detect {
+            get {
+                return ResourceManager.GetString("pass_rpt_tail_detect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string paste {
+            get {
+                return ResourceManager.GetString("paste", resourceCulture);
             }
         }
         
@@ -336,11 +1182,137 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Power.
+        /// </summary>
+        public static string power {
+            get {
+                return ResourceManager.GetString("power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press and release PTT.
+        /// </summary>
+        public static string press_and_release_ptt {
+            get {
+                return ResourceManager.GetString("press_and_release_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press PTT.
+        /// </summary>
+        public static string press_ptt {
+            get {
+                return ResourceManager.GetString("press_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prev area.
+        /// </summary>
+        public static string prev_area {
+            get {
+                return ResourceManager.GetString("prev_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High Power.
+        /// </summary>
+        public static string pwr_high {
+            get {
+                return ResourceManager.GetString("pwr_high", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low Power.
+        /// </summary>
+        public static string pwr_low {
+            get {
+                return ResourceManager.GetString("pwr_low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium Power.
+        /// </summary>
+        public static string pwr_mid {
+            get {
+                return ResourceManager.GetString("pwr_mid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power saving mode.
+        /// </summary>
+        public static string pwr_save_mode {
+            get {
+                return ResourceManager.GetString("pwr_save_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read from device.
+        /// </summary>
+        public static string read_chan {
+            get {
+                return ResourceManager.GetString("read_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read.
+        /// </summary>
+        public static string read_freq {
+            get {
+                return ResourceManager.GetString("read_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Release PTT.
+        /// </summary>
+        public static string release_ptt {
+            get {
+                return ResourceManager.GetString("release_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remind voice.
+        /// </summary>
+        public static string remind_voice {
+            get {
+                return ResourceManager.GetString("remind_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remote Scan Subtone.
+        /// </summary>
+        public static string remote_tone_scan {
+            get {
+                return ResourceManager.GetString("remote_tone_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repo.
         /// </summary>
         public static string repo {
             get {
                 return ResourceManager.GetString("repo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeater Shift Frequency.
+        /// </summary>
+        public static string rev_rpt_freq {
+            get {
+                return ResourceManager.GetString("rev_rpt_freq", resourceCulture);
             }
         }
         
@@ -354,11 +1326,137 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read/write.
+        /// </summary>
+        public static string rw_freq {
+            get {
+                return ResourceManager.GetString("rw_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rx freq.
+        /// </summary>
+        public static string rx_freq {
+            get {
+                return ResourceManager.GetString("rx_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rx tone.
+        /// </summary>
+        public static string rx_tone {
+            get {
+                return ResourceManager.GetString("rx_tone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Satellite helper.
+        /// </summary>
+        public static string sat_helper {
+            get {
+                return ResourceManager.GetString("sat_helper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string save {
+            get {
+                return ResourceManager.GetString("save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as.
+        /// </summary>
+        public static string saveas {
+            get {
+                return ResourceManager.GetString("saveas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan.
+        /// </summary>
+        public static string scan {
+            get {
+                return ResourceManager.GetString("scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan add.
+        /// </summary>
+        public static string scan_add {
+            get {
+                return ResourceManager.GetString("scan_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scan device.
         /// </summary>
         public static string scan_bt {
             get {
                 return ResourceManager.GetString("scan_bt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan freq.
+        /// </summary>
+        public static string scan_freq {
+            get {
+                return ResourceManager.GetString("scan_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan mode.
+        /// </summary>
+        public static string scan_mode {
+            get {
+                return ResourceManager.GetString("scan_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search scan.
+        /// </summary>
+        public static string search_scan {
+            get {
+                return ResourceManager.GetString("search_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send sos code.
+        /// </summary>
+        public static string send_sos_code {
+            get {
+                return ResourceManager.GetString("send_sos_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx sos sound.
+        /// </summary>
+        public static string send_sos_voice {
+            get {
+                return ResourceManager.GetString("send_sos_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No..
+        /// </summary>
+        public static string serial_no {
+            get {
+                return ResourceManager.GetString("serial_no", resourceCulture);
             }
         }
         
@@ -372,11 +1470,119 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Signaling encode.
+        /// </summary>
+        public static string sig_encode {
+            get {
+                return ResourceManager.GetString("sig_encode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signaling system.
+        /// </summary>
+        public static string sig_system {
+            get {
+                return ResourceManager.GetString("sig_system", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signaling.
+        /// </summary>
+        public static string signalling {
+            get {
+                return ResourceManager.GetString("signalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signaling code.
+        /// </summary>
+        public static string signalling_code {
+            get {
+                return ResourceManager.GetString("signalling_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip.
+        /// </summary>
+        public static string skip {
+            get {
+                return ResourceManager.GetString("skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip to.
+        /// </summary>
+        public static string skip_to_area {
+            get {
+                return ResourceManager.GetString("skip_to_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOS.
+        /// </summary>
+        public static string sos {
+            get {
+                return ResourceManager.GetString("sos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOS mode.
+        /// </summary>
+        public static string sos_mode {
+            get {
+                return ResourceManager.GetString("sos_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SQL Level.
+        /// </summary>
+        public static string sql_level {
+            get {
+                return ResourceManager.GetString("sql_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Name.
         /// </summary>
         public static string ssid {
             get {
                 return ResourceManager.GetString("ssid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string start {
+            get {
+                return ResourceManager.GetString("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status:.
+        /// </summary>
+        public static string status {
+            get {
+                return ResourceManager.GetString("status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step.
+        /// </summary>
+        public static string step {
+            get {
+                return ResourceManager.GetString("step", resourceCulture);
             }
         }
         
@@ -399,11 +1605,47 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Super power saving.
+        /// </summary>
+        public static string super_pwr_save {
+            get {
+                return ResourceManager.GetString("super_pwr_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switch device.
+        /// </summary>
+        public static string switch_device {
+            get {
+                return ResourceManager.GetString("switch_device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language: .
         /// </summary>
         public static string switch_language {
             get {
                 return ResourceManager.GetString("switch_language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power switching.
+        /// </summary>
+        public static string switch_pwr {
+            get {
+                return ResourceManager.GetString("switch_pwr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tail Tone Elimination.
+        /// </summary>
+        public static string tail_clear {
+            get {
+                return ResourceManager.GetString("tail_clear", resourceCulture);
             }
         }
         
@@ -417,6 +1659,150 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Theme color.
+        /// </summary>
+        public static string theme_color {
+            get {
+                return ResourceManager.GetString("theme_color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time scan.
+        /// </summary>
+        public static string time_scan {
+            get {
+                return ResourceManager.GetString("time_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subtone Decoding.
+        /// </summary>
+        public static string tone_dec {
+            get {
+                return ResourceManager.GetString("tone_dec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subtone Encoding.
+        /// </summary>
+        public static string tone_enc {
+            get {
+                return ResourceManager.GetString("tone_enc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subtone switch.
+        /// </summary>
+        public static string tone_switch {
+            get {
+                return ResourceManager.GetString("tone_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        public static string tools {
+            get {
+                return ResourceManager.GetString("tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code Transmission Delay.
+        /// </summary>
+        public static string tx_code_delay {
+            get {
+                return ResourceManager.GetString("tx_code_delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx finish.
+        /// </summary>
+        public static string tx_end {
+            get {
+                return ResourceManager.GetString("tx_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx finish voice.
+        /// </summary>
+        public static string tx_end_sound {
+            get {
+                return ResourceManager.GetString("tx_end_sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx freq.
+        /// </summary>
+        public static string tx_freq {
+            get {
+                return ResourceManager.GetString("tx_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx on Both.
+        /// </summary>
+        public static string tx_on_both {
+            get {
+                return ResourceManager.GetString("tx_on_both", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx on press.
+        /// </summary>
+        public static string tx_on_press {
+            get {
+                return ResourceManager.GetString("tx_on_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx on release.
+        /// </summary>
+        public static string tx_on_release {
+            get {
+                return ResourceManager.GetString("tx_on_release", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx start.
+        /// </summary>
+        public static string tx_start {
+            get {
+                return ResourceManager.GetString("tx_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx timeout.
+        /// </summary>
+        public static string tx_timeout {
+            get {
+                return ResourceManager.GetString("tx_timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transmit Subtone.
+        /// </summary>
+        public static string tx_tone {
+            get {
+                return ResourceManager.GetString("tx_tone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version: .
         /// </summary>
         public static string version {
@@ -426,11 +1812,110 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Voice.
+        /// </summary>
+        public static string voice {
+            get {
+                return ResourceManager.GetString("voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vox switch.
+        /// </summary>
+        public static string vox {
+            get {
+                return ResourceManager.GetString("vox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vox delay.
+        /// </summary>
+        public static string vox_delay {
+            get {
+                return ResourceManager.GetString("vox_delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vox level.
+        /// </summary>
+        public static string vox_level {
+            get {
+                return ResourceManager.GetString("vox_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vox switch.
+        /// </summary>
+        public static string vox_switch {
+            get {
+                return ResourceManager.GetString("vox_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for order....
+        /// </summary>
+        public static string wait_order {
+            get {
+                return ResourceManager.GetString("wait_order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string warning {
             get {
                 return ResourceManager.GetString("warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather forcast.
+        /// </summary>
+        public static string weather {
+            get {
+                return ResourceManager.GetString("weather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wide.
+        /// </summary>
+        public static string wide {
+            get {
+                return ResourceManager.GetString("wide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window.
+        /// </summary>
+        public static string window {
+            get {
+                return ResourceManager.GetString("window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write to device.
+        /// </summary>
+        public static string write_chan {
+            get {
+                return ResourceManager.GetString("write_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write channel.
+        /// </summary>
+        public static string write_freq {
+            get {
+                return ResourceManager.GetString("write_freq", resourceCulture);
             }
         }
     }

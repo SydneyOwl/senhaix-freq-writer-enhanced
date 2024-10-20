@@ -6,7 +6,8 @@
         x:Class="SenhaixFreqWriter.Views.Gt12.FmWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         x:DataType="vm:FmWindow"
-        Title="收音机">
+        xmlns:p="using:SenhaixFreqWriter.Properties"
+        Title="{x:Static p:Resources.fm}">
     <Canvas>
         <DataGrid Margin="20" Name="FMDataGrid"
                   GridLinesVisibility="All"
@@ -19,8 +20,8 @@
                   Width="350"
                   RowBackground="{DynamicResource dgBackgroundBrush}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
-                <DataGridTemplateColumn Header="频点" IsReadOnly="False"
+                <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTemplateColumn Header="{x:Static p:Resources.freq}" IsReadOnly="False"
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -31,7 +32,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="当前频率:" Canvas.Bottom="20" Canvas.Left="20" />
+        <Label Content="{x:Static p:Resources.current_freq}" Canvas.Bottom="20" Canvas.Left="20" />
         <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}"
                  TextChanged="currFreqInputElement_OnLostFocus" />
     </Canvas>

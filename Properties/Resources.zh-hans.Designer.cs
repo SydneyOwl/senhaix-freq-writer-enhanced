@@ -60,6 +60,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A段显示模式.
+        /// </summary>
+        public static string a_band_disp_mode {
+            get {
+                return ResourceManager.GetString("a_band_disp_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A段工作模式.
+        /// </summary>
+        public static string a_band_work_mode {
+            get {
+                return ResourceManager.GetString("a_band_work_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 取消.
         /// </summary>
         public static string abort {
@@ -78,11 +96,47 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 添加.
+        /// </summary>
+        public static string add {
+            get {
+                return ResourceManager.GetString("add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 全部.
+        /// </summary>
+        public static string all {
+            get {
+                return ResourceManager.GetString("all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 允许.
+        /// </summary>
+        public static string allow {
+            get {
+                return ResourceManager.GetString("allow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 森海克斯通用写频软件.
         /// </summary>
         public static string app_name {
             get {
                 return ResourceManager.GetString("app_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 区域名称：.
+        /// </summary>
+        public static string area_name {
+            get {
+                return ResourceManager.GetString("area_name", resourceCulture);
             }
         }
         
@@ -105,11 +159,101 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to B段显示模式.
+        /// </summary>
+        public static string b_band_disp_mode {
+            get {
+                return ResourceManager.GetString("b_band_disp_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to B段工作模式.
+        /// </summary>
+        public static string b_band_work_mode {
+            get {
+                return ResourceManager.GetString("b_band_work_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to - 备份周期（s）:.
         /// </summary>
         public static string backup_period {
             get {
                 return ResourceManager.GetString("backup_period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 带宽.
+        /// </summary>
+        public static string bandwidth {
+            get {
+                return ResourceManager.GetString("bandwidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 电池电压.
+        /// </summary>
+        public static string bat_volt {
+            get {
+                return ResourceManager.GetString("bat_volt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beep音.
+        /// </summary>
+        public static string beep {
+            get {
+                return ResourceManager.GetString("beep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 背光亮度.
+        /// </summary>
+        public static string bglight_level {
+            get {
+                return ResourceManager.GetString("bglight_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 背光时间.
+        /// </summary>
+        public static string bglight_time {
+            get {
+                return ResourceManager.GetString("bglight_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 开机显示方式.
+        /// </summary>
+        public static string boot_disp {
+            get {
+                return ResourceManager.GetString("boot_disp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 开机显示时间.
+        /// </summary>
+        public static string boot_img_disp_time {
+            get {
+                return ResourceManager.GetString("boot_img_disp_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 两者.
+        /// </summary>
+        public static string both {
+            get {
+                return ResourceManager.GetString("both", resourceCulture);
             }
         }
         
@@ -137,6 +281,96 @@ namespace SenhaixFreqWriter.Properties {
         public static string bt_plugin_name {
             get {
                 return ResourceManager.GetString("bt_plugin_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 蓝牙音频增益.
+        /// </summary>
+        public static string bt_voice_gain {
+            get {
+                return ResourceManager.GetString("bt_voice_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 繁忙锁定.
+        /// </summary>
+        public static string busy_lock {
+            get {
+                return ResourceManager.GetString("busy_lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 呼号.
+        /// </summary>
+        public static string callsign {
+            get {
+                return ResourceManager.GetString("callsign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 载波扫描.
+        /// </summary>
+        public static string carrier_scan {
+            get {
+                return ResourceManager.GetString("carrier_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信道.
+        /// </summary>
+        public static string chan {
+            get {
+                return ResourceManager.GetString("chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信道模式.
+        /// </summary>
+        public static string chan_mode {
+            get {
+                return ResourceManager.GetString("chan_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信道名称.
+        /// </summary>
+        public static string chan_name {
+            get {
+                return ResourceManager.GetString("chan_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信道号.
+        /// </summary>
+        public static string chan_num {
+            get {
+                return ResourceManager.GetString("chan_num", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信道号+信道名称.
+        /// </summary>
+        public static string chan_num_and_chan_name {
+            get {
+                return ResourceManager.GetString("chan_num_and_chan_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信道号+频率.
+        /// </summary>
+        public static string chan_num_and_freq {
+            get {
+                return ResourceManager.GetString("chan_num_and_freq", resourceCulture);
             }
         }
         
@@ -195,6 +429,33 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 清空选中的信道.
+        /// </summary>
+        public static string clear_sel_chan {
+            get {
+                return ResourceManager.GetString("clear_sel_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 码.
+        /// </summary>
+        public static string code {
+            get {
+                return ResourceManager.GetString("code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 合并非空信道.
+        /// </summary>
+        public static string combine_chan {
+            get {
+                return ResourceManager.GetString("combine_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 提交：.
         /// </summary>
         public static string commit {
@@ -231,6 +492,114 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 复制.
+        /// </summary>
+        public static string copy {
+            get {
+                return ResourceManager.GetString("copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 当前区域.
+        /// </summary>
+        public static string current_area {
+            get {
+                return ResourceManager.GetString("current_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 当前频率：.
+        /// </summary>
+        public static string current_freq {
+            get {
+                return ResourceManager.GetString("current_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 剪切.
+        /// </summary>
+        public static string cut {
+            get {
+                return ResourceManager.GetString("cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 调试功能.
+        /// </summary>
+        public static string debug_function {
+            get {
+                return ResourceManager.GetString("debug_function", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 深度省电.
+        /// </summary>
+        public static string deep_pwr_save {
+            get {
+                return ResourceManager.GetString("deep_pwr_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 预设图片1.
+        /// </summary>
+        public static string default_img1 {
+            get {
+                return ResourceManager.GetString("default_img1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 预设图片2.
+        /// </summary>
+        public static string default_img2 {
+            get {
+                return ResourceManager.GetString("default_img2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 预设信息.
+        /// </summary>
+        public static string default_msg {
+            get {
+                return ResourceManager.GetString("default_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 预设字符.
+        /// </summary>
+        public static string default_word {
+            get {
+                return ResourceManager.GetString("default_word", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 删除该信道.
+        /// </summary>
+        public static string del_chan {
+            get {
+                return ResourceManager.GetString("del_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 删除.
+        /// </summary>
+        public static string delete {
+            get {
+                return ResourceManager.GetString("delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 启用详细调试输出.
         /// </summary>
         public static string detailed_log {
@@ -258,11 +627,56 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 英语.
+        ///   Looks up a localized string similar to 双音多频DTMF.
+        /// </summary>
+        public static string dtmf {
+            get {
+                return ResourceManager.GetString("dtmf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DTMF码间断时间.
+        /// </summary>
+        public static string dtmf_break_time {
+            get {
+                return ResourceManager.GetString("dtmf_break_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DTMF码持续时间.
+        /// </summary>
+        public static string dtmf_last_time {
+            get {
+                return ResourceManager.GetString("dtmf_last_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 双守功能.
+        /// </summary>
+        public static string dual_listen {
+            get {
+                return ResourceManager.GetString("dual_listen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 英语（翻译中...）.
         /// </summary>
         public static string english {
             get {
                 return ResourceManager.GetString("english", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 退出.
+        /// </summary>
+        public static string exit {
+            get {
+                return ResourceManager.GetString("exit", resourceCulture);
             }
         }
         
@@ -272,6 +686,96 @@ namespace SenhaixFreqWriter.Properties {
         public static string failed {
             get {
                 return ResourceManager.GetString("failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 获取HID信息.
+        /// </summary>
+        public static string fetch_hid {
+            get {
+                return ResourceManager.GetString("fetch_hid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文件.
+        /// </summary>
+        public static string file {
+            get {
+                return ResourceManager.GetString("file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 收音机.
+        /// </summary>
+        public static string fm {
+            get {
+                return ResourceManager.GetString("fm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 禁止.
+        /// </summary>
+        public static string forbid {
+            get {
+                return ResourceManager.GetString("forbid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 频率.
+        /// </summary>
+        public static string freq {
+            get {
+                return ResourceManager.GetString("freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 频率模式.
+        /// </summary>
+        public static string freq_mode {
+            get {
+                return ResourceManager.GetString("freq_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 频差频率.
+        /// </summary>
+        public static string freq_offset {
+            get {
+                return ResourceManager.GetString("freq_offset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 频差方向.
+        /// </summary>
+        public static string freq_offset_dir {
+            get {
+                return ResourceManager.GetString("freq_offset_dir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 高增益.
+        /// </summary>
+        public static string high_gain {
+            get {
+                return ResourceManager.GetString("high_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 高灵敏度.
+        /// </summary>
+        public static string high_sensitivity {
+            get {
+                return ResourceManager.GetString("high_sensitivity", resourceCulture);
             }
         }
         
@@ -294,11 +798,137 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 发身份码侧音.
+        /// </summary>
+        public static string idcode_sidetone {
+            get {
+                return ResourceManager.GetString("idcode_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 插入空信道.
+        /// </summary>
+        public static string ins_chan {
+            get {
+                return ResourceManager.GetString("ins_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to （内部版本）.
         /// </summary>
         public static string internal_version {
             get {
                 return ResourceManager.GetString("internal_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 侧键1长按.
+        /// </summary>
+        public static string key_1_long_press {
+            get {
+                return ResourceManager.GetString("key_1_long_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 侧键1短按.
+        /// </summary>
+        public static string key_1_short_press {
+            get {
+                return ResourceManager.GetString("key_1_short_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 侧键2长按.
+        /// </summary>
+        public static string key_2_long_press {
+            get {
+                return ResourceManager.GetString("key_2_long_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 侧键2短按.
+        /// </summary>
+        public static string key_2_short_press {
+            get {
+                return ResourceManager.GetString("key_2_short_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 按键侧音+发身份码.
+        /// </summary>
+        public static string key_and_idcode_sidetone {
+            get {
+                return ResourceManager.GetString("key_and_idcode_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 按键侧音.
+        /// </summary>
+        public static string key_sidetone {
+            get {
+                return ResourceManager.GetString("key_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 键盘锁定.
+        /// </summary>
+        public static string keyboard_lock {
+            get {
+                return ResourceManager.GetString("keyboard_lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 键盘锁定时间.
+        /// </summary>
+        public static string keyboard_lock_time {
+            get {
+                return ResourceManager.GetString("keyboard_lock_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 监听.
+        /// </summary>
+        public static string listen {
+            get {
+                return ResourceManager.GetString("listen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 现场报警.
+        /// </summary>
+        public static string live_sos {
+            get {
+                return ResourceManager.GetString("live_sos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 低增益.
+        /// </summary>
+        public static string low_gain {
+            get {
+                return ResourceManager.GetString("low_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 低灵敏度.
+        /// </summary>
+        public static string low_sensitivity {
+            get {
+                return ResourceManager.GetString("low_sensitivity", resourceCulture);
             }
         }
         
@@ -321,11 +951,227 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 菜单退出时间.
+        /// </summary>
+        public static string menu_exit_time {
+            get {
+                return ResourceManager.GetString("menu_exit_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 麦克风增益.
+        /// </summary>
+        public static string mic_gain {
+            get {
+                return ResourceManager.GetString("mic_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 中增益.
+        /// </summary>
+        public static string mid_gain {
+            get {
+                return ResourceManager.GetString("mid_gain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 中灵敏度.
+        /// </summary>
+        public static string mid_sensitivity {
+            get {
+                return ResourceManager.GetString("mid_sensitivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 修改开机画面.
+        /// </summary>
+        public static string modify_boot_img {
+            get {
+                return ResourceManager.GetString("modify_boot_img", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 静音方式.
+        /// </summary>
+        public static string mute_mode {
+            get {
+                return ResourceManager.GetString("mute_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 本机id.
+        /// </summary>
+        public static string my_id {
+            get {
+                return ResourceManager.GetString("my_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 名称.
+        /// </summary>
+        public static string name {
+            get {
+                return ResourceManager.GetString("name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 窄.
+        /// </summary>
+        public static string narrow {
+            get {
+                return ResourceManager.GetString("narrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新建.
+        /// </summary>
+        public static string new_cfg {
+            get {
+                return ResourceManager.GetString("new_cfg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 下一区域.
+        /// </summary>
+        public static string next_area {
+            get {
+                return ResourceManager.GetString("next_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 连接状态：未连接.
+        /// </summary>
+        public static string no_connected_status {
+            get {
+                return ResourceManager.GetString("no_connected_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 无.
+        /// </summary>
+        public static string none {
+            get {
+                return ResourceManager.GetString("none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 常开.
+        /// </summary>
+        public static string normal_open {
+            get {
+                return ResourceManager.GetString("normal_open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 普通省电.
+        /// </summary>
+        public static string normal_pwr_save {
+            get {
+                return ResourceManager.GetString("normal_pwr_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 关.
+        /// </summary>
+        public static string off {
+            get {
+                return ResourceManager.GetString("off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 开.
+        /// </summary>
+        public static string on {
+            get {
+                return ResourceManager.GetString("on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 打开.
+        /// </summary>
+        public static string open {
+            get {
+                return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 打开备份目录.
         /// </summary>
         public static string open_backup_dir {
             get {
                 return ResourceManager.GetString("open_backup_dir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 打开调试窗口.
+        /// </summary>
+        public static string open_debug_window {
+            get {
+                return ResourceManager.GetString("open_debug_window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 可选功能.
+        /// </summary>
+        public static string optional_function {
+            get {
+                return ResourceManager.GetString("optional_function", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 其他.
+        /// </summary>
+        public static string others {
+            get {
+                return ResourceManager.GetString("others", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 过中继尾音消除.
+        /// </summary>
+        public static string pass_rpt_tail_clear {
+            get {
+                return ResourceManager.GetString("pass_rpt_tail_clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 过中继尾音检测.
+        /// </summary>
+        public static string pass_rpt_tail_detect {
+            get {
+                return ResourceManager.GetString("pass_rpt_tail_detect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 粘贴.
+        /// </summary>
+        public static string paste {
+            get {
+                return ResourceManager.GetString("paste", resourceCulture);
             }
         }
         
@@ -339,11 +1185,137 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 功率.
+        /// </summary>
+        public static string power {
+            get {
+                return ResourceManager.GetString("power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 按下和松开PTT.
+        /// </summary>
+        public static string press_and_release_ptt {
+            get {
+                return ResourceManager.GetString("press_and_release_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 按下PTT.
+        /// </summary>
+        public static string press_ptt {
+            get {
+                return ResourceManager.GetString("press_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 上一区域.
+        /// </summary>
+        public static string prev_area {
+            get {
+                return ResourceManager.GetString("prev_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 高功率.
+        /// </summary>
+        public static string pwr_high {
+            get {
+                return ResourceManager.GetString("pwr_high", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 低功率.
+        /// </summary>
+        public static string pwr_low {
+            get {
+                return ResourceManager.GetString("pwr_low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 中功率.
+        /// </summary>
+        public static string pwr_mid {
+            get {
+                return ResourceManager.GetString("pwr_mid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 省电模式.
+        /// </summary>
+        public static string pwr_save_mode {
+            get {
+                return ResourceManager.GetString("pwr_save_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 从手台读取信道.
+        /// </summary>
+        public static string read_chan {
+            get {
+                return ResourceManager.GetString("read_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 读频.
+        /// </summary>
+        public static string read_freq {
+            get {
+                return ResourceManager.GetString("read_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 松开PTT.
+        /// </summary>
+        public static string release_ptt {
+            get {
+                return ResourceManager.GetString("release_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 提示音.
+        /// </summary>
+        public static string remind_voice {
+            get {
+                return ResourceManager.GetString("remind_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 远程扫描亚音.
+        /// </summary>
+        public static string remote_tone_scan {
+            get {
+                return ResourceManager.GetString("remote_tone_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 仓库.
         /// </summary>
         public static string repo {
             get {
                 return ResourceManager.GetString("repo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 中继倒频频率.
+        /// </summary>
+        public static string rev_rpt_freq {
+            get {
+                return ResourceManager.GetString("rev_rpt_freq", resourceCulture);
             }
         }
         
@@ -357,11 +1329,137 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 读写频.
+        /// </summary>
+        public static string rw_freq {
+            get {
+                return ResourceManager.GetString("rw_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 接收频率.
+        /// </summary>
+        public static string rx_freq {
+            get {
+                return ResourceManager.GetString("rx_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 接收亚音.
+        /// </summary>
+        public static string rx_tone {
+            get {
+                return ResourceManager.GetString("rx_tone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 打星助手.
+        /// </summary>
+        public static string sat_helper {
+            get {
+                return ResourceManager.GetString("sat_helper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 保存.
+        /// </summary>
+        public static string save {
+            get {
+                return ResourceManager.GetString("save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 另存为.
+        /// </summary>
+        public static string saveas {
+            get {
+                return ResourceManager.GetString("saveas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 扫描.
+        /// </summary>
+        public static string scan {
+            get {
+                return ResourceManager.GetString("scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 扫描添加.
+        /// </summary>
+        public static string scan_add {
+            get {
+                return ResourceManager.GetString("scan_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 扫描设备.
         /// </summary>
         public static string scan_bt {
             get {
                 return ResourceManager.GetString("scan_bt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 扫频.
+        /// </summary>
+        public static string scan_freq {
+            get {
+                return ResourceManager.GetString("scan_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 扫描模式.
+        /// </summary>
+        public static string scan_mode {
+            get {
+                return ResourceManager.GetString("scan_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 搜索扫描.
+        /// </summary>
+        public static string search_scan {
+            get {
+                return ResourceManager.GetString("search_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射报警码.
+        /// </summary>
+        public static string send_sos_code {
+            get {
+                return ResourceManager.GetString("send_sos_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射报警音.
+        /// </summary>
+        public static string send_sos_voice {
+            get {
+                return ResourceManager.GetString("send_sos_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 序号.
+        /// </summary>
+        public static string serial_no {
+            get {
+                return ResourceManager.GetString("serial_no", resourceCulture);
             }
         }
         
@@ -375,11 +1473,119 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 信令编码.
+        /// </summary>
+        public static string sig_encode {
+            get {
+                return ResourceManager.GetString("sig_encode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信令系统.
+        /// </summary>
+        public static string sig_system {
+            get {
+                return ResourceManager.GetString("sig_system", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信令.
+        /// </summary>
+        public static string signalling {
+            get {
+                return ResourceManager.GetString("signalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 信令码.
+        /// </summary>
+        public static string signalling_code {
+            get {
+                return ResourceManager.GetString("signalling_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 跳转.
+        /// </summary>
+        public static string skip {
+            get {
+                return ResourceManager.GetString("skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 跳转到区域：.
+        /// </summary>
+        public static string skip_to_area {
+            get {
+                return ResourceManager.GetString("skip_to_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 报警.
+        /// </summary>
+        public static string sos {
+            get {
+                return ResourceManager.GetString("sos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 报警模式.
+        /// </summary>
+        public static string sos_mode {
+            get {
+                return ResourceManager.GetString("sos_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 静噪等级.
+        /// </summary>
+        public static string sql_level {
+            get {
+                return ResourceManager.GetString("sql_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 设备名.
         /// </summary>
         public static string ssid {
             get {
                 return ResourceManager.GetString("ssid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 开始.
+        /// </summary>
+        public static string start {
+            get {
+                return ResourceManager.GetString("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 状态：.
+        /// </summary>
+        public static string status {
+            get {
+                return ResourceManager.GetString("status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 步进频率.
+        /// </summary>
+        public static string step {
+            get {
+                return ResourceManager.GetString("step", resourceCulture);
             }
         }
         
@@ -402,11 +1608,47 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 语言：.
+        ///   Looks up a localized string similar to 超级省电.
+        /// </summary>
+        public static string super_pwr_save {
+            get {
+                return ResourceManager.GetString("super_pwr_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 切换设备.
+        /// </summary>
+        public static string switch_device {
+            get {
+                return ResourceManager.GetString("switch_device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 语言(需重启软件).
         /// </summary>
         public static string switch_language {
             get {
                 return ResourceManager.GetString("switch_language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 功率切换.
+        /// </summary>
+        public static string switch_pwr {
+            get {
+                return ResourceManager.GetString("switch_pwr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 尾音消除.
+        /// </summary>
+        public static string tail_clear {
+            get {
+                return ResourceManager.GetString("tail_clear", resourceCulture);
             }
         }
         
@@ -420,6 +1662,150 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 主题色.
+        /// </summary>
+        public static string theme_color {
+            get {
+                return ResourceManager.GetString("theme_color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 时间扫描.
+        /// </summary>
+        public static string time_scan {
+            get {
+                return ResourceManager.GetString("time_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 亚音解码.
+        /// </summary>
+        public static string tone_dec {
+            get {
+                return ResourceManager.GetString("tone_dec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 亚音编码.
+        /// </summary>
+        public static string tone_enc {
+            get {
+                return ResourceManager.GetString("tone_enc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 侧音开关.
+        /// </summary>
+        public static string tone_switch {
+            get {
+                return ResourceManager.GetString("tone_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 工具.
+        /// </summary>
+        public static string tools {
+            get {
+                return ResourceManager.GetString("tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发码延迟.
+        /// </summary>
+        public static string tx_code_delay {
+            get {
+                return ResourceManager.GetString("tx_code_delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射结束.
+        /// </summary>
+        public static string tx_end {
+            get {
+                return ResourceManager.GetString("tx_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射结束提示音.
+        /// </summary>
+        public static string tx_end_sound {
+            get {
+                return ResourceManager.GetString("tx_end_sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射频率.
+        /// </summary>
+        public static string tx_freq {
+            get {
+                return ResourceManager.GetString("tx_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 两者均发.
+        /// </summary>
+        public static string tx_on_both {
+            get {
+                return ResourceManager.GetString("tx_on_both", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 按下发码.
+        /// </summary>
+        public static string tx_on_press {
+            get {
+                return ResourceManager.GetString("tx_on_press", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 松开发码.
+        /// </summary>
+        public static string tx_on_release {
+            get {
+                return ResourceManager.GetString("tx_on_release", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射开始.
+        /// </summary>
+        public static string tx_start {
+            get {
+                return ResourceManager.GetString("tx_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射超时.
+        /// </summary>
+        public static string tx_timeout {
+            get {
+                return ResourceManager.GetString("tx_timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发射亚音.
+        /// </summary>
+        public static string tx_tone {
+            get {
+                return ResourceManager.GetString("tx_tone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 版本号：.
         /// </summary>
         public static string version {
@@ -429,11 +1815,110 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 语音.
+        /// </summary>
+        public static string voice {
+            get {
+                return ResourceManager.GetString("voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 声控开关.
+        /// </summary>
+        public static string vox {
+            get {
+                return ResourceManager.GetString("vox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 声控延时.
+        /// </summary>
+        public static string vox_delay {
+            get {
+                return ResourceManager.GetString("vox_delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 声控等级.
+        /// </summary>
+        public static string vox_level {
+            get {
+                return ResourceManager.GetString("vox_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 声控开关.
+        /// </summary>
+        public static string vox_switch {
+            get {
+                return ResourceManager.GetString("vox_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 等待指令....
+        /// </summary>
+        public static string wait_order {
+            get {
+                return ResourceManager.GetString("wait_order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 注意.
         /// </summary>
         public static string warning {
             get {
                 return ResourceManager.GetString("warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 天气预报.
+        /// </summary>
+        public static string weather {
+            get {
+                return ResourceManager.GetString("weather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 宽.
+        /// </summary>
+        public static string wide {
+            get {
+                return ResourceManager.GetString("wide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 窗口.
+        /// </summary>
+        public static string window {
+            get {
+                return ResourceManager.GetString("window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 写入信道到手台.
+        /// </summary>
+        public static string write_chan {
+            get {
+                return ResourceManager.GetString("write_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 写频.
+        /// </summary>
+        public static string write_freq {
+            get {
+                return ResourceManager.GetString("write_freq", resourceCulture);
             }
         }
     }

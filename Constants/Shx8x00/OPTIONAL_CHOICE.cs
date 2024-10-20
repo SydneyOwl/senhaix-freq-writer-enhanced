@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using SenhaixFreqWriter.Utils.Other;
 
 namespace SenhaixFreqWriter.Constants.Shx8x00;
 
@@ -6,7 +7,7 @@ public class OptionalChoice
 {
     public static ObservableCollection<string> TxTimeout = new()
     {
-        "关", "30", "60", "90", "120", "150", "180", "210", "240"
+        Language.GetString("off"), "30", "60", "90", "120", "150", "180", "210", "240"
     };
 
     public static ObservableCollection<string> SqlLevel = new()
@@ -28,7 +29,7 @@ public class OptionalChoice
 
     public static ObservableCollection<string> Speech = new()
     {
-        "关", "开"
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> AutoBackLight = new()
@@ -38,17 +39,18 @@ public class OptionalChoice
 
     public static ObservableCollection<string> AMode = new()
     {
-        "频率模式", "信道模式"
+        Language.GetString("freq_mode"), Language.GetString("chan_mode")
     };
 
     public static ObservableCollection<string> BMode = new()
     {
-        "频率模式", "信道模式"
+        Language.GetString("freq_mode"), Language.GetString("chan_mode")
     };
 
     public static ObservableCollection<string> ScanMode = new()
     {
-        "时间", "载波", "搜索"
+        Language.GetString("time_scan"),  Language.GetString("carrier_scan"), Language.GetString("search_scan")
+        // "时间", "载波", "搜索"
     };
 
     public static ObservableCollection<string> SavePower = new()
@@ -58,7 +60,8 @@ public class OptionalChoice
 
     public static ObservableCollection<string> TxPwr = new()
     {
-        "高功率", "低功率"
+        Language.GetString("pwr_high"),  Language.GetString("pwr_low")
+        // "高功率", "低功率"
     };
 
     public static ObservableCollection<string> TxCtcss = ChanChoice.Qtdqt;
@@ -66,7 +69,9 @@ public class OptionalChoice
 
     public static ObservableCollection<string> BandWidth = new()
     {
-        "宽带", "窄带"
+        Language.GetString("wide"),
+        Language.GetString("narrow")
+        // "宽带", "窄带"
     };
 
     public static ObservableCollection<string> Step = new()
@@ -84,22 +89,26 @@ public class OptionalChoice
 
     public static ObservableCollection<string> Encrypt = new()
     {
-        "关闭", "开启"
+        Language.GetString("off"), Language.GetString("on")
+        // "关闭", "开启"
     };
 
     public static ObservableCollection<string> Display = new()
     {
-        "信道号+信道名称", "信道号+频率"
+        Language.GetString("chan_num_and_chan_name"), Language.GetString("chan_num_and_freq")
+        // "信道号+信道名称", "信道号+频率"
     };
 
     public static ObservableCollection<string> Dtmf = new()
     {
-        "OFF", "按键侧音", "发身份码侧音", "按键侧音+发身份码"
+        "OFF", Language.GetString("key_sidetone"), Language.GetString("idcode_sidetone"), Language.GetString("key_and_idcode_sidetone")
+        // "OFF", "按键侧音", "发身份码侧音", "按键侧音+发身份码"
     };
 
     public static ObservableCollection<string> Pttid = new()
     {
-        "OFF", "按下发码", "松开发码", "两者均发"
+        "OFF", Language.GetString("tx_on_press"), Language.GetString("tx_on_release"), Language.GetString("tx_on_both")
+        // "OFF", "按下发码", "松开发码", "两者均发"
     };
 
     public static ObservableCollection<string> IdDelay = new()
@@ -113,12 +122,17 @@ public class OptionalChoice
 
     public static ObservableCollection<string> Side = new()
     {
-        "收音机", "功率切换", "监听", "扫描", "扫频"
+        Language.GetString("fm"),
+        Language.GetString("switch_pwr"),
+        Language.GetString("listen"),
+        Language.GetString("scan"),
+        Language.GetString("scan_freq")
+        // "收音机", "功率切换", "监听", "扫描", "扫频"
     };
 
     public static ObservableCollection<string> TailTone = new()
     {
-        "关闭", "开启"
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> Rpt = new()
@@ -128,7 +142,8 @@ public class OptionalChoice
 
     public static ObservableCollection<string> BootImage = new()
     {
-        "预设图片1", "预设图片2", "预设字符"
+        Language.GetString("default_img1"), Language.GetString("default_img2"), Language.GetString("default_word")
+        // "预设图片1", "预设图片2", "预设字符"
     };
 
     public static ObservableCollection<string> MenuExit = new()
@@ -148,11 +163,12 @@ public class OptionalChoice
 
     public static ObservableCollection<string> AlarmMode = new()
     {
-        "现场", "发射报警音", "发射报警码"
+        Language.GetString("live_sos"),  Language.GetString("send_sos_voice"), Language.GetString("send_sos_code")
+        // "现场", "发射报警音", "发射报警码"
     };
 
     public static ObservableCollection<string> AlarmEnd = new()
     {
-        "关闭", "开启"
+        Language.GetString("off"), Language.GetString("on")
     };
 }

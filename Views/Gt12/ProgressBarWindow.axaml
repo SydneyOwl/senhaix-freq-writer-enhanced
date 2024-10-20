@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="450" Height="230"
         x:Class="SenhaixFreqWriter.Views.Gt12.ProgressBarWindow"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         Title="进度"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
@@ -17,25 +18,19 @@
                      ShowProgressText="True"
                      Canvas.Top="90"
                      Canvas.Left="20" />
-        <Label Canvas.Top="70"
-               Canvas.Left="20">
-            状态：
-        </Label>
-        <Label Name="statusLabel" Canvas.Top="70"
-               Canvas.Left="65" FontStyle="Italic">
-            等待指令...
-        </Label>
+        <Label Canvas.Top="70" Canvas.Left="20" Content="{x:Static p:Resources.status}" />
+        <Label Name="statusLabel" Canvas.Top="70" Canvas.Left="65" FontStyle="Italic" Content="{x:Static p:Resources.wait_order}"/>
         <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
                 Name="StartButton"
                 Canvas.Top="160"
                 Canvas.Left="100"
-                Content="开始"
+                Content="{x:Static p:Resources.start}"
                 Click="StartButton_OnClick" />
         <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
                 Name="CloseButton"
                 Canvas.Top="160"
                 Canvas.Left="260"
-                Content="取消"
+                Content="{x:Static p:Resources.abort}"
                 Click="Cancel_OnClick" />
     </Canvas>
 

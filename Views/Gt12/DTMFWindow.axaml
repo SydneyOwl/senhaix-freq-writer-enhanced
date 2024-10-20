@@ -6,6 +6,7 @@
         x:Class="SenhaixFreqWriter.Views.Gt12.DtmfWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         x:DataType="vm:DtmfWindow"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
         Title="DTMF设置">
     <Canvas>
@@ -20,8 +21,8 @@
                   Width="350"
                   RowBackground="{DynamicResource dgBackgroundBrush}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="序号" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
-                <DataGridTemplateColumn Header="码" IsReadOnly="False"
+                <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTemplateColumn Header="{x:Static p:Resources.code}" IsReadOnly="False"
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -30,7 +31,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="名称" IsReadOnly="False"
+                <DataGridTemplateColumn Header="{x:Static p:Resources.name}" IsReadOnly="False"
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -41,15 +42,15 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="本机id" Canvas.Bottom="90" Canvas.Left="20" />
+        <Label Content="{x:Static p:Resources.my_id}" Canvas.Bottom="90" Canvas.Left="20" />
         <TextBox Canvas.Bottom="85" Canvas.Left="70" Text="{Binding MyId}"
                  TextChanged="GroupCodeInputElement_OnLostFocus" />
 
-        <Label Content="DTMF码持续时间" Canvas.Bottom="90" Canvas.Left="160" />
+        <Label Content="{x:Static p:Resources.dtmf_last_time}" Canvas.Bottom="90" Canvas.Left="160" />
         <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
                   SelectedIndex="{Binding WordTime}" />
 
-        <Label Content="DTMF码间断时间" Canvas.Bottom="50" Canvas.Left="160" />
+        <Label Content="{x:Static p:Resources.dtmf_break_time}" Canvas.Bottom="50" Canvas.Left="160" />
         <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
                   SelectedIndex="{Binding IdleTime}" />
     </Canvas>

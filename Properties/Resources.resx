@@ -153,4 +153,499 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     <data name="english" xml:space="preserve">
         <value>English</value>
     </data>
+    <data name="pwr_high" xml:space="preserve">
+        <value>High Power</value>
+    </data>
+    <data name="pwr_mid" xml:space="preserve">
+        <value>Medium Power</value>
+    </data>
+    <data name="pwr_low" xml:space="preserve">
+        <value>Low Power</value>
+    </data>
+    <data name="wide" xml:space="preserve">
+        <value>Wide</value>
+    </data>
+    <data name="narrow" xml:space="preserve">
+        <value>Narrow</value>
+    </data>
+    <data name="delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="none" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="press_ptt" xml:space="preserve">
+        <value>Press PTT</value>
+    </data>
+    <data name="release_ptt" xml:space="preserve">
+        <value>Release PTT</value>
+    </data>
+    <data name="press_and_release_ptt" xml:space="preserve">
+        <value>Press and release PTT</value>
+    </data>
+    <data name="on" xml:space="preserve">
+        <value>ON</value>
+    </data>
+    <data name="off" xml:space="preserve">
+        <value>OFF</value>
+    </data>
+    <data name="high_sensitivity" xml:space="preserve">
+        <value>High sensitivity</value>
+    </data>
+    <data name="mid_sensitivity" xml:space="preserve">
+        <value>Medium sensitivity</value>
+    </data>
+    <data name="low_sensitivity" xml:space="preserve">
+        <value>Low sensitivity</value>
+    </data>
+    <data name="bat_volt" xml:space="preserve">
+        <value>Battery voltage</value>
+    </data>
+    <data name="default_msg" xml:space="preserve">
+        <value>Default</value>
+    </data>
+    <data name="beep" xml:space="preserve">
+        <value>Beep</value>
+    </data>
+    <data name="voice" xml:space="preserve">
+        <value>Voice</value>
+    </data>
+    <data name="all" xml:space="preserve">
+        <value>All</value>
+    </data>
+    <data name="low_gain" xml:space="preserve">
+        <value>Low gain</value>
+    </data>
+    <data name="mid_gain" xml:space="preserve">
+        <value>Medium gain</value>
+    </data>
+    <data name="high_gain" xml:space="preserve">
+        <value>High gain</value>
+    </data>
+    <data name="time_scan" xml:space="preserve">
+        <value>Time scan</value>
+    </data>
+    <data name="carrier_scan" xml:space="preserve">
+        <value>Carrier scan</value>
+    </data>
+    <data name="search_scan" xml:space="preserve">
+        <value>Search scan</value>
+    </data>
+    <data name="live_sos" xml:space="preserve">
+        <value>Live sos</value>
+    </data>
+    <data name="send_sos_voice" xml:space="preserve">
+        <value>Tx sos sound</value>
+    </data>
+    <data name="send_sos_code" xml:space="preserve">
+        <value>Send sos code</value>
+    </data>
+    <data name="allow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+    <data name="forbid" xml:space="preserve">
+        <value>Forbid</value>
+    </data>
+    <data name="normal_open" xml:space="preserve">
+        <value>Normal Open</value>
+    </data>
+    <data name="chan_name" xml:space="preserve">
+        <value>Channel Name</value>
+    </data>
+    <data name="freq" xml:space="preserve">
+        <value>Frequency</value>
+    </data>
+    <data name="chan_num" xml:space="preserve">
+        <value>Channel No.</value>
+    </data>
+    <data name="freq_mode" xml:space="preserve">
+        <value>Freq mode</value>
+    </data>
+    <data name="chan_mode" xml:space="preserve">
+        <value>Channel Mode</value>
+    </data>
+    <data name="fm" xml:space="preserve">
+        <value>FM</value>
+    </data>
+    <data name="switch_pwr" xml:space="preserve">
+        <value>Power switching</value>
+    </data>
+    <data name="listen" xml:space="preserve">
+        <value>Listen</value>
+    </data>
+    <data name="scan_freq" xml:space="preserve">
+        <value>Scan freq</value>
+    </data>
+    <data name="sos" xml:space="preserve">
+        <value>SOS</value>
+    </data>
+    <data name="weather" xml:space="preserve">
+        <value>Weather forcast</value>
+    </data>
+    <data name="scan" xml:space="preserve">
+        <value>Scan</value>
+    </data>
+    <data name="vox" xml:space="preserve">
+        <value>Vox switch</value>
+    </data>
+    <data name="remote_tone_scan" xml:space="preserve">
+        <value>Remote Scan Subtone</value>
+    </data>
+    <data name="tx_start" xml:space="preserve">
+        <value>Tx start</value>
+    </data>
+    <data name="tx_end" xml:space="preserve">
+        <value>Tx finish</value>
+    </data>
+    <data name="both" xml:space="preserve">
+        <value>Both</value>
+    </data>
+    <data name="chan_num_and_chan_name" xml:space="preserve">
+        <value>Channel No. + name</value>
+    </data>
+    <data name="chan_num_and_freq" xml:space="preserve">
+        <value>Channel No. + freq</value>
+    </data>
+    <data name="key_sidetone" xml:space="preserve">
+        <value>Keypad Side Tone</value>
+    </data>
+    <data name="idcode_sidetone" xml:space="preserve">
+        <value>Transmit ID Code Side Tone</value>
+    </data>
+    <data name="key_and_idcode_sidetone" xml:space="preserve">
+        <value>Keypad Side Tone + Transmit ID Code</value>
+    </data>
+    <data name="tx_on_press" xml:space="preserve">
+        <value>Tx on press</value>
+    </data>
+    <data name="tx_on_release" xml:space="preserve">
+        <value>Tx on release</value>
+    </data>
+    <data name="tx_on_both" xml:space="preserve">
+        <value>Tx on Both</value>
+    </data>
+    <data name="default_img1" xml:space="preserve">
+        <value>Default img1</value>
+    </data>
+    <data name="default_img2" xml:space="preserve">
+        <value>Default img2</value>
+    </data>
+    <data name="default_word" xml:space="preserve">
+        <value>Default word</value>
+    </data>
+    <data name="normal_pwr_save" xml:space="preserve">
+        <value>Normal Power Saving</value>
+    </data>
+    <data name="super_pwr_save" xml:space="preserve">
+        <value>Super power saving</value>
+    </data>
+    <data name="deep_pwr_save" xml:space="preserve">
+        <value>Deep Power Saving</value>
+    </data>
+    <data name="serial_no" xml:space="preserve">
+        <value>No.</value>
+    </data>
+    <data name="code" xml:space="preserve">
+        <value>Code</value>
+    </data>
+    <data name="name" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="my_id" xml:space="preserve">
+        <value>Device ID</value>
+    </data>
+    <data name="dtmf_last_time" xml:space="preserve">
+        <value>DTMF Code Duration</value>
+    </data>
+    <data name="dtmf_break_time" xml:space="preserve">
+        <value>DTMF Code Intertone Time</value>
+    </data>
+    <data name="current_freq" xml:space="preserve">
+        <value>Current freq:</value>
+    </data>
+    <data name="file" xml:space="preserve">
+        <value>File</value>
+    </data>
+    <data name="new_cfg" xml:space="preserve">
+        <value>New</value>
+    </data>
+    <data name="open" xml:space="preserve">
+        <value>Open</value>
+    </data>
+    <data name="save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="saveas" xml:space="preserve">
+        <value>Save as</value>
+    </data>
+    <data name="exit" xml:space="preserve">
+        <value>Exit</value>
+    </data>
+    <data name="window" xml:space="preserve">
+        <value>Window</value>
+    </data>
+    <data name="optional_function" xml:space="preserve">
+        <value>Optional</value>
+    </data>
+    <data name="dtmf" xml:space="preserve">
+        <value>Dual Tone Multi-Frequency (DTMF)</value>
+    </data>
+    <data name="rw_freq" xml:space="preserve">
+        <value>Read/write</value>
+    </data>
+    <data name="read_chan" xml:space="preserve">
+        <value>Read from device</value>
+    </data>
+    <data name="write_chan" xml:space="preserve">
+        <value>Write to device</value>
+    </data>
+    <data name="tools" xml:space="preserve">
+        <value>Tools</value>
+    </data>
+    <data name="modify_boot_img" xml:space="preserve">
+        <value>Modify Startup Screen</value>
+    </data>
+    <data name="sat_helper" xml:space="preserve">
+        <value>Satellite helper</value>
+    </data>
+    <data name="others" xml:space="preserve">
+        <value>Others</value>
+    </data>
+    <data name="theme_color" xml:space="preserve">
+        <value>Theme color</value>
+    </data>
+    <data name="switch_device" xml:space="preserve">
+        <value>Switch device</value>
+    </data>
+    <data name="debug_function" xml:space="preserve">
+        <value>Debug</value>
+    </data>
+    <data name="fetch_hid" xml:space="preserve">
+        <value>Obtain HID Information</value>
+    </data>
+    <data name="open_debug_window" xml:space="preserve">
+        <value>Open debug window</value>
+    </data>
+    <data name="read_freq" xml:space="preserve">
+        <value>Read</value>
+    </data>
+    <data name="write_freq" xml:space="preserve">
+        <value>Write channel</value>
+    </data>
+    <data name="no_connected_status" xml:space="preserve">
+        <value>Status: NOT CONNECTED</value>
+    </data>
+    <data name="prev_area" xml:space="preserve">
+        <value>Prev area</value>
+    </data>
+    <data name="next_area" xml:space="preserve">
+        <value>Next area</value>
+    </data>
+    <data name="area_name" xml:space="preserve">
+        <value>Area Name:</value>
+    </data>
+    <data name="skip_to_area" xml:space="preserve">
+        <value>Skip to</value>
+    </data>
+    <data name="skip" xml:space="preserve">
+        <value>Skip</value>
+    </data>
+    <data name="copy" xml:space="preserve">
+        <value>Copy</value>
+    </data>
+    <data name="cut" xml:space="preserve">
+        <value>Cut</value>
+    </data>
+    <data name="paste" xml:space="preserve">
+        <value>Paste</value>
+    </data>
+    <data name="clear_sel_chan" xml:space="preserve">
+        <value>Clear selected channel</value>
+    </data>
+    <data name="del_chan" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="ins_chan" xml:space="preserve">
+        <value>Insert empty channel</value>
+    </data>
+    <data name="combine_chan" xml:space="preserve">
+        <value>Merge Non-Empty Channels</value>
+    </data>
+    <data name="chan" xml:space="preserve">
+        <value>Channel</value>
+    </data>
+    <data name="rx_freq" xml:space="preserve">
+        <value>Rx freq</value>
+    </data>
+    <data name="tone_dec" xml:space="preserve">
+        <value>Subtone Decoding</value>
+    </data>
+    <data name="tx_freq" xml:space="preserve">
+        <value>Tx freq</value>
+    </data>
+    <data name="tone_enc" xml:space="preserve">
+        <value>Subtone Encoding</value>
+    </data>
+    <data name="power" xml:space="preserve">
+        <value>Power</value>
+    </data>
+    <data name="bandwidth" xml:space="preserve">
+        <value>Bandwidth</value>
+    </data>
+    <data name="scan_add" xml:space="preserve">
+        <value>Scan add</value>
+    </data>
+    <data name="signalling" xml:space="preserve">
+        <value>Signaling</value>
+    </data>
+    <data name="mute_mode" xml:space="preserve">
+        <value>Mute mode</value>
+    </data>
+    <data name="signalling_code" xml:space="preserve">
+        <value>Signaling code</value>
+    </data>
+    <data name="sql_level" xml:space="preserve">
+        <value>SQL Level</value>
+    </data>
+    <data name="tx_timeout" xml:space="preserve">
+        <value>Tx timeout</value>
+    </data>
+    <data name="pwr_save_mode" xml:space="preserve">
+        <value>Power saving mode</value>
+    </data>
+    <data name="vox_switch" xml:space="preserve">
+        <value>Vox switch</value>
+    </data>
+    <data name="vox_level" xml:space="preserve">
+        <value>Vox level</value>
+    </data>
+    <data name="vox_delay" xml:space="preserve">
+        <value>Vox delay</value>
+    </data>
+    <data name="dual_listen" xml:space="preserve">
+        <value>Dual Watch</value>
+    </data>
+    <data name="rev_rpt_freq" xml:space="preserve">
+        <value>Repeater Shift Frequency</value>
+    </data>
+    <data name="tone_switch" xml:space="preserve">
+        <value>Subtone switch</value>
+    </data>
+    <data name="tail_clear" xml:space="preserve">
+        <value>Tail Tone Elimination</value>
+    </data>
+    <data name="boot_disp" xml:space="preserve">
+        <value>Startup Display Mode</value>
+    </data>
+    <data name="remind_voice" xml:space="preserve">
+        <value>Remind voice</value>
+    </data>
+    <data name="mic_gain" xml:space="preserve">
+        <value>MIc gain</value>
+    </data>
+    <data name="scan_mode" xml:space="preserve">
+        <value>Scan mode</value>
+    </data>
+    <data name="sos_mode" xml:space="preserve">
+        <value>SOS mode</value>
+    </data>
+    <data name="keyboard_lock" xml:space="preserve">
+        <value>Keyboard lock</value>
+    </data>
+    <data name="current_area" xml:space="preserve">
+        <value>Current area</value>
+    </data>
+    <data name="keyboard_lock_time" xml:space="preserve">
+        <value>Keyboard locktime</value>
+    </data>
+    <data name="menu_exit_time" xml:space="preserve">
+        <value>Menu Exit Time</value>
+    </data>
+    <data name="bglight_time" xml:space="preserve">
+        <value>Backlight time</value>
+    </data>
+    <data name="bglight_level" xml:space="preserve">
+        <value>Backlight Brightness</value>
+    </data>
+    <data name="tx_code_delay" xml:space="preserve">
+        <value>Code Transmission Delay</value>
+    </data>
+    <data name="tx_end_sound" xml:space="preserve">
+        <value>Tx finish voice</value>
+    </data>
+    <data name="a_band_disp_mode" xml:space="preserve">
+        <value>Band A Display Mode</value>
+    </data>
+    <data name="a_band_work_mode" xml:space="preserve">
+        <value>Band A Work Mode</value>
+    </data>
+    <data name="b_band_disp_mode" xml:space="preserve">
+        <value>Band B Display Mode</value>
+    </data>
+    <data name="b_band_work_mode" xml:space="preserve">
+        <value>Band B Work Mode</value>
+    </data>
+    <data name="key_1_short_press" xml:space="preserve">
+        <value>Short-press key1</value>
+    </data>
+    <data name="key_1_long_press" xml:space="preserve">
+        <value>Long-press key1</value>
+    </data>
+    <data name="key_2_short_press" xml:space="preserve">
+        <value>Short-press key2</value>
+    </data>
+    <data name="key_2_long_press" xml:space="preserve">
+        <value>Long-press key2</value>
+    </data>
+    <data name="pass_rpt_tail_clear" xml:space="preserve">
+        <value>Eliminate Repeater Tail Tone</value>
+    </data>
+    <data name="pass_rpt_tail_detect" xml:space="preserve">
+        <value>Repeater Tail Tone Detection</value>
+    </data>
+    <data name="boot_img_disp_time" xml:space="preserve">
+        <value>Startup Display Time</value>
+    </data>
+    <data name="bt_voice_gain" xml:space="preserve">
+        <value>Bluetooth Audio Gain</value>
+    </data>
+    <data name="callsign" xml:space="preserve">
+        <value>Callsign</value>
+    </data>
+    <data name="status" xml:space="preserve">
+        <value>Status:</value>
+    </data>
+    <data name="wait_order" xml:space="preserve">
+        <value>Waiting for order...</value>
+    </data>
+    <data name="start" xml:space="preserve">
+        <value>Start</value>
+    </data>
+    <data name="rx_tone" xml:space="preserve">
+        <value>Rx tone</value>
+    </data>
+    <data name="tx_tone" xml:space="preserve">
+        <value>Transmit Subtone</value>
+    </data>
+    <data name="sig_system" xml:space="preserve">
+        <value>Signaling system</value>
+    </data>
+    <data name="step" xml:space="preserve">
+        <value>Step</value>
+    </data>
+    <data name="busy_lock" xml:space="preserve">
+        <value>Busy lock</value>
+    </data>
+    <data name="sig_encode" xml:space="preserve">
+        <value>Signaling encode</value>
+    </data>
+    <data name="freq_offset_dir" xml:space="preserve">
+        <value>Freq offset dir</value>
+    </data>
+    <data name="freq_offset" xml:space="preserve">
+        <value>Freq offset</value>
+    </data>
 </root>
