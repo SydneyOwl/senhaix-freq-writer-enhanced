@@ -285,9 +285,6 @@ macOS:
     <data name="scan" xml:space="preserve">
         <value>扫描</value>
     </data>
-    <data name="vox" xml:space="preserve">
-        <value>声控开关</value>
-    </data>
     <data name="remote_tone_scan" xml:space="preserve">
         <value>远程扫描亚音</value>
     </data>
@@ -355,10 +352,10 @@ macOS:
         <value>本机id</value>
     </data>
     <data name="dtmf_last_time" xml:space="preserve">
-        <value>DTMF码持续时间</value>
+        <value>发送DTMF码时码持续时间：</value>
     </data>
     <data name="dtmf_break_time" xml:space="preserve">
-        <value>DTMF码间断时间</value>
+        <value>发送DTMF码时码间断时间：</value>
     </data>
     <data name="current_freq" xml:space="preserve">
         <value>当前频率：</value>
@@ -644,5 +641,176 @@ macOS:
     </data>
     <data name="freq_offset" xml:space="preserve">
         <value>频差频率</value>
+    </data>
+    <data name="create_bootimg" xml:space="preserve">
+        <value>制作图片</value>
+    </data>
+    <data name="img_bgcolor" xml:space="preserve">
+        <value>图片背景色：</value>
+    </data>
+    <data name="input_info" xml:space="preserve">
+        <value>输入信息：</value>
+    </data>
+    <data name="font_color" xml:space="preserve">
+        <value>字体色：</value>
+    </data>
+    <data name="font" xml:space="preserve">
+        <value>字体：</value>
+    </data>
+    <data name="style" xml:space="preserve">
+        <value>样式：</value>
+    </data>
+    <data name="font_size" xml:space="preserve">
+        <value>字号大小：</value>
+    </data>
+    <data name="x_pos" xml:space="preserve">
+        <value>位置(X)：</value>
+    </data>
+    <data name="y_pos" xml:space="preserve">
+        <value>位置(Y)：</value>
+    </data>
+    <data name="center" xml:space="preserve">
+        <value>居中</value>
+    </data>
+    <data name="add_text" xml:space="preserve">
+        <value>增加文字</value>
+    </data>
+    <data name="import_bootimg" xml:space="preserve">
+        <value>开机图片导入</value>
+    </data>
+    <data name="start_import" xml:space="preserve">
+        <value>开始导入</value>
+    </data>
+    <data name="open_bootimg" xml:space="preserve">
+        <value>打开图片</value>
+    </data>
+    <data name="search" xml:space="preserve">
+        <value>搜索：</value>
+    </data>
+    <data name="select_a_satellite" xml:space="preserve">
+        <value>选择一个卫星：</value>
+    </data>
+    <data name="satellite_detail" xml:space="preserve">
+        <value>卫星详情：</value>
+    </data>
+    <data name="choose_mode" xml:space="preserve">
+        <value>选择模式：</value>
+    </data>
+    <data name="doppler" xml:space="preserve">
+        <value>多普勒</value>
+    </data>
+    <data name="u_band" xml:space="preserve">
+        <value>U段±</value>
+    </data>
+    <data name="v_band" xml:space="preserve">
+        <value>V段±</value>
+    </data>
+    <data name="manual_override" xml:space="preserve">
+        <value>(手动覆盖)</value>
+    </data>
+    <data name="uplink" xml:space="preserve">
+        <value>上行频率</value>
+    </data>
+    <data name="downlink" xml:space="preserve">
+        <value>下行频率</value>
+    </data>
+    <data name="tone" xml:space="preserve">
+        <value>亚音</value>
+    </data>
+    <data name="none_if_empty" xml:space="preserve">
+        <value>不填写即为无</value>
+    </data>
+    <data name="update_satinfo" xml:space="preserve">
+        <value>更新星历</value>
+    </data>
+    <data name="insert_channel" xml:space="preserve">
+        <value>插入信道</value>
+    </data>
+    <data name="code_group" xml:space="preserve">
+        <value>编码码组：</value>
+    </data>
+    <data name="restore" xml:space="preserve">
+        <value>恢复默认</value>
+    </data>
+    <data name="tx_on_release_ptt" xml:space="preserve">
+        <value>松开PTT时发送</value>
+    </data>
+    <data name="tx_on_press_ptt" xml:space="preserve">
+        <value>按下PTT时发送</value>
+    </data>
+    <data name="edit" xml:space="preserve">
+        <value>编辑</value>
+    </data>
+    <data name="rw_chan_method" xml:space="preserve">
+        <value>读写频方式设置</value>
+    </data>
+    <data name="serial" xml:space="preserve">
+        <value>写频线</value>
+    </data>
+    <data name="bt" xml:space="preserve">
+        <value>蓝牙</value>
+    </data>
+    <data name="tx_allow" xml:space="preserve">
+        <value>发射允许</value>
+    </data>
+    <data name="qtdqt_decode" xml:space="preserve">
+        <value>QT/DQT解码</value>
+    </data>
+    <data name="qtdqt_encode" xml:space="preserve">
+        <value>QT/DQT编码</value>
+    </data>
+    <data name="encrypt" xml:space="preserve">
+        <value>加密</value>
+    </data>
+    <data name="mode_set" xml:space="preserve">
+        <value>模式配置</value>
+    </data>
+    <data name="voice_remind" xml:space="preserve">
+        <value>语音提示</value>
+    </data>
+    <data name="a_band_mode" xml:space="preserve">
+        <value>A段模式</value>
+    </data>
+    <data name="b_band_mode" xml:space="preserve">
+        <value>B段模式</value>
+    </data>
+    <data name="dtmf_sidetone" xml:space="preserve">
+        <value>DTMF恻音</value>
+    </data>
+    <data name="tx_id_delay" xml:space="preserve">
+        <value>发ID延迟</value>
+    </data>
+    <data name="sidekey_short" xml:space="preserve">
+        <value>侧键短按</value>
+    </data>
+    <data name="sidekey_long" xml:space="preserve">
+        <value>侧键长按</value>
+    </data>
+    <data name="pass_rpt_tail_delay" xml:space="preserve">
+        <value>过中继尾音延迟</value>
+    </data>
+    <data name="whether_to_play_voice_on_sos" xml:space="preserve">
+        <value>报警时是否播放声音</value>
+    </data>
+    <data name="stop_send_on_busy" xml:space="preserve">
+        <value>遇忙禁发</value>
+    </data>
+    <data name="auto_lock" xml:space="preserve">
+        <value>自动锁</value>
+    </data>
+    <data name="tx_my_id" xml:space="preserve">
+        <value>发送本机id</value>
+    </data>
+    <data name="my_sos_voice" xml:space="preserve">
+        <value>本机发出报警音</value>
+    </data>
+    <data name="a_band_area" xml:space="preserve">
+        <value>A段区域</value>
+    </data>
+    <data name="b_band_area" xml:space="preserve">
+        <value>B段区域</value>
+    </data>
+    <data name="bt_mic_gain" xml:space="preserve">
+        <value>蓝牙Mic增益</value>
     </data>
 </root>

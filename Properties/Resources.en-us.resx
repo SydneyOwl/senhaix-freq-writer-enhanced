@@ -621,9 +621,6 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     <data name="tx_tone" xml:space="preserve">
         <value>Transmit Subtone</value>
     </data>
-    <data name="vox" xml:space="preserve">
-        <value>Vox switch</value>
-    </data>
     <data name="vox_delay" xml:space="preserve">
         <value>Vox delay</value>
     </data>
@@ -647,5 +644,176 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     </data>
     <data name="write_freq" xml:space="preserve">
         <value>Write channel</value>
+    </data>
+    <data name="add_text" xml:space="preserve">
+        <value>Add text</value>
+    </data>
+    <data name="auto_lock" xml:space="preserve">
+        <value>Auto lock</value>
+    </data>
+    <data name="a_band_area" xml:space="preserve">
+        <value>Band A area</value>
+    </data>
+    <data name="a_band_mode" xml:space="preserve">
+        <value>Band A mode</value>
+    </data>
+    <data name="bt" xml:space="preserve">
+        <value>Bluetooth</value>
+    </data>
+    <data name="bt_mic_gain" xml:space="preserve">
+        <value>BT Mic Gain</value>
+    </data>
+    <data name="b_band_area" xml:space="preserve">
+        <value>Band B area</value>
+    </data>
+    <data name="b_band_mode" xml:space="preserve">
+        <value>Band B mode</value>
+    </data>
+    <data name="center" xml:space="preserve">
+        <value>Center</value>
+    </data>
+    <data name="choose_mode" xml:space="preserve">
+        <value>Choose mode:</value>
+    </data>
+    <data name="code_group" xml:space="preserve">
+        <value>Code group:</value>
+    </data>
+    <data name="create_bootimg" xml:space="preserve">
+        <value>Create image</value>
+    </data>
+    <data name="doppler" xml:space="preserve">
+        <value>Doppler</value>
+    </data>
+    <data name="downlink" xml:space="preserve">
+        <value>Downlink</value>
+    </data>
+    <data name="dtmf_sidetone" xml:space="preserve">
+        <value>DTMF tone</value>
+    </data>
+    <data name="edit" xml:space="preserve">
+        <value>Edit</value>
+    </data>
+    <data name="encrypt" xml:space="preserve">
+        <value>Encrypt</value>
+    </data>
+    <data name="font" xml:space="preserve">
+        <value>Font</value>
+    </data>
+    <data name="font_color" xml:space="preserve">
+        <value>Font color</value>
+    </data>
+    <data name="font_size" xml:space="preserve">
+        <value>Font size</value>
+    </data>
+    <data name="img_bgcolor" xml:space="preserve">
+        <value>Image bgcolor</value>
+    </data>
+    <data name="import_bootimg" xml:space="preserve">
+        <value>Import boot image</value>
+    </data>
+    <data name="input_info" xml:space="preserve">
+        <value>Input words</value>
+    </data>
+    <data name="insert_channel" xml:space="preserve">
+        <value>Insert channel</value>
+    </data>
+    <data name="manual_override" xml:space="preserve">
+        <value>(Manual override)</value>
+    </data>
+    <data name="mode_set" xml:space="preserve">
+        <value>Set mode</value>
+    </data>
+    <data name="my_sos_voice" xml:space="preserve">
+        <value>Send sos</value>
+    </data>
+    <data name="none_if_empty" xml:space="preserve">
+        <value>None if empty</value>
+    </data>
+    <data name="open_bootimg" xml:space="preserve">
+        <value>Open image</value>
+    </data>
+    <data name="pass_rpt_tail_delay" xml:space="preserve">
+        <value>Delay Repeater Tail Tone</value>
+    </data>
+    <data name="qtdqt_decode" xml:space="preserve">
+        <value>QT/DQT decode</value>
+    </data>
+    <data name="qtdqt_encode" xml:space="preserve">
+        <value>QT/DQT encode</value>
+    </data>
+    <data name="restore" xml:space="preserve">
+        <value>Restore</value>
+    </data>
+    <data name="rw_chan_method" xml:space="preserve">
+        <value>Set r/w methods</value>
+    </data>
+    <data name="satellite_detail" xml:space="preserve">
+        <value>Satellite detail</value>
+    </data>
+    <data name="search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="select_a_satellite" xml:space="preserve">
+        <value>Select a satellite</value>
+    </data>
+    <data name="serial" xml:space="preserve">
+        <value>Cable</value>
+    </data>
+    <data name="sidekey_long" xml:space="preserve">
+        <value>Long-press sidekey</value>
+    </data>
+    <data name="sidekey_short" xml:space="preserve">
+        <value>Short-press sidekey</value>
+    </data>
+    <data name="start_import" xml:space="preserve">
+        <value>Start</value>
+    </data>
+    <data name="stop_send_on_busy" xml:space="preserve">
+        <value>Stop send on busy</value>
+    </data>
+    <data name="style" xml:space="preserve">
+        <value>Style</value>
+    </data>
+    <data name="tone" xml:space="preserve">
+        <value>Tone</value>
+    </data>
+    <data name="tx_allow" xml:space="preserve">
+        <value>Allow Tx</value>
+    </data>
+    <data name="tx_id_delay" xml:space="preserve">
+        <value>Tx id delay</value>
+    </data>
+    <data name="tx_my_id" xml:space="preserve">
+        <value>Tx id</value>
+    </data>
+    <data name="tx_on_press_ptt" xml:space="preserve">
+        <value>Tx on press PTT</value>
+    </data>
+    <data name="tx_on_release_ptt" xml:space="preserve">
+        <value>Tx on release PTT</value>
+    </data>
+    <data name="update_satinfo" xml:space="preserve">
+        <value>Update data</value>
+    </data>
+    <data name="uplink" xml:space="preserve">
+        <value>Uplink</value>
+    </data>
+    <data name="u_band" xml:space="preserve">
+        <value>Band U±</value>
+    </data>
+    <data name="voice_remind" xml:space="preserve">
+        <value>Voice remind</value>
+    </data>
+    <data name="v_band" xml:space="preserve">
+        <value>Band V±</value>
+    </data>
+    <data name="whether_to_play_voice_on_sos" xml:space="preserve">
+        <value>Play sound on SOS</value>
+    </data>
+    <data name="x_pos" xml:space="preserve">
+        <value>Position(X)</value>
+    </data>
+    <data name="y_pos" xml:space="preserve">
+        <value>Position(Y)</value>
     </data>
 </root>

@@ -77,7 +77,7 @@ public partial class BootImageCreatorWindow : Window
         BootImgWidth = Constants.Gt12.Others.BootImgWidth;
         BootImgHeight = Constants.Gt12.Others.BootImgHeight;
         WindowHeight = 500;
-        InitializeFont();
+        // InitializeFont();
         InitializeComponent();
         DataContext = this;
         // fontStyleComboBox.SelectedValue = "加粗";

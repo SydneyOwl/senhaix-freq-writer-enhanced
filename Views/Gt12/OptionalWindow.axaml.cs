@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using System.Globalization;
+using System.Threading;
+using Avalonia.Controls;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.DataModels.Gt12;
 
@@ -8,6 +10,7 @@ public partial class OptionalWindow : Window
 {
     public OptionalWindow()
     {
+        // Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-hans");
         InitializeComponent();
         DataContext = this;
     }

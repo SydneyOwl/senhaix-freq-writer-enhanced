@@ -60,11 +60,29 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Band A area.
+        /// </summary>
+        public static string a_band_area {
+            get {
+                return ResourceManager.GetString("a_band_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Band A Display Mode.
         /// </summary>
         public static string a_band_disp_mode {
             get {
                 return ResourceManager.GetString("a_band_disp_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band A mode.
+        /// </summary>
+        public static string a_band_mode {
+            get {
+                return ResourceManager.GetString("a_band_mode", resourceCulture);
             }
         }
         
@@ -101,6 +119,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string add {
             get {
                 return ResourceManager.GetString("add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add text.
+        /// </summary>
+        public static string add_text {
+            get {
+                return ResourceManager.GetString("add_text", resourceCulture);
             }
         }
         
@@ -150,6 +177,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto lock.
+        /// </summary>
+        public static string auto_lock {
+            get {
+                return ResourceManager.GetString("auto_lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable automatic port selection.
         /// </summary>
         public static string auto_port_sel {
@@ -159,11 +195,29 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Band B area.
+        /// </summary>
+        public static string b_band_area {
+            get {
+                return ResourceManager.GetString("b_band_area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Band B Display Mode.
         /// </summary>
         public static string b_band_disp_mode {
             get {
                 return ResourceManager.GetString("b_band_disp_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band B mode.
+        /// </summary>
+        public static string b_band_mode {
+            get {
+                return ResourceManager.GetString("b_band_mode", resourceCulture);
             }
         }
         
@@ -258,11 +312,29 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bluetooth.
+        /// </summary>
+        public static string bt {
+            get {
+                return ResourceManager.GetString("bt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect bluetooth.
         /// </summary>
         public static string bt_connection {
             get {
                 return ResourceManager.GetString("bt_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BT Mic Gain.
+        /// </summary>
+        public static string bt_mic_gain {
+            get {
+                return ResourceManager.GetString("bt_mic_gain", resourceCulture);
             }
         }
         
@@ -317,6 +389,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string carrier_scan {
             get {
                 return ResourceManager.GetString("carrier_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Center.
+        /// </summary>
+        public static string center {
+            get {
+                return ResourceManager.GetString("center", resourceCulture);
             }
         }
         
@@ -417,6 +498,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose mode:.
+        /// </summary>
+        public static string choose_mode {
+            get {
+                return ResourceManager.GetString("choose_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose Port.
         /// </summary>
         public static string choose_port {
@@ -440,6 +530,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string code {
             get {
                 return ResourceManager.GetString("code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code group:.
+        /// </summary>
+        public static string code_group {
+            get {
+                return ResourceManager.GetString("code_group", resourceCulture);
             }
         }
         
@@ -494,6 +593,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string copy {
             get {
                 return ResourceManager.GetString("copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create image.
+        /// </summary>
+        public static string create_bootimg {
+            get {
+                return ResourceManager.GetString("create_bootimg", resourceCulture);
             }
         }
         
@@ -624,6 +732,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Doppler.
+        /// </summary>
+        public static string doppler {
+            get {
+                return ResourceManager.GetString("doppler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downlink.
+        /// </summary>
+        public static string downlink {
+            get {
+                return ResourceManager.GetString("downlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dual Tone Multi-Frequency (DTMF).
         /// </summary>
         public static string dtmf {
@@ -651,11 +777,38 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DTMF tone.
+        /// </summary>
+        public static string dtmf_sidetone {
+            get {
+                return ResourceManager.GetString("dtmf_sidetone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dual Watch.
         /// </summary>
         public static string dual_listen {
             get {
                 return ResourceManager.GetString("dual_listen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string edit {
+            get {
+                return ResourceManager.GetString("edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encrypt.
+        /// </summary>
+        public static string encrypt {
+            get {
+                return ResourceManager.GetString("encrypt", resourceCulture);
             }
         }
         
@@ -710,6 +863,33 @@ namespace SenhaixFreqWriter.Properties {
         public static string fm {
             get {
                 return ResourceManager.GetString("fm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font.
+        /// </summary>
+        public static string font {
+            get {
+                return ResourceManager.GetString("font", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font color.
+        /// </summary>
+        public static string font_color {
+            get {
+                return ResourceManager.GetString("font_color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font size.
+        /// </summary>
+        public static string font_size {
+            get {
+                return ResourceManager.GetString("font_size", resourceCulture);
             }
         }
         
@@ -804,11 +984,47 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image bgcolor.
+        /// </summary>
+        public static string img_bgcolor {
+            get {
+                return ResourceManager.GetString("img_bgcolor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import boot image.
+        /// </summary>
+        public static string import_bootimg {
+            get {
+                return ResourceManager.GetString("import_bootimg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input words.
+        /// </summary>
+        public static string input_info {
+            get {
+                return ResourceManager.GetString("input_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert empty channel.
         /// </summary>
         public static string ins_chan {
             get {
                 return ResourceManager.GetString("ins_chan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert channel.
+        /// </summary>
+        public static string insert_channel {
+            get {
+                return ResourceManager.GetString("insert_channel", resourceCulture);
             }
         }
         
@@ -939,6 +1155,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Manual override).
+        /// </summary>
+        public static string manual_override {
+            get {
+                return ResourceManager.GetString("manual_override", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to , max backups:.
         /// </summary>
         public static string max_backups {
@@ -984,6 +1209,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set mode.
+        /// </summary>
+        public static string mode_set {
+            get {
+                return ResourceManager.GetString("mode_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modify Startup Screen.
         /// </summary>
         public static string modify_boot_img {
@@ -1007,6 +1241,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string my_id {
             get {
                 return ResourceManager.GetString("my_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send sos.
+        /// </summary>
+        public static string my_sos_voice {
+            get {
+                return ResourceManager.GetString("my_sos_voice", resourceCulture);
             }
         }
         
@@ -1065,6 +1308,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None if empty.
+        /// </summary>
+        public static string none_if_empty {
+            get {
+                return ResourceManager.GetString("none_if_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Normal Open.
         /// </summary>
         public static string normal_open {
@@ -1119,6 +1371,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open image.
+        /// </summary>
+        public static string open_bootimg {
+            get {
+                return ResourceManager.GetString("open_bootimg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open debug window.
         /// </summary>
         public static string open_debug_window {
@@ -1151,6 +1412,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string pass_rpt_tail_clear {
             get {
                 return ResourceManager.GetString("pass_rpt_tail_clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delay Repeater Tail Tone.
+        /// </summary>
+        public static string pass_rpt_tail_delay {
+            get {
+                return ResourceManager.GetString("pass_rpt_tail_delay", resourceCulture);
             }
         }
         
@@ -1254,6 +1524,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to QT/DQT decode.
+        /// </summary>
+        public static string qtdqt_decode {
+            get {
+                return ResourceManager.GetString("qtdqt_decode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to QT/DQT encode.
+        /// </summary>
+        public static string qtdqt_encode {
+            get {
+                return ResourceManager.GetString("qtdqt_encode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read from device.
         /// </summary>
         public static string read_chan {
@@ -1308,6 +1596,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore.
+        /// </summary>
+        public static string restore {
+            get {
+                return ResourceManager.GetString("restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repeater Shift Frequency.
         /// </summary>
         public static string rev_rpt_freq {
@@ -1322,6 +1619,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string rpc_call {
             get {
                 return ResourceManager.GetString("rpc_call", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set r/w methods.
+        /// </summary>
+        public static string rw_chan_method {
+            get {
+                return ResourceManager.GetString("rw_chan_method", resourceCulture);
             }
         }
         
@@ -1358,6 +1664,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string sat_helper {
             get {
                 return ResourceManager.GetString("sat_helper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Satellite detail.
+        /// </summary>
+        public static string satellite_detail {
+            get {
+                return ResourceManager.GetString("satellite_detail", resourceCulture);
             }
         }
         
@@ -1425,11 +1740,29 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string search {
+            get {
+                return ResourceManager.GetString("search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search scan.
         /// </summary>
         public static string search_scan {
             get {
                 return ResourceManager.GetString("search_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a satellite.
+        /// </summary>
+        public static string select_a_satellite {
+            get {
+                return ResourceManager.GetString("select_a_satellite", resourceCulture);
             }
         }
         
@@ -1452,6 +1785,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cable.
+        /// </summary>
+        public static string serial {
+            get {
+                return ResourceManager.GetString("serial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No..
         /// </summary>
         public static string serial_no {
@@ -1466,6 +1808,24 @@ namespace SenhaixFreqWriter.Properties {
         public static string settings {
             get {
                 return ResourceManager.GetString("settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long-press sidekey.
+        /// </summary>
+        public static string sidekey_long {
+            get {
+                return ResourceManager.GetString("sidekey_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short-press sidekey.
+        /// </summary>
+        public static string sidekey_short {
+            get {
+                return ResourceManager.GetString("sidekey_short", resourceCulture);
             }
         }
         
@@ -1569,6 +1929,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string start_import {
+            get {
+                return ResourceManager.GetString("start_import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status:.
         /// </summary>
         public static string status {
@@ -1587,11 +1956,29 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stop send on busy.
+        /// </summary>
+        public static string stop_send_on_busy {
+            get {
+                return ResourceManager.GetString("stop_send_on_busy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data dir:.
         /// </summary>
         public static string storage_dir {
             get {
                 return ResourceManager.GetString("storage_dir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Style.
+        /// </summary>
+        public static string style {
+            get {
+                return ResourceManager.GetString("style", resourceCulture);
             }
         }
         
@@ -1677,6 +2064,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tone.
+        /// </summary>
+        public static string tone {
+            get {
+                return ResourceManager.GetString("tone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subtone Decoding.
         /// </summary>
         public static string tone_dec {
@@ -1709,6 +2105,15 @@ namespace SenhaixFreqWriter.Properties {
         public static string tools {
             get {
                 return ResourceManager.GetString("tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow Tx.
+        /// </summary>
+        public static string tx_allow {
+            get {
+                return ResourceManager.GetString("tx_allow", resourceCulture);
             }
         }
         
@@ -1749,6 +2154,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tx id delay.
+        /// </summary>
+        public static string tx_id_delay {
+            get {
+                return ResourceManager.GetString("tx_id_delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx id.
+        /// </summary>
+        public static string tx_my_id {
+            get {
+                return ResourceManager.GetString("tx_my_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tx on Both.
         /// </summary>
         public static string tx_on_both {
@@ -1767,11 +2190,29 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tx on press PTT.
+        /// </summary>
+        public static string tx_on_press_ptt {
+            get {
+                return ResourceManager.GetString("tx_on_press_ptt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tx on release.
         /// </summary>
         public static string tx_on_release {
             get {
                 return ResourceManager.GetString("tx_on_release", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tx on release PTT.
+        /// </summary>
+        public static string tx_on_release_ptt {
+            get {
+                return ResourceManager.GetString("tx_on_release_ptt", resourceCulture);
             }
         }
         
@@ -1803,6 +2244,42 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Band U±.
+        /// </summary>
+        public static string u_band {
+            get {
+                return ResourceManager.GetString("u_band", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update data.
+        /// </summary>
+        public static string update_satinfo {
+            get {
+                return ResourceManager.GetString("update_satinfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uplink.
+        /// </summary>
+        public static string uplink {
+            get {
+                return ResourceManager.GetString("uplink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band V±.
+        /// </summary>
+        public static string v_band {
+            get {
+                return ResourceManager.GetString("v_band", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version: .
         /// </summary>
         public static string version {
@@ -1821,11 +2298,11 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vox switch.
+        ///   Looks up a localized string similar to Voice remind.
         /// </summary>
-        public static string vox {
+        public static string voice_remind {
             get {
-                return ResourceManager.GetString("vox", resourceCulture);
+                return ResourceManager.GetString("voice_remind", resourceCulture);
             }
         }
         
@@ -1884,6 +2361,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Play sound on SOS.
+        /// </summary>
+        public static string whether_to_play_voice_on_sos {
+            get {
+                return ResourceManager.GetString("whether_to_play_voice_on_sos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wide.
         /// </summary>
         public static string wide {
@@ -1916,6 +2402,24 @@ namespace SenhaixFreqWriter.Properties {
         public static string write_freq {
             get {
                 return ResourceManager.GetString("write_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position(X).
+        /// </summary>
+        public static string x_pos {
+            get {
+                return ResourceManager.GetString("x_pos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position(Y).
+        /// </summary>
+        public static string y_pos {
+            get {
+                return ResourceManager.GetString("y_pos", resourceCulture);
             }
         }
     }

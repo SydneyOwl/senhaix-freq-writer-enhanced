@@ -8,8 +8,8 @@
         x:DataType="vm:FmWindow"
         xmlns:p="using:SenhaixFreqWriter.Properties"
         Title="{x:Static p:Resources.fm}">
-    <Canvas>
-        <DataGrid Margin="20" Name="FMDataGrid"
+    <StackPanel Margin="20">
+        <DataGrid Name="FMDataGrid"
                   GridLinesVisibility="All"
                   BorderThickness="1" BorderBrush="Gray"
                   CanUserSortColumns="False"
@@ -21,19 +21,19 @@
                   RowBackground="{DynamicResource dgBackgroundBrush}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
-                <DataGridTemplateColumn Header="{x:Static p:Resources.freq}" IsReadOnly="False"
-                                        Width="*">
+                <DataGridTemplateColumn Header="{x:Static p:Resources.freq}" IsReadOnly="False" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" />
-                            <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="{x:Static p:Resources.current_freq}" Canvas.Bottom="20" Canvas.Left="20" />
-        <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}"
-                 TextChanged="currFreqInputElement_OnLostFocus" />
-    </Canvas>
+
+        <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+            <Label Content="{x:Static p:Resources.current_freq}" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <TextBox Width="80" Text="{Binding CurFreq}" TextChanged="currFreqInputElement_OnLostFocus" VerticalAlignment="Center" />
+        </StackPanel>
+    </StackPanel>
 </Window>

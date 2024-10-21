@@ -6,7 +6,8 @@
         Width="1332" Height="750"
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8x00"
-        Title="森海克斯8x00通用写频软件"
+        Title="{x:Static p:Resources.app_name}"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.MainWindow"
@@ -14,46 +15,46 @@
     <!-- WindowState="Maximized"> -->
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="文件">
-                <MenuItem Header="新建" Click="new_OnClick">
+            <MenuItem Header="{x:Static p:Resources.file}">
+                <MenuItem Header="{x:Static p:Resources.new_cfg}" Click="new_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource new_file}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="打开" Click="open_OnClick">
+                <MenuItem Header="{x:Static p:Resources.open}" Click="open_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource open_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="保存" Click="save_OnClick">
+                <MenuItem Header="{x:Static p:Resources.save}" Click="save_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource save_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="另存为" Click="saveAs_OnClick">
+                <MenuItem Header="{x:Static p:Resources.saveas}" Click="saveAs_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource save_as_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="设置" Click="SettingMenuItem_OnClick">
+                <MenuItem Header="{x:Static p:Resources.settings}" Click="SettingMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource setting}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="退出" Click="exit_OnClick">
+                <MenuItem Header="{x:Static p:Resources.exit}" Click="exit_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource error_circle_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="编辑">
-                <MenuItem Header="可选功能" Click="option_OnClick">
+            <MenuItem Header="{x:Static p:Resources.edit}">
+                <MenuItem Header="{x:Static p:Resources.optional_function}" Click="option_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="DTMF（双音多频）" Click="dtmfset_OnClick">
+                <MenuItem Header="{x:Static p:Resources.dtmf}" Click="dtmfset_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
@@ -64,44 +65,44 @@
                 <!--     </MenuItem.Icon> -->
                 <!-- </MenuItem> -->
             </MenuItem>
-            <MenuItem Header="读写频">
-                <MenuItem Header="从手台读取信道" Click="readChannel_OnClick">
+            <MenuItem Header="{x:Static p:Resources.rw_freq}">
+                <MenuItem Header="{x:Static p:Resources.read_chan}" Click="readChannel_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource arrow_down_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="写入信道到手台" Click="writeChannel_OnClick">
+                <MenuItem Header="{x:Static p:Resources.write_chan}" Click="writeChannel_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource arrow_up_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="读写频方式设置">
-                <MenuItem Header="写频线" Click="portSel_OnClick" Name="cable">
+            <MenuItem Header="{x:Static p:Resources.rw_chan_method}">
+                <MenuItem Header="{x:Static p:Resources.serial}" Click="portSel_OnClick" Name="cable">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource usb_stick_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="蓝牙" Click="MenuConnectBT_OnClick">
+                <MenuItem Header="{x:Static p:Resources.bt}" Click="MenuConnectBT_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource bluetooth_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="工具">
-                <MenuItem Header="修改开机画面" Click="BootImageMenuItem_OnClick">
+            <MenuItem Header="{x:Static p:Resources.tools}">
+                <MenuItem Header="{x:Static p:Resources.modify_boot_img}" Click="BootImageMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource bootImgModify}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="打星助手" Click="SatMenuItem_OnClick">
+                <MenuItem Header="{x:Static p:Resources.sat_helper}" Click="SatMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource satellite}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="其他">
-                <MenuItem Header="主题色">
+            <MenuItem Header="{x:Static p:Resources.others}">
+                <MenuItem Header="{x:Static p:Resources.theme_color}">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource dark_light}" />
                     </MenuItem.Icon>
@@ -116,22 +117,22 @@
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="切换设备" Click="SwitchDevice_OnClick">
+                <MenuItem Header="{x:Static p:Resources.switch_device}" Click="SwitchDevice_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource arrows_bidirectional_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="调试功能">
+                <MenuItem Header="{x:Static p:Resources.debug_function}">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource channel_regular}" />
                     </MenuItem.Icon>
-                    <MenuItem Header="打开调试窗口" Click="OpenDebugMenuItem_OnClick">
+                    <MenuItem Header="{x:Static p:Resources.open_debug_window}" Click="OpenDebugMenuItem_OnClick">
                         <MenuItem.Icon>
                             <PathIcon Data="{StaticResource channel_regular}" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="关于" Click="About_OnClick">
+                <MenuItem Header="{x:Static p:Resources.about}" Click="About_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource person_feedback_regular}" />
                     </MenuItem.Icon>
@@ -145,13 +146,13 @@
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="readChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_down_regular}" Margin="0,0,10,0" />
-                        <TextBlock Text="读频" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static p:Resources.read_freq}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="writeChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_up_regular}" Margin="0,0,10,0" />
-                        <TextBlock Text="写频" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static p:Resources.write_freq}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -175,13 +176,13 @@
                       RowBackground="{DynamicResource dgBackgroundBrush}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="复制" Click="MenuCopyChannel_OnClick" />
-                        <MenuItem Header="剪切" Click="MenuCutChannel_OnClick" />
-                        <MenuItem Header="粘贴" Click="MenuPasteChannel_OnClick" />
-                        <MenuItem Header="清空选中的信道" Click="MenuClrChannel_OnClick" />
-                        <MenuItem Header="删除该信道" Click="MenuDelChannel_OnClick" />
-                        <MenuItem Header="插入空信道" Click="MenuInsChannel_OnClick" />
-                        <MenuItem Header="合并非空信道" Click="MenuComChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.copy}" Click="MenuCopyChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.cut}" Click="MenuCutChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.paste}" Click="MenuPasteChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.clear_sel_chan}" Click="MenuClrChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.del_chan}" Click="MenuDelChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.ins_chan}" Click="MenuInsChannel_OnClick" />
+                        <MenuItem Header="{x:Static p:Resources.combine_chan}" Click="MenuComChannel_OnClick" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <Interaction.Behaviors>
@@ -190,10 +191,10 @@
                     </BehaviorCollection>
                 </Interaction.Behaviors>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="信道"
+                    <DataGridTextColumn Header="{x:Static p:Resources.chan}"
                                         Binding="{Binding ChanNum }" IsReadOnly="True"
                                         Width="0.8*" />
-                    <DataGridTemplateColumn Header="发射允许" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_allow}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" SelectedItem="{Binding TxAllow, Mode=TwoWay}"
@@ -202,14 +203,14 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="接收频率" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.rx_freq}" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="QT/DQT解码" Width="1.3*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.qtdqt_decode}" Width="1.3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
@@ -220,7 +221,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="发射频率" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_freq}" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus"
@@ -228,7 +229,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="QT/DQT编码" Width="1.3*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.qtdqt_encode}" Width="1.3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
@@ -239,7 +240,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="发射功率" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.power}" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -248,7 +249,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="带宽" Width="0.8*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.bandwidth}" Width="0.8*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -266,7 +267,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="繁忙锁定" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.busy_lock}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BusyLock, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -275,7 +276,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="扫描添加" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.scan_add}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -284,7 +285,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="信令码" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling_code}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding SigCode, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -293,9 +294,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="信道名称" Width="1*"
+                    <DataGridTextColumn Header="{x:Static p:Resources.chan_name}" Width="1*"
                                         Binding="{Binding ChanName }" />
-                    <DataGridTemplateColumn Header="加密" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.encrypt}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Encrypt, Mode=TwoWay}" HorizontalAlignment="Center"

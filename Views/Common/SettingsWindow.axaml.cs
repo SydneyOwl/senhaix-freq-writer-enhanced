@@ -26,7 +26,6 @@ public partial class SettingsWindow : Window
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) btPluginNameTextbox.Text = Settings.LinuxBlePluginName;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) btPluginNameTextbox.Text = Settings.OsXBlePluginName;
         DataContext = this;
-        Console.WriteLine(Thread.CurrentThread.CurrentUICulture.Name);
         LanguageChooseComboBox.SelectedIndex = Thread.CurrentThread.CurrentUICulture.Name.ToLower() switch
         {
             "zh-hans" => 0,

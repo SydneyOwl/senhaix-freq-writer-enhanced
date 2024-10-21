@@ -5,23 +5,24 @@
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:SatelliteHelperWindow"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
-        Title="打星助手"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
+        Title="{x:Static p:Resources.sat_helper}"
         CanResize="False"
         WindowStartupLocation="CenterScreen">
     <Canvas>
-        <Label Content="搜索：" Margin="20" />
+        <Label Content="{x:Static p:Resources.search}" Margin="20" />
         <TextBox Canvas.Top="15" Canvas.Left="70" Width="100" TextChanged="SearchTextBox_OnTextChanged" />
 
-        <Label Content="选择一个卫星：" Canvas.Left="20" Canvas.Top="60" />
+        <Label Content="{x:Static p:Resources.select_a_satellite}" Canvas.Left="20" Canvas.Top="60" />
         <ListBox Name="satListBox" ItemsSource="{Binding Namelist}" Height="330"
                  Width="180" Canvas.Top="100" Canvas.Left="20"
                  SelectionChanged="SatListBox_OnSelectionChanged" />
 
-        <Label Content="卫星详情：" Canvas.Left="250" Canvas.Top="60" />
+        <Label Content="{x:Static p:Resources.satellite_detail}" Canvas.Left="250" Canvas.Top="60" />
         <TextBox Width="250" Height="130" IsReadOnly="True"
                  Canvas.Top="100" Canvas.Left="250" Name="selectedSatelliteInfo" TextWrapping="Wrap" />
 
-        <Label Content="选择模式：" Canvas.Left="250" Canvas.Top="240" />
+        <Label Content="{x:Static p:Resources.choose_mode}" Canvas.Left="250" Canvas.Top="240" />
         <ListBox Name="modeListBox" ItemsSource="" Height="160"
                  Width="250" Canvas.Top="270" Canvas.Left="250"
                  SelectionChanged="ModeListBox_OnSelectionChanged" />
@@ -29,39 +30,39 @@
         <Border Width="260" Height="95" BorderBrush="{StaticResource borderBrush}" BorderThickness="1"
                 Canvas.Top="480" Canvas.Left="10" />
         <CheckBox Canvas.Top="510" Canvas.Left="20" IsChecked="True" Name="doppler" />
-        <Label Content="多普勒" Canvas.Top="510" Canvas.Left="40" />
+        <Label Content="{x:Static p:Resources.doppler}" Canvas.Top="510" Canvas.Left="40" />
 
-        <Label Content="U段±" Canvas.Top="490" Canvas.Left="100" />
+        <Label Content="{x:Static p:Resources.u_band}" Canvas.Top="490" Canvas.Left="100" />
         <TextBox Canvas.Top="485" Canvas.Left="145" Name="uoffset" Text="10" />
         <Label Content="kHz" Canvas.Top="490" Canvas.Left="220" />
 
-        <Label Content="V段±" Canvas.Top="540" Canvas.Left="100" />
+        <Label Content="{x:Static p:Resources.v_band}" Canvas.Top="540" Canvas.Left="100" />
         <TextBox Canvas.Top="535" Canvas.Left="145" Name="voffset" Text="5" />
         <Label Content="kHz" Canvas.Top="540" Canvas.Left="220" />
 
         <Border Width="210" Height="155" BorderBrush="{StaticResource borderBrush}" BorderThickness="1"
                 Canvas.Top="450" Canvas.Left="290" />
 
-        <Label Content="(手动覆盖)" Canvas.Top="440" Canvas.Left="300" Background="BurlyWood" />
-        <Label Content="上行频率" Canvas.Top="470" Canvas.Left="300" />
+        <Label Content="{x:Static p:Resources.manual_override}" Canvas.Top="440" Canvas.Left="300" Background="BurlyWood" />
+        <Label Content="{x:Static p:Resources.uplink}" Canvas.Top="470" Canvas.Left="300" />
         <TextBox Canvas.Top="465" Canvas.Left="375" Name="centerTx" Width="85" />
         <Label Content="MHz" Canvas.Top="470" Canvas.Left="460" />
 
-        <Label Content="下行频率" Canvas.Top="500" Canvas.Left="300" />
+        <Label Content="{x:Static p:Resources.downlink}" Canvas.Top="500" Canvas.Left="300" />
         <TextBox Canvas.Top="495" Canvas.Left="375" Name="centerRx" Width="85" />
         <Label Content="MHz" Canvas.Top="500" Canvas.Left="460" />
 
-        <Label Content="信道名" Canvas.Top="530" Canvas.Left="300" />
+        <Label Content="{x:Static p:Resources.chan_name}" Canvas.Top="530" Canvas.Left="300" />
         <TextBox Canvas.Top="525" Canvas.Left="375" Name="satchanname" Width="100" />
 
-        <Label Content="亚音" Canvas.Top="560" Canvas.Left="300" />
-        <TextBox Canvas.Top="555" Canvas.Left="375" Name="sattone" Watermark="不填写即为无" />
+        <Label Content="{x:Static p:Resources.tone}" Canvas.Top="560" Canvas.Left="300" />
+        <TextBox Canvas.Top="555" Canvas.Left="375" Name="sattone" Watermark="{x:Static p:Resources.none_if_empty}" />
 
         <Button HorizontalAlignment="Left" Canvas.Bottom="20" Canvas.Left="100" Name="FetchSat"
                 Click="FetchSatDataButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource arrow_sync_regular}" Margin="0,0,10,0" />
-                <TextBlock Text="更新星历" VerticalAlignment="Center" Name="FetchSatText" />
+                <TextBlock Text="{x:Static p:Resources.update_satinfo}" VerticalAlignment="Center" Name="FetchSatText" />
             </StackPanel>
         </Button>
 
@@ -79,7 +80,7 @@
                 Name="insertChannel" IsEnabled="False">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource insert}" Margin="0,0,10,0" />
-                <TextBlock Text="插入信道" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.insert_channel}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
     </Canvas>

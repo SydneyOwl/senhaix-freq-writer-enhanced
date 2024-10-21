@@ -5,10 +5,11 @@
         x:Class="SenhaixFreqWriter.Views.Plugin.BootImageCreatorWindow"
         xmlns:local="clr-namespace:SenhaixFreqWriter.Controls"
         Width="800"
-        Title="制作图片"
+        Title="{x:Static p:Resources.create_bootimg}"
         xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         SizeToContent="WidthAndHeight">
     <Grid Margin="5"
           ColumnDefinitions="Auto,Auto,Auto,Auto"
@@ -26,25 +27,25 @@
         <!--      -->
         <!-- </DockPanel> -->
         <DockPanel Grid.Row="0" Grid.Column="1" Margin="10">
-            <Label Content="图片背景色：" Margin="0,15,0,0" />
+            <Label Content="{x:Static p:Resources.img_bgcolor}" Margin="0,15,0,0" />
             <colorpicker:ColorButton Color="Orange" Name="back" PropertyChanged="Back_OnPropertyChanged" />
             <Button Margin="10" HorizontalAlignment="Left" Click="ConfirmButton_OnClick"
                     IsVisible="False">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource confirm}" Margin="0,0,10,0" />
-                    <TextBlock Text="确定" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static p:Resources.confirm}" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Button Margin="10" HorizontalAlignment="Left" Click="AbortButton_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" />
-                    <TextBlock Text="取消" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static p:Resources.abort}" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Button Margin="10" HorizontalAlignment="Left" Click="SaveFileToButton_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <PathIcon Data="{StaticResource save_as_regular}" Margin="0,0,10,0" />
-                    <TextBlock Text="保存" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static p:Resources.save}" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
         </DockPanel>

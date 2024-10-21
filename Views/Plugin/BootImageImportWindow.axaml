@@ -4,7 +4,8 @@
         x:Class="SenhaixFreqWriter.Views.Plugin.BootImageImportWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Plugin"
         x:DataType="vm:BootImageImportWindow"
-        Title="开机图片导入"
+        Title="{x:Static p:Resources.import_bootimg}"
+        xmlns:p="using:SenhaixFreqWriter.Properties"
         WindowStartupLocation="CenterScreen"
         CanResize="False">
     <Canvas>
@@ -18,27 +19,27 @@
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="40" Click="CreateImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource draw}" Margin="0,0,10,0" />
-                <TextBlock Text="制作图片" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.create_bootimg}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="80" Click="OpenImageButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource open_regular}" Margin="0,0,10,0" />
-                <TextBlock Text="打开图片" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.open_bootimg}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="120" Click="ImportButton_OnClick"
                 Name="start">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource upload}" Margin="0,0,10,0" />
-                <TextBlock Text="开始导入" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.start_import}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <Button HorizontalAlignment="Left" Canvas.Right="20" Canvas.Top="160" Click="StopImportImg_OnClick"
                 Name="stop" IsEnabled="False">
             <StackPanel Orientation="Horizontal">
                 <!-- <PathIcon Data="{StaticResource abort}" Margin="0,0,10,0" /> -->
-                <TextBlock Text="取消" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static p:Resources.abort}" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
         <ProgressBar Canvas.Bottom="0" Value="0" Width="400" Name="pgBar" />
