@@ -430,7 +430,7 @@ Click the drop-down menu and select the option that includes "cu," for example: 
         <value>Read</value>
     </data>
     <data name="write_freq" xml:space="preserve">
-        <value>Write channel</value>
+        <value>Write</value>
     </data>
     <data name="no_connected_status" xml:space="preserve">
         <value>Status: NOT CONNECTED</value>
@@ -703,10 +703,10 @@ Click the drop-down menu and select the option that includes "cu," for example: 
         <value>Doppler</value>
     </data>
     <data name="u_band" xml:space="preserve">
-        <value>Band U±</value>
+        <value>U±</value>
     </data>
     <data name="v_band" xml:space="preserve">
-        <value>Band V±</value>
+        <value>V±</value>
     </data>
     <data name="manual_override" xml:space="preserve">
         <value>(Manual override)</value>
@@ -815,5 +815,8 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     </data>
     <data name="bt_mic_gain" xml:space="preserve">
         <value>BT Mic Gain</value>
+    </data>
+    <data name="advanced" xml:space="preserve">
+        <value>Advanced</value>
     </data>
 </root>

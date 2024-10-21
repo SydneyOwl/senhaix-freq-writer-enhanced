@@ -132,6 +132,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string advanced {
+            get {
+                return ResourceManager.GetString("advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string all {
@@ -2244,7 +2253,7 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Band U±.
+        ///   Looks up a localized string similar to U±.
         /// </summary>
         public static string u_band {
             get {
@@ -2271,7 +2280,7 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Band V±.
+        ///   Looks up a localized string similar to V±.
         /// </summary>
         public static string v_band {
             get {
@@ -2397,7 +2406,7 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Write channel.
+        ///   Looks up a localized string similar to Write.
         /// </summary>
         public static string write_freq {
             get {

@@ -13,84 +13,84 @@
         <Border Height="480" Width="300" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
         <Label Content="VFO A" Background="BurlyWood" FontSize="20" Canvas.Left="20" />
         <Label Content="{x:Static p:Resources.freq}" FontSize="15" Canvas.Left="20" Canvas.Top="50" />
-        <TextBox Canvas.Left="100" Canvas.Top="45" Width="150"
+        <TextBox Canvas.Left="150" Canvas.Top="45" Width="150"
                  Height="30" Text="{Binding VfoInfos.VfoAFreq}" LostFocus="currentFreq_OnLostFocus" />
         <Label Content="{x:Static p:Resources.rx_tone}" FontSize="15" Canvas.Left="20" Canvas.Top="90" />
-        <ComboBox Canvas.Left="100" Canvas.Top="85" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="85" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Qtdqt}"
                   SelectedValue="{Binding VfoInfos.StrVfoaRxCtsDcs}" />
         <Label Content="{x:Static p:Resources.tx_tone}" FontSize="15" Canvas.Left="20" Canvas.Top="130" />
-        <ComboBox Canvas.Left="100" Canvas.Top="125" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="125" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Qtdqt}"
                   SelectedValue="{Binding VfoInfos.StrVfoaTxCtsDcs}" />
         <Label Content="{x:Static p:Resources.power}" FontSize="15" Canvas.Left="20" Canvas.Top="170" />
-        <ComboBox Canvas.Left="100" Canvas.Top="165" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="165" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Power}"
                   SelectedIndex="{Binding VfoInfos.VfoATxPower}" />
         <Label Content="{x:Static p:Resources.bandwidth}" FontSize="15" Canvas.Left="20" Canvas.Top="210" />
-        <ComboBox Canvas.Left="100" Canvas.Top="205" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="205" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Bandwidth}"
                   SelectedIndex="{Binding VfoInfos.VfoABandwide}" />
         <Label Content="{x:Static p:Resources.step}" FontSize="15" Canvas.Left="20" Canvas.Top="250" />
-        <ComboBox Canvas.Left="100" Canvas.Top="245" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="245" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Step}"
                   SelectedIndex="{Binding VfoInfos.VfoAStep}" />
         <Label Content="{x:Static p:Resources.busy_lock}" FontSize="15" Canvas.Left="20" Canvas.Top="290" />
-        <ComboBox Canvas.Left="100" Canvas.Top="285" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="285" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.BusyLock}"
                   SelectedIndex="{Binding VfoInfos.VfoABusyLock}" />
         <Label Content="{x:Static p:Resources.sig_encode}" FontSize="15" Canvas.Left="20" Canvas.Top="330" />
-        <ComboBox Canvas.Left="100" Canvas.Top="325" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="325" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.SigGroup}"
                   SelectedIndex="{Binding VfoInfos.VfoASignalGroup}" />
         <Label Content="{x:Static p:Resources.freq_offset_dir}" FontSize="15" Canvas.Left="20" Canvas.Top="370" />
-        <ComboBox Canvas.Left="100" Canvas.Top="365" Width="150" Height="30"
+        <ComboBox Canvas.Left="150" Canvas.Top="365" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Direction}"
                   SelectedIndex="{Binding VfoInfos.VfoADir}" />
         <Label Content="{x:Static p:Resources.freq_offset}" FontSize="15" Canvas.Left="20" Canvas.Top="410" />
-        <TextBox Canvas.Left="100" Canvas.Top="405" Width="150" Height="30" Text="{Binding VfoInfos.VfoAOffset}"
+        <TextBox Canvas.Left="150" Canvas.Top="405" Width="150" Height="30" Text="{Binding VfoInfos.VfoAOffset}"
                  LostFocus="freqOffset_OnLostFocus" />
 
         <Border Height="480" Width="300" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}"
                 Canvas.Left="350" />
         <Label Content="VFO B" Background="BurlyWood" FontSize="20" Canvas.Left="370" />
         <Label Content="{x:Static p:Resources.freq}" FontSize="15" Canvas.Left="370" Canvas.Top="50" />
-        <TextBox Canvas.Left="450" Canvas.Top="45" Width="150" Height="30"
+        <TextBox Canvas.Left="500" Canvas.Top="45" Width="150" Height="30"
                  LostFocus="currentFreq_OnLostFocus" Text="{Binding VfoInfos.VfoBFreq}" />
         <Label Content="{x:Static p:Resources.rx_tone}" FontSize="15" Canvas.Left="370" Canvas.Top="90" />
-        <ComboBox Canvas.Left="450" Canvas.Top="85" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="85" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Qtdqt}"
                   SelectedValue="{Binding VfoInfos.StrVfobRxCtsDcs}" />
         <Label Content="{x:Static p:Resources.tx_tone}" FontSize="15" Canvas.Left="370" Canvas.Top="130" />
-        <ComboBox Canvas.Left="450" Canvas.Top="125" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="125" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Qtdqt}"
                   SelectedValue="{Binding VfoInfos.StrVfobTxCtsDcs}" />
         <Label Content="{x:Static p:Resources.power}" FontSize="15" Canvas.Left="370" Canvas.Top="170" />
-        <ComboBox Canvas.Left="450" Canvas.Top="165" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="165" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Power}"
                   SelectedIndex="{Binding VfoInfos.VfoBTxPower}" />
         <Label Content="{x:Static p:Resources.bandwidth}" FontSize="15" Canvas.Left="370" Canvas.Top="210" />
-        <ComboBox Canvas.Left="450" Canvas.Top="205" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="205" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Bandwidth}"
                   SelectedIndex="{Binding VfoInfos.VfoBBandwide}" />
         <Label Content="{x:Static p:Resources.step}" FontSize="15" Canvas.Left="370" Canvas.Top="250" />
-        <ComboBox Canvas.Left="450" Canvas.Top="245" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="245" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Step}"
                   SelectedIndex="{Binding VfoInfos.VfoBStep}" />
         <Label Content="{x:Static p:Resources.busy_lock}" FontSize="15" Canvas.Left="370" Canvas.Top="290" />
-        <ComboBox Canvas.Left="450" Canvas.Top="285" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="285" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.BusyLock}"
                   SelectedIndex="{Binding VfoInfos.VfoBBusyLock}" />
         <Label Content="{x:Static p:Resources.sig_encode}" FontSize="15" Canvas.Left="370" Canvas.Top="330" />
-        <ComboBox Canvas.Left="450" Canvas.Top="325" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="325" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.SigGroup}"
                   SelectedIndex="{Binding VfoInfos.VfoBSignalGroup}" />
         <Label Content="{x:Static p:Resources.freq_offset_dir}" FontSize="15" Canvas.Left="370" Canvas.Top="370" />
-        <ComboBox Canvas.Left="450" Canvas.Top="365" Width="150" Height="30"
+        <ComboBox Canvas.Left="500" Canvas.Top="365" Width="150" Height="30"
                   ItemsSource="{x:Static constants:VfoChoice.Direction}"
                   SelectedIndex="{Binding VfoInfos.VfoBDir}" />
         <Label Content="{x:Static p:Resources.freq_offset}" FontSize="15" Canvas.Left="370" Canvas.Top="410" />
-        <TextBox Canvas.Left="450" Canvas.Top="405" Width="150" Height="30" Text="{Binding VfoInfos.VfoBOffset}"
+        <TextBox Canvas.Left="500" Canvas.Top="405" Width="150" Height="30" Text="{Binding VfoInfos.VfoBOffset}"
                  LostFocus="freqOffset_OnLostFocus" />
         <Label Canvas.Bottom="30" Canvas.Left="20" Content="PTT-ID" />
         <ComboBox Canvas.Bottom="25" Canvas.Left="90"

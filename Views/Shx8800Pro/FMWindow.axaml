@@ -25,7 +25,7 @@
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" />
+                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" IsEnabled="False"/>
                             <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -33,7 +33,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="{x:Static p:Resources.current_freq}" Canvas.Bottom="20" Canvas.Left="20" />
-        <TextBox Canvas.Bottom="15" Canvas.Left="100" Width="80" Text="{Binding CurFreq}"
+        <TextBox Canvas.Bottom="15" Canvas.Left="120" Width="80" Text="{Binding CurFreq}"
                  TextChanged="currFreqInputElement_OnLostFocus" />
     </Canvas>
 </Window>

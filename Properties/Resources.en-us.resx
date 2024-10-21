@@ -643,7 +643,7 @@ Click the drop-down menu and select the option that includes "cu," for example: 
         <value>Write to device</value>
     </data>
     <data name="write_freq" xml:space="preserve">
-        <value>Write channel</value>
+        <value>Write</value>
     </data>
     <data name="add_text" xml:space="preserve">
         <value>Add text</value>
@@ -799,13 +799,13 @@ Click the drop-down menu and select the option that includes "cu," for example: 
         <value>Uplink</value>
     </data>
     <data name="u_band" xml:space="preserve">
-        <value>Band U±</value>
+        <value>U±</value>
     </data>
     <data name="voice_remind" xml:space="preserve">
         <value>Voice remind</value>
     </data>
     <data name="v_band" xml:space="preserve">
-        <value>Band V±</value>
+        <value>V±</value>
     </data>
     <data name="whether_to_play_voice_on_sos" xml:space="preserve">
         <value>Play sound on SOS</value>
@@ -815,5 +815,8 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     </data>
     <data name="y_pos" xml:space="preserve">
         <value>Position(Y)</value>
+    </data>
+    <data name="advanced" xml:space="preserve">
+        <value>Advanced</value>
     </data>
 </root>

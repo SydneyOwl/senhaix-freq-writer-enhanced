@@ -41,17 +41,17 @@
 
         <StackPanel Orientation="Vertical" Margin="0,10,0,0">
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <Label Content="{x:Static p:Resources.my_id}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <Label Content="{x:Static p:Resources.my_id}"  Margin="0,0,10,0"/>
                 <TextBox Width="100" Text="{Binding MyId}" TextChanged="GroupCodeInputElement_OnLostFocus" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <Label Content="{x:Static p:Resources.dtmf_last_time}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <Label Content="{x:Static p:Resources.dtmf_last_time}"  Margin="0,0,10,0"/>
                 <ComboBox ItemsSource="{x:Static constants:DtmfChoice.Time}" SelectedIndex="{Binding WordTime}" Width="100" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <Label Content="{x:Static p:Resources.dtmf_break_time}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <Label Content="{x:Static p:Resources.dtmf_break_time}"  Margin="0,0,10,0"/>
                 <ComboBox ItemsSource="{x:Static constants:DtmfChoice.Time}" SelectedIndex="{Binding IdleTime}" Width="100" />
             </StackPanel>
         </StackPanel>

@@ -2,8 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
-        Width="1332" Height="750"
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8x00"
         Title="{x:Static p:Resources.app_name}"
@@ -11,6 +9,8 @@
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.MainWindow"
+        SizeToContent="Width"
+        Height="750"
         WindowStartupLocation="CenterScreen">
     <!-- WindowState="Maximized"> -->
     <DockPanel LastChildFill="True">
@@ -146,13 +146,13 @@
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="readChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_down_regular}" Margin="0,0,10,0" />
-                        <TextBlock Text="{x:Static p:Resources.read_freq}" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static p:Resources.read_freq}"  />
                     </StackPanel>
                 </Button>
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="writeChannel_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_up_regular}" Margin="0,0,10,0" />
-                        <TextBlock Text="{x:Static p:Resources.write_freq}" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static p:Resources.write_freq}"  />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -193,8 +193,8 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static p:Resources.chan}"
                                         Binding="{Binding ChanNum }" IsReadOnly="True"
-                                        Width="0.8*" />
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_allow}" Width="*">
+                                         />
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_allow}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" SelectedItem="{Binding TxAllow, Mode=TwoWay}"
@@ -203,14 +203,14 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.rx_freq}" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.rx_freq}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding RxFreq}" LostFocus="rxFreq_OnLostFocus" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.qtdqt_decode}" Width="1.3*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.qtdqt_decode}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
@@ -221,7 +221,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_freq}" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_freq}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding TxFreq}" LostFocus="txFreq_OnLostFocus"
@@ -229,7 +229,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.qtdqt_encode}" Width="1.3*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.qtdqt_encode}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
@@ -240,7 +240,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.power}" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.power}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding TxPwr, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -249,7 +249,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.bandwidth}" Width="0.8*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.bandwidth}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BandWidth, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -258,7 +258,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="PTT-ID" Width="*">
+                    <DataGridTemplateColumn Header="PTT-ID" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Pttid, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -267,7 +267,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.busy_lock}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.busy_lock}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding BusyLock, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -276,7 +276,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.scan_add}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.scan_add}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -285,7 +285,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling_code}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling_code}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding SigCode, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -294,9 +294,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="{x:Static p:Resources.chan_name}" Width="1*"
+                    <DataGridTextColumn Header="{x:Static p:Resources.chan_name}" 
                                         Binding="{Binding ChanName }" />
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.encrypt}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.encrypt}" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedItem="{Binding Encrypt, Mode=TwoWay}" HorizontalAlignment="Center"

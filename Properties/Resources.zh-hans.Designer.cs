@@ -132,6 +132,15 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 高级.
+        /// </summary>
+        public static string advanced {
+            get {
+                return ResourceManager.GetString("advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 全部.
         /// </summary>
         public static string all {

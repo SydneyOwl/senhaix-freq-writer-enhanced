@@ -3,7 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
-        Width="1332" Height="750"
+        SizeToContent="Width"
+        Height="750"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
         Title="森海克斯gt12写频软件"
@@ -152,7 +153,7 @@
                         <TextBlock Text="{x:Static p:Resources.write_freq}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label Margin="30,7,0,0" Content="{x:Static p:Resources.no_connected_status}" Name="statusLabel" />
+                <Label Margin="30,0,0,0" Content="{x:Static p:Resources.no_connected_status}" Name="statusLabel" />
             </StackPanel>
         </Border>
         <Border Height="25" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"
@@ -172,16 +173,16 @@
                         <TextBlock Text="{x:Static p:Resources.prev_area}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label FontSize="15" Content="1/30" Margin="10,5,10,0" Name="areaLabel" />
+                <Label FontSize="15" Content="1/30" Margin="10,0,10,0" Name="areaLabel" />
                 <Button HorizontalAlignment="Left" Margin="0,0,0,0" Click="nextChan_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon Data="{StaticResource arrow_down_regular}" Margin="0,0,10,0" />
                         <TextBlock Text="{x:Static p:Resources.next_area}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label Foreground="Black" FontSize="16" Content="{x:Static p:Resources.area_name}" Margin="20,5,0,0" />
+                <Label Foreground="Black" FontSize="16" Content="{x:Static p:Resources.area_name}" Margin="20,0,0,0" />
                 <TextBox Width="140" FontSize="18" Name="areaName" LostFocus="AreaName_OnLostFocus" />
-                <Label Foreground="Black" FontSize="16" Content="{x:Static p:Resources.skip_to_area}" Margin="50,5,0,0" />
+                <Label Foreground="Black" FontSize="16" Content="{x:Static p:Resources.skip_to_area}" Margin="50,0,0,0" />
                 <TextBox Width="50" FontSize="18" Name="jumpTextBox" />
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="jumpChan_OnClick">
                     <StackPanel Orientation="Horizontal">
@@ -217,9 +218,8 @@
                 </Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static p:Resources.chan}"
-                                        Binding="{Binding Id }" IsReadOnly="True"
-                                        Width="0.8*" />
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.rx_freq}" Width="1*">
+                                        Binding="{Binding Id }" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.rx_freq}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding RxFreq}" LostFocus="rxfreq_OnLostFocus" />
@@ -227,7 +227,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.tone_dec}" Width="1.3*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tone_dec}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox MaxDropDownHeight="300" HorizontalAlignment="Center" Width="100"
@@ -238,7 +238,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_freq}" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tx_freq}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding TxFreq}"
@@ -247,7 +247,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.tone_enc}" Width="1.3*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.tone_enc}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="300" Width="100"
@@ -258,7 +258,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.power}" Width="1*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.power}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding TxPower, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -267,7 +267,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.bandwidth}" Width="0.8*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.bandwidth}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding Bandwide, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -276,7 +276,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.scan_add}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.scan_add}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding ScanAdd, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -285,7 +285,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding SignalSystem, Mode=TwoWay}"
@@ -295,7 +295,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.mute_mode}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.mute_mode}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding SqMode, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -304,7 +304,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="PTT-ID" Width="*">
+                    <DataGridTemplateColumn Header="PTT-ID">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding Pttid, Mode=TwoWay}" HorizontalAlignment="Center"
@@ -313,7 +313,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling_code}" Width="*">
+                    <DataGridTemplateColumn Header="{x:Static p:Resources.signalling_code}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox SelectedIndex="{Binding SignalGroup, Mode=TwoWay}"
@@ -323,7 +323,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="{x:Static p:Resources.chan_name}" Width="1*"
+                    <DataGridTextColumn Header="{x:Static p:Resources.chan_name}"
                                         Binding="{Binding Name }" />
                 </DataGrid.Columns>
             </DataGrid>

@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        Width="700" Height="480"
+        SizeToContent="Width"
+        Height="500"
         x:Class="SenhaixFreqWriter.Views.Gt12.OptionalWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
@@ -11,193 +12,193 @@
         Title="{x:Static p:Resources.optional_function}">
     <TabControl>
         <TabItem Header="{x:Static p:Resources.optional_function}">
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                  ColumnDefinitions="1.5*,*,1.55*,*"
+            <Grid RowDefinitions="35,35,35,35,35,35,35,35,35,35,35,35,35,35"
+                  ColumnDefinitions="Auto,150,Auto,Auto"
                   Margin="0,10,0,0">
 
-                <Label Content="{x:Static p:Resources.sql_level}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                <Label Content="{x:Static p:Resources.sql_level}"  Grid.Row="0" Grid.Column="0" />
                 <ComboBox Grid.Row="0" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Sql}"
                           SelectedIndex="{Binding Func.Sql}" />
                           
-                <Label Content="{x:Static p:Resources.tx_timeout}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+                <Label Content="{x:Static p:Resources.tx_timeout}"  Grid.Row="1" Grid.Column="0" />
                 <ComboBox Grid.Row="1" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.TxTimeout}"
                           SelectedIndex="{Binding Func.Tot}" />
 
-                <Label Content="{x:Static p:Resources.pwr_save_mode}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+                <Label Content="{x:Static p:Resources.pwr_save_mode}"  Grid.Row="2" Grid.Column="0" />
                 <ComboBox Grid.Row="2" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SaveMode}"
                           SelectedIndex="{Binding Func.SaveMode}" />
 
-                <Label Content="{x:Static p:Resources.vox_switch}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" />
+                <Label Content="{x:Static p:Resources.vox_switch}"  Grid.Row="3" Grid.Column="0" />
                 <ComboBox Grid.Row="3" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.VoxSwitch}"
                           SelectedIndex="{Binding Func.VoxSw}" />
 
-                <Label Content="{x:Static p:Resources.vox_level}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
+                <Label Content="{x:Static p:Resources.vox_level}"  Grid.Row="4" Grid.Column="0" />
                 <ComboBox Grid.Row="4" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Vox}"
                           SelectedIndex="{Binding Func.Vox}" />
 
-                <Label Content="{x:Static p:Resources.vox_delay}" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.vox_delay}" Grid.Row="5" Grid.Column="0" />
                 <ComboBox Grid.Row="5" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.VoxDelay}"
                           SelectedIndex="{Binding Func.VoxDlyTime}" />
 
-                <Label Content="{x:Static p:Resources.dual_listen}" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.dual_listen}" Grid.Row="6" Grid.Column="0" />
                 <ComboBox Grid.Row="6" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DoubleWait}"
                           SelectedIndex="{Binding Func.DualStandby}" />
 
-                <Label Content="{x:Static p:Resources.rev_rpt_freq}" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.rev_rpt_freq}" Grid.Row="7" Grid.Column="0" />
                 <ComboBox Grid.Row="7" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Tone}"
                           SelectedIndex="{Binding Func.Tone}" />
 
-                <Label Content="{x:Static p:Resources.tone_switch}" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.tone_switch}" Grid.Row="8" Grid.Column="0" />
                 <ComboBox Grid.Row="8" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SideTone}"
                           SelectedIndex="{Binding Func.SideTone}" />
 
-                <Label Content="{x:Static p:Resources.tail_clear}" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.tail_clear}" Grid.Row="9" Grid.Column="0" />
                 <ComboBox Grid.Row="9" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.TailClear}"
                           SelectedIndex="{Binding Func.TailClear}" />
 
-                <Label Content="{x:Static p:Resources.boot_disp}" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.boot_disp}" Grid.Row="10" Grid.Column="0" />
                 <ComboBox Grid.Row="10" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.PowerOnDisplay}"
                           SelectedIndex="{Binding Func.PowerOnDisType}" />
 
-                <Label Content="{x:Static p:Resources.remind_voice}" Grid.Row="11" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.remind_voice}" Grid.Row="11" Grid.Column="0" />
                 <ComboBox Grid.Row="11" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Beep}"
                           SelectedIndex="{Binding Func.Beep}" />
 
-                <Label Content="{x:Static p:Resources.mic_gain}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.mic_gain}" Grid.Row="0" Grid.Column="2" />
                 <ComboBox Grid.Row="0" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.MicGain}"
                           SelectedIndex="{Binding Func.MicGain}" />
 
-                <Label Content="{x:Static p:Resources.scan_mode}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.scan_mode}" Grid.Row="1" Grid.Column="2" />
                 <ComboBox Grid.Row="1" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.ScanMode}"
                           SelectedIndex="{Binding Func.ScanMode}" />
 
-                <Label Content="{x:Static p:Resources.sos_mode}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.sos_mode}" Grid.Row="2" Grid.Column="2" />
                 <ComboBox Grid.Row="2" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Sos}"
                           SelectedIndex="{Binding Func.AlarmMode}" />
 
-                <Label Content="{x:Static p:Resources.keyboard_lock}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.keyboard_lock}" Grid.Row="3" Grid.Column="2" />
                 <ComboBox Grid.Row="3" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyLock}"
                           SelectedIndex="{Binding Func.KeyLock}" />
 
-                <Label Content="{x:Static p:Resources.fm}" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.fm}" Grid.Row="4" Grid.Column="2" />
                 <ComboBox Grid.Row="4" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Fm}"
                           SelectedIndex="{Binding Func.FmEnable}" />
 
-                <Label Content="{x:Static p:Resources.current_area}" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.current_area}" Grid.Row="5" Grid.Column="2" />
                 <ComboBox Grid.Row="5" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
                           SelectedIndex="{Binding Func.CurBank}" />
 
-                <Label Content="{x:Static p:Resources.keyboard_lock_time}" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.keyboard_lock_time}" Grid.Row="6" Grid.Column="2" />
                 <ComboBox Grid.Row="6" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.AutoLock}"
                           SelectedIndex="{Binding Func.AutoLock}" />
-                <Label Content="{x:Static p:Resources.menu_exit_time}" Grid.Row="7" Grid.Column="2" VerticalAlignment="Center" />
+                <Label Content="{x:Static p:Resources.menu_exit_time}" Grid.Row="7" Grid.Column="2"  />
                 <ComboBox Grid.Row="7" Grid.Column="3" Width="100"
                                       ItemsSource="{x:Static constants:FunctionChoice.AutoQuit}"
                                       SelectedIndex="{Binding Func.MenuQuitTime}" />
-                <Label Content="{x:Static p:Resources.bglight_time}" Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" />
+                <Label Content="{x:Static p:Resources.bglight_time}" Grid.Row="8" Grid.Column="2"  />
                 <ComboBox Grid.Row="8" Grid.Column="3" Width="100"
                                       ItemsSource="{x:Static constants:FunctionChoice.BackgroundLightTime}"
                                       SelectedIndex="{Binding Func.Backlight}" />
-                <Label Content="{x:Static p:Resources.bglight_level}" Grid.Row="9" Grid.Column="2" VerticalAlignment="Center"  />
+                <Label Content="{x:Static p:Resources.bglight_level}" Grid.Row="9" Grid.Column="2"   />
                 <ComboBox Grid.Row="9" Grid.Column="3"  Width="100"
                                       ItemsSource="{x:Static constants:FunctionChoice.Bright}"
                                       SelectedIndex="{Binding Func.Bright}" />
-                <Label Content="{x:Static p:Resources.tx_code_delay}" Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"  />
+                <Label Content="{x:Static p:Resources.tx_code_delay}" Grid.Row="10" Grid.Column="2"   />
                 <ComboBox Grid.Row="10" Grid.Column="3" Width="100"
                                       ItemsSource="{x:Static constants:FunctionChoice.SendCodeDelay}"
                                       SelectedIndex="{Binding Func.PttDly}" />
-                <Label Content="{x:Static p:Resources.tx_end_sound}" Grid.Row="11" Grid.Column="2" VerticalAlignment="Center" />
+                <Label Content="{x:Static p:Resources.tx_end_sound}" Grid.Row="11" Grid.Column="2"  />
                 <ComboBox Grid.Row="11" Grid.Column="3" Width="100"
                                        ItemsSource="{x:Static constants:FunctionChoice.Roger}"
                                        SelectedIndex="{Binding Func.Roger}" />
             </Grid>
         </TabItem>
         <TabItem Header="{x:Static p:Resources.others}">
-            <Grid Margin="0,30,0,0" ColumnDefinitions="1.5*,*,1.5*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+            <Grid Margin="0,30,0,0" ColumnDefinitions="Auto,150,Auto,Auto" RowDefinitions="35,35,35,35,35,35,35,35,35,35">
 
-                <Label Content="{x:Static p:Resources.a_band_disp_mode}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.a_band_disp_mode}" Grid.Row="0" Grid.Column="0" />
                 <ComboBox Grid.Row="0" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChADisType}"/>
 
-                <Label Content="{x:Static p:Resources.a_band_work_mode}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.a_band_work_mode}" Grid.Row="1" Grid.Column="0" />
                 <ComboBox Grid.Row="1" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChAWorkmode}"/>
 
-                <Label Content="{x:Static p:Resources.b_band_disp_mode}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.b_band_disp_mode}" Grid.Row="2" Grid.Column="0" />
                 <ComboBox Grid.Row="2" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChBDisType}"/>
-                                <Label Content="{x:Static p:Resources.b_band_work_mode}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                                <Label Content="{x:Static p:Resources.b_band_work_mode}" Grid.Row="3" Grid.Column="0" />
                 <ComboBox Grid.Row="3" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChBWorkmode}"/>
 
-                <Label Content="{x:Static p:Resources.key_1_short_press}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.key_1_short_press}" Grid.Row="4" Grid.Column="0" />
                 <ComboBox Grid.Row="4" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key1Short}"/>
 
-                <Label Content="{x:Static p:Resources.key_1_long_press}" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.key_1_long_press}" Grid.Row="5" Grid.Column="0" />
                 <ComboBox Grid.Row="5" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key1Long}"/>
 
-                <Label Content="{x:Static p:Resources.key_2_short_press}" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.key_2_short_press}" Grid.Row="6" Grid.Column="0" />
                 <ComboBox Grid.Row="6" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key2Short}"/>
 
-                <Label Content="{x:Static p:Resources.key_2_long_press}" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.key_2_long_press}" Grid.Row="7" Grid.Column="0" />
                 <ComboBox Grid.Row="7" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key2Long}"/>
 
-                <Label Content="{x:Static p:Resources.pass_rpt_tail_clear}" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.pass_rpt_tail_clear}" Grid.Row="8" Grid.Column="0" />
                 <ComboBox Grid.Row="8" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.RptTailClear}"
                           SelectedIndex="{Binding Func.RptTailClear}"/>
 
-                <Label Content="{x:Static p:Resources.pass_rpt_tail_detect}" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.pass_rpt_tail_detect}" Grid.Row="9" Grid.Column="0" />
                 <ComboBox Grid.Row="9" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.RptDetectTail}"
                           SelectedIndex="{Binding Func.RptTailDet}"/>
 
-                <Label Content="{x:Static p:Resources.boot_img_disp_time}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.boot_img_disp_time}" Grid.Row="0" Grid.Column="2" />
                 <ComboBox Grid.Row="0" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.PowerUpDisplayTime}"
                           SelectedIndex="{Binding Func.PowerUpDisTime}"/>
 
-                <Label Content="{x:Static p:Resources.bt_voice_gain}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.bt_voice_gain}" Grid.Row="1" Grid.Column="2" />
                 <ComboBox Grid.Row="1" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.BtGain}"
                           SelectedIndex="{Binding Func.BluetoothAudioGain}"/>
 
-                <Label Content="{x:Static p:Resources.callsign}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="{x:Static p:Resources.callsign}" Grid.Row="3" Grid.Column="2" />
                 <TextBox Grid.Row="3" Grid.Column="3" Width="100" Text="{Binding Func.CallSign}"
                          TextChanged="CallsignInputElement_OnLostFocus"/>
 
-                <Label Content="SDC-ID" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
+                <Label Content="SDC-ID" Grid.Row="4" Grid.Column="2" />
                 <TextBox Grid.Row="4" Grid.Column="3" Width="100" Text="{Binding Mdc.Id}"
                          TextChanged="MDCInputElement_OnLostFocus"/>
             </Grid>

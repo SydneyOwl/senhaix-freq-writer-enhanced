@@ -1,6 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="400" Height="550"
+        Width="400" Height="630"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
         x:Class="SenhaixFreqWriter.Views.Shx8800Pro.DtmfWindow"
@@ -33,20 +33,23 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="{x:Static p:Resources.my_id}" Canvas.Bottom="90" Canvas.Left="15" />
-        <TextBox Canvas.Bottom="85" Canvas.Left="90" Text="{Binding MyId}"
+        <Label Content="{x:Static p:Resources.my_id}" Canvas.Bottom="160" Canvas.Left="15" />
+        <TextBox Canvas.Bottom="155" Canvas.Left="90" Text="{Binding MyId}"
                  TextChanged="GroupCodeInputElement_OnLostFocus" />
 
-        <Label Content="{x:Static p:Resources.tx_my_id}" Canvas.Bottom="50" Canvas.Left="15" />
-        <ComboBox Canvas.Bottom="45" Canvas.Left="90" ItemsSource="{x:Static constants:DtmfChoice.SendId}"
+        <Label Content="{x:Static p:Resources.tx_my_id}" Canvas.Bottom="120" Canvas.Left="15" />
+        <ComboBox Canvas.Bottom="115" Canvas.Left="90" ItemsSource="{x:Static constants:DtmfChoice.SendId}"
                   SelectedIndex="{Binding PttId}" />
 
-        <Label Content="{x:Static p:Resources.dtmf_last_time}" Canvas.Bottom="90" Canvas.Left="160" />
-        <ComboBox Canvas.Bottom="85" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
-                  SelectedIndex="{Binding WordTime}" />
-
-        <Label Content="{x:Static p:Resources.dtmf_break_time}" Canvas.Bottom="50" Canvas.Left="160" />
-        <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
-                  SelectedIndex="{Binding IdleTime}" />
+        <StackPanel Canvas.Bottom="75" Canvas.Left="15" Orientation="Horizontal">
+            <Label Content="{x:Static p:Resources.dtmf_last_time}"  />
+            <ComboBox  ItemsSource="{x:Static constants:DtmfChoice.Time}"
+                      SelectedIndex="{Binding WordTime}" />
+        </StackPanel>
+        <StackPanel Canvas.Bottom="35" Canvas.Left="15" Orientation="Horizontal">
+            <Label Content="{x:Static p:Resources.dtmf_break_time}"  />
+            <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
+                      SelectedIndex="{Binding IdleTime}" />
+        </StackPanel>
     </Canvas>
 </Window>

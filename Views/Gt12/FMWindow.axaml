@@ -24,7 +24,7 @@
                 <DataGridTemplateColumn Header="{x:Static p:Resources.freq}" IsReadOnly="False" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" />
+                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -32,7 +32,7 @@
         </DataGrid>
 
         <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-            <Label Content="{x:Static p:Resources.current_freq}" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <Label Content="{x:Static p:Resources.current_freq}"  Margin="0,0,10,0" />
             <TextBox Width="80" Text="{Binding CurFreq}" TextChanged="currFreqInputElement_OnLostFocus" VerticalAlignment="Center" />
         </StackPanel>
     </StackPanel>

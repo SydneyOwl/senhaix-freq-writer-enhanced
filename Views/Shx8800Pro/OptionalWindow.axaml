@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        Width="800" Height="480"
+        Height="420"
+        SizeToContent="Width"
         x:Class="SenhaixFreqWriter.Views.Shx8800Pro.OptionalWindow"
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8800Pro"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8800Pro"
@@ -11,168 +12,173 @@
         Title="{x:Static p:Resources.optional_function}">
     <TabControl>
         <TabItem Header="{x:Static p:Resources.optional_function}">
-            <Canvas>
-                <Label Content="{x:Static p:Resources.sql_level}" Canvas.Top="20" Canvas.Left="10" />
-                <ComboBox Canvas.Top="15" Canvas.Left="110" Width="100"
+            <Grid 
+                RowDefinitions="35,35,35,35,35,35,35,35,35" 
+                ColumnDefinitions="Auto,140,Auto,140,Auto,Auto"
+                VerticalAlignment="Center">
+                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.sql_level}" Canvas.Top="20" Canvas.Left="10" />
+                <ComboBox Grid.Row="0" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Sql}"
                           SelectedIndex="{Binding Func.Sql}" />
-                <Label Content="{x:Static p:Resources.tx_timeout}" Canvas.Top="60" Canvas.Left="10" />
-                <ComboBox Canvas.Top="55" Canvas.Left="110" Width="100"
+                <Label Grid.Row="1" Grid.Column="0"  Content="{x:Static p:Resources.tx_timeout}" Canvas.Top="60" Canvas.Left="10" />
+                <ComboBox Grid.Row="1" Grid.Column="1"  Canvas.Top="55" Canvas.Left="110" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.TxTimeout}"
                           SelectedIndex="{Binding Func.Tot}" />
-                <Label Content="{x:Static p:Resources.pwr_save_mode}" Canvas.Top="100" Canvas.Left="10" />
-                <ComboBox Canvas.Top="95" Canvas.Left="110" Width="100"
+                <Label Grid.Row="2" Grid.Column="0"  Content="{x:Static p:Resources.pwr_save_mode}" Canvas.Top="100" Canvas.Left="10" />
+                <ComboBox Grid.Row="2" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SaveMode}"
                           SelectedIndex="{Binding Func.SaveMode}" />
-                <Label Content="{x:Static p:Resources.vox_switch}" Canvas.Top="140" Canvas.Left="10" />
-                <ComboBox Canvas.Top="135" Canvas.Left="110" Width="100"
+                <Label Grid.Row="3" Grid.Column="0"  Content="{x:Static p:Resources.vox_switch}" Canvas.Top="140" Canvas.Left="10" />
+                <ComboBox Grid.Row="3" Grid.Column="1" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.VoxSwitch}"
                           SelectedIndex="{Binding Func.VoxSw}" />
-                <Label Content="{x:Static p:Resources.vox_level}" Canvas.Top="180" Canvas.Left="10" />
-                <ComboBox Canvas.Top="175" Canvas.Left="110" Width="100"
+                <Label Grid.Row="4" Grid.Column="0"  Content="{x:Static p:Resources.vox_level}" Canvas.Top="180" Canvas.Left="10" />
+                <ComboBox Grid.Row="4" Grid.Column="1"  Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Vox}"
                           SelectedIndex="{Binding Func.Vox}" />
-                <Label Content="{x:Static p:Resources.vox_delay}" Canvas.Top="220" Canvas.Left="10" />
-                <ComboBox Canvas.Top="215" Canvas.Left="110" Width="100"
+                <Label Grid.Row="5" Grid.Column="0"  Content="{x:Static p:Resources.vox_delay}" Canvas.Top="220" Canvas.Left="10" />
+                <ComboBox Grid.Row="5" Grid.Column="1"  Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.VoxDelay}"
                           SelectedIndex="{Binding Func.VoxDlyTime}" />
-                <Label Content="{x:Static p:Resources.dual_listen}" Canvas.Top="260" Canvas.Left="10" />
-                <ComboBox Canvas.Top="255" Canvas.Left="110" Width="100"
+                <Label Grid.Row="6" Grid.Column="0"  Content="{x:Static p:Resources.dual_listen}" Canvas.Top="260" Canvas.Left="10" />
+                <ComboBox Grid.Row="6" Grid.Column="1"  Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DoubleWait}"
                           SelectedIndex="{Binding Func.DualStandby}" />
-                <Label Content="{x:Static p:Resources.rev_rpt_freq}" Canvas.Top="300" Canvas.Left="10" />
-                <ComboBox Canvas.Top="295" Canvas.Left="110" Width="100"
+                <Label Grid.Row="7" Grid.Column="0"  Content="{x:Static p:Resources.rev_rpt_freq}" Canvas.Top="300" Canvas.Left="10" />
+                <ComboBox Grid.Row="7" Grid.Column="1"  Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Tone}"
                           SelectedIndex="{Binding Func.Tone}" />
-                <Label Content="{x:Static p:Resources.tone_switch}" Canvas.Top="340" Canvas.Left="10" />
-                <ComboBox Canvas.Top="335" Canvas.Left="110" Width="100"
+                <Label Grid.Row="8" Grid.Column="0"  Content="{x:Static p:Resources.tone_switch}" Canvas.Top="340" Canvas.Left="10" />
+                <ComboBox Grid.Row="8" Grid.Column="1"   Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SideTone}"
                           SelectedIndex="{Binding Func.SideTone}" />
-
-                <Label Content="{x:Static p:Resources.tail_clear}" Canvas.Top="20" Canvas.Left="230" />
-                <ComboBox Canvas.Top="15" Canvas.Left="330" Width="100"
-                          ItemsSource="{x:Static constants:FunctionChoice.TailClear}"
-                          SelectedIndex="{Binding Func.TailClear}" />
-                <Label Content="{x:Static p:Resources.boot_disp}" Canvas.Top="60" Canvas.Left="230" />
-                <ComboBox Canvas.Top="55" Canvas.Left="330" Width="100"
+                
+                <Label Grid.Row="0" Grid.Column="2"  Content="{x:Static p:Resources.tail_clear}" Canvas.Top="20" Canvas.Left="230" />
+                <ComboBox Grid.Row="0" Grid.Column="3" Canvas.Top="15" Canvas.Left="330" Width="100"
+                                      ItemsSource="{x:Static constants:FunctionChoice.TailClear}"
+                                      SelectedIndex="{Binding Func.TailClear}" />
+                <Label Grid.Row="1" Grid.Column="2"  Content="{x:Static p:Resources.boot_disp}" Canvas.Top="60" Canvas.Left="230" />
+                <ComboBox Grid.Row="1" Grid.Column="3"  Canvas.Top="55" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.PowerOnDisplay}"
                           SelectedIndex="{Binding Func.PowerOnDisType}" />
-                <Label Content="{x:Static p:Resources.remind_voice}" Canvas.Top="100" Canvas.Left="230" />
-                <ComboBox Canvas.Top="95" Canvas.Left="330" Width="100"
+                <Label Grid.Row="2" Grid.Column="2"  Content="{x:Static p:Resources.remind_voice}" Canvas.Top="100" Canvas.Left="230" />
+                <ComboBox Grid.Row="2" Grid.Column="3"  Canvas.Top="95" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Beep}"
                           SelectedIndex="{Binding Func.Beep}" />
-                <Label Content="{x:Static p:Resources.mic_gain}" Canvas.Top="140" Canvas.Left="230" />
-                <ComboBox Canvas.Top="135" Canvas.Left="330" Width="100"
+                <Label Grid.Row="3" Grid.Column="2"  Content="{x:Static p:Resources.mic_gain}" Canvas.Top="140" Canvas.Left="230" />
+                <ComboBox Grid.Row="3" Grid.Column="3"  Canvas.Top="135" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.MicGain}"
                           SelectedIndex="{Binding Func.MicGain}" />
-                <Label Content="{x:Static p:Resources.scan_mode}" Canvas.Top="180" Canvas.Left="230" />
-                <ComboBox Canvas.Top="175" Canvas.Left="330" Width="100"
+                <Label Grid.Row="4" Grid.Column="2"  Content="{x:Static p:Resources.scan_mode}" Canvas.Top="180" Canvas.Left="230" />
+                <ComboBox Grid.Row="4" Grid.Column="3"  Canvas.Top="175" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.ScanMode}"
                           SelectedIndex="{Binding Func.ScanMode}" />
-                <Label Content="{x:Static p:Resources.sos_mode}" Canvas.Top="220" Canvas.Left="230" />
-                <ComboBox Canvas.Top="215" Canvas.Left="330" Width="100"
+                <Label Grid.Row="5" Grid.Column="2"  Content="{x:Static p:Resources.sos_mode}" Canvas.Top="220" Canvas.Left="230" />
+                <ComboBox Grid.Row="5" Grid.Column="3"  Canvas.Top="215" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Sos}"
                           SelectedIndex="{Binding Func.AlarmMode}" />
-                <Label Content="{x:Static p:Resources.keyboard_lock}" Canvas.Top="260" Canvas.Left="230" />
-                <ComboBox Canvas.Top="255" Canvas.Left="330" Width="100"
+                <Label Grid.Row="6" Grid.Column="2"  Content="{x:Static p:Resources.keyboard_lock}" Canvas.Top="260" Canvas.Left="230" />
+                <ComboBox Grid.Row="6" Grid.Column="3"  Canvas.Top="255" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyLock}"
                           SelectedIndex="{Binding Func.KeyLock}" />
-                <Label Content="{x:Static p:Resources.fm}" Canvas.Top="300" Canvas.Left="230" />
-                <ComboBox Canvas.Top="295" Canvas.Left="330" Width="100"
+                <Label Grid.Row="7" Grid.Column="2"  Content="{x:Static p:Resources.fm}" Canvas.Top="300" Canvas.Left="230" />
+                <ComboBox Grid.Row="7" Grid.Column="3"  Canvas.Top="295" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Fm}"
                           SelectedIndex="{Binding Func.FmEnable}" />
-                <Label Content="{x:Static p:Resources.keyboard_lock_time}" Canvas.Top="340" Canvas.Left="230" />
-                <ComboBox Canvas.Top="335" Canvas.Left="330" Width="100"
+                <Label Grid.Row="8" Grid.Column="2"  Content="{x:Static p:Resources.keyboard_lock_time}" Canvas.Top="340" Canvas.Left="230" />
+                <ComboBox Grid.Row="8" Grid.Column="3"  Canvas.Top="335" Canvas.Left="330" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.AutoLock}"
                           SelectedIndex="{Binding Func.AutoLock}" />
-                <Label Content="{x:Static p:Resources.menu_exit_time}" Canvas.Top="20" Canvas.Left="450" />
-                <ComboBox Canvas.Top="15" Canvas.Left="550" Width="100"
+                <Label Grid.Row="0" Grid.Column="4"  Content="{x:Static p:Resources.menu_exit_time}" Canvas.Top="20" Canvas.Left="450" />
+                <ComboBox Grid.Row="0" Grid.Column="5"  Canvas.Top="15" Canvas.Left="550" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.AutoQuit}"
                           SelectedIndex="{Binding Func.MenuQuitTime}" />
-                <Label Content="{x:Static p:Resources.bglight_time}" Canvas.Top="60" Canvas.Left="450" />
-                <ComboBox Canvas.Top="55" Canvas.Left="550" Width="100"
+                <Label Grid.Row="1" Grid.Column="4"  Content="{x:Static p:Resources.bglight_time}" Canvas.Top="60" Canvas.Left="450" />
+                <ComboBox Grid.Row="1" Grid.Column="5"  Canvas.Top="55" Canvas.Left="550" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.BackgroundLightTime}"
                           SelectedIndex="{Binding Func.Backlight}" />
-                <Label Content="{x:Static p:Resources.voice_remind}" Canvas.Top="100" Canvas.Left="450" />
-                <ComboBox Canvas.Top="95" Canvas.Left="550" Width="100"
+                <Label Grid.Row="2" Grid.Column="4"  Content="{x:Static p:Resources.voice_remind}" Canvas.Top="100" Canvas.Left="450" />
+                <ComboBox Grid.Row="2" Grid.Column="5"  Canvas.Top="95" Canvas.Left="550" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.VoiceSw}"
                           SelectedIndex="{Binding Func.VoiceSw}" />
-                <Label Content="{x:Static p:Resources.tx_code_delay}" Canvas.Top="140" Canvas.Left="450" />
-                <ComboBox Canvas.Top="135" Canvas.Left="550" Width="100"
+                <Label Grid.Row="3" Grid.Column="4"  Content="{x:Static p:Resources.tx_code_delay}" Canvas.Top="140" Canvas.Left="450" />
+                <ComboBox Grid.Row="3" Grid.Column="5"  Canvas.Top="135" Canvas.Left="550" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SendCodeDelay}"
                           SelectedIndex="{Binding Func.PttDly}" />
-                <Label Content="{x:Static p:Resources.tx_end_sound}" Canvas.Top="180" Canvas.Left="450" />
-                <ComboBox Canvas.Top="175" Canvas.Left="550" Width="100"
+                <Label Grid.Row="4" Grid.Column="4"  Content="{x:Static p:Resources.tx_end_sound}" Canvas.Top="180" Canvas.Left="450" />
+                <ComboBox Grid.Row="4" Grid.Column="5"  Canvas.Top="175" Canvas.Left="550" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.Roger}"
                           SelectedIndex="{Binding Func.Roger}" />
-                <Label Content="{x:Static p:Resources.my_sos_voice}" Canvas.Top="220" Canvas.Left="450" />
-                <ComboBox Canvas.Top="215" Canvas.Left="550" Width="100"
+                <Label Grid.Row="5" Grid.Column="4"  Content="{x:Static p:Resources.my_sos_voice}" Canvas.Top="220" Canvas.Left="450" />
+                <ComboBox Grid.Row="5" Grid.Column="5"  Canvas.Top="215" Canvas.Left="550" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.SosVoice}"
                           SelectedIndex="{Binding Func.LocalSosTone}" />
-            </Canvas>
+            </Grid>
         </TabItem>
-
         <TabItem Header="{x:Static p:Resources.others}">
-            <Canvas>
-                <Label Content="{x:Static p:Resources.a_band_area}" Canvas.Top="20" Canvas.Left="10" />
-                <ComboBox Canvas.Top="15" Canvas.Left="130" Width="100"
+            <Grid 
+                RowDefinitions="35,35,35,35,35,35,35,35,35,35" 
+                ColumnDefinitions="Auto,140,Auto,140"
+                VerticalAlignment="Center">
+                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.a_band_area}" Canvas.Top="20" Canvas.Left="10" />
+                <ComboBox Grid.Row="0" Grid.Column="1"  Canvas.Top="15" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
                           SelectedIndex="{Binding Func.CurBankA}" />
-                <Label Content="{x:Static p:Resources.a_band_disp_mode}" Canvas.Top="60" Canvas.Left="10" />
-                <ComboBox Canvas.Top="55" Canvas.Left="130" Width="100"
+                <Label Grid.Row="1" Grid.Column="0"  Content="{x:Static p:Resources.a_band_disp_mode}" Canvas.Top="60" Canvas.Left="10" />
+                <ComboBox Grid.Row="1" Grid.Column="1"  Canvas.Top="55" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChADisType}" />
-                <Label Content="{x:Static p:Resources.a_band_work_mode}" Canvas.Top="100" Canvas.Left="10" />
-                <ComboBox Canvas.Top="95" Canvas.Left="130" Width="100"
+                <Label Grid.Row="2" Grid.Column="0"  Content="{x:Static p:Resources.a_band_work_mode}" Canvas.Top="100" Canvas.Left="10" />
+                <ComboBox Grid.Row="2" Grid.Column="1"  Canvas.Top="95" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChAWorkmode}" />
-
-                <Label Content="{x:Static p:Resources.b_band_area}" Canvas.Top="140" Canvas.Left="10" />
-                <ComboBox Canvas.Top="135" Canvas.Left="130" Width="100"
+            
+                <Label Grid.Row="3" Grid.Column="0"  Content="{x:Static p:Resources.b_band_area}" Canvas.Top="140" Canvas.Left="10" />
+                <ComboBox Grid.Row="3" Grid.Column="1"  Canvas.Top="135" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.CurBank}"
                           SelectedIndex="{Binding Func.CurBankB}" />
-                <Label Content="{x:Static p:Resources.b_band_disp_mode}" Canvas.Top="180" Canvas.Left="10" />
-                <ComboBox Canvas.Top="175" Canvas.Left="130" Width="100"
+                <Label Grid.Row="4" Grid.Column="0"  Content="{x:Static p:Resources.b_band_disp_mode}" Canvas.Top="180" Canvas.Left="10" />
+                <ComboBox Grid.Row="4" Grid.Column="1"  Canvas.Top="175" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.DisplayType}"
                           SelectedIndex="{Binding Func.ChBDisType}" />
-                <Label Content="{x:Static p:Resources.b_band_work_mode}" Canvas.Top="220" Canvas.Left="10" />
-                <ComboBox Canvas.Top="215" Canvas.Left="130" Width="100"
+                <Label Grid.Row="5" Grid.Column="0"  Content="{x:Static p:Resources.b_band_work_mode}" Canvas.Top="220" Canvas.Left="10" />
+                <ComboBox Grid.Row="5" Grid.Column="1"  Canvas.Top="215" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.WorkMode}"
                           SelectedIndex="{Binding Func.ChBWorkmode}" />
-
-                <Label Content="{x:Static p:Resources.key_2_short_press}" Canvas.Top="260" Canvas.Left="10" />
-                <ComboBox Canvas.Top="255" Canvas.Left="130" Width="100"
+            
+                <Label Grid.Row="6" Grid.Column="0"  Content="{x:Static p:Resources.key_2_short_press}" Canvas.Top="260" Canvas.Left="10" />
+                <ComboBox Grid.Row="6" Grid.Column="1"  Canvas.Top="255" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key2Short}" />
-                <Label Content="{x:Static p:Resources.key_2_long_press}" Canvas.Top="300" Canvas.Left="10" />
-                <ComboBox Canvas.Top="295" Canvas.Left="130" Width="100"
+                <Label Grid.Row="7" Grid.Column="0"  Content="{x:Static p:Resources.key_2_long_press}" Canvas.Top="300" Canvas.Left="10" />
+                <ComboBox Grid.Row="7" Grid.Column="1"  Canvas.Top="295" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.KeyFunc}"
                           SelectedIndex="{Binding Func.Key2Long}" />
-                <Label Content="{x:Static p:Resources.pass_rpt_tail_clear}" Canvas.Top="340" Canvas.Left="10" />
-                <ComboBox Canvas.Top="335" Canvas.Left="130" Width="100"
+                <Label Grid.Row="8" Grid.Column="0"  Content="{x:Static p:Resources.pass_rpt_tail_clear}" Canvas.Top="340" Canvas.Left="10" />
+                <ComboBox Grid.Row="8" Grid.Column="1"  Canvas.Top="335" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.RptTailClear}"
                           SelectedIndex="{Binding Func.RptTailClear}" />
-                <Label Content="{x:Static p:Resources.pass_rpt_tail_detect}" Canvas.Top="380" Canvas.Left="10" />
-                <ComboBox Canvas.Top="375" Canvas.Left="130" Width="100"
+                <Label Grid.Row="9" Grid.Column="0"  Content="{x:Static p:Resources.pass_rpt_tail_detect}" Canvas.Top="380" Canvas.Left="10" />
+                <ComboBox Grid.Row="9" Grid.Column="1"  Canvas.Top="375" Canvas.Left="130" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.RptDetectTail}"
                           SelectedIndex="{Binding Func.RptTailDet}" />
-
-                <Label Content="{x:Static p:Resources.boot_img_disp_time}" Canvas.Top="20" Canvas.Left="260" />
-                <ComboBox Canvas.Top="15" Canvas.Left="380" Width="100"
+            
+                <Label Grid.Row="0" Grid.Column="2"  Content="{x:Static p:Resources.boot_img_disp_time}" Canvas.Top="20" Canvas.Left="260" />
+                <ComboBox Grid.Row="0" Grid.Column="3"  Canvas.Top="15" Canvas.Left="380" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.PowerUpDisplayTime}"
                           SelectedIndex="{Binding Func.PwrOnDlyTime}" />
-                <Label Content="{x:Static p:Resources.bt_voice_gain}" Canvas.Top="60" Canvas.Left="260" />
-                <ComboBox Canvas.Top="55" Canvas.Left="380" Width="100"
+                <Label Grid.Row="1" Grid.Column="2"  Content="{x:Static p:Resources.bt_voice_gain}" Canvas.Top="60" Canvas.Left="260" />
+                <ComboBox Grid.Row="1" Grid.Column="3"  Canvas.Top="55" Canvas.Left="380" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.BtGain}"
                           SelectedIndex="{Binding Func.BluetoothAudioGain}" />
-                <Label Content="{x:Static p:Resources.bt_mic_gain}" Canvas.Top="100" Canvas.Left="260" />
-                <ComboBox Canvas.Top="95" Canvas.Left="380" Width="100"
+                <Label Grid.Row="2" Grid.Column="2"  Content="{x:Static p:Resources.bt_mic_gain}" Canvas.Top="100" Canvas.Left="260" />
+                <ComboBox Grid.Row="2" Grid.Column="3"  Canvas.Top="95" Canvas.Left="380" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.BtMicGain}"
                           SelectedIndex="{Binding Func.BtMicGain}" />
-                <Label Content="{x:Static p:Resources.callsign}" Canvas.Top="190" Canvas.Left="280" />
-                <TextBox Canvas.Top="185" Canvas.Left="360" Width="100" Text="{Binding Func.CallSign}"
+                <Label Grid.Row="4" Grid.Column="2"  Content="{x:Static p:Resources.callsign}" Canvas.Top="190" Canvas.Left="280" />
+                <TextBox Grid.Row="4" Grid.Column="3"  Canvas.Top="185" Canvas.Left="360" Width="100" Text="{Binding Func.CallSign}"
                          TextChanged="CallsignInputElement_OnLostFocus" />
-            </Canvas>
+            </Grid>
         </TabItem>
     </TabControl>
 

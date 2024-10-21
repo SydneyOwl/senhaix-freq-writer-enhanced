@@ -37,6 +37,14 @@
         <Style Selector="Window">
             <Setter Property="Icon" Value="/Asset/shx8800-icons/icon.ico" />
         </Style>
+        <!-- datagrid的样式 -->
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
     </Application.Styles>
     <Application.Resources>
         <!-- FOR TOPBORDER -->

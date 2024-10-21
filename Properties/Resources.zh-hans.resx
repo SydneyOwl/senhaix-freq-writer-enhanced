@@ -813,4 +813,7 @@ macOS:
     <data name="bt_mic_gain" xml:space="preserve">
         <value>蓝牙Mic增益</value>
     </data>
+    <data name="advanced" xml:space="preserve">
+        <value>高级</value>
+    </data>
 </root>
