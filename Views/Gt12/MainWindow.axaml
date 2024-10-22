@@ -7,7 +7,7 @@
         Height="750"
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
-        Title="森海克斯gt12写频软件"
+        Title="{x:Static p:Resources.app_name}"
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Gt12.MainWindow"
