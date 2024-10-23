@@ -47,6 +47,12 @@ public partial class MainWindow : Window
     public MainWindow(ShxDevice shx)
     {
         InitializeComponent();
+        Title = shx switch
+        {
+            ShxDevice.Shx8600 => Language.GetString("app_name") + "(8600)",
+            ShxDevice.Shx8800 => Language.GetString("app_name") + "(8800)",
+            ShxDevice.Shx8600Pro => Language.GetString("app_name") + "(8600pro)"
+        };
         _cancelTips = new CancellationTokenSource();
         _cancelBackup = new CancellationTokenSource();
         Task.Run(() => UpdateTips(_cancelTips.Token));

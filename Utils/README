@@ -1,2 +1,6 @@
 ﻿HID（Communication）和Serial（WriFreq）部分写频代码来自于原软件。
 感谢SenHaiX!
+
+BLE -> SHX8800的蓝牙写频
+HID -> GT12的HID写频
+Serial -> SHX8800(pro)/8600(pro)的写频线写频

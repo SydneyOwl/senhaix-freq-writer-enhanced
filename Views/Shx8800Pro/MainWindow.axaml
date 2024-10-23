@@ -7,7 +7,6 @@
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8800Pro"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8800Pro"
         xmlns:p="using:SenhaixFreqWriter.Properties"
-        Title="{x:Static p:Resources.app_name}"
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Shx8800Pro.MainWindow"

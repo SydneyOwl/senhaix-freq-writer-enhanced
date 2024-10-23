@@ -48,6 +48,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        Title = Language.GetString("app_name") + "(GT12)";
         _cancelTips = new CancellationTokenSource();
         _cancelBackup = new CancellationTokenSource();
         Task.Run(() => UpdateTips(_cancelTips.Token));

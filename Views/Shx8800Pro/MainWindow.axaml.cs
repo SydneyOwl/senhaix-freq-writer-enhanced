@@ -41,6 +41,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        Title = Language.GetString("app_name") + "(8800pro)";
         _cancelTips = new CancellationTokenSource();
         _cancelBackup = new CancellationTokenSource();
         Task.Run(() => UpdateTips(_cancelTips.Token));
@@ -79,6 +80,8 @@ public partial class MainWindow : Window
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
+        _cancelTips.Cancel();
+        _cancelBackup.Cancel();
         Close();
         if (!_devSwitchFlag) Environment.Exit(0);
     }

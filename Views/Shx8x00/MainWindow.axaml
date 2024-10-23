@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:SenhaixFreqWriter.Views.Shx8x00"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8x00"
-        Title="{x:Static p:Resources.app_name}"
         xmlns:p="using:SenhaixFreqWriter.Properties"
         x:DataType="vm:MainWindow"
         xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"

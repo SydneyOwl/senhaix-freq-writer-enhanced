@@ -47,10 +47,10 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
                                Foreground="Green"
-                               Canvas.Left="590"
-                               Canvas.Top="250"
+                               Canvas.Left="380"
+                               Canvas.Top="265"
                                Name="ProgressRing1" />
-        <Button HorizontalAlignment="Left" Canvas.Left="450" Canvas.Top="260" Name="scanButton"
+        <Button HorizontalAlignment="Left" Canvas.Left="420" Canvas.Top="260" Name="scanButton"
                 Click="ScanButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource scan}" Margin="0,0,10,0" />
@@ -63,10 +63,10 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
                                Foreground="Green"
-                               Canvas.Left="590"
+                               Canvas.Left="380"
                                Canvas.Top="325"
                                Name="ProgressRing2" />
-        <Button HorizontalAlignment="Left" Canvas.Left="450" Canvas.Top="320" Name="connButton"
+        <Button HorizontalAlignment="Left" Canvas.Left="420" Canvas.Top="320" Name="connButton"
                 Click="ConnButton_OnClick">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource bluetooth_regular}" Margin="0,0,10,0" />
