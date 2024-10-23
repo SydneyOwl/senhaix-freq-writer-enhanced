@@ -17,12 +17,13 @@ public class FunctionChoice
 
     public static ObservableCollection<string> SaveMode = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> Vox = new()
     {
-        Language.GetString("high_sensitivity"),  Language.GetString("mid_sensitivity"), Language.GetString("low_sensitivity")
+        Language.GetString("high_sensitivity"), Language.GetString("mid_sensitivity"),
+        Language.GetString("low_sensitivity")
         // "高灵敏度", "中灵敏度", "低灵敏度"
     };
 
@@ -34,7 +35,7 @@ public class FunctionChoice
 
     public static ObservableCollection<string> DoubleWait = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> Tone = new()
@@ -44,57 +45,57 @@ public class FunctionChoice
 
     public static ObservableCollection<string> SideTone = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> TailClear = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> PowerOnDisplay = new()
     {
-        "LOGO", Language.GetString("bat_volt"), Language.GetString("default_msg"), 
+        "LOGO", Language.GetString("bat_volt"), Language.GetString("default_msg")
         // "LOGO", "电池电压", "预设信息"
     };
 
     public static ObservableCollection<string> Beep = new()
     {
-        Language.GetString("off"), Language.GetString("beep"), Language.GetString("voice"), Language.GetString("all"),
+        Language.GetString("off"), Language.GetString("beep"), Language.GetString("voice"), Language.GetString("all")
         // "关", "BEEP 音", "语音", "全部"
     };
 
     public static ObservableCollection<string> Roger = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> MicGain = new()
     {
-        Language.GetString("low_gain"),  Language.GetString("mid_gain"), Language.GetString("high_gain")
+        Language.GetString("low_gain"), Language.GetString("mid_gain"), Language.GetString("high_gain")
         // "低增益", "中增益", "高增益"
     };
 
     public static ObservableCollection<string> ScanMode = new()
     {
-        Language.GetString("time_scan"),  Language.GetString("carrier_scan"), Language.GetString("search_scan")
+        Language.GetString("time_scan"), Language.GetString("carrier_scan"), Language.GetString("search_scan")
         // "时间扫描", "载波扫描", "搜索扫描"
     };
 
     public static ObservableCollection<string> Sos = new()
     {
-        Language.GetString("live_sos"),  Language.GetString("send_sos_voice"), Language.GetString("send_sos_code")
+        Language.GetString("live_sos"), Language.GetString("send_sos_voice"), Language.GetString("send_sos_code")
         // "现场报警", "发射报警音", "发射报警码"
     };
 
     public static ObservableCollection<string> KeyLock = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> Fm = new()
     {
-        Language.GetString("allow"),  Language.GetString("forbid")
+        Language.GetString("allow"), Language.GetString("forbid")
         // "允许", "禁止"
     };
 
@@ -127,7 +128,7 @@ public class FunctionChoice
 
     public static ObservableCollection<string> DisplayType = new()
     {
-        Language.GetString("chan_name"),Language.GetString("freq"),Language.GetString("chan_num")
+        Language.GetString("chan_name"), Language.GetString("freq"), Language.GetString("chan_num")
         // "信道名称", "频率", "信道号"
     };
 
@@ -147,7 +148,7 @@ public class FunctionChoice
         Language.GetString("weather"),
         Language.GetString("scan"),
         Language.GetString("vox"),
-        Language.GetString("remote_tone_scan"),
+        Language.GetString("remote_tone_scan")
         // "收音机", "功率切换", "监听", "扫频", "报警", "天气预报", "扫描", "声控开关", "远程扫描亚音"
     };
 
@@ -163,7 +164,7 @@ public class FunctionChoice
 
     public static ObservableCollection<string> VoxSwitch = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> PowerUpDisplayTime = new()

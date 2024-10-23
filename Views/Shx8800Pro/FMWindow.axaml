@@ -20,12 +20,13 @@
                   Width="350"
                   RowBackground="{DynamicResource dgBackgroundBrush}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Id }" />
                 <DataGridTemplateColumn Header="{x:Static p:Resources.freq}" IsReadOnly="False"
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" IsEnabled="False"/>
+                            <TextBox Text="{Binding Freq}" TextChanged="FreqInputElement_OnLostFocus" IsEnabled="False" />
                             <!-- LostFocus="rxFreq_OnLostFocus" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

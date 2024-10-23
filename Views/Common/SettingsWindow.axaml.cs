@@ -82,7 +82,9 @@ public partial class SettingsWindow : Window
         }
         catch (Exception ee)
         {
-            MessageBoxManager.GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("failed") + ee.Message).ShowWindowDialogAsync(this);
+            MessageBoxManager
+                .GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("failed") + ee.Message)
+                .ShowWindowDialogAsync(this);
             DebugWindow.GetInstance().UpdateDebugContent(ee.Message);
         }
     }

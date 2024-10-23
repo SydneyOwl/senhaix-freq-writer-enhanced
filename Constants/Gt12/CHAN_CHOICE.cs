@@ -36,10 +36,10 @@ public class ChanChoice
 
     public static ObservableCollection<string> Pttid = new()
     {
-        Language.GetString("none"), 
-        Language.GetString("press_ptt"), 
-        Language.GetString("release_ptt"), 
-        Language.GetString("press_and_release_ptt"), 
+        Language.GetString("none"),
+        Language.GetString("press_ptt"),
+        Language.GetString("release_ptt"),
+        Language.GetString("press_and_release_ptt")
         // "按下PTT", "松开PTT", "按下和松开PTT"
     };
 

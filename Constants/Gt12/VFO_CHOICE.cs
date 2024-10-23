@@ -38,7 +38,7 @@ public class VfoChoice
 
     public static ObservableCollection<string> BusyLock = new()
     {
-        Language.GetString("off"),  Language.GetString("on")
+        Language.GetString("off"), Language.GetString("on")
     };
 
     public static ObservableCollection<string> SigSys = new()
@@ -83,10 +83,10 @@ public class VfoChoice
 
     public static ObservableCollection<string> Pttid = new()
     {
-        Language.GetString("none"), 
-        Language.GetString("tx_start"), 
-        Language.GetString("tx_end"), 
-        Language.GetString("both"), 
+        Language.GetString("none"),
+        Language.GetString("tx_start"),
+        Language.GetString("tx_end"),
+        Language.GetString("both")
         // "无", "发射开始", "发射结束", "两者"
     };
 }

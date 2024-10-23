@@ -19,7 +19,8 @@
                      Canvas.Top="90"
                      Canvas.Left="20" />
         <Label Canvas.Top="70" Canvas.Left="20" Content="{x:Static p:Resources.status}" />
-        <Label Name="statusLabel" Canvas.Top="70" Canvas.Left="65" FontStyle="Italic" Content="{x:Static p:Resources.wait_order}"/>
+        <Label Name="statusLabel" Canvas.Top="70" Canvas.Left="65" FontStyle="Italic"
+               Content="{x:Static p:Resources.wait_order}" />
         <Button Width="70" Height="30" VerticalAlignment="Center" HorizontalContentAlignment="Center"
                 Name="StartButton"
                 Canvas.Top="160"

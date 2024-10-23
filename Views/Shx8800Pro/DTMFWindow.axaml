@@ -21,7 +21,8 @@
                   Width="350"
                   RowBackground="{DynamicResource dgBackgroundBrush}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*" Binding="{Binding Id }" />
+                <DataGridTextColumn Header="{x:Static p:Resources.serial_no}" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Id }" />
                 <DataGridTemplateColumn Header="{x:Static p:Resources.code}" IsReadOnly="False"
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -42,13 +43,13 @@
                   SelectedIndex="{Binding PttId}" />
 
         <StackPanel Canvas.Bottom="75" Canvas.Left="15" Orientation="Horizontal">
-            <Label Content="{x:Static p:Resources.dtmf_last_time}"  />
-            <ComboBox  ItemsSource="{x:Static constants:DtmfChoice.Time}"
+            <Label Content="{x:Static p:Resources.dtmf_last_time}" />
+            <ComboBox ItemsSource="{x:Static constants:DtmfChoice.Time}"
                       SelectedIndex="{Binding WordTime}" />
         </StackPanel>
         <StackPanel Canvas.Bottom="35" Canvas.Left="15" Orientation="Horizontal">
-            <Label Content="{x:Static p:Resources.dtmf_break_time}"  />
-            <ComboBox Canvas.Bottom="45" Canvas.Left="290" ItemsSource="{x:Static constants:DtmfChoice.Time}"
+            <Label Content="{x:Static p:Resources.dtmf_break_time}" />
+            <ComboBox ItemsSource="{x:Static constants:DtmfChoice.Time}"
                       SelectedIndex="{Binding IdleTime}" />
         </StackPanel>
     </Canvas>

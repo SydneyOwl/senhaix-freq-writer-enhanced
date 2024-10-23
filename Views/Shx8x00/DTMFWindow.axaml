@@ -12,7 +12,7 @@
         KeyDown="Input_OnKeyDown">
     <Canvas>
         <Border Height="200" Width="380" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
-        <Label Canvas.Top="0" Canvas.Left="20" Background="BurlyWood" Content="{x:Static p:Resources.code_group}"/>
+        <Label Canvas.Top="0" Canvas.Left="20" Background="BurlyWood" Content="{x:Static p:Resources.code_group}" />
         <Label Canvas.Top="30" Canvas.Left="20">1：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf1}"
                  TextChanged="TextBox_OnTextChanged" />
@@ -63,25 +63,31 @@
 
         <Border Height="160" Width="180" BorderThickness="1" BorderBrush="{StaticResource borderBrush}"
                 Canvas.Left="10" Canvas.Top="220" />
-        <Label Canvas.Top="210" Canvas.Left="20" Background="BurlyWood" Content="{x:Static p:Resources.my_id}"/>
+        <Label Canvas.Top="210" Canvas.Left="20" Background="BurlyWood" Content="{x:Static p:Resources.my_id}" />
         <TextBox Canvas.Top="250" Canvas.Left="50" Width="100" Text="{Binding Dtmf.TheIdOfLocalHost}"
                  TextChanged="idhost_OnTextChanged" />
-        <CheckBox Canvas.Top="290" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttPressed}" Content="{x:Static p:Resources.tx_on_press_ptt}"/>
-        <CheckBox Canvas.Top="320" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttReleased}" Content="{x:Static p:Resources.tx_on_release_ptt}"/>
+        <CheckBox Canvas.Top="290" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttPressed}"
+                  Content="{x:Static p:Resources.tx_on_press_ptt}" />
+        <CheckBox Canvas.Top="320" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttReleased}"
+                  Content="{x:Static p:Resources.tx_on_release_ptt}" />
 
         <Border Height="160" Width="180"
                 Canvas.Right="10" Canvas.Top="220" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
-        <Label Canvas.Top="240" Canvas.Left="215" FontSize="13" Content="{x:Static p:Resources.dtmf_last_time}"/>
+        <Label Canvas.Top="240" Canvas.Left="215" FontSize="13" Content="{x:Static p:Resources.dtmf_last_time}" />
         <ComboBox Canvas.Left="245" Canvas.Top="265" Width="90"
                   ItemsSource="{x:Static constants:DtmfChoice.StopOrLastTime}"
                   SelectedIndex="{Binding Dtmf.LastTimeSend}" />
-        <Label Canvas.Top="310" Canvas.Left="215" FontSize="13"  Content="{x:Static p:Resources.dtmf_break_time}"/>
+        <Label Canvas.Top="310" Canvas.Left="215" FontSize="13" Content="{x:Static p:Resources.dtmf_break_time}" />
         <ComboBox Canvas.Left="245" Canvas.Top="335" Width="90"
                   ItemsSource="{x:Static constants:DtmfChoice.StopOrLastTime}"
                   SelectedIndex="{Binding Dtmf.LastTimeStop}" />
 
-        <Button Canvas.Top="395" Canvas.Left="20" Width="100" Height="40" Click="restore_OnClick" Content="{x:Static p:Resources.restore}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Button Canvas.Top="395" Canvas.Right="20" Width="100" Height="40" Click="confirm_OnClick"  Content="{x:Static p:Resources.confirm}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Canvas.Top="395" Canvas.Left="20" Width="100" Height="40" Click="restore_OnClick"
+                Content="{x:Static p:Resources.restore}" HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" />
+        <Button Canvas.Top="395" Canvas.Right="20" Width="100" Height="40" Click="confirm_OnClick"
+                Content="{x:Static p:Resources.confirm}" HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" />
 
     </Canvas>
 </Window>

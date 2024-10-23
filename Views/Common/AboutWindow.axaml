@@ -9,7 +9,7 @@
     <Canvas>
         <Image Height="150" Canvas.Top="30" Canvas.Left="20"
                Source="avares://SenhaixFreqWriter/Asset/shx8800-icons/1024x1024.png" />
-        <TextBlock Margin="220,30,0,20" FontWeight="Bold" Text="{x:Static p:Resources.app_name}"></TextBlock>
+        <TextBlock Margin="220,30,0,20" FontWeight="Bold" Text="{x:Static p:Resources.app_name}" />
         <Label Canvas.Top="50" Canvas.Right="180">For</Label>
         <Label Canvas.Top="50" Canvas.Right="110" Name="windows">Windows</Label>
         <Label Canvas.Top="50" Canvas.Right="100">/</Label>
@@ -17,13 +17,13 @@
         <Label Canvas.Top="50" Canvas.Right="52">/</Label>
         <Label Canvas.Top="50" Canvas.Right="0" Name="macos">macOS</Label>
 
-        <Label Canvas.Right="148" Canvas.Top="75" Content="{x:Static p:Resources.version}"/>
+        <Label Canvas.Right="148" Canvas.Top="75" Content="{x:Static p:Resources.version}" />
         <!-- <Label Content="{x:Static constants:Version.VersionTag}" Canvas.Left="250" Canvas.Top="75" /> -->
         <Label Name="MVersionTag" Canvas.Left="250" Canvas.Top="75" />
-        <Label Canvas.Right="162" Canvas.Top="100" Content="{x:Static p:Resources.commit}"/>
+        <Label Canvas.Right="162" Canvas.Top="100" Content="{x:Static p:Resources.commit}" />
         <!-- <Label Content="{x:Static constants:Version.GitCommitHash}" Canvas.Left="240" Canvas.Top="100" /> -->
         <Label Name="MGitCommitHash" Canvas.Left="240" Canvas.Top="100" />
-        <Label Canvas.Right="134" Canvas.Top="125" Content="{x:Static p:Resources.compile_time}"/>
+        <Label Canvas.Right="134" Canvas.Top="125" Content="{x:Static p:Resources.compile_time}" />
         <!-- <Label Content="{x:Static constants:Version.BuildTime}" Canvas.Right="0" Canvas.Top="125" /> -->
         <Label Name="MBuildTime" Canvas.Right="0" Canvas.Top="125" />
 

@@ -39,11 +39,11 @@
         </Style>
         <!-- datagrid的样式 -->
         <Style Selector="DataGridColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
         <Style Selector="Label">
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
     </Application.Styles>
     <Application.Resources>
@@ -59,20 +59,20 @@
                     <SolidColorBrush x:Key='dgBackgroundBrush'>#3E4C5E</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key='btBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgvBackgroundBrush'>White</SolidColorBrush>
-                    <SolidColorBrush x:Key='tbBackgroundBrush'>SkyBlue</SolidColorBrush>
-                    <SolidColorBrush x:Key='borderBrush'>Black</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgBackgroundBrush'>White</SolidColorBrush>
+                    <SolidColorBrush x:Key='btBackgroundBrush'>#FFECB3</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFECB3</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#F5F5F5</SolidColorBrush>
+                    <SolidColorBrush x:Key='tbBackgroundBrush'>#B3E5FC</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>#D7CCC8</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgBackgroundBrush'>#F5F5F5</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Default">
-                    <SolidColorBrush x:Key='btBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>BlanchedAlmond</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgvBackgroundBrush'>White</SolidColorBrush>
-                    <SolidColorBrush x:Key='tbBackgroundBrush'>SkyBlue</SolidColorBrush>
-                    <SolidColorBrush x:Key='borderBrush'>Black</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgBackgroundBrush'>White</SolidColorBrush>
+                    <SolidColorBrush x:Key='btBackgroundBrush'>#FFECB3</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFECB3</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#F5F5F5</SolidColorBrush>
+                    <SolidColorBrush x:Key='tbBackgroundBrush'>#B3E5FC</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>#D7CCC8</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgBackgroundBrush'>#F5F5F5</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

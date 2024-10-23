@@ -217,7 +217,7 @@
                 </Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static p:Resources.chan}"
-                                        Binding="{Binding Id }" IsReadOnly="True"/>
+                                        Binding="{Binding Id }" IsReadOnly="True" />
                     <DataGridTemplateColumn Header="{x:Static p:Resources.rx_freq}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

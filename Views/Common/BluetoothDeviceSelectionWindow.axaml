@@ -35,11 +35,14 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <CheckBox Content="{x:Static p:Resources.disable_weak_signal}" Canvas.Left="400" Canvas.Top="80" Name="disableWeakSignal" />
-        <CheckBox Content="{x:Static p:Resources.disable_ssid_filter}" Canvas.Left="400" Canvas.Top="120" Name="disableSSIDF" />
+        <CheckBox Content="{x:Static p:Resources.disable_weak_signal}" Canvas.Left="400" Canvas.Top="80"
+                  Name="disableWeakSignal" />
+        <CheckBox Content="{x:Static p:Resources.disable_ssid_filter}" Canvas.Left="400" Canvas.Top="120"
+                  Name="disableSSIDF" />
         <CheckBox Content="{x:Static p:Resources.rpc_call}" Canvas.Left="400" Canvas.Top="160" Name="useRPC"
                   IsCheckedChanged="UseRPC_OnIsCheckedChanged" />
-        <CheckBox Content="{x:Static p:Resources.manual_call}" Canvas.Left="450" Canvas.Top="200" Name="manualRPC" IsEnabled="False"
+        <CheckBox Content="{x:Static p:Resources.manual_call}" Canvas.Left="450" Canvas.Top="200" Name="manualRPC"
+                  IsEnabled="False"
                   IsCheckedChanged="ManualRPC_OnIsCheckedChanged" />
         <progRing:ProgressRing Width="25"
                                Height="25"

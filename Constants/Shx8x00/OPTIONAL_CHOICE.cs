@@ -49,7 +49,7 @@ public class OptionalChoice
 
     public static ObservableCollection<string> ScanMode = new()
     {
-        Language.GetString("time_scan"),  Language.GetString("carrier_scan"), Language.GetString("search_scan")
+        Language.GetString("time_scan"), Language.GetString("carrier_scan"), Language.GetString("search_scan")
         // "时间", "载波", "搜索"
     };
 
@@ -60,7 +60,7 @@ public class OptionalChoice
 
     public static ObservableCollection<string> TxPwr = new()
     {
-        Language.GetString("pwr_high"),  Language.GetString("pwr_low")
+        Language.GetString("pwr_high"), Language.GetString("pwr_low")
         // "高功率", "低功率"
     };
 
@@ -101,7 +101,8 @@ public class OptionalChoice
 
     public static ObservableCollection<string> Dtmf = new()
     {
-        "OFF", Language.GetString("key_sidetone"), Language.GetString("idcode_sidetone"), Language.GetString("key_and_idcode_sidetone")
+        "OFF", Language.GetString("key_sidetone"), Language.GetString("idcode_sidetone"),
+        Language.GetString("key_and_idcode_sidetone")
         // "OFF", "按键侧音", "发身份码侧音", "按键侧音+发身份码"
     };
 
@@ -163,7 +164,7 @@ public class OptionalChoice
 
     public static ObservableCollection<string> AlarmMode = new()
     {
-        Language.GetString("live_sos"),  Language.GetString("send_sos_voice"), Language.GetString("send_sos_code")
+        Language.GetString("live_sos"), Language.GetString("send_sos_voice"), Language.GetString("send_sos_code")
         // "现场", "发射报警音", "发射报警码"
     };
 

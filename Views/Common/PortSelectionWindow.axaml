@@ -8,7 +8,7 @@
         x:DataType="vm:PortSelectionWindow"
         WindowStartupLocation="CenterScreen">
     <Canvas>
-        <Label Canvas.Top="20" Canvas.Left="20" Content="{x:Static p:Resources.choose_port}"/>
+        <Label Canvas.Top="20" Canvas.Left="20" Content="{x:Static p:Resources.choose_port}" />
         <ComboBox Canvas.Top="50" Canvas.Left="25" Width="160" Name="PortChooseComboBox"
                   ItemsSource="{Binding  PortList}"
                   SelectedValue="{Binding PortName}" SelectedItem="{Binding PortName}" />
@@ -17,9 +17,10 @@
             <PathIcon Data="{StaticResource arrow_sync_regular}" />
         </Button>
 
-        <Button Canvas.Top="100" Canvas.Left="170" Click="HelpChoose_OnClick" Content="{x:Static p:Resources.how2choose}"/>
+        <Button Canvas.Top="100" Canvas.Left="170" Click="HelpChoose_OnClick"
+                Content="{x:Static p:Resources.how2choose}" />
 
-        <Button Canvas.Top="100" Canvas.Left="25" Click="confirm_OnClick" Content="{x:Static p:Resources.confirm}"/>
-        <Button Canvas.Top="100" Canvas.Left="100" Click="abortd_OnClick" Content="{x:Static p:Resources.abort}"/>
+        <Button Canvas.Top="100" Canvas.Left="25" Click="confirm_OnClick" Content="{x:Static p:Resources.confirm}" />
+        <Button Canvas.Top="100" Canvas.Left="100" Click="abortd_OnClick" Content="{x:Static p:Resources.abort}" />
     </Canvas>
 </Window>

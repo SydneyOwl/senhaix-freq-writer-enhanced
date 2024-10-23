@@ -37,10 +37,7 @@ public partial class DtmfWindow : Window
         Closing += (sender, args) =>
         {
             var length = AppData.GetInstance().Dtmfs.Group.Length;
-            for (int i = 0; i < length; i++)
-            {
-                AppData.GetInstance().Dtmfs.Group[i] = Dtmfs[i].Group;
-            }
+            for (var i = 0; i < length; i++) AppData.GetInstance().Dtmfs.Group[i] = Dtmfs[i].Group;
         };
     }
 

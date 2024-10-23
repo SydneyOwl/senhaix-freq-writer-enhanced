@@ -31,7 +31,8 @@ public partial class DeviceSelectWindow : Window
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && !Environment.UserName.Equals("root"))
         {
-            await MessageBoxManager.GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("sudo")).ShowWindowDialogAsync(this);
+            await MessageBoxManager.GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("sudo"))
+                .ShowWindowDialogAsync(this);
             Environment.Exit(0);
             return;
         }

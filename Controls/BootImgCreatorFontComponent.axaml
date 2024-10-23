@@ -3,7 +3,7 @@
              xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
              xmlns:plugin="clr-namespace:SenhaixFreqWriter.Views.Plugin"
              x:Class="SenhaixFreqWriter.Controls.BootImgCreatorFontComponent"
-             
+
              xmlns:p="using:SenhaixFreqWriter.Properties">
     <Border BorderBrush="Black" BorderThickness="1">
 
@@ -34,7 +34,7 @@
                       SelectionChanged="FontStyleComboBox_OnSelectionChanged"
                       ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=FontStyleList}" />
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center"
-                        VerticalAlignment="Center"> 
+                        VerticalAlignment="Center">
                 <Label Content="{x:Static p:Resources.font_size}" />
                 <TextBlock Text="{Binding #sizeSlider.Value}" VerticalAlignment="Center"
                            HorizontalAlignment="Center" />
@@ -66,9 +66,11 @@
                     Maximum="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=BootImgHeight}"
                     Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type plugin:BootImageCreatorWindow}},Path=DefaultY}" />
 
-            <Button Content="{x:Static p:Resources.center}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Click="ResetButton_OnClick" />
+            <Button Content="{x:Static p:Resources.center}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+                    Click="ResetButton_OnClick" />
 
-            <Button Name="addButton" Grid.Row="5" Grid.Column="3" Grid.RowSpan="2" Content="{x:Static p:Resources.add_text}"
+            <Button Name="addButton" Grid.Row="5" Grid.Column="3" Grid.RowSpan="2"
+                    Content="{x:Static p:Resources.add_text}"
                     Click="AddTextButton_OnClick" />
         </Grid>
     </Border>

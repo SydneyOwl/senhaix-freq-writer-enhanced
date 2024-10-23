@@ -66,6 +66,7 @@ public partial class OptionalWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "输入错误！").ShowWindowDialogAsync(this);
                 return "400.12500";
             }
+
             var flag = false;
             if (num < 100.0 || num >= 520.0)
             {
@@ -90,7 +91,7 @@ public partial class OptionalWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "请检查输入！").ShowWindowDialogAsync(this);
                 return "400.12500";
             }
-            
+
             num2 *= 100000.0;
             if (num2 % 625.0 != 0.0 && num2 % 500.0 != 0.0)
             {
@@ -168,6 +169,7 @@ public partial class OptionalWindow : Window
                 MessageBoxManager.GetMessageBoxStandard("注意", "请检查输入！").ShowWindowDialogAsync(this);
                 return "00.0000";
             }
+
             if (num4 > 99)
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "范围 100 - 520MHz").ShowWindowDialogAsync(this);

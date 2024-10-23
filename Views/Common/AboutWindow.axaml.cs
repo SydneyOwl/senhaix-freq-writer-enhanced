@@ -25,9 +25,15 @@ public partial class AboutWindow : Window
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) windows.Background = Brushes.BurlyWood;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) linux.Background = Brushes.BurlyWood;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) macos.Background = Brushes.BurlyWood;
-        MVersionTag.Content = Version.VersionTag == "@TAG_NAME@" ? Language.GetString("internal_version") : Version.VersionTag;
-        MGitCommitHash.Content = Version.GitCommitHash == "@COMMIT_HASH@" ? Language.GetString("internal_version") : Version.GitCommitHash;
-        MBuildTime.Content = Version.BuildTime == "@BUILD_TIME@" ? Language.GetString("internal_version") : Version.BuildTime;
+        MVersionTag.Content = Version.VersionTag == "@TAG_NAME@"
+            ? Language.GetString("internal_version")
+            : Version.VersionTag;
+        MGitCommitHash.Content = Version.GitCommitHash == "@COMMIT_HASH@"
+            ? Language.GetString("internal_version")
+            : Version.GitCommitHash;
+        MBuildTime.Content = Version.BuildTime == "@BUILD_TIME@"
+            ? Language.GetString("internal_version")
+            : Version.BuildTime;
     }
 
     private void RepoButton_OnClick(object? sender, RoutedEventArgs e)

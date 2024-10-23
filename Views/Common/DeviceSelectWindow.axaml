@@ -6,7 +6,7 @@
         Title="{x:Static p:Resources.choose_device}"
         WindowStartupLocation="CenterScreen">
     <Canvas>
-        <Label Canvas.Top="20" Canvas.Left="10" Content="{x:Static p:Resources.choose_device}"/>
+        <Label Canvas.Top="20" Canvas.Left="10" Content="{x:Static p:Resources.choose_device}" />
         <ComboBox Canvas.Top="50" Canvas.Left="50" Width="200" Name="DeviceChooseComboBox" SelectedIndex="0">
             <ComboBoxItem Content="SHX8800" />
             <ComboBoxItem Content="SHX8800pro" />
@@ -14,6 +14,6 @@
             <ComboBoxItem Content="SHX8600pro" />
             <ComboBoxItem Content="SHX-GT12" />
         </ComboBox>
-        <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick" Content="{x:Static p:Resources.confirm}"/>
+        <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick" Content="{x:Static p:Resources.confirm}" />
     </Canvas>
 </Window>
