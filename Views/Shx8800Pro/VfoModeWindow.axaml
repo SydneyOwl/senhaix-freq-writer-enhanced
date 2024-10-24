@@ -11,7 +11,7 @@
         CanResize="False">
     <Canvas>
         <Border Height="480" Width="300" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
-        <Label Content="VFO A" Background="BurlyWood" FontSize="20" Canvas.Left="20" />
+        <Label Content="VFO A" Background="{StaticResource tagBackgroundBrush}" FontSize="20" Canvas.Left="20" />
         <Label Content="{x:Static p:Resources.freq}" FontSize="15" Canvas.Left="20" Canvas.Top="50" />
         <TextBox Canvas.Left="150" Canvas.Top="45" Width="150"
                  Height="30" Text="{Binding VfoInfos.VfoAFreq}" LostFocus="currentFreq_OnLostFocus" />
@@ -53,7 +53,7 @@
 
         <Border Height="480" Width="300" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}"
                 Canvas.Left="350" />
-        <Label Content="VFO B" Background="BurlyWood" FontSize="20" Canvas.Left="370" />
+        <Label Content="VFO B" Background="{StaticResource tagBackgroundBrush}" FontSize="20" Canvas.Left="370" />
         <Label Content="{x:Static p:Resources.freq}" FontSize="15" Canvas.Left="370" Canvas.Top="50" />
         <TextBox Canvas.Left="500" Canvas.Top="45" Width="150" Height="30"
                  LostFocus="currentFreq_OnLostFocus" Text="{Binding VfoInfos.VfoBFreq}" />

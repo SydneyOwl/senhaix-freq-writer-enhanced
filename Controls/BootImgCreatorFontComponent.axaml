@@ -5,7 +5,7 @@
              x:Class="SenhaixFreqWriter.Controls.BootImgCreatorFontComponent"
 
              xmlns:p="using:SenhaixFreqWriter.Properties">
-    <Border BorderBrush="Black" BorderThickness="1">
+    <Border BorderBrush="{StaticResource borderBrush}" BorderThickness="1">
 
         <Grid Margin="5"
               ColumnDefinitions="100, Auto,100"

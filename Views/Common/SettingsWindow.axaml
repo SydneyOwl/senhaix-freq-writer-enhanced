@@ -38,7 +38,7 @@
         <ComboBox Canvas.Top="310" Canvas.Left="110" Width="150" Name="LanguageChooseComboBox"
                   SelectedIndex="{Binding Settings.LanguageIndex}">
             <ComboBoxItem Content="{x:Static p:Resources.chinese}" />
-            <ComboBoxItem Content="{x:Static p:Resources.english}" />
+            <ComboBoxItem IsEnabled="False" Content="{x:Static p:Resources.english}" />
         </ComboBox>
 
         <Button Content="{x:Static p:Resources.confirm}" Canvas.Top="370" Canvas.Left="100"

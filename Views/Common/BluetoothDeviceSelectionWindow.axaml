@@ -12,7 +12,7 @@
     <Canvas Background="{DynamicResource dgvBackgroundBrush}">
         <Label Name="windowsHint" IsVisible="False"
                Margin="20" PointerPressed="WindowsHint_OnPointerPressed"
-               Background="PeachPuff"
+               Background="{StaticResource tagBackgroundBrush}"
                Content="{x:Static p:Resources.hint_bt}" />
         <DataGrid Name="btdevice"
                   GridLinesVisibility="All"

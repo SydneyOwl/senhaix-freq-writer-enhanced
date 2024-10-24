@@ -44,7 +44,7 @@
                 Canvas.Top="450" Canvas.Left="290" />
 
         <Label Content="{x:Static p:Resources.manual_override}" Canvas.Top="440" Canvas.Left="300"
-               Background="BurlyWood" />
+               Background="{StaticResource tagBackgroundBrush}" />
         <Label Content="{x:Static p:Resources.uplink}" Canvas.Top="470" Canvas.Left="300" />
         <TextBox Canvas.Top="465" Canvas.Left="375" Name="centerTx" Width="85" />
         <Label Content="MHz" Canvas.Top="470" Canvas.Left="460" />

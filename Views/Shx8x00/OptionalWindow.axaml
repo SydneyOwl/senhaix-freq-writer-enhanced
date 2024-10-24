@@ -62,117 +62,132 @@
                                   SelectedIndex="{Binding Fun.CbBSaveMode}" />
                     </Grid>
                 </StackPanel>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <Label Background="#BACEC1" Content="{x:Static p:Resources.a_band_mode}" Height="35" Width="120"
-                           HorizontalAlignment="Left" Margin="10,0,0,0" />
+                <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,10,0,0">
+                    <Label Background="{StaticResource tagBackgroundBrush}" Content="{x:Static p:Resources.a_band_mode}" Height="35" Width="120"
+                           HorizontalAlignment="Left" Margin="10,0,0,0"
+                           HorizontalContentAlignment="Center"/>
+                    <Border
+                        BorderBrush="{StaticResource borderBrush}" 
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Padding="10"
+                        Margin="10,0,0,0">
+                        <StackPanel Margin="10,0,10,10">
+                            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="*,35,35,35,35,35,35,35,35,35,35">
 
-                    <StackPanel Margin="10,0,10,10" Background="#F6F4E8">
-                        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="*,35,35,35,35,35,35,35,35,35,35">
+                                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static p:Resources.current_freq}" />
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Fun.TBaCurFreq}"
+                                         LostFocus="A_Freq_OnLostFocus" />
 
-                            <Label Grid.Row="1" Grid.Column="0" Content="{x:Static p:Resources.current_freq}" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Fun.TBaCurFreq}"
-                                     LostFocus="A_Freq_OnLostFocus" />
+                                <Label Grid.Row="2" Grid.Column="0" Content="{x:Static p:Resources.power}" />
+                                <ComboBox Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.TxPwr}"
+                                          SelectedIndex="{Binding Fun.CbBaPower}" />
 
-                            <Label Grid.Row="2" Grid.Column="0" Content="{x:Static p:Resources.power}" />
-                            <ComboBox Grid.Row="2" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.TxPwr}"
-                                      SelectedIndex="{Binding Fun.CbBaPower}" />
+                                <Label Grid.Row="3" Grid.Column="0" Content="{x:Static p:Resources.rx_tone}" />
+                                <ComboBox Grid.Row="3" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.RxCtcss}"
+                                          SelectedValue="{Binding Fun.CbBaRxQt}" />
 
-                            <Label Grid.Row="3" Grid.Column="0" Content="{x:Static p:Resources.rx_tone}" />
-                            <ComboBox Grid.Row="3" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.RxCtcss}"
-                                      SelectedValue="{Binding Fun.CbBaRxQt}" />
+                                <Label Grid.Row="4" Grid.Column="0" Content="{x:Static p:Resources.tx_tone}" />
+                                <ComboBox Grid.Row="4" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.TxCtcss}"
+                                          SelectedValue="{Binding Fun.CbBaTxQt}" />
 
-                            <Label Grid.Row="4" Grid.Column="0" Content="{x:Static p:Resources.tx_tone}" />
-                            <ComboBox Grid.Row="4" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.TxCtcss}"
-                                      SelectedValue="{Binding Fun.CbBaTxQt}" />
+                                <Label Grid.Row="5" Grid.Column="0" Content="{x:Static p:Resources.bandwidth}" />
+                                <ComboBox Grid.Row="5" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.BandWidth}"
+                                          SelectedIndex="{Binding Fun.CbBaBand}" />
 
-                            <Label Grid.Row="5" Grid.Column="0" Content="{x:Static p:Resources.bandwidth}" />
-                            <ComboBox Grid.Row="5" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.BandWidth}"
-                                      SelectedIndex="{Binding Fun.CbBaBand}" />
+                                <Label Grid.Row="6" Grid.Column="0" Content="{x:Static p:Resources.step}" />
+                                <ComboBox Grid.Row="6" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.Step}"
+                                          SelectedIndex="{Binding Fun.CbBaFreqStep}" />
 
-                            <Label Grid.Row="6" Grid.Column="0" Content="{x:Static p:Resources.step}" />
-                            <ComboBox Grid.Row="6" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.Step}"
-                                      SelectedIndex="{Binding Fun.CbBaFreqStep}" />
+                                <Label Grid.Row="7" Grid.Column="0" Content="{x:Static p:Resources.freq_offset_dir}" />
+                                <ComboBox Grid.Row="7" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.StepDirection}"
+                                          SelectedIndex="{Binding Fun.CbBaRemainDir}" />
 
-                            <Label Grid.Row="7" Grid.Column="0" Content="{x:Static p:Resources.freq_offset_dir}" />
-                            <ComboBox Grid.Row="7" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.StepDirection}"
-                                      SelectedIndex="{Binding Fun.CbBaRemainDir}" />
+                                <Label Grid.Row="8" Grid.Column="0" Content="{x:Static p:Resources.freq_offset}" />
+                                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Fun.TBaRemainFreq}"
+                                         LostFocus="A_RmFq_OnLostFocus" />
 
-                            <Label Grid.Row="8" Grid.Column="0" Content="{x:Static p:Resources.freq_offset}" />
-                            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Fun.TBaRemainFreq}"
-                                     LostFocus="A_RmFq_OnLostFocus" />
+                                <Label Grid.Row="9" Grid.Column="0" Content="{x:Static p:Resources.sig_encode}" />
+                                <ComboBox Grid.Row="9" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.SignCode}"
+                                          SelectedIndex="{Binding Fun.CbBaSignalingEnCoder}" />
 
-                            <Label Grid.Row="9" Grid.Column="0" Content="{x:Static p:Resources.sig_encode}" />
-                            <ComboBox Grid.Row="9" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.SignCode}"
-                                      SelectedIndex="{Binding Fun.CbBaSignalingEnCoder}" />
-
-                            <Label Grid.Row="10" Grid.Column="0" Content="{x:Static p:Resources.encrypt}" />
-                            <ComboBox Grid.Row="10" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.Encrypt}"
-                                      SelectedIndex="{Binding Fun.CbBaFhss}" />
-                        </Grid>
-                    </StackPanel>
+                                <Label Grid.Row="10" Grid.Column="0" Content="{x:Static p:Resources.encrypt}" />
+                                <ComboBox Grid.Row="10" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.Encrypt}"
+                                          SelectedIndex="{Binding Fun.CbBaFhss}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-                <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                    <Label Background="#BACEC1" Content="{x:Static p:Resources.b_band_mode}" Height="35" Width="120"
-                           HorizontalAlignment="Left" Margin="10,0,0,0" />
-                    <StackPanel Margin="10,0,10,10" Background="#F6F4E8">
-                        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="*,35,35,35,35,35,35,35,35,35,35">
-                            <Label Grid.Row="1" Grid.Column="0" Content="{x:Static p:Resources.current_freq}" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Fun.TBbCurFreq}"
-                                     LostFocus="B_Freq_OnLostFocus" />
+                <StackPanel Grid.Column="2" VerticalAlignment="Top" Margin="10,10,0,0">
+                    <Label Background="{StaticResource tagBackgroundBrush}" Content="{x:Static p:Resources.b_band_mode}" Height="35" Width="120"
+                           HorizontalAlignment="Left" Margin="10,0,0,0"
+                           HorizontalContentAlignment="Center"/>
+                    <Border
+                        BorderBrush="{StaticResource borderBrush}" 
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Padding="10"
+                        Margin="10,0,0,0">
+                        <StackPanel Margin="10,0,10,10">
+                            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="*,35,35,35,35,35,35,35,35,35,35">
+                                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static p:Resources.current_freq}" />
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Fun.TBbCurFreq}"
+                                         LostFocus="B_Freq_OnLostFocus" />
 
-                            <Label Grid.Row="2" Grid.Column="0" Content="{x:Static p:Resources.power}" />
-                            <ComboBox Grid.Row="2" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.TxPwr}"
-                                      SelectedIndex="{Binding Fun.CbBbPower}" />
+                                <Label Grid.Row="2" Grid.Column="0" Content="{x:Static p:Resources.power}" />
+                                <ComboBox Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.TxPwr}"
+                                          SelectedIndex="{Binding Fun.CbBbPower}" />
 
-                            <Label Grid.Row="3" Grid.Column="0" Content="{x:Static p:Resources.rx_tone}" />
-                            <ComboBox Grid.Row="3" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.RxCtcss}"
-                                      SelectedValue="{Binding Fun.CbBbRxQt}" />
+                                <Label Grid.Row="3" Grid.Column="0" Content="{x:Static p:Resources.rx_tone}" />
+                                <ComboBox Grid.Row="3" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.RxCtcss}"
+                                          SelectedValue="{Binding Fun.CbBbRxQt}" />
 
-                            <Label Grid.Row="4" Grid.Column="0" Content="{x:Static p:Resources.tx_tone}" />
-                            <ComboBox Grid.Row="4" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.TxCtcss}"
-                                      SelectedValue="{Binding Fun.CbBbTxQt}" />
+                                <Label Grid.Row="4" Grid.Column="0" Content="{x:Static p:Resources.tx_tone}" />
+                                <ComboBox Grid.Row="4" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.TxCtcss}"
+                                          SelectedValue="{Binding Fun.CbBbTxQt}" />
 
-                            <Label Grid.Row="5" Grid.Column="0" Content="{x:Static p:Resources.bandwidth}" />
-                            <ComboBox Grid.Row="5" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.BandWidth}"
-                                      SelectedIndex="{Binding Fun.CbBbBand}" />
+                                <Label Grid.Row="5" Grid.Column="0" Content="{x:Static p:Resources.bandwidth}" />
+                                <ComboBox Grid.Row="5" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.BandWidth}"
+                                          SelectedIndex="{Binding Fun.CbBbBand}" />
 
-                            <Label Grid.Row="6" Grid.Column="0" Content="{x:Static p:Resources.step}" />
-                            <ComboBox Grid.Row="6" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.Step}"
-                                      SelectedIndex="{Binding Fun.CbBbFreqStep}" />
+                                <Label Grid.Row="6" Grid.Column="0" Content="{x:Static p:Resources.step}" />
+                                <ComboBox Grid.Row="6" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.Step}"
+                                          SelectedIndex="{Binding Fun.CbBbFreqStep}" />
 
-                            <Label Grid.Row="7" Grid.Column="0" Content="{x:Static p:Resources.freq_offset_dir}" />
-                            <ComboBox Grid.Row="7" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.StepDirection}"
-                                      SelectedIndex="{Binding Fun.CbBbRemainDir}" />
+                                <Label Grid.Row="7" Grid.Column="0" Content="{x:Static p:Resources.freq_offset_dir}" />
+                                <ComboBox Grid.Row="7" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.StepDirection}"
+                                          SelectedIndex="{Binding Fun.CbBbRemainDir}" />
 
-                            <Label Grid.Row="8" Grid.Column="0" Content="{x:Static p:Resources.freq_offset}" />
-                            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Fun.TBbRemainFreq}"
-                                     LostFocus="B_RmFq_OnLostFocus" />
+                                <Label Grid.Row="8" Grid.Column="0" Content="{x:Static p:Resources.freq_offset}" />
+                                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Fun.TBbRemainFreq}"
+                                         LostFocus="B_RmFq_OnLostFocus" />
 
-                            <Label Grid.Row="9" Grid.Column="0" Content="{x:Static p:Resources.sig_encode}" />
-                            <ComboBox Grid.Row="9" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.SignCode}"
-                                      SelectedIndex="{Binding Fun.CbBbSignalingEnCoder}" />
+                                <Label Grid.Row="9" Grid.Column="0" Content="{x:Static p:Resources.sig_encode}" />
+                                <ComboBox Grid.Row="9" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.SignCode}"
+                                          SelectedIndex="{Binding Fun.CbBbSignalingEnCoder}" />
 
-                            <Label Grid.Row="10" Grid.Column="0" Content="{x:Static p:Resources.encrypt}" />
-                            <ComboBox Grid.Row="10" Grid.Column="1"
-                                      ItemsSource="{x:Static constants:OptionalChoice.Encrypt}"
-                                      SelectedIndex="{Binding Fun.CbBbFhss}" />
-                        </Grid>
-                    </StackPanel>
+                                <Label Grid.Row="10" Grid.Column="0" Content="{x:Static p:Resources.encrypt}" />
+                                <ComboBox Grid.Row="10" Grid.Column="1"
+                                          ItemsSource="{x:Static constants:OptionalChoice.Encrypt}"
+                                          SelectedIndex="{Binding Fun.CbBbFhss}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Grid>
         </TabItem>

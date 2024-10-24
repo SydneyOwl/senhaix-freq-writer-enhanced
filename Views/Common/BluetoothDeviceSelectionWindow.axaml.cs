@@ -95,7 +95,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
 #if WINDOWS
                     if (result.Count == 0)
                     {
-                        windowsHint.Background = Brushes.Salmon;
+                        // windowsHint.Background = Brushes.Salmon;
                         windowsHint.IsVisible = true;
                     }
 #endif

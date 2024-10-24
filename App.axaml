@@ -32,14 +32,11 @@
 
         <Style Selector="DataGridColumnHeader">
             <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="FontSize" Value="15" />
         </Style>
         <Style Selector="Window">
             <Setter Property="Icon" Value="/Asset/shx8800-icons/icon.ico" />
-        </Style>
-        <!-- datagrid的样式 -->
-        <Style Selector="DataGridColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
         <Style Selector="Label">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -51,28 +48,31 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key='btBackgroundBrush'>#121212</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>#536271</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#3E4C5E</SolidColorBrush>
-                    <SolidColorBrush x:Key='tbBackgroundBrush'>#536271</SolidColorBrush>
-                    <SolidColorBrush x:Key='borderBrush'>BurlyWood</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgBackgroundBrush'>#3E4C5E</SolidColorBrush>
+                    <SolidColorBrush x:Key='btBackgroundBrush'>#1E1E1E</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#2A2D32</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#3C3F44</SolidColorBrush>
+                    <SolidColorBrush x:Key='tbBackgroundBrush'>#2A2D32</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>LightGray</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgBackgroundBrush'>#3C3F44</SolidColorBrush>
+                    <SolidColorBrush x:Key='tagBackgroundBrush'>LightSlateGray</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key='btBackgroundBrush'>#FFECB3</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFECB3</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#F5F5F5</SolidColorBrush>
-                    <SolidColorBrush x:Key='tbBackgroundBrush'>#B3E5FC</SolidColorBrush>
-                    <SolidColorBrush x:Key='borderBrush'>#D7CCC8</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgBackgroundBrush'>#F5F5F5</SolidColorBrush>
+                    <SolidColorBrush x:Key='btBackgroundBrush'>#E0F7FA</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFFDE7</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key='tbBackgroundBrush'>#BBDEFB</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>Gray</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgBackgroundBrush'>#FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key='tagBackgroundBrush'>BurlyWood</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Default">
-                    <SolidColorBrush x:Key='btBackgroundBrush'>#FFECB3</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFECB3</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#F5F5F5</SolidColorBrush>
-                    <SolidColorBrush x:Key='tbBackgroundBrush'>#B3E5FC</SolidColorBrush>
-                    <SolidColorBrush x:Key='borderBrush'>#D7CCC8</SolidColorBrush>
-                    <SolidColorBrush x:Key='dgBackgroundBrush'>#F5F5F5</SolidColorBrush>
+                    <SolidColorBrush x:Key='btBackgroundBrush'>#E0F7FA</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFFDE7</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgvBackgroundBrush'>#FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key='tbBackgroundBrush'>#BBDEFB</SolidColorBrush>
+                    <SolidColorBrush x:Key='borderBrush'>Gray</SolidColorBrush>
+                    <SolidColorBrush x:Key='dgBackgroundBrush'>#FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key='tagBackgroundBrush'>BurlyWood</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
