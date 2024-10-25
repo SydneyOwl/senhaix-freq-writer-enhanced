@@ -57,11 +57,21 @@
 
 ##### v0.2.2后
 
-![](./readme_image/so50.png)
+![](./readme_image/01.png)
 
-![](./readme_image/BootImg.png)
+<img src="./readme_image/02.png" style="zoom:67%;" />
 
-![](./readme_image/macos.jpg)
+<img src="./readme_image/03.png" style="zoom:67%;" />
+
+<img src="./readme_image/04.png" style="zoom:67%;" />
+
+<img src="./readme_image/05.png" style="zoom:67%;" />
+
+<img src="./readme_image/07.png" />
+
+<img src="./readme_image/06.png" />
+
+
 
 ## 编译指引
 
