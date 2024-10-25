@@ -182,9 +182,9 @@
                         <TextBlock Text="{x:Static p:Resources.next_area}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Label Foreground="Black" FontSize="16" Content="{x:Static p:Resources.area_name}" Margin="20,0,0,0" />
+                <Label FontSize="16" Content="{x:Static p:Resources.area_name}" Margin="20,0,0,0" />
                 <TextBox Width="140" FontSize="18" Name="areaName" LostFocus="AreaName_OnLostFocus" />
-                <Label Foreground="Black" FontSize="16" Content="{x:Static p:Resources.skip_to_area}" Margin="50,0,0,0" />
+                <Label  FontSize="16" Content="{x:Static p:Resources.skip_to_area}" Margin="50,0,0,0" />
                 <TextBox Width="50" FontSize="18" Name="jumpTextBox" />
                 <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="jumpChan_OnClick">
                     <StackPanel Orientation="Horizontal">

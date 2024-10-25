@@ -66,6 +66,8 @@ public partial class Settings : ObservableObject
 
     public void Save()
     {
+        // 覆盖版本号
+        Version = Properties.Version.VersionTag;
         var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(SettingJsonFilePath, json);
     }

@@ -19,9 +19,9 @@ internal class Program
         // 提前设置语言
         Thread.CurrentThread.CurrentUICulture = Settings.Load().LanguageIndex switch
         {
-            0 => new CultureInfo("zh-hans"),
+            0 => new CultureInfo("zh"),
             1 => new CultureInfo("en-us"),
-            _ => new CultureInfo("zh-hans")
+            _ => new CultureInfo("zh")
         };
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);

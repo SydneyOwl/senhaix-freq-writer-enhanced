@@ -55,9 +55,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Update="Properties\Resources.zh-hans.resx">
+        <EmbeddedResource Update="Properties\Resources.zh.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>Resources.zh-hans.Designer.cs</LastGenOutput>
+            <LastGenOutput>Resources.zh.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Properties\Resources.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
@@ -70,10 +70,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Properties\Resources.zh-hans.Designer.cs">
+        <Compile Update="Properties\Resources.zh.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
-            <DependentUpon>Resources.zh-hans.resx</DependentUpon>
+            <DependentUpon>Resources.zh.resx</DependentUpon>
         </Compile>
         <Compile Update="Properties\Resources.Designer.cs">
             <DesignTime>True</DesignTime>

@@ -19,7 +19,7 @@ public partial class SettingsWindow : Window
 
     public SettingsWindow()
     {
-        // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hans"); 
+        // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh"); 
         InitializeComponent();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             btPluginNameTextbox.Text = Settings.WindowsBlePluginName;
@@ -28,7 +28,7 @@ public partial class SettingsWindow : Window
         DataContext = this;
         LanguageChooseComboBox.SelectedIndex = Thread.CurrentThread.CurrentUICulture.Name.ToLower() switch
         {
-            "zh-hans" => 0,
+            "zh" => 0,
             "en-us" => 1,
             _ => 0
         };
@@ -44,9 +44,9 @@ public partial class SettingsWindow : Window
         // 切换语言
         Thread.CurrentThread.CurrentUICulture = LanguageChooseComboBox.SelectedIndex switch
         {
-            0 => new CultureInfo("zh-hans"),
+            0 => new CultureInfo("zh"),
             1 => new CultureInfo("en-us"),
-            _ => new CultureInfo("zh-hans")
+            _ => new CultureInfo("zh")
         };
         Close();
     }

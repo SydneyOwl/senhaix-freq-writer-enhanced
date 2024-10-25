@@ -10,7 +10,7 @@ public partial class OptionalWindow : Window
 {
     public OptionalWindow()
     {
-        // Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-hans");
+        // Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh");
         InitializeComponent();
         DataContext = this;
     }
