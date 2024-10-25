@@ -9,8 +9,6 @@ using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.Serial;
 
-//别想着尝试重构这个...因为我试过
-
 internal class WriFreq
 {
     private static readonly ushort ModeltypeWlt = 0;
@@ -521,7 +519,7 @@ internal class WriFreq
                                 array[31] = 0;
                             array[32] = (byte)_theRadioData.FunCfgData.CbBPowerOnMsg;
                             array[33] = 0;
-                            // 8800和pro此项始终为0
+                            // 8600和pro此项始终为0
                             array[34] = (byte)_theRadioData.FunCfgData.CbB1750Hz;
                             array[35] = 128;
                         }

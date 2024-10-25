@@ -24,7 +24,7 @@ public partial class DeviceSelectWindow : Window
         InitializeComponent();
         SysFile.CheckDefaultDirectory();
         SysFile.CheckBackupDirectory();
-        if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 3;
+        if (HidTools.IsShxGt12HidExist()) DeviceChooseComboBox.SelectedIndex = 4;
     }
 
     private async void Device_OnClick(object? sender, RoutedEventArgs e)
