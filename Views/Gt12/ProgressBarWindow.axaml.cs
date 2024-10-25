@@ -108,7 +108,7 @@ public partial class ProgressBarWindow : Window
 
         if (result)
         {
-            statusLabel.Content = "完成！";
+            statusLabel.Content = "完成！写频结束后请手动关闭中转模式！";
             _opRes = true;
         }
         else

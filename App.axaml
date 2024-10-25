@@ -58,7 +58,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key='btBackgroundBrush'>#E0F7FA</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFFDE7</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#d8f2fd</SolidColorBrush>
                     <SolidColorBrush x:Key='dgvBackgroundBrush'>#FFFFFF</SolidColorBrush>
                     <SolidColorBrush x:Key='tbBackgroundBrush'>#BBDEFB</SolidColorBrush>
                     <SolidColorBrush x:Key='borderBrush'>Gray</SolidColorBrush>
@@ -67,7 +67,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Default">
                     <SolidColorBrush x:Key='btBackgroundBrush'>#E0F7FA</SolidColorBrush>
-                    <SolidColorBrush x:Key='pgBackgroundBrush'>#FFFDE7</SolidColorBrush>
+                    <SolidColorBrush x:Key='pgBackgroundBrush'>#d8f2fd</SolidColorBrush>
                     <SolidColorBrush x:Key='dgvBackgroundBrush'>#FFFFFF</SolidColorBrush>
                     <SolidColorBrush x:Key='tbBackgroundBrush'>#BBDEFB</SolidColorBrush>
                     <SolidColorBrush x:Key='borderBrush'>Gray</SolidColorBrush>

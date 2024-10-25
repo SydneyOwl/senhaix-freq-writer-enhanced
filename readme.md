@@ -174,7 +174,7 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 
 `v0.4.2(TODO)` 修复8800
 VFO页面设置闪退问题；修复切换到同种设备后数据仍然存在的问题；修复8800pro的DTMF设置无法保存的问题；UI改进(
-某些页面不再使用Canvas)；国际化(欢迎PR)；
+某些页面不再使用Canvas)；国际化(欢迎PR)；GT12写频完成后将主动切换至频率模式（默认120.0MHz），防止误触发中转
 
 ## 致谢
 

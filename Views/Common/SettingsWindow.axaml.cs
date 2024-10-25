@@ -75,7 +75,7 @@ public partial class SettingsWindow : Window
                 Process.Start("explorer.exe", $"\"{Settings.GetBackupPath()}\"");
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                Process.Start("nautilus", $"\"{Settings.GetBackupPath()}\"");
+                Process.Start("xdg-open", $"\"{Settings.GetBackupPath()}\"");
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 Process.Start("open", $"\"{Settings.GetBackupPath()}\"");

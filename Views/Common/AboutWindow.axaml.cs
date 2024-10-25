@@ -58,7 +58,9 @@ public partial class AboutWindow : Window
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    Process.Start("xdg-open", url);
+                    // Linux无法在sudo下打开firefox
+                    // Process.Start("xdg-open", url);
+                    MessageBoxManager.GetMessageBoxStandard("Repo URL", url).ShowWindowDialogAsync(this);
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {

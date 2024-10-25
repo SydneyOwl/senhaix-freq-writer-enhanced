@@ -229,6 +229,12 @@ public class HidCommunication
         ushort num = 0;
         byte b = 0;
         var num2 = 0;
+        
+        // 中转模式误触发保护功能：强制覆盖VFO设定，设定为航空频段防止误触发中转发射
+        AppData.Vfos.VfoAFreq = "120.00000";
+        AppData.Vfos.VfoBFreq = "120.00000";
+        AppData.FunCfgs.ChAWorkmode = 0;
+        AppData.FunCfgs.ChBWorkmode = 0;
 
         // DebugWindow.GetInstance().updateDebugContent("we're in writing");
         while (_flagTransmitting && !token.IsCancellationRequested)
