@@ -821,4 +821,10 @@ macOS:
     <data name="advanced" xml:space="preserve">
         <value>高级</value>
     </data>
+    <data name="relay_mode" xml:space="preserve">
+        <value>中转模式</value>
+    </data>
+    <data name="relay_speaker" xml:space="preserve">
+        <value>中转喇叭</value>
+    </data>
 </root>

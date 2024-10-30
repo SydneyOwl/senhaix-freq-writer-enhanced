@@ -1569,6 +1569,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relay Mode.
+        /// </summary>
+        public static string relay_mode {
+            get {
+                return ResourceManager.GetString("relay_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relay Speaker.
+        /// </summary>
+        public static string relay_speaker {
+            get {
+                return ResourceManager.GetString("relay_speaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Release PTT.
         /// </summary>
         public static string release_ptt {

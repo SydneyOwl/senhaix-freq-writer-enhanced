@@ -194,13 +194,23 @@
                 <ComboBox Grid.Row="1" Grid.Column="3" Width="100"
                           ItemsSource="{x:Static constants:FunctionChoice.BtGain}"
                           SelectedIndex="{Binding Func.BluetoothAudioGain}" />
+                
+                <Label Content="{x:Static p:Resources.relay_mode}" Grid.Row="2" Grid.Column="2" />
+                <ComboBox Grid.Row="2" Grid.Column="3" Width="100"
+                          ItemsSource="{x:Static constants:FunctionChoice.RelayMode}"
+                          SelectedIndex="{Binding Func.RelaySw}" />
+                
+                <Label Content="{x:Static p:Resources.relay_speaker}" Grid.Row="3" Grid.Column="2" />
+                <ComboBox Grid.Row="3" Grid.Column="3" Width="100"
+                          ItemsSource="{x:Static constants:FunctionChoice.RelaySpeaker}"
+                          SelectedIndex="{Binding Func.RelaySpeakerSw}" />
 
-                <Label Content="{x:Static p:Resources.callsign}" Grid.Row="3" Grid.Column="2" />
-                <TextBox Grid.Row="3" Grid.Column="3" Width="100" Text="{Binding Func.CallSign}"
+                <Label Content="{x:Static p:Resources.callsign}" Grid.Row="5" Grid.Column="2" />
+                <TextBox Grid.Row="5" Grid.Column="3" Width="100" Text="{Binding Func.CallSign}"
                          TextChanged="CallsignInputElement_OnLostFocus" />
 
-                <Label Content="SDC-ID" Grid.Row="4" Grid.Column="2" />
-                <TextBox Grid.Row="4" Grid.Column="3" Width="100" Text="{Binding Mdc.Id}"
+                <Label Content="SDC-ID" Grid.Row="6" Grid.Column="2" />
+                <TextBox Grid.Row="6" Grid.Column="3" Width="100" Text="{Binding Mdc.Id}"
                          TextChanged="MDCInputElement_OnLostFocus" />
             </Grid>
         </TabItem>

@@ -43,4 +43,7 @@ public partial class Function : ObservableObject
     [ObservableProperty] private int _vox = 1;
     [ObservableProperty] private int _voxDlyTime = 5;
     [ObservableProperty] private int _voxSw;
+    // 中转相关
+    [ObservableProperty] private int _relaySw;
+    [ObservableProperty] private int _relaySpeakerSw;
 }
