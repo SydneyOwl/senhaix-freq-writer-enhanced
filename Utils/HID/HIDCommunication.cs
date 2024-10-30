@@ -231,10 +231,11 @@ public class HidCommunication
         var num2 = 0;
         
         // 中转模式误触发保护功能：强制覆盖VFO设定，设定为航空频段防止误触发中转发射
-        AppData.Vfos.VfoAFreq = "120.00000";
-        AppData.Vfos.VfoBFreq = "120.00000";
-        AppData.FunCfgs.ChAWorkmode = 0;
-        AppData.FunCfgs.ChBWorkmode = 0;
+        // deprecated!!
+        // AppData.Vfos.VfoAFreq = "120.00000";
+        // AppData.Vfos.VfoBFreq = "120.00000";
+        // AppData.FunCfgs.ChAWorkmode = 0;
+        // AppData.FunCfgs.ChBWorkmode = 0;
 
         // DebugWindow.GetInstance().updateDebugContent("we're in writing");
         while (_flagTransmitting && !token.IsCancellationRequested)
@@ -314,6 +315,11 @@ public class HidCommunication
                             array[7] = (byte)AppData.FunCfgs.VoxSw;
                             array[8] = (byte)AppData.FunCfgs.PowerUpDisTime;
                             array[9] = (byte)AppData.FunCfgs.BluetoothAudioGain;
+                            // 中转模式
+                            // 36913 ->　sbtn_traanser_speaker
+                            // 36912 -> sbtn_transfer_mode
+                            array[16] = (byte)AppData.FunCfgs.RelaySw;
+                            array[17] = (byte)AppData.FunCfgs.RelaySpeakerSw;
                             if (AppData.FunCfgs.CallSign != null && AppData.FunCfgs.CallSign != "")
                             {
                                 var bytes = Encoding.GetEncoding("gb2312").GetBytes(AppData.FunCfgs.CallSign);
@@ -822,6 +828,9 @@ public class HidCommunication
                             AppData.FunCfgs.VoxSw = _helper.Payload[7] % 2;
                             AppData.FunCfgs.PowerUpDisTime = _helper.Payload[8] % 15;
                             AppData.FunCfgs.BluetoothAudioGain = _helper.Payload[9] % 5;
+                            // 中转模式
+                            AppData.FunCfgs.RelaySw = _helper.Payload[16] % 2;
+                            AppData.FunCfgs.RelaySpeakerSw = _helper.Payload[17] % 2;
                             var num4 = 0;
                             for (var i = 0; i < 6 && _helper.Payload[10 + i] != byte.MaxValue; i++)
                             {

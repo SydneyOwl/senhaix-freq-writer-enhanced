@@ -1572,6 +1572,24 @@ namespace SenhaixFreqWriter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 中转模式.
+        /// </summary>
+        public static string relay_mode {
+            get {
+                return ResourceManager.GetString("relay_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 中转喇叭.
+        /// </summary>
+        public static string relay_speaker {
+            get {
+                return ResourceManager.GetString("relay_speaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 松开PTT.
         /// </summary>
         public static string release_ptt {

@@ -824,4 +824,10 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     <data name="advanced" xml:space="preserve">
         <value>Advanced</value>
     </data>
+    <data name="relay_mode" xml:space="preserve">
+        <value>Relay Mode</value>
+    </data>
+    <data name="relay_speaker" xml:space="preserve">
+        <value>Relay Speaker</value>
+    </data>
 </root>
