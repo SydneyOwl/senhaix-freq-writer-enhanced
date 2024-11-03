@@ -43,6 +43,10 @@
 + 自动备份
 + ...
 
+### 注意事项
+
++ linux平台上写频需要`sudo`！
+
 ### 其他说明
 
 #### 蓝牙
@@ -117,8 +121,6 @@
 
 ## FAQ
 
-+ linux平台上写频需要`sudo`！
-
 + windows上若无法正常使用蓝牙写频功能，可以试着反勾选“RPC方式”后重试
 
 + 如果在macOS上出现提示"无法打开，因为它来自身份不明的开发者"，请在`设置-隐私与安全性-安全性`
@@ -132,6 +134,17 @@
     3. 勾选“手动调用RPC”后正常使用蓝牙读写频即可。
 
     <img src="./readme_image/bt-allow.jpg" style="zoom:25%;" />
+
++ **(改动udev配置有风险，如果您不熟悉linux或不太了解下面的内容，请不要更改udev，继续使用root权限启动软件即可)** 如果您不希望在linux上使用sudo权限运行本软件，您可以通过更改udev规则修改设备文件的权限：
+  + 对于8800(pro)/8600(pro)，您需要首先获取写频线的VID/PID，可通过执行`lsusb`后获取，本图中的写频线名称为"...ch340...."，则VID和PID分别为1a86和7523。
+  ![](./readme_image/lsusb.png)
+  如果是GT12，则需找到“SHX-GT12”，这是一个HID设备，记录其VID和PID，图中为28e9和028a：
+  ![](./readme_image/lsgt12.png)
+  之后在`/etc/udev/rules.d/`新建配置文件，文件名如`99-senhaix.rules`，并写入如下字符串,如果有多根写频线就添加多行：
+  ```text
+    ATTRS{idVendor}=="你的写频线VID", ATTRS{idProduct}=="你的写频线PID", MODE="0666"
+  ```
+  最后重新启动udev服务`systemctl restart udev`或重启电脑，在启动写频软件时传入命令行参数`./senhaixFreqWriter --bypass-root-check`即可。
 
 ## 其他
 
@@ -187,6 +200,8 @@ VFO页面设置闪退问题；修复切换到同种设备后数据仍然存在�
 某些页面不再使用Canvas)；国际化(欢迎PR)；GT12写频完成后将主动切换至频率模式（默认120.0MHz），防止误触发中转
 
 `v0.4.3` 修复GT12中转模式自动开启问题；添加中转模式可选项；
+
+`v0.4.4` 修复打星助手还没更新完星历就关闭窗口造成的程序崩溃；Linux加入跳过Root检查，允许用户不以sudo运行软件；修复了一些bug
 
 ## 致谢
 

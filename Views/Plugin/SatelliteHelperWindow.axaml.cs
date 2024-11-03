@@ -35,6 +35,11 @@ public partial class SatelliteHelperWindow : Window
     public List<string> SatelliteList = new();
 
     private Settings _settings = Settings.Load();
+    
+    public event EventHandler<WindowClosingEventArgs> CloseEvent = (sender, args) =>
+    {
+        args.Cancel = true;
+    } ;
 
     public SatelliteHelperWindow()
     {
@@ -240,6 +245,7 @@ public partial class SatelliteHelperWindow : Window
                 ProgressRing.IsActive = true;
                 FetchSatText.Text = "更新中...";
                 FetchSat.IsEnabled = false;
+                Closing += CloseEvent;
             });
             DownloadSatData(url, useMem);
             LoadJson(useMem);
@@ -285,7 +291,7 @@ public partial class SatelliteHelperWindow : Window
                 FetchSat.IsEnabled = true;
                 FetchSatText.Text = "更新星历";
             });
-            // DebugWindow.GetInstance().updateDebugContent("Waiting...");
+            Closing -= CloseEvent;
             // while (!handler.IsCompleted)
             // {
             //     Thread.Sleep(50);
@@ -444,6 +450,7 @@ public partial class SatelliteHelperWindow : Window
     {
         var target = new Uri(url);
         var httpClient = new HttpClient();
+        httpClient.Timeout = TimeSpan.FromSeconds(15);
         httpClient.DefaultRequestHeaders.Add("User-Agent", "CSharpHttpClient");
         var resp = httpClient.GetAsync(target).Result;
         if (resp.IsSuccessStatusCode)

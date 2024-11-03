@@ -29,7 +29,7 @@ public partial class DeviceSelectWindow : Window
 
     private async void Device_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && !Environment.UserName.Equals("root"))
+        if (!CMD_SETTINGS.BypassRootCheck && RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && !Environment.UserName.Equals("root"))
         {
             await MessageBoxManager.GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("sudo"))
                 .ShowWindowDialogAsync(this);
