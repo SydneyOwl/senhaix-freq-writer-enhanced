@@ -37,31 +37,14 @@ internal class Program
 类型：{ex.Message}
 堆栈：{ex.StackTrace}");
             var executablePath = Process.GetCurrentProcess().MainModule!.FileName;
-            // Restart
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var startInfo = new ProcessStartInfo
             {
-                // Windows平台
-                var startInfo = new ProcessStartInfo
-                {
-                    FileName = executablePath,
-                    Arguments = "--crash-report",
-                    UseShellExecute = true
-                };
-                Process.Start(startInfo);
-                Environment.Exit(0);
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                // Linux和macOS平台
-                var startInfo = new ProcessStartInfo
-                {
-                    FileName = executablePath,
-                    Arguments = "--crash-report",
-                    UseShellExecute = true
-                };
-                Process.Start(startInfo);
-                Environment.Exit(0);
-            }
+                FileName = executablePath,
+                Arguments = "--crash-report",
+                UseShellExecute = true
+            };
+            Process.Start(startInfo);
+            Environment.Exit(0);
         }
     }
 
