@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using Avalonia;
@@ -23,8 +26,43 @@ internal class Program
             1 => new CultureInfo("en-us"),
             _ => new CultureInfo("zh")
         };
-        BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
+        try
+        {
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(args);
+        }
+        catch (Exception ex)
+        {
+            File.WriteAllText(CMD_SETTINGS.CrashLogPath, $@"系统环境：{RuntimeInformation.RuntimeIdentifier}, {RuntimeInformation.OSDescription}
+类型：{ex.Message}
+堆栈：{ex.StackTrace}");
+            var executablePath = Process.GetCurrentProcess().MainModule!.FileName;
+            // Restart
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // Windows平台
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = executablePath,
+                    Arguments = "--crash-report",
+                    UseShellExecute = true
+                };
+                Process.Start(startInfo);
+                Environment.Exit(0);
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Linux和macOS平台
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = executablePath,
+                    Arguments = "--crash-report",
+                    UseShellExecute = true
+                };
+                Process.Start(startInfo);
+                Environment.Exit(0);
+            }
+        }
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.

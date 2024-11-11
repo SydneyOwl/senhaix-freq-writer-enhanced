@@ -1,5 +1,8 @@
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -19,12 +22,20 @@ public class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new DeviceSelectWindow();
             if (desktop.Args != null)
             {
                 if (desktop.Args.Contains("--bypass-root-check"))
                 {
                     CMD_SETTINGS.BypassRootCheck = true;
+                }
+
+                if (desktop.Args.Contains("--crash-report"))
+                {
+                    desktop.MainWindow = new ErrorReportWindow();
+                }
+                else
+                {
+                    desktop.MainWindow = new DeviceSelectWindow();
                 }
             }
         }
