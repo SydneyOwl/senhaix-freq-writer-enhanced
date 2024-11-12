@@ -11,6 +11,8 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <ApplicationIcon>Asset\shx8800-icons\icon.ico</ApplicationIcon>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <!-- For Macos -->

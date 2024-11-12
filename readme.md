@@ -84,6 +84,25 @@
 
 ![](./readme_image/artifact.png)
 
+### Docker
+
+首先clone仓库并编译镜像：
+```shell
+git clone https://github.com/SydneyOwl/senhaix-freq-writer-enhanced
+cd senhaix-freq-writer-enhanced
+docker build -t "freq-writer-builder" .
+```
+之后需要编译软件时，运行以下命令：
+```shell
+docker run --rm -it -v ./dister:/source/builddist freq-writer-builder [arg]
+```
+其中`[arg]`可以是 `--win-x64`/`--osx-x64`/`linux-x64`，分别编译windows/macOS/Linux版本的写频软件。如未指定，默认编译Linux版本。
+
+注意：使用该方法编译的产物仅有软件本体，不含蓝牙插件！
+
+
+### 手动编译
+
 如您使用`Rider`，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架，直接publish即可！
 
 如您使用命令行编译，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架后，可以参考`.github/workflows/build.yml`进行编译。
