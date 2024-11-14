@@ -82,11 +82,11 @@
 
 如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
 
-![](./readme_image/artifact.png)
+### 编译软件本体
 
-### Docker
+#### Docker
 
-首先clone仓库并编译镜像：
+首先克隆仓库并构建镜像：
 ```shell
 git clone https://github.com/SydneyOwl/senhaix-freq-writer-enhanced
 cd senhaix-freq-writer-enhanced
@@ -98,29 +98,43 @@ docker run --rm -it -v ./dister:/source/builddist freq-writer-builder [arg]
 ```
 其中`[arg]`可以是 `--win-x64`/`--osx-x64`/`linux-x64`，分别编译windows/macOS/Linux版本的写频软件。如未指定，默认编译Linux版本。
 
-注意：使用该方法编译的产物仅有软件本体，不含蓝牙插件！
 
-
-### 手动编译
+#### 手动编译
 
 如您使用`Rider`，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架，直接publish即可！
 
 如您使用命令行编译，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架后，可以参考`.github/workflows/build.yml`进行编译。
 
+
+
+### 编译蓝牙插件
+
+确保您的系统具有以下环境：
+
++ 在windows上编译，需要gcc（minGW）+ go1.22
++ 在macOS上编译，需要安装xcode + go1.22
++ 在linux上编译，需要bluez + go1.22
+
+执行以下命令：
+
+```shell
+git clone https://github.com/SydneyOwl/senhaix-freq-writer-enhanced
+cd senhaix-freq-writer-enhanced/ble_plugins
+go mod tidy
+go build
+```
+
+
+
 ## 开发指引
 
-+ 您可以自行实现跨平台版本写频软件的蓝牙功能，只需实现Utils/BLE/Interfaces/IBluetooth.cs中的方法即可。
++ 蓝牙插件若有调试需要，或勾选了“手动控制RPC”，请按如下步骤操作：
 
-+ 蓝牙插件若有**调试需要**，需要手动编译，或勾选了“手动控制RPC”，编译具体操作如下：
+  1. 参考“编译蓝牙插件”部分，编译蓝牙插件。
+  2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
+  3. 直接双击打开编译产物，或者使用命令行指定参数：
 
-    1. 编译仓库中ble_plugin文件夹内的go项目，即`go mod tidy && go build`
-        + 在windows上编译，需要gcc编译器
-        + 在macOS上编译，需要安装xcode
-        + 在linux上编译，需要bluez
-    2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
-    3. 直接双击打开编译产物，或者使用命令行指定参数：
-
-    ```bash
+  ```bash
   BLE RPC Client - Connect shx8x00 and c#
   
   Usage:
@@ -160,7 +174,7 @@ docker run --rm -it -v ./dister:/source/builddist freq-writer-builder [arg]
   
   ![](./readme_image/lsusb.png)
 
-  如果是GT12，则需找到“SHX-GT12”，这是一个HID设备，记录其VID和PID，图中为28e9和028a：
+  + 如果是GT12，则需找到“SHX-GT12”，这是一个HID设备，记录其VID和PID，图中为28e9和028a：
   
   ![](./readme_image/lsgt12.png)
 
