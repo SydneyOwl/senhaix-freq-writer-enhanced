@@ -18,7 +18,7 @@ public partial class ErrorReportWindow : Window
         try
         {
             _errContent = File.ReadAllText(Properties.CMD_SETTINGS.CrashLogPath);
-            // File.Delete(Properties.CMD_SETTINGS.CrashLogPath);
+            File.Delete(Properties.CMD_SETTINGS.CrashLogPath);
         }
         catch (Exception e)
         {
