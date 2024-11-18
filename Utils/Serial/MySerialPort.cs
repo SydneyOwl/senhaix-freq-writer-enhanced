@@ -96,6 +96,21 @@ public class MySerialPort : SerialPort
 
         return ccName;
     }
+    
+    // 同时存在两个USB串口，则不予选择
+    private string LinuxSelectSerialByName()
+    {
+        string[] portNames = GetPortNames();
+        var ccName = "";
+        for (var i = 0; i < portNames.Length; i++)
+            if (portNames[i].Contains("/dev/ttyUSB"))
+            {
+                if (ccName != "") return "";
+                ccName = portNames[i];
+            }
+
+        return ccName;
+    }
 
     // 同时存在两个USB串口，则不予选择
     private string MacOsSelectSerialByName()
@@ -115,6 +130,7 @@ public class MySerialPort : SerialPort
     private string SelectSerialByName()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return WinSelectSerialByName();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) return LinuxSelectSerialByName();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return MacOsSelectSerialByName();
         return "";
     }
