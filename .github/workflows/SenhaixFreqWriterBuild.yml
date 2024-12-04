@@ -13,7 +13,7 @@ on:
 
 jobs:
   build_macos_x64_plugin:
-    runs-on: 	macos-12
+    runs-on: 	macos-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -34,7 +34,7 @@ jobs:
     - name: Build plugin
       run: |
         cd ble_plugins && go mod tidy && go build && cp BLEPlugin BLEPlugin_macos_x64 && cp BLEPlugin macOS-ble-helper && chmod +x macOS-ble-helper && \
-        echo "仅在无法正常使用蓝牙写频功能时使用！\n使用说明：\n1. 下载Release中的“macOS-ble-helper”；\n2. 打开写频软件后双击运行“macOS-ble-helper” ；\n3. 正常使用蓝牙读写频即可" > 说明.txt && \
+        echo "仅在无法正常使用蓝牙写频功能时使用！使用说明：1. 下载Release中的“macOS-ble-helper”； 2. 打开写频软件后双击运行“macOS-ble-helper” ； 3. 正常使用蓝牙读写频即可" > 说明.txt && \
         zip _macOS-ble-helper.zip macOS-ble-helper 说明.txt
 
     - name: Upload Artifact
