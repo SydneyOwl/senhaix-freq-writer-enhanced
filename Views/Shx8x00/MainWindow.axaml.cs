@@ -34,7 +34,7 @@ public partial class MainWindow : Window
 
     private string _savePath = "";
 
-    private ChannelData _tmpChannel;
+    private List<ChannelData> _tmpChannel = new();
 
     private BluetoothDeviceSelectionWindow _bds;
 
@@ -369,24 +369,47 @@ public partial class MainWindow : Window
 
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var selected = channelDataGrid.SelectedIndex;
-        _tmpChannel = ListItems[selected];
+        // var selected = channelDataGrid.SelectedIndex;
+        // _tmpChannel = ListItems[selected];
+        
+        _tmpChannel.Clear();
+        foreach (var selectedItem in channelDataGrid.SelectedItems)
+        {
+            _tmpChannel.Add((ChannelData)selectedItem);   
+        }
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var selected = channelDataGrid.SelectedIndex;
-        _tmpChannel = ListItems[selected].DeepCopy();
-        ListItems[selected] = new ChannelData();
+        // var selected = channelDataGrid.SelectedIndex;
+        // _tmpChannel = ListItems[selected].DeepCopy();
+        // ListItems[selected] = new ChannelData();
+        // CalcSequence();
+        _tmpChannel.Clear();
+        foreach (var selectedItem in channelDataGrid.SelectedItems)
+        {
+            var item = (ChannelData)selectedItem;
+            _tmpChannel.Add(item);
+        }
+        _tmpChannel.ForEach(x =>  ListItems[int.Parse(x.ChanNum)] = new ChannelData());
         CalcSequence();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (_tmpChannel == null) return;
+        if(_tmpChannel.Count == 0)return;
         var selected = channelDataGrid.SelectedIndex;
-        ListItems[selected] = _tmpChannel.DeepCopy();
+        for (var i = 0; i < _tmpChannel.Count; i++)
+        {
+            ListItems[selected + i] = _tmpChannel[i].DeepCopy();
+        }
         CalcSequence();
+        
+        
+        // if (_tmpChannel == null) return;
+        // var selected = channelDataGrid.SelectedIndex;
+        // ListItems[selected] = _tmpChannel.DeepCopy();
+        // CalcSequence();
     }
 
     private void MenuClrChannel_OnClick(object? sender, RoutedEventArgs e)

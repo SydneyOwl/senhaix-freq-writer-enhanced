@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0
+﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /source
 ENV TZ=Asia/Shanghai
 ARG DEBIAN_FRONTEND=noninteractive
@@ -10,7 +10,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     wget \
     gcc && \
     rm -rf /var/lib/apt/lists/* && \
-    wget -O ./amsat-all-frequencies.json https://cdn.jsdelivr.net/gh/palewire/amateur-satellite-database/data/amsat-all-frequencies.json && \
+    wget --timeout=10 -O ./amsat-all-frequencies.json "https://cdn.jsdelivr.net/gh/palewire/amateur-satellite-database/data/amsat-all-frequencies.json"; \
     sed -i 's/@COMMIT_HASH@/DockerVersion/g' Properties/VERSION.cs && \
     sed -i 's/@TAG_NAME@/DockerVersion/g' Properties/VERSION.cs && \
     sed -i "s/@BUILD_TIME@/$(date)/g" Properties/VERSION.cs && \

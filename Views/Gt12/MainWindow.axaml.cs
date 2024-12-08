@@ -31,7 +31,7 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class MainWindow : Window
 {
-    private Channel _copiedChannel;
+    private List<Channel> _copiedChannel = new();
 
     private bool _devSwitchFlag;
 
@@ -330,23 +330,44 @@ public partial class MainWindow : Window
 
     private void MenuCopyChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var selected = channelDataGrid.SelectedIndex;
-        _copiedChannel = ListItems[selected];
+        // var selected = channelDataGrid.SelectedIndex;
+        // _copiedChannel = ListItems[selected];
+        _copiedChannel.Clear();
+        foreach (var selectedItem in channelDataGrid.SelectedItems)
+        {
+            _copiedChannel.Add((Channel)selectedItem);
+        }
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var selected = channelDataGrid.SelectedIndex;
-        _copiedChannel = ListItems[selected].DeepCopy();
-        ListItems[selected] = new Channel();
+        // var selected = channelDataGrid.SelectedIndex;
+        // _copiedChannel = ListItems[selected].DeepCopy();
+        // ListItems[selected] = new Channel();
+        // CalcSeq();
+        
+        _copiedChannel.Clear();
+        foreach (var selectedItem in channelDataGrid.SelectedItems)
+        {
+            _copiedChannel.Add((Channel)selectedItem);
+        }
+        _copiedChannel.ForEach(x=>ListItems[x.Id-1]=new Channel());
         CalcSeq();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (_copiedChannel == null) return;
+        // if (_copiedChannel == null) return;
+        // var selected = channelDataGrid.SelectedIndex;
+        // ListItems[selected] = _copiedChannel.DeepCopy();
+        // CalcSeq();
+        
+        if (_copiedChannel.Count == 0)return;
         var selected = channelDataGrid.SelectedIndex;
-        ListItems[selected] = _copiedChannel.DeepCopy();
+        for (var i = 0; i < _copiedChannel.Count; i++)
+        {
+            ListItems[selected + i] = _copiedChannel[i].DeepCopy();
+        }
         CalcSeq();
     }
 
