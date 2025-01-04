@@ -12,7 +12,7 @@
             <ComboBoxItem Content="SHX8800pro" />
             <ComboBoxItem Content="SHX8600" />
             <ComboBoxItem Content="SHX8600pro" />
-            <ComboBoxItem Content="SHX-GT12" />
+            <ComboBoxItem Content="GT12/GT12Pro" />
         </ComboBox>
         <Button Canvas.Top="100" Canvas.Left="130" Click="Device_OnClick" Content="{x:Static p:Resources.confirm}" />
     </Canvas>
