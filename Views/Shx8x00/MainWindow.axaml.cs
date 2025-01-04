@@ -470,6 +470,7 @@ public partial class MainWindow : Window
     private void CalcSequence()
     {
         for (var i = 0; i < ListItems.Count; i++) ListItems[i].ChanNum = i.ToString();
+        channelDataGrid.InvalidateVisual();
     }
 
 

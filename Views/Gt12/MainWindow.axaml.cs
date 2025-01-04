@@ -122,6 +122,7 @@ public partial class MainWindow : Window
     private void CalcSeq()
     {
         for (var i = 0; i < ListItems.Count; i++) ListItems[i].Id = i + 1;
+        channelDataGrid.InvalidateVisual();
     }
 
     private string CalcNameSize(string name)
