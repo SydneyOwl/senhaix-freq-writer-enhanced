@@ -35,8 +35,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <CheckBox Content="{x:Static p:Resources.disable_weak_signal}" Canvas.Left="400" Canvas.Top="80"
-                  Name="disableWeakSignal" />
+        <!-- <CheckBox Content="{x:Static p:Resources.disable_weak_signal}" Canvas.Left="400" Canvas.Top="80" -->
+        <!--           Name="disableWeakSignal" /> -->
         <CheckBox Content="{x:Static p:Resources.disable_ssid_filter}" Canvas.Left="400" Canvas.Top="120"
                   Name="disableSSIDF" />
         <CheckBox Content="{x:Static p:Resources.manual_call}" Canvas.Left="400" Canvas.Top="160" Name="manualRPC"

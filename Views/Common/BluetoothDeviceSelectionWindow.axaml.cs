@@ -54,7 +54,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     checkDisableSsidRestriction = disableSSIDF.IsChecked.Value;
-                    checkDisableWeakSignalRestriction = disableWeakSignal.IsChecked.Value;
+                    // checkDisableWeakSignalRestriction = disableWeakSignal.IsChecked.Value;
                     scanButton.IsEnabled = false;
                     connButton.IsEnabled = false;
                     scanStat.Text = "扫描中...";

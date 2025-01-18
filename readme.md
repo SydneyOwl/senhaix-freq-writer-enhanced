@@ -95,7 +95,7 @@ docker build -t "freq-writer-builder" .
 ```shell
 docker run --rm -it -v ./dister:/source/builddist freq-writer-builder [arg]
 ```
-其中`[arg]`可以是 `--win-x64`/`--osx-x64`/`linux-x64`，分别编译windows/macOS/Linux版本的写频软件。如未指定，默认编译Linux版本。
+其中`[arg]`可以是 `--win-x64`/`--osx-x64`/`--linux-x64`，分别编译windows/macOS/Linux版本的写频软件。如未指定，默认编译Linux版本。
 在例子中，编译产物将输出到./dister文件夹。
 
 Windows用户请特别注意：**如在windows下无法编译，请检查entrypoint.sh是否为dos格式，
