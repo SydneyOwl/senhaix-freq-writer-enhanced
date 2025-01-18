@@ -1,11 +1,12 @@
 ﻿using System.Resources;
+using SenhaixFreqWriter.Properties;
 
 namespace SenhaixFreqWriter.Utils.Other;
 
 public class Language
 {
-    public static ResourceManager manager = new(Properties.Resources.ResourceManager.BaseName,
-        typeof(Properties.Resources).Assembly);
+    public static ResourceManager manager = new(Resources.ResourceManager.BaseName,
+        typeof(Resources).Assembly);
 
     public static string GetString(string key)
     {

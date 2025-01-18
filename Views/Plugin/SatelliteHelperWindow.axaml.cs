@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -24,22 +22,17 @@ public partial class SatelliteHelperWindow : Window
 {
     public delegate void InsertChannelMethod(string rx, string rxDec, string tx, string txDec, string name);
 
+    private readonly Settings _settings = Settings.Load();
+
     private string[] _currentChannel = new string[14];
+
+    private string _loadedJson = "";
 
     private JArray _satelliteJson = new();
 
     public InsertChannelMethod InsertData;
 
-    private string _loadedJson = "";
-
     public List<string> SatelliteList = new();
-
-    private Settings _settings = Settings.Load();
-    
-    public event EventHandler<WindowClosingEventArgs> CloseEvent = (sender, args) =>
-    {
-        args.Cancel = true;
-    } ;
 
     public SatelliteHelperWindow()
     {
@@ -74,6 +67,8 @@ public partial class SatelliteHelperWindow : Window
     }
 
     public ObservableCollection<string> Namelist { get; set; } = new();
+
+    public event EventHandler<WindowClosingEventArgs> CloseEvent = (sender, args) => { args.Cancel = true; };
 
     private bool LoadJson(bool useMem = false)
     {

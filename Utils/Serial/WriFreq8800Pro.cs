@@ -5,40 +5,33 @@ using System.Threading;
 using System.Timers;
 using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
-using SenhaixFreqWriter.Views.Common;
 using Timer = System.Timers.Timer;
 
 namespace SenhaixFreqWriter.Utils.Serial;
 
 public class WriFreq8800Pro
 {
-    private Timer _timer;
+    private bool _flagReceiveData;
 
-    private OpType _opType;
+    private bool _flagRetry;
 
-    private MySerialPort _port;
+    private bool _flagTransmitting;
 
-    public AppData AppData;
+    private readonly DataHelper _helper;
 
-    private bool _flagTransmitting = false;
+    private readonly OpType _opType;
 
-    private bool _flagRetry = false;
-
-    private byte _timesOfRetry = 5;
-
-    private Step _step;
-
-    private bool _flagReceiveData = false;
-
-    private byte[] _rxBuffer = new byte[128];
-
-    private DataHelper _helper;
-
-    private int _progressVal = 0;
+    private readonly MySerialPort _port;
 
     private string _progressCont = "";
 
-    private string[] _tblCtsdcs = new string[210]
+    private int _progressVal;
+
+    private byte[] _rxBuffer = new byte[128];
+
+    private Step _step;
+
+    private readonly string[] _tblCtsdcs = new string[210]
     {
         "D023N", "D025N", "D026N", "D031N", "D032N", "D036N", "D043N", "D047N", "D051N", "D053N",
         "D054N", "D065N", "D071N", "D072N", "D073N", "D074N", "D114N", "D115N", "D116N", "D122N",
@@ -62,6 +55,12 @@ public class WriFreq8800Pro
         "D546I", "D565I", "D606I", "D612I", "D624I", "D627I", "D631I", "D632I", "D645I", "D654I",
         "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I", "D754I"
     };
+
+    private Timer _timer;
+
+    private byte _timesOfRetry = 5;
+
+    public AppData AppData;
 
 
     public ConcurrentQueue<ProgressBarValue> StatusQueue = new();

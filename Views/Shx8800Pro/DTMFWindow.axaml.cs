@@ -4,7 +4,6 @@ using System.Text;
 using Avalonia.Controls;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
-using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.Views.Shx8800Pro;
 
@@ -16,9 +15,9 @@ public partial class DtmfWindow : Window
 
     private string _myId = AppData.GetInstance().Dtmfs.LocalId;
 
-    private int _wordTime = AppData.GetInstance().Dtmfs.WordTime;
-
     private int _pttid = AppData.GetInstance().Dtmfs.Pttid;
+
+    private int _wordTime = AppData.GetInstance().Dtmfs.WordTime;
 
     public DtmfWindow()
     {

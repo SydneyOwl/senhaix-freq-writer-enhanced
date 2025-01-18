@@ -13,55 +13,54 @@ namespace SenhaixFreqWriter.Utils.Serial;
 
 public class WriBootImage
 {
-    private readonly MySerialPort _sp = MySerialPort.GetInstance();
-
     private readonly byte[] _bufferBmpData = new byte[1048576];
 
     private readonly byte[] _bufForData = new byte[2048];
 
+    private readonly SKBitmap _image;
+    private readonly MySerialPort _sp = MySerialPort.GetInstance();
+
+    private int _address;
+
+    private int _blockOfErase;
+
     private uint _byteOfData;
+
+    private int _byteOfPackage;
+
+    private int _cntPackages;
 
     private int _cntRetry;
 
     private State _comStep = State.HandShakeStep1;
 
-    private NImgStep _nComStep = NImgStep.StepHandShake;
-
     private int _countOverTime;
 
-    public ConcurrentQueue<int> CurrentProg = new();
+    private readonly ShxDevice _device;
 
     private bool _flagOverTime;
 
-    private bool _flagReceivePackageOver = false;
+    private bool _flagReceivePackageOver;
 
-    private readonly SKBitmap _image;
+    private NImgStep _nComStep = NImgStep.StepHandShake;
 
     private Timer _overTimer;
 
+    private int _packageId;
+
+    private int _packageLength;
+
+    private int _progressValue;
+
     private Timer _rxOverTimer;
 
-    private string _strHandshake = "PROGRAM";
+    private readonly string _strHandshake = "PROGRAM";
 
-    private int _progressValue = 0;
-
-    private int _packageLength = 0;
-
-    private int _address = 0;
-
-    private int _blockOfErase = 0;
-
-    private int _byteOfPackage = 0;
-
-    private int _totalPackages = 0;
-
-    private int _cntPackages = 0;
-
-    private int _packageId = 0;
-
-    private ShxDevice _device;
+    private int _totalPackages;
 
     private CancellationTokenSource _wriImgTokenSource;
+
+    public ConcurrentQueue<int> CurrentProg = new();
 
     public WriBootImage(ShxDevice device, SKBitmap img)
     {

@@ -25,23 +25,22 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class MainWindow : Window
 {
+    private readonly CancellationTokenSource _cancelBackup;
+
+    private readonly CancellationTokenSource _cancelTips;
+
+    private readonly Settings _settings = Settings.Load();
+
+    private readonly ShxDevice _shxDevice = ShxDevice.Shx8600;
+
+    private readonly List<ChannelData> _tmpChannel = new();
+
+    private BluetoothDeviceSelectionWindow _bds;
     private bool _devSwitchFlag;
 
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
-
-    private List<ChannelData> _tmpChannel = new();
-
-    private BluetoothDeviceSelectionWindow _bds;
-
-    private ShxDevice _shxDevice = ShxDevice.Shx8600;
-
-    private CancellationTokenSource _cancelTips;
-
-    private CancellationTokenSource _cancelBackup;
-
-    private Settings _settings = Settings.Load();
 
     public MainWindow(ShxDevice shx)
     {
@@ -63,6 +62,17 @@ public partial class MainWindow : Window
         DebugWindow.GetInstance().UpdateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
     }
 
+
+    public ObservableCollection<ChannelData> ListItems
+    {
+        get => _listItems;
+        set
+        {
+            _listItems = value;
+            ClassTheRadioData.GetInstance().ObsChanData = value;
+        }
+    }
+
     private async void UpdateTips(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
@@ -78,17 +88,6 @@ public partial class MainWindow : Window
         {
             SysFile.CreateBackup(ClassTheRadioData.GetInstance());
             await Task.Delay(_settings.BackupInterval * 1000, CancellationToken.None);
-        }
-    }
-
-
-    public ObservableCollection<ChannelData> ListItems
-    {
-        get => _listItems;
-        set
-        {
-            _listItems = value;
-            ClassTheRadioData.GetInstance().ObsChanData = value;
         }
     }
 
@@ -370,12 +369,9 @@ public partial class MainWindow : Window
     {
         // var selected = channelDataGrid.SelectedIndex;
         // _tmpChannel = ListItems[selected];
-        
+
         _tmpChannel.Clear();
-        foreach (var selectedItem in channelDataGrid.SelectedItems)
-        {
-            _tmpChannel.Add((ChannelData)selectedItem);   
-        }
+        foreach (var selectedItem in channelDataGrid.SelectedItems) _tmpChannel.Add((ChannelData)selectedItem);
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -390,21 +386,19 @@ public partial class MainWindow : Window
             var item = (ChannelData)selectedItem;
             _tmpChannel.Add(item);
         }
-        _tmpChannel.ForEach(x =>  ListItems[int.Parse(x.ChanNum)] = new ChannelData());
+
+        _tmpChannel.ForEach(x => ListItems[int.Parse(x.ChanNum)] = new ChannelData());
         CalcSequence();
     }
 
     private void MenuPasteChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        if(_tmpChannel.Count == 0)return;
+        if (_tmpChannel.Count == 0) return;
         var selected = channelDataGrid.SelectedIndex;
-        for (var i = 0; i < _tmpChannel.Count; i++)
-        {
-            ListItems[selected + i] = _tmpChannel[i].DeepCopy();
-        }
+        for (var i = 0; i < _tmpChannel.Count; i++) ListItems[selected + i] = _tmpChannel[i].DeepCopy();
         CalcSequence();
-        
-        
+
+
         // if (_tmpChannel == null) return;
         // var selected = channelDataGrid.SelectedIndex;
         // ListItems[selected] = _tmpChannel.DeepCopy();

@@ -7,7 +7,6 @@ using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Shx8x00;
-using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;

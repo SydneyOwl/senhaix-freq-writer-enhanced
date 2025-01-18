@@ -19,11 +19,11 @@ namespace SenhaixFreqWriter.Views.Plugin;
 
 public partial class BootImageImportWindow : Window
 {
+    private readonly ShxDevice _device = ShxDevice.Shx8600;
     private SKBitmap _bitmap;
     private HidBootImage _bootHid;
     private WriBootImage _bootWri;
     private CancellationTokenSource _ctx;
-    private ShxDevice _device = ShxDevice.Shx8600;
 
     public BootImageImportWindow()
     {

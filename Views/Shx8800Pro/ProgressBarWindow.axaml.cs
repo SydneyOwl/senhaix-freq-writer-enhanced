@@ -7,7 +7,6 @@ using Avalonia.Threading;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Shx8800Pro;
 using SenhaixFreqWriter.DataModels.Shx8800Pro;
-using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Utils.Other;
 using SenhaixFreqWriter.Utils.Serial;
 using SenhaixFreqWriter.Views.Common;
@@ -16,19 +15,18 @@ namespace SenhaixFreqWriter.Views.Shx8800Pro;
 
 public partial class ProgressBarWindow : Window
 {
-    private CancellationTokenSource _cancelSource;
-
-    private WriFreq8800Pro _com;
+    private readonly WriFreq8800Pro _com;
 
     private readonly OpType _operation;
+
+    private readonly MySerialPort _port;
+    private CancellationTokenSource _cancelSource;
 
     private bool _opRes;
 
     private Thread _threadCommunication;
 
     private Thread _threadProgress;
-
-    private MySerialPort _port;
 
     public ProgressBarWindow(OpType op)
     {

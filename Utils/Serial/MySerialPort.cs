@@ -18,9 +18,9 @@ public class MySerialPort : SerialPort
 
     private Queue<byte> _rxData = new(1024);
 
-    public WriteValueAsync WriteBle;
+    private readonly Settings _settings = Settings.Load();
 
-    private Settings _settings = Settings.Load();
+    public WriteValueAsync WriteBle;
     public int BtDeviceMtu { get; set; } = 23;
 
     public int BytesToReadFromCache
@@ -96,7 +96,7 @@ public class MySerialPort : SerialPort
 
         return ccName;
     }
-    
+
     // 同时存在两个USB串口，则不予选择
     private string LinuxSelectSerialByName()
     {

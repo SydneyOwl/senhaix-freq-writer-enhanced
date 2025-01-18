@@ -25,6 +25,8 @@ public class HidTools
 
     private readonly CancellationTokenSource _pollTokenSource = new();
 
+    private readonly Settings _settings = Settings.Load();
+
     public int BtDeviceMtu = 23;
 
     public DeviceList DevList;
@@ -46,8 +48,6 @@ public class HidTools
     public UpdateMainUiThread UpdateLabel;
 
     public WriteValueAsync WriteBle;
-
-    private Settings _settings = Settings.Load();
 
     private void UpdateChanDebugInfo(string a)
     {

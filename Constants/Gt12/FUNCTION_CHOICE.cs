@@ -52,12 +52,12 @@ public class FunctionChoice
     {
         Language.GetString("off"), Language.GetString("on")
     };
-    
+
     public static ObservableCollection<string> RelayMode = new()
     {
         Language.GetString("off"), Language.GetString("on")
     };
-    
+
     public static ObservableCollection<string> RelaySpeaker = new()
     {
         Language.GetString("off"), Language.GetString("on")

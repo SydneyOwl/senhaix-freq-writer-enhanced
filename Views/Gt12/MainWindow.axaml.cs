@@ -28,7 +28,12 @@ namespace SenhaixFreqWriter.Views.Gt12;
 
 public partial class MainWindow : Window
 {
-    private List<Channel> _copiedChannel = new();
+    private readonly CancellationTokenSource _cancelBackup;
+
+    private readonly CancellationTokenSource _cancelTips;
+    private readonly List<Channel> _copiedChannel = new();
+
+    private readonly Settings _settings = Settings.Load();
 
     private bool _devSwitchFlag;
 
@@ -37,12 +42,6 @@ public partial class MainWindow : Window
     private IBluetooth _osBle;
 
     public int CurrentArea;
-
-    private CancellationTokenSource _cancelTips;
-
-    private CancellationTokenSource _cancelBackup;
-    
-    private Settings _settings = Settings.Load();
 
     public MainWindow()
     {
@@ -333,10 +332,7 @@ public partial class MainWindow : Window
         // var selected = channelDataGrid.SelectedIndex;
         // _copiedChannel = ListItems[selected];
         _copiedChannel.Clear();
-        foreach (var selectedItem in channelDataGrid.SelectedItems)
-        {
-            _copiedChannel.Add((Channel)selectedItem);
-        }
+        foreach (var selectedItem in channelDataGrid.SelectedItems) _copiedChannel.Add((Channel)selectedItem);
     }
 
     private void MenuCutChannel_OnClick(object? sender, RoutedEventArgs e)
@@ -345,13 +341,10 @@ public partial class MainWindow : Window
         // _copiedChannel = ListItems[selected].DeepCopy();
         // ListItems[selected] = new Channel();
         // CalcSeq();
-        
+
         _copiedChannel.Clear();
-        foreach (var selectedItem in channelDataGrid.SelectedItems)
-        {
-            _copiedChannel.Add((Channel)selectedItem);
-        }
-        _copiedChannel.ForEach(x=>ListItems[x.Id-1]=new Channel());
+        foreach (var selectedItem in channelDataGrid.SelectedItems) _copiedChannel.Add((Channel)selectedItem);
+        _copiedChannel.ForEach(x => ListItems[x.Id - 1] = new Channel());
         CalcSeq();
     }
 
@@ -361,13 +354,10 @@ public partial class MainWindow : Window
         // var selected = channelDataGrid.SelectedIndex;
         // ListItems[selected] = _copiedChannel.DeepCopy();
         // CalcSeq();
-        
-        if (_copiedChannel.Count == 0)return;
+
+        if (_copiedChannel.Count == 0) return;
         var selected = channelDataGrid.SelectedIndex;
-        for (var i = 0; i < _copiedChannel.Count; i++)
-        {
-            ListItems[selected + i] = _copiedChannel[i].DeepCopy();
-        }
+        for (var i = 0; i < _copiedChannel.Count; i++) ListItems[selected + i] = _copiedChannel[i].DeepCopy();
         CalcSeq();
     }
 

@@ -1,19 +1,19 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="出错啦！"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
         Width="600" Height="450"
         x:Class="SenhaixFreqWriter.Views.Common.ErrorReportWindow">
-        <Canvas>
-               <Image Height="120" Canvas.Top="30" Canvas.Left="10"
+    <Canvas>
+        <Image Height="120" Canvas.Top="30" Canvas.Left="10"
                Source="avares://SenhaixFreqWriter/Asset/alarm.png" />
-               <Label Canvas.Top="30" Canvas.Left="180" FontSize="25" Content="糟糕，程序崩溃了..."/>
-               <TextBlock TextWrapping="Wrap" Width="400" Canvas.Top="80" Canvas.Left="180" FontSize="20" Text="希望您能将出错信息反馈到Github，帮助开发者修正此BUG！" />
-               <Button Content="保存出错信息" Canvas.Top="405" Canvas.Left="120" FontSize="20" Click="LogSaveButton_OnClick"></Button>
-               <Button Content="关闭窗口" Canvas.Top="405" Canvas.Left="350" FontSize="20" Click="ExitWindowButton_OnClick"></Button>
-               <SelectableTextBlock Height="230" Width="530" Canvas.Left="30" Canvas.Top="160" Background="LightGray" Foreground="Black" Name="ErrBlock" Text="ERROR...." TextWrapping="Wrap"></SelectableTextBlock>
-        </Canvas>
+        <Label Canvas.Top="30" Canvas.Left="180" FontSize="25" Content="糟糕，程序崩溃了..." />
+        <TextBlock TextWrapping="Wrap" Width="400" Canvas.Top="80" Canvas.Left="180" FontSize="20"
+                   Text="希望您能将出错信息反馈到Github，帮助开发者修正此BUG！" />
+        <Button Content="保存出错信息" Canvas.Top="405" Canvas.Left="120" FontSize="20" Click="LogSaveButton_OnClick" />
+        <Button Content="关闭窗口" Canvas.Top="405" Canvas.Left="350" FontSize="20" Click="ExitWindowButton_OnClick" />
+        <SelectableTextBlock Height="230" Width="530" Canvas.Left="30" Canvas.Top="160" Background="LightGray"
+                             Foreground="Black" Name="ErrBlock" Text="ERROR...." TextWrapping="Wrap" />
+    </Canvas>
 </Window>

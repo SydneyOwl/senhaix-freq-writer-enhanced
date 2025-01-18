@@ -20,10 +20,10 @@ namespace SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
 public class Wsrpcble : IBluetooth
 {
     private readonly bool _manual;
-    private Process _rpcClient;
 
     private readonly WsrpcUtil _wsrpc;
-    private Settings _settings = Settings.Load();
+    private Process _rpcClient;
+    private readonly Settings _settings = Settings.Load();
 
     public Wsrpcble(bool useManual)
     {

@@ -1,31 +1,30 @@
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using SenhaixFreqWriter.Properties;
 
 namespace SenhaixFreqWriter.Views.Common;
 
 public partial class ErrorReportWindow : Window
 {
-    private string? _errContent = "";
+    private readonly string? _errContent = "";
+
     public ErrorReportWindow()
     {
         // 获取出错信息
         try
         {
-            _errContent = File.ReadAllText(Properties.CMD_SETTINGS.CrashLogPath);
-            File.Delete(Properties.CMD_SETTINGS.CrashLogPath);
+            _errContent = File.ReadAllText(CMD_SETTINGS.CrashLogPath);
+            File.Delete(CMD_SETTINGS.CrashLogPath);
         }
         catch (Exception e)
         {
             Console.WriteLine(@"Unable to read crash log...");
             Environment.Exit(-1);
         }
-        
+
         InitializeComponent();
         DataContext = this;
         ErrBlock.Text = _errContent;

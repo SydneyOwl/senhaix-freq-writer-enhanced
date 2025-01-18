@@ -37,6 +37,16 @@ public class AppData : IBackupable
         }
     }
 
+    public void SaveToFile(Stream s)
+    {
+        var serializer = new JsonSerializer();
+        serializer.Formatting = Formatting.Indented;
+        using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
+        {
+            serializer.Serialize(streamWriter, Instance);
+        }
+    }
+
     public static AppData GetInstance()
     {
         if (Instance != null) return Instance;
@@ -49,16 +59,6 @@ public class AppData : IBackupable
     {
         Instance = new AppData();
         return Instance;
-    }
-
-    public void SaveToFile(Stream s)
-    {
-        var serializer = new JsonSerializer();
-        serializer.Formatting = Formatting.Indented;
-        using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
-        {
-            serializer.Serialize(streamWriter, Instance);
-        }
     }
 
 

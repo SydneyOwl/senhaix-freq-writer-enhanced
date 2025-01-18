@@ -10,7 +10,7 @@ namespace SenhaixFreqWriter.Utils.Other;
 
 public class SysFile
 {
-    private static Settings _settings = Settings.Load();
+    private static readonly Settings _settings = Settings.Load();
 
 
     private static bool DirCheck(string path)

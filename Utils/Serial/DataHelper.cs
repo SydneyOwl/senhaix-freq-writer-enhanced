@@ -2,9 +2,8 @@ namespace SenhaixFreqWriter.Utils.Serial;
 
 public class DataHelper
 {
-    private byte _command;
-
     private ushort _args;
+    private byte _command;
 
     public byte[] Payload = new byte[68];
 

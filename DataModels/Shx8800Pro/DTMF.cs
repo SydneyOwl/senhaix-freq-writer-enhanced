@@ -8,8 +8,8 @@ public partial class Dtmf : ObservableObject
     [ObservableProperty] private string[] _groupName = new string[15]; //seems useless...
     [ObservableProperty] private int _idleTime = 1;
     [ObservableProperty] private string _localId = "100";
+    [ObservableProperty] private int _pttid;
     [ObservableProperty] private int _wordTime = 1;
-    [ObservableProperty] private int _pttid = 0;
 
     public Dtmf()
     {

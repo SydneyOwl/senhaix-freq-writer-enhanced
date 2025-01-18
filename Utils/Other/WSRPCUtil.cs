@@ -24,10 +24,10 @@ public class RpcResponse
 public class WsrpcUtil
 {
     private static WsrpcUtil _instance;
-    private IWebSocketConnection _currentClient;
     private readonly Queue<string> _normalDataQueue = new();
+    private IWebSocketConnection _currentClient;
+    private readonly Settings _settings = Settings.Load();
     private WebSocketServer _wsServer;
-    private Settings _settings = Settings.Load();
 
 
     public WsrpcUtil()

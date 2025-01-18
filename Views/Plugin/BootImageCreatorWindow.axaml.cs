@@ -22,18 +22,17 @@ namespace SenhaixFreqWriter.Views.Plugin;
 
 public partial class BootImageCreatorWindow : Window
 {
-    private readonly ShxDevice _dev;
-
-    private bool _stopUpdate;
-
     private readonly List<BootImgCreatorFontComponent> _controls = new();
-
-    public Bitmap CreatedAvaloniaBitmap;
-    public SKBitmap CreatedBitmap;
+    private readonly ShxDevice _dev;
 
     private int _currentRow = 1;
 
     private int _lastRowCount = 1;
+
+    private bool _stopUpdate;
+
+    public Bitmap CreatedAvaloniaBitmap;
+    public SKBitmap CreatedBitmap;
 
     public BootImageCreatorWindow(ShxDevice device)
     {

@@ -8,7 +8,7 @@ namespace SenhaixFreqWriter.Views.Shx8x00;
 
 public partial class OptionalWindow : Window
 {
-    private ShxDevice _device = ShxDevice.Shx8600;
+    private readonly ShxDevice _device = ShxDevice.Shx8600;
 
     public OptionalWindow(ShxDevice device)
     {

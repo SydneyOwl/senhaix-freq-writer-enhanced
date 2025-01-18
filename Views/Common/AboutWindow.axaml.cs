@@ -1,16 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Net.Http;
-using System.Reflection;
-using System.Resources;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using MsBox.Avalonia;
-using Newtonsoft.Json.Linq;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.Other;
 using Version = SenhaixFreqWriter.Properties.Version;
@@ -65,9 +58,6 @@ public partial class AboutWindow : Window
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     Process.Start("open", url);
-                }
-                else
-                {
                 }
             }
         }

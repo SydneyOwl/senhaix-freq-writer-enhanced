@@ -15,8 +15,6 @@ namespace SenhaixFreqWriter.Views.Common;
 
 public partial class SettingsWindow : Window
 {
-    public Settings ScopeSettings { get; set; } = Settings.Load();
-
     private string _originalSettingsJson = "";
 
     public SettingsWindow()
@@ -25,7 +23,8 @@ public partial class SettingsWindow : Window
         InitializeComponent();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             btPluginNameTextbox.Text = ScopeSettings.WindowsBlePluginName;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) btPluginNameTextbox.Text = ScopeSettings.LinuxBlePluginName;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            btPluginNameTextbox.Text = ScopeSettings.LinuxBlePluginName;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) btPluginNameTextbox.Text = ScopeSettings.OsXBlePluginName;
         DataContext = this;
         LanguageChooseComboBox.SelectedIndex = Thread.CurrentThread.CurrentUICulture.Name.ToLower() switch
@@ -37,11 +36,14 @@ public partial class SettingsWindow : Window
         _originalSettingsJson = JsonConvert.SerializeObject(ScopeSettings);
     }
 
+    public Settings ScopeSettings { get; set; } = Settings.Load();
+
     private async void SaveConfButton_OnClick(object? sender, RoutedEventArgs e)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             ScopeSettings.WindowsBlePluginName = btPluginNameTextbox.Text;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) ScopeSettings.LinuxBlePluginName = btPluginNameTextbox.Text;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            ScopeSettings.LinuxBlePluginName = btPluginNameTextbox.Text;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) ScopeSettings.OsXBlePluginName = btPluginNameTextbox.Text;
         ScopeSettings.Save();
         // 切换语言
@@ -52,11 +54,9 @@ public partial class SettingsWindow : Window
             _ => new CultureInfo("zh")
         };
         if (JsonConvert.SerializeObject(ScopeSettings) != _originalSettingsJson)
-        {
             await MessageBoxManager
                 .GetMessageBoxStandard(Language.GetString("warning"), Language.GetString("available_after_restart"))
                 .ShowWindowDialogAsync(this);
-        }
         Close();
     }
 

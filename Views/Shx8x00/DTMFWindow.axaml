@@ -12,7 +12,8 @@
         KeyDown="Input_OnKeyDown">
     <Canvas>
         <Border Height="200" Width="380" Margin="10" BorderThickness="1" BorderBrush="{StaticResource borderBrush}" />
-        <Label Canvas.Top="0" Canvas.Left="20" Background="{StaticResource tagBackgroundBrush}" Content="{x:Static p:Resources.code_group}" />
+        <Label Canvas.Top="0" Canvas.Left="20" Background="{StaticResource tagBackgroundBrush}"
+               Content="{x:Static p:Resources.code_group}" />
         <Label Canvas.Top="30" Canvas.Left="20">1：</Label>
         <TextBox Canvas.Top="25" Canvas.Left="50" Text="{Binding Dtmf.GroupOfDtmf1}"
                  TextChanged="TextBox_OnTextChanged" />
@@ -63,7 +64,8 @@
 
         <Border Height="160" Width="180" BorderThickness="1" BorderBrush="{StaticResource borderBrush}"
                 Canvas.Left="10" Canvas.Top="220" />
-        <Label Canvas.Top="210" Canvas.Left="20" Background="{StaticResource tagBackgroundBrush}" Content="{x:Static p:Resources.my_id}" />
+        <Label Canvas.Top="210" Canvas.Left="20" Background="{StaticResource tagBackgroundBrush}"
+               Content="{x:Static p:Resources.my_id}" />
         <TextBox Canvas.Top="250" Canvas.Left="50" Width="100" Text="{Binding Dtmf.TheIdOfLocalHost}"
                  TextChanged="idhost_OnTextChanged" />
         <CheckBox Canvas.Top="290" Canvas.Left="20" IsChecked="{Binding Dtmf.SendOnPttPressed}"

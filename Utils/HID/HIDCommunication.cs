@@ -14,6 +14,8 @@ public class HidCommunication
 {
     private readonly DataHelper _helper;
 
+    private readonly HidTools _hid = HidTools.GetInstance();
+
     private readonly OpType _opType;
 
     private readonly string[] _tblCtsdcs = new string[210]
@@ -46,8 +48,6 @@ public class HidCommunication
     private bool _flagRetry;
 
     private bool _flagTransmitting;
-
-    private readonly HidTools _hid = HidTools.GetInstance();
 
     private string _progressCont = "";
 
@@ -229,7 +229,7 @@ public class HidCommunication
         ushort num = 0;
         byte b = 0;
         var num2 = 0;
-        
+
         // 中转模式误触发保护功能：强制覆盖VFO设定，设定为航空频段防止误触发中转发射
         // deprecated!!
         // AppData.Vfos.VfoAFreq = "120.00000";

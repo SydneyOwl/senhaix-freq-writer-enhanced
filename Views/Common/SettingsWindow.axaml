@@ -44,6 +44,7 @@
         <Button Content="{x:Static p:Resources.confirm}" Canvas.Top="370" Canvas.Left="80"
                 Click="SaveConfButton_OnClick" />
         <Button Content="{x:Static p:Resources.abort}" Canvas.Top="370" Canvas.Left="180" Click="AbortButton_OnClick" />
-        <Button Content="{x:Static p:Resources.reset}" Canvas.Top="370" Canvas.Left="290" Background="Red" Click="ResetButton_OnClick" />
+        <Button Content="{x:Static p:Resources.reset}" Canvas.Top="370" Canvas.Left="290" Background="Red"
+                Click="ResetButton_OnClick" />
     </Canvas>
 </Window>

@@ -26,8 +26,8 @@ public partial class Function : ObservableObject
     [ObservableProperty] private int _menuQuitTime = 1; //
     [ObservableProperty] private int _micGain = 1; //
     [ObservableProperty] private int _powerOnDisType; //
-    [ObservableProperty] private int _pwrOnDlyTime; //
     [ObservableProperty] private int _pttDly = 4; //
+    [ObservableProperty] private int _pwrOnDlyTime; //
     [ObservableProperty] private int _roger; //
     [ObservableProperty] private int _rptTailClear = 5; //
     [ObservableProperty] private int _rptTailDet = 5; //

@@ -11,13 +11,15 @@ namespace SenhaixFreqWriter.Utils.HID;
 
 public class HidBootImage
 {
-    private int _address;
-
-    private int _blockOfErase;
-
     // private ComInfoIssue progressUpdate = new ComInfoIssue();
 
     private readonly byte[] _bufferBmpData = new byte[1048576];
+
+    private readonly HidTools _hid = HidTools.GetInstance();
+    private readonly SKBitmap _img;
+    private int _address;
+
+    private int _blockOfErase;
 
     private byte[] _bufForData = new byte[2048];
 
@@ -31,14 +33,9 @@ public class HidBootImage
 
     private string _curFilePath = "";
 
-    public ConcurrentQueue<int> CurrentProg = new();
-
     private bool _flagOverTime;
 
     private DataHelper _helper;
-
-    private readonly HidTools _hid = HidTools.GetInstance();
-    private readonly SKBitmap _img;
 
     private Timer _overTimer;
 
@@ -57,6 +54,8 @@ public class HidBootImage
     private int _totalPackages;
 
     private CancellationTokenSource _wriImgTokenSource;
+
+    public ConcurrentQueue<int> CurrentProg = new();
 
 
     // public ComInfoIssue ProgressUpdate

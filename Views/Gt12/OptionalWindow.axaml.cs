@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Threading;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using MsBox.Avalonia;
 using SenhaixFreqWriter.DataModels.Gt12;
 

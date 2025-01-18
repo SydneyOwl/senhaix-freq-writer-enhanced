@@ -63,11 +63,12 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,10,0,0">
-                    <Label Background="{StaticResource tagBackgroundBrush}" Content="{x:Static p:Resources.a_band_mode}" Height="35" Width="120"
+                    <Label Background="{StaticResource tagBackgroundBrush}"
+                           Content="{x:Static p:Resources.a_band_mode}" Height="35" Width="120"
                            HorizontalAlignment="Left" Margin="10,0,0,0"
-                           HorizontalContentAlignment="Center"/>
+                           HorizontalContentAlignment="Center" />
                     <Border
-                        BorderBrush="{StaticResource borderBrush}" 
+                        BorderBrush="{StaticResource borderBrush}"
                         BorderThickness="1"
                         CornerRadius="3"
                         Padding="10"
@@ -127,11 +128,12 @@
                     </Border>
                 </StackPanel>
                 <StackPanel Grid.Column="2" VerticalAlignment="Top" Margin="10,10,0,0">
-                    <Label Background="{StaticResource tagBackgroundBrush}" Content="{x:Static p:Resources.b_band_mode}" Height="35" Width="120"
+                    <Label Background="{StaticResource tagBackgroundBrush}"
+                           Content="{x:Static p:Resources.b_band_mode}" Height="35" Width="120"
                            HorizontalAlignment="Left" Margin="10,0,0,0"
-                           HorizontalContentAlignment="Center"/>
+                           HorizontalContentAlignment="Center" />
                     <Border
-                        BorderBrush="{StaticResource borderBrush}" 
+                        BorderBrush="{StaticResource borderBrush}"
                         BorderThickness="1"
                         CornerRadius="3"
                         Padding="10"
