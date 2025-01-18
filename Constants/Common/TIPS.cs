@@ -8,7 +8,7 @@ namespace SenhaixFreqWriter.Constants.Common;
 
 public class Tips
 {
-    private static string _backupRootPath = Settings.Load().GetBackupPath();
+    private static string _backupRootPath = Settings.Load().BackupPath;
 
     public static List<string> TipList = new()
     {

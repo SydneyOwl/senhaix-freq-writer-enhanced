@@ -10,7 +10,6 @@ public partial class Settings : ObservableObject
     private static readonly object Lock = new();
 
     [ObservableProperty] private string _version = Properties.Version.VersionTag;
-    [ObservableProperty] private string _rpcUrl = "http://127.0.0.1:8563/";
     [ObservableProperty] private string _wsRpcUrl = "ws://127.0.0.1:8563/rpc";
     [ObservableProperty] private bool _enableSelectPortInAdvance = true;
     [ObservableProperty] private bool _enableDebugChanDataOutput = false;
@@ -23,6 +22,8 @@ public partial class Settings : ObservableObject
     [ObservableProperty] private string _osXBlePluginName = "BLEPlugin_macos_x64";
     [ObservableProperty] private string _linuxBlePluginName = "BLEPlugin_linux_x64";
     [ObservableProperty] private string _rpcClientProcessArgs = "--verbose --no-color --inside-call";
+    private string _backupPath;
+    public string BackupPath => Path.Join(DataDir, "backup");
 
     // public string BackupRootPath = Path.Join(Load().DataDir, "backup");
 
@@ -31,11 +32,6 @@ public partial class Settings : ObservableObject
 
     public Settings()
     {
-    }
-
-    public string GetBackupPath()
-    {
-        return Path.Join(DataDir, "backup");
     }
 
     public static Settings Load()
@@ -70,5 +66,17 @@ public partial class Settings : ObservableObject
         Version = Properties.Version.VersionTag;
         var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(SettingJsonFilePath, json);
+    }
+
+    public void ResetSettings()
+    {
+        try
+        {
+            File.Delete(SettingJsonFilePath);
+        }
+        catch
+        {
+            // ignored
+        }
     }
 }

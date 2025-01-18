@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -12,10 +10,6 @@ using MsBox.Avalonia;
 using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.Utils.BLE.Interfaces;
 using SenhaixFreqWriter.Utils.BLE.Platforms.RPC;
-#if WINDOWS
-using Avalonia.Media;
-using SenhaixFreqWriter.Utils.BLE.Platforms.Windows;
-#endif
 
 namespace SenhaixFreqWriter.Views.Common;
 
@@ -34,11 +28,6 @@ public partial class BluetoothDeviceSelectionWindow : Window
     {
         InitializeComponent();
         _dev = shxDevice;
-        useRPC.IsChecked = true;
-        manualRPC.IsEnabled = true;
-#if !WINDOWS
-        useRPC.IsEnabled = false;
-#endif
         DataContext = this;
     }
 
@@ -51,6 +40,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
         OsBle = new Wsrpcble(dispStatus);
         Dispatcher.UIThread.Invoke(() =>
         {
+            connButton.IsEnabled = false;
             scanButton.IsEnabled = false;
             scanStat.Text = "WAIT...";
         });
@@ -58,32 +48,25 @@ public partial class BluetoothDeviceSelectionWindow : Window
         {
             try
             {
-                var checkRpc = false;
                 var checkDisableWeakSignalRestriction = false;
                 var checkDisableSsidRestriction = false;
 
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    checkRpc = useRPC.IsChecked.Value;
                     checkDisableSsidRestriction = disableSSIDF.IsChecked.Value;
                     checkDisableWeakSignalRestriction = disableWeakSignal.IsChecked.Value;
                     scanButton.IsEnabled = false;
+                    connButton.IsEnabled = false;
                     scanStat.Text = "扫描中...";
                     ProgressRing1.IsActive = true;
                     BleInfos.Clear();
                 });
-#if WINDOWS
-                if (!checkRpc)
-                {
-                    OsBle = new WindowsSHXBLE();
-                }
-#endif
                 if (!OsBle.GetBleAvailabilityAsync())
                 {
                     DebugWindow.GetInstance().UpdateDebugContent("Not available");
                     Dispatcher.UIThread.Invoke(() =>
                     {
-                        MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")
+                        MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！请确保服务端已打开！")
                             .ShowWindowDialogAsync(this);
                     });
                     return;
@@ -99,7 +82,6 @@ public partial class BluetoothDeviceSelectionWindow : Window
                         windowsHint.IsVisible = true;
                     }
 #endif
-
                     foreach (var generticBleDeviceInfo in result) BleInfos.Add(generticBleDeviceInfo);
                 });
             }
@@ -108,7 +90,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
                 DebugWindow.GetInstance().UpdateDebugContent(a.Message);
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！如果您使用RPC方式请确保服务端已打开！")
+                    MessageBoxManager.GetMessageBoxStandard("注意", "蓝牙错误！请确保服务端已打开！")
                         .ShowWindowDialogAsync(this);
                 });
             }
@@ -116,26 +98,13 @@ public partial class BluetoothDeviceSelectionWindow : Window
             {
                 Dispatcher.UIThread.Invoke(() =>
                 {
+                    connButton.IsEnabled = true;
                     scanButton.IsEnabled = true;
                     scanStat.Text = "扫描设备";
                     ProgressRing1.IsActive = false;
                 });
             }
         });
-    }
-
-
-    private void UseRPC_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
-    {
-        if (useRPC.IsChecked.Value)
-        {
-            manualRPC.IsEnabled = true;
-        }
-        else
-        {
-            manualRPC.IsEnabled = false;
-            manualRPC.IsChecked = false;
-        }
     }
 
     private void ConnButton_OnClick(object? sender, RoutedEventArgs e)
@@ -154,6 +123,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
 
             Dispatcher.UIThread.Invoke(() =>
             {
+                scanButton.IsEnabled = false;
                 connButton.IsEnabled = false;
                 connStat.Text = "连接中..";
                 ProgressRing2.IsActive = true;
@@ -214,6 +184,7 @@ public partial class BluetoothDeviceSelectionWindow : Window
             {
                 Dispatcher.UIThread.Invoke(() =>
                 {
+                    scanButton.IsEnabled = true;
                     connButton.IsEnabled = true;
                     connStat.Text = "连接设备";
                     ProgressRing2.IsActive = false;

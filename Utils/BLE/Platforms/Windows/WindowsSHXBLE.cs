@@ -1,4 +1,5 @@
-﻿#if WINDOWS
+﻿// Note: this is deprecated. all platforms use ble plugin(RPC).
+#if false
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

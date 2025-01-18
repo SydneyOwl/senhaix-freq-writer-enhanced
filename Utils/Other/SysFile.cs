@@ -10,8 +10,7 @@ namespace SenhaixFreqWriter.Utils.Other;
 
 public class SysFile
 {
-    private static string _defaultRootPath = Settings.Load().DataDir;
-    private static string _backupRootPath = Settings.Load().GetBackupPath();
+    private static Settings _settings = Settings.Load();
 
 
     private static bool DirCheck(string path)
@@ -37,27 +36,27 @@ public class SysFile
 
     public static bool CheckDefaultDirectory()
     {
-        return DirCheck(_defaultRootPath);
+        return DirCheck(_settings.DataDir);
     }
 
     public static bool CheckBackupDirectory()
     {
-        return DirCheck(_backupRootPath);
+        return DirCheck(_settings.BackupPath);
     }
 
     public static void CreateBackup<T>(T data) where T : IBackupable
     {
-        if (!Settings.Load().EnableAutoBackup) return;
+        if (!_settings.EnableAutoBackup) return;
         try
         {
             // 如果总备份数大于，则删除最后一个
-            var dirInfo = new DirectoryInfo(_backupRootPath);
+            var dirInfo = new DirectoryInfo(_settings.BackupPath);
             var datInfo = dirInfo.GetFiles("*.dat");
             Array.Sort(datInfo, (x, y) =>
                 x.LastWriteTime.CompareTo(y.LastWriteTime));
-            for (var i = 0; i < datInfo.Length - Settings.Load().MaxBackupNumber; i++) datInfo[i].Delete();
+            for (var i = 0; i < datInfo.Length - _settings.MaxBackupNumber; i++) datInfo[i].Delete();
             var identifier = GetIdentifier<T>();
-            var filePath = Path.Join(_backupRootPath,
+            var filePath = Path.Join(_settings.BackupPath,
                 $"Autobackup-{identifier}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.dat");
 
             using (Stream stream = new FileStream(filePath, FileMode.OpenOrCreate))

@@ -8,23 +8,23 @@
         Title="{x:Static p:Resources.settings}"
         WindowStartupLocation="CenterScreen">
     <Canvas Margin="10">
-        <CheckBox Content="{x:Static p:Resources.auto_backup}" IsChecked="{Binding Settings.EnableAutoBackup}" />
+        <CheckBox Content="{x:Static p:Resources.auto_backup}" IsChecked="{Binding ScopeSettings.EnableAutoBackup}" />
         <Label Content="{x:Static p:Resources.backup_period}" Canvas.Left="30" Canvas.Top="40" />
-        <TextBox Canvas.Left="145" Canvas.Top="35" Text="{Binding Settings.BackupInterval}" />
+        <TextBox Canvas.Left="145" Canvas.Top="35" Text="{Binding ScopeSettings.BackupInterval}" />
         <Label Content="{x:Static p:Resources.max_backups}" Canvas.Left="210" Canvas.Top="40" />
-        <TextBox Canvas.Left="290" Canvas.Top="35" Text="{Binding Settings.MaxBackupNumber}" />
+        <TextBox Canvas.Left="290" Canvas.Top="35" Text="{Binding ScopeSettings.MaxBackupNumber}" />
         <Button Content="{x:Static p:Resources.open_backup_dir}" Canvas.Left="120" Click="OpenBackupButton_OnClick" />
 
         <CheckBox Content="{x:Static p:Resources.auto_port_sel}" Canvas.Top="70"
-                  IsChecked="{Binding Settings.EnableSelectPortInAdvance}" />
+                  IsChecked="{Binding ScopeSettings.EnableSelectPortInAdvance}" />
         <CheckBox Content="{x:Static p:Resources.detailed_log}" Canvas.Top="110"
-                  IsChecked="{Binding Settings.EnableDebugChanDataOutput}" />
+                  IsChecked="{Binding ScopeSettings.EnableDebugChanDataOutput}" />
 
-        <Label Content="RPC URL：" Canvas.Top="150" />
-        <TextBox Canvas.Top="145" Canvas.Left="80" Width="180" Text="{Binding Settings.RpcUrl}" />
+        <Label Content="WSRPC URL：" Canvas.Top="150" />
+        <TextBox Canvas.Top="145" Canvas.Left="80" Width="180" Text="{Binding ScopeSettings.WsRpcUrl}" />
 
         <Label Content="{x:Static p:Resources.storage_dir}" Canvas.Top="190" />
-        <TextBox Canvas.Top="185" Canvas.Left="110" Width="150" Text="{Binding Settings.DataDir}" />
+        <TextBox Canvas.Top="185" Canvas.Left="110" Width="150" Text="{Binding ScopeSettings.DataDir}" />
         <Button Content="{x:Static p:Resources.choose}" Canvas.Left="270" Canvas.Top="185"
                 Click="ChoosePathButton_OnClick" />
 
@@ -32,17 +32,18 @@
         <TextBox Canvas.Top="230" Canvas.Left="110" Width="150" Name="btPluginNameTextbox" />
 
         <Label Content="{x:Static p:Resources.bt_plugin_args}" Canvas.Top="275" />
-        <TextBox Canvas.Top="270" Canvas.Left="110" Width="150" Text="{Binding Settings.RpcClientProcessArgs}" />
+        <TextBox Canvas.Top="270" Canvas.Left="110" Width="150" Text="{Binding ScopeSettings.RpcClientProcessArgs}" />
 
         <Label Content="{x:Static p:Resources.switch_language}" Canvas.Top="315" />
         <ComboBox Canvas.Top="310" Canvas.Left="110" Width="150" Name="LanguageChooseComboBox"
-                  SelectedIndex="{Binding Settings.LanguageIndex}">
+                  SelectedIndex="{Binding ScopeSettings.LanguageIndex}">
             <ComboBoxItem Content="{x:Static p:Resources.chinese}" />
             <ComboBoxItem IsEnabled="False" Content="{x:Static p:Resources.english}" />
         </ComboBox>
 
-        <Button Content="{x:Static p:Resources.confirm}" Canvas.Top="370" Canvas.Left="100"
+        <Button Content="{x:Static p:Resources.confirm}" Canvas.Top="370" Canvas.Left="80"
                 Click="SaveConfButton_OnClick" />
-        <Button Content="{x:Static p:Resources.abort}" Canvas.Top="370" Canvas.Left="200" Click="AbortButton_OnClick" />
+        <Button Content="{x:Static p:Resources.abort}" Canvas.Top="370" Canvas.Left="180" Click="AbortButton_OnClick" />
+        <Button Content="{x:Static p:Resources.reset}" Canvas.Top="370" Canvas.Left="290" Background="Red" Click="ResetButton_OnClick" />
     </Canvas>
 </Window>

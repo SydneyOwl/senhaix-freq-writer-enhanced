@@ -37,6 +37,8 @@ public partial class MainWindow : Window
     private CancellationTokenSource _cancelTips;
 
     private CancellationTokenSource _cancelBackup;
+    
+    private Settings _settings = Settings.Load();
 
     public MainWindow()
     {
@@ -68,7 +70,7 @@ public partial class MainWindow : Window
         while (!token.IsCancellationRequested)
         {
             SysFile.CreateBackup(AppData.GetInstance());
-            await Task.Delay(Settings.Load().BackupInterval * 1000, CancellationToken.None);
+            await Task.Delay(_settings.BackupInterval * 1000, CancellationToken.None);
         }
     }
 

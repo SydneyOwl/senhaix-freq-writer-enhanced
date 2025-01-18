@@ -39,10 +39,7 @@
                   Name="disableWeakSignal" />
         <CheckBox Content="{x:Static p:Resources.disable_ssid_filter}" Canvas.Left="400" Canvas.Top="120"
                   Name="disableSSIDF" />
-        <CheckBox Content="{x:Static p:Resources.rpc_call}" Canvas.Left="400" Canvas.Top="160" Name="useRPC"
-                  IsCheckedChanged="UseRPC_OnIsCheckedChanged" />
-        <CheckBox Content="{x:Static p:Resources.manual_call}" Canvas.Left="450" Canvas.Top="200" Name="manualRPC"
-                  IsEnabled="False"
+        <CheckBox Content="{x:Static p:Resources.manual_call}" Canvas.Left="400" Canvas.Top="160" Name="manualRPC"
                   IsCheckedChanged="ManualRPC_OnIsCheckedChanged" />
         <progRing:ProgressRing Width="25"
                                Height="25"
@@ -70,7 +67,7 @@
                                Canvas.Top="325"
                                Name="ProgressRing2" />
         <Button HorizontalAlignment="Left" Canvas.Left="420" Canvas.Top="320" Name="connButton"
-                Click="ConnButton_OnClick">
+                Click="ConnButton_OnClick" IsEnabled="False">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Data="{StaticResource bluetooth_regular}" Margin="0,0,10,0" />
                 <TextBlock Text="{x:Static p:Resources.conn_bt}" Name="connStat" VerticalAlignment="Center" />

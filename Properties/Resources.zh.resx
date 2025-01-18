@@ -60,7 +60,7 @@
         <value>RPC调用</value>
     </data>
     <data name="manual_call" xml:space="preserve">
-        <value>- 手动控制蓝牙插件（高级）</value>
+        <value>手动控制蓝牙插件（高级）</value>
     </data>
     <data name="conn_bt" xml:space="preserve">
         <value>连接设备</value>
@@ -830,5 +830,11 @@ macOS:
     </data>
     <data name="relay_speaker" xml:space="preserve">
         <value>中转喇叭</value>
+    </data>
+    <data name="available_after_restart" xml:space="preserve">
+        <value>您可能需要手动重启软件，改变的设置将在重启软件后生效！</value>
+    </data>
+    <data name="reset" xml:space="preserve">
+        <value>重置</value>
     </data>
 </root>

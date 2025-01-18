@@ -60,7 +60,7 @@
         <value>RPC Call</value>
     </data>
     <data name="manual_call" xml:space="preserve">
-        <value>- Manually call plugin(advanced)</value>
+        <value>Manually call plugin(advanced)</value>
     </data>
     <data name="conn_bt" xml:space="preserve">
         <value>Connect to device</value>
@@ -829,5 +829,11 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     </data>
     <data name="relay_speaker" xml:space="preserve">
         <value>Relay Speaker</value>
+    </data>
+    <data name="available_after_restart" xml:space="preserve">
+        <value>Settings will come available after restart!</value>
+    </data>
+    <data name="reset" xml:space="preserve">
+        <value>Reset</value>
     </data>
 </root>

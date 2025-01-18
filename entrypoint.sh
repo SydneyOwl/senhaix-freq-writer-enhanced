@@ -32,7 +32,7 @@ case "$ARCH" in
     --win-x64)
         echo "Building for windows x64..."
         dotnet restore -r win-x64
-        dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:TargetOS=Windows --self-contained true 
+        dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true --self-contained true 
         mv /source/bin/Release/net6.0-windows10.0.19041.0/win-x64/publish/* builddist
         mv ./amsat-all-frequencies.json builddist
         ;;

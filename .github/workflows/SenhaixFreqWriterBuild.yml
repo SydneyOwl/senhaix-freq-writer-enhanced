@@ -160,7 +160,7 @@ jobs:
           | Set-Content $sourceFile
         cd ..
         dotnet restore -r win-x64
-        dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:TargetOS=Windows --self-contained true
+        dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true --self-contained true
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin/Release/net6.0-windows10.0.19041.0/win-x64
         mkdir senhaix-universial-freq-writer
         mv publish/* senhaix-universial-freq-writer
