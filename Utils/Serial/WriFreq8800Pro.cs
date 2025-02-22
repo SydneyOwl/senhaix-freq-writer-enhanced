@@ -912,7 +912,8 @@ public class WriFreq8800Pro
         AppData.ChannelList[num][num2].StrTxCtsDcs = CaculateCtsDcs(dat, 10);
         AppData.ChannelList[num][num2].SignalGroup = dat[12] % 20;
         AppData.ChannelList[num][num2].Pttid = dat[13] % 4;
-        AppData.ChannelList[num][num2].TxPower = dat[14] % 2;
+        // Fix #28: power has 3 choices!
+        AppData.ChannelList[num][num2].TxPower = dat[14] % 3;
         AppData.ChannelList[num][num2].Bandwide = (dat[15] >> 6) & 1;
         AppData.ChannelList[num][num2].BusyLock = (dat[15] >> 3) & 1;
         AppData.ChannelList[num][num2].ScanAdd = (dat[15] >> 2) & 1;
@@ -989,7 +990,8 @@ public class WriFreq8800Pro
         AppData.Vfos.VfoABusyLock = dat[13] % 2;
         AppData.Vfos.VfoASignalGroup = (dat[14] & 0xF) % 16;
         AppData.Vfos.VfoADir = ((dat[14] >> 4) & 3) % 3;
-        AppData.Vfos.VfoATxPower = (dat[16] & 0xF) % 2;
+        // Fix #28: power has 3 choices!
+        AppData.Vfos.VfoATxPower = (dat[16] & 0xF) % 3;
         AppData.Vfos.VfoAScram = ((dat[16] >> 4) & 0xF) % 9;
         AppData.Vfos.VfoABandwide = (dat[17] >> 6) & 1;
         AppData.Vfos.VfoAStep = dat[19] % 8;
@@ -1006,7 +1008,8 @@ public class WriFreq8800Pro
         AppData.Vfos.VfoBBusyLock = dat[13] % 2;
         AppData.Vfos.VfoBSignalGroup = (dat[14] & 0xF) % 16;
         AppData.Vfos.VfoBDir = ((dat[14] >> 4) & 3) % 3;
-        AppData.Vfos.VfoBTxPower = (dat[16] & 0xF) % 2;
+        // Fix #28: power has 3 choices!
+        AppData.Vfos.VfoBTxPower = (dat[16] & 0xF) % 3;
         AppData.Vfos.VfoBScram = ((dat[16] >> 4) & 0xF) % 9;
         AppData.Vfos.VfoBBandwide = (dat[17] >> 6) & 1;
         AppData.Vfos.VfoBStep = dat[19] % 8;

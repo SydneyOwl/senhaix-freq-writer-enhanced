@@ -1045,7 +1045,8 @@ public class HidCommunication
         AppData.ChannelList[num][num2].StrTxCtsDcs = CaculateCtsDcs(dat, 10);
         AppData.ChannelList[num][num2].SignalGroup = dat[12] % 20;
         AppData.ChannelList[num][num2].Pttid = dat[13] % 4;
-        AppData.ChannelList[num][num2].TxPower = dat[14] % 2;
+        // Fix #28: power has 3 choices!
+        AppData.ChannelList[num][num2].TxPower = dat[14] % 3;
         AppData.ChannelList[num][num2].Bandwide = (dat[15] >> 6) & 1;
         AppData.ChannelList[num][num2].SqMode = ((dat[15] >> 4) & 3) % 3;
         AppData.ChannelList[num][num2].ScanAdd = (dat[15] >> 2) & 1;
