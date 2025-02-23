@@ -41,6 +41,9 @@ public partial class MainWindow : Window
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
+
+    private ChannelData _lastSelection;
+    private int _lastSelectionIndex;
     public MainWindow(ShxDevice shx)
     {
         InitializeComponent();
@@ -645,7 +648,14 @@ public partial class MainWindow : Window
 
     private void DatagridSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        // save it. not vy elegant: dupicates here!
-        ClassTheRadioData.GetInstance().SaveChanges();
+        // check if last object is modified
+        if (_lastSelection is not null && !_lastSelection.Equals(_listItems[_lastSelectionIndex]))
+        {
+            ClassTheRadioData.GetInstance().SaveChanges();
+        }
+        
+        var currentSelection = _listItems[channelDataGrid.SelectedIndex].DeepCopy();
+        _lastSelection = currentSelection;
+        _lastSelectionIndex = channelDataGrid.SelectedIndex;
     }
 }

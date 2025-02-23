@@ -142,4 +142,15 @@ public partial class ChannelData : ObservableObject
                !string.IsNullOrEmpty(TxAllow)
                && !string.IsNullOrEmpty(TxFreq) && !string.IsNullOrEmpty(TxPwr);
     }
+
+    public bool Equals(ChannelData other)
+    {
+        if (other is null) return false;
+        return BandWidth == other.BandWidth && BusyLock == other.BusyLock&&
+                ChanName == other.ChanName && 
+                Encrypt == other.Encrypt && Pttid == other.Pttid && QtDec==other.QtDec &&
+              QtEnc == other.QtEnc && ScanAdd == other.ScanAdd && SigCode == other.SigCode &&
+               TxAllow == other.TxAllow
+               && TxFreq == other.TxFreq && TxPwr == other.TxPwr;
+    }
 }

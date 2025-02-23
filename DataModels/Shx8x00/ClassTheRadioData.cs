@@ -142,6 +142,7 @@ public class ClassTheRadioData : IBackupable
         try
         { 
             var lastOpData = _undoRedoStack.Redo();
+            Console.WriteLine(lastOpData.Count);
            Instance.ForceNewChannel(lastOpData);
         }
         catch (Exception)
@@ -153,8 +154,9 @@ public class ClassTheRadioData : IBackupable
     public void SaveChanges()
     {
         // Sometimes the dataset is null...
-        if(ObsChanData.Count == 0)return;
-        Instance._undoRedoStack.Execute(ObsChanData.Select(item => item.DeepCopy()).ToList());
+        if (ObsChanData.Count != 128)return;
+        var tobePushed = ObsChanData.Select(item => item.DeepCopy()).ToList();
+        _undoRedoStack.Execute(tobePushed);
     }
 
     public void ClearStack()
