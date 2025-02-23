@@ -73,6 +73,7 @@ public partial class MainWindow : Window
         get => _listItems;
         set
         {
+            // This should never trigger
             _listItems = value;
             ClassTheRadioData.GetInstance().ObsChanData = value;
         }
@@ -640,5 +641,11 @@ public partial class MainWindow : Window
     private void RedoButton_OnClick(object? sender, RoutedEventArgs e)
     {
         ClassTheRadioData.GetInstance().Redo();
+    }
+
+    private void DatagridSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        // save it. not vy elegant: dupicates here!
+        ClassTheRadioData.GetInstance().SaveChanges();
     }
 }

@@ -120,8 +120,8 @@ public class ClassTheRadioData : IBackupable
     
     private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
-        Console.WriteLine("Collection changed");
-        _undoRedoStack.Execute(ObsChanData.Select(item => item.DeepCopy()).ToList());
+        // Console.WriteLine("Collection changed");
+        SaveChanges();
     }
 
     public void Undo()
@@ -148,5 +148,17 @@ public class ClassTheRadioData : IBackupable
         {
             //ignored;stack is Empty 
         }
+    }
+
+    public void SaveChanges()
+    {
+        // Sometimes the dataset is null...
+        if(ObsChanData.Count == 0)return;
+        Instance._undoRedoStack.Execute(ObsChanData.Select(item => item.DeepCopy()).ToList());
+    }
+
+    public void ClearStack()
+    {
+        _undoRedoStack.ClearStack();
     }
 }

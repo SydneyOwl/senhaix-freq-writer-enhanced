@@ -182,7 +182,8 @@
                       Classes="draggable"
                       CanUserResizeColumns="True"
                       CanUserReorderColumns="True"
-                      RowBackground="{DynamicResource dgBackgroundBrush}">
+                      RowBackground="{DynamicResource dgBackgroundBrush}"
+                      SelectionChanged="DatagridSelectionChanged">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{x:Static p:Resources.copy}" Click="MenuCopyChannel_OnClick" />

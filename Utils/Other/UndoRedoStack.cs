@@ -68,6 +68,12 @@ public class UndoRedoStack<T>
         return redoStack.Peek();
     }
 
+    public void ClearStack()
+    {
+        undoStack.Clear();
+        redoStack.Clear();
+    }
+
     // 返回栈的大小
     public int UndoCount => undoStack.Count;
     public int RedoCount => redoStack.Count;

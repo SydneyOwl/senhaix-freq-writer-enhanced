@@ -128,6 +128,7 @@ internal class WriFreq
         {
             if (_op == OperationType.Read)
             {
+                _theRadioData.ClearStack();
                 if (ReadChData(cancellationToken))
                 {
                     _sP.CloseSerial();
