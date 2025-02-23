@@ -152,6 +152,18 @@
                         <TextBlock Text="{x:Static p:Resources.write_freq}" />
                     </StackPanel>
                 </Button>
+                <Button HorizontalAlignment="Left" Margin="100,0,0,0" Click="UndoButton_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Data="{StaticResource undo}" Margin="0,0,10,0" />
+                        <TextBlock Text="{x:Static p:Resources.undo}" />
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Left" Margin="10,0,0,0" Click="RedoButton_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Data="{StaticResource redo}" Margin="0,0,10,0" />
+                        <TextBlock Text="{x:Static p:Resources.redo}" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Border>
         <Border Height="25" Background="{DynamicResource tbBackgroundBrush}" BorderBrush="Black" BorderThickness="1"

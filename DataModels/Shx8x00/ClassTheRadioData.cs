@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using SenhaixFreqWriter.DataModels.Interfaces;
+using SenhaixFreqWriter.Utils.Other;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
@@ -23,6 +25,8 @@ public class ClassTheRadioData : IBackupable
     public FunCfgData FunCfgData = new();
 
     [JsonIgnore] public ObservableCollection<ChannelData> ObsChanData = new();
+    
+    [JsonIgnore] private UndoRedoStack<List<ChannelData>> _undoRedoStack = new();
 
     public OtherImfData OtherImfData = new();
 
@@ -34,6 +38,7 @@ public class ClassTheRadioData : IBackupable
             data.ChanNum = i.ToString();
             ObsChanData.Add(data);
         }
+        ObsChanData.CollectionChanged += CollectionChangedHandler;
     }
 
     public void SaveToFile(Stream s)
@@ -48,12 +53,14 @@ public class ClassTheRadioData : IBackupable
     }
 
 
-    public static void CreatObjFromFile(Stream s)
+    public void CreatObjFromFile(Stream s)
     {
         using (var streamReader = new StreamReader(s, Encoding.UTF8))
         {
             var res = streamReader.ReadToEnd();
             ClassTheRadioData tmp;
+            
+            Instance.ObsChanData.CollectionChanged -= CollectionChangedHandler;
             try
             {
                 var jsonSerializer = new JsonSerializer();
@@ -73,6 +80,8 @@ public class ClassTheRadioData : IBackupable
             {
                 MessageBoxManager.GetMessageBoxStandard("注意", "无效的文件").ShowAsync();
             }
+            
+            Instance.ObsChanData.CollectionChanged += CollectionChangedHandler;
         }
     }
 
@@ -86,6 +95,7 @@ public class ClassTheRadioData : IBackupable
 
     public void ForceNewChannel()
     {
+        Instance.ObsChanData.CollectionChanged -= CollectionChangedHandler;
         Instance.ObsChanData.Clear();
         for (var i = 0; i < 128; i++)
         {
@@ -93,6 +103,50 @@ public class ClassTheRadioData : IBackupable
             chan.ChanNum = i.ToString();
             chan.IsVisable = false;
             Instance.ObsChanData.Add(chan);
+        }
+        Instance.ObsChanData.CollectionChanged += CollectionChangedHandler;
+    }
+    
+    public void ForceNewChannel(List<ChannelData> chanData)
+    {
+        Instance.ObsChanData.CollectionChanged -= CollectionChangedHandler;
+        Instance.ObsChanData.Clear();
+        for (var i = 0; i < 128; i++)
+        {
+            Instance.ObsChanData.Add(chanData[i]);
+        }
+        Instance.ObsChanData.CollectionChanged += CollectionChangedHandler;
+    }
+    
+    private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        Console.WriteLine("Collection changed");
+        _undoRedoStack.Execute(ObsChanData.Select(item => item.DeepCopy()).ToList());
+    }
+
+    public void Undo()
+    {
+        try
+        {
+            var lastOpData = _undoRedoStack.Undo();
+            Instance.ForceNewChannel(lastOpData);
+        }
+        catch (Exception)
+        {
+            //ignored;stack is Empty 
+        }
+    }
+    
+    public void Redo()
+    {
+        try
+        { 
+            var lastOpData = _undoRedoStack.Redo();
+           Instance.ForceNewChannel(lastOpData);
+        }
+        catch (Exception)
+        {
+            //ignored;stack is Empty 
         }
     }
 }

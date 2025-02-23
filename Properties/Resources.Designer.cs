@@ -1646,5 +1646,17 @@ namespace SenhaixFreqWriter.Properties {
                 return ResourceManager.GetString("reset", resourceCulture);
             }
         }
+        
+        public static string undo {
+            get {
+                return ResourceManager.GetString("undo", resourceCulture);
+            }
+        }
+        
+        public static string redo {
+            get {
+                return ResourceManager.GetString("redo", resourceCulture);
+            }
+        }
     }
 }

@@ -107,6 +107,7 @@ public partial class DeviceSelectWindow : Window
                 break;
             default:
                 ClassTheRadioData.Instance = null!;
+                DataModels.Gt12.AppData.Instance = null!;
                 new MainWindow(ShxDevice.Shx8600).Show();
                 break;
         }

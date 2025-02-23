@@ -836,4 +836,10 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     <data name="reset" xml:space="preserve">
         <value>Reset</value>
     </data>
+    <data name="undo" xml:space="preserve">
+        <value>Undo</value>
+    </data>
+    <data name="redo" xml:space="preserve">
+        <value>Redo</value>
+    </data>
 </root>

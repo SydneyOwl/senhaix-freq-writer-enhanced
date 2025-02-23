@@ -41,7 +41,6 @@ public partial class MainWindow : Window
     private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
-
     public MainWindow(ShxDevice shx)
     {
         InitializeComponent();
@@ -60,6 +59,12 @@ public partial class MainWindow : Window
         _listItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
         DebugWindow.GetInstance().UpdateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
+    }
+
+    public MainWindow()
+    {
+        InitializeComponent();
+        DataContext = this;
     }
 
 
@@ -312,7 +317,7 @@ public partial class MainWindow : Window
         if (files.Count > 0)
         {
             await using var stream = await files[0].OpenReadAsync();
-            ClassTheRadioData.CreatObjFromFile(stream);
+            ClassTheRadioData.GetInstance().CreatObjFromFile(stream);
         }
     }
 
@@ -625,5 +630,15 @@ public partial class MainWindow : Window
     private void SettingMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         new SettingsWindow().ShowDialog(this);
+    }
+
+    private void UndoButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        ClassTheRadioData.GetInstance().Undo();
+    }
+
+    private void RedoButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        ClassTheRadioData.GetInstance().Redo();
     }
 }
