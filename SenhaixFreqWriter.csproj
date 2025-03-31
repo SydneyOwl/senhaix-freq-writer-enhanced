@@ -6,7 +6,11 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        
         <ApplicationIcon>Asset\shx8800-icons\icon.ico</ApplicationIcon>
+        <MacOSAppIcon>Assets/shx8800-icons/icon.icns</MacOSAppIcon>
+        <LinuxAppIcon>Assets/shx8800-icons/128x128.png</LinuxAppIcon>
+        
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
