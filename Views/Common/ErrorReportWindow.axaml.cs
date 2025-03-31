@@ -13,11 +13,17 @@ public partial class ErrorReportWindow : Window
 
     public ErrorReportWindow()
     {
+        InitializeComponent();
+        DataContext = this;
+    }
+    
+    public ErrorReportWindow(string errLogPath)
+    {
         // 获取出错信息
         try
         {
-            _errContent = File.ReadAllText(CMD_SETTINGS.CrashLogPath);
-            File.Delete(CMD_SETTINGS.CrashLogPath);
+            _errContent = File.ReadAllText(errLogPath);
+            File.Delete(errLogPath);
         }
         catch (Exception e)
         {

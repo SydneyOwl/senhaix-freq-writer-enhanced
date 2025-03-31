@@ -35,14 +35,15 @@ internal class Program
         catch (Exception ex)
         {
             if(args.Contains("--crash-report"))return;
-            File.WriteAllText(CMD_SETTINGS.CrashLogPath, $@"系统环境：{RuntimeInformation.RuntimeIdentifier}, {RuntimeInformation.OSDescription}
+            var crashPath = Path.GetTempFileName();
+            File.WriteAllText(crashPath, $@"系统环境：{RuntimeInformation.RuntimeIdentifier}, {RuntimeInformation.OSDescription}
 类型：{ex.Message}
 堆栈：{ex.StackTrace}");
             var executablePath = Process.GetCurrentProcess().MainModule!.FileName;
             var startInfo = new ProcessStartInfo
             {
                 FileName = executablePath,
-                Arguments = "--crash-report",
+                Arguments = $"--crash-report {crashPath}",
                 UseShellExecute = true
             };
             Process.Start(startInfo);

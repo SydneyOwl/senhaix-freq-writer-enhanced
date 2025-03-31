@@ -24,19 +24,21 @@ public class App : Application
         {
             if (desktop.Args != null)
             {
-                if (desktop.Args.Contains("--bypass-root-check"))
+                for (var i = 0; i < desktop.Args.Length; i++)
                 {
-                    CMD_SETTINGS.BypassRootCheck = true;
+                    if (desktop.Args[i] == "--bypass-root-check")
+                    {
+                        CMD_SETTINGS.BypassRootCheck = true;
+                        continue;
+                    }
+                    if (desktop.Args[i] == "--crash-report")
+                    {
+                        desktop.MainWindow = new ErrorReportWindow(desktop.Args[i+1]);
+                        return;
+                    }
                 }
-
-                if (desktop.Args.Contains("--crash-report"))
-                {
-                    desktop.MainWindow = new ErrorReportWindow();
-                }
-                else
-                {
-                    desktop.MainWindow = new DeviceSelectWindow();
-                }
+                
+                desktop.MainWindow = new DeviceSelectWindow();
             }
         }
 
