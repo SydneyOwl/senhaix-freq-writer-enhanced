@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -467,14 +468,14 @@ public partial class MainWindow : Window
     }
 
 
-    private void Dark_OnClick(object? sender, RoutedEventArgs e)
-    {
-        RequestedThemeVariant = ThemeVariant.Dark;
-    }
-
     private void Light_OnClick(object? sender, RoutedEventArgs e)
     {
-        RequestedThemeVariant = ThemeVariant.Light;
+        if (Application.Current != null) Application.Current.RequestedThemeVariant = ThemeVariant.Light;
+    }
+
+    private void Dark_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (Application.Current != null) Application.Current.RequestedThemeVariant = ThemeVariant.Dark;
     }
 
     private void SwitchDevice_OnClick(object? sender, RoutedEventArgs e)

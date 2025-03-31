@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -33,6 +34,7 @@ internal class Program
         }
         catch (Exception ex)
         {
+            if(args.Contains("--crash-report"))return;
             File.WriteAllText(CMD_SETTINGS.CrashLogPath, $@"系统环境：{RuntimeInformation.RuntimeIdentifier}, {RuntimeInformation.OSDescription}
 类型：{ex.Message}
 堆栈：{ex.StackTrace}");
