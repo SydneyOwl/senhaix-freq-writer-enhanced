@@ -553,8 +553,8 @@ public partial class MainWindow : Window
         {
             Title = "导出信道信息到",
             SuggestedFileName = "Channels-" + ts + ".xlsx",
-            DefaultExtension = ".xlsx",
-            FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
+            // DefaultExtension = ".xlsx",
+            // FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
         });
         if (file is not null)
         {

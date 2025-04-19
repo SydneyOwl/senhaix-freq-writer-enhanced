@@ -282,8 +282,8 @@ public partial class MainWindow : Window
         {
             Title = "导出信道信息到",
             SuggestedFileName = "Channels-" + ts + ".xlsx",
-            DefaultExtension = ".xlsx",
-            FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
+            // DefaultExtension = ".xlsx",
+            // FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
         });
         if (file is not null)
         {
@@ -298,7 +298,8 @@ public partial class MainWindow : Window
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "打开文件",
-            AllowMultiple = false
+            AllowMultiple = false,
+            // FileTypeFilter = new []{new FilePickerFileType(".xlsx")}
         });
         if (files.Count > 0)
         {

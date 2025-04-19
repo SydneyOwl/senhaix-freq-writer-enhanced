@@ -89,21 +89,6 @@ public class AppData : IBackupable
                 var res = book.Cells["A1:M33"].ToCollectionWithMappings<Channel>(
                     row => 
                     {
-                        
-    //                     [ObservableProperty] [property: EpplusTableColumn(Header = "信道")] private int _id;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "接收频率")] private string _rxFreq = "";
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "亚音解码")] private string _strRxCtsDcs = "OFF";
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "发射频率")] private string _txFreq = "";
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "亚音编码")] private string _strTxCtsDcs = "OFF";
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "功率")] private int _txPower;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "带宽")] private int _bandwide;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "扫描添加")] private int _scanAdd;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "信令")] private int _signalSystem;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "静音模式")] private int _sqMode;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "PTT-ID")] private int _pttid;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "信令码")] private int _signalGroup;
-    // [ObservableProperty] [property: EpplusTableColumn(Header = "信道名称")] private string _name = "";
-    // [XmlIgnore, ObservableProperty] [property: EpplusTableColumn(Hidden = true)] private bool _isVisable;
                         var channel = new Channel();
                         channel.Id = row.GetValue<int>(0);
                         channel.RxFreq = row.GetValue<string>(1);
