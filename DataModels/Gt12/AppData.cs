@@ -3,7 +3,9 @@ using System.IO;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using SenhaixFreqWriter.DataModels.Interfaces;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
@@ -48,6 +50,91 @@ public class AppData : IBackupable
             serializer.Serialize(streamWriter, Instance);
         }
     }
+    
+    public void SaveAsExcel(string filename)
+    {
+        try
+        {
+            if (File.Exists(filename)) File.Delete(filename);
+            using var excelPack = new ExcelPackage(filename);
+            for (var i = 0; i < ChannelList.Length; i++)
+            {
+                var ws = excelPack.Workbook.Worksheets.Add(BankName[i]);
+                // Load the sample data into the worksheet
+                ws.Cells["A1"].LoadFromCollection(ChannelList[i], options =>
+                {
+                    options.PrintHeaders = true;
+                    // options.TableStyle = TableStyles.Dark1;
+                });
+            }
+            excelPack.Save();
+        }
+        catch(Exception ex)
+        {
+            DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
+        }
+    }
+
+    public void LoadFromExcel(string filename)
+    {
+        try
+        {
+            if (!File.Exists(filename))return;
+            using var excelPack = new ExcelPackage(filename);
+            for (var i = 0; i < ChannelList.Length; i++)
+            {
+                var book = excelPack.Workbook.Worksheets[i];//.Cells["A1:N129"].ToCollection<Channel>();
+                // Console.WriteLine(book.Name);
+                BankName[i] = book.Name;
+                var res = book.Cells["A1:M33"].ToCollectionWithMappings<Channel>(
+                    row => 
+                    {
+                        
+    //                     [ObservableProperty] [property: EpplusTableColumn(Header = "信道")] private int _id;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "接收频率")] private string _rxFreq = "";
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "亚音解码")] private string _strRxCtsDcs = "OFF";
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "发射频率")] private string _txFreq = "";
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "亚音编码")] private string _strTxCtsDcs = "OFF";
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "功率")] private int _txPower;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "带宽")] private int _bandwide;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "扫描添加")] private int _scanAdd;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "信令")] private int _signalSystem;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "静音模式")] private int _sqMode;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "PTT-ID")] private int _pttid;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "信令码")] private int _signalGroup;
+    // [ObservableProperty] [property: EpplusTableColumn(Header = "信道名称")] private string _name = "";
+    // [XmlIgnore, ObservableProperty] [property: EpplusTableColumn(Hidden = true)] private bool _isVisable;
+                        var channel = new Channel();
+                        channel.Id = row.GetValue<int>(0);
+                        channel.RxFreq = row.GetValue<string>(1);
+                        channel.StrRxCtsDcs = row.GetValue<string>(2);
+                        channel.TxFreq = row.GetValue<string>(3);
+                        channel.StrTxCtsDcs = row.GetValue<string>(4);
+                        channel.TxPower = row.GetValue<int>(5);
+                        channel.Bandwide = row.GetValue<int>(6);
+                        channel.ScanAdd = row.GetValue<int>(7);
+                        channel.SignalSystem = row.GetValue<int>(8);
+                        channel.SqMode = row.GetValue<int>(9);
+                        channel.Pttid = row.GetValue<int>(10);
+                        channel.SignalGroup = row.GetValue<int>(11);
+                        channel.Name = row.GetValue<string>(12);
+                        return channel;
+                    }, 
+                    options => options.HeaderRow = 0);
+                foreach (var t in res)
+                {
+                    if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
+                }
+            
+                ChannelList[i] = res.ToArray();
+            }
+        }
+        catch(Exception ex)
+        {
+            DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
+        }
+    }
+
 
     public static AppData GetInstance()
     {

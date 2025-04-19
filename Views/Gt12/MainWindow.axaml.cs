@@ -592,4 +592,39 @@ public partial class MainWindow : Window
     {
         new SettingsWindow().ShowDialog(this);
     }
+    
+    private async void SaveAsExcelMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    { 
+        var ts = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        var topLevel = GetTopLevel(this);
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "导出信道信息到",
+            SuggestedFileName = "Channels-" + ts + ".xlsx",
+            DefaultExtension = ".xlsx",
+            FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
+        });
+        if (file is not null)
+        {
+            var savePath = file.Path.LocalPath;
+            AppData.GetInstance().SaveAsExcel(savePath);
+        }
+    }
+
+    private async void ReadFromExcelMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var topLevel = GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "打开文件",
+            AllowMultiple = false
+        });
+        if (files.Count > 0)
+        {
+            var loadPath = files[0].Path.LocalPath;
+            AppData.GetInstance().LoadFromExcel(loadPath);
+            // AppData.ForceNewInstance();
+            SetArea(0);
+        }
+    }
 }

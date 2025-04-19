@@ -8,20 +8,20 @@ namespace SenhaixFreqWriter.DataModels.Gt12;
 public partial class Channel : ObservableObject
 {
 #pragma warning disable CS0657
-    [ObservableProperty] private int _bandwide;
-    [ObservableProperty] private int _id;
-    [XmlIgnore, ObservableProperty] [property: EpplusTableColumn(Hidden = false)] private bool _isVisable;
-    [ObservableProperty] private string _name = "";
-    [ObservableProperty] private int _pttid;
-    [ObservableProperty] private string _rxFreq = "";
-    [ObservableProperty] private int _scanAdd;
-    [ObservableProperty] private int _signalGroup;
-    [ObservableProperty] private int _signalSystem;
-    [ObservableProperty] private int _sqMode;
-    [ObservableProperty] private string _strRxCtsDcs = "OFF";
-    [ObservableProperty] private string _strTxCtsDcs = "OFF";
-    [ObservableProperty] private string _txFreq = "";
-    [ObservableProperty] private int _txPower;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "信道")] private int _id;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "接收频率")] private string _rxFreq = "";
+    [ObservableProperty] [property: EpplusTableColumn(Header = "亚音解码")] private string _strRxCtsDcs = "OFF";
+    [ObservableProperty] [property: EpplusTableColumn(Header = "发射频率")] private string _txFreq = "";
+    [ObservableProperty] [property: EpplusTableColumn(Header = "亚音编码")] private string _strTxCtsDcs = "OFF";
+    [ObservableProperty] [property: EpplusTableColumn(Header = "功率")] private int _txPower;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "带宽")] private int _bandwide;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "扫描添加")] private int _scanAdd;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "信令")] private int _signalSystem;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "静音模式")] private int _sqMode;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "PTT-ID")] private int _pttid;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "信令码")] private int _signalGroup;
+    [ObservableProperty] [property: EpplusTableColumn(Header = "信道名称")] private string _name = "";
+    [XmlIgnore, ObservableProperty] [property: EpplusTableColumn(Hidden = true)] private bool _isVisable;
 
 #pragma warning restore CS0657
     public Channel()

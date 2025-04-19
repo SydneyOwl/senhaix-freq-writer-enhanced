@@ -93,16 +93,16 @@
                         <PathIcon Data="{StaticResource satellite}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <!-- <MenuItem Header="{x:Static p:Resources.read_from_excel}" Click="ReadFromExcelMenuItem_OnClick"> -->
-                <!--     <MenuItem.Icon> -->
-                <!--         <PathIcon Data="{StaticResource import_excel}" /> -->
-                <!--     </MenuItem.Icon> -->
-                <!-- </MenuItem> -->
-                <!-- <MenuItem Header="{x:Static p:Resources.save_as_excel}" Click="SaveAsExcelMenuItem_OnClick"> -->
-                <!--     <MenuItem.Icon> -->
-                <!--         <PathIcon Data="{StaticResource export_excel}" /> -->
-                <!--     </MenuItem.Icon> -->
-                <!-- </MenuItem> -->
+                <MenuItem Header="{x:Static p:Resources.read_from_excel}" Click="ReadFromExcelMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource import_excel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{x:Static p:Resources.save_as_excel}" Click="SaveAsExcelMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource export_excel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static p:Resources.others}">
                 <MenuItem Header="{x:Static p:Resources.theme_color}">
