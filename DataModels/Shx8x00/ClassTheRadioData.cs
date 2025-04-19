@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using SenhaixFreqWriter.DataModels.Interfaces;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
@@ -46,6 +49,56 @@ public class ClassTheRadioData : IBackupable
             serializer.Serialize(streamWriter, Instance);
         }
     }
+
+    public void SaveAsExcel(string filename)
+    {
+        if (File.Exists(filename)) File.Delete(filename);
+        using var excelPack = new ExcelPackage(filename);
+        var ws = excelPack.Workbook.Worksheets.Add("信道信息");
+        // Load the sample data into the worksheet
+        var range = ws.Cells["A1"].LoadFromCollection(ObsChanData, options =>
+        {
+            options.PrintHeaders = true;
+            // options.TableStyle = TableStyles.Dark1;
+        });
+        excelPack.Save();
+    }
+
+    public void LoadFromExcel(string filename)
+    {
+        if (!File.Exists(filename))return;
+        using var excelPack = new ExcelPackage(filename);
+        try
+        {
+            var parsed = excelPack.Workbook.Worksheets[0].Cells["A1:N129"].ToCollection<ChannelData>();
+            ObsChanData.Clear();
+            foreach (var channelData in parsed)
+            {
+                channelData.IsVisable = !channelData.AllEmpty();
+                ObsChanData.Add(channelData.DeepCopy());
+                Console.WriteLine(channelData.ToString());
+            }
+        }
+        catch(Exception ex)
+        {
+            DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
+        }
+    }
+    
+    public void SaveAsCsv(string filename)
+    {
+        if (File.Exists(filename)) File.Delete(filename);
+        using var excelPack = new ExcelPackage();
+        var ws = excelPack.Workbook.Worksheets.Add("信道信息");
+        // Load the sample data into the worksheet
+        ws.Cells["A1"].LoadFromCollection(ObsChanData, options =>
+        {
+            options.PrintHeaders = true;
+            // options.TableStyle = TableStyles.Dark1;
+        }).SaveToText(new FileInfo(filename),new ExcelOutputTextFormat { Delimiter = ';'});
+        excelPack.Save();
+    }
+
 
 
     public static void CreatObjFromFile(Stream s)

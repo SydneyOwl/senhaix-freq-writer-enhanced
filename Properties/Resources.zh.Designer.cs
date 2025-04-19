@@ -1646,5 +1646,17 @@ namespace SenhaixFreqWriter.Properties {
                 return ResourceManager.GetString("reset", resourceCulture);
             }
         }
+        
+        public static string save_as_excel {
+            get {
+                return ResourceManager.GetString("save_as_excel", resourceCulture);
+            }
+        }
+        
+        public static string read_from_excel {
+            get {
+                return ResourceManager.GetString("read_from_excel", resourceCulture);
+            }
+        }
     }
 }

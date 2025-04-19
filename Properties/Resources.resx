@@ -836,4 +836,10 @@ Click the drop-down menu and select the option that includes "cu," for example: 
     <data name="reset" xml:space="preserve">
         <value>Reset</value>
     </data>
+    <data name="save_as_excel" xml:space="preserve">
+        <value>Save channels as excel</value>
+    </data>
+    <data name="read_from_excel" xml:space="preserve">
+        <value>Read from excel</value>
+    </data>
 </root>

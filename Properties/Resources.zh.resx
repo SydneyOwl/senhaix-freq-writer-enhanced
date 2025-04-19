@@ -837,4 +837,10 @@ macOS:
     <data name="reset" xml:space="preserve">
         <value>重置</value>
     </data>
+    <data name="save_as_excel" xml:space="preserve">
+        <value>导出信道到excel</value>
+    </data>
+    <data name="read_from_excel" xml:space="preserve">
+        <value>从excel读取信道信息</value>
+    </data>
 </root>

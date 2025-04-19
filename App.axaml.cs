@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using OfficeOpenXml;
 using SenhaixFreqWriter.Properties;
 using SenhaixFreqWriter.Views.Common;
 
@@ -39,6 +40,8 @@ public class App : Application
                 }
                 
                 desktop.MainWindow = new DeviceSelectWindow();
+                
+                ExcelPackage.License.SetNonCommercialPersonal("SydneyOwl");
             }
         }
 

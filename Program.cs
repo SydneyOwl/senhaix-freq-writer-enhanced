@@ -35,6 +35,7 @@ internal class Program
         catch (Exception ex)
         {
             if(args.Contains("--crash-report"))return;
+            if (args.Contains("--develop")) throw;
             var crashPath = Path.GetTempFileName();
             File.WriteAllText(crashPath, $@"系统环境：{RuntimeInformation.RuntimeIdentifier}, {RuntimeInformation.OSDescription}
 类型：{ex.Message}

@@ -33,6 +33,16 @@
                         <PathIcon Data="{StaticResource save_as_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="{x:Static p:Resources.save_as_excel}" Click="SaveAsExcelMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource save_as_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{x:Static p:Resources.read_from_excel}" Click="ReadFromExcelMenuItem_OnClick">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource save_as_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="{x:Static p:Resources.settings}" Click="SettingMenuItem_OnClick">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource setting}" />

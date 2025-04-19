@@ -1,45 +1,51 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
+using OfficeOpenXml.Attributes;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
 [Serializable]
 public partial class ChannelData : ObservableObject
 {
-    [ObservableProperty] private string _bandWidth = "";
+#pragma warning disable CS0657 
+    [ObservableProperty] [property:EpplusTableColumn(Header = "信道号")]private string _chanNum = "";
 
-    [ObservableProperty] private string _busyLock = "";
+    [ObservableProperty]  [property:EpplusTableColumn(Header = "发射允许")]private string _txAllow = "";
+    
+    [ObservableProperty]  [property:EpplusTableColumn(Header = "接收频率")]private string _rxFreq = "";
 
-    [ObservableProperty] private string _chanName = "";
+    [ObservableProperty] [property:EpplusTableColumn(Header = "QT/DQT解码")]private string _qtDec = "";
 
-    [ObservableProperty] private string _chanNum = "";
+    [ObservableProperty]  [property:EpplusTableColumn(Header = "发射频率")]private string _txFreq = "";
+    
+    [ObservableProperty] [property:EpplusTableColumn(Header = "QT/DQT编码")]private string _qtEnc = "";
 
-    [ObservableProperty] private string _encrypt = "";
+    [ObservableProperty]  [property:EpplusTableColumn(Header = "功率")]private string _txPwr = "";
+    
+    [ObservableProperty] [property:EpplusTableColumn(Header = "带宽")] private string _bandWidth = "";
 
-    [XmlIgnore]
-    // [JsonIgnore]
-    [ObservableProperty]
-    private bool _isVisable;
+    [ObservableProperty][property:EpplusTableColumn(Header = "PTT-ID")] private string _pttid = "";
 
-    [ObservableProperty] private string _pttid = "";
+    [ObservableProperty] [property:EpplusTableColumn(Header = "繁忙锁定")]private string _busyLock = "";
+    
+    [ObservableProperty] [property:EpplusTableColumn(Header = "扫描添加")] private string _scanAdd = "";
 
-    [ObservableProperty] private string _qtDec = "";
+    [ObservableProperty] [property:EpplusTableColumn(Header = "信令码")] private string _sigCode = "";
 
-    [ObservableProperty] private string _qtEnc = "";
+    [ObservableProperty] [property:EpplusTableColumn(Header = "信道名称")]private string _chanName = "";
+    
+    [ObservableProperty] [property:EpplusTableColumn(Header = "加密")]private string _encrypt = "";
+    
+    
+    [ObservableProperty] [property: EpplusTableColumn(Hidden = true)] private bool _isVisable;
 
-    [ObservableProperty] private string _rxFreq = "";
+#pragma warning restore CS0657 
 
-    [ObservableProperty] private string _scanAdd = "";
 
-    [ObservableProperty] private string _sigCode = "";
-
-    [ObservableProperty] private string _txAllow = "";
-
-    [ObservableProperty] private string _txFreq = "";
-
-    [ObservableProperty] private string _txPwr = "";
 
     public ChannelData DeepCopy()
     {

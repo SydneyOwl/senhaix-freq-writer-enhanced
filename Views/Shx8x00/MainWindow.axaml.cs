@@ -37,9 +37,9 @@ public partial class MainWindow : Window
     private readonly List<ChannelData> _tmpChannel = new();
 
     private BluetoothDeviceSelectionWindow _bds;
+    
     private bool _devSwitchFlag;
-
-    private ObservableCollection<ChannelData> _listItems = ClassTheRadioData.GetInstance().ObsChanData;
+    public ObservableCollection<ChannelData> ListItems { get; set; } = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
 
@@ -58,20 +58,9 @@ public partial class MainWindow : Window
         Task.Run(() => UpdateBackup(_cancelBackup.Token));
         DataContext = this;
         _shxDevice = shx;
-        _listItems.CollectionChanged += CollectionChangedHandler;
+        ListItems.CollectionChanged += CollectionChangedHandler;
         Closed += OnWindowClosed;
         DebugWindow.GetInstance().UpdateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
-    }
-
-
-    public ObservableCollection<ChannelData> ListItems
-    {
-        get => _listItems;
-        set
-        {
-            _listItems = value;
-            ClassTheRadioData.GetInstance().ObsChanData = value;
-        }
     }
 
     private async void UpdateTips(CancellationToken token)
@@ -282,6 +271,39 @@ public partial class MainWindow : Window
         else
         {
             saveAs_OnClick(null, null);
+        }
+    }
+    
+    private async void SaveAsExcelMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    { 
+        var ts = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        var topLevel = GetTopLevel(this);
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "导出信道信息到",
+            SuggestedFileName = "Channels-" + ts + ".xlsx",
+            DefaultExtension = ".xlsx",
+            FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
+        });
+        if (file is not null)
+        {
+            var savePath = file.Path.LocalPath;
+            ClassTheRadioData.GetInstance().SaveAsExcel(savePath);
+        }
+    }
+
+    private async void ReadFromExcelMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var topLevel = GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "打开文件",
+            AllowMultiple = false
+        });
+        if (files.Count > 0)
+        {
+            var loadPath = files[0].Path.LocalPath;
+            ClassTheRadioData.GetInstance().LoadFromExcel(loadPath);
         }
     }
 
