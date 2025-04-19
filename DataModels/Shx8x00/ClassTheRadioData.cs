@@ -8,6 +8,8 @@ using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation;
+using SenhaixFreqWriter.Constants.Common;
 using SenhaixFreqWriter.DataModels.Interfaces;
 using SenhaixFreqWriter.Views.Common;
 
@@ -50,7 +52,7 @@ public class ClassTheRadioData : IBackupable
         }
     }
 
-    public void SaveAsExcel(string filename)
+    public void SaveAsExcel(string filename, ShxDevice device)
     {
         try
         {
@@ -63,6 +65,20 @@ public class ClassTheRadioData : IBackupable
                 options.PrintHeaders = true;
                 // options.TableStyle = TableStyles.Dark1;
             });
+
+            addValidationTo(ws, "B:B", Constants.Shx8x00.ChanChoice.Txallow);
+            // addValidationTo(ws, "D:D", Constants.Shx8x00.ChanChoice.Qtdqt);
+            // addValidationTo(ws, "F:F", Constants.Shx8x00.ChanChoice.Qtdqt);
+            addValidationTo(ws, "G:G", device==ShxDevice.Shx8600Pro?
+                Constants.Shx8x00.ChanChoice.TxPwrNewShx8600: Constants.Shx8x00.ChanChoice.TxPwr);
+            addValidationTo(ws, "H:H", Constants.Shx8x00.ChanChoice.Bandwidth);
+            addValidationTo(ws, "I:I", Constants.Shx8x00.ChanChoice.Pttid);
+            addValidationTo(ws, "J:J", Constants.Shx8x00.ChanChoice.Busylock);
+            addValidationTo(ws, "K:K", Constants.Shx8x00.ChanChoice.Scanadd);
+            addValidationTo(ws, "L:L", Constants.Shx8x00.ChanChoice.SignCode);
+            addValidationTo(ws, "N:N", Constants.Shx8x00.ChanChoice.Encrypt);
+            
+            
             excelPack.Save();
         }
         catch(Exception ex)
@@ -71,6 +87,18 @@ public class ClassTheRadioData : IBackupable
         }
     }
 
+    private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
+    {
+        var validation = ws.DataValidations.AddListValidation(range);
+        foreach (var se in target)
+        {
+            validation.Formula.Values.Add(se);
+        }
+        // validation.ShowErrorMessage = true;
+        // validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+        // validation.ErrorTitle = "无效值";
+        // validation.Error = "请在下拉框中选择！";
+    }
     public void LoadFromExcel(string filename)
     {
         try

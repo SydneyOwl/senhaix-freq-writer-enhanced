@@ -288,7 +288,7 @@ public partial class MainWindow : Window
         if (file is not null)
         {
             var savePath = file.Path.LocalPath;
-            ClassTheRadioData.GetInstance().SaveAsExcel(savePath);
+            ClassTheRadioData.GetInstance().SaveAsExcel(savePath, _shxDevice);
         }
     }
 
