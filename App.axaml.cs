@@ -1,8 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -40,8 +36,15 @@ public class App : Application
                 }
                 
                 desktop.MainWindow = new DeviceSelectWindow();
-                
-                ExcelPackage.License.SetNonCommercialPersonal("SydneyOwl");
+
+                try
+                {
+                    ExcelPackage.License.SetNonCommercialPersonal("SydneyOwl");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("This system does not support excelpackage.");
+                }
             }
         }
 

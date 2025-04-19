@@ -1,19 +1,16 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using OfficeOpenXml.Attributes;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
 public partial class Channel : ObservableObject
 {
+#pragma warning disable CS0657
     [ObservableProperty] private int _bandwide;
-
-    [ObservableProperty]
-    // Useless member: id
-    private int _id;
-
-    [XmlIgnore] [ObservableProperty] private bool _isVisable;
-
+    [ObservableProperty] private int _id;
+    [XmlIgnore, ObservableProperty] [property: EpplusTableColumn(Hidden = false)] private bool _isVisable;
     [ObservableProperty] private string _name = "";
     [ObservableProperty] private int _pttid;
     [ObservableProperty] private string _rxFreq = "";
@@ -26,6 +23,7 @@ public partial class Channel : ObservableObject
     [ObservableProperty] private string _txFreq = "";
     [ObservableProperty] private int _txPower;
 
+#pragma warning restore CS0657
     public Channel()
     {
     }

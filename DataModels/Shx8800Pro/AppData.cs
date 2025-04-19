@@ -3,7 +3,10 @@ using System.IO;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using SenhaixFreqWriter.DataModels.Interfaces;
+using SenhaixFreqWriter.DataModels.Shx8x00;
+using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.DataModels.Shx8800Pro;
 
@@ -44,6 +47,78 @@ public class AppData : IBackupable
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
             serializer.Serialize(streamWriter, Instance);
+        }
+    }
+    
+    public void SaveAsExcel(string filename)
+    {
+        try
+        {
+            if (File.Exists(filename)) File.Delete(filename);
+            using var excelPack = new ExcelPackage(filename);
+            for (var i = 0; i < ChannelList.Length; i++)
+            {
+                var ws = excelPack.Workbook.Worksheets.Add(BankName[i]);
+                // Load the sample data into the worksheet
+                ws.Cells["A1"].LoadFromCollection(ChannelList[i], options =>
+                {
+                    options.PrintHeaders = true;
+                    // options.TableStyle = TableStyles.Dark1;
+                });
+            }
+            excelPack.Save();
+        }
+        catch(Exception ex)
+        {
+            DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
+        }
+    }
+
+    public void LoadFromExcel(string filename)
+    {
+        try
+        {
+            if (!File.Exists(filename))return;
+            using var excelPack = new ExcelPackage(filename);
+            // _ = excelPack.Workbook.Worksheets[0];
+            // _ = excelPack.Workbook.Worksheets[1];
+            // _ = excelPack.Workbook.Worksheets[2];
+            for (var i = 0; i < ChannelList.Length; i++)
+            {
+                var book = excelPack.Workbook.Worksheets[i];//.Cells["A1:N129"].ToCollection<Channel>();
+                // Console.WriteLine(book.Name);
+                BankName[i] = book.Name;
+                var res = book.Cells["A1:L65"].ToCollectionWithMappings<Channel>(
+                    row => 
+                    {
+                        var channel = new Channel();
+                        channel.Id = row.GetValue<int>(0);
+                        channel.RxFreq = row.GetValue<string>(1);
+                        channel.StrRxCtsDcs = row.GetValue<string>(2);
+                        channel.TxFreq = row.GetValue<string>(3);
+                        channel.StrTxCtsDcs = row.GetValue<string>(4);
+                        channel.TxPower = row.GetValue<int>(5);
+                        channel.Bandwide = row.GetValue<int>(6);
+                        channel.ScanAdd = row.GetValue<int>(7);
+                        channel.BusyLock = row.GetValue<int>(8);
+                        channel.Pttid = row.GetValue<int>(9);
+                        channel.SignalGroup = row.GetValue<int>(10);
+                        channel.Name = row.GetValue<string>(11);
+
+                        return channel;
+                    }, 
+                    options => options.HeaderRow = 0);
+                foreach (var t in res)
+                {
+                    if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
+                }
+
+                ChannelList[i] = res.ToArray();
+            }
+        }
+        catch(Exception ex)
+        {
+            DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
         }
     }
 

@@ -52,24 +52,31 @@ public class ClassTheRadioData : IBackupable
 
     public void SaveAsExcel(string filename)
     {
-        if (File.Exists(filename)) File.Delete(filename);
-        using var excelPack = new ExcelPackage(filename);
-        var ws = excelPack.Workbook.Worksheets.Add("信道信息");
-        // Load the sample data into the worksheet
-        var range = ws.Cells["A1"].LoadFromCollection(ObsChanData, options =>
+        try
         {
-            options.PrintHeaders = true;
-            // options.TableStyle = TableStyles.Dark1;
-        });
-        excelPack.Save();
+            if (File.Exists(filename)) File.Delete(filename);
+            using var excelPack = new ExcelPackage(filename);
+            var ws = excelPack.Workbook.Worksheets.Add("信道信息");
+            // Load the sample data into the worksheet
+            var range = ws.Cells["A1"].LoadFromCollection(ObsChanData, options =>
+            {
+                options.PrintHeaders = true;
+                // options.TableStyle = TableStyles.Dark1;
+            });
+            excelPack.Save();
+        }
+        catch(Exception ex)
+        {
+            DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
+        }
     }
 
     public void LoadFromExcel(string filename)
     {
-        if (!File.Exists(filename))return;
-        using var excelPack = new ExcelPackage(filename);
         try
         {
+            if (!File.Exists(filename))return;
+            using var excelPack = new ExcelPackage(filename);
             var parsed = excelPack.Workbook.Worksheets[0].Cells["A1:N129"].ToCollection<ChannelData>();
             ObsChanData.Clear();
             foreach (var channelData in parsed)
