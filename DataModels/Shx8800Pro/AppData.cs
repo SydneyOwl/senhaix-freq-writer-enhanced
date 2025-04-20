@@ -136,10 +136,10 @@ public class AppData : IBackupable
                         return channel;
                     }, 
                     options => options.HeaderRow = 0);
-                foreach (var t in res)
-                {
-                    if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
-                }
+                // foreach (var t in res)
+                // {
+                //     if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
+                // }
 
                 ChannelList[i] = res.ToArray();
             }

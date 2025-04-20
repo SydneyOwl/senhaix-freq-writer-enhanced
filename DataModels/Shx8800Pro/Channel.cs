@@ -7,7 +7,6 @@ namespace SenhaixFreqWriter.DataModels.Shx8800Pro;
 
 public partial class Channel : ObservableObject
 {
-#pragma warning disable CS0657
     [ObservableProperty] private int _id; //
     [ObservableProperty] private string _rxFreq = ""; //
     [ObservableProperty] private string _strRxCtsDcs = "OFF"; //
@@ -21,7 +20,6 @@ public partial class Channel : ObservableObject
     [ObservableProperty] private int _signalGroup; //
     [ObservableProperty] private string _name = ""; //
     [ObservableProperty] private bool _isVisable;
-#pragma warning restore CS0657
 
     public Channel()
     {

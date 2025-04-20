@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
@@ -60,12 +62,23 @@ public class AppData : IBackupable
             for (var i = 0; i < ChannelList.Length; i++)
             {
                 var ws = excelPack.Workbook.Worksheets.Add(BankName[i]);
+                var excelList = ChannelList[i].Select(x => x.ToExcelChannel());
                 // Load the sample data into the worksheet
-                ws.Cells["A1"].LoadFromCollection(ChannelList[i], options =>
+                ws.Cells["A1"].LoadFromCollection(excelList, options =>
                 {
                     options.PrintHeaders = true;
                     // options.TableStyle = TableStyles.Dark1;
                 });
+                
+                ws.Cells.AutoFitColumns();
+                
+                addValidationTo(ws,"F:F",Constants.Gt12.ChanChoice.Power);
+                addValidationTo(ws,"G:G",Constants.Gt12.ChanChoice.Bandwidth);
+                addValidationTo(ws,"H:H",Constants.Gt12.ChanChoice.Scanadd);
+                addValidationTo(ws,"I:I",Constants.Gt12.ChanChoice.SigSys);
+                addValidationTo(ws,"J:J",Constants.Gt12.ChanChoice.Sql);
+                addValidationTo(ws,"K:K",Constants.Gt12.ChanChoice.Pttid);
+                addValidationTo(ws,"L:L",Constants.Gt12.ChanChoice.SigGrp);
             }
             excelPack.Save();
         }
@@ -73,6 +86,19 @@ public class AppData : IBackupable
         {
             DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
         }
+    }
+    
+    private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
+    {
+        var validation = ws.DataValidations.AddListValidation(range);
+        foreach (var se in target)
+        {
+            validation.Formula.Values.Add(se);
+        }
+        // validation.ShowErrorMessage = true;
+        // validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+        // validation.ErrorTitle = "无效值";
+        // validation.Error = "请在下拉框中选择！";
     }
 
     public void LoadFromExcel(string filename)
@@ -95,21 +121,24 @@ public class AppData : IBackupable
                         channel.StrRxCtsDcs = row.GetValue<string>(2);
                         channel.TxFreq = row.GetValue<string>(3);
                         channel.StrTxCtsDcs = row.GetValue<string>(4);
-                        channel.TxPower = row.GetValue<int>(5);
-                        channel.Bandwide = row.GetValue<int>(6);
-                        channel.ScanAdd = row.GetValue<int>(7);
-                        channel.SignalSystem = row.GetValue<int>(8);
-                        channel.SqMode = row.GetValue<int>(9);
-                        channel.Pttid = row.GetValue<int>(10);
-                        channel.SignalGroup = row.GetValue<int>(11);
+                        channel.TxPower = Constants.Gt12.ChanChoice.Power.IndexOf(row.GetValue<string>(5));
+                        channel.Bandwide =Constants.Gt12.ChanChoice.Bandwidth.IndexOf(row.GetValue<string>(6));
+                        channel.ScanAdd = Constants.Gt12.ChanChoice.Scanadd.IndexOf(row.GetValue<string>(7));
+                        channel.SignalSystem = Constants.Gt12.ChanChoice.SigSys.IndexOf(row.GetValue<string>(8));
+                        channel.SqMode = Constants.Gt12.ChanChoice.Sql.IndexOf(row.GetValue<string>(9));
+                        channel.Pttid = Constants.Gt12.ChanChoice.Pttid.IndexOf(row.GetValue<string>(10));
+                        channel.SignalGroup = Constants.Gt12.ChanChoice.SigGrp.IndexOf(row.GetValue<string>(11));
                         channel.Name = row.GetValue<string>(12);
+                        
+                        
+                        channel.IsVisable = !string.IsNullOrEmpty(channel.RxFreq);
                         return channel;
                     }, 
                     options => options.HeaderRow = 0);
-                foreach (var t in res)
-                {
-                    if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
-                }
+                // foreach (var t in res)
+                // {
+                //     if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
+                // }
             
                 ChannelList[i] = res.ToArray();
             }
