@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
@@ -58,13 +60,25 @@ public class AppData : IBackupable
             using var excelPack = new ExcelPackage(filename);
             for (var i = 0; i < ChannelList.Length; i++)
             {
+                var transChannelList = ChannelList[i].Select(x=>x.ToExcelChannel());
+                // foreach (var excelChannel in transChannelList)
+                // {
+                //     Console.WriteLine(excelChannel.ToString());
+                // }
                 var ws = excelPack.Workbook.Worksheets.Add(BankName[i]);
                 // Load the sample data into the worksheet
-                ws.Cells["A1"].LoadFromCollection(ChannelList[i], options =>
+                ws.Cells["A1"].LoadFromCollection(transChannelList, options =>
                 {
                     options.PrintHeaders = true;
                     // options.TableStyle = TableStyles.Dark1;
                 });
+                ws.Cells.AutoFitColumns();
+                addValidationTo(ws,"F:F",Constants.Shx8800Pro.ChanChoice.Power);
+                addValidationTo(ws,"G:G",Constants.Shx8800Pro.ChanChoice.Bandwidth);
+                addValidationTo(ws,"H:H",Constants.Shx8800Pro.ChanChoice.Scanadd);
+                addValidationTo(ws,"I:I",Constants.Shx8800Pro.ChanChoice.BusyLock);
+                addValidationTo(ws,"J:J",Constants.Shx8800Pro.ChanChoice.Pttid);
+                addValidationTo(ws,"K:K",Constants.Shx8800Pro.ChanChoice.SigGrp);
             }
             excelPack.Save();
         }
@@ -72,6 +86,19 @@ public class AppData : IBackupable
         {
             DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
         }
+    }
+    
+    private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
+    {
+        var validation = ws.DataValidations.AddListValidation(range);
+        foreach (var se in target)
+        {
+            validation.Formula.Values.Add(se);
+        }
+        // validation.ShowErrorMessage = true;
+        // validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+        // validation.ErrorTitle = "无效值";
+        // validation.Error = "请在下拉框中选择！";
     }
 
     public void LoadFromExcel(string filename)
@@ -97,14 +124,15 @@ public class AppData : IBackupable
                         channel.StrRxCtsDcs = row.GetValue<string>(2);
                         channel.TxFreq = row.GetValue<string>(3);
                         channel.StrTxCtsDcs = row.GetValue<string>(4);
-                        channel.TxPower = row.GetValue<int>(5);
-                        channel.Bandwide = row.GetValue<int>(6);
-                        channel.ScanAdd = row.GetValue<int>(7);
-                        channel.BusyLock = row.GetValue<int>(8);
-                        channel.Pttid = row.GetValue<int>(9);
-                        channel.SignalGroup = row.GetValue<int>(10);
+                        channel.TxPower = Constants.Shx8800Pro.ChanChoice.Power.IndexOf(row.GetValue<string>(5));
+                        channel.Bandwide = Constants.Shx8800Pro.ChanChoice.Bandwidth.IndexOf(row.GetValue<string>(6));
+                        channel.ScanAdd = Constants.Shx8800Pro.ChanChoice.Scanadd.IndexOf(row.GetValue<string>(7));
+                        channel.BusyLock = Constants.Shx8800Pro.ChanChoice.BusyLock.IndexOf(row.GetValue<string>(8));
+                        channel.Pttid =  Constants.Shx8800Pro.ChanChoice.Pttid.IndexOf(row.GetValue<string>(9));
+                        channel.SignalGroup =  Constants.Shx8800Pro.ChanChoice.SigGrp.IndexOf(row.GetValue<string>(10));
                         channel.Name = row.GetValue<string>(11);
 
+                        channel.IsVisable = !string.IsNullOrEmpty(channel.RxFreq);
                         return channel;
                     }, 
                     options => options.HeaderRow = 0);

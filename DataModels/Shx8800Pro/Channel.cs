@@ -8,19 +8,19 @@ namespace SenhaixFreqWriter.DataModels.Shx8800Pro;
 public partial class Channel : ObservableObject
 {
 #pragma warning disable CS0657
-    [ObservableProperty] [property:EpplusTableColumn(Header = "信道")] private int _id; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "接收频率")] private string _rxFreq = ""; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "亚音解码")] private string _strRxCtsDcs = "OFF"; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "发射频率")] private string _txFreq = ""; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "亚音编码")] private string _strTxCtsDcs = "OFF"; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "功率")] private int _txPower; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "带宽")] private int _bandwide; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "扫描添加")] private int _scanAdd; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "繁忙锁定")] private int _busyLock;
-    [ObservableProperty] [property:EpplusTableColumn(Header = "PTT-ID")] private int _pttid; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "信令码")] private int _signalGroup; //
-    [ObservableProperty] [property:EpplusTableColumn(Header = "信道名称")] private string _name = ""; //
-    [ObservableProperty] [property:EpplusTableColumn(Hidden = true)] private bool _isVisable;
+    [ObservableProperty] private int _id; //
+    [ObservableProperty] private string _rxFreq = ""; //
+    [ObservableProperty] private string _strRxCtsDcs = "OFF"; //
+    [ObservableProperty] private string _txFreq = ""; //
+    [ObservableProperty] private string _strTxCtsDcs = "OFF"; //
+    [ObservableProperty] private int _txPower; //
+    [ObservableProperty] private int _bandwide; //
+    [ObservableProperty] private int _scanAdd; //
+    [ObservableProperty] private int _busyLock;
+    [ObservableProperty] private int _pttid; //
+    [ObservableProperty] private int _signalGroup; //
+    [ObservableProperty] private string _name = ""; //
+    [ObservableProperty] private bool _isVisable;
 #pragma warning restore CS0657
 
     public Channel()
@@ -42,6 +42,26 @@ public partial class Channel : ObservableObject
         _signalGroup = signal;
         _busyLock = busyLock;
         _name = name;
+    }
+
+    public ExcelChannel ToExcelChannel()
+    {
+        return new ExcelChannel
+        {
+            Id = Id.ToString(),
+            RxFreq = RxFreq.ToString(),
+            StrRxCtsDcs = StrRxCtsDcs.ToString(),
+            TxFreq = TxFreq,
+            StrTxCtsDcs = StrTxCtsDcs,
+            TxPower = Constants.Shx8800Pro.ChanChoice.Power[TxPower],
+            Bandwide = Constants.Shx8800Pro.ChanChoice.Bandwidth[Bandwide],
+            ScanAdd = Constants.Shx8800Pro.ChanChoice.Scanadd[ScanAdd],
+            BusyLock = Constants.Shx8800Pro.ChanChoice.BusyLock[BusyLock],
+            Pttid = Constants.Shx8800Pro.ChanChoice.Pttid[Pttid],
+            SignalGroup = Constants.Shx8800Pro.ChanChoice.SigGrp[SignalGroup],
+            Name = Name,
+            IsVisable = false
+        };
     }
 
     public Channel DeepCopy()

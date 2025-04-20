@@ -65,6 +65,8 @@ public class ClassTheRadioData : IBackupable
                 options.PrintHeaders = true;
                 // options.TableStyle = TableStyles.Dark1;
             });
+            
+            ws.Cells.AutoFitColumns();
 
             addValidationTo(ws, "B:B", Constants.Shx8x00.ChanChoice.Txallow);
             // addValidationTo(ws, "D:D", Constants.Shx8x00.ChanChoice.Qtdqt);

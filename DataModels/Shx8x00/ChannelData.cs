@@ -41,7 +41,7 @@ public partial class ChannelData : ObservableObject
     [ObservableProperty] [property:EpplusTableColumn(Header = "加密")]private string _encrypt = "";
     
     
-    [ObservableProperty] [property: EpplusTableColumn(Hidden = true)] private bool _isVisable;
+    [ObservableProperty] [property: EpplusIgnore] private bool _isVisable;
 
 #pragma warning restore CS0657 
 

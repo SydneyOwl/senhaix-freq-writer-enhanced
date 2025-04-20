@@ -21,7 +21,7 @@ public partial class Channel : ObservableObject
     [ObservableProperty] [property: EpplusTableColumn(Header = "PTT-ID")] private int _pttid;
     [ObservableProperty] [property: EpplusTableColumn(Header = "信令码")] private int _signalGroup;
     [ObservableProperty] [property: EpplusTableColumn(Header = "信道名称")] private string _name = "";
-    [XmlIgnore, ObservableProperty] [property: EpplusTableColumn(Hidden = true)] private bool _isVisable;
+    [XmlIgnore, ObservableProperty] [property: EpplusIgnore] private bool _isVisable;
 
 #pragma warning restore CS0657
     public Channel()
