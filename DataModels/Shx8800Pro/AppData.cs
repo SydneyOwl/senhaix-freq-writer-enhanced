@@ -54,8 +54,8 @@ public class AppData : IBackupable
     
     public void SaveAsExcel(string filename)
     {
-        try
-        {
+        // try
+        // {
             if (File.Exists(filename)) File.Delete(filename);
             using var excelPack = new ExcelPackage(filename);
             for (var i = 0; i < ChannelList.Length; i++)
@@ -81,11 +81,11 @@ public class AppData : IBackupable
                 addValidationTo(ws,"K:K",Constants.Shx8800Pro.ChanChoice.SigGrp);
             }
             excelPack.Save();
-        }
-        catch(Exception ex)
-        {
-            DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
-        }
+        // }
+        // catch(Exception ex)
+        // {
+        //     DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
+        // }
     }
     
     private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
@@ -103,8 +103,8 @@ public class AppData : IBackupable
 
     public void LoadFromExcel(string filename)
     {
-        try
-        {
+        // try
+        // {
             if (!File.Exists(filename))return;
             using var excelPack = new ExcelPackage(filename);
             // _ = excelPack.Workbook.Worksheets[0];
@@ -143,11 +143,11 @@ public class AppData : IBackupable
 
                 ChannelList[i] = res.ToArray();
             }
-        }
-        catch(Exception ex)
-        {
-            DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
-        }
+        // }
+        // catch(Exception ex)
+        // {
+        //     DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
+        // }
     }
 
     public static AppData GetInstance()

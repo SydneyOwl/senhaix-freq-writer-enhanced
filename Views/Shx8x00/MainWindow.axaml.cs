@@ -288,7 +288,15 @@ public partial class MainWindow : Window
         if (file is not null)
         {
             var savePath = file.Path.LocalPath;
-            ClassTheRadioData.GetInstance().SaveAsExcel(savePath, _shxDevice);
+            try
+            {
+                ClassTheRadioData.GetInstance().SaveAsExcel(savePath, _shxDevice);
+            }
+            catch (Exception er)
+            {
+                DebugWindow.GetInstance().UpdateDebugContent(er.Message);
+                await MessageBoxManager.GetMessageBoxStandard("注意", "导出失败，请检查文件格式！").ShowWindowDialogAsync(this);
+            }
         }
     }
 
@@ -304,7 +312,15 @@ public partial class MainWindow : Window
         if (files.Count > 0)
         {
             var loadPath = files[0].Path.LocalPath;
-            ClassTheRadioData.GetInstance().LoadFromExcel(loadPath);
+            try
+            {
+                ClassTheRadioData.GetInstance().LoadFromExcel(loadPath);
+            }
+            catch (Exception er)
+            {
+                DebugWindow.GetInstance().UpdateDebugContent(er.Message);
+                await MessageBoxManager.GetMessageBoxStandard("注意", "导入失败，请检查文件格式！").ShowWindowDialogAsync(this);
+            }
         }
     }
 

@@ -54,8 +54,8 @@ public class ClassTheRadioData : IBackupable
 
     public void SaveAsExcel(string filename, ShxDevice device)
     {
-        try
-        {
+        // try
+        // {
             if (File.Exists(filename)) File.Delete(filename);
             using var excelPack = new ExcelPackage(filename);
             var ws = excelPack.Workbook.Worksheets.Add("信道信息");
@@ -82,11 +82,11 @@ public class ClassTheRadioData : IBackupable
             
             
             excelPack.Save();
-        }
-        catch(Exception ex)
-        {
-            DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
-        }
+        // }
+        // catch(Exception ex)
+        // {
+        //     DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
+        // }
     }
 
     private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
@@ -103,8 +103,8 @@ public class ClassTheRadioData : IBackupable
     }
     public void LoadFromExcel(string filename)
     {
-        try
-        {
+        // try
+        // {
             if (!File.Exists(filename))return;
             using var excelPack = new ExcelPackage(filename);
             var parsed = excelPack.Workbook.Worksheets[0].Cells["A1:N129"].ToCollection<ChannelData>();
@@ -115,11 +115,11 @@ public class ClassTheRadioData : IBackupable
                 ObsChanData.Add(channelData.DeepCopy());
                 Console.WriteLine(channelData.ToString());
             }
-        }
-        catch(Exception ex)
-        {
-            DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
-        }
+        // }
+        // catch(Exception ex)
+        // {
+        //     DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
+        // }
     }
     
     public void SaveAsCsv(string filename)

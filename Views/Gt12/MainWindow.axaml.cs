@@ -607,7 +607,15 @@ public partial class MainWindow : Window
         if (file is not null)
         {
             var savePath = file.Path.LocalPath;
-            AppData.GetInstance().SaveAsExcel(savePath);
+            try
+            {
+                AppData.GetInstance().SaveAsExcel(savePath);
+            }
+            catch (Exception e1)
+            {
+                DebugWindow.GetInstance().UpdateDebugContent(e1.Message);
+               await MessageBoxManager.GetMessageBoxStandard("注意", "导出失败，请检查文件格式！").ShowWindowDialogAsync(this);
+            }
         }
     }
 
@@ -622,7 +630,15 @@ public partial class MainWindow : Window
         if (files.Count > 0)
         {
             var loadPath = files[0].Path.LocalPath;
-            AppData.GetInstance().LoadFromExcel(loadPath);
+            try
+            {
+                AppData.GetInstance().LoadFromExcel(loadPath);
+            } 
+            catch (Exception e1)
+            {
+                DebugWindow.GetInstance().UpdateDebugContent(e1.Message);
+                await MessageBoxManager.GetMessageBoxStandard("注意", "导入失败，请检查文件格式！").ShowWindowDialogAsync(this);
+            }
             // AppData.ForceNewInstance();
             SetArea(0);
         }
