@@ -38,7 +38,7 @@
 + 开机画面修改
 + 打星助手
 + 自动备份
-+ 导出信道为excel / 从excel导入信道
++ 导出信道为excel / 从excel导入信道（预览版本[v0.4.6-preview2](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/v0.4.6-preview2)）
 + 修复了官方软件上的一些bug(GT12写频后自动开启中转(#21)、取消8800/8600信道名称长度限制(#15) 等等)
 + ...
 
