@@ -38,7 +38,7 @@
 + 开机画面修改
 + 打星助手
 + 自动备份
-+ 导出信道为excel / 从excel导入信道（预览版本[v0.4.6-preview2](https://github.com/SydneyOwl/senhaix-freq-writer-enhanced/releases/v0.4.6-preview2)）
++ 导出信道为excel / 从excel导入信道
 + 修复了官方软件上的一些bug(GT12写频后自动开启中转(#21)、取消8800/8600信道名称长度限制(#15) 等等)
 + ...
 
@@ -249,7 +249,7 @@ VFO页面设置闪退问题；修复切换到同种设备后数据仍然存在�
 
 `v0.4.5` 支持批量复制/剪切信道(#24), GT12Pro支持, 优化windows编译产物体积，优化窗口布局，修复8800pro/gt12(pro)信道功率读取错误问题（#28）
 
-`v0.4.6(preview)` 支持以excel形式导出/导入信道
+`v0.4.6` 支持以excel形式导出/导入信道
 
 ## 致谢
 
