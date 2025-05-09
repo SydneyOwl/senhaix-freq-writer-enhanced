@@ -11,17 +11,6 @@
             <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick" />
         </NativeMenu>
     </NativeMenu.Menu>
-    <TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon Icon="/Asset/shx8800-icons/icon.ico" ToolTipText="森海克斯8x00写频软件">
-                <TrayIcon.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="强制退出" Click="QuitMenuItem_OnClick" />
-                    </NativeMenu>
-                </TrayIcon.Menu>
-            </TrayIcon>
-        </TrayIcons>
-    </TrayIcon.Icons>
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <Application.Styles>
         <FluentTheme />
