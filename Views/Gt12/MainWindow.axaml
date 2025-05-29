@@ -8,9 +8,9 @@
         xmlns:vm="using:SenhaixFreqWriter.Views.Gt12"
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Gt12"
         x:DataType="vm:MainWindow"
-        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
         x:Class="SenhaixFreqWriter.Views.Gt12.MainWindow"
         xmlns:p="using:SenhaixFreqWriter.Properties"
+        xmlns:behaviors="clr-namespace:SenhaixFreqWriter.Behaviors"
         WindowStartupLocation="CenterScreen">
     <!-- WindowState="Maximized"> -->
     <DockPanel LastChildFill="True">
@@ -222,7 +222,7 @@
                 </DataGrid.ContextMenu>
                 <Interaction.Behaviors>
                     <BehaviorCollection>
-                        <idd:ContextDropBehavior Handler="{StaticResource DataGridDndGt12}" />
+                        <behaviors:ContextDropBehaviorFix Handler="{StaticResource DataGridDndGt12}" />
                     </BehaviorCollection>
                 </Interaction.Behaviors>
                 <DataGrid.Columns>

@@ -4,7 +4,7 @@
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8x00"
         xmlns:p="using:SenhaixFreqWriter.Properties"
         x:DataType="vm:MainWindow"
-        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
+        xmlns:behaviors="clr-namespace:SenhaixFreqWriter.Behaviors"
         x:Class="SenhaixFreqWriter.Views.Shx8x00.MainWindow"
         SizeToContent="Width"
         Height="750"
@@ -194,7 +194,7 @@
                 </DataGrid.ContextMenu>
                 <Interaction.Behaviors>
                     <BehaviorCollection>
-                        <idd:ContextDropBehavior Handler="{StaticResource DataGridDndBfNamedId}" />
+                        <behaviors:ContextDropBehaviorFix Handler="{StaticResource DataGridDndBfNamedId}" />
                     </BehaviorCollection>
                 </Interaction.Behaviors>
                 <DataGrid.Columns>

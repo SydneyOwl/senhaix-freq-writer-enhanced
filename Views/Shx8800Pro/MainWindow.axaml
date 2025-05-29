@@ -6,7 +6,7 @@
         xmlns:constants="clr-namespace:SenhaixFreqWriter.Constants.Shx8800Pro"
         xmlns:p="using:SenhaixFreqWriter.Properties"
         x:DataType="vm:MainWindow"
-        xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
+        xmlns:behaviors="clr-namespace:SenhaixFreqWriter.Behaviors"
         x:Class="SenhaixFreqWriter.Views.Shx8800Pro.MainWindow"
         WindowStartupLocation="CenterScreen">
     <!-- WindowState="Maximized"> -->
@@ -225,7 +225,7 @@
                 </DataGrid.ContextMenu>
                 <Interaction.Behaviors>
                     <BehaviorCollection>
-                        <idd:ContextDropBehavior Handler="{StaticResource DataGridDndShx8800Pro}" />
+                        <behaviors:ContextDropBehaviorFix Handler="{StaticResource DataGridDndShx8800Pro}" />
                     </BehaviorCollection>
                 </Interaction.Behaviors>
                 <DataGrid.Columns>
