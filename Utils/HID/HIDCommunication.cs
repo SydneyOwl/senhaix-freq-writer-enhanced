@@ -320,7 +320,7 @@ public class HidCommunication
                             // 36912 -> sbtn_transfer_mode
                             array[16] = (byte)AppData.FunCfgs.RelaySw;
                             array[17] = (byte)AppData.FunCfgs.RelaySpeakerSw;
-                            if (AppData.FunCfgs.CallSign != null && AppData.FunCfgs.CallSign != "")
+                            if (!string.IsNullOrEmpty(AppData.FunCfgs.CallSign))
                             {
                                 var bytes = Encoding.GetEncoding("gb2312").GetBytes(AppData.FunCfgs.CallSign);
                                 var array2 = bytes;

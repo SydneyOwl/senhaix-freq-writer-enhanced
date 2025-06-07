@@ -20,6 +20,7 @@ public class ClassTheRadioData : IBackupable
 {
     [JsonIgnore] public static ClassTheRadioData Instance;
 
+    // 20250603 我已经看不懂这是什么了
     //TODO 无法直接反序列化到chanData, 只能这样一下
     public List<ChannelData> ChanneldataList = new();
 
@@ -113,7 +114,7 @@ public class ClassTheRadioData : IBackupable
             {
                 channelData.IsVisable = !channelData.AllEmpty();
                 ObsChanData.Add(channelData.DeepCopy());
-                Console.WriteLine(channelData.ToString());
+                // Console.WriteLine(channelData.ToString());
             }
         // }
         // catch(Exception ex)
