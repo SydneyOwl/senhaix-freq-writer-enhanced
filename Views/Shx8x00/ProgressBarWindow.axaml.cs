@@ -59,7 +59,7 @@ public partial class ProgressBarWindow : Window
                 Dispatcher.UIThread.Invoke(() => statusLabel.Content = "等待进程结束...");
                 _threadWf.Join();
                 _threadProgress.Join();
-                Dispatcher.UIThread.Invoke(() => ClassTheRadioData.GetInstance().ForceNewChannel());
+                Dispatcher.UIThread.Invoke(() => ClassTheRadioData.GetInstance().ForceNewInstance());
             }
 
             Dispatcher.UIThread.Invoke(Close);

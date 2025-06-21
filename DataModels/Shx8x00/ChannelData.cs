@@ -12,36 +12,81 @@ namespace SenhaixFreqWriter.DataModels.Shx8x00;
 public partial class ChannelData : ObservableObject
 {
 #pragma warning disable CS0657 
-    [ObservableProperty] [property:EpplusTableColumn(Header = "信道号")]private string _chanNum = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "信道号")]
+    [property:JsonProperty]
+    private string _chanNum = "";
 
-    [ObservableProperty]  [property:EpplusTableColumn(Header = "发射允许")]private string _txAllow = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "发射允许")]
+    [property:JsonProperty] 
+    private string _txAllow = "";
     
-    [ObservableProperty]  [property:EpplusTableColumn(Header = "接收频率")]private string _rxFreq = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "接收频率")]
+    [property:JsonProperty]
+    private string _rxFreq = "";
 
-    [ObservableProperty] [property:EpplusTableColumn(Header = "QT/DQT解码")]private string _qtDec = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "QT/DQT解码")]
+    [property:JsonProperty]
+    private string _qtDec = "";
 
-    [ObservableProperty]  [property:EpplusTableColumn(Header = "发射频率")]private string _txFreq = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "发射频率")]
+    [property:JsonProperty]
+    private string _txFreq = "";
     
-    [ObservableProperty] [property:EpplusTableColumn(Header = "QT/DQT编码")]private string _qtEnc = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "QT/DQT编码")]
+    [property:JsonProperty]
+    private string _qtEnc = "";
 
-    [ObservableProperty]  [property:EpplusTableColumn(Header = "功率")]private string _txPwr = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "功率")]
+    [property:JsonProperty]
+    private string _txPwr = "";
     
-    [ObservableProperty] [property:EpplusTableColumn(Header = "带宽")] private string _bandWidth = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "带宽")] 
+    [property:JsonProperty]
+    private string _bandWidth = "";
 
-    [ObservableProperty][property:EpplusTableColumn(Header = "PTT-ID")] private string _pttid = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "PTT-ID")]
+    [property:JsonProperty]
+    private string _pttid = "";
 
-    [ObservableProperty] [property:EpplusTableColumn(Header = "繁忙锁定")]private string _busyLock = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "繁忙锁定")]
+    [property:JsonProperty]
+    private string _busyLock = "";
     
-    [ObservableProperty] [property:EpplusTableColumn(Header = "扫描添加")] private string _scanAdd = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "扫描添加")] 
+    [property:JsonProperty]
+    private string _scanAdd = "";
 
-    [ObservableProperty] [property:EpplusTableColumn(Header = "信令码")] private string _sigCode = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "信令码")]
+    [property:JsonProperty]
+    private string _sigCode = "";
 
-    [ObservableProperty] [property:EpplusTableColumn(Header = "信道名称")]private string _chanName = "";
+    [ObservableProperty]
+    [property:EpplusTableColumn(Header = "信道名称")]
+    [property:JsonProperty]
+    private string _chanName = "";
     
-    [ObservableProperty] [property:EpplusTableColumn(Header = "加密")]private string _encrypt = "";
+    [ObservableProperty] 
+    [property:EpplusTableColumn(Header = "加密")]
+    [property:JsonProperty]
+    private string _encrypt = "";
     
     
-    [ObservableProperty] [property: EpplusIgnore] private bool _isVisable;
+    [ObservableProperty] 
+    [property: EpplusIgnore] 
+    [property:JsonIgnore]
+    private bool _isVisable;
 
 #pragma warning restore CS0657 
 

@@ -20,26 +20,16 @@ public class ClassTheRadioData : IBackupable
 {
     [JsonIgnore] public static ClassTheRadioData Instance;
 
-    // 20250603 我已经看不懂这是什么了
-    //TODO 无法直接反序列化到chanData, 只能这样一下
-    public List<ChannelData> ChanneldataList = new();
-
     public DtmfData DtmfData = new();
 
     public FunCfgData FunCfgData = new();
 
-    [JsonIgnore] public ObservableCollection<ChannelData> ObsChanData = new();
+    public ObservableCollection<ChannelData> ObsChanData = new();
 
     public OtherImfData OtherImfData = new();
 
     public ClassTheRadioData()
     {
-        for (var i = 0; i < 128; i++)
-        {
-            var data = new ChannelData();
-            data.ChanNum = i.ToString();
-            ObsChanData.Add(data);
-        }
     }
 
     public void SaveToFile(Stream s)
@@ -48,7 +38,6 @@ public class ClassTheRadioData : IBackupable
         serializer.Formatting = Formatting.Indented;
         using (var streamWriter = new StreamWriter(s, Encoding.UTF8))
         {
-            Instance.ChanneldataList = Instance.ObsChanData.ToList();
             serializer.Serialize(streamWriter, Instance);
         }
     }
@@ -141,24 +130,25 @@ public class ClassTheRadioData : IBackupable
 
     public static void CreatObjFromFile(Stream s)
     {
+        Instance.ForceNewInstance();
         using (var streamReader = new StreamReader(s, Encoding.UTF8))
         {
             var res = streamReader.ReadToEnd();
             ClassTheRadioData tmp;
             try
             {
-                var jsonSerializer = new JsonSerializer();
-                var stringReader = new JsonTextReader(new StringReader(res));
-                tmp = jsonSerializer.Deserialize<ClassTheRadioData>(stringReader);
+                tmp = JsonConvert.DeserializeObject<ClassTheRadioData>(res)!;
                 Instance.FunCfgData = tmp.FunCfgData;
                 Instance.DtmfData = tmp.DtmfData;
                 Instance.OtherImfData = tmp.OtherImfData;
+                
                 Instance.ObsChanData.Clear();
-                foreach (var cd in tmp.ChanneldataList)
+                foreach (var cd in tmp.ObsChanData)
                 {
                     if (!cd.AllEmpty()) cd.IsVisable = true;
                     Instance.ObsChanData.Add(cd);
                 }
+                
             }
             catch
             {
@@ -172,10 +162,16 @@ public class ClassTheRadioData : IBackupable
         if (Instance != null) return Instance;
 
         Instance = new ClassTheRadioData();
+        for (var i = 0; i < 128; i++)
+        {
+            var data = new ChannelData();
+            data.ChanNum = i.ToString();
+            Instance.ObsChanData.Add(data);
+        }
         return Instance;
     }
 
-    public void ForceNewChannel()
+    public void ForceNewInstance()
     {
         Instance.ObsChanData.Clear();
         for (var i = 0; i < 128; i++)
@@ -185,5 +181,9 @@ public class ClassTheRadioData : IBackupable
             chan.IsVisable = false;
             Instance.ObsChanData.Add(chan);
         }
+        
+        Instance.DtmfData = new DtmfData();
+        Instance.FunCfgData = new FunCfgData();
+        Instance.OtherImfData = new OtherImfData();
     }
 }

@@ -221,21 +221,7 @@ public partial class MainWindow : Window
 
         var result = await box.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;
-        // ClassTheRadioData.forceNew();
-        // this.listItems = ClassTheRadioData.getInstance().chanData;
-        // ClassTheRadioData.getInstance().channeldata.Clear();
-        // for (var i = 0; i < listItems.Count; i++)
-        // {
-        //     var tmp = new ChannelData();
-        //     tmp.IsVisable = false;
-        //     tmp.ChanNum = i.ToString();
-        //     listItems[i] = tmp;
-        //     ClassTheRadioData.getInstance().channeldata.Add(tmp);
-        // }
-        ClassTheRadioData.GetInstance().ForceNewChannel();
-        ClassTheRadioData.GetInstance().DtmfData = new DtmfData();
-        ClassTheRadioData.GetInstance().FunCfgData = new FunCfgData();
-        ClassTheRadioData.GetInstance().OtherImfData = new OtherImfData();
+        ClassTheRadioData.GetInstance().ForceNewInstance();
     }
 
     private async void saveAs_OnClick(object? sender, RoutedEventArgs e)
@@ -360,7 +346,6 @@ public partial class MainWindow : Window
     private async void readChannel_OnClick(object? sendser, RoutedEventArgs e)
     {
         var tmp = ClassTheRadioData.GetInstance();
-        tmp.ChanneldataList = tmp.ObsChanData.ToList();
         await new ProgressBarWindow(OperationType.Read).ShowDialog(this);
     }
 
@@ -368,13 +353,12 @@ public partial class MainWindow : Window
     {
         var flag = false;
         var tmp = ClassTheRadioData.GetInstance();
-        tmp.ChanneldataList = tmp.ObsChanData.ToList();
         // 检查信道
         for (var a = 0; a < ListItems.Count; a++)
         {
             if (ListItems[a].AllEmpty() || ListItems[a].Filled()) continue;
             // 不写入不完整的信道
-            tmp.ChanneldataList[a] = new ChannelData();
+            tmp.ObsChanData[a] = new ChannelData();
             flag = true;
         }
 
@@ -384,7 +368,6 @@ public partial class MainWindow : Window
             var result = await box.ShowWindowDialogAsync(this);
             if (result == ButtonResult.No)
             {
-                tmp.ChanneldataList = tmp.ObsChanData.ToList();
                 return;
             }
         }
