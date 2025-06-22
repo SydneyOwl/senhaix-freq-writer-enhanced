@@ -351,26 +351,26 @@ public partial class MainWindow : Window
 
     private async void writeChannel_OnClick(object? sender, RoutedEventArgs e)
     {
-        var flag = false;
-        var tmp = ClassTheRadioData.GetInstance();
-        // 检查信道
-        for (var a = 0; a < ListItems.Count; a++)
-        {
-            if (ListItems[a].AllEmpty() || ListItems[a].Filled()) continue;
-            // 不写入不完整的信道
-            tmp.ObsChanData[a] = new ChannelData();
-            flag = true;
-        }
-
-        if (flag)
-        {
-            var box = MessageBoxManager.GetMessageBoxStandard("注意", "您有信道未完全填写，写入时将忽略!", ButtonEnum.YesNo);
-            var result = await box.ShowWindowDialogAsync(this);
-            if (result == ButtonResult.No)
-            {
-                return;
-            }
-        }
+        // var flag = false;
+        // var tmp = ClassTheRadioData.GetInstance();
+        // // 检查信道
+        // for (var a = 0; a < ListItems.Count; a++)
+        // {
+        //     if (ListItems[a].AllEmpty() || ListItems[a].Filled()) continue;
+        //     // 不写入不完整的信道
+        //     tmp.ObsChanData[a] = new ChannelData();
+        //     flag = true;
+        // }
+        //
+        // if (flag)
+        // {
+        //     var box = MessageBoxManager.GetMessageBoxStandard("注意", "您有信道未完全填写，写入时将忽略!", ButtonEnum.YesNo);
+        //     var result = await box.ShowWindowDialogAsync(this);
+        //     if (result == ButtonResult.No)
+        //     {
+        //         return;
+        //     }
+        // }
 
 
         // await new PortSelectionWindow().ShowDialog(this);
