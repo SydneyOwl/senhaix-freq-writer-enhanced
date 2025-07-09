@@ -1,4 +1,4 @@
-# 森海克斯写频软件修改版
+# 森海克斯写频软件修改版 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/SydneyOwl/senhaix-freq-writer-enhanced)
 
 ![Static Badge](https://img.shields.io/badge/.NET-6-purple?style=for-the-badge) ![Static Badge](https://img.shields.io/badge/Go-1.22-blue?style=for-the-badge)
 
