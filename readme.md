@@ -54,8 +54,6 @@
 
 + 插件默认只编译了x64的版本，需要其他版本请自行编译
 + 为减小软件体积，目前windows/linux/macos均通过客户端（见ble_plugin）的帮助实现蓝牙写频
-+ ~~windows上若不勾选RPC方式写频，则使用的是c#的WinRT api~~
-+ ~~linux和mac端只能使用RPC方式写频，目前此方式通过客户端（见ble_plugin）的帮助实现蓝牙写频~~
 
 ![](./readme_image/plugin.png)
 
@@ -107,11 +105,7 @@ Windows用户请特别注意：**如在windows下无法编译，请检查entrypo
 
 #### 手动编译
 
-如您使用`Rider`，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架，直接publish即可！
-
-如您使用命令行编译，按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架后，可以参考`.github/workflows/build.yml`进行编译。
-
-
+请按照`SenhaixFreqWriter.csproj`中的注释选择合适的框架后，参考`.github/workflows/build.yml`进行编译。
 
 ### 编译蓝牙插件
 
@@ -207,7 +201,9 @@ shx8x00软件原理:见 [ble-connector](https://github.com/SydneyOwl/shx8800-ble
 ## 免责声明
 
 - 本软件仅供技术交流和个人学习使用。任何个人或组织在使用本软件时必须**遵守中华人民共和国相关法律法规及无线电管理条例**。
-- 如因使用本软件造成数据损失，**作者不承担任何法律责任**。数据无价，提醒您注意备份！
+- 如因使用本软件造成任何损失，包括但不限于数据丢失或设备损坏，**作者不承担任何法律责任**。数据无价，提醒您注意备份！
+
+通过下载、安装或使用此软件，您即表示已阅读、理解并同意受项目免责声明的约束。
 
 ## 版本日志
 
