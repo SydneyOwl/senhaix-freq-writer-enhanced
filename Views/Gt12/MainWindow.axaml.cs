@@ -592,15 +592,15 @@ public partial class MainWindow : Window
     {
         new SettingsWindow().ShowDialog(this);
     }
-    
+
     private async void SaveAsExcelMenuItem_OnClick(object? sender, RoutedEventArgs e)
-    { 
+    {
         var ts = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
         var topLevel = GetTopLevel(this);
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "导出信道信息到",
-            SuggestedFileName = "Channels-" + ts + ".xlsx",
+            SuggestedFileName = "Channels-" + ts + ".xlsx"
             // DefaultExtension = ".xlsx",
             // FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
         });
@@ -614,7 +614,7 @@ public partial class MainWindow : Window
             catch (Exception e1)
             {
                 DebugWindow.GetInstance().UpdateDebugContent(e1.Message);
-               await MessageBoxManager.GetMessageBoxStandard("注意", "导出失败，请检查文件格式！").ShowWindowDialogAsync(this);
+                await MessageBoxManager.GetMessageBoxStandard("注意", "导出失败，请检查文件格式！").ShowWindowDialogAsync(this);
             }
         }
     }
@@ -633,12 +633,13 @@ public partial class MainWindow : Window
             try
             {
                 AppData.GetInstance().LoadFromExcel(loadPath);
-            } 
+            }
             catch (Exception e1)
             {
                 DebugWindow.GetInstance().UpdateDebugContent(e1.Message);
                 await MessageBoxManager.GetMessageBoxStandard("注意", "导入失败，请检查文件格式！").ShowWindowDialogAsync(this);
             }
+
             // AppData.ForceNewInstance();
             SetArea(0);
         }

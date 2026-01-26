@@ -25,8 +25,8 @@ public class WsrpcUtil
 {
     private static WsrpcUtil _instance;
     private readonly Queue<string> _normalDataQueue = new();
-    private IWebSocketConnection _currentClient;
     private readonly Settings _settings = Settings.Load();
+    private IWebSocketConnection _currentClient;
     private WebSocketServer _wsServer;
 
 

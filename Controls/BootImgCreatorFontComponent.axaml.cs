@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Threading;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;

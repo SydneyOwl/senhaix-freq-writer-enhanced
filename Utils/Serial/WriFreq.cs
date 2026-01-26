@@ -1400,7 +1400,7 @@ internal class WriFreq
         if (dat[13] > 3) dat[13] = 0;
         theRadioData.ObsChanData[noCh].ChangeByNum(8, array[dat[13]]);
         // channelDat[8] = array[dat[13]];
-        
+
         // 在8600新版上还有M选项
         if (ChanChoice.TxPwr.Count == 2)
         {
@@ -1414,7 +1414,7 @@ internal class WriFreq
             if (dat[14] >= 3) dat[14] = 0;
             theRadioData.ObsChanData[noCh].ChangeByNum(6, array2[dat[14]]);
         }
-       
+
 
         // channelDat[6] = array2[dat[14]];
 
@@ -1559,7 +1559,7 @@ internal class WriFreq
             theRadioData.FunCfgData.CBLockKeyBoard = false;
         if (dat[12] == byte.MaxValue) dat[12] = 0;
         theRadioData.FunCfgData.CbBPowerOnMsg = dat[12];
-        
+
         // 8600pro没有这个
         if (dat[14] > 3) dat[14] = 2;
         theRadioData.FunCfgData.CbB1750Hz = dat[14];

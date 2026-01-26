@@ -1,7 +1,3 @@
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-
 namespace SenhaixFreqWriter.Properties;
 
 // 通过命令行传入的参数

@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using OfficeOpenXml;
-using OfficeOpenXml.DataValidation;
 using SenhaixFreqWriter.Constants.Common;
+using SenhaixFreqWriter.Constants.Shx8x00;
 using SenhaixFreqWriter.DataModels.Interfaces;
-using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.DataModels.Shx8x00;
 
@@ -28,10 +25,6 @@ public class ClassTheRadioData : IBackupable
 
     public OtherImfData OtherImfData = new();
 
-    public ClassTheRadioData()
-    {
-    }
-
     public void SaveToFile(Stream s)
     {
         var serializer = new JsonSerializer();
@@ -46,32 +39,31 @@ public class ClassTheRadioData : IBackupable
     {
         // try
         // {
-            if (File.Exists(filename)) File.Delete(filename);
-            using var excelPack = new ExcelPackage(filename);
-            var ws = excelPack.Workbook.Worksheets.Add("信道信息");
-            // Load the sample data into the worksheet
-            var range = ws.Cells["A1"].LoadFromCollection(ObsChanData, options =>
-            {
-                options.PrintHeaders = true;
-                // options.TableStyle = TableStyles.Dark1;
-            });
-            
-            ws.Cells.AutoFitColumns();
+        if (File.Exists(filename)) File.Delete(filename);
+        using var excelPack = new ExcelPackage(filename);
+        var ws = excelPack.Workbook.Worksheets.Add("信道信息");
+        // Load the sample data into the worksheet
+        var range = ws.Cells["A1"].LoadFromCollection(ObsChanData, options =>
+        {
+            options.PrintHeaders = true;
+            // options.TableStyle = TableStyles.Dark1;
+        });
 
-            addValidationTo(ws, "B:B", Constants.Shx8x00.ChanChoice.Txallow);
-            // addValidationTo(ws, "D:D", Constants.Shx8x00.ChanChoice.Qtdqt);
-            // addValidationTo(ws, "F:F", Constants.Shx8x00.ChanChoice.Qtdqt);
-            addValidationTo(ws, "G:G", device==ShxDevice.Shx8600Pro?
-                Constants.Shx8x00.ChanChoice.TxPwrNewShx8600: Constants.Shx8x00.ChanChoice.TxPwr);
-            addValidationTo(ws, "H:H", Constants.Shx8x00.ChanChoice.Bandwidth);
-            addValidationTo(ws, "I:I", Constants.Shx8x00.ChanChoice.Pttid);
-            addValidationTo(ws, "J:J", Constants.Shx8x00.ChanChoice.Busylock);
-            addValidationTo(ws, "K:K", Constants.Shx8x00.ChanChoice.Scanadd);
-            addValidationTo(ws, "L:L", Constants.Shx8x00.ChanChoice.SignCode);
-            addValidationTo(ws, "N:N", Constants.Shx8x00.ChanChoice.Encrypt);
-            
-            
-            excelPack.Save();
+        ws.Cells.AutoFitColumns();
+
+        addValidationTo(ws, "B:B", ChanChoice.Txallow);
+        // addValidationTo(ws, "D:D", Constants.Shx8x00.ChanChoice.Qtdqt);
+        // addValidationTo(ws, "F:F", Constants.Shx8x00.ChanChoice.Qtdqt);
+        addValidationTo(ws, "G:G", device == ShxDevice.Shx8600Pro ? ChanChoice.TxPwrNewShx8600 : ChanChoice.TxPwr);
+        addValidationTo(ws, "H:H", ChanChoice.Bandwidth);
+        addValidationTo(ws, "I:I", ChanChoice.Pttid);
+        addValidationTo(ws, "J:J", ChanChoice.Busylock);
+        addValidationTo(ws, "K:K", ChanChoice.Scanadd);
+        addValidationTo(ws, "L:L", ChanChoice.SignCode);
+        addValidationTo(ws, "N:N", ChanChoice.Encrypt);
+
+
+        excelPack.Save();
         // }
         // catch(Exception ex)
         // {
@@ -82,36 +74,34 @@ public class ClassTheRadioData : IBackupable
     private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
     {
         var validation = ws.DataValidations.AddListValidation(range);
-        foreach (var se in target)
-        {
-            validation.Formula.Values.Add(se);
-        }
+        foreach (var se in target) validation.Formula.Values.Add(se);
         // validation.ShowErrorMessage = true;
         // validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
         // validation.ErrorTitle = "无效值";
         // validation.Error = "请在下拉框中选择！";
     }
+
     public void LoadFromExcel(string filename)
     {
         // try
         // {
-            if (!File.Exists(filename))return;
-            using var excelPack = new ExcelPackage(filename);
-            var parsed = excelPack.Workbook.Worksheets[0].Cells["A1:N129"].ToCollection<ChannelData>();
-            ObsChanData.Clear();
-            foreach (var channelData in parsed)
-            {
-                channelData.IsVisable = !channelData.AllEmpty();
-                ObsChanData.Add(channelData.DeepCopy());
-                // Console.WriteLine(channelData.ToString());
-            }
+        if (!File.Exists(filename)) return;
+        using var excelPack = new ExcelPackage(filename);
+        var parsed = excelPack.Workbook.Worksheets[0].Cells["A1:N129"].ToCollection<ChannelData>();
+        ObsChanData.Clear();
+        foreach (var channelData in parsed)
+        {
+            channelData.IsVisable = !channelData.AllEmpty();
+            ObsChanData.Add(channelData.DeepCopy());
+            // Console.WriteLine(channelData.ToString());
+        }
         // }
         // catch(Exception ex)
         // {
         //     DebugWindow.GetInstance().UpdateDebugContent($"Failed to load from excel: {ex.Message}");
         // }
     }
-    
+
     public void SaveAsCsv(string filename)
     {
         if (File.Exists(filename)) File.Delete(filename);
@@ -122,10 +112,9 @@ public class ClassTheRadioData : IBackupable
         {
             options.PrintHeaders = true;
             // options.TableStyle = TableStyles.Dark1;
-        }).SaveToText(new FileInfo(filename),new ExcelOutputTextFormat { Delimiter = ';'});
+        }).SaveToText(new FileInfo(filename), new ExcelOutputTextFormat { Delimiter = ';' });
         excelPack.Save();
     }
-
 
 
     public static void CreatObjFromFile(Stream s)
@@ -141,14 +130,13 @@ public class ClassTheRadioData : IBackupable
                 Instance.FunCfgData = tmp.FunCfgData;
                 Instance.DtmfData = tmp.DtmfData;
                 Instance.OtherImfData = tmp.OtherImfData;
-                
+
                 Instance.ObsChanData.Clear();
                 foreach (var cd in tmp.ObsChanData)
                 {
                     if (!cd.AllEmpty()) cd.IsVisable = true;
                     Instance.ObsChanData.Add(cd);
                 }
-                
             }
             catch
             {
@@ -168,6 +156,7 @@ public class ClassTheRadioData : IBackupable
             data.ChanNum = i.ToString();
             Instance.ObsChanData.Add(data);
         }
+
         return Instance;
     }
 
@@ -181,7 +170,7 @@ public class ClassTheRadioData : IBackupable
             chan.IsVisable = false;
             Instance.ObsChanData.Add(chan);
         }
-        
+
         Instance.DtmfData = new DtmfData();
         Instance.FunCfgData = new FunCfgData();
         Instance.OtherImfData = new OtherImfData();

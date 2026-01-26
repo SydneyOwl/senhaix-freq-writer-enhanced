@@ -1,25 +1,25 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
-using OfficeOpenXml.Attributes;
+using SenhaixFreqWriter.Constants.Shx8800Pro;
 
 namespace SenhaixFreqWriter.DataModels.Shx8800Pro;
 
 public partial class Channel : ObservableObject
 {
-    [ObservableProperty] private int _id; //
-    [ObservableProperty] private string _rxFreq = ""; //
-    [ObservableProperty] private string _strRxCtsDcs = "OFF"; //
-    [ObservableProperty] private string _txFreq = ""; //
-    [ObservableProperty] private string _strTxCtsDcs = "OFF"; //
-    [ObservableProperty] private int _txPower; //
     [ObservableProperty] private int _bandwide; //
-    [ObservableProperty] private int _scanAdd; //
     [ObservableProperty] private int _busyLock;
-    [ObservableProperty] private int _pttid; //
-    [ObservableProperty] private int _signalGroup; //
-    [ObservableProperty] private string _name = ""; //
+    [ObservableProperty] private int _id; //
     [ObservableProperty] private bool _isVisable;
+    [ObservableProperty] private string _name = ""; //
+    [ObservableProperty] private int _pttid; //
+    [ObservableProperty] private string _rxFreq = ""; //
+    [ObservableProperty] private int _scanAdd; //
+    [ObservableProperty] private int _signalGroup; //
+    [ObservableProperty] private string _strRxCtsDcs = "OFF"; //
+    [ObservableProperty] private string _strTxCtsDcs = "OFF"; //
+    [ObservableProperty] private string _txFreq = ""; //
+    [ObservableProperty] private int _txPower; //
 
     public Channel()
     {
@@ -47,16 +47,16 @@ public partial class Channel : ObservableObject
         return new ExcelChannel
         {
             Id = Id.ToString(),
-            RxFreq = RxFreq.ToString(),
-            StrRxCtsDcs = StrRxCtsDcs.ToString(),
+            RxFreq = RxFreq,
+            StrRxCtsDcs = StrRxCtsDcs,
             TxFreq = TxFreq,
             StrTxCtsDcs = StrTxCtsDcs,
-            TxPower = Constants.Shx8800Pro.ChanChoice.Power[TxPower],
-            Bandwide = Constants.Shx8800Pro.ChanChoice.Bandwidth[Bandwide],
-            ScanAdd = Constants.Shx8800Pro.ChanChoice.Scanadd[ScanAdd],
-            BusyLock = Constants.Shx8800Pro.ChanChoice.BusyLock[BusyLock],
-            Pttid = Constants.Shx8800Pro.ChanChoice.Pttid[Pttid],
-            SignalGroup = Constants.Shx8800Pro.ChanChoice.SigGrp[SignalGroup],
+            TxPower = ChanChoice.Power[TxPower],
+            Bandwide = ChanChoice.Bandwidth[Bandwide],
+            ScanAdd = ChanChoice.Scanadd[ScanAdd],
+            BusyLock = ChanChoice.BusyLock[BusyLock],
+            Pttid = ChanChoice.Pttid[Pttid],
+            SignalGroup = ChanChoice.SigGrp[SignalGroup],
             Name = Name,
             IsVisable = false
         };

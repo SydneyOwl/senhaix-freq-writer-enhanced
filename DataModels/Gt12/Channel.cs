@@ -1,29 +1,12 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
-using OfficeOpenXml.Attributes;
+using SenhaixFreqWriter.Constants.Gt12;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
 public partial class Channel : ObservableObject
 {
-#pragma warning disable CS0657
-    [ObservableProperty] private int _id;
-    [ObservableProperty] private string _rxFreq = "";
-    [ObservableProperty] private string _strRxCtsDcs = "OFF";
-    [ObservableProperty] private string _txFreq = "";
-    [ObservableProperty] private string _strTxCtsDcs = "OFF";
-    [ObservableProperty] private int _txPower;
-    [ObservableProperty] private int _bandwide;
-    [ObservableProperty] private int _scanAdd;
-    [ObservableProperty] private int _signalSystem;
-    [ObservableProperty] private int _sqMode;
-    [ObservableProperty] private int _pttid;
-    [ObservableProperty] private int _signalGroup;
-    [ObservableProperty] private string _name = "";
-    [XmlIgnore, ObservableProperty] private bool _isVisable;
-
-#pragma warning restore CS0657
     public Channel()
     {
     }
@@ -54,13 +37,13 @@ public partial class Channel : ObservableObject
             StrRxCtsDcs = StrRxCtsDcs,
             TxFreq = TxFreq,
             StrTxCtsDcs = StrTxCtsDcs,
-            TxPower = Constants.Gt12.ChanChoice.Power[TxPower],
-            Bandwide = Constants.Gt12.ChanChoice.Bandwidth[Bandwide],
-            ScanAdd = Constants.Gt12.ChanChoice.Scanadd[ScanAdd],
-            SignalSystem = Constants.Gt12.ChanChoice.SigSys[SignalSystem],
-            SqMode = Constants.Gt12.ChanChoice.Sql[SqMode],
-            Pttid = Constants.Gt12.ChanChoice.Pttid[Pttid],
-            SignalGroup = Constants.Gt12.ChanChoice.SigGrp[SignalGroup],
+            TxPower = ChanChoice.Power[TxPower],
+            Bandwide = ChanChoice.Bandwidth[Bandwide],
+            ScanAdd = ChanChoice.Scanadd[ScanAdd],
+            SignalSystem = ChanChoice.SigSys[SignalSystem],
+            SqMode = ChanChoice.Sql[SqMode],
+            Pttid = ChanChoice.Pttid[Pttid],
+            SignalGroup = ChanChoice.SigGrp[SignalGroup],
             Name = Name
         };
     }
@@ -79,4 +62,21 @@ public partial class Channel : ObservableObject
 
         return rel;
     }
+#pragma warning disable CS0657
+    [ObservableProperty] private int _id;
+    [ObservableProperty] private string _rxFreq = "";
+    [ObservableProperty] private string _strRxCtsDcs = "OFF";
+    [ObservableProperty] private string _txFreq = "";
+    [ObservableProperty] private string _strTxCtsDcs = "OFF";
+    [ObservableProperty] private int _txPower;
+    [ObservableProperty] private int _bandwide;
+    [ObservableProperty] private int _scanAdd;
+    [ObservableProperty] private int _signalSystem;
+    [ObservableProperty] private int _sqMode;
+    [ObservableProperty] private int _pttid;
+    [ObservableProperty] private int _signalGroup;
+    [ObservableProperty] private string _name = "";
+    [XmlIgnore] [ObservableProperty] private bool _isVisable;
+
+#pragma warning restore CS0657
 }

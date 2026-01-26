@@ -16,9 +16,9 @@ public class MySerialPort : SerialPort
 
     private static MySerialPort _sp;
 
-    private Queue<byte> _rxData = new(1024);
-
     private readonly Settings _settings = Settings.Load();
+
+    private Queue<byte> _rxData = new(1024);
 
     public WriteValueAsync WriteBle;
     public int BtDeviceMtu { get; set; } = 23;

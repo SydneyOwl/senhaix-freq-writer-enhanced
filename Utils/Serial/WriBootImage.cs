@@ -17,8 +17,12 @@ public class WriBootImage
 
     private readonly byte[] _bufForData = new byte[2048];
 
+    private readonly ShxDevice _device;
+
     private readonly SKBitmap _image;
     private readonly MySerialPort _sp = MySerialPort.GetInstance();
+
+    private readonly string _strHandshake = "PROGRAM";
 
     private int _address;
 
@@ -36,8 +40,6 @@ public class WriBootImage
 
     private int _countOverTime;
 
-    private readonly ShxDevice _device;
-
     private bool _flagOverTime;
 
     private bool _flagReceivePackageOver;
@@ -53,8 +55,6 @@ public class WriBootImage
     private int _progressValue;
 
     private Timer _rxOverTimer;
-
-    private readonly string _strHandshake = "PROGRAM";
 
     private int _totalPackages;
 

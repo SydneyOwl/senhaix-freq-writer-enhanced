@@ -17,7 +17,7 @@
 [^1]: SenhaiX尚未推出适用于GT12Pro的写频软件，但经用户反馈GT12与GT12Pro似乎可以共用一套写频软件
 
 | 8600(Pro)/8800                         | SHX8800Pro                             | SHXGT12(Pro)                          |
-| -------------------------------------- | -------------------------------------- | ------------------------------------- |
+|----------------------------------------|----------------------------------------|---------------------------------------|
 | <img src="./readme_image/8x00.png"  /> | <img src="./readme_image/8800p.png" /> | <img src="./readme_image/gt12.png" /> |
 
 ## 功能说明
@@ -77,8 +77,6 @@
 
 <img src="./readme_image/excel.png" />
 
-
-
 ## 编译指引
 
 如有需要，您可以在`Github Actions`中直接下载`Nightly Build`。
@@ -88,20 +86,25 @@
 #### Docker
 
 首先克隆仓库并构建镜像：
+
 ```shell
 git clone https://github.com/SydneyOwl/senhaix-freq-writer-enhanced
 cd senhaix-freq-writer-enhanced
 docker build -t "freq-writer-builder" .
 ```
+
 之后需要编译软件时，运行以下命令：
+
 ```shell
 docker run --rm -it -v ./dister:/source/builddist freq-writer-builder [arg]
 ```
+
 其中`[arg]`可以是 `--win-x64`/`--osx-x64`/`--linux-x64`，分别编译windows/macOS/Linux版本的写频软件。如未指定，默认编译Linux版本。
 在例子中，编译产物将输出到./dister文件夹。
 
 Windows用户请特别注意：**如在windows下无法编译，请检查entrypoint.sh是否为dos格式，
-如果是请转换为unix格式。另外在挂载时请使用完整路径，如：`-v  C:\Users\abc\Desktop\senhaix-freq-writer-enhanced\dister:/source/builddist`**
+如果是请转换为unix格式。另外在挂载时请使用完整路径，如：
+`-v  C:\Users\abc\Desktop\senhaix-freq-writer-enhanced\dister:/source/builddist`**
 
 #### 手动编译
 
@@ -124,15 +127,13 @@ go mod tidy
 go build
 ```
 
-
-
 ## 开发指引
 
 + 蓝牙插件若有调试需要，或勾选了“手动控制RPC”，请按如下步骤操作：
 
-  1. 参考“编译蓝牙插件”部分，编译蓝牙插件。
-  2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
-  3. 直接双击打开编译产物，或者使用命令行指定参数：
+    1. 参考“编译蓝牙插件”部分，编译蓝牙插件。
+    2. 运行写频软件，在写频方式->蓝牙中勾选`RPC`方式以及”手动控制“；
+    3. 直接双击打开编译产物，或者使用命令行指定参数：
 
   ```bash
   BLE RPC Client - Connect shx8x00 and c#
@@ -169,26 +170,11 @@ go build
 
     <img src="./readme_image/bt-allow.jpg" style="zoom:25%;" />
 
-+ **(改动udev配置有风险，如果您不熟悉linux或不太了解下面的内容，请不要更改udev，继续使用root权限启动软件即可)** 如果您不希望在linux上使用sudo权限运行本软件，您可以通过更改udev规则修改设备文件的权限：
-  + 对于8800(pro)/8600(pro)，您需要首先获取写频线的VID/PID，可通过执行`lsusb`后获取，本图中的写频线名称为"...ch340...."，则VID和PID分别为1a86和7523。
-  
-  ![](./readme_image/lsusb.png)
-
-  + 如果是GT12，则需找到“SHX-GT12”，这是一个HID设备，记录其VID和PID，图中为28e9和028a：
-  
-  ![](./readme_image/lsgt12.png)
-
-  之后在`/etc/udev/rules.d/`新建配置文件，文件名如`99-senhaix.rules`，并写入如下字符串,如果有多根写频线就添加多行：
-  ```text
-    ATTRS{idVendor}=="你的写频线VID", ATTRS{idProduct}=="你的写频线PID", MODE="0666"
-  ```
-  最后重新启动udev服务`systemctl restart udev`或重启电脑，在启动写频软件时传入命令行参数`./senhaixFreqWriter --bypass-root-check`即可。
-
 ## 其他
 
 > [!WARNING]  
 > 软件还在开发中，尚不稳定，欢迎提出 issues 和 pr!
-> 
+>
 > 本软件旨在提供可快速迭代、便于投入使用的原型，因此不保证代码质量！
 
 卫星频率数据来源于[amateur-satellite-database](https://github.com/palewire/amateur-satellite-database)
@@ -245,7 +231,8 @@ VFO页面设置闪退问题；修复切换到同种设备后数据仍然存在�
 
 `v0.4.4` 修复打星助手还没更新完星历就关闭窗口造成的程序崩溃；Linux加入跳过Root检查，允许用户不以sudo运行软件；加入崩溃提示；修复了一些bug
 
-`v0.4.5` 支持批量复制/剪切信道(#24), GT12Pro支持, 优化windows编译产物体积，优化窗口布局，修复8800pro/gt12(pro)信道功率读取错误问题（#28）
+`v0.4.5` 支持批量复制/剪切信道(#24), GT12Pro支持, 优化windows编译产物体积，优化窗口布局，修复8800pro/gt12(pro)
+信道功率读取错误问题（#28）
 
 `v0.4.6` 支持以excel形式导出/导入信道
 

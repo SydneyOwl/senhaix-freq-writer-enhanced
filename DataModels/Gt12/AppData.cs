@@ -6,8 +6,8 @@ using System.Text;
 using MsBox.Avalonia;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using SenhaixFreqWriter.Constants.Gt12;
 using SenhaixFreqWriter.DataModels.Interfaces;
-using SenhaixFreqWriter.Views.Common;
 
 namespace SenhaixFreqWriter.DataModels.Gt12;
 
@@ -52,49 +52,47 @@ public class AppData : IBackupable
             serializer.Serialize(streamWriter, Instance);
         }
     }
-    
+
     public void SaveAsExcel(string filename)
     {
         // try
         // {
-            if (File.Exists(filename)) File.Delete(filename);
-            using var excelPack = new ExcelPackage(filename);
-            for (var i = 0; i < ChannelList.Length; i++)
+        if (File.Exists(filename)) File.Delete(filename);
+        using var excelPack = new ExcelPackage(filename);
+        for (var i = 0; i < ChannelList.Length; i++)
+        {
+            var ws = excelPack.Workbook.Worksheets.Add(BankName[i]);
+            var excelList = ChannelList[i].Select(x => x.ToExcelChannel());
+            // Load the sample data into the worksheet
+            ws.Cells["A1"].LoadFromCollection(excelList, options =>
             {
-                var ws = excelPack.Workbook.Worksheets.Add(BankName[i]);
-                var excelList = ChannelList[i].Select(x => x.ToExcelChannel());
-                // Load the sample data into the worksheet
-                ws.Cells["A1"].LoadFromCollection(excelList, options =>
-                {
-                    options.PrintHeaders = true;
-                    // options.TableStyle = TableStyles.Dark1;
-                });
-                
-                ws.Cells.AutoFitColumns();
-                
-                addValidationTo(ws,"F:F",Constants.Gt12.ChanChoice.Power);
-                addValidationTo(ws,"G:G",Constants.Gt12.ChanChoice.Bandwidth);
-                addValidationTo(ws,"H:H",Constants.Gt12.ChanChoice.Scanadd);
-                addValidationTo(ws,"I:I",Constants.Gt12.ChanChoice.SigSys);
-                addValidationTo(ws,"J:J",Constants.Gt12.ChanChoice.Sql);
-                addValidationTo(ws,"K:K",Constants.Gt12.ChanChoice.Pttid);
-                addValidationTo(ws,"L:L",Constants.Gt12.ChanChoice.SigGrp);
-            }
-            excelPack.Save();
+                options.PrintHeaders = true;
+                // options.TableStyle = TableStyles.Dark1;
+            });
+
+            ws.Cells.AutoFitColumns();
+
+            addValidationTo(ws, "F:F", ChanChoice.Power);
+            addValidationTo(ws, "G:G", ChanChoice.Bandwidth);
+            addValidationTo(ws, "H:H", ChanChoice.Scanadd);
+            addValidationTo(ws, "I:I", ChanChoice.SigSys);
+            addValidationTo(ws, "J:J", ChanChoice.Sql);
+            addValidationTo(ws, "K:K", ChanChoice.Pttid);
+            addValidationTo(ws, "L:L", ChanChoice.SigGrp);
+        }
+
+        excelPack.Save();
         // }
         // catch(Exception ex)
         // {
         //     DebugWindow.GetInstance().UpdateDebugContent($"Failed to read from excel: {ex.Message}");
         // }
     }
-    
+
     private void addValidationTo(ExcelWorksheet ws, string range, IEnumerable<string> target)
     {
         var validation = ws.DataValidations.AddListValidation(range);
-        foreach (var se in target)
-        {
-            validation.Formula.Values.Add(se);
-        }
+        foreach (var se in target) validation.Formula.Values.Add(se);
         // validation.ShowErrorMessage = true;
         // validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
         // validation.ErrorTitle = "无效值";
@@ -105,43 +103,43 @@ public class AppData : IBackupable
     {
         // try
         // {
-            if (!File.Exists(filename))return;
-            using var excelPack = new ExcelPackage(filename);
-            for (var i = 0; i < ChannelList.Length; i++)
-            {
-                var book = excelPack.Workbook.Worksheets[i];//.Cells["A1:N129"].ToCollection<Channel>();
-                // Console.WriteLine(book.Name);
-                BankName[i] = book.Name;
-                var res = book.Cells["A1:M33"].ToCollectionWithMappings<Channel>(
-                    row => 
-                    {
-                        var channel = new Channel();
-                        channel.Id = row.GetValue<int>(0);
-                        channel.RxFreq = row.GetValue<string>(1);
-                        channel.StrRxCtsDcs = row.GetValue<string>(2);
-                        channel.TxFreq = row.GetValue<string>(3);
-                        channel.StrTxCtsDcs = row.GetValue<string>(4);
-                        channel.TxPower = Constants.Gt12.ChanChoice.Power.IndexOf(row.GetValue<string>(5));
-                        channel.Bandwide =Constants.Gt12.ChanChoice.Bandwidth.IndexOf(row.GetValue<string>(6));
-                        channel.ScanAdd = Constants.Gt12.ChanChoice.Scanadd.IndexOf(row.GetValue<string>(7));
-                        channel.SignalSystem = Constants.Gt12.ChanChoice.SigSys.IndexOf(row.GetValue<string>(8));
-                        channel.SqMode = Constants.Gt12.ChanChoice.Sql.IndexOf(row.GetValue<string>(9));
-                        channel.Pttid = Constants.Gt12.ChanChoice.Pttid.IndexOf(row.GetValue<string>(10));
-                        channel.SignalGroup = Constants.Gt12.ChanChoice.SigGrp.IndexOf(row.GetValue<string>(11));
-                        channel.Name = row.GetValue<string>(12);
-                        
-                        
-                        channel.IsVisable = !string.IsNullOrEmpty(channel.RxFreq);
-                        return channel;
-                    }, 
-                    options => options.HeaderRow = 0);
-                // foreach (var t in res)
-                // {
-                //     if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
-                // }
-            
-                ChannelList[i] = res.ToArray();
-            }
+        if (!File.Exists(filename)) return;
+        using var excelPack = new ExcelPackage(filename);
+        for (var i = 0; i < ChannelList.Length; i++)
+        {
+            var book = excelPack.Workbook.Worksheets[i]; //.Cells["A1:N129"].ToCollection<Channel>();
+            // Console.WriteLine(book.Name);
+            BankName[i] = book.Name;
+            var res = book.Cells["A1:M33"].ToCollectionWithMappings<Channel>(
+                row =>
+                {
+                    var channel = new Channel();
+                    channel.Id = row.GetValue<int>(0);
+                    channel.RxFreq = row.GetValue<string>(1);
+                    channel.StrRxCtsDcs = row.GetValue<string>(2);
+                    channel.TxFreq = row.GetValue<string>(3);
+                    channel.StrTxCtsDcs = row.GetValue<string>(4);
+                    channel.TxPower = ChanChoice.Power.IndexOf(row.GetValue<string>(5));
+                    channel.Bandwide = ChanChoice.Bandwidth.IndexOf(row.GetValue<string>(6));
+                    channel.ScanAdd = ChanChoice.Scanadd.IndexOf(row.GetValue<string>(7));
+                    channel.SignalSystem = ChanChoice.SigSys.IndexOf(row.GetValue<string>(8));
+                    channel.SqMode = ChanChoice.Sql.IndexOf(row.GetValue<string>(9));
+                    channel.Pttid = ChanChoice.Pttid.IndexOf(row.GetValue<string>(10));
+                    channel.SignalGroup = ChanChoice.SigGrp.IndexOf(row.GetValue<string>(11));
+                    channel.Name = row.GetValue<string>(12);
+
+
+                    channel.IsVisable = !string.IsNullOrEmpty(channel.RxFreq);
+                    return channel;
+                },
+                options => options.HeaderRow = 0);
+            // foreach (var t in res)
+            // {
+            //     if (!string.IsNullOrEmpty(t.RxFreq))t.IsVisable = true;
+            // }
+
+            ChannelList[i] = res.ToArray();
+        }
         // }
         // catch(Exception ex)
         // {

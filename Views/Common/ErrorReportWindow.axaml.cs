@@ -3,7 +3,6 @@ using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using SenhaixFreqWriter.Properties;
 
 namespace SenhaixFreqWriter.Views.Common;
 
@@ -16,7 +15,7 @@ public partial class ErrorReportWindow : Window
         InitializeComponent();
         DataContext = this;
     }
-    
+
     public ErrorReportWindow(string errLogPath)
     {
         // 获取出错信息

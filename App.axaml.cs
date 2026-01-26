@@ -19,7 +19,6 @@ public class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
             if (desktop.Args != null)
             {
                 for (var i = 0; i < desktop.Args.Length; i++)
@@ -29,13 +28,14 @@ public class App : Application
                         CMD_SETTINGS.BypassRootCheck = true;
                         continue;
                     }
+
                     if (desktop.Args[i] == "--crash-report")
                     {
-                        desktop.MainWindow = new ErrorReportWindow(desktop.Args[i+1]);
+                        desktop.MainWindow = new ErrorReportWindow(desktop.Args[i + 1]);
                         return;
                     }
                 }
-                
+
                 desktop.MainWindow = new DeviceSelectWindow();
 
                 try
@@ -47,7 +47,6 @@ public class App : Application
                     Console.WriteLine("This system does not support excelpackage.");
                 }
             }
-        }
 
         base.OnFrameworkInitializationCompleted();
     }

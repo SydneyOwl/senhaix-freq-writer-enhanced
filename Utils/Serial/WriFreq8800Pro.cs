@@ -11,25 +11,11 @@ namespace SenhaixFreqWriter.Utils.Serial;
 
 public class WriFreq8800Pro
 {
-    private bool _flagReceiveData;
-
-    private bool _flagRetry;
-
-    private bool _flagTransmitting;
-
     private readonly DataHelper _helper;
 
     private readonly OpType _opType;
 
     private readonly MySerialPort _port;
-
-    private string _progressCont = "";
-
-    private int _progressVal;
-
-    private byte[] _rxBuffer = new byte[128];
-
-    private Step _step;
 
     private readonly string[] _tblCtsdcs = new string[210]
     {
@@ -55,6 +41,20 @@ public class WriFreq8800Pro
         "D546I", "D565I", "D606I", "D612I", "D624I", "D627I", "D631I", "D632I", "D645I", "D654I",
         "D662I", "D664I", "D703I", "D712I", "D723I", "D731I", "D732I", "D734I", "D743I", "D754I"
     };
+
+    private bool _flagReceiveData;
+
+    private bool _flagRetry;
+
+    private bool _flagTransmitting;
+
+    private string _progressCont = "";
+
+    private int _progressVal;
+
+    private byte[] _rxBuffer = new byte[128];
+
+    private Step _step;
 
     private Timer _timer;
 
@@ -530,7 +530,7 @@ public class WriFreq8800Pro
         array[16] = (byte)AppData.Vfos.VfoATxPower;
         array[17] = (byte)(AppData.Vfos.VfoABandwide << 6);
         array[19] = (byte)AppData.Vfos.VfoAStep;
-        string[] array2 = AppData.Vfos.VfoAOffset.Split('.');
+        var array2 = AppData.Vfos.VfoAOffset.Split('.');
         var num3 = int.Parse(array2[0]) * 100000 + int.Parse(array2[1]) * 10;
         for (var num4 = 6; num4 >= 0; num4--)
         {
@@ -567,7 +567,7 @@ public class WriFreq8800Pro
         array[16] = (byte)AppData.Vfos.VfoBTxPower;
         array[17] = (byte)(AppData.Vfos.VfoBBandwide << 6);
         array[19] = (byte)AppData.Vfos.VfoBStep;
-        string[] array2 = AppData.Vfos.VfoBOffset.Split('.');
+        var array2 = AppData.Vfos.VfoBOffset.Split('.');
         var num3 = int.Parse(array2[0]) * 100000 + int.Parse(array2[1]) * 10;
         for (var num4 = 6; num4 >= 0; num4--)
         {

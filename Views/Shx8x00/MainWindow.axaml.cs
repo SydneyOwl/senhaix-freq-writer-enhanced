@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -37,9 +36,8 @@ public partial class MainWindow : Window
     private readonly List<ChannelData> _tmpChannel = new();
 
     private BluetoothDeviceSelectionWindow _bds;
-    
+
     private bool _devSwitchFlag;
-    public ObservableCollection<ChannelData> ListItems { get; set; } = ClassTheRadioData.GetInstance().ObsChanData;
 
     private string _savePath = "";
 
@@ -62,6 +60,8 @@ public partial class MainWindow : Window
         Closed += OnWindowClosed;
         DebugWindow.GetInstance().UpdateDebugContent("AppContext.BaseDirectory = " + AppContext.BaseDirectory);
     }
+
+    public ObservableCollection<ChannelData> ListItems { get; set; } = ClassTheRadioData.GetInstance().ObsChanData;
 
     private async void UpdateTips(CancellationToken token)
     {
@@ -259,15 +259,15 @@ public partial class MainWindow : Window
             saveAs_OnClick(null, null);
         }
     }
-    
+
     private async void SaveAsExcelMenuItem_OnClick(object? sender, RoutedEventArgs e)
-    { 
+    {
         var ts = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
         var topLevel = GetTopLevel(this);
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "导出信道信息到",
-            SuggestedFileName = "Channels-" + ts + ".xlsx",
+            SuggestedFileName = "Channels-" + ts + ".xlsx"
             // DefaultExtension = ".xlsx",
             // FileTypeChoices = new []{new FilePickerFileType(".xlsx")}
         });
@@ -292,7 +292,7 @@ public partial class MainWindow : Window
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "打开文件",
-            AllowMultiple = false,
+            AllowMultiple = false
             // FileTypeFilter = new []{new FilePickerFileType(".xlsx")}
         });
         if (files.Count > 0)
@@ -507,18 +507,8 @@ public partial class MainWindow : Window
         Close();
     }
 
-    private async void AdvancedMenuItem_OnClick(object? sender, RoutedEventArgs e)
+    private void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        await MessageBoxManager.GetMessageBoxStandard("注意", "请在遵守当地无线电管理相关条例的前提下使用本功能！").ShowWindowDialogAsync(this);
-        new OtherFunctionWindow().ShowDialog(this);
-    }
-
-    private async void BootImageMenuItem_OnClick(object? sender, RoutedEventArgs e)
-    {
-        // if (shxDevice == SHX_DEVICE.SHX8600PRO)
-        // {
-        //     await MessageBoxManager.GetMessageBoxStandard("注意", "8600pro的开机图片导入功能未经测试，如写入失败请使用官方软件重新导入；如果有任何问题欢迎提出issue！").ShowWindowDialogAsync(this);
-        // }
         new BootImageImportWindow(_shxDevice).ShowDialog(this);
     }
 
