@@ -166,7 +166,17 @@ jobs:
         mv publish/* senhaix-universial-freq-writer
         mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/BLEPlugin_windows_x64.exe/BLEPlugin_windows_x64.exe senhaix-universial-freq-writer
         cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/amsat-all-frequencies.json senhaix-universial-freq-writer
-        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Windows-${tagName}.zip
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Windows-x64-${tagName}.zip
+
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
+        dotnet restore -r win-x86
+        dotnet publish -c Release -r win-x86 /p:PublishSingleFile=true --self-contained true
+        cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/bin/Release/net6.0/win-x86
+        mkdir senhaix-universial-freq-writer
+        mv publish/* senhaix-universial-freq-writer
+        cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/amsat-all-frequencies.json senhaix-universial-freq-writer
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Windows-x86-${tagName}.zip
+        
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
         dotnet restore -r linux-x64
         dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true --self-contained true
@@ -175,7 +185,8 @@ jobs:
         mv publish/* senhaix-universial-freq-writer
         mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/BLEPlugin_linux_x64/BLEPlugin_linux_x64 senhaix-universial-freq-writer
         cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/amsat-all-frequencies.json senhaix-universial-freq-writer
-        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Linux-${tagName}.zip
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-Linux-x64-${tagName}.zip
+        
         cd D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/
         dotnet restore -r osx-x64
         dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64 -p:UseAppHost=true -property:Configuration=Release
@@ -185,7 +196,7 @@ jobs:
         mv D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/Asset/shx8800-icons/icon.icns publish/SenhaixFreqWriter.app/Contents/Resources
         cp D:/a/senhaix-freq-writer-enhanced/senhaix-freq-writer-enhanced/amsat-all-frequencies.json publish/SenhaixFreqWriter.app/Contents/MacOS
         mv publish/SenhaixFreqWriter.app senhaix-universial-freq-writer
-        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-macOS-${tagName}.zip
+        Compress-Archive -Path .\senhaix-universial-freq-writer -DestinationPath D:\a\senhaix-freq-writer-enhanced\senhaix-freq-writer-enhanced\tmpu\senhaix-universial-freq-writer-macOS-x64-${tagName}.zip
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
