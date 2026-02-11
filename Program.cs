@@ -20,13 +20,14 @@ internal class Program
     public static void Main(string[] args)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        // 提前设置语言
-        Thread.CurrentThread.CurrentUICulture = Settings.Load().LanguageIndex switch
-        {
-            0 => new CultureInfo("zh"),
-            1 => new CultureInfo("en-us"),
-            _ => new CultureInfo("zh")
-        };
+        // 提前设置语言，强制设置中文
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("zh");
+        // Thread.CurrentThread.CurrentUICulture = Settings.Load().LanguageIndex switch
+        // {
+        //     0 => new CultureInfo("zh"),
+        //     1 => new CultureInfo("en-us"),
+        //     _ => new CultureInfo("zh")
+        // };
         try
         {
             BuildAvaloniaApp()
